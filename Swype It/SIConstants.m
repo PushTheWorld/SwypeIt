@@ -5,9 +5,7 @@
 //
 #import "SIConstants.h"
 
-
-
-
-
+#pragma mark - Images
+NSString *const kSIImageTitleLabel = @"textLabelTitle";
 
 

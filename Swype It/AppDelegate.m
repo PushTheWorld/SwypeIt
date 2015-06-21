@@ -1,12 +1,20 @@
-//
 //  AppDelegate.m
 //  Swype It
-//
 //  Created by Andrew Keller on 6/21/15.
 //  Copyright (c) 2015 Push The World LLC. All rights reserved.
+//  Purpose: Thie is the startign screen for the swype it game
 //
-
+// Local Controller Import
 #import "AppDelegate.h"
+#import "BaseNavigationViewController.h"
+#import "StartScreenViewController.h"
+// Framework Import
+// Drop-In Class Imports (CocoaPods/GitHub/Guru)
+// Category Import
+#import "UIColor+Additions.h"
+// Support/Data Class Imports
+//#import "SIConstants.h"
+// Other Imports
 
 @interface AppDelegate ()
 
@@ -16,7 +24,17 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    // Override point for customization after application launch.
+    /*Init window*/
+    self.window                             = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
+
+    
+    StartScreenViewController       *vc1    = [[StartScreenViewController alloc] init];
+    BaseNavigationViewController    *nav    = [[BaseNavigationViewController alloc] initWithRootViewController:vc1];
+    
+    self.window.rootViewController          = nav;
+    [self.window makeKeyAndVisible];
+
+    
     return YES;
 }
 

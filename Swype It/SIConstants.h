@@ -16,10 +16,8 @@
 #define SCREEN_WIDTH      MIN([UIScreen mainScreen].bounds.size.height, [UIScreen mainScreen].bounds.size.width)
 #define SCREEN_HEIGHT     MAX([UIScreen mainScreen].bounds.size.height, [UIScreen mainScreen].bounds.size.width)
 
-
-
-
-
+#pragma mark - Images
+extern NSString *const kSIImageTitleLabel;
 
 
 
