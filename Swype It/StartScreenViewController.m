@@ -6,6 +6,7 @@
 //  Purpose: Thie is the startign screen for the swype it game
 //
 // Local Controller Import
+#import "GameViewController.h"
 #import "StartScreenViewController.h"
 // Framework Import
 // Drop-In Class Imports (CocoaPods/GitHub/Guru)
@@ -82,7 +83,7 @@
     [self.titleImageView setTranslatesAutoresizingMaskIntoConstraints:NO];
     
     /*Tap to Start*/
-    UITapGestureRecognizer *pgr     = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(launchGame)];
+    UITapGestureRecognizer *pgr     = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(launchGameOriginal)];
     pgr.numberOfTapsRequired        = 1;
     pgr.delegate                    = self;
     [self.view addGestureRecognizer:pgr];
@@ -112,8 +113,9 @@
     
     self.view.backgroundColor = [UIColor mainColor];
 }
-- (void)launchGame {
-    NSLog(@"Launch the game!");
+- (void)launchGameOriginal {
+    GameViewController *gameVC = [[GameViewController alloc] initWithGameMode:kSIGameModeOriginal];
+    [self.navigationController pushViewController:gameVC animated:YES];
 }
 
 @end

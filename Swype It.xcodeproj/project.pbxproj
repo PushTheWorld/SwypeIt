@@ -17,6 +17,13 @@
 		091FED791B3736210071F8DC /* UIColor+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 091FED781B3736210071F8DC /* UIColor+Additions.m */; };
 		091FED7D1B374C470071F8DC /* BaseNavigationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 091FED7C1B374C470071F8DC /* BaseNavigationViewController.m */; };
 		091FED811B375DA50071F8DC /* GameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 091FED801B375DA50071F8DC /* GameViewController.m */; };
+		098B3B431B378B89000D4702 /* AppSingleton.m in Sources */ = {isa = PBXBuildFile; fileRef = 098B3B421B378B89000D4702 /* AppSingleton.m */; };
+		098B3B471B378C27000D4702 /* Game.m in Sources */ = {isa = PBXBuildFile; fileRef = 098B3B461B378C27000D4702 /* Game.m */; };
+		098B3B4A1B378EC0000D4702 /* FXReachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 098B3B491B378EC0000D4702 /* FXReachability.m */; };
+		098B3B4E1B379C82000D4702 /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 098B3B4D1B379C82000D4702 /* CoreMotion.framework */; };
+		098B3B501B379C87000D4702 /* iAd.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 098B3B4F1B379C87000D4702 /* iAd.framework */; };
+		098B3B521B379C8D000D4702 /* GameKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 098B3B511B379C8D000D4702 /* GameKit.framework */; };
+		098B3B541B379C93000D4702 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 098B3B531B379C93000D4702 /* AudioToolbox.framework */; };
 		F91BB9396F4CAAE0BC65B477 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 769385628457ECC646BCC3FE /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -51,6 +58,16 @@
 		091FED7C1B374C470071F8DC /* BaseNavigationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseNavigationViewController.m; sourceTree = "<group>"; };
 		091FED7F1B375DA50071F8DC /* GameViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameViewController.h; sourceTree = "<group>"; };
 		091FED801B375DA50071F8DC /* GameViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameViewController.m; sourceTree = "<group>"; };
+		098B3B411B378B89000D4702 /* AppSingleton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppSingleton.h; sourceTree = "<group>"; };
+		098B3B421B378B89000D4702 /* AppSingleton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppSingleton.m; sourceTree = "<group>"; };
+		098B3B451B378C27000D4702 /* Game.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Game.h; sourceTree = "<group>"; };
+		098B3B461B378C27000D4702 /* Game.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Game.m; sourceTree = "<group>"; };
+		098B3B481B378EC0000D4702 /* FXReachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FXReachability.h; sourceTree = "<group>"; };
+		098B3B491B378EC0000D4702 /* FXReachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FXReachability.m; sourceTree = "<group>"; };
+		098B3B4D1B379C82000D4702 /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = System/Library/Frameworks/CoreMotion.framework; sourceTree = SDKROOT; };
+		098B3B4F1B379C87000D4702 /* iAd.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = iAd.framework; path = System/Library/Frameworks/iAd.framework; sourceTree = SDKROOT; };
+		098B3B511B379C8D000D4702 /* GameKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameKit.framework; path = System/Library/Frameworks/GameKit.framework; sourceTree = SDKROOT; };
+		098B3B531B379C93000D4702 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		250606D5461711E9FC89BC0E /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		515AAE4709C37B6475D12AF4 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		769385628457ECC646BCC3FE /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -61,6 +78,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				098B3B541B379C93000D4702 /* AudioToolbox.framework in Frameworks */,
+				098B3B521B379C8D000D4702 /* GameKit.framework in Frameworks */,
+				098B3B501B379C87000D4702 /* iAd.framework in Frameworks */,
+				098B3B4E1B379C82000D4702 /* CoreMotion.framework in Frameworks */,
 				F91BB9396F4CAAE0BC65B477 /* libPods.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -78,11 +99,12 @@
 		091FED3A1B37283E0071F8DC = {
 			isa = PBXGroup;
 			children = (
+				098B3B4B1B378EC8000D4702 /* Classes */,
+				0F880A65ACF3CFF0D72120E8 /* Frameworks */,
+				ECB9464B15A462D7C2750659 /* Pods */,
+				091FED441B37283E0071F8DC /* Products */,
 				091FED451B37283E0071F8DC /* Swype It */,
 				091FED5F1B37283E0071F8DC /* Swype ItTests */,
-				091FED441B37283E0071F8DC /* Products */,
-				ECB9464B15A462D7C2750659 /* Pods */,
-				0F880A65ACF3CFF0D72120E8 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -98,9 +120,10 @@
 		091FED451B37283E0071F8DC /* Swype It */ = {
 			isa = PBXGroup;
 			children = (
-				091FED7E1B374C520071F8DC /* CustomUIClasses */,
 				091FED6C1B3729040071F8DC /* 000 - AppDelegate */,
+				098B3B441B378B8F000D4702 /* 000 - GameSingleton */,
 				091FED7A1B37362A0071F8DC /* Categories */,
+				091FED7E1B374C520071F8DC /* CustomUIClasses */,
 				091FED731B37339D0071F8DC /* DataFiles */,
 				091FED721B372EE70071F8DC /* Images */,
 				091FED461B37283E0071F8DC /* Supporting Files */,
@@ -175,6 +198,8 @@
 		091FED731B37339D0071F8DC /* DataFiles */ = {
 			isa = PBXGroup;
 			children = (
+				098B3B451B378C27000D4702 /* Game.h */,
+				098B3B461B378C27000D4702 /* Game.m */,
 				091FED741B3733AF0071F8DC /* SIConstants.h */,
 				091FED751B3733AF0071F8DC /* SIConstants.m */,
 			);
@@ -199,9 +224,39 @@
 			name = CustomUIClasses;
 			sourceTree = "<group>";
 		};
+		098B3B441B378B8F000D4702 /* 000 - GameSingleton */ = {
+			isa = PBXGroup;
+			children = (
+				098B3B411B378B89000D4702 /* AppSingleton.h */,
+				098B3B421B378B89000D4702 /* AppSingleton.m */,
+			);
+			name = "000 - GameSingleton";
+			sourceTree = "<group>";
+		};
+		098B3B4B1B378EC8000D4702 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				098B3B4C1B378ED1000D4702 /* FXReachability */,
+			);
+			name = Classes;
+			sourceTree = "<group>";
+		};
+		098B3B4C1B378ED1000D4702 /* FXReachability */ = {
+			isa = PBXGroup;
+			children = (
+				098B3B481B378EC0000D4702 /* FXReachability.h */,
+				098B3B491B378EC0000D4702 /* FXReachability.m */,
+			);
+			name = FXReachability;
+			sourceTree = "<group>";
+		};
 		0F880A65ACF3CFF0D72120E8 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				098B3B531B379C93000D4702 /* AudioToolbox.framework */,
+				098B3B511B379C8D000D4702 /* GameKit.framework */,
+				098B3B4F1B379C87000D4702 /* iAd.framework */,
+				098B3B4D1B379C82000D4702 /* CoreMotion.framework */,
 				769385628457ECC646BCC3FE /* libPods.a */,
 			);
 			name = Frameworks;
@@ -352,9 +407,12 @@
 			files = (
 				091FED791B3736210071F8DC /* UIColor+Additions.m in Sources */,
 				091FED7D1B374C470071F8DC /* BaseNavigationViewController.m in Sources */,
+				098B3B4A1B378EC0000D4702 /* FXReachability.m in Sources */,
+				098B3B471B378C27000D4702 /* Game.m in Sources */,
 				091FED811B375DA50071F8DC /* GameViewController.m in Sources */,
 				091FED4C1B37283E0071F8DC /* AppDelegate.m in Sources */,
 				091FED761B3733AF0071F8DC /* SIConstants.m in Sources */,
+				098B3B431B378B89000D4702 /* AppSingleton.m in Sources */,
 				091FED6F1B37295D0071F8DC /* StartScreenViewController.m in Sources */,
 				091FED491B37283E0071F8DC /* main.m in Sources */,
 			);

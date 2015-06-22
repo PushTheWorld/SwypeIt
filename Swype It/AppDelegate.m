@@ -13,7 +13,7 @@
 // Category Import
 #import "UIColor+Additions.h"
 // Support/Data Class Imports
-//#import "SIConstants.h"
+#import "SIConstants.h"
 // Other Imports
 
 @interface AppDelegate ()
@@ -34,6 +34,8 @@
     self.window.rootViewController          = nav;
     [self.window makeKeyAndVisible];
 
+    /*Check the NSUserDefaults*/
+    [self setNSUserDefaults];
     
     return YES;
 }
@@ -58,6 +60,16 @@
 
 - (void)applicationWillTerminate:(UIApplication *)application {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+}
+
+- (void)setNSUserDefaults {
+    BOOL isThisTheFirstLaunch = [[NSUserDefaults standardUserDefaults] boolForKey:kSINSUserDefaultFirstLaunch];
+    if (isThisTheFirstLaunch == NO) {
+        //set to no
+        [[NSUserDefaults standardUserDefaults] setInteger:0 forKey:kSINSUserDefaultNumberOfItCoins];
+        [[NSUserDefaults standardUserDefaults] setBool:YES   forKey:kSINSUserDefaultFirstLaunch];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+    }
 }
 
 @end

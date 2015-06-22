@@ -1,6 +1,6 @@
 //  UIColor+Additions.m
-//  lala
-//  Created by Andrew Keller on 2/14/15.
+//  Swype It
+//  Created by Andrew Keller on 6/26/15.
 //  Copyright (c) 2015 Push The World LLC. All rights reserved.
 #import "UIColor+Additions.h"
 @implementation UIColor (Additions)
