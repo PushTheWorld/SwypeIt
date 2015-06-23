@@ -5,6 +5,8 @@
 //
 //  Purpose: Singleton file for a game, there can only be one game played at a time.
 //
+// Defines
+#define NUMBER_OF_MOVES 3
 // Local Controller Import
 #import "Game.h"
 // Framework Import
@@ -74,7 +76,7 @@
         levelScore      = LEVEL19;
     } else {
         int tempScore   = (int)self.currentPoints / 100;
-        tempScore       = tempScore + 1;
+        tempScore       = tempScore + 1 - 10;
         levelScore      = tempScore * 100;
     }
     
@@ -128,6 +130,27 @@
     }
     
     self.currentLevel   = [NSString stringWithFormat:@"Level %ld",(long)numberLevel];
+}
+
++ (NSString *)getRandomLevelMoveForGameMode:(NSString *)gameMode {
+    NSInteger randomNumber = arc4random_uniform(NUMBER_OF_MOVES);
+    NSString *returnString;
+    switch (randomNumber) {
+        case 0:
+            returnString        = kSIMoveCommandTap;
+            break;
+        case 1:
+            returnString        = kSIMoveCommandSwype;
+            break;
+        default:
+            if ([gameMode isEqualToString:kSIGameModeOneHand]) {
+                returnString    = kSIMoveCommandShake;
+            } else {
+                returnString    = kSIMoveCommandPinch;
+            }
+            break;
+    }
+    return returnString;
 }
 
 @end

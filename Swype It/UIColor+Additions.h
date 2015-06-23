@@ -5,4 +5,5 @@
 #import <UIKit/UIKit.h>
 @interface UIColor (Additions)
 + (UIColor *)mainColor;
++ (UIColor *)sandColor;
 @end

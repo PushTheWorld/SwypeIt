@@ -22,6 +22,18 @@ NSString *const kSIGameModeOneHand              = @"gameModeOneHand";
 NSString *const kSINSUserDefaultFirstLaunch     = @"firstLaunch";
 NSString *const kSINSUserDefaultNumberOfItCoins = @"numberOfItCoins";
 
+#pragma mark - Power Ups
+NSString *const kSIPowerUpForesight             = @"foresight";
+NSString *const kSIPowerUpTimeFreeze            = @"timeFreeze";
+NSString *const kSIPowerUpRapidFire             = @"rapidFire";
 
+#pragma mark - NSNotification
+NSString *const kSINotificationCorrectMove      = @"com.pushtheworldllc.swipeit.correctMove";
+NSString *const kSINotificationGameEnded        = @"com.pushtheworldllc.swipeit.gameEnded";
+NSString *const kSINotificationGameStarted      = @"com.pushtheworldllc.swipeit.gameStarted";
+NSString *const kSINotificationScoreUpdate      = @"com.pushtheworldllc.swipeit.scoreUpdate";
 
+#pragma mark - Score Constants
+NSString *const kSIScoreTotalScore              = @"totalScore";
+NSString *const kSIScoreNextMove                = @"nextMove";
 

@@ -14,12 +14,17 @@
 #pragma mark - Public Properties
 @property (assign, nonatomic) NSInteger          currentPoints;
 @property (assign, nonatomic) NSInteger          currentPointsRemainingThisRound;
+@property (assign, nonatomic) float              moveScore;
+@property (assign, nonatomic) float              moveScorePercentRemaining;
+@property (assign, nonatomic) float              totalScore;
 
+@property (strong, nonatomic) NSString          *currentMove;
 @property (strong, nonatomic) NSString          *currentLevel;
 @property (strong, nonatomic) NSString          *gameMode;
 
 #pragma mark - Public Class Methods
 - (NSNumber *)getLevelScore;
++ (NSString *)getRandomLevelMoveForGameMode:(NSString *)gameMode;
 - (void)setCurrentLevelString;
 
 @end

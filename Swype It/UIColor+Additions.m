@@ -14,4 +14,12 @@
     });
     return color;
 }
++ (UIColor *)sandColor {
+    static UIColor *color = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        color = [UIColor colorWithRed:250.0/255.0 green:250.0/255.0 blue:230.0/255.0 alpha:1.0];
+    });
+    return color;
+}
 @end

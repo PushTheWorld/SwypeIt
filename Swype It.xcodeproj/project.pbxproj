@@ -24,6 +24,7 @@
 		098B3B501B379C87000D4702 /* iAd.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 098B3B4F1B379C87000D4702 /* iAd.framework */; };
 		098B3B521B379C8D000D4702 /* GameKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 098B3B511B379C8D000D4702 /* GameKit.framework */; };
 		098B3B541B379C93000D4702 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 098B3B531B379C93000D4702 /* AudioToolbox.framework */; };
+		098B3B571B395091000D4702 /* MSSProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 098B3B561B395091000D4702 /* MSSProgressView.m */; };
 		F91BB9396F4CAAE0BC65B477 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 769385628457ECC646BCC3FE /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -68,6 +69,8 @@
 		098B3B4F1B379C87000D4702 /* iAd.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = iAd.framework; path = System/Library/Frameworks/iAd.framework; sourceTree = SDKROOT; };
 		098B3B511B379C8D000D4702 /* GameKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameKit.framework; path = System/Library/Frameworks/GameKit.framework; sourceTree = SDKROOT; };
 		098B3B531B379C93000D4702 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
+		098B3B551B395091000D4702 /* MSSProgressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSSProgressView.h; path = "Swype It/MSSProgressView.h"; sourceTree = "<group>"; };
+		098B3B561B395091000D4702 /* MSSProgressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MSSProgressView.m; path = "Swype It/MSSProgressView.m"; sourceTree = "<group>"; };
 		250606D5461711E9FC89BC0E /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		515AAE4709C37B6475D12AF4 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		769385628457ECC646BCC3FE /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -237,6 +240,7 @@
 			isa = PBXGroup;
 			children = (
 				098B3B4C1B378ED1000D4702 /* FXReachability */,
+				098B3B581B3950A3000D4702 /* MSSProgressView */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -248,6 +252,15 @@
 				098B3B491B378EC0000D4702 /* FXReachability.m */,
 			);
 			name = FXReachability;
+			sourceTree = "<group>";
+		};
+		098B3B581B3950A3000D4702 /* MSSProgressView */ = {
+			isa = PBXGroup;
+			children = (
+				098B3B551B395091000D4702 /* MSSProgressView.h */,
+				098B3B561B395091000D4702 /* MSSProgressView.m */,
+			);
+			name = MSSProgressView;
 			sourceTree = "<group>";
 		};
 		0F880A65ACF3CFF0D72120E8 /* Frameworks */ = {
@@ -411,6 +424,7 @@
 				098B3B471B378C27000D4702 /* Game.m in Sources */,
 				091FED811B375DA50071F8DC /* GameViewController.m in Sources */,
 				091FED4C1B37283E0071F8DC /* AppDelegate.m in Sources */,
+				098B3B571B395091000D4702 /* MSSProgressView.m in Sources */,
 				091FED761B3733AF0071F8DC /* SIConstants.m in Sources */,
 				098B3B431B378B89000D4702 /* AppSingleton.m in Sources */,
 				091FED6F1B37295D0071F8DC /* StartScreenViewController.m in Sources */,

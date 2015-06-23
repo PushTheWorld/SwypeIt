@@ -38,6 +38,10 @@
 #define LEVEL29             19000
 #define LEVEL30             20000
 
+#define COST_OF_FORESIGHT   1
+#define COST_OF_SLOW_MOTION 3
+#define COST_OF_RAPID_FIRE  5
+#define COST_OF_RESTART     15
 
 #define IS_IPHONE_4         (MAX([UIScreen mainScreen].bounds.size.height, [UIScreen mainScreen].bounds.size.width) == 480.0)
 #define IS_IPHONE_5         (MAX([UIScreen mainScreen].bounds.size.height, [UIScreen mainScreen].bounds.size.width) == 568.0)
@@ -47,6 +51,8 @@
 
 #define SCREEN_WIDTH        MIN([UIScreen mainScreen].bounds.size.height, [UIScreen mainScreen].bounds.size.width)
 #define SCREEN_HEIGHT       MAX([UIScreen mainScreen].bounds.size.height, [UIScreen mainScreen].bounds.size.width)
+
+#define MILI_SECS_IN_SEC    1000
 
 #pragma mark - Images
 extern NSString *const kSIImageTitleLabel;
@@ -64,3 +70,21 @@ extern NSString *const kSIGameModeOneHand;
 #pragma mark - NSUserDefaults
 extern NSString *const kSINSUserDefaultFirstLaunch;
 extern NSString *const kSINSUserDefaultNumberOfItCoins;
+
+#pragma mark - Power Ups
+extern NSString *const kSIPowerUpForesight;
+extern NSString *const kSIPowerUpTimeFreeze;
+extern NSString *const kSIPowerUpRapidFire;
+
+#pragma mark - NSNotification
+extern NSString *const kSINotificationScoreUpdate;
+extern NSString *const kSINotificationGameEnded;
+extern NSString *const kSINotificationGameStarted;
+extern NSString *const kSINotificationCorrectMove;
+
+#pragma mark - Score Constants
+extern NSString *const kSIScoreTotalScore;
+extern NSString *const kSIScoreNextMove;
+
+
+
