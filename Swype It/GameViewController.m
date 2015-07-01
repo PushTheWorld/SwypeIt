@@ -15,7 +15,7 @@
 // Framework Import
 #import <CoreMotion/CoreMotion.h>
 // Drop-In Class Imports (CocoaPods/GitHub/Guru)
-#import "MSSProgressView.h"
+#import "YLProgressBar.h"
 // Category Import
 #import "UIColor+Additions.h"
 // Support/Data Class Imports
@@ -27,9 +27,10 @@
     
 }
 #pragma mark - Private CGFloats
-@property (assign, nonatomic) CGFloat            progressViewBoarderWidth;
 @property (assign, nonatomic) CGFloat            fontSize;
+@property (assign, nonatomic) CGFloat            progressViewBoarderWidth;
 @property (assign, nonatomic) CGFloat            progressViewHeight;
+@property (assign, nonatomic) CGFloat            verticalSpacing;
 
 #pragma mark - Private Bools
 @property (assign, nonatomic) BOOL               isGameActive;
@@ -41,8 +42,9 @@
 #pragma mark - Constraints
 
 #pragma mark - UI Controls
-@property (strong, nonatomic) MSSProgressView   *currentMoveProgressView;
+@property (strong, nonatomic) YLProgressBar     *currentMoveProgressView;
 @property (strong, nonatomic) NSString          *gameMode;
+@property (strong, nonatomic) UIButton          *replayGameButton;
 @property (strong, nonatomic) UIFont            *moveCommandFont;
 @property (strong, nonatomic) UIFont            *totalScoreFont;
 @property (strong, nonatomic) UILabel           *moveCommandLabel;
@@ -65,11 +67,232 @@
 
 - (void)configureForGameMode:(NSString *)gameMode {
     NSLog(@"%@ game starting!",gameMode);
-    [AppSingleton singleton].isGameActive               = YES;
-    [AppSingleton singleton].currentGame                = [[Game alloc] init];
-    [AppSingleton singleton].currentGame.currentPoints  = 0.0f;
-    [AppSingleton singleton].currentGame.gameMode       = gameMode;
-    [AppSingleton singleton].currentGame.currentMove    = [Game getRandomLevelMoveForGameMode:self.gameMode];
+//    [AppSingleton singleton].isGameActive               = YES;
+    [[AppSingleton singleton] initAppSingletonWithGameMode:self.gameMode];
+}
+#pragma mark - UI Life Cycle Methods
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    [self setupUserInterface];
+    [[AppSingleton singleton] runFirstGame];
+}
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [self registerForNotifications];
+}
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+}
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+- (void)registerForNotifications {
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(scoreUpdate)          name:kSINotificationScoreUpdate object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(gameStarted)          name:kSINotificationGameStarted object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(gameEnded)            name:kSINotificationGameEnded   object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(correctMoveEntered)   name:kSINotificationCorrectMove object:nil];
+}
+- (void)setupUserInterface {
+    [self createConstants];
+    [self createControls];
+    [self setupControls];
+    [self layoutControls];
+    [self setupNav];
+    [self setupGestureRecognizers];
+}
+- (void)createConstants {
+    if (IS_IPHONE_4) {
+        self.fontSize                   = 20.0f;
+        self.progressViewHeight         = 30.0f;
+        self.progressViewBoarderWidth   = 2.0f;
+        
+    } else if (IS_IPHONE_5) {
+        self.fontSize                   = 24.0f;
+        self.progressViewHeight         = 36.0f;
+        self.progressViewBoarderWidth   = 3.0f;
+        
+    } else if (IS_IPHONE_6) {
+        self.fontSize                   = 28.0f;
+        self.progressViewHeight         = 44.0f;
+        self.progressViewBoarderWidth   = 3.0f;
+        
+    } else if (IS_IPHONE_6_PLUS) {
+        self.fontSize                   = 32.0f;
+        self.progressViewHeight         = 50.0f;
+        self.progressViewBoarderWidth   = 3.0f;
+        
+    } else {
+        self.fontSize                   = 36.0f;
+        self.progressViewHeight         = 60.0f;
+        self.progressViewBoarderWidth   = 4.0f;
+        
+    }
+    
+    self.verticalSpacing                = 8.0f;
+    
+    /*Init Fonts*/
+    self.moveCommandFont                = [UIFont fontWithName:@"HelveticaNeue-Medium" size:self.fontSize];
+    self.totalScoreFont                 = [UIFont fontWithName:@"HelveticaNeue-Medium" size:self.fontSize * 2.0f];
+    
+}
+- (void)createControls {
+    self.currentMoveProgressView        = [[YLProgressBar alloc] init];
+    self.moveCommandLabel               = [[UILabel alloc] init];
+    self.totalScoreLabel                = [[UILabel alloc] init];
+    
+    /*Game over controls*/
+    self.replayGameButton               = [UIButton buttonWithType:UIButtonTypeCustom];
+}
+- (void)setupControls {
+    /*Score remaining progress view*/
+    self.currentMoveProgressView.type               = YLProgressBarTypeRounded;
+    self.currentMoveProgressView.progressTintColor  = [UIColor sandColor];
+//    self.currentMoveProgressView.stripesOrientation = YLProgressBarStripesOrientationVertical;
+//    self.currentMoveProgressView.stripesDirection   = YLProgressBarStripesDirectionLeft;
+    self.currentMoveProgressView.hideGloss          = YES;
+    self.currentMoveProgressView.hideStripes        = YES;
+    [self.currentMoveProgressView setTranslatesAutoresizingMaskIntoConstraints:NO];
+    
+    /*Move Instruction Label*/
+    self.moveCommandLabel.textColor = [UIColor whiteColor];
+    self.moveCommandLabel.font      = self.moveCommandFont;
+    self.moveCommandLabel.text      = [AppSingleton singleton].currentGame.currentMove;
+    [self.moveCommandLabel setTranslatesAutoresizingMaskIntoConstraints:NO];
+    
+    /*Total Score Label*/
+    self.totalScoreLabel.textColor                      = [UIColor whiteColor];
+    self.totalScoreLabel.font                           = self.totalScoreFont;
+    self.totalScoreLabel.text                           = @"0.0";
+    self.totalScoreLabel.adjustsFontSizeToFitWidth      = YES;
+    [self.totalScoreLabel setTranslatesAutoresizingMaskIntoConstraints:NO];
+    
+    /*Replay Button*/
+    self.replayGameButton.hidden                        = YES;
+    self.replayGameButton.layer.cornerRadius            = 4.0f;
+    self.replayGameButton.layer.masksToBounds           = YES;
+    self.replayGameButton.layer.backgroundColor         = [UIColor sandColor].CGColor;
+    [self.replayGameButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [self.replayGameButton addTarget:self action:@selector(replayGame) forControlEvents:UIControlEventTouchUpInside];
+    [self.replayGameButton setTitle:@"Replay" forState:UIControlStateNormal];
+    [self.replayGameButton setTranslatesAutoresizingMaskIntoConstraints:NO];
+
+}
+- (void)layoutControls {
+    /*Add the subviews to the view*/
+    [self.view addSubview:self.currentMoveProgressView];
+    [self.view addSubview:self.moveCommandLabel];
+    [self.view addSubview:self.totalScoreLabel];
+    [self.view addSubview:self.replayGameButton];
+
+    
+    /*Move Command Label*/
+    [self.view addConstraint: [NSLayoutConstraint
+                               constraintWithItem    : self.moveCommandLabel
+                               attribute             : NSLayoutAttributeCenterX
+                               relatedBy             : NSLayoutRelationEqual
+                               toItem                : self.view
+                               attribute             : NSLayoutAttributeCenterX
+                               multiplier            : 1.0f
+                               constant              : 0.0f]];
+    [self.view addConstraint: [NSLayoutConstraint
+                               constraintWithItem    : self.moveCommandLabel
+                               attribute             : NSLayoutAttributeCenterY
+                               relatedBy             : NSLayoutRelationEqual
+                               toItem                : self.view
+                               attribute             : NSLayoutAttributeCenterY
+                               multiplier            : 1.0f
+                               constant              : 0.0f]];
+    
+    /*Current Move Progress View*/
+    [self.view addConstraint: [NSLayoutConstraint
+                               constraintWithItem    : self.currentMoveProgressView
+                               attribute             : NSLayoutAttributeCenterX
+                               relatedBy             : NSLayoutRelationEqual
+                               toItem                : self.moveCommandLabel
+                               attribute             : NSLayoutAttributeCenterX
+                               multiplier            : 1.0f
+                               constant              : 0.0f]];
+    [self.view addConstraint: [NSLayoutConstraint
+                               constraintWithItem    : self.currentMoveProgressView
+                               attribute             : NSLayoutAttributeBottom
+                               relatedBy             : NSLayoutRelationEqual
+                               toItem                : self.moveCommandLabel
+                               attribute             : NSLayoutAttributeTop
+                               multiplier            : 1.0f
+                               constant              : -1.0f * self.verticalSpacing]];
+    [self.view addConstraint: [NSLayoutConstraint
+                               constraintWithItem    : self.currentMoveProgressView
+                               attribute             : NSLayoutAttributeHeight
+                               relatedBy             : NSLayoutRelationEqual
+                               toItem                : nil
+                               attribute             : NSLayoutAttributeNotAnAttribute
+                               multiplier            : 1.0f
+                               constant              : self.progressViewHeight]];
+    [self.view addConstraint: [NSLayoutConstraint
+                               constraintWithItem    : self.currentMoveProgressView
+                               attribute             : NSLayoutAttributeWidth
+                               relatedBy             : NSLayoutRelationEqual
+                               toItem                : self.view
+                               attribute             : NSLayoutAttributeWidth
+                               multiplier            : 0.5f
+                               constant              : 0.0f]];
+    /*Total Score Label*/
+    [self.view addConstraint: [NSLayoutConstraint
+                               constraintWithItem    : self.totalScoreLabel
+                               attribute             : NSLayoutAttributeCenterX
+                               relatedBy             : NSLayoutRelationEqual
+                               toItem                : self.view
+                               attribute             : NSLayoutAttributeCenterX
+                               multiplier            : 1.0f
+                               constant              : 0.0f]];
+    [self.view addConstraint: [NSLayoutConstraint
+                               constraintWithItem    : self.totalScoreLabel
+                               attribute             : NSLayoutAttributeTop
+                               relatedBy             : NSLayoutRelationEqual
+                               toItem                : self.moveCommandLabel
+                               attribute             : NSLayoutAttributeBottom
+                               multiplier            : 1.0f
+                               constant              : self.verticalSpacing]];
+    
+    /*Replay Button*/
+    [self.view addConstraint: [NSLayoutConstraint
+                               constraintWithItem    : self.replayGameButton
+                               attribute             : NSLayoutAttributeCenterX
+                               relatedBy             : NSLayoutRelationEqual
+                               toItem                : self.view
+                               attribute             : NSLayoutAttributeCenterX
+                               multiplier            : 1.0f
+                               constant              : 0.0f]];
+    [self.view addConstraint: [NSLayoutConstraint
+                               constraintWithItem    : self.replayGameButton
+                               attribute             : NSLayoutAttributeTop
+                               relatedBy             : NSLayoutRelationEqual
+                               toItem                : self.totalScoreLabel
+                               attribute             : NSLayoutAttributeBottom
+                               multiplier            : 1.0f
+                               constant              : self.verticalSpacing]];
+    [self.view addConstraint: [NSLayoutConstraint
+                               constraintWithItem    : self.replayGameButton
+                               attribute             : NSLayoutAttributeHeight
+                               relatedBy             : NSLayoutRelationEqual
+                               toItem                : nil
+                               attribute             : NSLayoutAttributeNotAnAttribute
+                               multiplier            : 1.0f
+                               constant              : self.progressViewHeight]];
+    [self.view addConstraint: [NSLayoutConstraint
+                               constraintWithItem    : self.replayGameButton
+                               attribute             : NSLayoutAttributeWidth
+                               relatedBy             : NSLayoutRelationEqual
+                               toItem                : self.view
+                               attribute             : NSLayoutAttributeWidth
+                               multiplier            : 0.33f
+                               constant              : 0.0f]];
+    
+}
+- (void)setupNav {
+    [self.navigationController setNavigationBarHidden:YES animated:NO];
+    self.view.backgroundColor = [UIColor mainColor];
 }
 - (void)setupGestureRecognizers {
     /*Both Game modes get tap*/
@@ -90,7 +313,7 @@
     UISwipeGestureRecognizer *swypeTopBottomGR          = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swypeRegistered:)];
     swypeTopBottomGR.direction                          = UISwipeGestureRecognizerDirectionUp | UISwipeGestureRecognizerDirectionDown;
     [self.view addGestureRecognizer:swypeTopBottomGR];
-
+    
     /*Setup up pinch recognizer*/
     UIPinchGestureRecognizer *pinchGR                   = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(pinchRegistered:)];
     [self.view addGestureRecognizer:pinchGR];
@@ -98,129 +321,7 @@
     /*Setup Shake recognizer*/
     self.restCount                                      = 0;
     self.isShakeActive                                  = NO;
-
-}
-
-#pragma mark - UI Life Cycle Methods
-- (void)viewDidLoad {
-    [super viewDidLoad];
-    [self setupUserInterface];
-}
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-    [self registerForNotifications];
-}
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
-}
-- (void)viewWillDisappear:(BOOL)animated {
-    [super viewWillDisappear:animated];
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
-}
-- (void)registerForNotifications {
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshScore)         name:kSINotificationCorrectMove object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(gameStarted)          name:kSINotificationGameStarted object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(gameEnded)            name:kSINotificationGameEnded   object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(correctMoveEntered)   name:kSINotificationScoreUpdate object:nil];
-}
-- (void)setupUserInterface {
-    [self createConstants];
-    [self createControls];
-    [self setupControls];
-    [self layoutControls];
-    [self setupNav];
-}
-- (void)createConstants {
-    self.currentMoveProgressView        = [[MSSProgressView alloc] init];
-    self.moveCommandLabel               = [[UILabel alloc] init];
-    self.totalScoreLabel                = [[UILabel alloc] init];
     
-}
-- (void)createControls {
-    if (IS_IPHONE_4) {
-        self.fontSize                   = 20.0f;
-        self.progressViewHeight         = 30.0f;
-        self.progressViewBoarderWidth   = 2.0f;
-        
-    } else if (IS_IPHONE_5) {
-        self.fontSize                   = 24.0f;
-        self.progressViewHeight         = 36.0f;
-        self.progressViewBoarderWidth   = 3.0f;
-
-    } else if (IS_IPHONE_6) {
-        self.fontSize                   = 28.0f;
-        self.progressViewHeight         = 44.0f;
-        self.progressViewBoarderWidth   = 3.0f;
-
-    } else if (IS_IPHONE_6_PLUS) {
-        self.fontSize                   = 32.0f;
-        self.progressViewHeight         = 50.0f;
-        self.progressViewBoarderWidth   = 3.0f;
-        
-    } else {
-        self.fontSize                   = 36.0f;
-        self.progressViewHeight         = 60.0f;
-        self.progressViewBoarderWidth   = 4.0f;
-        
-    }
-    
-    /*Init Fonts*/
-    self.moveCommandFont                = [UIFont fontWithName:@"HelveticaNeue-Medium" size:self.fontSize];;
-    self.totalScoreFont                 = [UIFont fontWithName:@"HelveticaNeue-Heavy" size:self.fontSize * 2.0f];;
-
-}
-- (void)setupControls {
-    
-    /*Total Score Label*/
-    self.totalScoreLabel.textColor                  = [UIColor whiteColor];
-    self.totalScoreLabel.font                       = self.totalScoreFont;
-    self.totalScoreLabel.text                       = @"0.0";
-    self.totalScoreLabel.adjustsFontSizeToFitWidth  = YES;
-    self.totalScoreLabel.numberOfLines              = 1;
-    [self.totalScoreLabel setTranslatesAutoresizingMaskIntoConstraints:NO];
-    
-    /*Score remaining progress view*/
-    [self.currentMoveProgressView setBackgroundColor:[UIColor darkGrayColor]];
-    [self.currentMoveProgressView setBorderColor:[UIColor blackColor]];
-    [self.currentMoveProgressView setBorderWidth:self.progressViewBoarderWidth];
-    [self.currentMoveProgressView setCornerRadius:self.progressViewHeight / 2.0f];
-    [self.currentMoveProgressView setProgressColor:[UIColor sandColor]];
-    
-    /*Move Instruction Label*/
-    self.moveCommandLabel.textColor = [UIColor whiteColor];
-    self.moveCommandLabel.font      = self.moveCommandFont;
-    self.moveCommandLabel.text      = kSIMoveCommandSwype;
-    [self.moveCommandLabel setTranslatesAutoresizingMaskIntoConstraints:NO];
-    
-}
-- (void)layoutControls {
-    /*Add the subviews to the view*/
-    [self.view addSubview:self.moveCommandLabel];
-    
-    /*Move Command Label*/
-    [self.view addConstraint: [NSLayoutConstraint
-                               constraintWithItem    : self.moveCommandLabel
-                               attribute             : NSLayoutAttributeCenterX
-                               relatedBy             : NSLayoutRelationEqual
-                               toItem                : self.view
-                               attribute             : NSLayoutAttributeCenterX
-                               multiplier            : 1.0f
-                               constant              : 0.0f]];
-    [self.view addConstraint: [NSLayoutConstraint
-                               constraintWithItem    : self.moveCommandLabel
-                               attribute             : NSLayoutAttributeCenterY
-                               relatedBy             : NSLayoutRelationEqual
-                               toItem                : self.view
-                               attribute             : NSLayoutAttributeCenterY
-                               multiplier            : 1.0f
-                               constant              : 0.0f]];
-
-    
-    
-}
-- (void)setupNav {
-    [self.navigationController setNavigationBarHidden:YES animated:NO];
-    self.view.backgroundColor = [UIColor mainColor];
 }
 
 #pragma mark - Gesture Recognizer Methods
@@ -228,7 +329,9 @@
     [[AppSingleton singleton] moveEnterForType:kSIMoveCommandTap];
 }
 - (void)pinchRegistered:(UIPinchGestureRecognizer *)pinchGestrureRecognizer {
-    [[AppSingleton singleton] moveEnterForType:kSIMoveCommandPinch];
+    if (pinchGestrureRecognizer.state == UIGestureRecognizerStateEnded) {
+        [[AppSingleton singleton] moveEnterForType:kSIMoveCommandPinch];
+    }
 }
 - (void)swypeRegistered:(UISwipeGestureRecognizer *)swipeGestrureRecognizer {
     [[AppSingleton singleton] moveEnterForType:kSIMoveCommandSwype];
@@ -275,14 +378,27 @@
 
 #pragma mark - Class Methods
 - (void)gameStarted {
-    self.currentMoveProgressView.hidden = NO;
+    [self.navigationController setNavigationBarHidden:YES animated:YES];
+    self.currentMoveProgressView.hidden     = NO;
+    self.replayGameButton.hidden            = YES;
 }
 - (void)gameEnded {
-    self.moveCommandLabel.text          = @"Game Over!";
-    self.currentMoveProgressView.hidden = YES;
+    [self.navigationController setNavigationBarHidden:NO animated:YES];
+    self.moveCommandLabel.text              = @"Game Over!";
+    
+    self.currentMoveProgressView.hidden     = YES;
+    self.replayGameButton.hidden            = NO;
 }
-- (void)refreshScore {
-    [self.currentMoveProgressView setProgress:(CGFloat)[AppSingleton singleton].currentGame.currentPoints];
+- (void)replayGame {
+    [[AppSingleton singleton] initAppSingletonWithGameMode:self.gameMode];
+    [[AppSingleton singleton] startGame];
+    [self correctMoveEntered];
+}
+- (void)scoreUpdate {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.currentMoveProgressView setProgress:[AppSingleton singleton].currentGame.moveScorePercentRemaining];
+    });
+                   
     
 }
 - (void)correctMoveEntered {
@@ -291,6 +407,8 @@
     
     /*Update the total score label*/
     self.totalScoreLabel.text           = [NSString stringWithFormat:@"%0.2f",[AppSingleton singleton].currentGame.totalScore];
+    
+    
 }
 
 @end

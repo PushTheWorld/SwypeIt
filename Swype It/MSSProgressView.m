@@ -44,6 +44,7 @@
 - (void)layoutSubviews {
     [super layoutSubviews];
     self.progressWidth.constant     = self.bounds.size.width;
+    NSLog(@"Starting width: %f",self.progressWidth.constant);
 //    [self setProgress:self.progress];
 }
 
@@ -68,16 +69,19 @@
 }
 - (void)setProgress:(CGFloat)progress {
     _progress                               = progress;
-//    NSLog(@"Progress: %f",progress);    
+//    NSLog(@"Percentage remaining: %0.2f",_progress);
+
+    NSLog(@"Progress: %f",progress);
     CGFloat offset                          = (1.0f - progress);
     CGFloat offsetRaw                       = self.frame.size.width * offset;
     self.progressOffset.constant            = -1.0f * offsetRaw;
     [self setNeedsUpdateConstraints];
-    [UIView animateWithDuration:1.0f/30.0f
+    [UIView animateWithDuration:1.0f/3.0f
                      animations:^{
                          [self layoutIfNeeded];
                      }
      ];
+
 }
 - (void)setProgressColor:(UIColor *)progressColor {
     _progressColor                      = progressColor;

@@ -56,17 +56,27 @@
 - (void)runFirstGame {
     [self initalizeObjects];
     [self startGame];
+    self.moveStartTimeInMiliSeconds = 0.0f;
 }
 - (void)initalizeObjects {
-    self.manager            = [[CMMotionManager alloc] init];
-    self.timer              = [[NSTimer alloc] init];
+    self.manager                    = [[CMMotionManager alloc] init];
+    self.timer                      = [[NSTimer alloc] init];
     
-    self.levelSpeedDivider  = 1.0f;
-    self.timerInterval      = TIMER_INTERVAL;
+    self.levelSpeedDivider          = 1.0f;
+    self.timerInterval              = TIMER_INTERVAL;
 }
 #pragma mark - Game Functions
+- (void)initAppSingletonWithGameMode:(NSString *)gameMode {
+    if (self.currentGame == nil) {
+        self.currentGame            = [[Game alloc] init];
+    }
+    self.currentGame.totalScore     = 0.0f;
+    self.currentGame.gameMode       = gameMode;
+    self.currentGame.currentMove    = [Game getRandomLevelMoveForGameMode:gameMode];
+}
 - (void)startGame {
-    self.currentGame.totalScore = 0.0;
+    self.currentGame.totalScore     = 0.0;
+    self.moveStartTimeInMiliSeconds = 0;
 
     /*Send Notification that Game has STARTED*/
     NSNotification *notification    = [[NSNotification alloc] initWithName:kSINotificationGameStarted object:nil userInfo:nil];
@@ -77,6 +87,7 @@
 }
 - (void)endGame {
     [self.manager stopAccelerometerUpdates];
+    [self.timer invalidate];
     
     /*Send Notification that Game has ENDED*/
     NSNotification *notification    = [[NSNotification alloc] initWithName:kSINotificationGameEnded object:nil userInfo:nil];
@@ -106,7 +117,7 @@
 }
 #pragma mark - Timer Methods
 - (void)startTimer {
-    if (self.timer.valid) {
+    if (!self.timer.valid) {
         /*Start Timer*/
         self.timer      = [NSTimer scheduledTimerWithTimeInterval:self.timerInterval target:self selector:@selector(updateTimeAndScore) userInfo:nil repeats:YES];
         self.startTime  = [NSDate timeIntervalSinceReferenceDate];
@@ -117,25 +128,32 @@
     /*Update the master timer*/
     [self updateCompositeTime];
     
+//    NSLog(@"Composite Time: %0.0f and Move Start Time: %0.0f",self.compositeTimeInMiliSeconds, self.moveStartTimeInMiliSeconds);
+    
     /*Calculate new time*/
     float durationOfLastMove    = self.compositeTimeInMiliSeconds - self.moveStartTimeInMiliSeconds;
+//    NSLog(@"Duration of last move: %0.5f",durationOfLastMove);
     
     /*Get the new score for this time -- Always keep the time current*/
     self.currentGame.moveScore  = MAX_MOVE_SCORE * exp(SCORE_EXP_POWER_WEIGHT * durationOfLastMove / self.levelSpeedDivider);
     
     /*Get the new percentage for score*/
     self.currentGame.moveScorePercentRemaining = self.currentGame.moveScore / MAX_MOVE_SCORE;
+//    NSLog(@"Percentage remaining: %0.2f",self.currentGame.moveScorePercentRemaining);
     
     NSNotification *notification    = [[NSNotification alloc] initWithName:kSINotificationScoreUpdate object:nil userInfo:nil];
     [[NSNotificationCenter defaultCenter] postNotification:notification];
 }
 /*updateCompositeTime gets updated every time updateTimeAndScore does*/
 - (void)updateCompositeTime {
-    float currentTime = [NSDate timeIntervalSinceReferenceDate];
+    NSTimeInterval currentTime = [NSDate timeIntervalSinceReferenceDate];
     
     NSTimeInterval elapsedTime = currentTime - self.startTime;
     
     self.compositeTimeInMiliSeconds = elapsedTime * MILI_SECS_IN_SEC;
+//    NSLog(@"Composite Time: %0.0f",self.compositeTimeInMiliSeconds);
+
+    
 }
 
 

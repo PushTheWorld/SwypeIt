@@ -12,7 +12,6 @@
 #pragma mark - Public Objects
 
 #pragma mark - Public Properties
-@property (assign, nonatomic) NSInteger          currentPoints;
 @property (assign, nonatomic) NSInteger          currentPointsRemainingThisRound;
 @property (assign, nonatomic) float              moveScore;
 @property (assign, nonatomic) float              moveScorePercentRemaining;

@@ -1,10 +1,13 @@
 PODS:
   - MBProgressHUD (0.9.1)
+  - YLProgressBar (3.6.1)
 
 DEPENDENCIES:
   - MBProgressHUD (~> 0.9.1)
+  - YLProgressBar (~> 3.6.1)
 
 SPEC CHECKSUMS:
   MBProgressHUD: c47f2c166c126cf2ce36498d80f33e754d4e93ad
+  YLProgressBar: 72095a2570e8d191975d8c11d7f24fff99b6adec
 
 COCOAPODS: 0.37.2

@@ -24,7 +24,7 @@
 
 #pragma mark - Public Properties
 @property (assign, nonatomic) BOOL               isSaving;
-@property (assign, nonatomic) BOOL               isGameActive;
+//@property (assign, nonatomic) BOOL               isGameActive;
 
 
 
@@ -37,7 +37,9 @@
 
 
 #pragma mark - Public Instance Methods
+- (void)runFirstGame;
 - (void)startGame;
 - (void)endGame; /*Should only be used for force quit*/
 - (void)moveEnterForType:(NSString *)move;
+- (void)initAppSingletonWithGameMode:(NSString *)gameMode;
 @end
