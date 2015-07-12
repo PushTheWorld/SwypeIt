@@ -12,6 +12,12 @@
 #define COCOAPODS_VERSION_MINOR_MBProgressHUD 9
 #define COCOAPODS_VERSION_PATCH_MBProgressHUD 1
 
+// SVSegmentedControl
+#define COCOAPODS_POD_AVAILABLE_SVSegmentedControl
+#define COCOAPODS_VERSION_MAJOR_SVSegmentedControl 0
+#define COCOAPODS_VERSION_MINOR_SVSegmentedControl 2
+#define COCOAPODS_VERSION_PATCH_SVSegmentedControl 0
+
 // YLProgressBar
 #define COCOAPODS_POD_AVAILABLE_YLProgressBar
 #define COCOAPODS_VERSION_MAJOR_YLProgressBar 3

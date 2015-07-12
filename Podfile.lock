@@ -1,13 +1,16 @@
 PODS:
   - MBProgressHUD (0.9.1)
+  - SVSegmentedControl (0.2)
   - YLProgressBar (3.6.1)
 
 DEPENDENCIES:
   - MBProgressHUD (~> 0.9.1)
+  - SVSegmentedControl
   - YLProgressBar (~> 3.6.1)
 
 SPEC CHECKSUMS:
   MBProgressHUD: c47f2c166c126cf2ce36498d80f33e754d4e93ad
+  SVSegmentedControl: cc585b217cd1bc43a14a96a8fdfd16a1c3845b25
   YLProgressBar: 72095a2570e8d191975d8c11d7f24fff99b6adec
 
 COCOAPODS: 0.37.2

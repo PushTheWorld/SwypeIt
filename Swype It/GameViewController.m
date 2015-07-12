@@ -68,7 +68,6 @@
 - (void)configureForGameMode:(NSString *)gameMode {
     NSLog(@"%@ game starting!",gameMode);
 //    [AppSingleton singleton].isGameActive               = YES;
-    [[AppSingleton singleton] initAppSingletonWithGameMode:self.gameMode];
 }
 #pragma mark - UI Life Cycle Methods
 - (void)viewDidLoad {
@@ -337,6 +336,7 @@
     [[AppSingleton singleton] moveEnterForType:kSIMoveCommandSwype];
 }
 - (void)shakeRegistered {
+    NSLog(@"Shake registered");
     [[AppSingleton singleton] moveEnterForType:kSIMoveCommandShake];
 }
 

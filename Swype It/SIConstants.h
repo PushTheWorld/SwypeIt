@@ -64,12 +64,13 @@ extern NSString *const kSIMoveCommandPinch;
 extern NSString *const kSIMoveCommandShake;
 
 #pragma mark - Game Modes
-extern NSString *const kSIGameModeOriginal;
+extern NSString *const kSIGameModeTwoHand;
 extern NSString *const kSIGameModeOneHand;
 
 #pragma mark - NSUserDefaults
 extern NSString *const kSINSUserDefaultFirstLaunch;
 extern NSString *const kSINSUserDefaultNumberOfItCoins;
+extern NSString *const kSINSUserDefaultGameMode;
 
 #pragma mark - Power Ups
 extern NSString *const kSIPowerUpForesight;
@@ -86,5 +87,15 @@ extern NSString *const kSINotificationCorrectMove;
 extern NSString *const kSIScoreTotalScore;
 extern NSString *const kSIScoreNextMove;
 
+#pragma mark - Imagess
+extern NSString *const kSISegmentControlGameModeSelectedOneHand;
+extern NSString *const kSISegmentControlGameModeSelectedTwoHand;
+extern NSString *const kSISegmentControlGameModeUnselectedOneHand;
+extern NSString *const kSISegmentControlGameModeUnselectedTwoHand;
 
+
+typedef enum {
+    GameModeOneHand,
+    GameModeTwoHand
+} GameMode;
 
