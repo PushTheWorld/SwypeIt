@@ -11,7 +11,6 @@
 // Framework Import
 #import <QuartzCore/QuartzCore.h>
 // Drop-In Class Imports (CocoaPods/GitHub/Guru)
-#import "SVSegmentedControl.h"
 // Category Import
 #import "UIColor+Additions.h"
 // Support/Data Class Imports
@@ -27,15 +26,15 @@
 
 #pragma mark - Private Constraint CGFloats
 @property (assign, nonatomic) CGFloat                buttonHeight;
-@property (assign, nonatomic) CGFloat                segmentControlHeight;
-@property (assign, nonatomic) CGFloat                verticalSpacing;
 
 #pragma mark - Private Properties
 
 #pragma mark - Constraints
 
 #pragma mark - UI Controls
-@property (strong, nonatomic) SVSegmentedControl    *gameModeSegmentedControl;
+
+@property (strong, nonatomic) UIButton              *oneHandGameButton;
+@property (strong, nonatomic) UIButton              *twoHandGameButton;
 @property (strong, nonatomic) UIImageView           *titleImageView;
 
 
@@ -67,57 +66,53 @@
 }
 - (void)createConstants {
     if (IS_IPHONE_4) {
-        self.buttonHeight           = 28.0f;
-        self.segmentControlHeight   = 30.0f;
+        self.buttonHeight           = 34.0f;
     } else if (IS_IPHONE_5) {
-        self.buttonHeight           = 32.0f;
-        self.segmentControlHeight   = 36.0f;
+        self.buttonHeight           = 38.0f;
     } else if (IS_IPHONE_6) {
-        self.buttonHeight           = 36.0f;
-        self.segmentControlHeight   = 42.0f;
+        self.buttonHeight           = 42.0f;
     } else if (IS_IPHONE_6_PLUS) {
-        self.buttonHeight           = 40.0f;
-        self.segmentControlHeight   = 48.0f;
+        self.buttonHeight           = 46.0f;
     } else {
-        self.buttonHeight           = 40.0f;
-        self.segmentControlHeight   = 54.0f;
+        self.buttonHeight           = 50.0f;
     }
-
-    self.verticalSpacing            = 16.0;
     
 }
 - (void)createControls {
-    self.titleImageView             = [[UIImageView         alloc] initWithImage:[UIImage imageNamed:kSIImageTitleLabel]];
-    self.gameModeSegmentedControl   = [[SVSegmentedControl  alloc] initWithSectionTitles:[NSArray arrayWithObjects:@"One Hand",@"Two Hand", nil]];
+    self.titleImageView             = [[UIImageView alloc] initWithImage:[UIImage imageNamed:kSIImageTitleLabel]];
+    self.oneHandGameButton          = [UIButton            buttonWithType:UIButtonTypeCustom];
+    self.twoHandGameButton          = [UIButton            buttonWithType:UIButtonTypeCustom];
 }
 - (void)setupControls {
-    
-    /*Get the app singleton up and running*/
-    [[AppSingleton singleton] initAppSingletonWithGameMode:kSIGameModeOneHand];
-    
-    self.titleImageView.contentMode = UIViewContentModeScaleAspectFit;
+    /*Game Title*/
+    self.titleImageView.contentMode                 = UIViewContentModeScaleAspectFit;
     [self.titleImageView setTranslatesAutoresizingMaskIntoConstraints:NO];
-    
-    
-    [self.gameModeSegmentedControl setTranslatesAutoresizingMaskIntoConstraints:NO];
-    self.gameModeSegmentedControl.changeHandler = ^(NSUInteger newIndex) {
-        /*Respond to changes here*/
-        [[NSUserDefaults standardUserDefaults] setInteger:newIndex forKey:kSINSUserDefaultGameMode];
-        [[NSUserDefaults standardUserDefaults] synchronize];
-    };
-    
-    /*Tap to Start*/
-    UITapGestureRecognizer *pgr     = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(launchGame)];
-    pgr.numberOfTapsRequired        = 1;
-    pgr.delegate                    = self;
-    [self.view addGestureRecognizer:pgr];
 
-    
+    /*One Hand Game Button*/
+    self.oneHandGameButton.tag                      = 0;
+    self.oneHandGameButton.layer.cornerRadius       = 4.0f;
+    self.oneHandGameButton.layer.masksToBounds      = YES;
+    self.oneHandGameButton.layer.backgroundColor    = [UIColor whiteColor].CGColor;
+    [self.oneHandGameButton setTitleColor:[UIColor mainColor] forState:UIControlStateNormal];
+    [self.oneHandGameButton addTarget:self action:@selector(launchGame:) forControlEvents:UIControlEventTouchUpInside];
+    [self.oneHandGameButton setTitle:kSIButtonLabelStringOneHand forState:UIControlStateNormal];
+    [self.oneHandGameButton setTranslatesAutoresizingMaskIntoConstraints:NO];
+
+    /*Two Hand Game Button*/
+    self.twoHandGameButton.tag                      = 1;
+    self.twoHandGameButton.layer.cornerRadius       = 4.0f;
+    self.twoHandGameButton.layer.masksToBounds      = YES;
+    self.twoHandGameButton.layer.backgroundColor    = [UIColor whiteColor].CGColor;
+    [self.twoHandGameButton setTitleColor:[UIColor mainColor] forState:UIControlStateNormal];
+    [self.twoHandGameButton addTarget:self action:@selector(launchGame:) forControlEvents:UIControlEventTouchUpInside];
+    [self.twoHandGameButton setTitle:kSIButtonLabelStringTwoHand forState:UIControlStateNormal];
+    [self.twoHandGameButton setTranslatesAutoresizingMaskIntoConstraints:NO];
 }
 - (void)layoutControls {
     /*Add the control items to the view*/
     [self.view addSubview:self.titleImageView];
-    [self.view addSubview:self.gameModeSegmentedControl];
+    [self.view addSubview:self.oneHandGameButton];
+    [self.view addSubview:self.twoHandGameButton];
     
     /*Welcome Label*/
     [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-[titleLabel]-|"
@@ -131,26 +126,27 @@
                                toItem                : self.view
                                attribute             : NSLayoutAttributeTop
                                multiplier            : 1.0f
-                               constant              : self.verticalSpacing]];
-    /*Segment Controler*/
+                               constant              : VERTICAL_SPACING_8]];
+    
+    /*One Hand Button*/
     [self.view addConstraint: [NSLayoutConstraint
-                               constraintWithItem    : self.gameModeSegmentedControl
+                               constraintWithItem    : self.oneHandGameButton
                                attribute             : NSLayoutAttributeHeight
                                relatedBy             : NSLayoutRelationEqual
                                toItem                : nil
                                attribute             : NSLayoutAttributeNotAnAttribute
                                multiplier            : 1.0f
-                               constant              : self.segmentControlHeight]];
+                               constant              : self.buttonHeight]];
     [self.view addConstraint: [NSLayoutConstraint
-                               constraintWithItem    : self.gameModeSegmentedControl
+                               constraintWithItem    : self.oneHandGameButton
                                attribute             : NSLayoutAttributeWidth
                                relatedBy             : NSLayoutRelationEqual
                                toItem                : self.view
                                attribute             : NSLayoutAttributeWidth
                                multiplier            : 0.5f
-                               constant              : 0.0f]];
+                               constant              : 1.0f]];
     [self.view addConstraint: [NSLayoutConstraint
-                               constraintWithItem    : self.gameModeSegmentedControl
+                               constraintWithItem    : self.oneHandGameButton
                                attribute             : NSLayoutAttributeCenterX
                                relatedBy             : NSLayoutRelationEqual
                                toItem                : self.view
@@ -158,13 +154,47 @@
                                multiplier            : 1.0f
                                constant              : 0.0f]];
     [self.view addConstraint: [NSLayoutConstraint
-                               constraintWithItem    : self.gameModeSegmentedControl
+                               constraintWithItem    : self.oneHandGameButton
                                attribute             : NSLayoutAttributeBottom
                                relatedBy             : NSLayoutRelationEqual
                                toItem                : self.view
-                               attribute             : NSLayoutAttributeBottom
+                               attribute             : NSLayoutAttributeCenterY
                                multiplier            : 1.0f
-                               constant              : -self.verticalSpacing]];
+                               constant              : -1.0f * VERTICAL_SPACING_8]];
+    
+    /*Two Hand Button*/
+    [self.view addConstraint: [NSLayoutConstraint
+                               constraintWithItem    : self.twoHandGameButton
+                               attribute             : NSLayoutAttributeHeight
+                               relatedBy             : NSLayoutRelationEqual
+                               toItem                : nil
+                               attribute             : NSLayoutAttributeNotAnAttribute
+                               multiplier            : 1.0f
+                               constant              : self.buttonHeight]];
+    [self.view addConstraint: [NSLayoutConstraint
+                               constraintWithItem    : self.twoHandGameButton
+                               attribute             : NSLayoutAttributeWidth
+                               relatedBy             : NSLayoutRelationEqual
+                               toItem                : self.view
+                               attribute             : NSLayoutAttributeWidth
+                               multiplier            : 0.5f
+                               constant              : 1.0f]];
+    [self.view addConstraint: [NSLayoutConstraint
+                               constraintWithItem    : self.twoHandGameButton
+                               attribute             : NSLayoutAttributeCenterX
+                               relatedBy             : NSLayoutRelationEqual
+                               toItem                : self.view
+                               attribute             : NSLayoutAttributeCenterX
+                               multiplier            : 1.0f
+                               constant              : 0.0f]];
+    [self.view addConstraint: [NSLayoutConstraint
+                               constraintWithItem    : self.twoHandGameButton
+                               attribute             : NSLayoutAttributeTop
+                               relatedBy             : NSLayoutRelationEqual
+                               toItem                : self.view
+                               attribute             : NSLayoutAttributeCenterY
+                               multiplier            : 1.0f
+                               constant              : VERTICAL_SPACING_8]];
     
 
 }
@@ -173,20 +203,9 @@
     
     self.view.backgroundColor = [UIColor mainColor];
 }
-- (void)launchGame {
-    NSInteger gameMode = [[NSUserDefaults standardUserDefaults] integerForKey:kSINSUserDefaultGameMode];
-    NSString *gameModeString;
-    switch (gameMode) {
-        case GameModeOneHand:
-            gameModeString = kSIGameModeOneHand;
-            break;
-            
-        default:
-            gameModeString = kSIGameModeTwoHand;
-            break;
-    }
-
-    GameViewController *gameVC = [[GameViewController alloc] initWithGameMode:gameModeString];
+- (void)launchGame:(UIButton *)button {
+    [[AppSingleton singleton] initAppSingletonWithGameMode:(GameMode)button.tag];
+    GameViewController *gameVC = [[GameViewController alloc] initWithGameMode:(GameMode)button.tag];
     [self.navigationController pushViewController:gameVC animated:YES];
 }
 

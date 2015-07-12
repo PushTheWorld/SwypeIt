@@ -26,15 +26,15 @@
 @interface GameViewController () {
     
 }
-#pragma mark - Private CGFloats
+#pragma mark - Private Primiatives
+@property (assign, nonatomic) BOOL               isGameActive;
+@property (assign, nonatomic) BOOL               isShakeActive;
 @property (assign, nonatomic) CGFloat            fontSize;
 @property (assign, nonatomic) CGFloat            progressViewBoarderWidth;
 @property (assign, nonatomic) CGFloat            progressViewHeight;
 @property (assign, nonatomic) CGFloat            verticalSpacing;
+@property (assign, nonatomic) int                gameMode;
 
-#pragma mark - Private Bools
-@property (assign, nonatomic) BOOL               isGameActive;
-@property (assign, nonatomic) BOOL               isShakeActive;
 
 #pragma mark - Private Properties
 @property (assign, nonatomic) NSInteger          restCount;
@@ -43,7 +43,6 @@
 
 #pragma mark - UI Controls
 @property (strong, nonatomic) YLProgressBar     *currentMoveProgressView;
-@property (strong, nonatomic) NSString          *gameMode;
 @property (strong, nonatomic) UIButton          *replayGameButton;
 @property (strong, nonatomic) UIFont            *moveCommandFont;
 @property (strong, nonatomic) UIFont            *totalScoreFont;
@@ -56,17 +55,12 @@
 @implementation GameViewController
 
 #pragma mark - Initialization Methods
-- (instancetype)initWithGameMode:(NSString *)gameMode {
+- (instancetype)initWithGameMode:(GameMode)gameMode {
     self = [super init];
     if (self) {
         self.gameMode = gameMode;
-        [self configureForGameMode:gameMode];
     }
     return self;
-}
-
-- (void)configureForGameMode:(NSString *)gameMode {
-    NSLog(@"%@ game starting!",gameMode);
 }
 #pragma mark - UI Life Cycle Methods
 - (void)viewDidLoad {
@@ -155,7 +149,7 @@
     /*Move Instruction Label*/
     self.moveCommandLabel.textColor = [UIColor whiteColor];
     self.moveCommandLabel.font      = self.moveCommandFont;
-    self.moveCommandLabel.text      = [AppSingleton singleton].currentGame.currentMove;
+    self.moveCommandLabel.text      = [Game stringForMove:[AppSingleton singleton].currentGame.currentMove];
     [self.moveCommandLabel setTranslatesAutoresizingMaskIntoConstraints:NO];
     
     /*Total Score Label*/
@@ -312,66 +306,67 @@
     swypeTopBottomGR.direction                          = UISwipeGestureRecognizerDirectionUp | UISwipeGestureRecognizerDirectionDown;
     [self.view addGestureRecognizer:swypeTopBottomGR];
     
-    /*Setup up pinch recognizer*/
-    UIPinchGestureRecognizer *pinchGR                   = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(pinchRegistered:)];
-    [self.view addGestureRecognizer:pinchGR];
-    
-    /*Setup Shake recognizer*/
-    self.restCount                                      = 0;
-    self.isShakeActive                                  = NO;
+    if (self.gameMode == GameModeOneHand) {
+        /*Setup Shake recognizer*/
+        self.restCount                                      = 0;
+        self.isShakeActive                                  = NO;
+        [self startAccelerometerForShake];
+    } else {
+        /*Setup up pinch recognizer*/
+        UIPinchGestureRecognizer *pinchGR                   = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(pinchRegistered:)];
+        [self.view addGestureRecognizer:pinchGR];
+    }
+
     
 }
 
 #pragma mark - Gesture Recognizer Methods
 - (void)tapRegistered:(UITapGestureRecognizer *)tapGestrureRecognizer {
-    [[AppSingleton singleton] moveEnterForType:kSIMoveCommandTap];
+    [[AppSingleton singleton] moveEnterForType:MoveTap];
+}
+- (void)swypeRegistered:(UISwipeGestureRecognizer *)swipeGestrureRecognizer {
+    [[AppSingleton singleton] moveEnterForType:MoveSwype];
 }
 - (void)pinchRegistered:(UIPinchGestureRecognizer *)pinchGestrureRecognizer {
     if (pinchGestrureRecognizer.state == UIGestureRecognizerStateEnded) {
-        [[AppSingleton singleton] moveEnterForType:kSIMoveCommandPinch];
+        [[AppSingleton singleton] moveEnterForType:MovePinch];
     }
 }
-- (void)swypeRegistered:(UISwipeGestureRecognizer *)swipeGestrureRecognizer {
-    [[AppSingleton singleton] moveEnterForType:kSIMoveCommandSwype];
-}
 - (void)shakeRegistered {
-    NSLog(@"Shake registered");
-    [[AppSingleton singleton] moveEnterForType:kSIMoveCommandShake];
+    [[AppSingleton singleton] moveEnterForType:MoveShake];
 }
 
 #pragma mark - Accelerometer Methods
 - (void)startAccelerometerForShake {
-    if ([self.gameMode isEqualToString:kSIGameModeOneHand]) {
-        if ([[AppSingleton singleton].manager isAccelerometerAvailable]) {
-            [AppSingleton singleton].manager.accelerometerUpdateInterval = ACCELEROMETER_UPDATE_INTERVAL; /*Get reading 20 times a second*/
-            [[AppSingleton singleton].manager startAccelerometerUpdatesToQueue:[NSOperationQueue mainQueue] withHandler:^(CMAccelerometerData *accelerometerData, NSError *error) {
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    double magnitude                = sqrt(pow(accelerometerData.acceleration.x, 2) + pow(accelerometerData.acceleration.y, 2) + pow(accelerometerData.acceleration.z, 2));
-                    
-                    /*Adjust the magnititude*/
-                    double adjustedMag              = fabs(magnitude - 1.0);
-                    
-                    if (adjustedMag > SHAKE_THRESHOLD) { /*Phone is Shaken*/
-                        if (self.isShakeActive) {
-                            self.restCount          = 0;
-                        } else {
-                            self.isShakeActive      = YES;
-                            [self shakeRegistered];
-                        }
-                    } else { /*Phone is at rest*/
-                        if (self.isShakeActive) {
-                            self.restCount          = self.restCount + 1;
-                            if (self.restCount > REST_COUNT_THRESHOLD) {
-                                self.isShakeActive  = NO;
-                                self.restCount      = 0;
-                            }
+    if ([[AppSingleton singleton].manager isAccelerometerAvailable]) {
+        [AppSingleton singleton].manager.accelerometerUpdateInterval = ACCELEROMETER_UPDATE_INTERVAL; /*Get reading 20 times a second*/
+        [[AppSingleton singleton].manager startAccelerometerUpdatesToQueue:[NSOperationQueue mainQueue] withHandler:^(CMAccelerometerData *accelerometerData, NSError *error) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                double magnitude                = sqrt(pow(accelerometerData.acceleration.x, 2) + pow(accelerometerData.acceleration.y, 2) + pow(accelerometerData.acceleration.z, 2));
+                
+                /*Adjust the magnititude*/
+                double adjustedMag              = fabs(magnitude - 1.0);
+                
+                if (adjustedMag > SHAKE_THRESHOLD) { /*Phone is Shaken*/
+                    if (self.isShakeActive) {
+                        self.restCount          = 0;
+                    } else {
+                        self.isShakeActive      = YES;
+                        [self shakeRegistered];
+                    }
+                } else { /*Phone is at rest*/
+                    if (self.isShakeActive) {
+                        self.restCount          = self.restCount + 1;
+                        if (self.restCount > REST_COUNT_THRESHOLD) {
+                            self.isShakeActive  = NO;
+                            self.restCount      = 0;
                         }
                     }
-                });
-            }];
-        } else {
-            NSLog(@"Accelerometer Not Available!");
-        }
+                }
+            });
+        }];
+    } else {
+        NSLog(@"Accelerometer Not Available!");
     }
 }
 
@@ -402,7 +397,7 @@
 }
 - (void)correctMoveEntered {
     /*Set next move*/
-    self.moveCommandLabel.text          = [AppSingleton singleton].currentGame.currentMove;
+    self.moveCommandLabel.text          = [Game stringForMove:[AppSingleton singleton].currentGame.currentMove];
     
     /*Update the total score label*/
     self.totalScoreLabel.text           = [NSString stringWithFormat:@"%0.2f",[AppSingleton singleton].currentGame.totalScore];

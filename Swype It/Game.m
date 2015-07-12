@@ -138,25 +138,34 @@
     return numberLevel;
 }
 
-+ (NSString *)getRandomLevelMoveForGameMode:(NSString *)gameMode {
++ (Move)getRandomMoveForGameMode:(GameMode)gameMode {
     NSInteger randomNumber = arc4random_uniform(NUMBER_OF_MOVES);
-    NSString *returnString;
     switch (randomNumber) {
         case 0:
-            returnString        = kSIMoveCommandTap;
-            break;
+            return MoveTap;
         case 1:
-            returnString        = kSIMoveCommandSwype;
-            break;
+            return MoveSwype;
         default:
-            if ([gameMode isEqualToString:kSIGameModeOneHand]) {
-                returnString    = kSIMoveCommandShake;
-            } else {
-                returnString    = kSIMoveCommandPinch;
+            if (gameMode == GameModeOneHand) {
+                return MoveShake;
+            } else { /*GameModeTwoHane*/
+                return MovePinch;
             }
-            break;
     }
-    return returnString;
+}
++ (NSString *)stringForMove:(Move)move {
+    switch (move) {
+        case MoveTap:
+            return kSIMoveCommandTap;
+        case MoveSwype:
+            return kSIMoveCommandSwype;
+        case MovePinch:
+            return kSIMoveCommandPinch;
+        case MoveShake:
+            return kSIMoveCommandShake;
+        default:
+            return nil;
+    }
 }
 
 #pragma mark - Public Methods

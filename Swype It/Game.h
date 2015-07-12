@@ -5,6 +5,7 @@
 // Framework Import
 #import <UIKit/UIKit.h>
 // Other Imports
+#import "SIConstants.h"
 
 @interface Game : NSObject {
     
@@ -16,15 +17,16 @@
 @property (assign, nonatomic) float              moveScore;
 @property (assign, nonatomic) float              moveScorePercentRemaining;
 @property (assign, nonatomic) float              totalScore;
+@property (assign, nonatomic) GameMode           gameMode;
+@property (assign, nonatomic) Move               currentMove;
 
-@property (strong, nonatomic) NSString          *currentMove;
 @property (strong, nonatomic) NSString          *currentLevel;
-@property (strong, nonatomic) NSString          *gameMode;
 
 #pragma mark - Public Class Methods
 + (int)nextLevelForScore:(float)score;
 + (NSString *)currentLevelStringForScore:(float)score;
-+ (NSString *)getRandomLevelMoveForGameMode:(NSString *)gameMode;
++ (Move)getRandomMoveForGameMode:(GameMode)gameMode;
++ (NSString *)stringForMove:(Move)move;
 
 
 #pragma mark - Public Methods

@@ -53,8 +53,16 @@
     });
     return singleton;
 }
-- (void)runFirstGame {
+- (void)initAppSingletonWithGameMode:(GameMode)gameMode {
+    if (self.currentGame == nil) {
+        self.currentGame            = [[Game alloc] init];
+    }
+    self.currentGame.totalScore     = 0.0f;
+    self.currentGame.gameMode       = gameMode;
+    self.currentGame.currentMove    = [Game getRandomMoveForGameMode:gameMode];
     [self initalizeObjects];
+}
+- (void)runFirstGame {
     [self startGame];
     self.moveStartTimeInMiliSeconds = 0.0f;
 }
@@ -66,14 +74,6 @@
     self.timerInterval              = TIMER_INTERVAL;
 }
 #pragma mark - Game Functions
-- (void)initAppSingletonWithGameMode:(NSString *)gameMode {
-    if (self.currentGame == nil) {
-        self.currentGame            = [[Game alloc] init];
-    }
-    self.currentGame.totalScore     = 0.0f;
-    self.currentGame.gameMode       = gameMode;
-    self.currentGame.currentMove    = [Game getRandomLevelMoveForGameMode:gameMode];
-}
 - (void)startGame {
     self.currentGame.totalScore     = 0.0;
     self.moveStartTimeInMiliSeconds = 0;
@@ -94,8 +94,8 @@
     [[NSNotificationCenter defaultCenter] postNotification:notification];
 
 }
-- (void)moveEnterForType:(NSString *)move {
-    if ([move isEqualToString:self.currentGame.currentMove]) {
+- (void)moveEnterForType:(Move)move {
+    if (move == self.currentGame.currentMove) {
         [self willPrepareToShowNewMove];
     } else {
         [self endGame];
@@ -106,7 +106,9 @@
     
     self.currentGame.totalScore = self.currentGame.totalScore + self.currentGame.moveScore; /*Add moveScore to total score*/
     
-    self.currentGame.currentMove = [Game getRandomLevelMoveForGameMode:[AppSingleton singleton].currentGame.gameMode];
+    /*Get new move*/
+    Move newMove = [Game getRandomMoveForGameMode:[AppSingleton singleton].currentGame.gameMode];
+    self.currentGame.currentMove = newMove;
     
     NSNotification *notification    = [[NSNotification alloc] initWithName:kSINotificationCorrectMove object:nil userInfo:nil];
     [[NSNotificationCenter defaultCenter] postNotification:notification];

@@ -30,6 +30,9 @@
 #define LEVEL21             11000
 #define LEVEL22             12000
 
+#define VERTICAL_SPACING_4  4
+#define VERTICAL_SPACING_8  8
+#define VERTICAL_SPACING_16 16
 
 #define COST_OF_FORESIGHT   1
 #define COST_OF_SLOW_MOTION 3
@@ -46,6 +49,24 @@
 #define SCREEN_HEIGHT       MAX([UIScreen mainScreen].bounds.size.height, [UIScreen mainScreen].bounds.size.width)
 
 #define MILI_SECS_IN_SEC    1000
+
+typedef enum {
+    GameModeOneHand,
+    GameModeTwoHand
+} GameMode;
+
+typedef enum {
+    MoveTap,
+    MoveSwype,
+    MovePinch,
+    MoveShake
+} Move;
+
+typedef enum {
+    PowerUpForesight,
+    PowerUpSlowMotion,
+    PowerUpRapidFire
+} PowerUp;
 
 #pragma mark - Images
 extern NSString *const kSIImageTitleLabel;
@@ -86,9 +107,6 @@ extern NSString *const kSISegmentControlGameModeSelectedTwoHand;
 extern NSString *const kSISegmentControlGameModeUnselectedOneHand;
 extern NSString *const kSISegmentControlGameModeUnselectedTwoHand;
 
-
-typedef enum {
-    GameModeOneHand,
-    GameModeTwoHand
-} GameMode;
-
+#pragma mark - Button Labels
+extern NSString *const kSIButtonLabelStringOneHand;
+extern NSString *const kSIButtonLabelStringTwoHand;

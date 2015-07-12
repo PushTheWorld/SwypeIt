@@ -12,6 +12,7 @@
 // Drop-In Class Imports (CocoaPods/GitHub/Guru)
 // Category Import
 // Support/Data Class Imports
+#import "SIConstants.h"
 // Other Imports
 
 @class Game;
@@ -40,6 +41,6 @@
 - (void)runFirstGame;
 - (void)startGame;
 - (void)endGame; /*Should only be used for force quit*/
-- (void)moveEnterForType:(NSString *)move;
-- (void)initAppSingletonWithGameMode:(NSString *)gameMode;
+- (void)moveEnterForType:(Move)move;
+- (void)initAppSingletonWithGameMode:(GameMode)gameMode;
 @end

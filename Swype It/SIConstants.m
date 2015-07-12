@@ -25,7 +25,7 @@ NSString *const kSINSUserDefaultGameMode                    = @"gameMode";
 
 #pragma mark - Power Ups
 NSString *const kSIPowerUpForesight                         = @"foresight";
-NSString *const kSIPowerUpTimeFreeze                        = @"timeFreeze";
+NSString *const kSIPowerUpSlowMotion                        = @"slowMotion";
 NSString *const kSIPowerUpRapidFire                         = @"rapidFire";
 
 #pragma mark - NSNotification
@@ -44,5 +44,7 @@ NSString *const kSISegmentControlGameModeSelectedTwoHand    = @"segmentControlGa
 NSString *const kSISegmentControlGameModeUnselectedOneHand  = @"segmentControlGameModeUnselectedOneHand";
 NSString *const kSISegmentControlGameModeUnselectedTwoHand  = @"segmentControlGameModeUnselectedTwoHand";
 
-
+#pragma mark - Button Labels
+NSString *const kSIButtonLabelStringOneHand                 = @"One Hand";
+NSString *const kSIButtonLabelStringTwoHand                 = @"Two Hand";
 
