@@ -33,103 +33,109 @@
 }
 
 #pragma mark - Class Methods
-- (NSNumber *)getLevelScore {
-    NSInteger levelScore = 0;
++ (int)nextLevelForScore:(float)score {
+    int levelScore = 0;
     
-    if (self.totalScore < LEVEL1) {
-        levelScore      = LEVEL1;
-    } else if (self.totalScore < LEVEL2) {
-        levelScore      = LEVEL2;
-    } else if (self.totalScore < LEVEL3) {
-        levelScore      = LEVEL3;
-    } else if (self.totalScore < LEVEL4) {
-        levelScore      = LEVEL4;
-    } else if (self.totalScore < LEVEL5) {
-        levelScore      = LEVEL5;
-    } else if (self.totalScore < LEVEL6) {
-        levelScore      = LEVEL6;
-    } else if (self.totalScore < LEVEL7) {
-        levelScore      = LEVEL7;
-    } else if (self.totalScore < LEVEL8) {
-        levelScore      = LEVEL8;
-    } else if (self.totalScore < LEVEL9) {
-        levelScore      = LEVEL9;
-    } else if (self.totalScore < LEVEL10) {
-        levelScore      = LEVEL10;
-    } else if (self.totalScore < LEVEL11) {
-        levelScore      = LEVEL11;
-    } else if (self.totalScore < LEVEL12) {
-        levelScore      = LEVEL12;
-    } else if (self.totalScore < LEVEL13) {
-        levelScore      = LEVEL13;
-    } else if (self.totalScore < LEVEL14) {
-        levelScore      = LEVEL14;
-    } else if (self.totalScore < LEVEL15) {
-        levelScore      = LEVEL15;
-    } else if (self.totalScore < LEVEL16) {
-        levelScore      = LEVEL16;
-    } else if (self.totalScore < LEVEL17) {
-        levelScore      = LEVEL17;
-    } else if (self.totalScore < LEVEL18) {
-        levelScore      = LEVEL18;
-    } else if (self.totalScore < LEVEL19) {
-        levelScore      = LEVEL19;
+    if (score < LEVEL1) {
+        levelScore  = LEVEL1;
+    } else if (score < LEVEL2) {
+        levelScore  = LEVEL2;
+    } else if (score < LEVEL3) {
+        levelScore  = LEVEL3;
+    } else if (score < LEVEL4) {
+        levelScore  = LEVEL4;
+    } else if (score < LEVEL5) {
+        levelScore  = LEVEL5;
+    } else if (score < LEVEL6) {
+        levelScore  = LEVEL6;
+    } else if (score < LEVEL7) {
+        levelScore  = LEVEL7;
+    } else if (score < LEVEL8) {
+        levelScore  = LEVEL8;
+    } else if (score < LEVEL9) {
+        levelScore  = LEVEL9;
+    } else if (score < LEVEL10) {
+        levelScore  = LEVEL10;
+    } else if (score < LEVEL11) {
+        levelScore  = LEVEL11;
+    } else if (score < LEVEL12) {
+        levelScore  = LEVEL12;
+    } else if (score < LEVEL13) {
+        levelScore  = LEVEL13;
+    } else if (score < LEVEL14) {
+        levelScore  = LEVEL14;
+    } else if (score < LEVEL15) {
+        levelScore  = LEVEL15;
+    } else if (score < LEVEL16) {
+        levelScore  = LEVEL16;
+    } else if (score < LEVEL17) {
+        levelScore  = LEVEL17;
+    } else if (score < LEVEL18) {
+        levelScore  = LEVEL18;
+    } else if (score < LEVEL19) {
+        levelScore  = LEVEL19;
+    } else if (score < LEVEL20) {
+        levelScore  = LEVEL20;
     } else {
-        int tempScore   = (int)self.totalScore / 100;
-        tempScore       = tempScore + 1 - 10;
-        levelScore      = tempScore * 100;
+        levelScore  = [Game numberLevelForScore:score];
     }
-    
-    return [NSNumber numberWithInteger:levelScore];
+    return levelScore;
 }
 
-- (void)setCurrentLevelString {
-    NSInteger numberLevel = 0;
-    if (self.totalScore < LEVEL1) {
-        numberLevel      = 1;
-    } else if (self.totalScore < LEVEL2) {
-        numberLevel      = 2;
-    } else if (self.totalScore < LEVEL3) {
-        numberLevel      = 3;
-    } else if (self.totalScore < LEVEL4) {
-        numberLevel      = 4;
-    } else if (self.totalScore < LEVEL5) {
-        numberLevel      = 5;
-    } else if (self.totalScore < LEVEL6) {
-        numberLevel      = 6;
-    } else if (self.totalScore < LEVEL7) {
-        numberLevel      = 7;
-    } else if (self.totalScore < LEVEL8) {
-        numberLevel      = 8;
-    } else if (self.totalScore < LEVEL9) {
-        numberLevel      = 9;
-    } else if (self.totalScore < LEVEL10) {
-        numberLevel      = 10;
-    } else if (self.totalScore < LEVEL11) {
-        numberLevel      = 11;
-    } else if (self.totalScore < LEVEL12) {
-        numberLevel      = 12;
-    } else if (self.totalScore < LEVEL13) {
-        numberLevel      = 13;
-    } else if (self.totalScore < LEVEL14) {
-        numberLevel      = 14;
-    } else if (self.totalScore < LEVEL15) {
-        numberLevel      = 15;
-    } else if (self.totalScore < LEVEL16) {
-        numberLevel      = 16;
-    } else if (self.totalScore < LEVEL17) {
-        numberLevel      = 17;
-    } else if (self.totalScore < LEVEL18) {
-        numberLevel      = 18;
-    } else if (self.totalScore < LEVEL19) {
-        numberLevel      = 19;
-    } else {
-        int tempScore   = (int)self.totalScore / 100;
-        tempScore       = tempScore + 1;
-        numberLevel     = tempScore;
++ (NSString *)currentLevelStringForScore:(float)score {
+    int numberLevel = 0;
+    if (score < LEVEL1) {
+        numberLevel = 1;
+    } else if (score < LEVEL2) {
+        numberLevel = 2;
+    } else if (score < LEVEL3) {
+        numberLevel = 3;
+    } else if (score < LEVEL4) {
+        numberLevel = 4;
+    } else if (score < LEVEL5) {
+        numberLevel = 5;
+    } else if (score < LEVEL6) {
+        numberLevel = 6;
+    } else if (score < LEVEL7) {
+        numberLevel = 7;
+    } else if (score < LEVEL8) {
+        numberLevel = 8;
+    } else if (score < LEVEL9) {
+        numberLevel = 9;
+    } else if (score < LEVEL10) {
+        numberLevel = 10;
+    } else if (score < LEVEL11) {
+        numberLevel = 11;
+    } else if (score < LEVEL12) {
+        numberLevel = 12;
+    } else if (score < LEVEL13) {
+        numberLevel = 13;
+    } else if (score < LEVEL14) {
+        numberLevel = 14;
+    } else if (score < LEVEL15) {
+        numberLevel = 15;
+    } else if (score < LEVEL16) {
+        numberLevel = 16;
+    } else if (score < LEVEL17) {
+        numberLevel = 17;
+    } else if (score < LEVEL18) {
+        numberLevel = 18;
+    } else if (score < LEVEL19) {
+        numberLevel = 19;
+    } else if (score < LEVEL20) {
+        numberLevel = 20;
+    }else {
+        numberLevel = ([Game numberLevelForScore:score]/1000) + 10;
     }
     
-    self.currentLevel   = [NSString stringWithFormat:@"Level %ld",(long)numberLevel];
+    return [NSString stringWithFormat:@"Level %d",numberLevel];
+}
+
++ (int)numberLevelForScore:(float)score {
+    int numberLevel = (int)score / 1000;
+    numberLevel     = numberLevel + 1;
+    numberLevel     = numberLevel * 1000;
+    return numberLevel;
 }
 
 + (NSString *)getRandomLevelMoveForGameMode:(NSString *)gameMode {
@@ -151,6 +157,14 @@
             break;
     }
     return returnString;
+}
+
+#pragma mark - Public Methods
+- (NSNumber *)getNextLevelScore {
+    return [NSNumber numberWithFloat:[Game nextLevelForScore:self.totalScore]];
+}
+- (NSString *)getCurrentLevelString {
+    return [Game currentLevelStringForScore:self.totalScore];
 }
 
 @end

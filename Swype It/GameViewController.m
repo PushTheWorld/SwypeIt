@@ -67,7 +67,6 @@
 
 - (void)configureForGameMode:(NSString *)gameMode {
     NSLog(@"%@ game starting!",gameMode);
-//    [AppSingleton singleton].isGameActive               = YES;
 }
 #pragma mark - UI Life Cycle Methods
 - (void)viewDidLoad {

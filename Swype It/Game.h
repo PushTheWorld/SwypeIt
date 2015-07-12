@@ -22,8 +22,13 @@
 @property (strong, nonatomic) NSString          *gameMode;
 
 #pragma mark - Public Class Methods
-- (NSNumber *)getLevelScore;
++ (int)nextLevelForScore:(float)score;
++ (NSString *)currentLevelStringForScore:(float)score;
 + (NSString *)getRandomLevelMoveForGameMode:(NSString *)gameMode;
-- (void)setCurrentLevelString;
+
+
+#pragma mark - Public Methods
+- (NSString *)getCurrentLevelString;
+- (NSNumber *)getNextLevelScore;
 
 @end

@@ -17,6 +17,8 @@
 		091FED791B3736210071F8DC /* UIColor+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 091FED781B3736210071F8DC /* UIColor+Additions.m */; };
 		091FED7D1B374C470071F8DC /* BaseNavigationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 091FED7C1B374C470071F8DC /* BaseNavigationViewController.m */; };
 		091FED811B375DA50071F8DC /* GameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 091FED801B375DA50071F8DC /* GameViewController.m */; };
+		092B470E1B521B7900AFE43C /* GameTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 092B470D1B521B7900AFE43C /* GameTests.m */; };
+		092B47101B52273A00AFE43C /* libOCMock.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 092B470F1B52273A00AFE43C /* libOCMock.a */; };
 		09343DAA1B44BB1C00D1C707 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 09343DA91B44BB1C00D1C707 /* QuartzCore.framework */; };
 		098B3B431B378B89000D4702 /* AppSingleton.m in Sources */ = {isa = PBXBuildFile; fileRef = 098B3B421B378B89000D4702 /* AppSingleton.m */; };
 		098B3B471B378C27000D4702 /* Game.m in Sources */ = {isa = PBXBuildFile; fileRef = 098B3B461B378C27000D4702 /* Game.m */; };
@@ -60,6 +62,8 @@
 		091FED7C1B374C470071F8DC /* BaseNavigationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseNavigationViewController.m; sourceTree = "<group>"; };
 		091FED7F1B375DA50071F8DC /* GameViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameViewController.h; sourceTree = "<group>"; };
 		091FED801B375DA50071F8DC /* GameViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameViewController.m; sourceTree = "<group>"; };
+		092B470D1B521B7900AFE43C /* GameTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameTests.m; sourceTree = "<group>"; };
+		092B470F1B52273A00AFE43C /* libOCMock.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libOCMock.a; path = usr/lib/libOCMock.a; sourceTree = "<group>"; };
 		09343DA91B44BB1C00D1C707 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		098B3B411B378B89000D4702 /* AppSingleton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppSingleton.h; sourceTree = "<group>"; };
 		098B3B421B378B89000D4702 /* AppSingleton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppSingleton.m; sourceTree = "<group>"; };
@@ -95,6 +99,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				092B47101B52273A00AFE43C /* libOCMock.a in Frameworks */,
 				09343DAA1B44BB1C00D1C707 /* QuartzCore.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -105,11 +110,11 @@
 		091FED3A1B37283E0071F8DC = {
 			isa = PBXGroup;
 			children = (
+				091FED451B37283E0071F8DC /* Swype It */,
 				098B3B4B1B378EC8000D4702 /* Classes */,
 				0F880A65ACF3CFF0D72120E8 /* Frameworks */,
 				ECB9464B15A462D7C2750659 /* Pods */,
 				091FED441B37283E0071F8DC /* Products */,
-				091FED451B37283E0071F8DC /* Swype It */,
 				091FED5F1B37283E0071F8DC /* Swype ItTests */,
 			);
 			sourceTree = "<group>";
@@ -151,6 +156,7 @@
 		091FED5F1B37283E0071F8DC /* Swype ItTests */ = {
 			isa = PBXGroup;
 			children = (
+				092B470D1B521B7900AFE43C /* GameTests.m */,
 				091FED621B37283E0071F8DC /* Swype_ItTests.m */,
 				091FED601B37283E0071F8DC /* Supporting Files */,
 			);
@@ -269,6 +275,7 @@
 		0F880A65ACF3CFF0D72120E8 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				092B470F1B52273A00AFE43C /* libOCMock.a */,
 				09343DA91B44BB1C00D1C707 /* QuartzCore.framework */,
 				098B3B531B379C93000D4702 /* AudioToolbox.framework */,
 				098B3B511B379C8D000D4702 /* GameKit.framework */,
@@ -441,6 +448,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				091FED631B37283E0071F8DC /* Swype_ItTests.m in Sources */,
+				092B470E1B521B7900AFE43C /* GameTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -592,8 +600,23 @@
 					"DEBUG=1",
 					"$(inherited)",
 				);
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					"$(PROJECT_DIR)/usr/include",
+				);
 				INFOPLIST_FILE = "Swype ItTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/usr/lib",
+				);
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-framework",
+					XCTest,
+					"-ObjC",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Swype It.app/Swype It";
 			};
@@ -607,8 +630,23 @@
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
 				);
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					"$(PROJECT_DIR)/usr/include",
+				);
 				INFOPLIST_FILE = "Swype ItTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/usr/lib",
+				);
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-framework",
+					XCTest,
+					"-ObjC",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Swype It.app/Swype It";
 			};

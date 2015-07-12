@@ -29,14 +29,7 @@
 #define LEVEL20             10000
 #define LEVEL21             11000
 #define LEVEL22             12000
-#define LEVEL23             13000
-#define LEVEL24             14000
-#define LEVEL25             15000
-#define LEVEL26             16000
-#define LEVEL27             17000
-#define LEVEL28             18000
-#define LEVEL29             19000
-#define LEVEL30             20000
+
 
 #define COST_OF_FORESIGHT   1
 #define COST_OF_SLOW_MOTION 3

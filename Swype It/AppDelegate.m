@@ -21,19 +21,24 @@
 @end
 
 @implementation AppDelegate
-
+static BOOL isRunningTests(void) __attribute__((const));
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    /*TEST LOGIC*/
+    if (isRunningTests()) {
+        return YES;
+    }
+    /*RUN LOGIC*/
     /*Init window*/
     self.window                             = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
-
+    
     
     StartScreenViewController       *vc1    = [[StartScreenViewController alloc] init];
     BaseNavigationViewController    *nav    = [[BaseNavigationViewController alloc] initWithRootViewController:vc1];
     
     self.window.rootViewController          = nav;
     [self.window makeKeyAndVisible];
-
+    
     /*Check the NSUserDefaults*/
     [self setNSUserDefaults];
     
@@ -71,6 +76,11 @@
         [[NSUserDefaults standardUserDefaults] setBool:YES   forKey:kSINSUserDefaultFirstLaunch];
         [[NSUserDefaults standardUserDefaults] synchronize];
     }
+}
+static BOOL isRunningTests(void) {
+    NSDictionary* environment = [[NSProcessInfo processInfo] environment];
+    NSString* injectBundle = environment[@"XCInjectBundle"];
+    return [[injectBundle pathExtension] isEqualToString:@"octest"];
 }
 
 @end
