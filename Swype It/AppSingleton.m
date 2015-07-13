@@ -5,11 +5,6 @@
 //
 //  Purpose: This is a singlton for managing creation and editing of Simplsts
 //
-// Defines
-#define mSlope                  -7/240
-#define SCORE_EXP_POWER_WEIGHT  -0.001205
-#define MAX_MOVE_SCORE          10.78457
-#define TIMER_INTERVAL          1/30
 // Local Controller Import
 #import "AppSingleton.h"
 // Framework Import
@@ -30,6 +25,7 @@
 #pragma mark - Private CGFloats & Numbers
 @property (assign, nonatomic) CGFloat            timerInterval;
 @property (assign, nonatomic) float              compositeTimeInMiliSeconds;
+@property (assign, nonatomic) float              foresightMultiplyer;
 @property (assign, nonatomic) float              levelSpeedDivider;
 @property (assign, nonatomic) float              moveStartTimeInMiliSeconds;
 
@@ -37,6 +33,7 @@
 #pragma mark - Private Properties
 @property (assign, nonatomic) NSTimeInterval     startTime;
 
+#pragma mark - Private
 @property (strong, nonatomic) NSTimer           *timer;
 
 
@@ -57,9 +54,11 @@
     if (self.currentGame == nil) {
         self.currentGame            = [[Game alloc] init];
     }
+    self.currentGame.currentPowerUp = PowerUpNone;
     self.currentGame.totalScore     = 0.0f;
     self.currentGame.gameMode       = gameMode;
     self.currentGame.currentMove    = [Game getRandomMoveForGameMode:gameMode];
+    self.currentGame.nextMove       = [Game getRandomMoveForGameMode:gameMode];
     [self initalizeObjects];
 }
 - (void)runFirstGame {
@@ -75,6 +74,7 @@
 }
 #pragma mark - Game Functions
 - (void)startGame {
+    self.foresightMultiplyer        = 1.0f;
     self.currentGame.totalScore     = 0.0;
     self.moveStartTimeInMiliSeconds = 0;
 
@@ -92,7 +92,8 @@
     /*Send Notification that Game has ENDED*/
     NSNotification *notification    = [[NSNotification alloc] initWithName:kSINotificationGameEnded object:nil userInfo:nil];
     [[NSNotificationCenter defaultCenter] postNotification:notification];
-
+    
+    [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(powerUpDidEnd) object:nil];
 }
 - (void)moveEnterForType:(Move)move {
     if (move == self.currentGame.currentMove) {
@@ -104,11 +105,17 @@
 - (void)willPrepareToShowNewMove {
     [self captureTime];     /*Capture the time for the next move*/
     
-    self.currentGame.totalScore = self.currentGame.totalScore + self.currentGame.moveScore; /*Add moveScore to total score*/
+    self.currentGame.totalScore     = self.currentGame.totalScore + self.currentGame.moveScore; /*Add moveScore to total score*/
     
+    self.currentGame.currentMove    = self.currentGame.nextMove;
     /*Get new move*/
-    Move newMove = [Game getRandomMoveForGameMode:[AppSingleton singleton].currentGame.gameMode];
-    self.currentGame.currentMove = newMove;
+    Move newMove;
+    if (self.currentGame.currentPowerUp == PowerUpRapidFire) {
+        newMove                     = MoveTap;
+    } else {
+        newMove                     = [Game getRandomMoveForGameMode:[AppSingleton singleton].currentGame.gameMode];
+    }
+    self.currentGame.nextMove       = newMove;
     
     NSNotification *notification    = [[NSNotification alloc] initWithName:kSINotificationCorrectMove object:nil userInfo:nil];
     [[NSNotificationCenter defaultCenter] postNotification:notification];
@@ -130,18 +137,14 @@
     /*Update the master timer*/
     [self updateCompositeTime];
     
-//    NSLog(@"Composite Time: %0.0f and Move Start Time: %0.0f",self.compositeTimeInMiliSeconds, self.moveStartTimeInMiliSeconds);
-    
     /*Calculate new time*/
-    float durationOfLastMove    = self.compositeTimeInMiliSeconds - self.moveStartTimeInMiliSeconds;
-//    NSLog(@"Duration of last move: %0.5f",durationOfLastMove);
-    
+    float durationOfLastMove    = (self.compositeTimeInMiliSeconds - self.moveStartTimeInMiliSeconds) * self.foresightMultiplyer;
+
     /*Get the new score for this time -- Always keep the time current*/
-    self.currentGame.moveScore  = MAX_MOVE_SCORE * exp(SCORE_EXP_POWER_WEIGHT * durationOfLastMove / self.levelSpeedDivider);
+    self.currentGame.moveScore  = [Game scoreForMoveDuration:durationOfLastMove withLevelSpeedDivider:self.levelSpeedDivider];
     
     /*Get the new percentage for score*/
     self.currentGame.moveScorePercentRemaining = self.currentGame.moveScore / MAX_MOVE_SCORE;
-//    NSLog(@"Percentage remaining: %0.2f",self.currentGame.moveScorePercentRemaining);
     
     NSNotification *notification    = [[NSNotification alloc] initWithName:kSINotificationScoreUpdate object:nil userInfo:nil];
     [[NSNotificationCenter defaultCenter] postNotification:notification];
@@ -153,10 +156,47 @@
     NSTimeInterval elapsedTime = currentTime - self.startTime;
     
     self.compositeTimeInMiliSeconds = elapsedTime * MILI_SECS_IN_SEC;
-//    NSLog(@"Composite Time: %0.0f",self.compositeTimeInMiliSeconds);
-
-    
 }
-
-
+- (void)powerUpDidLoad:(PowerUp)powerUp {
+    if (self.currentGame.currentPowerUp == PowerUpNone) { /*Don't allow more then one power up at one time*/
+        [self powerUpWillActivate:powerUp withPowerUpCost:[Game powerUpCostForPowerUp:powerUp]];
+    }
+}
+- (void)powerUpWillActivate:(PowerUp)powerUp withPowerUpCost:(PowerUpCost)powerUpCost {
+    
+    NSInteger numberOfItCoins = [[NSUserDefaults standardUserDefaults] integerForKey:kSINSUserDefaultNumberOfItCoins];
+    if (numberOfItCoins >= powerUpCost) {
+        self.currentGame.currentPowerUp = powerUp;
+        
+        /*Post Notification... GameViewController is listening*/
+        NSDictionary *userInfo          = [NSDictionary dictionaryWithObject:@(powerUp) forKey:kSINSDictionaryKeyPowerUp];
+        NSNotification *notification    = [[NSNotification alloc] initWithName:kSINotificationPowerUpActive object:nil userInfo:userInfo];
+        [[NSNotificationCenter defaultCenter] postNotification:notification];
+        
+        [[NSUserDefaults standardUserDefaults] setInteger:(numberOfItCoins - powerUpCost) forKey:kSINSUserDefaultNumberOfItCoins];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+    }
+}
+- (void)powerUpDidActivate {
+    switch (self.currentGame.currentPowerUp) {
+        case PowerUpRapidFire:
+            [self willPrepareToShowNewMove];
+            break;
+        case PowerUpSlowMotion:
+            self.foresightMultiplyer = 0.2;
+            break;
+        default: /*Foresight*/
+            
+            break;
+    }
+}
+- (void)powerUpDidEnd {
+    switch (self.currentGame.currentPowerUp) {
+        case PowerUpSlowMotion:
+            self.foresightMultiplyer = 1.0;
+            break;
+        default:
+            break;
+    }
+}
 @end

@@ -25,22 +25,21 @@
 
 #pragma mark - Public Properties
 @property (assign, nonatomic) BOOL               isSaving;
-//@property (assign, nonatomic) BOOL               isGameActive;
-
-
-
 
 #pragma mark - Public Objects
 @property (strong, nonatomic) CMMotionManager   *manager;
 @property (strong, nonatomic) Game              *currentGame;
 
-//@property (strong, nonatomic) NSMutableArray    *lalaItemEditWatchers;
-
 
 #pragma mark - Public Instance Methods
+- (void)endGame; /*Should only be used for force quit*/
+- (void)initAppSingletonWithGameMode:(GameMode)gameMode;
+- (void)moveEnterForType:(Move)move;
 - (void)runFirstGame;
 - (void)startGame;
-- (void)endGame; /*Should only be used for force quit*/
-- (void)moveEnterForType:(Move)move;
-- (void)initAppSingletonWithGameMode:(GameMode)gameMode;
+- (void)powerUpDidLoad:(PowerUp)powerUp;
+- (void)powerUpWillActivate:(PowerUp)powerUp withPowerUpCost:(PowerUpCost)powerUpCost;
+- (void)powerUpDidActivate;
+- (void)powerUpDidEnd;
+
 @end
