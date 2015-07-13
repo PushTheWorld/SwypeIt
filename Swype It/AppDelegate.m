@@ -71,9 +71,9 @@ static BOOL isRunningTests(void) __attribute__((const));
     BOOL isThisTheFirstLaunch = [[NSUserDefaults standardUserDefaults] boolForKey:kSINSUserDefaultFirstLaunch];
     if (isThisTheFirstLaunch == NO) {
         //set to no
-        [[NSUserDefaults standardUserDefaults] setInteger:0 forKey:kSINSUserDefaultGameMode];
-        [[NSUserDefaults standardUserDefaults] setInteger:0 forKey:kSINSUserDefaultNumberOfItCoins];
-        [[NSUserDefaults standardUserDefaults] setBool:YES   forKey:kSINSUserDefaultFirstLaunch];
+        [[NSUserDefaults standardUserDefaults] setInteger:0     forKey:kSINSUserDefaultGameMode];
+        [[NSUserDefaults standardUserDefaults] setInteger:10000 forKey:kSINSUserDefaultNumberOfItCoins];
+        [[NSUserDefaults standardUserDefaults] setBool:YES      forKey:kSINSUserDefaultFirstLaunch];
         [[NSUserDefaults standardUserDefaults] synchronize];
     }
 }

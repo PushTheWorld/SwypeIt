@@ -22,23 +22,29 @@ NSString *const kSIGameModeOneHand                          = @"gameModeOneHand"
 NSString *const kSINSUserDefaultFirstLaunch                 = @"firstLaunch";
 NSString *const kSINSUserDefaultNumberOfItCoins             = @"numberOfItCoins";
 NSString *const kSINSUserDefaultGameMode                    = @"gameMode";
+NSString *const kSINSUserDefaultPowerUpReadyForesight       = @"powerUpReadyForesight";
+NSString *const kSINSUserDefaultPowerUpReadyRapidFire       = @"powerUpReadyRapidFire";
+NSString *const kSINSUserDefaultPowerUpReadySlowMotion      = @"powerUpReadySlowMotion";
 
 #pragma mark - Power Ups
-NSString *const kSIPowerUpForesight                         = @"foresight";
-NSString *const kSIPowerUpSlowMotion                        = @"slowMotion";
-NSString *const kSIPowerUpRapidFire                         = @"rapidFire";
+NSString *const kSIPowerUpForesight                         = @"Foresight";
+NSString *const kSIPowerUpNone                              = @"None";
+NSString *const kSIPowerUpSlowMotion                        = @"Slow Motion";
+NSString *const kSIPowerUpRapidFire                         = @"Rapid Fire";
 
 #pragma mark - NSNotification
 NSString *const kSINotificationCorrectMove                  = @"com.pushtheworldllc.swipeit.correctMove";
 NSString *const kSINotificationGameEnded                    = @"com.pushtheworldllc.swipeit.gameEnded";
 NSString *const kSINotificationGameStarted                  = @"com.pushtheworldllc.swipeit.gameStarted";
 NSString *const kSINotificationScoreUpdate                  = @"com.pushtheworldllc.swipeit.scoreUpdate";
+NSString *const kSINotificationPowerUpActive                = @"com.pushtheworldllc.swipeit.powerUpActive";
+NSString *const kSINotificationPowerUpDeactivated           = @"com.pushtheworldllc.swipeit.powerUpDeactivated";
 
 #pragma mark - Score Constants
 NSString *const kSIScoreTotalScore                          = @"totalScore";
 NSString *const kSIScoreNextMove                            = @"nextMove";
 
-#pragma mark - Imagess
+#pragma mark - Images
 NSString *const kSISegmentControlGameModeSelectedOneHand    = @"segmentControlGameModeSelectedOneHand";
 NSString *const kSISegmentControlGameModeSelectedTwoHand    = @"segmentControlGameModeSelectedTwoHand";
 NSString *const kSISegmentControlGameModeUnselectedOneHand  = @"segmentControlGameModeUnselectedOneHand";
@@ -47,4 +53,8 @@ NSString *const kSISegmentControlGameModeUnselectedTwoHand  = @"segmentControlGa
 #pragma mark - Button Labels
 NSString *const kSIButtonLabelStringOneHand                 = @"One Hand";
 NSString *const kSIButtonLabelStringTwoHand                 = @"Two Hand";
+
+#pragma mark - NSDictionary Keys
+NSString *const kSINSDictionaryKeyPowerUp                   = @"powerUp";
+
 

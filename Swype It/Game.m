@@ -167,6 +167,19 @@
             return nil;
     }
 }
++ (float)scoreForMoveDuration:(float)durationOfLastMove withLevelSpeedDivider:(float)levelSpeedDivider {
+    return MAX_MOVE_SCORE * exp(SCORE_EXP_POWER_WEIGHT * durationOfLastMove / levelSpeedDivider);
+}
++ (PowerUpCost)powerUpCostForPowerUp:(PowerUp)powerUp {
+    switch (powerUp) {
+        case PowerUpSlowMotion:
+            return PowerUpCostSlowMotion;
+        case PowerUpRapidFire:
+            return PowerUpCostRapidFire;
+        default: /*Power Up Foresight*/
+            return PowerUpCostForesight;
+    }
+}
 
 #pragma mark - Public Methods
 - (NSNumber *)getNextLevelScore {

@@ -43,16 +43,36 @@
 
 #pragma mark - UI Controls
 @property (strong, nonatomic) YLProgressBar     *currentMoveProgressView;
+@property (strong, nonatomic) UIButton          *foresightButton;
+@property (strong, nonatomic) UIButton          *rapidFireButton;
 @property (strong, nonatomic) UIButton          *replayGameButton;
+@property (strong, nonatomic) UIButton          *slowMotionButton;
+@property (strong, nonatomic) UIFont            *nextMoveCommandFont;
 @property (strong, nonatomic) UIFont            *moveCommandFont;
 @property (strong, nonatomic) UIFont            *totalScoreFont;
+@property (strong, nonatomic) UILabel           *nextMoveLabel;
 @property (strong, nonatomic) UILabel           *moveCommandLabel;
+@property (strong, nonatomic) UILabel           *powerUpLabel;
 @property (strong, nonatomic) UILabel           *totalScoreLabel;
 
 
 @end
 
 @implementation GameViewController
+
++ (CGFloat)powerUpButtonHeigth {
+    if (IS_IPHONE_4) {
+        return 30.0f;
+    } else if (IS_IPHONE_5) {
+        return 40.0f;
+    } else if (IS_IPHONE_6) {
+        return 45.0f;
+    } else if (IS_IPHONE_6_PLUS) {
+        return 50.0f;
+    } else {
+        return 55.0f;
+    }
+}
 
 #pragma mark - Initialization Methods
 - (instancetype)initWithGameMode:(GameMode)gameMode {
@@ -80,10 +100,13 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 - (void)registerForNotifications {
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(scoreUpdate)          name:kSINotificationScoreUpdate object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(gameStarted)          name:kSINotificationGameStarted object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(gameEnded)            name:kSINotificationGameEnded   object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(correctMoveEntered)   name:kSINotificationCorrectMove object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(scoreUpdate)          name:kSINotificationScoreUpdate         object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(gameStarted)          name:kSINotificationGameStarted         object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(gameEnded)            name:kSINotificationGameEnded           object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(correctMoveEntered)   name:kSINotificationCorrectMove         object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(powerUpActivated:)    name:kSINotificationPowerUpActive       object:nil];
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(powerUpDeactivated:)  name:kSINotificationPowerUpDeactivated  object:nil];
+    
 }
 - (void)setupUserInterface {
     [self createConstants];
@@ -124,41 +147,61 @@
     self.verticalSpacing                = 8.0f;
     
     /*Init Fonts*/
+    self.nextMoveCommandFont            = [UIFont fontWithName:@"HelveticaNeue-Medium" size:self.fontSize - 4.0f];
     self.moveCommandFont                = [UIFont fontWithName:@"HelveticaNeue-Medium" size:self.fontSize];
     self.totalScoreFont                 = [UIFont fontWithName:@"HelveticaNeue-Medium" size:self.fontSize * 2.0f];
     
 }
 - (void)createControls {
     self.currentMoveProgressView        = [[YLProgressBar alloc] init];
+    self.nextMoveLabel                  = [[UILabel alloc] init];
     self.moveCommandLabel               = [[UILabel alloc] init];
+    self.powerUpLabel                   = [[UILabel alloc] init];
     self.totalScoreLabel                = [[UILabel alloc] init];
-    
     /*Game over controls*/
     self.replayGameButton               = [UIButton buttonWithType:UIButtonTypeCustom];
+    self.foresightButton                = [UIButton buttonWithType:UIButtonTypeCustom];
+    self.slowMotionButton               = [UIButton buttonWithType:UIButtonTypeCustom];
+    self.rapidFireButton                = [UIButton buttonWithType:UIButtonTypeCustom];
 }
 - (void)setupControls {
     /*Score remaining progress view*/
-    self.currentMoveProgressView.type               = YLProgressBarTypeRounded;
-    self.currentMoveProgressView.progressTintColor  = [UIColor sandColor];
+    self.currentMoveProgressView.type                   = YLProgressBarTypeRounded;
+    self.currentMoveProgressView.progressTintColor      = [UIColor sandColor];
 //    self.currentMoveProgressView.stripesOrientation = YLProgressBarStripesOrientationVertical;
 //    self.currentMoveProgressView.stripesDirection   = YLProgressBarStripesDirectionLeft;
-    self.currentMoveProgressView.hideGloss          = YES;
-    self.currentMoveProgressView.hideStripes        = YES;
+    self.currentMoveProgressView.hideGloss              = YES;
+    self.currentMoveProgressView.hideStripes            = YES;
     [self.currentMoveProgressView setTranslatesAutoresizingMaskIntoConstraints:NO];
     
     /*Move Instruction Label*/
-    self.moveCommandLabel.textColor = [UIColor whiteColor];
-    self.moveCommandLabel.font      = self.moveCommandFont;
-    self.moveCommandLabel.text      = [Game stringForMove:[AppSingleton singleton].currentGame.currentMove];
+    self.moveCommandLabel.textColor                     = [UIColor whiteColor];
+    self.moveCommandLabel.font                          = self.moveCommandFont;
+    self.moveCommandLabel.text                          = [Game stringForMove:[AppSingleton singleton].currentGame.currentMove];
     [self.moveCommandLabel setTranslatesAutoresizingMaskIntoConstraints:NO];
-    
+
+    /*Next Move Instruction Label*/
+    self.nextMoveLabel.hidden                           = YES;
+    self.nextMoveLabel.alpha                            = 0.8f;
+    self.nextMoveLabel.textColor                        = [UIColor whiteColor];
+    self.nextMoveLabel.font                             = self.nextMoveCommandFont;
+    self.nextMoveLabel.text                             = [Game stringForMove:[AppSingleton singleton].currentGame.currentMove];
+    [self.nextMoveLabel setTranslatesAutoresizingMaskIntoConstraints:NO];
+
     /*Total Score Label*/
     self.totalScoreLabel.textColor                      = [UIColor whiteColor];
     self.totalScoreLabel.font                           = self.totalScoreFont;
     self.totalScoreLabel.text                           = @"0.0";
     self.totalScoreLabel.adjustsFontSizeToFitWidth      = YES;
     [self.totalScoreLabel setTranslatesAutoresizingMaskIntoConstraints:NO];
-    
+
+    /*Power Up Label*/
+    self.powerUpLabel.textColor                         = [UIColor whiteColor];
+    self.powerUpLabel.font                              = self.totalScoreFont;
+    self.powerUpLabel.text                              = @"NONE";
+    self.powerUpLabel.adjustsFontSizeToFitWidth         = YES;
+    [self.powerUpLabel setTranslatesAutoresizingMaskIntoConstraints:NO];
+
     /*Replay Button*/
     self.replayGameButton.hidden                        = YES;
     self.replayGameButton.layer.cornerRadius            = 4.0f;
@@ -168,14 +211,52 @@
     [self.replayGameButton addTarget:self action:@selector(replayGame) forControlEvents:UIControlEventTouchUpInside];
     [self.replayGameButton setTitle:@"Replay" forState:UIControlStateNormal];
     [self.replayGameButton setTranslatesAutoresizingMaskIntoConstraints:NO];
+    
+    /*Foresight Button*/
+    self.foresightButton.tag                            = PowerUpForesight;
+    self.foresightButton.hidden                         = NO;
+    self.foresightButton.layer.cornerRadius             = 4.0f;
+    self.foresightButton.layer.masksToBounds            = YES;
+    self.foresightButton.layer.backgroundColor          = [UIColor sandColor].CGColor;
+    [self.foresightButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [self.foresightButton addTarget:self action:@selector(powerUpTapped:) forControlEvents:UIControlEventTouchUpInside];
+    [self.foresightButton setTitle:@"FS" forState:UIControlStateNormal];
+    [self.foresightButton setTranslatesAutoresizingMaskIntoConstraints:NO];
+    
+    /*Slow Motion Button*/
+    self.slowMotionButton.tag                           = PowerUpSlowMotion;
+    self.slowMotionButton.hidden                        = NO;
+    self.slowMotionButton.layer.cornerRadius            = 4.0f;
+    self.slowMotionButton.layer.masksToBounds           = YES;
+    self.slowMotionButton.layer.backgroundColor         = [UIColor sandColor].CGColor;
+    [self.slowMotionButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [self.slowMotionButton addTarget:self action:@selector(powerUpTapped:) forControlEvents:UIControlEventTouchUpInside];
+    [self.slowMotionButton setTitle:@"SM" forState:UIControlStateNormal];
+    [self.slowMotionButton setTranslatesAutoresizingMaskIntoConstraints:NO];
+    
+    /*Rapid Fire Button*/
+    self.rapidFireButton.tag                            = PowerUpRapidFire;
+    self.rapidFireButton.hidden                         = NO;
+    self.rapidFireButton.layer.cornerRadius             = 4.0f;
+    self.rapidFireButton.layer.masksToBounds            = YES;
+    self.rapidFireButton.layer.backgroundColor          = [UIColor sandColor].CGColor;
+    [self.rapidFireButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [self.rapidFireButton addTarget:self action:@selector(powerUpTapped:) forControlEvents:UIControlEventTouchUpInside];
+    [self.rapidFireButton setTitle:@"RF" forState:UIControlStateNormal];
+    [self.rapidFireButton setTranslatesAutoresizingMaskIntoConstraints:NO];
 
 }
 - (void)layoutControls {
     /*Add the subviews to the view*/
     [self.view addSubview:self.currentMoveProgressView];
+    [self.view addSubview:self.nextMoveLabel];
     [self.view addSubview:self.moveCommandLabel];
     [self.view addSubview:self.totalScoreLabel];
     [self.view addSubview:self.replayGameButton];
+    [self.view addSubview:self.powerUpLabel];
+    [self.view addSubview:self.foresightButton];
+    [self.view addSubview:self.rapidFireButton];
+    [self.view addSubview:self.slowMotionButton];
 
     
     /*Move Command Label*/
@@ -193,6 +274,40 @@
                                relatedBy             : NSLayoutRelationEqual
                                toItem                : self.view
                                attribute             : NSLayoutAttributeCenterY
+                               multiplier            : 1.0f
+                               constant              : 0.0f]];
+    /*Next Move Command Label*/
+    [self.view addConstraint: [NSLayoutConstraint
+                               constraintWithItem    : self.nextMoveLabel
+                               attribute             : NSLayoutAttributeTrailing
+                               relatedBy             : NSLayoutRelationEqual
+                               toItem                : self.view
+                               attribute             : NSLayoutAttributeTrailing
+                               multiplier            : 1.0f
+                               constant              : -1.0f * VERTICAL_SPACING_8]];
+    [self.view addConstraint: [NSLayoutConstraint
+                               constraintWithItem    : self.nextMoveLabel
+                               attribute             : NSLayoutAttributeCenterY
+                               relatedBy             : NSLayoutRelationEqual
+                               toItem                : self.view
+                               attribute             : NSLayoutAttributeCenterY
+                               multiplier            : 1.0f
+                               constant              : 0.0f]];
+    /*Power Up Label*/
+    [self.view addConstraint: [NSLayoutConstraint
+                               constraintWithItem    : self.powerUpLabel
+                               attribute             : NSLayoutAttributeCenterX
+                               relatedBy             : NSLayoutRelationEqual
+                               toItem                : self.view
+                               attribute             : NSLayoutAttributeCenterX
+                               multiplier            : 1.0f
+                               constant              : 0.0f]];
+    [self.view addConstraint: [NSLayoutConstraint
+                               constraintWithItem    : self.powerUpLabel
+                               attribute             : NSLayoutAttributeBottom
+                               relatedBy             : NSLayoutRelationEqual
+                               toItem                : self.currentMoveProgressView
+                               attribute             : NSLayoutAttributeTop
                                multiplier            : 1.0f
                                constant              : 0.0f]];
     
@@ -280,7 +395,105 @@
                                attribute             : NSLayoutAttributeWidth
                                multiplier            : 0.33f
                                constant              : 0.0f]];
-    
+    /*Foresight Button*/
+    [self.view addConstraint: [NSLayoutConstraint
+                               constraintWithItem    : self.foresightButton
+                               attribute             : NSLayoutAttributeCenterX
+                               relatedBy             : NSLayoutRelationEqual
+                               toItem                : self.view
+                               attribute             : NSLayoutAttributeCenterX
+                               multiplier            : 1.0f
+                               constant              : -1.0f * SCREEN_WIDTH/4.0f]];
+    [self.view addConstraint: [NSLayoutConstraint
+                               constraintWithItem    : self.foresightButton
+                               attribute             : NSLayoutAttributeBottom
+                               relatedBy             : NSLayoutRelationEqual
+                               toItem                : self.view
+                               attribute             : NSLayoutAttributeBottom
+                               multiplier            : 1.0f
+                               constant              : -1.0f * self.verticalSpacing]];
+    [self.view addConstraint: [NSLayoutConstraint
+                               constraintWithItem    : self.foresightButton
+                               attribute             : NSLayoutAttributeWidth
+                               relatedBy             : NSLayoutRelationEqual
+                               toItem                : nil
+                               attribute             : NSLayoutAttributeNotAnAttribute
+                               multiplier            : 1.0f
+                               constant              : [GameViewController powerUpButtonHeigth]]];
+    [self.view addConstraint: [NSLayoutConstraint
+                               constraintWithItem    : self.foresightButton
+                               attribute             : NSLayoutAttributeHeight
+                               relatedBy             : NSLayoutRelationEqual
+                               toItem                : nil
+                               attribute             : NSLayoutAttributeNotAnAttribute
+                               multiplier            : 1.0f
+                               constant              : [GameViewController powerUpButtonHeigth]]];
+    /*Slow Motion Button*/
+    [self.view addConstraint: [NSLayoutConstraint
+                               constraintWithItem    : self.slowMotionButton
+                               attribute             : NSLayoutAttributeCenterX
+                               relatedBy             : NSLayoutRelationEqual
+                               toItem                : self.view
+                               attribute             : NSLayoutAttributeCenterX
+                               multiplier            : 1.0f
+                               constant              : 0.0f]];
+    [self.view addConstraint: [NSLayoutConstraint
+                               constraintWithItem    : self.slowMotionButton
+                               attribute             : NSLayoutAttributeBottom
+                               relatedBy             : NSLayoutRelationEqual
+                               toItem                : self.view
+                               attribute             : NSLayoutAttributeBottom
+                               multiplier            : 1.0f
+                               constant              : -1.0f * self.verticalSpacing]];
+    [self.view addConstraint: [NSLayoutConstraint
+                               constraintWithItem    : self.slowMotionButton
+                               attribute             : NSLayoutAttributeWidth
+                               relatedBy             : NSLayoutRelationEqual
+                               toItem                : nil
+                               attribute             : NSLayoutAttributeNotAnAttribute
+                               multiplier            : 1.0f
+                               constant              : [GameViewController powerUpButtonHeigth]]];
+    [self.view addConstraint: [NSLayoutConstraint
+                               constraintWithItem    : self.slowMotionButton
+                               attribute             : NSLayoutAttributeHeight
+                               relatedBy             : NSLayoutRelationEqual
+                               toItem                : nil
+                               attribute             : NSLayoutAttributeNotAnAttribute
+                               multiplier            : 1.0f
+                               constant              : [GameViewController powerUpButtonHeigth]]];
+    /*Foresight Button*/
+    [self.view addConstraint: [NSLayoutConstraint
+                               constraintWithItem    : self.rapidFireButton
+                               attribute             : NSLayoutAttributeCenterX
+                               relatedBy             : NSLayoutRelationEqual
+                               toItem                : self.view
+                               attribute             : NSLayoutAttributeCenterX
+                               multiplier            : 1.0f
+                               constant              : SCREEN_WIDTH/4.0f]];
+    [self.view addConstraint: [NSLayoutConstraint
+                               constraintWithItem    : self.rapidFireButton
+                               attribute             : NSLayoutAttributeBottom
+                               relatedBy             : NSLayoutRelationEqual
+                               toItem                : self.view
+                               attribute             : NSLayoutAttributeBottom
+                               multiplier            : 1.0f
+                               constant              : -1.0f * self.verticalSpacing]];
+    [self.view addConstraint: [NSLayoutConstraint
+                               constraintWithItem    : self.rapidFireButton
+                               attribute             : NSLayoutAttributeWidth
+                               relatedBy             : NSLayoutRelationEqual
+                               toItem                : nil
+                               attribute             : NSLayoutAttributeNotAnAttribute
+                               multiplier            : 1.0f
+                               constant              : [GameViewController powerUpButtonHeigth]]];
+    [self.view addConstraint: [NSLayoutConstraint
+                               constraintWithItem    : self.rapidFireButton
+                               attribute             : NSLayoutAttributeHeight
+                               relatedBy             : NSLayoutRelationEqual
+                               toItem                : nil
+                               attribute             : NSLayoutAttributeNotAnAttribute
+                               multiplier            : 1.0f
+                               constant              : [GameViewController powerUpButtonHeigth]]];
 }
 - (void)setupNav {
     [self.navigationController setNavigationBarHidden:YES animated:NO];
@@ -392,17 +605,89 @@
     dispatch_async(dispatch_get_main_queue(), ^{
         [self.currentMoveProgressView setProgress:[AppSingleton singleton].currentGame.moveScorePercentRemaining];
     });
-                   
-    
 }
 - (void)correctMoveEntered {
-    /*Set next move*/
+    /*Set Current Move*/
     self.moveCommandLabel.text          = [Game stringForMove:[AppSingleton singleton].currentGame.currentMove];
+    
+    /*Set Next Move*/
+    self.nextMoveLabel.text             = [Game stringForMove:[AppSingleton singleton].currentGame.nextMove];
     
     /*Update the total score label*/
     self.totalScoreLabel.text           = [NSString stringWithFormat:@"%0.2f",[AppSingleton singleton].currentGame.totalScore];
-    
-    
 }
-
+- (void)powerUpTapped:(UIButton *)button {
+    [[AppSingleton singleton] powerUpDidLoad:(PowerUp)button.tag];
+}
+- (void)powerUpActivated:(NSNotification *)notification {
+    switch ([AppSingleton singleton].currentGame.currentPowerUp) {
+        case PowerUpSlowMotion:
+            [self startPowerUpSlowMotion];
+            break;
+        case PowerUpRapidFire:
+            [self startPowerUpRapidFire];
+            break;
+        default:
+            [self startPowerUpForesight];
+            break;
+    }
+}
+- (void)powerUpDeactivated {
+    switch ([AppSingleton singleton].currentGame.currentPowerUp) {
+        case PowerUpSlowMotion:
+            [self endPowerUpSlowMotion];
+            break;
+        case PowerUpRapidFire:
+            [self endPowerUpRapidFire];
+            break;
+        default:
+            [self endPowerUpForesight];
+            break;
+    }
+    [AppSingleton singleton].currentGame.currentPowerUp = PowerUpNone;
+}
+/*Foresight*/
+- (void)startPowerUpForesight {
+    self.foresightButton.alpha      = 0.2;
+    self.nextMoveLabel.hidden       = NO;
+    self.powerUpLabel.text          = kSIPowerUpForesight;
+    [[AppSingleton singleton] powerUpDidActivate];
+    [self performSelector:@selector(powerUpDeactivated) withObject:nil afterDelay:DURATION_FORESIGHT_SEC];
+    [UIView animateWithDuration:DURATION_FORESIGHT_SEC animations:^{
+        self.foresightButton.alpha  = 1.0f;
+    }];
+}
+- (void)endPowerUpForesight {
+    self.nextMoveLabel.hidden       = YES;
+    self.powerUpLabel.text          = kSIPowerUpNone;
+    [[AppSingleton singleton] powerUpDidEnd];
+}
+/*Slow Motion*/
+- (void)startPowerUpSlowMotion {
+    self.slowMotionButton.alpha     = 0.2;
+    self.powerUpLabel.text          = kSIPowerUpSlowMotion;
+    [[AppSingleton singleton] powerUpDidActivate];
+    [self performSelector:@selector(powerUpDeactivated) withObject:nil afterDelay:DURATION_SLOW_MOTION_SEC];
+    [UIView animateWithDuration:DURATION_SLOW_MOTION_SEC animations:^{
+        self.slowMotionButton.alpha = 1.0f;
+    }];
+}
+- (void)endPowerUpSlowMotion {
+    self.powerUpLabel.text          = kSIPowerUpNone;
+    [[AppSingleton singleton] powerUpDidEnd];
+}
+/*Rapid Fire*/
+- (void)startPowerUpRapidFire {
+    self.rapidFireButton.alpha      = 0.2;
+    self.powerUpLabel.text          = kSIPowerUpRapidFire;
+    [[AppSingleton singleton] powerUpDidActivate];
+    [self performSelector:@selector(powerUpDeactivated) withObject:nil afterDelay:DURATION_RAPID_FIRE_SEC];
+    [UIView animateWithDuration:DURATION_RAPID_FIRE_SEC animations:^{
+        self.rapidFireButton.alpha  = 1.0f;
+    }];
+}
+- (void)endPowerUpRapidFire {
+    self.powerUpLabel.text          = kSIPowerUpNone;
+    [[AppSingleton singleton] powerUpDidEnd];
+}
 @end

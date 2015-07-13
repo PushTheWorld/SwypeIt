@@ -18,7 +18,9 @@
 @property (assign, nonatomic) float              moveScorePercentRemaining;
 @property (assign, nonatomic) float              totalScore;
 @property (assign, nonatomic) GameMode           gameMode;
+@property (assign, nonatomic) Move               nextMove;
 @property (assign, nonatomic) Move               currentMove;
+@property (assign, nonatomic) PowerUp            currentPowerUp;
 
 @property (strong, nonatomic) NSString          *currentLevel;
 
@@ -26,7 +28,9 @@
 + (int)nextLevelForScore:(float)score;
 + (NSString *)currentLevelStringForScore:(float)score;
 + (Move)getRandomMoveForGameMode:(GameMode)gameMode;
++ (PowerUpCost)powerUpCostForPowerUp:(PowerUp)powerUp;
 + (NSString *)stringForMove:(Move)move;
++ (float)scoreForMoveDuration:(float)durationOfLastMove withLevelSpeedDivider:(float)levelSpeedDivider;
 
 
 #pragma mark - Public Methods
