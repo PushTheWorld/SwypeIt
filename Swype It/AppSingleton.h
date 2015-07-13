@@ -8,7 +8,7 @@
 // Local Controller Import
 // Framework Import
 #import <CoreMotion/CoreMotion.h>
-#import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 // Drop-In Class Imports (CocoaPods/GitHub/Guru)
 // Category Import
 // Support/Data Class Imports
@@ -35,6 +35,7 @@
 - (void)endGame; /*Should only be used for force quit*/
 - (void)initAppSingletonWithGameMode:(GameMode)gameMode;
 - (void)moveEnterForType:(Move)move;
+- (UIColor *)newBackgroundColor;
 - (void)runFirstGame;
 - (void)startGame;
 - (void)powerUpDidLoad:(PowerUp)powerUp;

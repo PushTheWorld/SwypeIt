@@ -39,6 +39,7 @@ NSString *const kSINotificationGameStarted                  = @"com.pushtheworld
 NSString *const kSINotificationScoreUpdate                  = @"com.pushtheworldllc.swipeit.scoreUpdate";
 NSString *const kSINotificationPowerUpActive                = @"com.pushtheworldllc.swipeit.powerUpActive";
 NSString *const kSINotificationPowerUpDeactivated           = @"com.pushtheworldllc.swipeit.powerUpDeactivated";
+NSString *const kSINotificationNewBackgroundReady           = @"com.pushtheworldllc.swipeit.newBackgroundReady";
 
 #pragma mark - Score Constants
 NSString *const kSIScoreTotalScore                          = @"totalScore";

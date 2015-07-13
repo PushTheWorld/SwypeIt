@@ -60,6 +60,8 @@
 #define MAX_MOVE_SCORE              10.78457
 #define TIMER_INTERVAL              1/30
 
+#define NUMBER_OF_MOVES             3
+#define NUMBER_OF_BACKGROUNDS       3
 typedef enum {
     GameModeOneHand,
     GameModeTwoHand
@@ -120,6 +122,7 @@ extern NSString *const kSINotificationGameStarted;
 extern NSString *const kSINotificationCorrectMove;
 extern NSString *const kSINotificationPowerUpActive;
 extern NSString *const kSINotificationPowerUpDeactivated;
+extern NSString *const kSINotificationNewBackgroundReady;
 
 #pragma mark - Score Constants
 extern NSString *const kSIScoreTotalScore;

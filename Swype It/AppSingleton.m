@@ -28,6 +28,7 @@
 @property (assign, nonatomic) float              foresightMultiplyer;
 @property (assign, nonatomic) float              levelSpeedDivider;
 @property (assign, nonatomic) float              moveStartTimeInMiliSeconds;
+@property (assign, nonatomic) float              powerUpTimeInMiliSeconds;
 
 
 #pragma mark - Private Properties
@@ -52,13 +53,14 @@
 }
 - (void)initAppSingletonWithGameMode:(GameMode)gameMode {
     if (self.currentGame == nil) {
-        self.currentGame            = [[Game alloc] init];
+        self.currentGame                            = [[Game alloc] init];
     }
-    self.currentGame.currentPowerUp = PowerUpNone;
-    self.currentGame.totalScore     = 0.0f;
-    self.currentGame.gameMode       = gameMode;
-    self.currentGame.currentMove    = [Game getRandomMoveForGameMode:gameMode];
-    self.currentGame.nextMove       = [Game getRandomMoveForGameMode:gameMode];
+    self.currentGame.currentPowerUp                 = PowerUpNone;
+    self.currentGame.totalScore                     = 0.0f;
+    self.currentGame.gameMode                       = gameMode;
+    self.currentGame.currentMove                    = [Game getRandomMoveForGameMode:gameMode];
+    self.currentGame.nextMove                       = [Game getRandomMoveForGameMode:gameMode];
+    self.currentGame.currentBackgroundColorNumber   = arc4random_uniform(NUMBER_OF_MOVES);
     [self initalizeObjects];
 }
 - (void)runFirstGame {
@@ -121,6 +123,24 @@
     [[NSNotificationCenter defaultCenter] postNotification:notification];
 
 }
+- (UIColor *)newBackgroundColor {
+    NSInteger randomNumber;
+    if (self.currentGame.totalScore >= LEVEL12) {
+        randomNumber = arc4random_uniform(NUMBER_OF_MOVES * 3);
+        while (randomNumber == self.currentGame.currentBackgroundColorNumber) {
+            randomNumber = arc4random_uniform(NUMBER_OF_MOVES * 3);
+        }
+
+    } else {
+        randomNumber = arc4random_uniform(NUMBER_OF_MOVES);
+        while (randomNumber == self.currentGame.currentBackgroundColorNumber) {
+            randomNumber = arc4random_uniform(NUMBER_OF_MOVES);
+        }
+
+    }
+    self.currentGame.currentBackgroundColorNumber = randomNumber;
+    return [Game backgroundColorForScore:self.currentGame.totalScore forRandomNumber:randomNumber];
+}
 - (void)captureTime {
     self.moveStartTimeInMiliSeconds = self.compositeTimeInMiliSeconds;
 }
@@ -144,7 +164,14 @@
     self.currentGame.moveScore  = [Game scoreForMoveDuration:durationOfLastMove withLevelSpeedDivider:self.levelSpeedDivider];
     
     /*Get the new percentage for score*/
-    self.currentGame.moveScorePercentRemaining = self.currentGame.moveScore / MAX_MOVE_SCORE;
+    self.currentGame.moveScorePercentRemaining  = self.currentGame.moveScore / MAX_MOVE_SCORE;
+    
+    /*Set the new percentage for Power UP*/
+    if (self.currentGame.currentPowerUp != PowerUpNone) {
+        float powerUpTotalDuration = [Game durationForPowerUp:self.currentGame.currentPowerUp];
+        float powerUpPercent = ((powerUpTotalDuration * MILI_SECS_IN_SEC) - (self.compositeTimeInMiliSeconds - self.powerUpTimeInMiliSeconds)) / (powerUpTotalDuration * MILI_SECS_IN_SEC);
+        self.currentGame.powerUpPercentRemaining    = powerUpPercent;
+    }
     
     NSNotification *notification    = [[NSNotification alloc] initWithName:kSINotificationScoreUpdate object:nil userInfo:nil];
     [[NSNotificationCenter defaultCenter] postNotification:notification];
@@ -157,11 +184,14 @@
     
     self.compositeTimeInMiliSeconds = elapsedTime * MILI_SECS_IN_SEC;
 }
+#pragma mark - Power Up Methods
+/*This is the second step. This checks to see if we are currently using a powerup*/
 - (void)powerUpDidLoad:(PowerUp)powerUp {
     if (self.currentGame.currentPowerUp == PowerUpNone) { /*Don't allow more then one power up at one time*/
         [self powerUpWillActivate:powerUp withPowerUpCost:[Game powerUpCostForPowerUp:powerUp]];
     }
 }
+/*This is the third step in powerup acitivation. This checks to see if the User has enough coins*/
 - (void)powerUpWillActivate:(PowerUp)powerUp withPowerUpCost:(PowerUpCost)powerUpCost {
     
     NSInteger numberOfItCoins = [[NSUserDefaults standardUserDefaults] integerForKey:kSINSUserDefaultNumberOfItCoins];
@@ -177,7 +207,10 @@
         [[NSUserDefaults standardUserDefaults] synchronize];
     }
 }
+/*This is the 6th step. The UI View controller did react to the powerup*/
+/*This is for the new one...*/
 - (void)powerUpDidActivate {
+    self.powerUpTimeInMiliSeconds = self.compositeTimeInMiliSeconds;
     switch (self.currentGame.currentPowerUp) {
         case PowerUpRapidFire:
             [self willPrepareToShowNewMove];
@@ -190,6 +223,8 @@
             break;
     }
 }
+/*This is the 8th step*/
+/*Called After Powerup has ended on Singleton*/
 - (void)powerUpDidEnd {
     switch (self.currentGame.currentPowerUp) {
         case PowerUpSlowMotion:

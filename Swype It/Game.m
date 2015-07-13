@@ -5,8 +5,7 @@
 //
 //  Purpose: Singleton file for a game, there can only be one game played at a time.
 //
-// Defines
-#define NUMBER_OF_MOVES 3
+
 // Local Controller Import
 #import "Game.h"
 // Framework Import
@@ -138,6 +137,141 @@
     return numberLevel;
 }
 
++ (UIColor *)backgroundColorForScore:(float)score forRandomNumber:(NSInteger)randomNumber {
+    if (score < LEVEL1) {
+        switch (randomNumber) {
+            case 0:
+                return [UIColor backgroundColorForLevelOneA];
+            case 1:
+                return [UIColor backgroundColorForLevelOneB];
+            default:
+                return [UIColor backgroundColorForLevelOneC];
+        }
+    } else if (score < LEVEL2) {
+        switch (randomNumber) {
+            case 0:
+                return [UIColor backgroundColorForLevelTwoA];
+            case 1:
+                return [UIColor backgroundColorForLevelTwoB];
+            default:
+                return [UIColor backgroundColorForLevelTwoC];
+        }
+    } else if (score < LEVEL3) {
+        switch (randomNumber) {
+            case 0:
+                return [UIColor backgroundColorForLevelThreeA];
+            case 1:
+                return [UIColor backgroundColorForLevelThreeB];
+            default:
+                return [UIColor backgroundColorForLevelThreeC];
+        }
+    } else if (score < LEVEL4) {
+        switch (randomNumber) {
+            case 0:
+                return [UIColor backgroundColorForLevelFourA];
+            case 1:
+                return [UIColor backgroundColorForLevelFourB];
+            default:
+                return [UIColor backgroundColorForLevelFourC];
+        }
+    } else if (score < LEVEL5) {
+        switch (randomNumber) {
+            case 0:
+                return [UIColor backgroundColorForLevelFiveA];
+            case 1:
+                return [UIColor backgroundColorForLevelFiveB];
+            default:
+                return [UIColor backgroundColorForLevelFiveC];
+        }
+    } else if (score < LEVEL6) {
+        switch (randomNumber) {
+            case 0:
+                return [UIColor backgroundColorForLevelSixA];
+            case 1:
+                return [UIColor backgroundColorForLevelSixB];
+            default:
+                return [UIColor backgroundColorForLevelSixC];
+        }
+    } else if (score < LEVEL7) {
+        switch (randomNumber) {
+            case 0:
+                return [UIColor backgroundColorForLevelSevenA];
+            case 1:
+                return [UIColor backgroundColorForLevelSevenB];
+            default:
+                return [UIColor backgroundColorForLevelSevenC];
+        }
+    } else if (score < LEVEL8) {
+        switch (randomNumber) {
+            case 0:
+                return [UIColor backgroundColorForLevelEightA];
+            case 1:
+                return [UIColor backgroundColorForLevelEightB];
+            default:
+                return [UIColor backgroundColorForLevelEightC];
+        }
+    } else if (score < LEVEL9) {
+        switch (randomNumber) {
+            case 0:
+                return [UIColor backgroundColorForLevelNineA];
+            case 1:
+                return [UIColor backgroundColorForLevelNineB];
+            default:
+                return [UIColor backgroundColorForLevelNineC];
+        }
+    } else if (score < LEVEL10) {
+        switch (randomNumber) {
+            case 0:
+                return [UIColor backgroundColorForLevelTenA];
+            case 1:
+                return [UIColor backgroundColorForLevelTenB];
+            default:
+                return [UIColor backgroundColorForLevelTenC];
+        }
+    } else if (score < LEVEL11) {
+        switch (randomNumber) {
+            case 0:
+                return [UIColor backgroundColorForLevelElevenA];
+            case 1:
+                return [UIColor backgroundColorForLevelElevenB];
+            default:
+                return [UIColor backgroundColorForLevelElevenC];
+        }
+    } else if (score < LEVEL12) {
+        switch (randomNumber) {
+            case 0:
+                return [UIColor backgroundColorForLevelTwelveA];
+            case 1:
+                return [UIColor backgroundColorForLevelTwelveB];
+            default:
+                return [UIColor backgroundColorForLevelTwelveC];
+        }
+    } else {
+        switch (randomNumber) {
+            case 0:
+                return [UIColor backgroundColorForLevelOneA];
+            case 1:
+                return [UIColor backgroundColorForLevelTwoB];
+            case 2:
+                return [UIColor backgroundColorForLevelThreeC];
+            case 3:
+                return [UIColor backgroundColorForLevelFourA];
+            case 4:
+                return [UIColor backgroundColorForLevelSixB];
+            case 5:
+                return [UIColor backgroundColorForLevelSevenC];
+            case 6:
+                return [UIColor backgroundColorForLevelEightA];
+            case 7:
+                return [UIColor backgroundColorForLevelNineB];
+            case 8:
+                return [UIColor backgroundColorForLevelTenC];
+            default:
+                return [UIColor backgroundColorForLevelElevenB];
+        }
+    }
+}
+
 + (Move)getRandomMoveForGameMode:(GameMode)gameMode {
     NSInteger randomNumber = arc4random_uniform(NUMBER_OF_MOVES);
     switch (randomNumber) {
@@ -178,6 +312,16 @@
             return PowerUpCostRapidFire;
         default: /*Power Up Foresight*/
             return PowerUpCostForesight;
+    }
+}
++ (float)durationForPowerUp:(PowerUp)powerUp {
+    switch (powerUp) {
+        case PowerUpSlowMotion:
+            return DURATION_SLOW_MOTION_SEC;
+        case PowerUpRapidFire:
+            return DURATION_RAPID_FIRE_SEC;
+        default: /*Foresight*/
+            return DURATION_FORESIGHT_SEC;
     }
 }
 
