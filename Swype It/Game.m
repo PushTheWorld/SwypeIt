@@ -13,7 +13,6 @@
 // Category Import
 #import "UIColor+Additions.h"
 // Support/Data Class Imports
-#import "SIConstants.h"
 // Other Imports
 @interface Game () {
     
@@ -271,57 +270,98 @@
         }
     }
 }
-
-+ (Move)getRandomMoveForGameMode:(GameMode)gameMode {
++ (float)scoreForMoveDuration:(float)durationOfLastMove withLevelSpeedDivider:(float)levelSpeedDivider {
+    return MAX_MOVE_SCORE * exp(SCORE_EXP_POWER_WEIGHT * durationOfLastMove / levelSpeedDivider);
+}
++ (SIMove)getRandomMoveForGameMode:(SIGameMode)gameMode isRapidFireActiviated:(BOOL)isRapidFireActivated {
+    if (isRapidFireActivated) {
+        return SIMoveTap;
+    }
     NSInteger randomNumber = arc4random_uniform(NUMBER_OF_MOVES);
     switch (randomNumber) {
         case 0:
-            return MoveTap;
+            return SIMoveTap;
         case 1:
-            return MoveSwype;
+            return SIMoveSwype;
         default:
-            if (gameMode == GameModeOneHand) {
-                return MoveShake;
+            if (gameMode == SIGameModeOneHand) {
+                return SIMoveShake;
             } else { /*GameModeTwoHane*/
-                return MovePinch;
+                return SIMovePinch;
             }
     }
 }
-+ (NSString *)stringForMove:(Move)move {
+/*AUTO TESTED*/
++ (NSString *)stringForMove:(SIMove)move {
     switch (move) {
-        case MoveTap:
+        case SIMoveTap:
             return kSIMoveCommandTap;
-        case MoveSwype:
+        case SIMoveSwype:
             return kSIMoveCommandSwype;
-        case MovePinch:
+        case SIMovePinch:
             return kSIMoveCommandPinch;
-        case MoveShake:
+        case SIMoveShake:
             return kSIMoveCommandShake;
         default:
             return nil;
     }
 }
-+ (float)scoreForMoveDuration:(float)durationOfLastMove withLevelSpeedDivider:(float)levelSpeedDivider {
-    return MAX_MOVE_SCORE * exp(SCORE_EXP_POWER_WEIGHT * durationOfLastMove / levelSpeedDivider);
-}
-+ (PowerUpCost)powerUpCostForPowerUp:(PowerUp)powerUp {
+/*AUTO TESTED*/
++ (NSString *)stringForPowerUp:(SIPowerUp)powerUp {
     switch (powerUp) {
-        case PowerUpSlowMotion:
-            return PowerUpCostSlowMotion;
-        case PowerUpRapidFire:
-            return PowerUpCostRapidFire;
-        default: /*Power Up Foresight*/
-            return PowerUpCostForesight;
+        case SIPowerUpDoublePoints:
+            return kSIPowerUpDoublePoints;
+        case SIPowerUpTimeFreeze:
+            return kSIPowerUpTimeFreeze;
+        case SIPowerUpRapidFire:
+            return kSIPowerUpRapidFire;
+        case SIPowerUpNone:
+            return kSIPowerUpNone;
+        default:
+            return nil;
     }
 }
-+ (float)durationForPowerUp:(PowerUp)powerUp {
+/*AUTO TESTED*/
++ (SIPowerUpCost)costForPowerUp:(SIPowerUp)powerUp {
     switch (powerUp) {
-        case PowerUpSlowMotion:
-            return DURATION_SLOW_MOTION_SEC;
-        case PowerUpRapidFire:
-            return DURATION_RAPID_FIRE_SEC;
-        default: /*Foresight*/
-            return DURATION_FORESIGHT_SEC;
+        case SIPowerUpTimeFreeze:
+            return SIPowerUpCostTimeFreeze;
+        case SIPowerUpRapidFire:
+            return SIPowerUpCostRapidFire;
+        case SIPowerUpDoublePoints:
+            return SIPowerUpCostDoublePoints;
+        default: /*Power Up None*/
+            return SIPowerUpCostNone;
+    }
+}
+/*AUTO TESTED*/
++ (SIPowerUpDuration)durationForPowerUp:(SIPowerUp)powerUp {
+    switch (powerUp) {
+        case SIPowerUpTimeFreeze:
+            return SIPowerUpDurationTimeFreeze;
+        case SIPowerUpDoublePoints:
+            return SIPowerUpDurationDoublePoints;
+        case SIPowerUpRapidFire:
+            return SIPowerUpDurationRapidFire;
+        default: /*None*/
+            return SIPowerUpDurationNone;
+    }
+}
++ (float)levelSpeedForScore:(float)score {
+    if (score < LEVEL1) {
+        return 4.0f;
+    } else if (score < LEVEL2) {
+        return 3.0f;
+    } else if (score < LEVEL3) {
+        return 2.5f;
+    } else if (score < LEVEL4) {
+        return 2.0f;
+    } else if (score < LEVEL5) {
+        return 1.5f;
+    } else if (score < LEVEL8) {
+        return 1.0f;
+    } else {
+        return 0.9f;
     }
 }
 

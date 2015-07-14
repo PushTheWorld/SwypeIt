@@ -14,7 +14,6 @@
 #import "UIColor+Additions.h"
 // Support/Data Class Imports
 #import "Game.h"
-#import "SIConstants.h"
 // Other Imports
 @interface AppSingleton () {
     
@@ -25,9 +24,10 @@
 #pragma mark - Private CGFloats & Numbers
 @property (assign, nonatomic) CGFloat            timerInterval;
 @property (assign, nonatomic) float              compositeTimeInMiliSeconds;
-@property (assign, nonatomic) float              foresightMultiplyer;
+@property (assign, nonatomic) float              timeFreezeMultiplyer;
 @property (assign, nonatomic) float              levelSpeedDivider;
 @property (assign, nonatomic) float              moveStartTimeInMiliSeconds;
+@property (assign, nonatomic) float              pointMultiplyer;
 @property (assign, nonatomic) float              powerUpTimeInMiliSeconds;
 
 
@@ -36,6 +36,7 @@
 
 #pragma mark - Private
 @property (strong, nonatomic) NSTimer           *timer;
+@property (strong, nonatomic) NSString          *previousLevel;
 
 
 @end
@@ -51,15 +52,17 @@
     });
     return singleton;
 }
-- (void)initAppSingletonWithGameMode:(GameMode)gameMode {
+- (void)initAppSingletonWithGameMode:(SIGameMode)gameMode {
     if (self.currentGame == nil) {
         self.currentGame                            = [[Game alloc] init];
     }
-    self.currentGame.currentPowerUp                 = PowerUpNone;
+    self.previousLevel                              = [Game currentLevelStringForScore:0.0f];
+    self.currentGame.currentLevel                   = [Game currentLevelStringForScore:0.0f];
+    self.currentGame.currentPowerUp                 = SIPowerUpNone;
     self.currentGame.totalScore                     = 0.0f;
     self.currentGame.gameMode                       = gameMode;
-    self.currentGame.currentMove                    = [Game getRandomMoveForGameMode:gameMode];
-    self.currentGame.nextMove                       = [Game getRandomMoveForGameMode:gameMode];
+    self.currentGame.currentMove                    = [Game getRandomMoveForGameMode:gameMode isRapidFireActiviated:NO];
+    self.currentGame.nextMove                       = [Game getRandomMoveForGameMode:gameMode isRapidFireActiviated:NO];
     self.currentGame.currentBackgroundColorNumber   = arc4random_uniform(NUMBER_OF_MOVES);
     [self initalizeObjects];
 }
@@ -70,13 +73,13 @@
 - (void)initalizeObjects {
     self.manager                    = [[CMMotionManager alloc] init];
     self.timer                      = [[NSTimer alloc] init];
-    
-    self.levelSpeedDivider          = 1.0f;
     self.timerInterval              = TIMER_INTERVAL;
 }
 #pragma mark - Game Functions
 - (void)startGame {
-    self.foresightMultiplyer        = 1.0f;
+    self.levelSpeedDivider          = 1.0f;
+    self.pointMultiplyer            = 1.0f;
+    self.timeFreezeMultiplyer       = 1.0f;
     self.currentGame.totalScore     = 0.0;
     self.moveStartTimeInMiliSeconds = 0;
 
@@ -97,7 +100,7 @@
     
     [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(powerUpDidEnd) object:nil];
 }
-- (void)moveEnterForType:(Move)move {
+- (void)moveEnterForType:(SIMove)move {
     if (move == self.currentGame.currentMove) {
         [self willPrepareToShowNewMove];
     } else {
@@ -105,21 +108,23 @@
     }
 }
 - (void)willPrepareToShowNewMove {
+    NSDictionary *userInfo          = [NSDictionary dictionaryWithObject:@(self.currentGame.moveScore) forKey:kSINSDictionaryKeyMoveScore];
+    
     [self captureTime];     /*Capture the time for the next move*/
     
     self.currentGame.totalScore     = self.currentGame.totalScore + self.currentGame.moveScore; /*Add moveScore to total score*/
     
-    self.currentGame.currentMove    = self.currentGame.nextMove;
-    /*Get new move*/
-    Move newMove;
-    if (self.currentGame.currentPowerUp == PowerUpRapidFire) {
-        newMove                     = MoveTap;
-    } else {
-        newMove                     = [Game getRandomMoveForGameMode:[AppSingleton singleton].currentGame.gameMode];
-    }
-    self.currentGame.nextMove       = newMove;
+    [self didLevelStringChange:self.previousLevel newLevelString:[Game currentLevelStringForScore:self.currentGame.totalScore]];
     
-    NSNotification *notification    = [[NSNotification alloc] initWithName:kSINotificationCorrectMove object:nil userInfo:nil];
+    BOOL isRapidFireActive          = (self.currentGame.currentPowerUp == SIPowerUpRapidFire) ? YES : NO;
+    
+    self.currentGame.currentMove    = isRapidFireActive ? SIMoveTap : self.currentGame.nextMove; /*Return Tap for if Rapid Fire*/
+    
+    /*Get new move*/
+    self.currentGame.nextMove       = [Game getRandomMoveForGameMode:self.currentGame.gameMode isRapidFireActiviated:isRapidFireActive];
+    
+    
+    NSNotification *notification    = [[NSNotification alloc] initWithName:kSINotificationCorrectMove object:nil userInfo:userInfo];
     [[NSNotificationCenter defaultCenter] postNotification:notification];
 
 }
@@ -141,10 +146,17 @@
     self.currentGame.currentBackgroundColorNumber = randomNumber;
     return [Game backgroundColorForScore:self.currentGame.totalScore forRandomNumber:randomNumber];
 }
+- (void)didLevelStringChange:(NSString *)oldLevelString newLevelString:(NSString *)newLevelString {
+    if ([oldLevelString isEqualToString:newLevelString] == NO) {
+        self.currentGame.currentLevel   = newLevelString;
+        NSNotification *notification    = [[NSNotification alloc] initWithName:kSINotificationLevelDidChange object:nil userInfo:nil];
+        [[NSNotificationCenter defaultCenter] postNotification:notification];
+    }
+}
+#pragma mark - Timer Methods
 - (void)captureTime {
     self.moveStartTimeInMiliSeconds = self.compositeTimeInMiliSeconds;
 }
-#pragma mark - Timer Methods
 - (void)startTimer {
     if (!self.timer.valid) {
         /*Start Timer*/
@@ -158,19 +170,23 @@
     [self updateCompositeTime];
     
     /*Calculate new time*/
-    float durationOfLastMove    = (self.compositeTimeInMiliSeconds - self.moveStartTimeInMiliSeconds) * self.foresightMultiplyer;
+    float durationOfLastMove    = (self.compositeTimeInMiliSeconds - self.moveStartTimeInMiliSeconds) * self.timeFreezeMultiplyer;
 
     /*Get the new score for this time -- Always keep the time current*/
-    self.currentGame.moveScore  = [Game scoreForMoveDuration:durationOfLastMove withLevelSpeedDivider:self.levelSpeedDivider];
+    self.currentGame.moveScore  = [Game scoreForMoveDuration:durationOfLastMove withLevelSpeedDivider:self.levelSpeedDivider] * self.pointMultiplyer;
     
     /*Get the new percentage for score*/
     self.currentGame.moveScorePercentRemaining  = self.currentGame.moveScore / MAX_MOVE_SCORE;
     
     /*Set the new percentage for Power UP*/
-    if (self.currentGame.currentPowerUp != PowerUpNone) {
+    if (self.currentGame.currentPowerUp != SIPowerUpNone) {
         float powerUpTotalDuration = [Game durationForPowerUp:self.currentGame.currentPowerUp];
         float powerUpPercent = ((powerUpTotalDuration * MILI_SECS_IN_SEC) - (self.compositeTimeInMiliSeconds - self.powerUpTimeInMiliSeconds)) / (powerUpTotalDuration * MILI_SECS_IN_SEC);
-        self.currentGame.powerUpPercentRemaining    = powerUpPercent;
+        if (powerUpPercent < 0.0) {
+            self.currentGame.powerUpPercentRemaining    = 0.0f;
+        } else {
+            self.currentGame.powerUpPercentRemaining    = powerUpPercent;
+        }
     }
     
     NSNotification *notification    = [[NSNotification alloc] initWithName:kSINotificationScoreUpdate object:nil userInfo:nil];
@@ -186,13 +202,13 @@
 }
 #pragma mark - Power Up Methods
 /*This is the second step. This checks to see if we are currently using a powerup*/
-- (void)powerUpDidLoad:(PowerUp)powerUp {
-    if (self.currentGame.currentPowerUp == PowerUpNone) { /*Don't allow more then one power up at one time*/
-        [self powerUpWillActivate:powerUp withPowerUpCost:[Game powerUpCostForPowerUp:powerUp]];
+- (void)powerUpDidLoad:(SIPowerUp)powerUp {
+    if (self.currentGame.currentPowerUp == SIPowerUpNone) { /*Don't allow more then one power up at one time*/
+        [self powerUpWillActivate:powerUp withPowerUpCost:[Game costForPowerUp:powerUp]];
     }
 }
 /*This is the third step in powerup acitivation. This checks to see if the User has enough coins*/
-- (void)powerUpWillActivate:(PowerUp)powerUp withPowerUpCost:(PowerUpCost)powerUpCost {
+- (void)powerUpWillActivate:(SIPowerUp)powerUp withPowerUpCost:(SIPowerUpCost)powerUpCost {
     
     NSInteger numberOfItCoins = [[NSUserDefaults standardUserDefaults] integerForKey:kSINSUserDefaultNumberOfItCoins];
     if (numberOfItCoins >= powerUpCost) {
@@ -212,13 +228,15 @@
 - (void)powerUpDidActivate {
     self.powerUpTimeInMiliSeconds = self.compositeTimeInMiliSeconds;
     switch (self.currentGame.currentPowerUp) {
-        case PowerUpRapidFire:
+        case SIPowerUpRapidFire:
             [self willPrepareToShowNewMove];
             break;
-        case PowerUpSlowMotion:
-            self.foresightMultiplyer = 0.2;
+        case SIPowerUpTimeFreeze:
+            self.timeFreezeMultiplyer   = 0.2f;
             break;
-        default: /*Foresight*/
+        case SIPowerUpDoublePoints:
+            self.pointMultiplyer        = 2.0f;
+        default:
             
             break;
     }
@@ -227,8 +245,11 @@
 /*Called After Powerup has ended on Singleton*/
 - (void)powerUpDidEnd {
     switch (self.currentGame.currentPowerUp) {
-        case PowerUpSlowMotion:
-            self.foresightMultiplyer = 1.0;
+        case SIPowerUpTimeFreeze:
+            self.timeFreezeMultiplyer   = 1.0f;
+            break;
+        case SIPowerUpDoublePoints:
+            self.pointMultiplyer        = 1.0f;
             break;
         default:
             break;

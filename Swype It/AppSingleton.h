@@ -33,13 +33,13 @@
 
 #pragma mark - Public Instance Methods
 - (void)endGame; /*Should only be used for force quit*/
-- (void)initAppSingletonWithGameMode:(GameMode)gameMode;
-- (void)moveEnterForType:(Move)move;
+- (void)initAppSingletonWithGameMode:(SIGameMode)gameMode;
+- (void)moveEnterForType:(SIMove)move;
 - (UIColor *)newBackgroundColor;
 - (void)runFirstGame;
 - (void)startGame;
-- (void)powerUpDidLoad:(PowerUp)powerUp;
-- (void)powerUpWillActivate:(PowerUp)powerUp withPowerUpCost:(PowerUpCost)powerUpCost;
+- (void)powerUpDidLoad:(SIPowerUp)powerUp;
+- (void)powerUpWillActivate:(SIPowerUp)powerUp withPowerUpCost:(SIPowerUpCost)powerUpCost;
 - (void)powerUpDidActivate;
 - (void)powerUpDidEnd;
 

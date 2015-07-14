@@ -195,5 +195,85 @@
         score = score + 25;
     }
 }
+- (void)testStringForMove {
+    XCTAssertEqualObjects(kSIMoveCommandPinch, [Game stringForMove:SIMovePinch]);
+    
+    XCTAssertEqualObjects(kSIMoveCommandTap, [Game stringForMove:SIMoveTap]);
+    
+    XCTAssertEqualObjects(kSIMoveCommandSwype, [Game stringForMove:SIMoveSwype]);
+    
+    XCTAssertEqualObjects(kSIMoveCommandShake, [Game stringForMove:SIMoveShake]);
+}
+- (void)testStringForPowerUp {
+    XCTAssertEqualObjects(kSIPowerUpNone, [Game stringForPowerUp:SIPowerUpNone]);
 
+    XCTAssertEqualObjects(kSIPowerUpDoublePoints, [Game stringForPowerUp:SIPowerUpDoublePoints]);
+
+    XCTAssertEqualObjects(kSIPowerUpTimeFreeze, [Game stringForPowerUp:SIPowerUpTimeFreeze]);
+
+    XCTAssertEqualObjects(kSIPowerUpRapidFire, [Game stringForPowerUp:SIPowerUpRapidFire]);
+}
+- (void)testDurationForPowerUp {
+    /*Power Up None*/
+    XCTAssertEqual(SIPowerUpDurationNone, [Game durationForPowerUp:SIPowerUpNone]);
+    
+    /*Power Up Double Points*/
+    XCTAssertEqual(SIPowerUpDurationDoublePoints, [Game durationForPowerUp:SIPowerUpDoublePoints]);
+    
+    /*Power Up Time Freeze*/
+    XCTAssertEqual(SIPowerUpDurationTimeFreeze, [Game durationForPowerUp:SIPowerUpTimeFreeze]);
+    
+    /*Power Up Rapid Fire*/
+    XCTAssertEqual(SIPowerUpDurationRapidFire, [Game durationForPowerUp:SIPowerUpRapidFire]);
+}
+- (void)testCostForPowerUp {
+    /*Power Up None*/
+    XCTAssertEqual(SIPowerUpCostNone, [Game costForPowerUp:SIPowerUpNone]);
+    
+    /*Power Up Double Points*/
+    XCTAssertEqual(SIPowerUpCostDoublePoints, [Game costForPowerUp:SIPowerUpDoublePoints]);
+    
+    /*Power Up Time Freeze*/
+    XCTAssertEqual(SIPowerUpCostTimeFreeze, [Game costForPowerUp:SIPowerUpTimeFreeze]);
+    
+    /*Power Up Rapid Fire*/
+    XCTAssertEqual(SIPowerUpCostRapidFire, [Game costForPowerUp:SIPowerUpRapidFire]);
+}
+- (void)testTypeDefForPowerUpDuration {
+    /*Power Up None*/
+    XCTAssertEqual(0, SIPowerUpDurationNone);
+    /*Power Up Double Points*/
+    XCTAssertEqual(5, SIPowerUpDurationDoublePoints);
+    /*Power Up Time Freeze*/
+    XCTAssertEqual(5, SIPowerUpDurationTimeFreeze);
+    /*Power Up Rapid Fire*/
+    XCTAssertEqual(5, SIPowerUpDurationRapidFire);
+}
+- (void)testTypeDefForPowerUpCost {
+    /*Power Up None*/
+    XCTAssertEqual(0, SIPowerUpCostNone);
+    /*Power Up Double Points*/
+    XCTAssertEqual(1, SIPowerUpCostDoublePoints);
+    /*Power Up Time Freeze*/
+    XCTAssertEqual(3, SIPowerUpCostTimeFreeze);
+    /*Power Up Rapid Fire*/
+    XCTAssertEqual(5, SIPowerUpCostRapidFire);
+}
+- (void)testGetRandomMoveForRapidFire {
+    /*Check to make the Rapid Fire Returns Tap*/
+    SIMove move = [Game getRandomMoveForGameMode:SIGameModeOneHand isRapidFireActiviated:YES];
+    XCTAssertEqual(move, SIMoveTap);
+}
+- (void)testGetRandomMoveForOneHandGameMode {
+    for (int i = 0; i < 50; i++) {
+        SIMove move = [Game getRandomMoveForGameMode:SIGameModeOneHand isRapidFireActiviated:NO];
+        XCTAssertNotEqual(move, SIMovePinch);
+    }
+}
+- (void)testGetRandomMoveForTwoHandGameMode {
+    for (int i = 0; i < 50; i++) {
+        SIMove move = [Game getRandomMoveForGameMode:SIGameModeTwoHand isRapidFireActiviated:NO];
+        XCTAssertNotEqual(move, SIMoveShake);
+    }
+}
 @end

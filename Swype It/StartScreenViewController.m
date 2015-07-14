@@ -204,8 +204,8 @@
     self.view.backgroundColor = [UIColor mainColor];
 }
 - (void)launchGame:(UIButton *)button {
-    [[AppSingleton singleton] initAppSingletonWithGameMode:(GameMode)button.tag];
-    GameViewController *gameVC = [[GameViewController alloc] initWithGameMode:(GameMode)button.tag];
+    [[AppSingleton singleton] initAppSingletonWithGameMode:(SIGameMode)button.tag];
+    GameViewController *gameVC = [[GameViewController alloc] initWithGameMode:(SIGameMode)button.tag];
     [self.navigationController pushViewController:gameVC animated:YES];
 }
 

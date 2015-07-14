@@ -27,19 +27,20 @@ NSString *const kSINSUserDefaultPowerUpReadyRapidFire       = @"powerUpReadyRapi
 NSString *const kSINSUserDefaultPowerUpReadySlowMotion      = @"powerUpReadySlowMotion";
 
 #pragma mark - Power Ups
-NSString *const kSIPowerUpForesight                         = @"Foresight";
+NSString *const kSIPowerUpDoublePoints                      = @"Double Points";
 NSString *const kSIPowerUpNone                              = @"None";
-NSString *const kSIPowerUpSlowMotion                        = @"Slow Motion";
+NSString *const kSIPowerUpTimeFreeze                        = @"Time Freeze";
 NSString *const kSIPowerUpRapidFire                         = @"Rapid Fire";
 
 #pragma mark - NSNotification
 NSString *const kSINotificationCorrectMove                  = @"com.pushtheworldllc.swipeit.correctMove";
 NSString *const kSINotificationGameEnded                    = @"com.pushtheworldllc.swipeit.gameEnded";
 NSString *const kSINotificationGameStarted                  = @"com.pushtheworldllc.swipeit.gameStarted";
-NSString *const kSINotificationScoreUpdate                  = @"com.pushtheworldllc.swipeit.scoreUpdate";
+NSString *const kSINotificationLevelDidChange               = @"com.pushtheworldllc.swipeit.levelDidChange";
+NSString *const kSINotificationNewBackgroundReady           = @"com.pushtheworldllc.swipeit.newBackgroundReady";
 NSString *const kSINotificationPowerUpActive                = @"com.pushtheworldllc.swipeit.powerUpActive";
 NSString *const kSINotificationPowerUpDeactivated           = @"com.pushtheworldllc.swipeit.powerUpDeactivated";
-NSString *const kSINotificationNewBackgroundReady           = @"com.pushtheworldllc.swipeit.newBackgroundReady";
+NSString *const kSINotificationScoreUpdate                  = @"com.pushtheworldllc.swipeit.scoreUpdate";
 
 #pragma mark - Score Constants
 NSString *const kSIScoreTotalScore                          = @"totalScore";
@@ -56,6 +57,12 @@ NSString *const kSIButtonLabelStringOneHand                 = @"One Hand";
 NSString *const kSIButtonLabelStringTwoHand                 = @"Two Hand";
 
 #pragma mark - NSDictionary Keys
+NSString *const kSINSDictionaryKeyMoveScore                 = @"moveScore";
 NSString *const kSINSDictionaryKeyPowerUp                   = @"powerUp";
 
+#pragma mark - In App Purchase Product ID
+NSString *const kSIIAPProductIDCoinPackSmall                = @"com.pushtheworldllc.swipeit.swypeItSinglePack";
+NSString *const kSIIAPProductIDCoinPackMedium               = @"com.pushtheworldllc.swipeit.swypeItMediumPack";
+NSString *const kSIIAPProductIDCoinPackLarge                = @"com.pushtheworldllc.swipeit.swypeItLargePack";
+NSString *const kSIIAPProductIDCoinPackExtraLarge           = @"com.pushtheworldllc.swipeit.swypeItExtraLargePack";
 

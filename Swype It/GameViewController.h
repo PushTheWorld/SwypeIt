@@ -17,6 +17,6 @@
 
 @interface GameViewController : UIViewController
 
-- (instancetype)initWithGameMode:(GameMode)gameMode;
+- (instancetype)initWithGameMode:(SIGameMode)gameMode;
 
 @end

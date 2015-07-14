@@ -19,22 +19,23 @@
 @property (assign, nonatomic) float              moveScorePercentRemaining;
 @property (assign, nonatomic) float              powerUpPercentRemaining;
 @property (assign, nonatomic) float              totalScore;
-@property (assign, nonatomic) GameMode           gameMode;
-@property (assign, nonatomic) Move               nextMove;
-@property (assign, nonatomic) Move               currentMove;
-@property (assign, nonatomic) PowerUp            currentPowerUp;
+@property (assign, nonatomic) SIGameMode         gameMode;
+@property (assign, nonatomic) SIMove             nextMove;
+@property (assign, nonatomic) SIMove             currentMove;
+@property (assign, nonatomic) SIPowerUp          currentPowerUp;
 
 @property (strong, nonatomic) NSString          *currentLevel;
 
 #pragma mark - Public Class Methods
-+ (UIColor *)   backgroundColorForScore:(float)score forRandomNumber:(NSInteger)randomNumber;
-+ (NSString *)  currentLevelStringForScore:(float)score;
-+ (float)       durationForPowerUp:(PowerUp)powerUp;
-+ (Move)        getRandomMoveForGameMode:(GameMode)gameMode;
-+ (int)         nextLevelForScore:(float)score;
-+ (PowerUpCost) powerUpCostForPowerUp:(PowerUp)powerUp;
-+ (NSString *)  stringForMove:(Move)move;
-+ (float)       scoreForMoveDuration:(float)durationOfLastMove withLevelSpeedDivider:(float)levelSpeedDivider;
++ (UIColor *)           backgroundColorForScore:(float)score forRandomNumber:(NSInteger)randomNumber;
++ (NSString *)          currentLevelStringForScore:(float)score;
++ (SIPowerUpDuration)   durationForPowerUp:(SIPowerUp)powerUp;
++ (SIMove)              getRandomMoveForGameMode:(SIGameMode)gameMode isRapidFireActiviated:(BOOL)isRapidFireActivated;
++ (int)                 nextLevelForScore:(float)score;
++ (SIPowerUpCost)       costForPowerUp:(SIPowerUp)powerUp;
++ (NSString *)          stringForMove:(SIMove)move;
++ (NSString *)          stringForPowerUp:(SIPowerUp)powerUp;
++ (float)               scoreForMoveDuration:(float)durationOfLastMove withLevelSpeedDivider:(float)levelSpeedDivider;
 
 
 #pragma mark - Public Methods

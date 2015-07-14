@@ -34,11 +34,6 @@
 #define VERTICAL_SPACING_8          8
 #define VERTICAL_SPACING_16         16
 
-#define COST_OF_FORESIGHT           1
-#define COST_OF_SLOW_MOTION         3
-#define COST_OF_RAPID_FIRE          5
-#define COST_OF_RESTART             15
-
 #define IS_IPHONE_4                 (MAX([UIScreen mainScreen].bounds.size.height, [UIScreen mainScreen].bounds.size.width) == 480.0)
 #define IS_IPHONE_5                 (MAX([UIScreen mainScreen].bounds.size.height, [UIScreen mainScreen].bounds.size.width) == 568.0)
 #define IS_IPHONE_6                 (MAX([UIScreen mainScreen].bounds.size.height, [UIScreen mainScreen].bounds.size.width) == 667.0)
@@ -50,10 +45,6 @@
 
 #define MILI_SECS_IN_SEC            1000
 
-#define DURATION_FORESIGHT_SEC      5
-#define DURATION_SLOW_MOTION_SEC    5
-#define DURATION_RAPID_FIRE_SEC     5
-
 #pragma mark - Game Constants
 #define mSlope                      -7/240
 #define SCORE_EXP_POWER_WEIGHT      -0.001205
@@ -63,30 +54,51 @@
 #define NUMBER_OF_MOVES             3
 #define NUMBER_OF_BACKGROUNDS       3
 typedef enum {
-    GameModeOneHand,
-    GameModeTwoHand
-} GameMode;
+    SIGameModeOneHand,
+    SIGameModeTwoHand
+} SIGameMode;
 
 typedef enum {
-    MoveTap,
-    MoveSwype,
-    MovePinch,
-    MoveShake
-} Move;
+    SIMoveTap,
+    SIMoveSwype,
+    SIMovePinch,
+    SIMoveShake
+} SIMove;
 
 typedef enum {
-    PowerUpNone,
-    PowerUpForesight,
-    PowerUpSlowMotion,
-    PowerUpRapidFire
-} PowerUp;
+    SIPowerUpNone,
+    SIPowerUpDoublePoints,
+    SIPowerUpTimeFreeze,
+    SIPowerUpRapidFire
+} SIPowerUp;
 
 typedef enum {
-    PowerUpCostNone         = 0,
-    PowerUpCostForesight    = 1,
-    PowerUpCostSlowMotion   = 3,
-    PowerUpCostRapidFire    = 5
-} PowerUpCost;
+    SIPowerUpCostNone               = 0,
+    SIPowerUpCostDoublePoints       = 1,
+    SIPowerUpCostTimeFreeze         = 3,
+    SIPowerUpCostRapidFire          = 5
+} SIPowerUpCost;
+
+typedef enum {
+    SIPowerUpDurationNone           = 0,
+    SIPowerUpDurationDoublePoints   = 5,
+    SIPowerUpDurationTimeFreeze     = 5,
+    SIPowerUpDurationRapidFire      = 5
+} SIPowerUpDuration;
+
+typedef enum {
+    SIIAPNumberOfCoinsSmall         = 30,
+    SIIAPNumberOfCoinsMedium        = 200,
+    SIIAPNumberOfCoinsLarge         = 500,
+    SIIAPNumberOfCoinsExtraLarge    = 1500
+} SIIAPNumberOfCoins;
+
+typedef enum {
+    SIIAPPackSmall,
+    SIIAPPackMedium,
+    SIIAPPackLarge,
+    SIIAPPackExtraLarge
+} SIIAPPack;
 
 #pragma mark - Images
 extern NSString *const kSIImageTitleLabel;
@@ -110,19 +122,20 @@ extern NSString *const kSINSUserDefaultPowerUpReadyRapidFire;
 extern NSString *const kSINSUserDefaultPowerUpReadySlowMotion;
 
 #pragma mark - Power Ups
-extern NSString *const kSIPowerUpForesight;
+extern NSString *const kSIPowerUpDoublePoints;
 extern NSString *const kSIPowerUpNone;
-extern NSString *const kSIPowerUpSlowMotion;
+extern NSString *const kSIPowerUpTimeFreeze;
 extern NSString *const kSIPowerUpRapidFire;
 
 #pragma mark - NSNotification
-extern NSString *const kSINotificationScoreUpdate;
+extern NSString *const kSINotificationCorrectMove;
 extern NSString *const kSINotificationGameEnded;
 extern NSString *const kSINotificationGameStarted;
-extern NSString *const kSINotificationCorrectMove;
+extern NSString *const kSINotificationLevelDidChange;
+extern NSString *const kSINotificationNewBackgroundReady;
 extern NSString *const kSINotificationPowerUpActive;
 extern NSString *const kSINotificationPowerUpDeactivated;
-extern NSString *const kSINotificationNewBackgroundReady;
+extern NSString *const kSINotificationScoreUpdate;
 
 #pragma mark - Score Constants
 extern NSString *const kSIScoreTotalScore;
@@ -139,4 +152,11 @@ extern NSString *const kSIButtonLabelStringOneHand;
 extern NSString *const kSIButtonLabelStringTwoHand;
 
 #pragma mark - NSDictionary Keys
+extern NSString *const kSINSDictionaryKeyMoveScore;
 extern NSString *const kSINSDictionaryKeyPowerUp;
+
+#pragma mark - In App Purchase Product ID
+NSString *const kSIIAPProductIDCoinPackSmall;
+NSString *const kSIIAPProductIDCoinPackMedium;
+NSString *const kSIIAPProductIDCoinPackLarge;
+NSString *const kSIIAPProductIDCoinPackExtraLarge;

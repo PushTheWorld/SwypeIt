@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0906AAF21B551F0A008F28C1 /* BuyCoinsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0906AAF11B551F0A008F28C1 /* BuyCoinsViewController.m */; };
+		0906AAF51B552176008F28C1 /* InAppPurchasePackView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0906AAF41B552176008F28C1 /* InAppPurchasePackView.m */; };
 		091FED491B37283E0071F8DC /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 091FED481B37283E0071F8DC /* main.m */; };
 		091FED4C1B37283E0071F8DC /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 091FED4B1B37283E0071F8DC /* AppDelegate.m */; };
 		091FED541B37283E0071F8DC /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 091FED531B37283E0071F8DC /* Images.xcassets */; };
@@ -42,6 +44,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0906AAF01B551F0A008F28C1 /* BuyCoinsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BuyCoinsViewController.h; sourceTree = "<group>"; };
+		0906AAF11B551F0A008F28C1 /* BuyCoinsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BuyCoinsViewController.m; sourceTree = "<group>"; };
+		0906AAF31B552176008F28C1 /* InAppPurchasePackView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InAppPurchasePackView.h; sourceTree = "<group>"; };
+		0906AAF41B552176008F28C1 /* InAppPurchasePackView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InAppPurchasePackView.m; sourceTree = "<group>"; };
 		091FED431B37283E0071F8DC /* Swype It.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Swype It.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		091FED471B37283E0071F8DC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		091FED481B37283E0071F8DC /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -107,6 +113,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0906AAF61B552180008F28C1 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				0906AAF31B552176008F28C1 /* InAppPurchasePackView.h */,
+				0906AAF41B552176008F28C1 /* InAppPurchasePackView.m */,
+			);
+			name = Views;
+			sourceTree = "<group>";
+		};
 		091FED3A1B37283E0071F8DC = {
 			isa = PBXGroup;
 			children = (
@@ -140,6 +155,7 @@
 				091FED461B37283E0071F8DC /* Supporting Files */,
 				091FED701B37296E0071F8DC /* UserInterface */,
 				091FED711B37298D0071F8DC /* ViewControllers */,
+				0906AAF61B552180008F28C1 /* Views */,
 			);
 			path = "Swype It";
 			sourceTree = "<group>";
@@ -195,6 +211,8 @@
 				091FED801B375DA50071F8DC /* GameViewController.m */,
 				091FED6D1B37295D0071F8DC /* StartScreenViewController.h */,
 				091FED6E1B37295D0071F8DC /* StartScreenViewController.m */,
+				0906AAF01B551F0A008F28C1 /* BuyCoinsViewController.h */,
+				0906AAF11B551F0A008F28C1 /* BuyCoinsViewController.m */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -429,12 +447,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0906AAF51B552176008F28C1 /* InAppPurchasePackView.m in Sources */,
 				091FED791B3736210071F8DC /* UIColor+Additions.m in Sources */,
 				091FED7D1B374C470071F8DC /* BaseNavigationViewController.m in Sources */,
 				098B3B4A1B378EC0000D4702 /* FXReachability.m in Sources */,
 				098B3B471B378C27000D4702 /* Game.m in Sources */,
 				091FED811B375DA50071F8DC /* GameViewController.m in Sources */,
 				091FED4C1B37283E0071F8DC /* AppDelegate.m in Sources */,
+				0906AAF21B551F0A008F28C1 /* BuyCoinsViewController.m in Sources */,
 				098B3B571B395091000D4702 /* MSSProgressView.m in Sources */,
 				091FED761B3733AF0071F8DC /* SIConstants.m in Sources */,
 				098B3B431B378B89000D4702 /* AppSingleton.m in Sources */,
