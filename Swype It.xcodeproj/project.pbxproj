@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0906AAF21B551F0A008F28C1 /* BuyCoinsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0906AAF11B551F0A008F28C1 /* BuyCoinsViewController.m */; };
+		0906AAF21B551F0A008F28C1 /* IAPViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0906AAF11B551F0A008F28C1 /* IAPViewController.m */; };
 		0906AAF51B552176008F28C1 /* InAppPurchasePackView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0906AAF41B552176008F28C1 /* InAppPurchasePackView.m */; };
 		091FED491B37283E0071F8DC /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 091FED481B37283E0071F8DC /* main.m */; };
 		091FED4C1B37283E0071F8DC /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 091FED4B1B37283E0071F8DC /* AppDelegate.m */; };
@@ -30,6 +30,11 @@
 		098B3B521B379C8D000D4702 /* GameKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 098B3B511B379C8D000D4702 /* GameKit.framework */; };
 		098B3B541B379C93000D4702 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 098B3B531B379C93000D4702 /* AudioToolbox.framework */; };
 		098B3B571B395091000D4702 /* MSSProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 098B3B561B395091000D4702 /* MSSProgressView.m */; };
+		09DB638A1B564DA700387C13 /* IAPTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 09DB63891B564DA700387C13 /* IAPTableViewController.m */; };
+		09DB638E1B564DCA00387C13 /* IAPTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 09DB638D1B564DCA00387C13 /* IAPTableViewCell.m */; };
+		09DB63981B564F0900387C13 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 09DB63971B564F0900387C13 /* StoreKit.framework */; };
+		09DB639C1B5651C100387C13 /* MKStoreKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 09DB639B1B5651C100387C13 /* MKStoreKit.m */; };
+		09DB639E1B56525100387C13 /* MKStoreKitConfigs.plist in Resources */ = {isa = PBXBuildFile; fileRef = 09DB639D1B56525100387C13 /* MKStoreKitConfigs.plist */; };
 		F91BB9396F4CAAE0BC65B477 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 769385628457ECC646BCC3FE /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -44,8 +49,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		0906AAF01B551F0A008F28C1 /* BuyCoinsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BuyCoinsViewController.h; sourceTree = "<group>"; };
-		0906AAF11B551F0A008F28C1 /* BuyCoinsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BuyCoinsViewController.m; sourceTree = "<group>"; };
+		0906AAF01B551F0A008F28C1 /* IAPViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IAPViewController.h; sourceTree = "<group>"; };
+		0906AAF11B551F0A008F28C1 /* IAPViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IAPViewController.m; sourceTree = "<group>"; };
 		0906AAF31B552176008F28C1 /* InAppPurchasePackView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InAppPurchasePackView.h; sourceTree = "<group>"; };
 		0906AAF41B552176008F28C1 /* InAppPurchasePackView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InAppPurchasePackView.m; sourceTree = "<group>"; };
 		091FED431B37283E0071F8DC /* Swype It.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Swype It.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -83,6 +88,14 @@
 		098B3B531B379C93000D4702 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		098B3B551B395091000D4702 /* MSSProgressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSSProgressView.h; path = "Swype It/MSSProgressView.h"; sourceTree = "<group>"; };
 		098B3B561B395091000D4702 /* MSSProgressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MSSProgressView.m; path = "Swype It/MSSProgressView.m"; sourceTree = "<group>"; };
+		09DB63881B564DA700387C13 /* IAPTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IAPTableViewController.h; sourceTree = "<group>"; };
+		09DB63891B564DA700387C13 /* IAPTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IAPTableViewController.m; sourceTree = "<group>"; };
+		09DB638C1B564DCA00387C13 /* IAPTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IAPTableViewCell.h; sourceTree = "<group>"; };
+		09DB638D1B564DCA00387C13 /* IAPTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IAPTableViewCell.m; sourceTree = "<group>"; };
+		09DB63971B564F0900387C13 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
+		09DB639A1B5651C100387C13 /* MKStoreKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKStoreKit.h; sourceTree = "<group>"; };
+		09DB639B1B5651C100387C13 /* MKStoreKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKStoreKit.m; sourceTree = "<group>"; };
+		09DB639D1B56525100387C13 /* MKStoreKitConfigs.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = MKStoreKitConfigs.plist; sourceTree = "<group>"; };
 		250606D5461711E9FC89BC0E /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		515AAE4709C37B6475D12AF4 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		769385628457ECC646BCC3FE /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -93,6 +106,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				09DB63981B564F0900387C13 /* StoreKit.framework in Frameworks */,
 				098B3B541B379C93000D4702 /* AudioToolbox.framework in Frameworks */,
 				098B3B521B379C8D000D4702 /* GameKit.framework in Frameworks */,
 				098B3B501B379C87000D4702 /* iAd.framework in Frameworks */,
@@ -152,7 +166,10 @@
 				091FED7E1B374C520071F8DC /* CustomUIClasses */,
 				091FED731B37339D0071F8DC /* DataFiles */,
 				091FED721B372EE70071F8DC /* Images */,
+				09DB63991B56516700387C13 /* InAppPurchase */,
 				091FED461B37283E0071F8DC /* Supporting Files */,
+				09DB638F1B564DD400387C13 /* TableViewCells */,
+				09DB638B1B564DAF00387C13 /* TableViewControllers */,
 				091FED701B37296E0071F8DC /* UserInterface */,
 				091FED711B37298D0071F8DC /* ViewControllers */,
 				0906AAF61B552180008F28C1 /* Views */,
@@ -211,8 +228,8 @@
 				091FED801B375DA50071F8DC /* GameViewController.m */,
 				091FED6D1B37295D0071F8DC /* StartScreenViewController.h */,
 				091FED6E1B37295D0071F8DC /* StartScreenViewController.m */,
-				0906AAF01B551F0A008F28C1 /* BuyCoinsViewController.h */,
-				0906AAF11B551F0A008F28C1 /* BuyCoinsViewController.m */,
+				0906AAF01B551F0A008F28C1 /* IAPViewController.h */,
+				0906AAF11B551F0A008F28C1 /* IAPViewController.m */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -290,9 +307,38 @@
 			name = MSSProgressView;
 			sourceTree = "<group>";
 		};
+		09DB638B1B564DAF00387C13 /* TableViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				09DB63881B564DA700387C13 /* IAPTableViewController.h */,
+				09DB63891B564DA700387C13 /* IAPTableViewController.m */,
+			);
+			name = TableViewControllers;
+			sourceTree = "<group>";
+		};
+		09DB638F1B564DD400387C13 /* TableViewCells */ = {
+			isa = PBXGroup;
+			children = (
+				09DB638C1B564DCA00387C13 /* IAPTableViewCell.h */,
+				09DB638D1B564DCA00387C13 /* IAPTableViewCell.m */,
+			);
+			name = TableViewCells;
+			sourceTree = "<group>";
+		};
+		09DB63991B56516700387C13 /* InAppPurchase */ = {
+			isa = PBXGroup;
+			children = (
+				09DB639A1B5651C100387C13 /* MKStoreKit.h */,
+				09DB639B1B5651C100387C13 /* MKStoreKit.m */,
+				09DB639D1B56525100387C13 /* MKStoreKitConfigs.plist */,
+			);
+			name = InAppPurchase;
+			sourceTree = "<group>";
+		};
 		0F880A65ACF3CFF0D72120E8 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				09DB63971B564F0900387C13 /* StoreKit.framework */,
 				092B470F1B52273A00AFE43C /* libOCMock.a */,
 				09343DA91B44BB1C00D1C707 /* QuartzCore.framework */,
 				098B3B531B379C93000D4702 /* AudioToolbox.framework */,
@@ -359,7 +405,7 @@
 		091FED3B1B37283E0071F8DC /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0630;
+				LastUpgradeCheck = 0700;
 				ORGANIZATIONNAME = "Push The World LLC";
 				TargetAttributes = {
 					091FED421B37283E0071F8DC = {
@@ -395,6 +441,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				09DB639E1B56525100387C13 /* MKStoreKitConfigs.plist in Resources */,
 				091FED571B37283E0071F8DC /* LaunchScreen.xib in Resources */,
 				091FED541B37283E0071F8DC /* Images.xcassets in Resources */,
 			);
@@ -451,10 +498,13 @@
 				091FED791B3736210071F8DC /* UIColor+Additions.m in Sources */,
 				091FED7D1B374C470071F8DC /* BaseNavigationViewController.m in Sources */,
 				098B3B4A1B378EC0000D4702 /* FXReachability.m in Sources */,
+				09DB639C1B5651C100387C13 /* MKStoreKit.m in Sources */,
 				098B3B471B378C27000D4702 /* Game.m in Sources */,
 				091FED811B375DA50071F8DC /* GameViewController.m in Sources */,
+				09DB638E1B564DCA00387C13 /* IAPTableViewCell.m in Sources */,
 				091FED4C1B37283E0071F8DC /* AppDelegate.m in Sources */,
-				0906AAF21B551F0A008F28C1 /* BuyCoinsViewController.m in Sources */,
+				0906AAF21B551F0A008F28C1 /* IAPViewController.m in Sources */,
+				09DB638A1B564DA700387C13 /* IAPTableViewController.m in Sources */,
 				098B3B571B395091000D4702 /* MSSProgressView.m in Sources */,
 				091FED761B3733AF0071F8DC /* SIConstants.m in Sources */,
 				098B3B431B378B89000D4702 /* AppSingleton.m in Sources */,
@@ -516,6 +566,7 @@
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -589,6 +640,7 @@
 				INFOPLIST_FILE = "Swype It/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.pushtheworldllc.swipeit;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "c7ba4f47-45d8-409b-8c87-927ad2b71ff8";
 			};
@@ -603,6 +655,7 @@
 				INFOPLIST_FILE = "Swype It/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.pushtheworldllc.swipeit;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "c7ba4f47-45d8-409b-8c87-927ad2b71ff8";
 			};
@@ -637,6 +690,7 @@
 					XCTest,
 					"-ObjC",
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.pushtheworldllc.swipeit;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Swype It.app/Swype It";
 			};
@@ -667,6 +721,7 @@
 					XCTest,
 					"-ObjC",
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.pushtheworldllc.swipeit;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Swype It.app/Swype It";
 			};

@@ -156,7 +156,31 @@ extern NSString *const kSINSDictionaryKeyMoveScore;
 extern NSString *const kSINSDictionaryKeyPowerUp;
 
 #pragma mark - In App Purchase Product ID
-NSString *const kSIIAPProductIDCoinPackSmall;
-NSString *const kSIIAPProductIDCoinPackMedium;
-NSString *const kSIIAPProductIDCoinPackLarge;
-NSString *const kSIIAPProductIDCoinPackExtraLarge;
+extern NSString *const kSIIAPProductIDCoinPackSmall;
+extern NSString *const kSIIAPProductIDCoinPackMedium;
+extern NSString *const kSIIAPProductIDCoinPackLarge;
+extern NSString *const kSIIAPProductIDCoinPackExtraLarge;
+
+#pragma mark - In App Purchase Consumable ID
+extern NSString *const kSIIAPConsumableIDCoins;
+
+#pragma mark - In App Purchase Pack Names
+extern NSString *const kSIIAPPackNameSmall;
+extern NSString *const kSIIAPPackNameMedium;
+extern NSString *const kSIIAPPackNameLarge;
+extern NSString *const kSIIAPPackNameExtraLarge;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

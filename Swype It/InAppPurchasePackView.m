@@ -21,7 +21,13 @@
 @interface InAppPurchasePackView () {
     
 }
+#pragma mark - Private Properties
 @property (assign, nonatomic) SIIAPPack siiapPack;
+
+#pragma mark - Private Objects
+@property (strong, nonatomic) UIImageView   *packImage;
+@property (strong, nonatomic) UILabel       *packLabel;
+@property (strong, nonatomic) UILabel       *priceLabel;
 
 @end
 
@@ -36,8 +42,9 @@
 }
 */
 - (instancetype)initWithPack:(SIIAPPack)siiapPack {
-    if (self = [super init]) {
-        self.siiapPack = siiapPack;
+    self = [super initWithFrame:CGRectZero];
+    if (self != nil) {
+        [self initializeViewWithPack:siiapPack];
     }
     return self;
 }
@@ -45,7 +52,7 @@
 {
     if ((self = [super initWithFrame:frameRect]))
     {
-        [self initializeView];
+        [self initializeViewWithPack:SIIAPPackSmall];
     }
     return self;
 }
@@ -54,13 +61,16 @@
 {
     if ((self = [super initWithCoder:aDecoder]))
     {
-        [self initializeView];
+        [self initializeViewWithPack:SIIAPPackSmall];
     }
     return self;
 }
 
-- (void)initializeView {
+- (void)initializeViewWithPack:(SIIAPPack)siiapPack {
     /*Perform Initalization*/
+    if (siiapPack) {
+        self.siiapPack = siiapPack;
+    }
 }
 
 

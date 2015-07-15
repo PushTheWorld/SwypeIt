@@ -10,6 +10,7 @@
 #import "StartScreenViewController.h"
 // Framework Import
 // Drop-In Class Imports (CocoaPods/GitHub/Guru)
+#import "MKStoreKit.h"
 // Category Import
 #import "UIColor+Additions.h"
 // Support/Data Class Imports
@@ -42,6 +43,9 @@ static BOOL isRunningTests(void) __attribute__((const));
     /*Check the NSUserDefaults*/
     [self setNSUserDefaults];
     
+    /*Get In App Purcahses Up and Running*/
+    [self configureMKStoreKit];
+    
     return YES;
 }
 
@@ -72,10 +76,45 @@ static BOOL isRunningTests(void) __attribute__((const));
     if (isThisTheFirstLaunch == NO) {
         //set to no
         [[NSUserDefaults standardUserDefaults] setInteger:0     forKey:kSINSUserDefaultGameMode];
-        [[NSUserDefaults standardUserDefaults] setInteger:10000 forKey:kSINSUserDefaultNumberOfItCoins];
         [[NSUserDefaults standardUserDefaults] setBool:YES      forKey:kSINSUserDefaultFirstLaunch];
         [[NSUserDefaults standardUserDefaults] synchronize];
     }
+}
+- (void)configureMKStoreKit {
+    [[MKStoreKit sharedKit] startProductRequest];
+    [[MKStoreKit sharedKit] setDefaultCredits:[NSNumber numberWithInt:100] forConsumableIdentifier:kSIIAPConsumableIDCoins];
+    [[NSNotificationCenter defaultCenter] addObserverForName:kMKStoreKitProductsAvailableNotification
+                                                      object:nil
+                                                       queue:[[NSOperationQueue alloc] init]
+                                                  usingBlock:^(NSNotification *note) {
+                                                      
+                                                      NSLog(@"Products available: %@", [[MKStoreKit sharedKit] availableProducts]);
+                                                  }];
+    
+    
+    [[NSNotificationCenter defaultCenter] addObserverForName:kMKStoreKitProductPurchasedNotification
+                                                      object:nil
+                                                       queue:[[NSOperationQueue alloc] init]
+                                                  usingBlock:^(NSNotification *note) {
+                                                      
+                                                      NSLog(@"Purchased/Subscribed to product with id: %@", [note object]);
+                                                  }];
+    
+    [[NSNotificationCenter defaultCenter] addObserverForName:kMKStoreKitRestoredPurchasesNotification
+                                                      object:nil
+                                                       queue:[[NSOperationQueue alloc] init]
+                                                  usingBlock:^(NSNotification *note) {
+                                                      
+                                                      NSLog(@"Restored Purchases");
+                                                  }];
+    
+    [[NSNotificationCenter defaultCenter] addObserverForName:kMKStoreKitRestoringPurchasesFailedNotification
+                                                      object:nil
+                                                       queue:[[NSOperationQueue alloc] init]
+                                                  usingBlock:^(NSNotification *note) {
+                                                      
+                                                      NSLog(@"Failed restoring purchases with error: %@", [note object]);
+                                                  }];
 }
 static BOOL isRunningTests(void) {
     NSDictionary* environment = [[NSProcessInfo processInfo] environment];

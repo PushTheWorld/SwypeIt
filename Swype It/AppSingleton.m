@@ -10,6 +10,7 @@
 // Framework Import
 // Drop-In Class Imports (CocoaPods/GitHub/Guru)
 #import "FXReachability.h"
+#import "MKStoreKit.h"
 // Category Import
 #import "UIColor+Additions.h"
 // Support/Data Class Imports
@@ -93,6 +94,16 @@
 - (void)endGame {
     [self.manager stopAccelerometerUpdates];
     [self.timer invalidate];
+    
+    if (self.currentGame.totalScore > 100) {
+        NSNumber *oldCoinAmount = [[MKStoreKit sharedKit] availableCreditsForConsumable:kSIIAPConsumableIDCoins];
+        /*Spend the Consumable*/
+        [[MKStoreKit sharedKit] addFreeCredits:[NSNumber numberWithInt:2] identifiedByConsumableIdentifier:kSIIAPConsumableIDCoins];
+        
+        /*DEBUG Print the new value*/
+        NSNumber *newCoinAmount = [[MKStoreKit sharedKit] availableCreditsForConsumable:kSIIAPConsumableIDCoins];
+        NSLog(@"Old Coin Value: %@ || New Coin Value: %@",oldCoinAmount,newCoinAmount);
+    }
     
     /*Send Notification that Game has ENDED*/
     NSNotification *notification    = [[NSNotification alloc] initWithName:kSINotificationGameEnded object:nil userInfo:nil];
@@ -210,8 +221,8 @@
 /*This is the third step in powerup acitivation. This checks to see if the User has enough coins*/
 - (void)powerUpWillActivate:(SIPowerUp)powerUp withPowerUpCost:(SIPowerUpCost)powerUpCost {
     
-    NSInteger numberOfItCoins = [[NSUserDefaults standardUserDefaults] integerForKey:kSINSUserDefaultNumberOfItCoins];
-    if (numberOfItCoins >= powerUpCost) {
+    NSNumber *numberOfItCoins = [[MKStoreKit sharedKit] availableCreditsForConsumable:kSIIAPConsumableIDCoins];
+    if ([numberOfItCoins integerValue] >= powerUpCost) {
         self.currentGame.currentPowerUp = powerUp;
         
         /*Post Notification... GameViewController is listening*/
@@ -219,8 +230,13 @@
         NSNotification *notification    = [[NSNotification alloc] initWithName:kSINotificationPowerUpActive object:nil userInfo:userInfo];
         [[NSNotificationCenter defaultCenter] postNotification:notification];
         
-        [[NSUserDefaults standardUserDefaults] setInteger:(numberOfItCoins - powerUpCost) forKey:kSINSUserDefaultNumberOfItCoins];
-        [[NSUserDefaults standardUserDefaults] synchronize];
+        NSNumber *oldCoinAmount = [[MKStoreKit sharedKit] availableCreditsForConsumable:kSIIAPConsumableIDCoins];
+        /*Spend the Consumable*/
+        [[MKStoreKit sharedKit] consumeCredits:[NSNumber numberWithInt:powerUpCost] identifiedByConsumableIdentifier:kSIIAPConsumableIDCoins];
+        
+        /*DEBUG Print the new value*/
+        NSNumber *newCoinAmount = [[MKStoreKit sharedKit] availableCreditsForConsumable:kSIIAPConsumableIDCoins];
+        NSLog(@"Old Coin Value: %@ || New Coin Value: %@",oldCoinAmount,newCoinAmount);
     }
 }
 /*This is the 6th step. The UI View controller did react to the powerup*/

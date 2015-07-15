@@ -61,8 +61,16 @@ NSString *const kSINSDictionaryKeyMoveScore                 = @"moveScore";
 NSString *const kSINSDictionaryKeyPowerUp                   = @"powerUp";
 
 #pragma mark - In App Purchase Product ID
-NSString *const kSIIAPProductIDCoinPackSmall                = @"com.pushtheworldllc.swipeit.swypeItSinglePack";
+NSString *const kSIIAPProductIDCoinPackSmall                = @"com.pushtheworldllc.swipeit.swypeItSmallPack";
 NSString *const kSIIAPProductIDCoinPackMedium               = @"com.pushtheworldllc.swipeit.swypeItMediumPack";
 NSString *const kSIIAPProductIDCoinPackLarge                = @"com.pushtheworldllc.swipeit.swypeItLargePack";
 NSString *const kSIIAPProductIDCoinPackExtraLarge           = @"com.pushtheworldllc.swipeit.swypeItExtraLargePack";
 
+#pragma mark - In App Purchase Consumable ID
+NSString *const kSIIAPConsumableIDCoins                     = @"ITCoins";
+
+#pragma mark - In App Purchase Pack Names
+NSString *const kSIIAPPackNameSmall                         = @"Bag";
+NSString *const kSIIAPPackNameMedium                        = @"Pile";
+NSString *const kSIIAPPackNameLarge                         = @"Bucket";
+NSString *const kSIIAPPackNameExtraLarge                    = @"Chest";

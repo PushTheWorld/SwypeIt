@@ -200,7 +200,7 @@
 }
 - (void)setupNav {
     [self.navigationController setNavigationBarHidden:YES animated:NO];
-    
+    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStyleDone target:nil action:nil];
     self.view.backgroundColor = [UIColor mainColor];
 }
 - (void)launchGame:(UIButton *)button {

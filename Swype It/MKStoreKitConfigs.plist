@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!--
+   MKStoreKitConfigs.plist
+   Swype It
+
+   Created by Andrew Keller on 7/15/15.
+   Copyright (c) 2015 Push The World LLC. All rights reserved.
+-->
+<plist version="1.0">
+    <dict>
+        <key>Consumables</key>
+        <dict>
+            <key>com.pushtheworldllc.swipeit.swypeItSmallPack</key>
+            <dict>
+                <key>ConsumableCount</key>
+                <integer>30</integer>
+                <key>ConsumableId</key>
+                <string>ITCoins</string>
+            </dict>
+            <key>com.pushtheworldllc.swipeit.swypeItMediumPack</key>
+            <dict>
+                <key>ConsumableCount</key>
+                <integer>200</integer>
+                <key>ConsumableId</key>
+                <string>ITCoins</string>
+            </dict>
+            <key>com.pushtheworldllc.swipeit.swypeItLargePack</key>
+            <dict>
+                <key>ConsumableCount</key>
+                <integer>500</integer>
+                <key>ConsumableId</key>
+                <string>ITCoins</string>
+            </dict>
+            <key>com.pushtheworldllc.swipeit.swypeItExtraLargePack</key>
+            <dict>
+                <key>ConsumableCount</key>
+                <integer>1500</integer>
+                <key>ConsumableId</key>
+                <string>ITCoins</string>
+            </dict>
+        </dict>
+        <key>SharedSecret</key>
+        <string>81071302c77c458b8547b02e9e057011</string>
+    </dict>
+</plist>

@@ -12,9 +12,11 @@
 // Local Controller Import
 #import "AppSingleton.h"
 #import "GameViewController.h"
+#import "IAPViewController.h"
 // Framework Import
 #import <CoreMotion/CoreMotion.h>
 // Drop-In Class Imports (CocoaPods/GitHub/Guru)
+#import "MKStoreKit.h"
 #import "YLProgressBar.h"
 // Category Import
 #import "UIColor+Additions.h"
@@ -43,6 +45,7 @@
 @property (strong, nonatomic) YLProgressBar     *currentMoveProgressView;
 @property (strong, nonatomic) YLProgressBar     *powerUpProgressView;
 @property (strong, nonatomic) UIButton          *doublePointsButton;
+@property (strong, nonatomic) UIButton          *storeButton;
 @property (strong, nonatomic) UIButton          *rapidFireButton;
 @property (strong, nonatomic) UIButton          *replayGameButton;
 @property (strong, nonatomic) UIButton          *slowMotionButton;
@@ -160,6 +163,7 @@
     self.powerUpProgressView            = [[YLProgressBar alloc] init];
     
     /*Game over controls*/
+    self.storeButton                    = [UIButton buttonWithType:UIButtonTypeCustom];
     self.replayGameButton               = [UIButton buttonWithType:UIButtonTypeCustom];
     self.doublePointsButton             = [UIButton buttonWithType:UIButtonTypeCustom];
     self.slowMotionButton               = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -218,6 +222,8 @@
 
     /*Replay Button*/
     self.replayGameButton.hidden                        = YES;
+    self.replayGameButton.layer.borderColor             = [UIColor blackColor].CGColor;
+    self.replayGameButton.layer.borderWidth             = 1.0f;
     self.replayGameButton.layer.cornerRadius            = 4.0f;
     self.replayGameButton.layer.masksToBounds           = YES;
     self.replayGameButton.layer.backgroundColor         = [UIColor whiteColor].CGColor;
@@ -225,6 +231,18 @@
     [self.replayGameButton addTarget:self action:@selector(replayGame) forControlEvents:UIControlEventTouchUpInside];
     [self.replayGameButton setTitle:@"Replay" forState:UIControlStateNormal];
     [self.replayGameButton setTranslatesAutoresizingMaskIntoConstraints:NO];
+    
+    /*Store Button*/
+    self.storeButton.hidden                             = YES;
+    self.storeButton.layer.borderColor                  = [UIColor blackColor].CGColor;
+    self.storeButton.layer.borderWidth                  = 1.0f;
+    self.storeButton.layer.cornerRadius                 = 4.0f;
+    self.storeButton.layer.masksToBounds                = YES;
+    self.storeButton.layer.backgroundColor              = [UIColor whiteColor].CGColor;
+    [self.storeButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [self.storeButton addTarget:self action:@selector(launchStore) forControlEvents:UIControlEventTouchUpInside];
+    [self.storeButton setTitle:@"Store" forState:UIControlStateNormal];
+    [self.storeButton setTranslatesAutoresizingMaskIntoConstraints:NO];
     
     /*Foresight Button*/
     self.doublePointsButton.tag                         = SIPowerUpDoublePoints;
@@ -269,6 +287,7 @@
     [self.view addSubview:self.moveCommandLabel];
     [self.view addSubview:self.totalScoreLabel];
     [self.view addSubview:self.replayGameButton];
+    [self.view addSubview:self.storeButton];
     [self.view addSubview:self.powerUpProgressView];
     [self.view addSubview:self.doublePointsButton];
     [self.view addSubview:self.rapidFireButton];
@@ -428,6 +447,39 @@
                                attribute             : NSLayoutAttributeWidth
                                multiplier            : 0.33f
                                constant              : 0.0f]];
+    /*Store Button*/
+    [self.view addConstraint: [NSLayoutConstraint
+                               constraintWithItem    : self.storeButton
+                               attribute             : NSLayoutAttributeCenterX
+                               relatedBy             : NSLayoutRelationEqual
+                               toItem                : self.view
+                               attribute             : NSLayoutAttributeCenterX
+                               multiplier            : 1.0f
+                               constant              : 0.0f]];
+    [self.view addConstraint: [NSLayoutConstraint
+                               constraintWithItem    : self.storeButton
+                               attribute             : NSLayoutAttributeTop
+                               relatedBy             : NSLayoutRelationEqual
+                               toItem                : self.replayGameButton
+                               attribute             : NSLayoutAttributeBottom
+                               multiplier            : 1.0f
+                               constant              : VERTICAL_SPACING_8]];
+    [self.view addConstraint: [NSLayoutConstraint
+                               constraintWithItem    : self.storeButton
+                               attribute             : NSLayoutAttributeHeight
+                               relatedBy             : NSLayoutRelationEqual
+                               toItem                : nil
+                               attribute             : NSLayoutAttributeNotAnAttribute
+                               multiplier            : 1.0f
+                               constant              : self.progressViewHeight]];
+    [self.view addConstraint: [NSLayoutConstraint
+                               constraintWithItem    : self.storeButton
+                               attribute             : NSLayoutAttributeWidth
+                               relatedBy             : NSLayoutRelationEqual
+                               toItem                : self.view
+                               attribute             : NSLayoutAttributeWidth
+                               multiplier            : 0.33f
+                               constant              : 0.0f]];
     /*Power Up Progress View*/
     [self.view addConstraint: [NSLayoutConstraint
                                constraintWithItem    : self.powerUpProgressView
@@ -564,6 +616,8 @@
 - (void)setupNav {
     [self.navigationController setNavigationBarHidden:YES animated:NO];
     self.view.backgroundColor = [UIColor mainColor];
+    self.navigationController.navigationBar.translucent = NO;
+    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStyleDone target:nil action:nil];
 }
 - (void)setupGestureRecognizers {
     /*Both Game modes get tap*/
@@ -654,6 +708,7 @@
     [self.navigationController setNavigationBarHidden:YES animated:YES];
     self.currentMoveProgressView.hidden     = NO;
     self.replayGameButton.hidden            = YES;
+    self.storeButton.hidden                 = YES;
     self.doublePointsButton.hidden          = NO;
     self.slowMotionButton.hidden            = NO;
     self.rapidFireButton.hidden             = NO;
@@ -673,6 +728,7 @@
     
     self.currentMoveProgressView.hidden     = YES;
     self.replayGameButton.hidden            = NO;
+    self.storeButton.hidden                 = NO;
     self.doublePointsButton.hidden          = YES;
     self.slowMotionButton.hidden            = YES;
     self.rapidFireButton.hidden             = YES;
@@ -692,7 +748,7 @@
     dispatch_async(dispatch_get_main_queue(), ^{
         [self.currentMoveProgressView setProgress:[AppSingleton singleton].currentGame.moveScorePercentRemaining];
         if ([AppSingleton singleton].currentGame.currentPowerUp != SIPowerUpNone) {
-            NSLog(@"Power up percent remainging: %0.2f",[AppSingleton singleton].currentGame.powerUpPercentRemaining);
+//            NSLog(@"Power up percent remainging: %0.2f",[AppSingleton singleton].currentGame.powerUpPercentRemaining);
             [self.powerUpProgressView setProgress:[AppSingleton singleton].currentGame.powerUpPercentRemaining];
         }
     });
@@ -816,5 +872,16 @@
     [UIView animateWithDuration:0.5f animations:^{
         self.moveScoreLabel.alpha   = 0.0f;
     }];
+}
+
+#pragma mark - IAP Store Methods
+- (void)launchStore {
+    NSArray *products = [[MKStoreKit sharedKit] availableProducts];
+    if (products.count > 0) {
+        IAPViewController *viewController = [[IAPViewController alloc] init];
+        [self.navigationController pushViewController:viewController animated:YES];
+    } else {
+        NSLog(@"No Products Found");
+    }
 }
 @end
