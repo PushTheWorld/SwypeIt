@@ -6,6 +6,7 @@
 //  Purpose: Thie is the startign screen for the swype it game
 //
 // Local Controller Import
+#import "BaseViewController.h"
 // Framework Import
 #import <UIKit/UIKit.h>
 // Drop-In Class Imports (CocoaPods/GitHub/Guru)
@@ -15,7 +16,7 @@
 #import "SIConstants.h"
 // Other Imports
 
-@interface GameViewController : UIViewController
+@interface GameViewController : BaseViewController
 
 - (instancetype)initWithGameMode:(SIGameMode)gameMode;
 

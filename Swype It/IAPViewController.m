@@ -11,6 +11,7 @@
 #import "IAPViewController.h"
 #import "IAPTableViewController.h"
 // Framework Import
+#import <StoreKit/StoreKit.h>
 // Drop-In Class Imports (CocoaPods/GitHub/Guru)
 #import "MKStoreKit.h"
 // Category Import
@@ -38,9 +39,11 @@
 }
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    [self.navigationController setNavigationBarHidden:NO animated:animated];
+    [self registerForNotifications];
 }
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
+- (void)viewWillDisappear:(BOOL)animated {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 - (void)setupUserInterface {
     [self createConstants];
@@ -73,6 +76,8 @@
                                                                         views:@{@"container": self.containerView}]];
 }
 - (void)setupNav {
+    [self.navigationController setNavigationBarHidden:NO animated:NO];
+    self.title  = [NSString stringWithFormat:@"%@",[[MKStoreKit sharedKit] availableCreditsForConsumable:kSIIAPConsumableIDCoins]];
     self.navigationController.navigationBar.translucent = NO;
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Restore" style:UIBarButtonItemStyleBordered target:self action:@selector(restoreTapped:)];
 
@@ -97,6 +102,42 @@
 #pragma mark - Private Methods
 - (void)restoreTapped:(id)sender {
     [[MKStoreKit sharedKit] restorePurchases];
+}
+- (void)packPurchaseRequest:(NSNotification *)notification {
+    NSDictionary *userInfo = notification.userInfo;
+    SKProduct *product = [userInfo objectForKey:kSINSDictionaryKeyPackProduct];
+    
+    if (product) {
+        [[MKStoreKit sharedKit] initiatePaymentRequestForProductWithIdentifier:product.productIdentifier];
+    }
+}
+
+#pragma mark - IAP Methods
+- (void)registerForNotifications {
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(packPurchaseRequest:) name:kSINotificationPackPurchaseRequest object:nil];
+    [[NSNotificationCenter defaultCenter] addObserverForName:kMKStoreKitProductPurchasedNotification
+                                                      object:nil
+                                                       queue:[[NSOperationQueue alloc] init]
+                                                  usingBlock:^(NSNotification *note) {
+                                                      
+                                                      NSLog(@"Purchased/Subscribed to product with id: %@", [note object]);
+                                                  }];
+    
+    [[NSNotificationCenter defaultCenter] addObserverForName:kMKStoreKitRestoredPurchasesNotification
+                                                      object:nil
+                                                       queue:[[NSOperationQueue alloc] init]
+                                                  usingBlock:^(NSNotification *note) {
+                                                      
+                                                      NSLog(@"Restored Purchases");
+                                                  }];
+    
+    [[NSNotificationCenter defaultCenter] addObserverForName:kMKStoreKitRestoringPurchasesFailedNotification
+                                                      object:nil
+                                                       queue:[[NSOperationQueue alloc] init]
+                                                  usingBlock:^(NSNotification *note) {
+                                                      
+                                                      NSLog(@"Failed restoring purchases with error: %@", [note object]);
+                                                  }];
 }
 
 @end

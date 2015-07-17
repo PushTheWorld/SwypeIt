@@ -28,7 +28,6 @@
 @property (assign, nonatomic) float              timeFreezeMultiplyer;
 @property (assign, nonatomic) float              levelSpeedDivider;
 @property (assign, nonatomic) float              moveStartTimeInMiliSeconds;
-@property (assign, nonatomic) float              pointMultiplyer;
 @property (assign, nonatomic) float              powerUpTimeInMiliSeconds;
 
 
@@ -79,7 +78,6 @@
 #pragma mark - Game Functions
 - (void)startGame {
     self.levelSpeedDivider          = 1.0f;
-    self.pointMultiplyer            = 1.0f;
     self.timeFreezeMultiplyer       = 1.0f;
     self.currentGame.totalScore     = 0.0;
     self.moveStartTimeInMiliSeconds = 0;
@@ -94,16 +92,6 @@
 - (void)endGame {
     [self.manager stopAccelerometerUpdates];
     [self.timer invalidate];
-    
-    if (self.currentGame.totalScore > 100) {
-        NSNumber *oldCoinAmount = [[MKStoreKit sharedKit] availableCreditsForConsumable:kSIIAPConsumableIDCoins];
-        /*Spend the Consumable*/
-        [[MKStoreKit sharedKit] addFreeCredits:[NSNumber numberWithInt:2] identifiedByConsumableIdentifier:kSIIAPConsumableIDCoins];
-        
-        /*DEBUG Print the new value*/
-        NSNumber *newCoinAmount = [[MKStoreKit sharedKit] availableCreditsForConsumable:kSIIAPConsumableIDCoins];
-        NSLog(@"Old Coin Value: %@ || New Coin Value: %@",oldCoinAmount,newCoinAmount);
-    }
     
     /*Send Notification that Game has ENDED*/
     NSNotification *notification    = [[NSNotification alloc] initWithName:kSINotificationGameEnded object:nil userInfo:nil];
@@ -181,10 +169,13 @@
     [self updateCompositeTime];
     
     /*Calculate new time*/
-    float durationOfLastMove    = (self.compositeTimeInMiliSeconds - self.moveStartTimeInMiliSeconds) * self.timeFreezeMultiplyer;
+    float durationOfLastMove                    = (self.compositeTimeInMiliSeconds - self.moveStartTimeInMiliSeconds) * self.timeFreezeMultiplyer;
+    
+    /*Calculate Level Speed Divider*/
+    self.levelSpeedDivider                      = [Game levelSpeedForScore:self.currentGame.totalScore];
 
     /*Get the new score for this time -- Always keep the time current*/
-    self.currentGame.moveScore  = [Game scoreForMoveDuration:durationOfLastMove withLevelSpeedDivider:self.levelSpeedDivider] * self.pointMultiplyer;
+    self.currentGame.moveScore                  = [Game scoreForMoveDuration:durationOfLastMove withLevelSpeedDivider:self.levelSpeedDivider];
     
     /*Get the new percentage for score*/
     self.currentGame.moveScorePercentRemaining  = self.currentGame.moveScore / MAX_MOVE_SCORE;
@@ -250,8 +241,8 @@
         case SIPowerUpTimeFreeze:
             self.timeFreezeMultiplyer   = 0.2f;
             break;
-        case SIPowerUpDoublePoints:
-            self.pointMultiplyer        = 2.0f;
+        case SIPowerUpFallingMonkeys:
+            /*Do Falling Monkeys in Setup*/
         default:
             
             break;
@@ -264,8 +255,8 @@
         case SIPowerUpTimeFreeze:
             self.timeFreezeMultiplyer   = 1.0f;
             break;
-        case SIPowerUpDoublePoints:
-            self.pointMultiplyer        = 1.0f;
+        case SIPowerUpFallingMonkeys:
+            /*Do Falling Monkeys Breakdown*/
             break;
         default:
             break;

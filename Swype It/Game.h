@@ -31,6 +31,7 @@
 + (NSString *)          currentLevelStringForScore:(float)score;
 + (SIPowerUpDuration)   durationForPowerUp:(SIPowerUp)powerUp;
 + (SIMove)              getRandomMoveForGameMode:(SIGameMode)gameMode isRapidFireActiviated:(BOOL)isRapidFireActivated;
++ (float)               levelSpeedForScore:(float)score;
 + (int)                 nextLevelForScore:(float)score;
 + (SIPowerUpCost)       costForPowerUp:(SIPowerUp)powerUp;
 + (NSString *)          stringForMove:(SIMove)move;

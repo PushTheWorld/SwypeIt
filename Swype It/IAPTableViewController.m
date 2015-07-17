@@ -73,5 +73,16 @@ static NSString * const reuseIdentifier =  @"cell";
     return cell;
 }
 
+- (void)tableView:(nonnull UITableView *)tableView didSelectRowAtIndexPath:(nonnull NSIndexPath *)indexPath {
+    SKProduct *product = (SKProduct *) self.products[indexPath.row];
+    
+    /*Post Notification... GameViewController is listening*/
+    NSDictionary *userInfo          = [NSDictionary dictionaryWithObject:product forKey:kSINSDictionaryKeyPackProduct];
+    NSNotification *notification    = [[NSNotification alloc] initWithName:kSINotificationPackPurchaseRequest object:nil userInfo:userInfo];
+    [[NSNotificationCenter defaultCenter] postNotification:notification];
+    
+    [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
+}
+
 
 @end

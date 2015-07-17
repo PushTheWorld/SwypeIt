@@ -207,7 +207,7 @@
 - (void)testStringForPowerUp {
     XCTAssertEqualObjects(kSIPowerUpNone, [Game stringForPowerUp:SIPowerUpNone]);
 
-    XCTAssertEqualObjects(kSIPowerUpDoublePoints, [Game stringForPowerUp:SIPowerUpDoublePoints]);
+    XCTAssertEqualObjects(kSIPowerUpFallingMonkeys, [Game stringForPowerUp:SIPowerUpFallingMonkeys]);
 
     XCTAssertEqualObjects(kSIPowerUpTimeFreeze, [Game stringForPowerUp:SIPowerUpTimeFreeze]);
 
@@ -216,9 +216,6 @@
 - (void)testDurationForPowerUp {
     /*Power Up None*/
     XCTAssertEqual(SIPowerUpDurationNone, [Game durationForPowerUp:SIPowerUpNone]);
-    
-    /*Power Up Double Points*/
-    XCTAssertEqual(SIPowerUpDurationDoublePoints, [Game durationForPowerUp:SIPowerUpDoublePoints]);
     
     /*Power Up Time Freeze*/
     XCTAssertEqual(SIPowerUpDurationTimeFreeze, [Game durationForPowerUp:SIPowerUpTimeFreeze]);
@@ -231,7 +228,7 @@
     XCTAssertEqual(SIPowerUpCostNone, [Game costForPowerUp:SIPowerUpNone]);
     
     /*Power Up Double Points*/
-    XCTAssertEqual(SIPowerUpCostDoublePoints, [Game costForPowerUp:SIPowerUpDoublePoints]);
+    XCTAssertEqual(SIPowerUpCostFallingMonkeys, [Game costForPowerUp:SIPowerUpFallingMonkeys]);
     
     /*Power Up Time Freeze*/
     XCTAssertEqual(SIPowerUpCostTimeFreeze, [Game costForPowerUp:SIPowerUpTimeFreeze]);
@@ -243,7 +240,7 @@
     /*Power Up None*/
     XCTAssertEqual(0, SIPowerUpDurationNone);
     /*Power Up Double Points*/
-    XCTAssertEqual(5, SIPowerUpDurationDoublePoints);
+    XCTAssertEqual(5, SIPowerUpDurationFallingMonkeys);
     /*Power Up Time Freeze*/
     XCTAssertEqual(5, SIPowerUpDurationTimeFreeze);
     /*Power Up Rapid Fire*/
@@ -253,7 +250,7 @@
     /*Power Up None*/
     XCTAssertEqual(0, SIPowerUpCostNone);
     /*Power Up Double Points*/
-    XCTAssertEqual(1, SIPowerUpCostDoublePoints);
+    XCTAssertEqual(1, SIPowerUpCostFallingMonkeys);
     /*Power Up Time Freeze*/
     XCTAssertEqual(3, SIPowerUpCostTimeFreeze);
     /*Power Up Rapid Fire*/

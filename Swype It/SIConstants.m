@@ -22,12 +22,13 @@ NSString *const kSIGameModeOneHand                          = @"gameModeOneHand"
 NSString *const kSINSUserDefaultFirstLaunch                 = @"firstLaunch";
 NSString *const kSINSUserDefaultNumberOfItCoins             = @"numberOfItCoins";
 NSString *const kSINSUserDefaultGameMode                    = @"gameMode";
-NSString *const kSINSUserDefaultPowerUpReadyForesight       = @"powerUpReadyForesight";
+NSString *const kSINSUserDefaultPowerUpReadyFallingMonkeys  = @"powerUpReadyTimeFallingMonkeys";
 NSString *const kSINSUserDefaultPowerUpReadyRapidFire       = @"powerUpReadyRapidFire";
-NSString *const kSINSUserDefaultPowerUpReadySlowMotion      = @"powerUpReadySlowMotion";
+NSString *const kSINSUserDefaultPowerUpReadyTimeFreeze      = @"powerUpReadyTimeFreeze";
+NSString *const kSINSUserDefaultNumberOfMonkeys             = @"numberOfMonkeys";
 
 #pragma mark - Power Ups
-NSString *const kSIPowerUpDoublePoints                      = @"Double Points";
+NSString *const kSIPowerUpFallingMonkeys                    = @"Falling Monkeys";
 NSString *const kSIPowerUpNone                              = @"None";
 NSString *const kSIPowerUpTimeFreeze                        = @"Time Freeze";
 NSString *const kSIPowerUpRapidFire                         = @"Rapid Fire";
@@ -41,16 +42,14 @@ NSString *const kSINotificationNewBackgroundReady           = @"com.pushtheworld
 NSString *const kSINotificationPowerUpActive                = @"com.pushtheworldllc.swipeit.powerUpActive";
 NSString *const kSINotificationPowerUpDeactivated           = @"com.pushtheworldllc.swipeit.powerUpDeactivated";
 NSString *const kSINotificationScoreUpdate                  = @"com.pushtheworldllc.swipeit.scoreUpdate";
+NSString *const kSINotificationPackPurchaseRequest          = @"com.pushtheworldllc.swipeit.purchasePack";
 
 #pragma mark - Score Constants
 NSString *const kSIScoreTotalScore                          = @"totalScore";
 NSString *const kSIScoreNextMove                            = @"nextMove";
 
 #pragma mark - Images
-NSString *const kSISegmentControlGameModeSelectedOneHand    = @"segmentControlGameModeSelectedOneHand";
-NSString *const kSISegmentControlGameModeSelectedTwoHand    = @"segmentControlGameModeSelectedTwoHand";
-NSString *const kSISegmentControlGameModeUnselectedOneHand  = @"segmentControlGameModeUnselectedOneHand";
-NSString *const kSISegmentControlGameModeUnselectedTwoHand  = @"segmentControlGameModeUnselectedTwoHand";
+NSString *const kSIImageFallingMonkeys                      = @"fallingMonkey";
 
 #pragma mark - Button Labels
 NSString *const kSIButtonLabelStringOneHand                 = @"One Hand";
@@ -59,6 +58,7 @@ NSString *const kSIButtonLabelStringTwoHand                 = @"Two Hand";
 #pragma mark - NSDictionary Keys
 NSString *const kSINSDictionaryKeyMoveScore                 = @"moveScore";
 NSString *const kSINSDictionaryKeyPowerUp                   = @"powerUp";
+NSString *const kSINSDictionaryKeyPackProduct               = @"packProduct";
 
 #pragma mark - In App Purchase Product ID
 NSString *const kSIIAPProductIDCoinPackSmall                = @"com.pushtheworldllc.swipeit.swypeItSmallPack";

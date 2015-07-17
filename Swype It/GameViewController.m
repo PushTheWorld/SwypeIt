@@ -11,8 +11,9 @@
 #define SHAKE_THRESHOLD                 0.5
 // Local Controller Import
 #import "AppSingleton.h"
-#import "GameViewController.h"
 #import "IAPViewController.h"
+#import "GameViewController.h"
+#import "FallingMonkeyView.h"
 // Framework Import
 #import <CoreMotion/CoreMotion.h>
 // Drop-In Class Imports (CocoaPods/GitHub/Guru)
@@ -24,12 +25,13 @@
 #import "Game.h"
 // Other Imports
 
-@interface GameViewController () {
+@interface GameViewController () <FallingMonkeyViewDelegate> {
     
 }
 #pragma mark - Private Primiatives
 @property (assign, nonatomic) BOOL               isGameActive;
 @property (assign, nonatomic) BOOL               isShakeActive;
+@property (assign, nonatomic) CGSize             fallingMonkeySize;
 @property (assign, nonatomic) CGFloat            fontSize;
 @property (assign, nonatomic) CGFloat            progressViewBoarderWidth;
 @property (assign, nonatomic) CGFloat            progressViewHeight;
@@ -42,21 +44,24 @@
 #pragma mark - Constraints
 
 #pragma mark - UI Controls
-@property (strong, nonatomic) YLProgressBar     *currentMoveProgressView;
-@property (strong, nonatomic) YLProgressBar     *powerUpProgressView;
-@property (strong, nonatomic) UIButton          *doublePointsButton;
-@property (strong, nonatomic) UIButton          *storeButton;
 @property (strong, nonatomic) UIButton          *rapidFireButton;
 @property (strong, nonatomic) UIButton          *replayGameButton;
-@property (strong, nonatomic) UIButton          *slowMotionButton;
+@property (strong, nonatomic) UIButton          *fallingMonkeysButton;
+@property (strong, nonatomic) UIButton          *storeButton;
+@property (strong, nonatomic) UIButton          *timeFreezeButton;
+@property (strong, nonatomic) UIDynamicAnimator *animator;
 @property (strong, nonatomic) UIFont            *nextMoveCommandFont;
 @property (strong, nonatomic) UIFont            *moveCommandFont;
 @property (strong, nonatomic) UIFont            *totalScoreFont;
+@property (strong, nonatomic) UIGravityBehavior *gravity;
 @property (strong, nonatomic) UILabel           *currentLevelLabel;
 @property (strong, nonatomic) UILabel           *moveCommandLabel;
 @property (strong, nonatomic) UILabel           *moveScoreLabel;
 @property (strong, nonatomic) UILabel           *powerUpLabel;
 @property (strong, nonatomic) UILabel           *totalScoreLabel;
+@property (strong, nonatomic) YLProgressBar     *currentMoveProgressView;
+@property (strong, nonatomic) YLProgressBar     *powerUpProgressView;
+
 
 
 @end
@@ -124,26 +129,34 @@
         self.fontSize                   = 20.0f;
         self.progressViewHeight         = 30.0f;
         self.progressViewBoarderWidth   = 2.0f;
+        self.fallingMonkeySize          = CGSizeMake(100.0, 100.0);
         
     } else if (IS_IPHONE_5) {
         self.fontSize                   = 24.0f;
         self.progressViewHeight         = 36.0f;
         self.progressViewBoarderWidth   = 3.0f;
+        self.fallingMonkeySize          = CGSizeMake(130.0, 130.0);
+
         
     } else if (IS_IPHONE_6) {
         self.fontSize                   = 28.0f;
         self.progressViewHeight         = 44.0f;
         self.progressViewBoarderWidth   = 3.0f;
+        self.fallingMonkeySize          = CGSizeMake(150.0, 150.0);
+
         
     } else if (IS_IPHONE_6_PLUS) {
         self.fontSize                   = 32.0f;
         self.progressViewHeight         = 50.0f;
         self.progressViewBoarderWidth   = 3.0f;
+        self.fallingMonkeySize          = CGSizeMake(180.0, 180.0);
+
         
     } else {
         self.fontSize                   = 36.0f;
         self.progressViewHeight         = 60.0f;
         self.progressViewBoarderWidth   = 4.0f;
+        self.fallingMonkeySize          = CGSizeMake(200.0, 200.0);
         
     }
     
@@ -154,124 +167,127 @@
     
 }
 - (void)createControls {
-    self.currentLevelLabel              = [[UILabel alloc] init];
-    self.moveScoreLabel                 = [[UILabel alloc] init];
-    self.powerUpLabel                   = [[UILabel alloc] init];
-    self.currentMoveProgressView        = [[YLProgressBar alloc] init];
-    self.moveCommandLabel               = [[UILabel alloc] init];
-    self.totalScoreLabel                = [[UILabel alloc] init];
-    self.powerUpProgressView            = [[YLProgressBar alloc] init];
+    self.animator                       = [[UIDynamicAnimator alloc] initWithReferenceView:self.view];
+    self.gravity                        = [[UIGravityBehavior alloc] init];
+    
+    self.currentLevelLabel              = [[UILabel         alloc] init];
+    self.moveScoreLabel                 = [[UILabel         alloc] init];
+    self.powerUpLabel                   = [[UILabel         alloc] init];
+    self.currentMoveProgressView        = [[YLProgressBar   alloc] init];
+    self.moveCommandLabel               = [[UILabel         alloc] init];
+    self.totalScoreLabel                = [[UILabel         alloc] init];
+    self.powerUpProgressView            = [[YLProgressBar   alloc] init];
     
     /*Game over controls*/
     self.storeButton                    = [UIButton buttonWithType:UIButtonTypeCustom];
     self.replayGameButton               = [UIButton buttonWithType:UIButtonTypeCustom];
-    self.doublePointsButton             = [UIButton buttonWithType:UIButtonTypeCustom];
-    self.slowMotionButton               = [UIButton buttonWithType:UIButtonTypeCustom];
+    self.fallingMonkeysButton           = [UIButton buttonWithType:UIButtonTypeCustom];
+    self.timeFreezeButton               = [UIButton buttonWithType:UIButtonTypeCustom];
     self.rapidFireButton                = [UIButton buttonWithType:UIButtonTypeCustom];
 }
 - (void)setupControls {
     /*Current Level Label*/
-    self.currentLevelLabel.textColor                    = [UIColor whiteColor];
-    self.currentLevelLabel.font                         = self.totalScoreFont;
-    self.currentLevelLabel.text                         = @"Level 1";
-    self.currentLevelLabel.adjustsFontSizeToFitWidth    = YES;
+    self.currentLevelLabel.textColor                        = [UIColor whiteColor];
+    self.currentLevelLabel.font                             = self.totalScoreFont;
+    self.currentLevelLabel.text                             = @"Level 1";
+    self.currentLevelLabel.adjustsFontSizeToFitWidth        = YES;
     [self.currentLevelLabel setTranslatesAutoresizingMaskIntoConstraints:NO];
-    
+
     /*Power Up Label*/
-    self.powerUpLabel.textColor                         = [UIColor whiteColor];
-    self.powerUpLabel.font                              = self.totalScoreFont;
-    self.powerUpLabel.text                              = @"NONE";
-    self.powerUpLabel.adjustsFontSizeToFitWidth         = YES;
+    self.powerUpLabel.textColor                             = [UIColor whiteColor];
+    self.powerUpLabel.font                                  = self.totalScoreFont;
+    self.powerUpLabel.text                                  = @"NONE";
+    self.powerUpLabel.adjustsFontSizeToFitWidth             = YES;
     [self.powerUpLabel setTranslatesAutoresizingMaskIntoConstraints:NO];
     
     /*Score remaining progress view*/
-    self.currentMoveProgressView.type                   = YLProgressBarTypeRounded;
-    self.currentMoveProgressView.progressTintColor      = [UIColor sandColor];
-    self.currentMoveProgressView.hideGloss              = YES;
-    self.currentMoveProgressView.hideStripes            = YES;
+    self.currentMoveProgressView.type                       = YLProgressBarTypeRounded;
+    self.currentMoveProgressView.progressTintColor          = [UIColor sandColor];
+    self.currentMoveProgressView.hideGloss                  = YES;
+    self.currentMoveProgressView.hideStripes                = YES;
     [self.currentMoveProgressView setTranslatesAutoresizingMaskIntoConstraints:NO];
     
     /*Move Instruction Label*/
-    self.moveCommandLabel.textColor                     = [UIColor whiteColor];
-    self.moveCommandLabel.font                          = self.moveCommandFont;
-    self.moveCommandLabel.text                          = [Game stringForMove:[AppSingleton singleton].currentGame.currentMove];
+    self.moveCommandLabel.textColor                         = [UIColor whiteColor];
+    self.moveCommandLabel.font                              = self.moveCommandFont;
+    self.moveCommandLabel.text                              = [Game stringForMove:[AppSingleton singleton].currentGame.currentMove];
     [self.moveCommandLabel setTranslatesAutoresizingMaskIntoConstraints:NO];
 
     /*Total Score Label*/
-    self.totalScoreLabel.textColor                      = [UIColor whiteColor];
-    self.totalScoreLabel.font                           = self.totalScoreFont;
-    self.totalScoreLabel.text                           = @"0.0";
-    self.totalScoreLabel.adjustsFontSizeToFitWidth      = YES;
+    self.totalScoreLabel.textColor                          = [UIColor whiteColor];
+    self.totalScoreLabel.font                               = self.totalScoreFont;
+    self.totalScoreLabel.text                               = @"0.0";
+    self.totalScoreLabel.adjustsFontSizeToFitWidth          = YES;
     [self.totalScoreLabel setTranslatesAutoresizingMaskIntoConstraints:NO];
     
     /*Move Score Label*/
-    self.moveScoreLabel.alpha                           = 0.0f;
-    self.moveScoreLabel.textColor                       = [UIColor whiteColor];
-    self.moveScoreLabel.font                            = self.totalScoreFont;
-    self.moveScoreLabel.text                            = @"0.00";
-    self.moveScoreLabel.adjustsFontSizeToFitWidth       = YES;
+    self.moveScoreLabel.alpha                               = 0.0f;
+    self.moveScoreLabel.textColor                           = [UIColor whiteColor];
+    self.moveScoreLabel.font                                = self.totalScoreFont;
+    self.moveScoreLabel.text                                = @"0.00";
+    self.moveScoreLabel.adjustsFontSizeToFitWidth           = YES;
     [self.moveScoreLabel setTranslatesAutoresizingMaskIntoConstraints:NO];
     
     /*Power Up Progress View*/
-    self.powerUpProgressView.type                       = YLProgressBarTypeRounded;
-    self.powerUpProgressView.progressTintColor          = [UIColor redColor];
-    self.powerUpProgressView.hideGloss                  = YES;
-    self.powerUpProgressView.hideStripes                = YES;
-    self.powerUpProgressView.alpha                      = 0.0f;
+    self.powerUpProgressView.type                           = YLProgressBarTypeRounded;
+    self.powerUpProgressView.progressTintColor              = [UIColor redColor];
+    self.powerUpProgressView.hideGloss                      = YES;
+    self.powerUpProgressView.hideStripes                    = YES;
+    self.powerUpProgressView.alpha                          = 0.0f;
     [self.powerUpProgressView setTranslatesAutoresizingMaskIntoConstraints:NO];
 
     /*Replay Button*/
-    self.replayGameButton.hidden                        = YES;
-    self.replayGameButton.layer.borderColor             = [UIColor blackColor].CGColor;
-    self.replayGameButton.layer.borderWidth             = 1.0f;
-    self.replayGameButton.layer.cornerRadius            = 4.0f;
-    self.replayGameButton.layer.masksToBounds           = YES;
-    self.replayGameButton.layer.backgroundColor         = [UIColor whiteColor].CGColor;
+    self.replayGameButton.hidden                            = YES;
+    self.replayGameButton.layer.borderColor                 = [UIColor blackColor].CGColor;
+    self.replayGameButton.layer.borderWidth                 = 1.0f;
+    self.replayGameButton.layer.cornerRadius                = 4.0f;
+    self.replayGameButton.layer.masksToBounds               = YES;
+    self.replayGameButton.layer.backgroundColor             = [UIColor whiteColor].CGColor;
     [self.replayGameButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     [self.replayGameButton addTarget:self action:@selector(replayGame) forControlEvents:UIControlEventTouchUpInside];
     [self.replayGameButton setTitle:@"Replay" forState:UIControlStateNormal];
     [self.replayGameButton setTranslatesAutoresizingMaskIntoConstraints:NO];
     
     /*Store Button*/
-    self.storeButton.hidden                             = YES;
-    self.storeButton.layer.borderColor                  = [UIColor blackColor].CGColor;
-    self.storeButton.layer.borderWidth                  = 1.0f;
-    self.storeButton.layer.cornerRadius                 = 4.0f;
-    self.storeButton.layer.masksToBounds                = YES;
-    self.storeButton.layer.backgroundColor              = [UIColor whiteColor].CGColor;
+    self.storeButton.hidden                                 = YES;
+    self.storeButton.layer.borderColor                      = [UIColor blackColor].CGColor;
+    self.storeButton.layer.borderWidth                      = 1.0f;
+    self.storeButton.layer.cornerRadius                     = 4.0f;
+    self.storeButton.layer.masksToBounds                    = YES;
+    self.storeButton.layer.backgroundColor                  = [UIColor whiteColor].CGColor;
     [self.storeButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     [self.storeButton addTarget:self action:@selector(launchStore) forControlEvents:UIControlEventTouchUpInside];
     [self.storeButton setTitle:@"Store" forState:UIControlStateNormal];
     [self.storeButton setTranslatesAutoresizingMaskIntoConstraints:NO];
     
     /*Foresight Button*/
-    self.doublePointsButton.tag                         = SIPowerUpDoublePoints;
-    self.doublePointsButton.hidden                      = NO;
-    self.doublePointsButton.layer.cornerRadius          = 4.0f;
-    self.doublePointsButton.layer.masksToBounds         = YES;
-    self.doublePointsButton.layer.backgroundColor       = [UIColor whiteColor].CGColor;
-    [self.doublePointsButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    [self.doublePointsButton addTarget:self action:@selector(powerUpTapped:) forControlEvents:UIControlEventTouchUpInside];
-    [self.doublePointsButton setTitle:@"DP" forState:UIControlStateNormal];
-    [self.doublePointsButton setTranslatesAutoresizingMaskIntoConstraints:NO];
+    self.fallingMonkeysButton.tag                              = SIPowerUpFallingMonkeys;
+    self.fallingMonkeysButton.hidden                           = NO;
+    self.fallingMonkeysButton.layer.cornerRadius               = 4.0f;
+    self.fallingMonkeysButton.layer.masksToBounds              = YES;
+    self.fallingMonkeysButton.layer.backgroundColor            = [UIColor whiteColor].CGColor;
+    [self.fallingMonkeysButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [self.fallingMonkeysButton addTarget:self action:@selector(powerUpTapped:) forControlEvents:UIControlEventTouchUpInside];
+    [self.fallingMonkeysButton setTitle:@"SM" forState:UIControlStateNormal];
+    [self.fallingMonkeysButton setTranslatesAutoresizingMaskIntoConstraints:NO];
     
-    /*Slow Motion Button*/
-    self.slowMotionButton.tag                           = SIPowerUpTimeFreeze;
-    self.slowMotionButton.hidden                        = NO;
-    self.slowMotionButton.layer.cornerRadius            = 4.0f;
-    self.slowMotionButton.layer.masksToBounds           = YES;
-    self.slowMotionButton.layer.backgroundColor         = [UIColor whiteColor].CGColor;
-    [self.slowMotionButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    [self.slowMotionButton addTarget:self action:@selector(powerUpTapped:) forControlEvents:UIControlEventTouchUpInside];
-    [self.slowMotionButton setTitle:@"SM" forState:UIControlStateNormal];
-    [self.slowMotionButton setTranslatesAutoresizingMaskIntoConstraints:NO];
+    /*Time Freeze Button*/
+    self.timeFreezeButton.tag                               = SIPowerUpTimeFreeze;
+    self.timeFreezeButton.hidden                            = NO;
+    self.timeFreezeButton.layer.cornerRadius                = 4.0f;
+    self.timeFreezeButton.layer.masksToBounds               = YES;
+    self.timeFreezeButton.layer.backgroundColor             = [UIColor whiteColor].CGColor;
+    [self.timeFreezeButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [self.timeFreezeButton addTarget:self action:@selector(powerUpTapped:) forControlEvents:UIControlEventTouchUpInside];
+    [self.timeFreezeButton setTitle:@"TF" forState:UIControlStateNormal];
+    [self.timeFreezeButton setTranslatesAutoresizingMaskIntoConstraints:NO];
     
     /*Rapid Fire Button*/
-    self.rapidFireButton.tag                            = SIPowerUpRapidFire;
-    self.rapidFireButton.hidden                         = NO;
-    self.rapidFireButton.layer.cornerRadius             = 4.0f;
-    self.rapidFireButton.layer.masksToBounds            = YES;
-    self.rapidFireButton.layer.backgroundColor          = [UIColor whiteColor].CGColor;
+    self.rapidFireButton.tag                                = SIPowerUpRapidFire;
+    self.rapidFireButton.hidden                             = NO;
+    self.rapidFireButton.layer.cornerRadius                 = 4.0f;
+    self.rapidFireButton.layer.masksToBounds                = YES;
+    self.rapidFireButton.layer.backgroundColor              = [UIColor whiteColor].CGColor;
     [self.rapidFireButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     [self.rapidFireButton addTarget:self action:@selector(powerUpTapped:) forControlEvents:UIControlEventTouchUpInside];
     [self.rapidFireButton setTitle:@"RF" forState:UIControlStateNormal];
@@ -289,9 +305,9 @@
     [self.view addSubview:self.replayGameButton];
     [self.view addSubview:self.storeButton];
     [self.view addSubview:self.powerUpProgressView];
-    [self.view addSubview:self.doublePointsButton];
+    [self.view addSubview:self.fallingMonkeysButton];
     [self.view addSubview:self.rapidFireButton];
-    [self.view addSubview:self.slowMotionButton];
+    [self.view addSubview:self.timeFreezeButton];
 
     /*Current Level Label*/
     [self.view addConstraint: [NSLayoutConstraint
@@ -493,7 +509,7 @@
                                constraintWithItem    : self.powerUpProgressView
                                attribute             : NSLayoutAttributeBottom
                                relatedBy             : NSLayoutRelationEqual
-                               toItem                : self.slowMotionButton
+                               toItem                : self.timeFreezeButton
                                attribute             : NSLayoutAttributeTop
                                multiplier            : 1.0f
                                constant              : VERTICAL_SPACING_8]];
@@ -513,9 +529,9 @@
                                attribute             : NSLayoutAttributeWidth
                                multiplier            : 0.5f
                                constant              : 0.0f]];
-    /*Foresight Button*/
+    /*Falling Monkeys Button*/
     [self.view addConstraint: [NSLayoutConstraint
-                               constraintWithItem    : self.doublePointsButton
+                               constraintWithItem    : self.fallingMonkeysButton
                                attribute             : NSLayoutAttributeCenterX
                                relatedBy             : NSLayoutRelationEqual
                                toItem                : self.view
@@ -523,7 +539,7 @@
                                multiplier            : 1.0f
                                constant              : -1.0f * SCREEN_WIDTH/4.0f]];
     [self.view addConstraint: [NSLayoutConstraint
-                               constraintWithItem    : self.doublePointsButton
+                               constraintWithItem    : self.fallingMonkeysButton
                                attribute             : NSLayoutAttributeBottom
                                relatedBy             : NSLayoutRelationEqual
                                toItem                : self.view
@@ -531,7 +547,7 @@
                                multiplier            : 1.0f
                                constant              : -1.0f * VERTICAL_SPACING_8]];
     [self.view addConstraint: [NSLayoutConstraint
-                               constraintWithItem    : self.doublePointsButton
+                               constraintWithItem    : self.fallingMonkeysButton
                                attribute             : NSLayoutAttributeWidth
                                relatedBy             : NSLayoutRelationEqual
                                toItem                : nil
@@ -539,16 +555,16 @@
                                multiplier            : 1.0f
                                constant              : [GameViewController powerUpButtonHeight]]];
     [self.view addConstraint: [NSLayoutConstraint
-                               constraintWithItem    : self.doublePointsButton
+                               constraintWithItem    : self.fallingMonkeysButton
                                attribute             : NSLayoutAttributeHeight
                                relatedBy             : NSLayoutRelationEqual
                                toItem                : nil
                                attribute             : NSLayoutAttributeNotAnAttribute
                                multiplier            : 1.0f
                                constant              : [GameViewController powerUpButtonHeight]]];
-    /*Slow Motion Button*/
+    /*Time Freeze Button*/
     [self.view addConstraint: [NSLayoutConstraint
-                               constraintWithItem    : self.slowMotionButton
+                               constraintWithItem    : self.timeFreezeButton
                                attribute             : NSLayoutAttributeCenterX
                                relatedBy             : NSLayoutRelationEqual
                                toItem                : self.view
@@ -556,7 +572,7 @@
                                multiplier            : 1.0f
                                constant              : 0.0f]];
     [self.view addConstraint: [NSLayoutConstraint
-                               constraintWithItem    : self.slowMotionButton
+                               constraintWithItem    : self.timeFreezeButton
                                attribute             : NSLayoutAttributeBottom
                                relatedBy             : NSLayoutRelationEqual
                                toItem                : self.view
@@ -564,7 +580,7 @@
                                multiplier            : 1.0f
                                constant              : -1.0f * VERTICAL_SPACING_8]];
     [self.view addConstraint: [NSLayoutConstraint
-                               constraintWithItem    : self.slowMotionButton
+                               constraintWithItem    : self.timeFreezeButton
                                attribute             : NSLayoutAttributeWidth
                                relatedBy             : NSLayoutRelationEqual
                                toItem                : nil
@@ -572,7 +588,7 @@
                                multiplier            : 1.0f
                                constant              : [GameViewController powerUpButtonHeight]]];
     [self.view addConstraint: [NSLayoutConstraint
-                               constraintWithItem    : self.slowMotionButton
+                               constraintWithItem    : self.timeFreezeButton
                                attribute             : NSLayoutAttributeHeight
                                relatedBy             : NSLayoutRelationEqual
                                toItem                : nil
@@ -612,6 +628,7 @@
                                attribute             : NSLayoutAttributeNotAnAttribute
                                multiplier            : 1.0f
                                constant              : [GameViewController powerUpButtonHeight]]];
+
 }
 - (void)setupNav {
     [self.navigationController setNavigationBarHidden:YES animated:NO];
@@ -709,8 +726,8 @@
     self.currentMoveProgressView.hidden     = NO;
     self.replayGameButton.hidden            = YES;
     self.storeButton.hidden                 = YES;
-    self.doublePointsButton.hidden          = NO;
-    self.slowMotionButton.hidden            = NO;
+    self.fallingMonkeysButton.hidden           = NO;
+    self.timeFreezeButton.hidden            = NO;
     self.rapidFireButton.hidden             = NO;
     self.powerUpLabel.hidden                = NO;
     self.moveCommandLabel.textColor         = [UIColor whiteColor];
@@ -729,8 +746,8 @@
     self.currentMoveProgressView.hidden     = YES;
     self.replayGameButton.hidden            = NO;
     self.storeButton.hidden                 = NO;
-    self.doublePointsButton.hidden          = YES;
-    self.slowMotionButton.hidden            = YES;
+    self.fallingMonkeysButton.hidden           = YES;
+    self.timeFreezeButton.hidden            = YES;
     self.rapidFireButton.hidden             = YES;
     self.powerUpLabel.hidden                = YES;
     self.moveCommandLabel.textColor         = [UIColor blackColor];
@@ -787,7 +804,7 @@
             [self startPowerUpRapidFire];
             break;
         default:
-            [self startPowerUpDoublePoints];
+            [self startPowerUpFallingMonkeys];
             break;
     }
 }
@@ -800,7 +817,7 @@
             [self endPowerUpRapidFire];
             break;
         default:
-            [self endPowerUpDoublePoints];
+            [self endPowerUpFallingMonkeys];
             break;
     }
     [AppSingleton singleton].currentGame.currentPowerUp = SIPowerUpNone;
@@ -821,17 +838,24 @@
     [[AppSingleton singleton] powerUpDidEnd];
 }
 
-#pragma mark - Double Points
+#pragma mark - Falling Monkeys
 /*This is the fith step.*/
-- (void)startPowerUpDoublePoints {
-    /*Do any UI Set U[ for Slow Motion*/
+- (void)startPowerUpFallingMonkeys {
+    /*Do any UI Set U[ for Falling Monkeys*/
     
     /*Generic Start Power Up*/
-    [self startPowerUpAllWithDuration:SIPowerUpDurationDoublePoints withButton:self.doublePointsButton withPowerUpText:[Game stringForPowerUp:SIPowerUpDoublePoints]];
+    NSInteger totalNumberOfMonkeysToLaunch = [[NSUserDefaults standardUserDefaults] integerForKey:kSINSUserDefaultNumberOfMonkeys];
+    if (totalNumberOfMonkeysToLaunch == 0) {
+        [[NSUserDefaults standardUserDefaults] setInteger:NUMBER_OF_MONKEYS_INIT forKey:kSINSUserDefaultNumberOfMonkeys];
+    }
+    [self launched:0 monkeysOutOf:totalNumberOfMonkeysToLaunch];
+
+//    [self startPowerUpAllWithDuration:SIPowerUpDurationFallingMonkeys withButton:self.fallingMonkeysButton withPowerUpText:[Game stringForPowerUp:SIPowerUpFallingMonkeys]];
 }
 /*This is the 7th step, called by game controller to end powerup*/
-- (void)endPowerUpDoublePoints {
-    /*Do any UI break down for Rapid Fire*/
+- (void)endPowerUpFallingMonkeys {
+    /*Do any UI break down for Falling Monkeys*/
+
     
     /*Generica End Power Up*/
     [self endPowerUpAll];
@@ -842,7 +866,7 @@
     /*Do any UI Set U[ for Time Freeze*/
 
     /*Generic Start Power Up*/
-    [self startPowerUpAllWithDuration:SIPowerUpDurationTimeFreeze withButton:self.slowMotionButton withPowerUpText:[Game stringForPowerUp:SIPowerUpTimeFreeze]];
+    [self startPowerUpAllWithDuration:SIPowerUpDurationTimeFreeze withButton:self.timeFreezeButton withPowerUpText:[Game stringForPowerUp:SIPowerUpTimeFreeze]];
 }
 - (void)endPowerUpTimeFreeze {
     /*Do any UI break down for Time Freeze*/
@@ -884,4 +908,70 @@
         NSLog(@"No Products Found");
     }
 }
+
+#pragma mark - Launch Monkeys
+- (void)launched:(NSInteger)monkeysLaunched monkeysOutOf:(NSInteger)totalMonkeysToLaunch {
+    /*Base Case*/
+    if (monkeysLaunched == totalMonkeysToLaunch) {
+        return;
+    } else {
+        /*Get Random Number Max... based of width of screen and monkey*/
+        CGFloat validMin                = self.fallingMonkeySize.width / 2.0f;
+        CGFloat validMax                = SCREEN_WIDTH - (self.fallingMonkeySize.width / 2.0f);
+        CGFloat xLocation               = arc4random_uniform(validMax); /*This will be the y axis launch point*/
+        CGFloat yLocation               = -self.fallingMonkeySize.height;
+        
+        /*Make Monkey*/
+//        CGRectMake(CGFloat x, CGFloat y, CGFloat width, CGFloat height)
+//        UIButton *button                = [[UIButton alloc] initWithFrame:CGRectMake(xLocation, yLocation, self.fallingMonkeySize.width, self.fallingMonkeySize.height)];
+        FallingMonkeyView *monkey       = [[FallingMonkeyView alloc] initWithFrame:CGRectMake(xLocation, yLocation, self.fallingMonkeySize.width, self.fallingMonkeySize.height)];
+        monkey.delegate                 = self;
+        
+        [self.view addSubview:monkey];
+        [self.view bringSubviewToFront:monkey];
+        
+        /*Add that monkey to the view*/
+        [self.gravity addItem:monkey];
+        [self.animator addBehavior:self.gravity];
+        
+//        /*Launch That Monkey!*/
+//        [UIView animateWithDuration:4.0 animations:^{
+//            button.center = CGPointMake(xLocation, self.fallingMonkeySize.height + SCREEN_HEIGHT);
+//        } completion:^(BOOL finished) {
+//            NSLog(@"Do the happy dance");
+//        }];
+        
+        /*Call Function again*/
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.55 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [self launched:monkeysLaunched + 1 monkeysOutOf:totalMonkeysToLaunch];
+        });
+    }
+    
+}
+
+- (void)monkeyWasTapped:(FallingMonkeyView *)fallingMonkeyView {
+    [fallingMonkeyView removeFromSuperview];
+    
+    [AppSingleton singleton].currentGame.totalScore = [AppSingleton singleton].currentGame.totalScore + VALUE_OF_MONKEY;
+    self.moveScoreLabel.text        = [NSString stringWithFormat:@"%0.2f",[AppSingleton singleton].currentGame.totalScore];
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 @end

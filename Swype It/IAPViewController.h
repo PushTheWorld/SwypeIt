@@ -7,6 +7,7 @@
 //  Purpose: This is the view controller that presents in app purcahses
 //
 // Local Controller Import
+#import "BaseViewController.h"
 // Framework Import
 #import <UIKit/UIKit.h>
 // Drop-In Class Imports (CocoaPods/GitHub/Guru)
@@ -16,7 +17,7 @@
 #import "SIConstants.h"
 // Other Imports
 @class IAPTableViewController;
-@interface IAPViewController : UIViewController
+@interface IAPViewController : BaseViewController
 
 #pragma mark - Properties
 @property (strong, nonatomic) IAPTableViewController *tableViewController;

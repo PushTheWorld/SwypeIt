@@ -50,9 +50,13 @@
 #define SCORE_EXP_POWER_WEIGHT      -0.001205
 #define MAX_MOVE_SCORE              10.78457
 #define TIMER_INTERVAL              1/30
+#define LEVEL_SPEED_DIV_MULT        -0.384
+#define LEVEL_SPEED_INTERCEPT       4.4182
+#define VALUE_OF_MONKEY             100
 
 #define NUMBER_OF_MOVES             3
 #define NUMBER_OF_BACKGROUNDS       3
+#define NUMBER_OF_MONKEYS_INIT      15
 typedef enum {
     SIGameModeOneHand,
     SIGameModeTwoHand
@@ -67,21 +71,21 @@ typedef enum {
 
 typedef enum {
     SIPowerUpNone,
-    SIPowerUpDoublePoints,
+    SIPowerUpFallingMonkeys,
     SIPowerUpTimeFreeze,
     SIPowerUpRapidFire
 } SIPowerUp;
 
 typedef enum {
     SIPowerUpCostNone               = 0,
-    SIPowerUpCostDoublePoints       = 1,
+    SIPowerUpCostFallingMonkeys        = 1,
     SIPowerUpCostTimeFreeze         = 3,
     SIPowerUpCostRapidFire          = 5
 } SIPowerUpCost;
 
 typedef enum {
     SIPowerUpDurationNone           = 0,
-    SIPowerUpDurationDoublePoints   = 5,
+    SIPowerUpDurationFallingMonkeys    = 5,
     SIPowerUpDurationTimeFreeze     = 5,
     SIPowerUpDurationRapidFire      = 5
 } SIPowerUpDuration;
@@ -117,12 +121,13 @@ extern NSString *const kSIGameModeOneHand;
 extern NSString *const kSINSUserDefaultFirstLaunch;
 extern NSString *const kSINSUserDefaultNumberOfItCoins;
 extern NSString *const kSINSUserDefaultGameMode;
-extern NSString *const kSINSUserDefaultPowerUpReadyForesight;
+extern NSString *const kSINSUserDefaultPowerUpReadyFallingMonkeys;
 extern NSString *const kSINSUserDefaultPowerUpReadyRapidFire;
-extern NSString *const kSINSUserDefaultPowerUpReadySlowMotion;
+extern NSString *const kSINSUserDefaultPowerUpReadyTimeFreeze;
+extern NSString *const kSINSUserDefaultNumberOfMonkeys;
 
 #pragma mark - Power Ups
-extern NSString *const kSIPowerUpDoublePoints;
+extern NSString *const kSIPowerUpFallingMonkeys;
 extern NSString *const kSIPowerUpNone;
 extern NSString *const kSIPowerUpTimeFreeze;
 extern NSString *const kSIPowerUpRapidFire;
@@ -136,16 +141,14 @@ extern NSString *const kSINotificationNewBackgroundReady;
 extern NSString *const kSINotificationPowerUpActive;
 extern NSString *const kSINotificationPowerUpDeactivated;
 extern NSString *const kSINotificationScoreUpdate;
+extern NSString *const kSINotificationPackPurchaseRequest;
 
 #pragma mark - Score Constants
 extern NSString *const kSIScoreTotalScore;
 extern NSString *const kSIScoreNextMove;
 
-#pragma mark - Imagess
-extern NSString *const kSISegmentControlGameModeSelectedOneHand;
-extern NSString *const kSISegmentControlGameModeSelectedTwoHand;
-extern NSString *const kSISegmentControlGameModeUnselectedOneHand;
-extern NSString *const kSISegmentControlGameModeUnselectedTwoHand;
+#pragma mark - Images
+extern NSString *const kSIImageFallingMonkeys;
 
 #pragma mark - Button Labels
 extern NSString *const kSIButtonLabelStringOneHand;
@@ -154,6 +157,7 @@ extern NSString *const kSIButtonLabelStringTwoHand;
 #pragma mark - NSDictionary Keys
 extern NSString *const kSINSDictionaryKeyMoveScore;
 extern NSString *const kSINSDictionaryKeyPowerUp;
+extern NSString *const kSINSDictionaryKeyPackProduct;
 
 #pragma mark - In App Purchase Product ID
 extern NSString *const kSIIAPProductIDCoinPackSmall;

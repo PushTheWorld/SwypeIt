@@ -309,8 +309,8 @@
 /*AUTO TESTED*/
 + (NSString *)stringForPowerUp:(SIPowerUp)powerUp {
     switch (powerUp) {
-        case SIPowerUpDoublePoints:
-            return kSIPowerUpDoublePoints;
+        case SIPowerUpFallingMonkeys:
+            return kSIPowerUpFallingMonkeys;
         case SIPowerUpTimeFreeze:
             return kSIPowerUpTimeFreeze;
         case SIPowerUpRapidFire:
@@ -328,8 +328,8 @@
             return SIPowerUpCostTimeFreeze;
         case SIPowerUpRapidFire:
             return SIPowerUpCostRapidFire;
-        case SIPowerUpDoublePoints:
-            return SIPowerUpCostDoublePoints;
+        case SIPowerUpFallingMonkeys:
+            return SIPowerUpCostFallingMonkeys;
         default: /*Power Up None*/
             return SIPowerUpCostNone;
     }
@@ -339,15 +339,15 @@
     switch (powerUp) {
         case SIPowerUpTimeFreeze:
             return SIPowerUpDurationTimeFreeze;
-        case SIPowerUpDoublePoints:
-            return SIPowerUpDurationDoublePoints;
+        case SIPowerUpFallingMonkeys:
+            return SIPowerUpDurationFallingMonkeys;
         case SIPowerUpRapidFire:
             return SIPowerUpDurationRapidFire;
         default: /*None*/
             return SIPowerUpDurationNone;
     }
 }
-+ (float)levelSpeedForScore:(float)score {
++ (float)levelSpeedForScoreOriginal:(float)score {
     if (score < LEVEL1) {
         return 4.0f;
     } else if (score < LEVEL2) {
@@ -364,7 +364,12 @@
         return 0.9f;
     }
 }
-
++ (float)levelSpeedForScore:(float)score {
+    if (score < MAX_MOVE_SCORE) {
+        return 4.0f;
+    }
+    return LEVEL_SPEED_DIV_MULT * log((double)score) + LEVEL_SPEED_INTERCEPT;
+}
 #pragma mark - Public Methods
 - (NSNumber *)getNextLevelScore {
     return [NSNumber numberWithFloat:[Game nextLevelForScore:self.totalScore]];
@@ -372,5 +377,6 @@
 - (NSString *)getCurrentLevelString {
     return [Game currentLevelStringForScore:self.totalScore];
 }
+
 
 @end

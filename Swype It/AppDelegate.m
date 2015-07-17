@@ -75,8 +75,9 @@ static BOOL isRunningTests(void) __attribute__((const));
     BOOL isThisTheFirstLaunch = [[NSUserDefaults standardUserDefaults] boolForKey:kSINSUserDefaultFirstLaunch];
     if (isThisTheFirstLaunch == NO) {
         //set to no
-        [[NSUserDefaults standardUserDefaults] setInteger:0     forKey:kSINSUserDefaultGameMode];
-        [[NSUserDefaults standardUserDefaults] setBool:YES      forKey:kSINSUserDefaultFirstLaunch];
+        [[NSUserDefaults standardUserDefaults] setInteger:0                         forKey:kSINSUserDefaultGameMode];
+        [[NSUserDefaults standardUserDefaults] setInteger:NUMBER_OF_MONKEYS_INIT    forKey:kSINSUserDefaultNumberOfMonkeys];
+        [[NSUserDefaults standardUserDefaults] setBool:YES                          forKey:kSINSUserDefaultFirstLaunch];
         [[NSUserDefaults standardUserDefaults] synchronize];
     }
 }
@@ -88,32 +89,8 @@ static BOOL isRunningTests(void) __attribute__((const));
                                                        queue:[[NSOperationQueue alloc] init]
                                                   usingBlock:^(NSNotification *note) {
                                                       
-                                                      NSLog(@"Products available: %@", [[MKStoreKit sharedKit] availableProducts]);
-                                                  }];
-    
-    
-    [[NSNotificationCenter defaultCenter] addObserverForName:kMKStoreKitProductPurchasedNotification
-                                                      object:nil
-                                                       queue:[[NSOperationQueue alloc] init]
-                                                  usingBlock:^(NSNotification *note) {
-                                                      
-                                                      NSLog(@"Purchased/Subscribed to product with id: %@", [note object]);
-                                                  }];
-    
-    [[NSNotificationCenter defaultCenter] addObserverForName:kMKStoreKitRestoredPurchasesNotification
-                                                      object:nil
-                                                       queue:[[NSOperationQueue alloc] init]
-                                                  usingBlock:^(NSNotification *note) {
-                                                      
-                                                      NSLog(@"Restored Purchases");
-                                                  }];
-    
-    [[NSNotificationCenter defaultCenter] addObserverForName:kMKStoreKitRestoringPurchasesFailedNotification
-                                                      object:nil
-                                                       queue:[[NSOperationQueue alloc] init]
-                                                  usingBlock:^(NSNotification *note) {
-                                                      
-                                                      NSLog(@"Failed restoring purchases with error: %@", [note object]);
+                                                      /*Good Debug line to see if MKStoreKit is working*/
+//                                                      NSLog(@"Products available: %@", [[MKStoreKit sharedKit] availableProducts]);
                                                   }];
 }
 static BOOL isRunningTests(void) {

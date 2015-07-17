@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		0906AAF21B551F0A008F28C1 /* IAPViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0906AAF11B551F0A008F28C1 /* IAPViewController.m */; };
-		0906AAF51B552176008F28C1 /* InAppPurchasePackView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0906AAF41B552176008F28C1 /* InAppPurchasePackView.m */; };
+		0906AAF51B552176008F28C1 /* FallingMonkeyView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0906AAF41B552176008F28C1 /* FallingMonkeyView.m */; };
 		091FED491B37283E0071F8DC /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 091FED481B37283E0071F8DC /* main.m */; };
 		091FED4C1B37283E0071F8DC /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 091FED4B1B37283E0071F8DC /* AppDelegate.m */; };
 		091FED541B37283E0071F8DC /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 091FED531B37283E0071F8DC /* Images.xcassets */; };
@@ -22,6 +22,12 @@
 		092B470E1B521B7900AFE43C /* GameTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 092B470D1B521B7900AFE43C /* GameTests.m */; };
 		092B47101B52273A00AFE43C /* libOCMock.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 092B470F1B52273A00AFE43C /* libOCMock.a */; };
 		09343DAA1B44BB1C00D1C707 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 09343DA91B44BB1C00D1C707 /* QuartzCore.framework */; };
+		097375461B57A97500BE1BCA /* BaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 097375451B57A97500BE1BCA /* BaseViewController.m */; };
+		097375491B57B8CA00BE1BCA /* ZCSlotMachine.m in Sources */ = {isa = PBXBuildFile; fileRef = 097375481B57B8CA00BE1BCA /* ZCSlotMachine.m */; };
+		0973754C1B57BA8000BE1BCA /* SlotMachineBackground@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0973754B1B57BA8000BE1BCA /* SlotMachineBackground@2x.png */; };
+		0973754E1B57BA8700BE1BCA /* SlotMachineCover@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0973754D1B57BA8700BE1BCA /* SlotMachineCover@2x.png */; };
+		097375531B57C64800BE1BCA /* SlotItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 097375501B57C64800BE1BCA /* SlotItem.m */; };
+		097375541B57C64800BE1BCA /* SlotView.m in Sources */ = {isa = PBXBuildFile; fileRef = 097375521B57C64800BE1BCA /* SlotView.m */; };
 		098B3B431B378B89000D4702 /* AppSingleton.m in Sources */ = {isa = PBXBuildFile; fileRef = 098B3B421B378B89000D4702 /* AppSingleton.m */; };
 		098B3B471B378C27000D4702 /* Game.m in Sources */ = {isa = PBXBuildFile; fileRef = 098B3B461B378C27000D4702 /* Game.m */; };
 		098B3B4A1B378EC0000D4702 /* FXReachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 098B3B491B378EC0000D4702 /* FXReachability.m */; };
@@ -51,8 +57,8 @@
 /* Begin PBXFileReference section */
 		0906AAF01B551F0A008F28C1 /* IAPViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IAPViewController.h; sourceTree = "<group>"; };
 		0906AAF11B551F0A008F28C1 /* IAPViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IAPViewController.m; sourceTree = "<group>"; };
-		0906AAF31B552176008F28C1 /* InAppPurchasePackView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InAppPurchasePackView.h; sourceTree = "<group>"; };
-		0906AAF41B552176008F28C1 /* InAppPurchasePackView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InAppPurchasePackView.m; sourceTree = "<group>"; };
+		0906AAF31B552176008F28C1 /* FallingMonkeyView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FallingMonkeyView.h; sourceTree = "<group>"; };
+		0906AAF41B552176008F28C1 /* FallingMonkeyView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FallingMonkeyView.m; sourceTree = "<group>"; };
 		091FED431B37283E0071F8DC /* Swype It.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Swype It.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		091FED471B37283E0071F8DC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		091FED481B37283E0071F8DC /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -72,14 +78,24 @@
 		091FED7B1B374C470071F8DC /* BaseNavigationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseNavigationViewController.h; sourceTree = "<group>"; };
 		091FED7C1B374C470071F8DC /* BaseNavigationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseNavigationViewController.m; sourceTree = "<group>"; };
 		091FED7F1B375DA50071F8DC /* GameViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameViewController.h; sourceTree = "<group>"; };
-		091FED801B375DA50071F8DC /* GameViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameViewController.m; sourceTree = "<group>"; };
+		091FED801B375DA50071F8DC /* GameViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = GameViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		092B470D1B521B7900AFE43C /* GameTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameTests.m; sourceTree = "<group>"; };
 		092B470F1B52273A00AFE43C /* libOCMock.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libOCMock.a; path = usr/lib/libOCMock.a; sourceTree = "<group>"; };
 		09343DA91B44BB1C00D1C707 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		097375441B57A97500BE1BCA /* BaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseViewController.h; sourceTree = "<group>"; };
+		097375451B57A97500BE1BCA /* BaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseViewController.m; sourceTree = "<group>"; };
+		097375471B57B8CA00BE1BCA /* ZCSlotMachine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZCSlotMachine.h; sourceTree = "<group>"; };
+		097375481B57B8CA00BE1BCA /* ZCSlotMachine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZCSlotMachine.m; sourceTree = "<group>"; };
+		0973754B1B57BA8000BE1BCA /* SlotMachineBackground@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "SlotMachineBackground@2x.png"; sourceTree = "<group>"; };
+		0973754D1B57BA8700BE1BCA /* SlotMachineCover@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "SlotMachineCover@2x.png"; sourceTree = "<group>"; };
+		0973754F1B57C64800BE1BCA /* SlotItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SlotItem.h; sourceTree = "<group>"; };
+		097375501B57C64800BE1BCA /* SlotItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SlotItem.m; sourceTree = "<group>"; };
+		097375511B57C64800BE1BCA /* SlotView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SlotView.h; sourceTree = "<group>"; };
+		097375521B57C64800BE1BCA /* SlotView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SlotView.m; sourceTree = "<group>"; };
 		098B3B411B378B89000D4702 /* AppSingleton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppSingleton.h; sourceTree = "<group>"; };
-		098B3B421B378B89000D4702 /* AppSingleton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppSingleton.m; sourceTree = "<group>"; };
+		098B3B421B378B89000D4702 /* AppSingleton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = AppSingleton.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		098B3B451B378C27000D4702 /* Game.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Game.h; sourceTree = "<group>"; };
-		098B3B461B378C27000D4702 /* Game.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Game.m; sourceTree = "<group>"; };
+		098B3B461B378C27000D4702 /* Game.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = Game.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		098B3B481B378EC0000D4702 /* FXReachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FXReachability.h; sourceTree = "<group>"; };
 		098B3B491B378EC0000D4702 /* FXReachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FXReachability.m; sourceTree = "<group>"; };
 		098B3B4D1B379C82000D4702 /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = System/Library/Frameworks/CoreMotion.framework; sourceTree = SDKROOT; };
@@ -130,8 +146,8 @@
 		0906AAF61B552180008F28C1 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				0906AAF31B552176008F28C1 /* InAppPurchasePackView.h */,
-				0906AAF41B552176008F28C1 /* InAppPurchasePackView.m */,
+				0906AAF31B552176008F28C1 /* FallingMonkeyView.h */,
+				0906AAF41B552176008F28C1 /* FallingMonkeyView.m */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -226,10 +242,10 @@
 			children = (
 				091FED7F1B375DA50071F8DC /* GameViewController.h */,
 				091FED801B375DA50071F8DC /* GameViewController.m */,
-				091FED6D1B37295D0071F8DC /* StartScreenViewController.h */,
-				091FED6E1B37295D0071F8DC /* StartScreenViewController.m */,
 				0906AAF01B551F0A008F28C1 /* IAPViewController.h */,
 				0906AAF11B551F0A008F28C1 /* IAPViewController.m */,
+				091FED6D1B37295D0071F8DC /* StartScreenViewController.h */,
+				091FED6E1B37295D0071F8DC /* StartScreenViewController.m */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -237,6 +253,8 @@
 		091FED721B372EE70071F8DC /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				0973754D1B57BA8700BE1BCA /* SlotMachineCover@2x.png */,
+				0973754B1B57BA8000BE1BCA /* SlotMachineBackground@2x.png */,
 				091FED531B37283E0071F8DC /* Images.xcassets */,
 			);
 			name = Images;
@@ -267,8 +285,30 @@
 			children = (
 				091FED7B1B374C470071F8DC /* BaseNavigationViewController.h */,
 				091FED7C1B374C470071F8DC /* BaseNavigationViewController.m */,
+				097375441B57A97500BE1BCA /* BaseViewController.h */,
+				097375451B57A97500BE1BCA /* BaseViewController.m */,
 			);
 			name = CustomUIClasses;
+			sourceTree = "<group>";
+		};
+		0973754A1B57B8CE00BE1BCA /* ZCSlotMachine */ = {
+			isa = PBXGroup;
+			children = (
+				097375471B57B8CA00BE1BCA /* ZCSlotMachine.h */,
+				097375481B57B8CA00BE1BCA /* ZCSlotMachine.m */,
+			);
+			name = ZCSlotMachine;
+			sourceTree = "<group>";
+		};
+		097375551B57C64E00BE1BCA /* Slot */ = {
+			isa = PBXGroup;
+			children = (
+				0973754F1B57C64800BE1BCA /* SlotItem.h */,
+				097375501B57C64800BE1BCA /* SlotItem.m */,
+				097375511B57C64800BE1BCA /* SlotView.h */,
+				097375521B57C64800BE1BCA /* SlotView.m */,
+			);
+			name = Slot;
 			sourceTree = "<group>";
 		};
 		098B3B441B378B8F000D4702 /* 000 - GameSingleton */ = {
@@ -283,6 +323,8 @@
 		098B3B4B1B378EC8000D4702 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				097375551B57C64E00BE1BCA /* Slot */,
+				0973754A1B57B8CE00BE1BCA /* ZCSlotMachine */,
 				098B3B4C1B378ED1000D4702 /* FXReachability */,
 				098B3B581B3950A3000D4702 /* MSSProgressView */,
 			);
@@ -441,8 +483,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0973754C1B57BA8000BE1BCA /* SlotMachineBackground@2x.png in Resources */,
 				09DB639E1B56525100387C13 /* MKStoreKitConfigs.plist in Resources */,
 				091FED571B37283E0071F8DC /* LaunchScreen.xib in Resources */,
+				0973754E1B57BA8700BE1BCA /* SlotMachineCover@2x.png in Resources */,
 				091FED541B37283E0071F8DC /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -494,13 +538,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0906AAF51B552176008F28C1 /* InAppPurchasePackView.m in Sources */,
+				0906AAF51B552176008F28C1 /* FallingMonkeyView.m in Sources */,
 				091FED791B3736210071F8DC /* UIColor+Additions.m in Sources */,
 				091FED7D1B374C470071F8DC /* BaseNavigationViewController.m in Sources */,
+				097375531B57C64800BE1BCA /* SlotItem.m in Sources */,
 				098B3B4A1B378EC0000D4702 /* FXReachability.m in Sources */,
 				09DB639C1B5651C100387C13 /* MKStoreKit.m in Sources */,
 				098B3B471B378C27000D4702 /* Game.m in Sources */,
 				091FED811B375DA50071F8DC /* GameViewController.m in Sources */,
+				097375461B57A97500BE1BCA /* BaseViewController.m in Sources */,
+				097375491B57B8CA00BE1BCA /* ZCSlotMachine.m in Sources */,
 				09DB638E1B564DCA00387C13 /* IAPTableViewCell.m in Sources */,
 				091FED4C1B37283E0071F8DC /* AppDelegate.m in Sources */,
 				0906AAF21B551F0A008F28C1 /* IAPViewController.m in Sources */,
@@ -509,6 +556,7 @@
 				091FED761B3733AF0071F8DC /* SIConstants.m in Sources */,
 				098B3B431B378B89000D4702 /* AppSingleton.m in Sources */,
 				091FED6F1B37295D0071F8DC /* StartScreenViewController.m in Sources */,
+				097375541B57C64800BE1BCA /* SlotView.m in Sources */,
 				091FED491B37283E0071F8DC /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
