@@ -52,7 +52,7 @@
 #define TIMER_INTERVAL              1/30
 #define LEVEL_SPEED_DIV_MULT        -0.384
 #define LEVEL_SPEED_INTERCEPT       4.4182
-#define VALUE_OF_MONKEY             100
+#define VALUE_OF_MONKEY             50
 
 #define NUMBER_OF_MOVES             3
 #define NUMBER_OF_BACKGROUNDS       3
