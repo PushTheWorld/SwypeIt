@@ -7,12 +7,41 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0906AAF21B551F0A008F28C1 /* IAPViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0906AAF11B551F0A008F28C1 /* IAPViewController.m */; };
+		0906AAF51B552176008F28C1 /* FallingMonkeyView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0906AAF41B552176008F28C1 /* FallingMonkeyView.m */; };
 		091FED491B37283E0071F8DC /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 091FED481B37283E0071F8DC /* main.m */; };
 		091FED4C1B37283E0071F8DC /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 091FED4B1B37283E0071F8DC /* AppDelegate.m */; };
 		091FED541B37283E0071F8DC /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 091FED531B37283E0071F8DC /* Images.xcassets */; };
 		091FED571B37283E0071F8DC /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 091FED551B37283E0071F8DC /* LaunchScreen.xib */; };
 		091FED631B37283E0071F8DC /* Swype_ItTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 091FED621B37283E0071F8DC /* Swype_ItTests.m */; };
 		091FED6F1B37295D0071F8DC /* StartScreenViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 091FED6E1B37295D0071F8DC /* StartScreenViewController.m */; };
+		091FED761B3733AF0071F8DC /* SIConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 091FED751B3733AF0071F8DC /* SIConstants.m */; };
+		091FED791B3736210071F8DC /* UIColor+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 091FED781B3736210071F8DC /* UIColor+Additions.m */; };
+		091FED7D1B374C470071F8DC /* BaseNavigationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 091FED7C1B374C470071F8DC /* BaseNavigationViewController.m */; };
+		091FED811B375DA50071F8DC /* GameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 091FED801B375DA50071F8DC /* GameViewController.m */; };
+		092B470E1B521B7900AFE43C /* GameTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 092B470D1B521B7900AFE43C /* GameTests.m */; };
+		092B47101B52273A00AFE43C /* libOCMock.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 092B470F1B52273A00AFE43C /* libOCMock.a */; };
+		09343DAA1B44BB1C00D1C707 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 09343DA91B44BB1C00D1C707 /* QuartzCore.framework */; };
+		097375461B57A97500BE1BCA /* BaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 097375451B57A97500BE1BCA /* BaseViewController.m */; };
+		097375491B57B8CA00BE1BCA /* ZCSlotMachine.m in Sources */ = {isa = PBXBuildFile; fileRef = 097375481B57B8CA00BE1BCA /* ZCSlotMachine.m */; };
+		0973754C1B57BA8000BE1BCA /* SlotMachineBackground@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0973754B1B57BA8000BE1BCA /* SlotMachineBackground@2x.png */; };
+		0973754E1B57BA8700BE1BCA /* SlotMachineCover@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0973754D1B57BA8700BE1BCA /* SlotMachineCover@2x.png */; };
+		097375531B57C64800BE1BCA /* SlotItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 097375501B57C64800BE1BCA /* SlotItem.m */; };
+		097375541B57C64800BE1BCA /* SlotView.m in Sources */ = {isa = PBXBuildFile; fileRef = 097375521B57C64800BE1BCA /* SlotView.m */; };
+		098B3B431B378B89000D4702 /* AppSingleton.m in Sources */ = {isa = PBXBuildFile; fileRef = 098B3B421B378B89000D4702 /* AppSingleton.m */; };
+		098B3B471B378C27000D4702 /* Game.m in Sources */ = {isa = PBXBuildFile; fileRef = 098B3B461B378C27000D4702 /* Game.m */; };
+		098B3B4A1B378EC0000D4702 /* FXReachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 098B3B491B378EC0000D4702 /* FXReachability.m */; };
+		098B3B4E1B379C82000D4702 /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 098B3B4D1B379C82000D4702 /* CoreMotion.framework */; };
+		098B3B501B379C87000D4702 /* iAd.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 098B3B4F1B379C87000D4702 /* iAd.framework */; };
+		098B3B521B379C8D000D4702 /* GameKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 098B3B511B379C8D000D4702 /* GameKit.framework */; };
+		098B3B541B379C93000D4702 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 098B3B531B379C93000D4702 /* AudioToolbox.framework */; };
+		098B3B571B395091000D4702 /* MSSProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 098B3B561B395091000D4702 /* MSSProgressView.m */; };
+		09DB638A1B564DA700387C13 /* IAPTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 09DB63891B564DA700387C13 /* IAPTableViewController.m */; };
+		09DB638E1B564DCA00387C13 /* IAPTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 09DB638D1B564DCA00387C13 /* IAPTableViewCell.m */; };
+		09DB63981B564F0900387C13 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 09DB63971B564F0900387C13 /* StoreKit.framework */; };
+		09DB639C1B5651C100387C13 /* MKStoreKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 09DB639B1B5651C100387C13 /* MKStoreKit.m */; };
+		09DB639E1B56525100387C13 /* MKStoreKitConfigs.plist in Resources */ = {isa = PBXBuildFile; fileRef = 09DB639D1B56525100387C13 /* MKStoreKitConfigs.plist */; };
+		F91BB9396F4CAAE0BC65B477 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 769385628457ECC646BCC3FE /* libPods.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -26,6 +55,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0906AAF01B551F0A008F28C1 /* IAPViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IAPViewController.h; sourceTree = "<group>"; };
+		0906AAF11B551F0A008F28C1 /* IAPViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IAPViewController.m; sourceTree = "<group>"; };
+		0906AAF31B552176008F28C1 /* FallingMonkeyView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FallingMonkeyView.h; sourceTree = "<group>"; };
+		0906AAF41B552176008F28C1 /* FallingMonkeyView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FallingMonkeyView.m; sourceTree = "<group>"; };
 		091FED431B37283E0071F8DC /* Swype It.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Swype It.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		091FED471B37283E0071F8DC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		091FED481B37283E0071F8DC /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -38,6 +71,50 @@
 		091FED621B37283E0071F8DC /* Swype_ItTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Swype_ItTests.m; sourceTree = "<group>"; };
 		091FED6D1B37295D0071F8DC /* StartScreenViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StartScreenViewController.h; sourceTree = "<group>"; };
 		091FED6E1B37295D0071F8DC /* StartScreenViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StartScreenViewController.m; sourceTree = "<group>"; };
+		091FED741B3733AF0071F8DC /* SIConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SIConstants.h; sourceTree = "<group>"; };
+		091FED751B3733AF0071F8DC /* SIConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SIConstants.m; sourceTree = "<group>"; };
+		091FED771B3736210071F8DC /* UIColor+Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+Additions.h"; sourceTree = "<group>"; };
+		091FED781B3736210071F8DC /* UIColor+Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+Additions.m"; sourceTree = "<group>"; };
+		091FED7B1B374C470071F8DC /* BaseNavigationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseNavigationViewController.h; sourceTree = "<group>"; };
+		091FED7C1B374C470071F8DC /* BaseNavigationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseNavigationViewController.m; sourceTree = "<group>"; };
+		091FED7F1B375DA50071F8DC /* GameViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameViewController.h; sourceTree = "<group>"; };
+		091FED801B375DA50071F8DC /* GameViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = GameViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		092B470D1B521B7900AFE43C /* GameTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameTests.m; sourceTree = "<group>"; };
+		092B470F1B52273A00AFE43C /* libOCMock.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libOCMock.a; path = usr/lib/libOCMock.a; sourceTree = "<group>"; };
+		09343DA91B44BB1C00D1C707 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		097375441B57A97500BE1BCA /* BaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseViewController.h; sourceTree = "<group>"; };
+		097375451B57A97500BE1BCA /* BaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseViewController.m; sourceTree = "<group>"; };
+		097375471B57B8CA00BE1BCA /* ZCSlotMachine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZCSlotMachine.h; sourceTree = "<group>"; };
+		097375481B57B8CA00BE1BCA /* ZCSlotMachine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZCSlotMachine.m; sourceTree = "<group>"; };
+		0973754B1B57BA8000BE1BCA /* SlotMachineBackground@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "SlotMachineBackground@2x.png"; sourceTree = "<group>"; };
+		0973754D1B57BA8700BE1BCA /* SlotMachineCover@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "SlotMachineCover@2x.png"; sourceTree = "<group>"; };
+		0973754F1B57C64800BE1BCA /* SlotItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SlotItem.h; sourceTree = "<group>"; };
+		097375501B57C64800BE1BCA /* SlotItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SlotItem.m; sourceTree = "<group>"; };
+		097375511B57C64800BE1BCA /* SlotView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SlotView.h; sourceTree = "<group>"; };
+		097375521B57C64800BE1BCA /* SlotView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SlotView.m; sourceTree = "<group>"; };
+		098B3B411B378B89000D4702 /* AppSingleton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppSingleton.h; sourceTree = "<group>"; };
+		098B3B421B378B89000D4702 /* AppSingleton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = AppSingleton.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		098B3B451B378C27000D4702 /* Game.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Game.h; sourceTree = "<group>"; };
+		098B3B461B378C27000D4702 /* Game.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = Game.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		098B3B481B378EC0000D4702 /* FXReachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FXReachability.h; sourceTree = "<group>"; };
+		098B3B491B378EC0000D4702 /* FXReachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FXReachability.m; sourceTree = "<group>"; };
+		098B3B4D1B379C82000D4702 /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = System/Library/Frameworks/CoreMotion.framework; sourceTree = SDKROOT; };
+		098B3B4F1B379C87000D4702 /* iAd.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = iAd.framework; path = System/Library/Frameworks/iAd.framework; sourceTree = SDKROOT; };
+		098B3B511B379C8D000D4702 /* GameKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameKit.framework; path = System/Library/Frameworks/GameKit.framework; sourceTree = SDKROOT; };
+		098B3B531B379C93000D4702 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
+		098B3B551B395091000D4702 /* MSSProgressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSSProgressView.h; path = "Swype It/MSSProgressView.h"; sourceTree = "<group>"; };
+		098B3B561B395091000D4702 /* MSSProgressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MSSProgressView.m; path = "Swype It/MSSProgressView.m"; sourceTree = "<group>"; };
+		09DB63881B564DA700387C13 /* IAPTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IAPTableViewController.h; sourceTree = "<group>"; };
+		09DB63891B564DA700387C13 /* IAPTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IAPTableViewController.m; sourceTree = "<group>"; };
+		09DB638C1B564DCA00387C13 /* IAPTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IAPTableViewCell.h; sourceTree = "<group>"; };
+		09DB638D1B564DCA00387C13 /* IAPTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IAPTableViewCell.m; sourceTree = "<group>"; };
+		09DB63971B564F0900387C13 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
+		09DB639A1B5651C100387C13 /* MKStoreKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKStoreKit.h; sourceTree = "<group>"; };
+		09DB639B1B5651C100387C13 /* MKStoreKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKStoreKit.m; sourceTree = "<group>"; };
+		09DB639D1B56525100387C13 /* MKStoreKitConfigs.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = MKStoreKitConfigs.plist; sourceTree = "<group>"; };
+		250606D5461711E9FC89BC0E /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
+		515AAE4709C37B6475D12AF4 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
+		769385628457ECC646BCC3FE /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -45,6 +122,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				09DB63981B564F0900387C13 /* StoreKit.framework in Frameworks */,
+				098B3B541B379C93000D4702 /* AudioToolbox.framework in Frameworks */,
+				098B3B521B379C8D000D4702 /* GameKit.framework in Frameworks */,
+				098B3B501B379C87000D4702 /* iAd.framework in Frameworks */,
+				098B3B4E1B379C82000D4702 /* CoreMotion.framework in Frameworks */,
+				F91BB9396F4CAAE0BC65B477 /* libPods.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -52,18 +135,32 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				092B47101B52273A00AFE43C /* libOCMock.a in Frameworks */,
+				09343DAA1B44BB1C00D1C707 /* QuartzCore.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0906AAF61B552180008F28C1 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				0906AAF31B552176008F28C1 /* FallingMonkeyView.h */,
+				0906AAF41B552176008F28C1 /* FallingMonkeyView.m */,
+			);
+			name = Views;
+			sourceTree = "<group>";
+		};
 		091FED3A1B37283E0071F8DC = {
 			isa = PBXGroup;
 			children = (
 				091FED451B37283E0071F8DC /* Swype It */,
-				091FED5F1B37283E0071F8DC /* Swype ItTests */,
+				098B3B4B1B378EC8000D4702 /* Classes */,
+				0F880A65ACF3CFF0D72120E8 /* Frameworks */,
+				ECB9464B15A462D7C2750659 /* Pods */,
 				091FED441B37283E0071F8DC /* Products */,
+				091FED5F1B37283E0071F8DC /* Swype ItTests */,
 			);
 			sourceTree = "<group>";
 		};
@@ -80,10 +177,18 @@
 			isa = PBXGroup;
 			children = (
 				091FED6C1B3729040071F8DC /* 000 - AppDelegate */,
-				091FED531B37283E0071F8DC /* Images.xcassets */,
+				098B3B441B378B8F000D4702 /* 000 - GameSingleton */,
+				091FED7A1B37362A0071F8DC /* Categories */,
+				091FED7E1B374C520071F8DC /* CustomUIClasses */,
+				091FED731B37339D0071F8DC /* DataFiles */,
+				091FED721B372EE70071F8DC /* Images */,
+				09DB63991B56516700387C13 /* InAppPurchase */,
 				091FED461B37283E0071F8DC /* Supporting Files */,
+				09DB638F1B564DD400387C13 /* TableViewCells */,
+				09DB638B1B564DAF00387C13 /* TableViewControllers */,
 				091FED701B37296E0071F8DC /* UserInterface */,
 				091FED711B37298D0071F8DC /* ViewControllers */,
+				0906AAF61B552180008F28C1 /* Views */,
 			);
 			path = "Swype It";
 			sourceTree = "<group>";
@@ -100,6 +205,7 @@
 		091FED5F1B37283E0071F8DC /* Swype ItTests */ = {
 			isa = PBXGroup;
 			children = (
+				092B470D1B521B7900AFE43C /* GameTests.m */,
 				091FED621B37283E0071F8DC /* Swype_ItTests.m */,
 				091FED601B37283E0071F8DC /* Supporting Files */,
 			);
@@ -134,10 +240,165 @@
 		091FED711B37298D0071F8DC /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				091FED7F1B375DA50071F8DC /* GameViewController.h */,
+				091FED801B375DA50071F8DC /* GameViewController.m */,
+				0906AAF01B551F0A008F28C1 /* IAPViewController.h */,
+				0906AAF11B551F0A008F28C1 /* IAPViewController.m */,
 				091FED6D1B37295D0071F8DC /* StartScreenViewController.h */,
 				091FED6E1B37295D0071F8DC /* StartScreenViewController.m */,
 			);
 			name = ViewControllers;
+			sourceTree = "<group>";
+		};
+		091FED721B372EE70071F8DC /* Images */ = {
+			isa = PBXGroup;
+			children = (
+				0973754D1B57BA8700BE1BCA /* SlotMachineCover@2x.png */,
+				0973754B1B57BA8000BE1BCA /* SlotMachineBackground@2x.png */,
+				091FED531B37283E0071F8DC /* Images.xcassets */,
+			);
+			name = Images;
+			sourceTree = "<group>";
+		};
+		091FED731B37339D0071F8DC /* DataFiles */ = {
+			isa = PBXGroup;
+			children = (
+				098B3B451B378C27000D4702 /* Game.h */,
+				098B3B461B378C27000D4702 /* Game.m */,
+				091FED741B3733AF0071F8DC /* SIConstants.h */,
+				091FED751B3733AF0071F8DC /* SIConstants.m */,
+			);
+			name = DataFiles;
+			sourceTree = "<group>";
+		};
+		091FED7A1B37362A0071F8DC /* Categories */ = {
+			isa = PBXGroup;
+			children = (
+				091FED771B3736210071F8DC /* UIColor+Additions.h */,
+				091FED781B3736210071F8DC /* UIColor+Additions.m */,
+			);
+			name = Categories;
+			sourceTree = "<group>";
+		};
+		091FED7E1B374C520071F8DC /* CustomUIClasses */ = {
+			isa = PBXGroup;
+			children = (
+				091FED7B1B374C470071F8DC /* BaseNavigationViewController.h */,
+				091FED7C1B374C470071F8DC /* BaseNavigationViewController.m */,
+				097375441B57A97500BE1BCA /* BaseViewController.h */,
+				097375451B57A97500BE1BCA /* BaseViewController.m */,
+			);
+			name = CustomUIClasses;
+			sourceTree = "<group>";
+		};
+		0973754A1B57B8CE00BE1BCA /* ZCSlotMachine */ = {
+			isa = PBXGroup;
+			children = (
+				097375471B57B8CA00BE1BCA /* ZCSlotMachine.h */,
+				097375481B57B8CA00BE1BCA /* ZCSlotMachine.m */,
+			);
+			name = ZCSlotMachine;
+			sourceTree = "<group>";
+		};
+		097375551B57C64E00BE1BCA /* Slot */ = {
+			isa = PBXGroup;
+			children = (
+				0973754F1B57C64800BE1BCA /* SlotItem.h */,
+				097375501B57C64800BE1BCA /* SlotItem.m */,
+				097375511B57C64800BE1BCA /* SlotView.h */,
+				097375521B57C64800BE1BCA /* SlotView.m */,
+			);
+			name = Slot;
+			sourceTree = "<group>";
+		};
+		098B3B441B378B8F000D4702 /* 000 - GameSingleton */ = {
+			isa = PBXGroup;
+			children = (
+				098B3B411B378B89000D4702 /* AppSingleton.h */,
+				098B3B421B378B89000D4702 /* AppSingleton.m */,
+			);
+			name = "000 - GameSingleton";
+			sourceTree = "<group>";
+		};
+		098B3B4B1B378EC8000D4702 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				097375551B57C64E00BE1BCA /* Slot */,
+				0973754A1B57B8CE00BE1BCA /* ZCSlotMachine */,
+				098B3B4C1B378ED1000D4702 /* FXReachability */,
+				098B3B581B3950A3000D4702 /* MSSProgressView */,
+			);
+			name = Classes;
+			sourceTree = "<group>";
+		};
+		098B3B4C1B378ED1000D4702 /* FXReachability */ = {
+			isa = PBXGroup;
+			children = (
+				098B3B481B378EC0000D4702 /* FXReachability.h */,
+				098B3B491B378EC0000D4702 /* FXReachability.m */,
+			);
+			name = FXReachability;
+			sourceTree = "<group>";
+		};
+		098B3B581B3950A3000D4702 /* MSSProgressView */ = {
+			isa = PBXGroup;
+			children = (
+				098B3B551B395091000D4702 /* MSSProgressView.h */,
+				098B3B561B395091000D4702 /* MSSProgressView.m */,
+			);
+			name = MSSProgressView;
+			sourceTree = "<group>";
+		};
+		09DB638B1B564DAF00387C13 /* TableViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				09DB63881B564DA700387C13 /* IAPTableViewController.h */,
+				09DB63891B564DA700387C13 /* IAPTableViewController.m */,
+			);
+			name = TableViewControllers;
+			sourceTree = "<group>";
+		};
+		09DB638F1B564DD400387C13 /* TableViewCells */ = {
+			isa = PBXGroup;
+			children = (
+				09DB638C1B564DCA00387C13 /* IAPTableViewCell.h */,
+				09DB638D1B564DCA00387C13 /* IAPTableViewCell.m */,
+			);
+			name = TableViewCells;
+			sourceTree = "<group>";
+		};
+		09DB63991B56516700387C13 /* InAppPurchase */ = {
+			isa = PBXGroup;
+			children = (
+				09DB639A1B5651C100387C13 /* MKStoreKit.h */,
+				09DB639B1B5651C100387C13 /* MKStoreKit.m */,
+				09DB639D1B56525100387C13 /* MKStoreKitConfigs.plist */,
+			);
+			name = InAppPurchase;
+			sourceTree = "<group>";
+		};
+		0F880A65ACF3CFF0D72120E8 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				09DB63971B564F0900387C13 /* StoreKit.framework */,
+				092B470F1B52273A00AFE43C /* libOCMock.a */,
+				09343DA91B44BB1C00D1C707 /* QuartzCore.framework */,
+				098B3B531B379C93000D4702 /* AudioToolbox.framework */,
+				098B3B511B379C8D000D4702 /* GameKit.framework */,
+				098B3B4F1B379C87000D4702 /* iAd.framework */,
+				098B3B4D1B379C82000D4702 /* CoreMotion.framework */,
+				769385628457ECC646BCC3FE /* libPods.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		ECB9464B15A462D7C2750659 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				515AAE4709C37B6475D12AF4 /* Pods.debug.xcconfig */,
+				250606D5461711E9FC89BC0E /* Pods.release.xcconfig */,
+			);
+			name = Pods;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -147,9 +408,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 091FED661B37283E0071F8DC /* Build configuration list for PBXNativeTarget "Swype It" */;
 			buildPhases = (
+				AA23FA67938786C98319F44E /* Check Pods Manifest.lock */,
 				091FED3F1B37283E0071F8DC /* Sources */,
 				091FED401B37283E0071F8DC /* Frameworks */,
 				091FED411B37283E0071F8DC /* Resources */,
+				C6CE4681C1A3381F1E73A368 /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -184,7 +447,7 @@
 		091FED3B1B37283E0071F8DC /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0630;
+				LastUpgradeCheck = 0700;
 				ORGANIZATIONNAME = "Push The World LLC";
 				TargetAttributes = {
 					091FED421B37283E0071F8DC = {
@@ -220,7 +483,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0973754C1B57BA8000BE1BCA /* SlotMachineBackground@2x.png in Resources */,
+				09DB639E1B56525100387C13 /* MKStoreKitConfigs.plist in Resources */,
 				091FED571B37283E0071F8DC /* LaunchScreen.xib in Resources */,
+				0973754E1B57BA8700BE1BCA /* SlotMachineCover@2x.png in Resources */,
 				091FED541B37283E0071F8DC /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -234,13 +500,63 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		AA23FA67938786C98319F44E /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		C6CE4681C1A3381F1E73A368 /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		091FED3F1B37283E0071F8DC /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0906AAF51B552176008F28C1 /* FallingMonkeyView.m in Sources */,
+				091FED791B3736210071F8DC /* UIColor+Additions.m in Sources */,
+				091FED7D1B374C470071F8DC /* BaseNavigationViewController.m in Sources */,
+				097375531B57C64800BE1BCA /* SlotItem.m in Sources */,
+				098B3B4A1B378EC0000D4702 /* FXReachability.m in Sources */,
+				09DB639C1B5651C100387C13 /* MKStoreKit.m in Sources */,
+				098B3B471B378C27000D4702 /* Game.m in Sources */,
+				091FED811B375DA50071F8DC /* GameViewController.m in Sources */,
+				097375461B57A97500BE1BCA /* BaseViewController.m in Sources */,
+				097375491B57B8CA00BE1BCA /* ZCSlotMachine.m in Sources */,
+				09DB638E1B564DCA00387C13 /* IAPTableViewCell.m in Sources */,
 				091FED4C1B37283E0071F8DC /* AppDelegate.m in Sources */,
+				0906AAF21B551F0A008F28C1 /* IAPViewController.m in Sources */,
+				09DB638A1B564DA700387C13 /* IAPTableViewController.m in Sources */,
+				098B3B571B395091000D4702 /* MSSProgressView.m in Sources */,
+				091FED761B3733AF0071F8DC /* SIConstants.m in Sources */,
+				098B3B431B378B89000D4702 /* AppSingleton.m in Sources */,
 				091FED6F1B37295D0071F8DC /* StartScreenViewController.m in Sources */,
+				097375541B57C64800BE1BCA /* SlotView.m in Sources */,
 				091FED491B37283E0071F8DC /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -250,6 +566,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				091FED631B37283E0071F8DC /* Swype_ItTests.m in Sources */,
+				092B470E1B521B7900AFE43C /* GameTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -292,10 +609,12 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Andrew Keller (4QBKTXP3K7)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Andrew Keller (4QBKTXP3K7)";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -314,6 +633,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
+				PROVISIONING_PROFILE = "c7ba4f47-45d8-409b-8c87-927ad2b71ff8";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -336,7 +656,8 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Andrew Keller (4QBKTXP3K7)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Andrew Keller (4QBKTXP3K7)";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
@@ -351,6 +672,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
 				MTL_ENABLE_DEBUG_INFO = NO;
+				PROVISIONING_PROFILE = "c7ba4f47-45d8-409b-8c87-927ad2b71ff8";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
@@ -359,23 +681,31 @@
 		};
 		091FED671B37283E0071F8DC /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 515AAE4709C37B6475D12AF4 /* Pods.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer: Andrew Keller (4QBKTXP3K7)";
 				INFOPLIST_FILE = "Swype It/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.pushtheworldllc.swipeit;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "c7ba4f47-45d8-409b-8c87-927ad2b71ff8";
 			};
 			name = Debug;
 		};
 		091FED681B37283E0071F8DC /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 250606D5461711E9FC89BC0E /* Pods.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer: Andrew Keller (4QBKTXP3K7)";
 				INFOPLIST_FILE = "Swype It/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.pushtheworldllc.swipeit;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "c7ba4f47-45d8-409b-8c87-927ad2b71ff8";
 			};
 			name = Release;
 		};
@@ -391,8 +721,24 @@
 					"DEBUG=1",
 					"$(inherited)",
 				);
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					"$(PROJECT_DIR)/usr/include",
+				);
 				INFOPLIST_FILE = "Swype ItTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/usr/lib",
+				);
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-framework",
+					XCTest,
+					"-ObjC",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.pushtheworldllc.swipeit;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Swype It.app/Swype It";
 			};
@@ -406,8 +752,24 @@
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
 				);
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					"$(PROJECT_DIR)/usr/include",
+				);
 				INFOPLIST_FILE = "Swype ItTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/usr/lib",
+				);
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-framework",
+					XCTest,
+					"-ObjC",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.pushtheworldllc.swipeit;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Swype It.app/Swype It";
 			};
@@ -432,6 +794,7 @@
 				091FED681B37283E0071F8DC /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		091FED691B37283E0071F8DC /* Build configuration list for PBXNativeTarget "Swype ItTests" */ = {
 			isa = XCConfigurationList;
@@ -440,6 +803,7 @@
 				091FED6B1B37283E0071F8DC /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
