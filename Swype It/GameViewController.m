@@ -36,6 +36,7 @@
 @property (assign, nonatomic) CGFloat            progressViewBoarderWidth;
 @property (assign, nonatomic) CGFloat            progressViewHeight;
 @property (assign, nonatomic) int                gameMode;
+@property (assign, nonatomic) int                monkeyDestroyedCount;
 
 
 #pragma mark - Private Properties
@@ -631,7 +632,7 @@
 
 }
 - (void)setupNav {
-    [self.navigationController setNavigationBarHidden:YES animated:NO];
+//    [self.navigationController setNavigationBarHidden:YES animated:NO];
     self.view.backgroundColor = [UIColor mainColor];
     self.navigationController.navigationBar.translucent = NO;
     self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStyleDone target:nil action:nil];
@@ -672,18 +673,28 @@
 
 #pragma mark - Gesture Recognizer Methods
 - (void)tapRegistered:(UITapGestureRecognizer *)tapGestrureRecognizer {
-    [[AppSingleton singleton] moveEnterForType:SIMoveTap];
+    if ([AppSingleton singleton].currentGame.currentPowerUp != SIPowerUpCostFallingMonkeys) {
+        [[AppSingleton singleton] moveEnterForType:SIMoveTap];
+    }
 }
 - (void)swypeRegistered:(UISwipeGestureRecognizer *)swipeGestrureRecognizer {
-    [[AppSingleton singleton] moveEnterForType:SIMoveSwype];
+    if ([AppSingleton singleton].currentGame.currentPowerUp != SIPowerUpCostFallingMonkeys) {
+        [[AppSingleton singleton] moveEnterForType:SIMoveSwype];
+    }
+
 }
 - (void)pinchRegistered:(UIPinchGestureRecognizer *)pinchGestrureRecognizer {
-    if (pinchGestrureRecognizer.state == UIGestureRecognizerStateEnded) {
-        [[AppSingleton singleton] moveEnterForType:SIMovePinch];
+    if ([AppSingleton singleton].currentGame.currentPowerUp != SIPowerUpCostFallingMonkeys) {
+        if (pinchGestrureRecognizer.state == UIGestureRecognizerStateEnded) {
+            [[AppSingleton singleton] moveEnterForType:SIMovePinch];
+        }
     }
 }
 - (void)shakeRegistered {
-    [[AppSingleton singleton] moveEnterForType:SIMoveShake];
+    if ([AppSingleton singleton].currentGame.currentPowerUp != SIPowerUpCostFallingMonkeys) {
+        [[AppSingleton singleton] moveEnterForType:SIMoveShake];
+    }
+
 }
 
 #pragma mark - Accelerometer Methods
@@ -740,7 +751,7 @@
     }
 }
 - (void)gameEnded {
-    [self.navigationController setNavigationBarHidden:NO animated:YES];
+//    [self.navigationController setNavigationBarHidden:NO animated:YES];
     self.moveCommandLabel.text              = @"Game Over!";
     
     self.currentMoveProgressView.hidden     = YES;
@@ -842,6 +853,11 @@
 /*This is the fith step.*/
 - (void)startPowerUpFallingMonkeys {
     /*Do any UI Set U[ for Falling Monkeys*/
+    self.moveCommandLabel.hidden        = YES;
+    self.currentLevelLabel.hidden       = YES;
+    self.currentMoveProgressView.hidden = YES;
+    self.powerUpLabel.hidden            = YES;
+    self.monkeyDestroyedCount           = 0;
     
     /*Generic Start Power Up*/
     NSInteger totalNumberOfMonkeysToLaunch = [[NSUserDefaults standardUserDefaults] integerForKey:kSINSUserDefaultNumberOfMonkeys];
@@ -855,6 +871,11 @@
 /*This is the 7th step, called by game controller to end powerup*/
 - (void)endPowerUpFallingMonkeys {
     /*Do any UI break down for Falling Monkeys*/
+    self.moveCommandLabel.hidden        = NO;
+    self.currentLevelLabel.hidden       = NO;
+    self.currentMoveProgressView.hidden = NO;
+    self.powerUpLabel.hidden            = NO;
+    self.monkeyDestroyedCount           = 0;
 
     
     /*Generica End Power Up*/
@@ -913,10 +934,11 @@
 - (void)launched:(NSInteger)monkeysLaunched monkeysOutOf:(NSInteger)totalMonkeysToLaunch {
     /*Base Case*/
     if (monkeysLaunched == totalMonkeysToLaunch) {
+//        [self powerUpDeactivated];
+//        [self correctMoveEntered:nil];
         return;
     } else {
         /*Get Random Number Max... based of width of screen and monkey*/
-        CGFloat validMin                = self.fallingMonkeySize.width / 2.0f;
         CGFloat validMax                = SCREEN_WIDTH - (self.fallingMonkeySize.width / 2.0f);
         CGFloat xLocation               = arc4random_uniform(validMax); /*This will be the y axis launch point*/
         CGFloat yLocation               = -self.fallingMonkeySize.height;
@@ -936,42 +958,36 @@
         
 //        /*Launch That Monkey!*/
 //        [UIView animateWithDuration:4.0 animations:^{
-//            button.center = CGPointMake(xLocation, self.fallingMonkeySize.height + SCREEN_HEIGHT);
+//            monkey.center = CGPointMake(xLocation, self.fallingMonkeySize.height + SCREEN_HEIGHT);
 //        } completion:^(BOOL finished) {
-//            NSLog(@"Do the happy dance");
+//            if (finished) {
+//                NSLog(@"Monkey Tapped");
+//            } else {
+//                NSLog(@"Monkey Not Tapped");
+//            }
+//            self.monkeyDestroyedCount = self.monkeyDestroyedCount + 1;
 //        }];
         
         /*Call Function again*/
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.55 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        CGFloat randomDelay            = arc4random_uniform(75);
+        NSLog(@"Delay: %0.2f",randomDelay / 100);
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(randomDelay /100 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             [self launched:monkeysLaunched + 1 monkeysOutOf:totalMonkeysToLaunch];
         });
     }
-    
 }
 
 - (void)monkeyWasTapped:(FallingMonkeyView *)fallingMonkeyView {
     [fallingMonkeyView removeFromSuperview];
     
+    self.monkeyDestroyedCount                       = self.monkeyDestroyedCount + 1;
+    
     [AppSingleton singleton].currentGame.totalScore = [AppSingleton singleton].currentGame.totalScore + VALUE_OF_MONKEY;
+    
     self.totalScoreLabel.text                       = [NSString stringWithFormat:@"%0.2f",[AppSingleton singleton].currentGame.totalScore];
+    
+    self.view.backgroundColor                       = [[AppSingleton singleton] newBackgroundColor];
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 @end
