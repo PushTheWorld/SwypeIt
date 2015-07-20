@@ -8,6 +8,7 @@
 #import "AppDelegate.h"
 #import "BaseNavigationViewController.h"
 #import "StartScreenViewController.h"
+#import "MainViewController.h"
 // Framework Import
 // Drop-In Class Imports (CocoaPods/GitHub/Guru)
 #import "MKStoreKit.h"
@@ -34,10 +35,10 @@ static BOOL isRunningTests(void) __attribute__((const));
     self.window                             = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
     
     
-    StartScreenViewController       *vc1    = [[StartScreenViewController alloc] init];
-    BaseNavigationViewController    *nav    = [[BaseNavigationViewController alloc] initWithRootViewController:vc1];
+    MainViewController       *vc1    = [[MainViewController alloc] init];
+//    BaseNavigationViewController    *nav    = [[BaseNavigationViewController alloc] initWithRootViewController:vc1];
     
-    self.window.rootViewController          = nav;
+    self.window.rootViewController          = vc1;
     [self.window makeKeyAndVisible];
     
     /*Check the NSUserDefaults*/

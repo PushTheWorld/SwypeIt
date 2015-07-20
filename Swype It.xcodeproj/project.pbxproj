@@ -36,6 +36,11 @@
 		098B3B521B379C8D000D4702 /* GameKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 098B3B511B379C8D000D4702 /* GameKit.framework */; };
 		098B3B541B379C93000D4702 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 098B3B531B379C93000D4702 /* AudioToolbox.framework */; };
 		098B3B571B395091000D4702 /* MSSProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 098B3B561B395091000D4702 /* MSSProgressView.m */; };
+		099A621B1B5C62A0009BF339 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 099A621A1B5C62A0009BF339 /* CoreGraphics.framework */; };
+		099A621D1B5C62A6009BF339 /* SpriteKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 099A621C1B5C62A6009BF339 /* SpriteKit.framework */; };
+		099A62231B5C635F009BF339 /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 099A62221B5C635F009BF339 /* MainViewController.m */; };
+		099A622A1B5C6B3B009BF339 /* StartScreenScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 099A62291B5C6B3B009BF339 /* StartScreenScene.m */; };
+		099A622E1B5C6C2A009BF339 /* GameScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 099A622D1B5C6C2A009BF339 /* GameScene.m */; };
 		09DB638A1B564DA700387C13 /* IAPTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 09DB63891B564DA700387C13 /* IAPTableViewController.m */; };
 		09DB638E1B564DCA00387C13 /* IAPTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 09DB638D1B564DCA00387C13 /* IAPTableViewCell.m */; };
 		09DB63981B564F0900387C13 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 09DB63971B564F0900387C13 /* StoreKit.framework */; };
@@ -104,6 +109,14 @@
 		098B3B531B379C93000D4702 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		098B3B551B395091000D4702 /* MSSProgressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSSProgressView.h; path = "Swype It/MSSProgressView.h"; sourceTree = "<group>"; };
 		098B3B561B395091000D4702 /* MSSProgressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MSSProgressView.m; path = "Swype It/MSSProgressView.m"; sourceTree = "<group>"; };
+		099A621A1B5C62A0009BF339 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		099A621C1B5C62A6009BF339 /* SpriteKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SpriteKit.framework; path = System/Library/Frameworks/SpriteKit.framework; sourceTree = SDKROOT; };
+		099A62211B5C635F009BF339 /* MainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainViewController.h; sourceTree = "<group>"; };
+		099A62221B5C635F009BF339 /* MainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainViewController.m; sourceTree = "<group>"; };
+		099A62281B5C6B3B009BF339 /* StartScreenScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StartScreenScene.h; sourceTree = "<group>"; };
+		099A62291B5C6B3B009BF339 /* StartScreenScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StartScreenScene.m; sourceTree = "<group>"; };
+		099A622C1B5C6C2A009BF339 /* GameScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameScene.h; sourceTree = "<group>"; };
+		099A622D1B5C6C2A009BF339 /* GameScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameScene.m; sourceTree = "<group>"; };
 		09DB63881B564DA700387C13 /* IAPTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IAPTableViewController.h; sourceTree = "<group>"; };
 		09DB63891B564DA700387C13 /* IAPTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IAPTableViewController.m; sourceTree = "<group>"; };
 		09DB638C1B564DCA00387C13 /* IAPTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IAPTableViewCell.h; sourceTree = "<group>"; };
@@ -122,6 +135,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				099A621D1B5C62A6009BF339 /* SpriteKit.framework in Frameworks */,
+				099A621B1B5C62A0009BF339 /* CoreGraphics.framework in Frameworks */,
 				09DB63981B564F0900387C13 /* StoreKit.framework in Frameworks */,
 				098B3B541B379C93000D4702 /* AudioToolbox.framework in Frameworks */,
 				098B3B521B379C8D000D4702 /* GameKit.framework in Frameworks */,
@@ -183,6 +198,7 @@
 				091FED731B37339D0071F8DC /* DataFiles */,
 				091FED721B372EE70071F8DC /* Images */,
 				09DB63991B56516700387C13 /* InAppPurchase */,
+				099A622B1B5C6B41009BF339 /* Scenes */,
 				091FED461B37283E0071F8DC /* Supporting Files */,
 				09DB638F1B564DD400387C13 /* TableViewCells */,
 				09DB638B1B564DAF00387C13 /* TableViewControllers */,
@@ -244,6 +260,8 @@
 				091FED801B375DA50071F8DC /* GameViewController.m */,
 				0906AAF01B551F0A008F28C1 /* IAPViewController.h */,
 				0906AAF11B551F0A008F28C1 /* IAPViewController.m */,
+				099A62211B5C635F009BF339 /* MainViewController.h */,
+				099A62221B5C635F009BF339 /* MainViewController.m */,
 				091FED6D1B37295D0071F8DC /* StartScreenViewController.h */,
 				091FED6E1B37295D0071F8DC /* StartScreenViewController.m */,
 			);
@@ -349,6 +367,17 @@
 			name = MSSProgressView;
 			sourceTree = "<group>";
 		};
+		099A622B1B5C6B41009BF339 /* Scenes */ = {
+			isa = PBXGroup;
+			children = (
+				099A62281B5C6B3B009BF339 /* StartScreenScene.h */,
+				099A62291B5C6B3B009BF339 /* StartScreenScene.m */,
+				099A622C1B5C6C2A009BF339 /* GameScene.h */,
+				099A622D1B5C6C2A009BF339 /* GameScene.m */,
+			);
+			name = Scenes;
+			sourceTree = "<group>";
+		};
 		09DB638B1B564DAF00387C13 /* TableViewControllers */ = {
 			isa = PBXGroup;
 			children = (
@@ -380,6 +409,8 @@
 		0F880A65ACF3CFF0D72120E8 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				099A621C1B5C62A6009BF339 /* SpriteKit.framework */,
+				099A621A1B5C62A0009BF339 /* CoreGraphics.framework */,
 				09DB63971B564F0900387C13 /* StoreKit.framework */,
 				092B470F1B52273A00AFE43C /* libOCMock.a */,
 				09343DA91B44BB1C00D1C707 /* QuartzCore.framework */,
@@ -539,9 +570,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				0906AAF51B552176008F28C1 /* FallingMonkeyView.m in Sources */,
+				099A622E1B5C6C2A009BF339 /* GameScene.m in Sources */,
 				091FED791B3736210071F8DC /* UIColor+Additions.m in Sources */,
 				091FED7D1B374C470071F8DC /* BaseNavigationViewController.m in Sources */,
 				097375531B57C64800BE1BCA /* SlotItem.m in Sources */,
+				099A62231B5C635F009BF339 /* MainViewController.m in Sources */,
+				099A622A1B5C6B3B009BF339 /* StartScreenScene.m in Sources */,
 				098B3B4A1B378EC0000D4702 /* FXReachability.m in Sources */,
 				09DB639C1B5651C100387C13 /* MKStoreKit.m in Sources */,
 				098B3B471B378C27000D4702 /* Game.m in Sources */,

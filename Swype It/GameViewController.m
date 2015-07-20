@@ -667,8 +667,6 @@
         UIPinchGestureRecognizer *pinchGR                   = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(pinchRegistered:)];
         [self.view addGestureRecognizer:pinchGR];
     }
-
-    
 }
 
 #pragma mark - Gesture Recognizer Methods
@@ -681,7 +679,7 @@
     if ([AppSingleton singleton].currentGame.currentPowerUp != SIPowerUpCostFallingMonkeys) {
         [[AppSingleton singleton] moveEnterForType:SIMoveSwype];
     }
-
+    
 }
 - (void)pinchRegistered:(UIPinchGestureRecognizer *)pinchGestrureRecognizer {
     if ([AppSingleton singleton].currentGame.currentPowerUp != SIPowerUpCostFallingMonkeys) {
@@ -694,7 +692,7 @@
     if ([AppSingleton singleton].currentGame.currentPowerUp != SIPowerUpCostFallingMonkeys) {
         [[AppSingleton singleton] moveEnterForType:SIMoveShake];
     }
-
+    
 }
 
 #pragma mark - Accelerometer Methods
