@@ -32,14 +32,14 @@ static BOOL isRunningTests(void) __attribute__((const));
     }
     /*RUN LOGIC*/
     /*Init window*/
-    self.window                             = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
-    
-    
-    MainViewController       *vc1    = [[MainViewController alloc] init];
-//    BaseNavigationViewController    *nav    = [[BaseNavigationViewController alloc] initWithRootViewController:vc1];
-    
-    self.window.rootViewController          = vc1;
-    [self.window makeKeyAndVisible];
+//    self.window                             = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
+//    
+//    
+//    MainViewController       *vc1    = [[MainViewController alloc] init];
+////    BaseNavigationViewController    *nav    = [[BaseNavigationViewController alloc] initWithRootViewController:vc1];
+//    
+//    self.window.rootViewController          = vc1;
+//    [self.window makeKeyAndVisible];
     
     /*Check the NSUserDefaults*/
     [self setNSUserDefaults];

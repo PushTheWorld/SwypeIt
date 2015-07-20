@@ -7,7 +7,7 @@
 //
 
 #import "MainViewController.h"
-#import "GameScene.h"
+#import "StartScreenScene.h"
 
 @interface MainViewController ()
 
@@ -20,12 +20,12 @@
     [super viewDidLoad];
     
     // Configure the view.
-    SKView * skView = (SKView *)self.view;
-    skView.showsFPS = YES;
-    skView.showsNodeCount = YES;
+    SKView * skView         = (SKView *)self.view;
+    skView.showsFPS         = YES;
+    skView.showsNodeCount   = YES;
     
     // Create and configure the scene.
-    SKScene * scene = [GameScene sceneWithSize:skView.bounds.size];
+    SKScene * scene = [StartScreenScene sceneWithSize:skView.bounds.size];
     scene.scaleMode = SKSceneScaleModeAspectFill;
     
     // Present the scene.

@@ -50,6 +50,7 @@ NSString *const kSIScoreNextMove                            = @"nextMove";
 
 #pragma mark - Images
 NSString *const kSIImageFallingMonkeys                      = @"fallingMonkey";
+NSString *const kSIImageProgressBarFill                     = @"progressBarFill";
 
 #pragma mark - Button Labels
 NSString *const kSIButtonLabelStringOneHand                 = @"One Hand";

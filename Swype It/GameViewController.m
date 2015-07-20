@@ -954,18 +954,6 @@
         [self.gravity addItem:monkey];
         [self.animator addBehavior:self.gravity];
         
-//        /*Launch That Monkey!*/
-//        [UIView animateWithDuration:4.0 animations:^{
-//            monkey.center = CGPointMake(xLocation, self.fallingMonkeySize.height + SCREEN_HEIGHT);
-//        } completion:^(BOOL finished) {
-//            if (finished) {
-//                NSLog(@"Monkey Tapped");
-//            } else {
-//                NSLog(@"Monkey Not Tapped");
-//            }
-//            self.monkeyDestroyedCount = self.monkeyDestroyedCount + 1;
-//        }];
-        
         /*Call Function again*/
         CGFloat randomDelay            = arc4random_uniform(75);
         NSLog(@"Delay: %0.2f",randomDelay / 100);

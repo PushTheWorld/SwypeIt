@@ -41,6 +41,10 @@
 		099A62231B5C635F009BF339 /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 099A62221B5C635F009BF339 /* MainViewController.m */; };
 		099A622A1B5C6B3B009BF339 /* StartScreenScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 099A62291B5C6B3B009BF339 /* StartScreenScene.m */; };
 		099A622E1B5C6C2A009BF339 /* GameScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 099A622D1B5C6C2A009BF339 /* GameScene.m */; };
+		099A62311B5C8750009BF339 /* EndGameScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 099A62301B5C8750009BF339 /* EndGameScene.m */; };
+		099A62331B5C8B12009BF339 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 099A62321B5C8B12009BF339 /* Main.storyboard */; };
+		099A62361B5C917A009BF339 /* CustomProgressBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 099A62351B5C917A009BF339 /* CustomProgressBar.m */; };
+		099A62391B5C9ED7009BF339 /* AGSpriteButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 099A62381B5C9ED7009BF339 /* AGSpriteButton.m */; };
 		09DB638A1B564DA700387C13 /* IAPTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 09DB63891B564DA700387C13 /* IAPTableViewController.m */; };
 		09DB638E1B564DCA00387C13 /* IAPTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 09DB638D1B564DCA00387C13 /* IAPTableViewCell.m */; };
 		09DB63981B564F0900387C13 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 09DB63971B564F0900387C13 /* StoreKit.framework */; };
@@ -117,6 +121,13 @@
 		099A62291B5C6B3B009BF339 /* StartScreenScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StartScreenScene.m; sourceTree = "<group>"; };
 		099A622C1B5C6C2A009BF339 /* GameScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameScene.h; sourceTree = "<group>"; };
 		099A622D1B5C6C2A009BF339 /* GameScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameScene.m; sourceTree = "<group>"; };
+		099A622F1B5C8750009BF339 /* EndGameScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EndGameScene.h; sourceTree = "<group>"; };
+		099A62301B5C8750009BF339 /* EndGameScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EndGameScene.m; sourceTree = "<group>"; };
+		099A62321B5C8B12009BF339 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
+		099A62341B5C917A009BF339 /* CustomProgressBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomProgressBar.h; sourceTree = "<group>"; };
+		099A62351B5C917A009BF339 /* CustomProgressBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomProgressBar.m; sourceTree = "<group>"; };
+		099A62371B5C9ED7009BF339 /* AGSpriteButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AGSpriteButton.h; sourceTree = "<group>"; };
+		099A62381B5C9ED7009BF339 /* AGSpriteButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AGSpriteButton.m; sourceTree = "<group>"; };
 		09DB63881B564DA700387C13 /* IAPTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IAPTableViewController.h; sourceTree = "<group>"; };
 		09DB63891B564DA700387C13 /* IAPTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IAPTableViewController.m; sourceTree = "<group>"; };
 		09DB638C1B564DCA00387C13 /* IAPTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IAPTableViewCell.h; sourceTree = "<group>"; };
@@ -191,6 +202,7 @@
 		091FED451B37283E0071F8DC /* Swype It */ = {
 			isa = PBXGroup;
 			children = (
+				099A62321B5C8B12009BF339 /* Main.storyboard */,
 				091FED6C1B3729040071F8DC /* 000 - AppDelegate */,
 				098B3B441B378B8F000D4702 /* 000 - GameSingleton */,
 				091FED7A1B37362A0071F8DC /* Categories */,
@@ -305,6 +317,8 @@
 				091FED7C1B374C470071F8DC /* BaseNavigationViewController.m */,
 				097375441B57A97500BE1BCA /* BaseViewController.h */,
 				097375451B57A97500BE1BCA /* BaseViewController.m */,
+				099A62341B5C917A009BF339 /* CustomProgressBar.h */,
+				099A62351B5C917A009BF339 /* CustomProgressBar.m */,
 			);
 			name = CustomUIClasses;
 			sourceTree = "<group>";
@@ -341,6 +355,7 @@
 		098B3B4B1B378EC8000D4702 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				099A623A1B5C9EDC009BF339 /* AGSpriteButton */,
 				097375551B57C64E00BE1BCA /* Slot */,
 				0973754A1B57B8CE00BE1BCA /* ZCSlotMachine */,
 				098B3B4C1B378ED1000D4702 /* FXReachability */,
@@ -370,12 +385,23 @@
 		099A622B1B5C6B41009BF339 /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
-				099A62281B5C6B3B009BF339 /* StartScreenScene.h */,
-				099A62291B5C6B3B009BF339 /* StartScreenScene.m */,
+				099A622F1B5C8750009BF339 /* EndGameScene.h */,
+				099A62301B5C8750009BF339 /* EndGameScene.m */,
 				099A622C1B5C6C2A009BF339 /* GameScene.h */,
 				099A622D1B5C6C2A009BF339 /* GameScene.m */,
+				099A62281B5C6B3B009BF339 /* StartScreenScene.h */,
+				099A62291B5C6B3B009BF339 /* StartScreenScene.m */,
 			);
 			name = Scenes;
+			sourceTree = "<group>";
+		};
+		099A623A1B5C9EDC009BF339 /* AGSpriteButton */ = {
+			isa = PBXGroup;
+			children = (
+				099A62371B5C9ED7009BF339 /* AGSpriteButton.h */,
+				099A62381B5C9ED7009BF339 /* AGSpriteButton.m */,
+			);
+			name = AGSpriteButton;
 			sourceTree = "<group>";
 		};
 		09DB638B1B564DAF00387C13 /* TableViewControllers */ = {
@@ -517,6 +543,7 @@
 				0973754C1B57BA8000BE1BCA /* SlotMachineBackground@2x.png in Resources */,
 				09DB639E1B56525100387C13 /* MKStoreKitConfigs.plist in Resources */,
 				091FED571B37283E0071F8DC /* LaunchScreen.xib in Resources */,
+				099A62331B5C8B12009BF339 /* Main.storyboard in Resources */,
 				0973754E1B57BA8700BE1BCA /* SlotMachineCover@2x.png in Resources */,
 				091FED541B37283E0071F8DC /* Images.xcassets in Resources */,
 			);
@@ -585,10 +612,13 @@
 				09DB638E1B564DCA00387C13 /* IAPTableViewCell.m in Sources */,
 				091FED4C1B37283E0071F8DC /* AppDelegate.m in Sources */,
 				0906AAF21B551F0A008F28C1 /* IAPViewController.m in Sources */,
+				099A62311B5C8750009BF339 /* EndGameScene.m in Sources */,
 				09DB638A1B564DA700387C13 /* IAPTableViewController.m in Sources */,
+				099A62391B5C9ED7009BF339 /* AGSpriteButton.m in Sources */,
 				098B3B571B395091000D4702 /* MSSProgressView.m in Sources */,
 				091FED761B3733AF0071F8DC /* SIConstants.m in Sources */,
 				098B3B431B378B89000D4702 /* AppSingleton.m in Sources */,
+				099A62361B5C917A009BF339 /* CustomProgressBar.m in Sources */,
 				091FED6F1B37295D0071F8DC /* StartScreenViewController.m in Sources */,
 				097375541B57C64800BE1BCA /* SlotView.m in Sources */,
 				091FED491B37283E0071F8DC /* main.m in Sources */,

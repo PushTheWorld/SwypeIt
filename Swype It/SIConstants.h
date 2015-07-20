@@ -149,6 +149,7 @@ extern NSString *const kSIScoreNextMove;
 
 #pragma mark - Images
 extern NSString *const kSIImageFallingMonkeys;
+extern NSString *const kSIImageProgressBarFill;
 
 #pragma mark - Button Labels
 extern NSString *const kSIButtonLabelStringOneHand;
