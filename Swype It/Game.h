@@ -20,7 +20,6 @@
 @property (assign, nonatomic) float              powerUpPercentRemaining;
 @property (assign, nonatomic) float              totalScore;
 @property (assign, nonatomic) SIGameMode         gameMode;
-@property (assign, nonatomic) SIMove             nextMove;
 @property (assign, nonatomic) SIMove             currentMove;
 @property (assign, nonatomic) SIPowerUp          currentPowerUp;
 

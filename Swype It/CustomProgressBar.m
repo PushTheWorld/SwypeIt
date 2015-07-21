@@ -14,7 +14,7 @@
 // Category Import
 #import "UIColor+Additions.h"
 // Support/Data Class Imports
-#import "SIConstants.h"
+//#import "SIConstants.h"
 // Other Imports
 
 
@@ -26,10 +26,26 @@
     }
     return self;
 }
-- (void)configureForSize:(CGSize)size {
+- (void)configureForSize:(CGSize)size withType:(SIProgressBar)progressBar {
     self.maskNode = [SKSpriteNode spriteNodeWithColor:[SKColor whiteColor] size:CGSizeMake(size.width, size.height)];
     
-    SKSpriteNode *sprite = [SKSpriteNode spriteNodeWithImageNamed:kSIImageProgressBarFill];
+    NSString *progressBarFillImageName;
+    
+    switch (progressBar) {
+        case SIProgressBarMove:
+            progressBarFillImageName = kSIImageProgressBarFill;
+            break;
+        case SIProgressBarPowerUp:
+            progressBarFillImageName = kSIImageProgressBarPowerUpFill;
+            break;
+        default:
+            progressBarFillImageName = kSIImageProgressBarFill;
+            break;
+    }
+    
+    SKSpriteNode *sprite    = [SKSpriteNode spriteNodeWithImageNamed:progressBarFillImageName];
+    sprite.size             = size;
+    
     sprite.anchorPoint      = CGPointMake(0, 0.5);
     
     [self addChild:sprite];

@@ -50,6 +50,9 @@
 		09DB63981B564F0900387C13 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 09DB63971B564F0900387C13 /* StoreKit.framework */; };
 		09DB639C1B5651C100387C13 /* MKStoreKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 09DB639B1B5651C100387C13 /* MKStoreKit.m */; };
 		09DB639E1B56525100387C13 /* MKStoreKitConfigs.plist in Resources */ = {isa = PBXBuildFile; fileRef = 09DB639D1B56525100387C13 /* MKStoreKitConfigs.plist */; };
+		09F61FAD1B5E51130067DFE5 /* SpriteBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 09F61FAC1B5E51130067DFE5 /* SpriteBar.m */; };
+		09F61FB01B5E53350067DFE5 /* progressBarMove.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 09F61FAF1B5E53350067DFE5 /* progressBarMove.atlas */; };
+		09F61FB21B5E53A70067DFE5 /* sb_default.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 09F61FB11B5E53A70067DFE5 /* sb_default.atlas */; };
 		F91BB9396F4CAAE0BC65B477 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 769385628457ECC646BCC3FE /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -136,6 +139,10 @@
 		09DB639A1B5651C100387C13 /* MKStoreKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKStoreKit.h; sourceTree = "<group>"; };
 		09DB639B1B5651C100387C13 /* MKStoreKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKStoreKit.m; sourceTree = "<group>"; };
 		09DB639D1B56525100387C13 /* MKStoreKitConfigs.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = MKStoreKitConfigs.plist; sourceTree = "<group>"; };
+		09F61FAB1B5E51130067DFE5 /* SpriteBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SpriteBar.h; sourceTree = "<group>"; };
+		09F61FAC1B5E51130067DFE5 /* SpriteBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SpriteBar.m; sourceTree = "<group>"; };
+		09F61FAF1B5E53350067DFE5 /* progressBarMove.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = progressBarMove.atlas; sourceTree = "<group>"; };
+		09F61FB11B5E53A70067DFE5 /* sb_default.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = sb_default.atlas; sourceTree = "<group>"; };
 		250606D5461711E9FC89BC0E /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		515AAE4709C37B6475D12AF4 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		769385628457ECC646BCC3FE /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -283,6 +290,8 @@
 		091FED721B372EE70071F8DC /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				09F61FB11B5E53A70067DFE5 /* sb_default.atlas */,
+				09F61FAF1B5E53350067DFE5 /* progressBarMove.atlas */,
 				0973754D1B57BA8700BE1BCA /* SlotMachineCover@2x.png */,
 				0973754B1B57BA8000BE1BCA /* SlotMachineBackground@2x.png */,
 				091FED531B37283E0071F8DC /* Images.xcassets */,
@@ -355,6 +364,7 @@
 		098B3B4B1B378EC8000D4702 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				09F61FAE1B5E511A0067DFE5 /* SpriteBar */,
 				099A623A1B5C9EDC009BF339 /* AGSpriteButton */,
 				097375551B57C64E00BE1BCA /* Slot */,
 				0973754A1B57B8CE00BE1BCA /* ZCSlotMachine */,
@@ -430,6 +440,15 @@
 				09DB639D1B56525100387C13 /* MKStoreKitConfigs.plist */,
 			);
 			name = InAppPurchase;
+			sourceTree = "<group>";
+		};
+		09F61FAE1B5E511A0067DFE5 /* SpriteBar */ = {
+			isa = PBXGroup;
+			children = (
+				09F61FAB1B5E51130067DFE5 /* SpriteBar.h */,
+				09F61FAC1B5E51130067DFE5 /* SpriteBar.m */,
+			);
+			name = SpriteBar;
 			sourceTree = "<group>";
 		};
 		0F880A65ACF3CFF0D72120E8 /* Frameworks */ = {
@@ -543,6 +562,8 @@
 				0973754C1B57BA8000BE1BCA /* SlotMachineBackground@2x.png in Resources */,
 				09DB639E1B56525100387C13 /* MKStoreKitConfigs.plist in Resources */,
 				091FED571B37283E0071F8DC /* LaunchScreen.xib in Resources */,
+				09F61FB01B5E53350067DFE5 /* progressBarMove.atlas in Resources */,
+				09F61FB21B5E53A70067DFE5 /* sb_default.atlas in Resources */,
 				099A62331B5C8B12009BF339 /* Main.storyboard in Resources */,
 				0973754E1B57BA8700BE1BCA /* SlotMachineCover@2x.png in Resources */,
 				091FED541B37283E0071F8DC /* Images.xcassets in Resources */,
@@ -620,6 +641,7 @@
 				098B3B431B378B89000D4702 /* AppSingleton.m in Sources */,
 				099A62361B5C917A009BF339 /* CustomProgressBar.m in Sources */,
 				091FED6F1B37295D0071F8DC /* StartScreenViewController.m in Sources */,
+				09F61FAD1B5E51130067DFE5 /* SpriteBar.m in Sources */,
 				097375541B57C64800BE1BCA /* SlotView.m in Sources */,
 				091FED491B37283E0071F8DC /* main.m in Sources */,
 			);

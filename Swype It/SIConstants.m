@@ -49,8 +49,18 @@ NSString *const kSIScoreTotalScore                          = @"totalScore";
 NSString *const kSIScoreNextMove                            = @"nextMove";
 
 #pragma mark - Images
+NSString *const kSIImageButtonFallingMonkey                 = @"fallingMonkeyButton";
+NSString *const kSIImageButtonGameModeOneHand               = @"gameModeOneHandButton";
+NSString *const kSIImageButtonGameModeTwoHand               = @"gameModeTwoHandButton";
+NSString *const kSIImageButtonRapidFire                     = @"rapidFireButton";
+NSString *const kSIImageButtonTimeFreeze                    = @"timeFreezeButton";
 NSString *const kSIImageFallingMonkeys                      = @"fallingMonkey";
 NSString *const kSIImageProgressBarFill                     = @"progressBarFill";
+NSString *const kSIImageProgressBarPowerUpFill              = @"progressBarPowerUpFill";
+
+#pragma mark - Texture Atlas
+NSString *const kSIAtlasProgressBarDefault                  = @"sb_default";
+NSString *const kSIAtlasProgressBarMove                     = @"progressBarMove";
 
 #pragma mark - Button Labels
 NSString *const kSIButtonLabelStringOneHand                 = @"One Hand";
@@ -75,3 +85,12 @@ NSString *const kSIIAPPackNameSmall                         = @"Bag";
 NSString *const kSIIAPPackNameMedium                        = @"Pile";
 NSString *const kSIIAPPackNameLarge                         = @"Bucket";
 NSString *const kSIIAPPackNameExtraLarge                    = @"Chest";
+
+#pragma mark - Node Names
+NSString *const kSINodeButtonOneHand                        = @"oneHand";
+NSString *const kSINodeButtonTwoHand                        = @"twoHand";
+NSString *const kSINodeButtonTimeFreeze                     = @"timeFreeze";
+NSString *const kSINodeButtonRapidFire                      = @"rapidFire";
+NSString *const kSINodeButtonFallingMonkey                  = @"fallingMonkeyButton";
+NSString *const kSINodeFallingMonkey                        = @"fallingMonkey";
+

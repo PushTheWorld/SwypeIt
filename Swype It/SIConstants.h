@@ -78,14 +78,14 @@ typedef enum {
 
 typedef enum {
     SIPowerUpCostNone               = 0,
-    SIPowerUpCostFallingMonkeys        = 1,
+    SIPowerUpCostFallingMonkeys     = 1,
     SIPowerUpCostTimeFreeze         = 3,
     SIPowerUpCostRapidFire          = 5
 } SIPowerUpCost;
 
 typedef enum {
     SIPowerUpDurationNone           = 0,
-    SIPowerUpDurationFallingMonkeys    = 5,
+    SIPowerUpDurationFallingMonkeys = 5,
     SIPowerUpDurationTimeFreeze     = 5,
     SIPowerUpDurationRapidFire      = 5
 } SIPowerUpDuration;
@@ -103,6 +103,11 @@ typedef enum {
     SIIAPPackLarge,
     SIIAPPackExtraLarge
 } SIIAPPack;
+
+typedef enum {
+    SIProgressBarMove,
+    SIProgressBarPowerUp
+}SIProgressBar;
 
 #pragma mark - Images
 extern NSString *const kSIImageTitleLabel;
@@ -148,8 +153,17 @@ extern NSString *const kSIScoreTotalScore;
 extern NSString *const kSIScoreNextMove;
 
 #pragma mark - Images
+extern NSString *const kSIImageButtonFallingMonkey;
+extern NSString *const kSIImageButtonGameModeOneHand;
+extern NSString *const kSIImageButtonGameModeTwoHand;
+extern NSString *const kSIImageButtonRapidFire;
+extern NSString *const kSIImageButtonTimeFreeze;
 extern NSString *const kSIImageFallingMonkeys;
 extern NSString *const kSIImageProgressBarFill;
+extern NSString *const kSIImageProgressBarPowerUpFill;
+
+#pragma mark - Texture Atlas
+extern NSString *const kSIAtlasProgressBarMove;
 
 #pragma mark - Button Labels
 extern NSString *const kSIButtonLabelStringOneHand;
@@ -176,8 +190,13 @@ extern NSString *const kSIIAPPackNameLarge;
 extern NSString *const kSIIAPPackNameExtraLarge;
 
 
-
-
+#pragma mark - Node Names
+extern NSString *const kSINodeButtonOneHand;
+extern NSString *const kSINodeButtonTwoHand;
+extern NSString *const kSINodeButtonTimeFreeze;
+extern NSString *const kSINodeButtonRapidFire;
+extern NSString *const kSINodeButtonFallingMonkey;
+extern NSString *const kSINodeFallingMonkey;
 
 
 

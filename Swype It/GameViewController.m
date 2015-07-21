@@ -95,7 +95,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self setupUserInterface];
-    [[AppSingleton singleton] runFirstGame];
+//    [[AppSingleton singleton] runFirstGame];
 }
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];

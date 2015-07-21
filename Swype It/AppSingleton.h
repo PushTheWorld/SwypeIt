@@ -36,7 +36,6 @@
 - (void)initAppSingletonWithGameMode:(SIGameMode)gameMode;
 - (void)moveEnterForType:(SIMove)move;
 - (UIColor *)newBackgroundColor;
-- (void)runFirstGame;
 - (void)startGame;
 - (void)powerUpDidLoad:(SIPowerUp)powerUp;
 - (void)powerUpWillActivate:(SIPowerUp)powerUp withPowerUpCost:(SIPowerUpCost)powerUpCost;
