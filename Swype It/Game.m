@@ -31,6 +31,27 @@
 }
 
 #pragma mark - Class Methods
++ (float)levelSpeedForScoreOriginal:(float)score {
+    if (score < LEVEL1) {
+        return 4.0f;
+    } else if (score < LEVEL2) {
+        return 3.0f;
+    } else if (score < LEVEL3) {
+        return 2.5f;
+    } else if (score < LEVEL4) {
+        return 2.0f;
+    } else if (score < LEVEL5) {
+        return 1.5f;
+    } else if (score < LEVEL8) {
+        return 1.0f;
+    } else {
+        return 0.9f;
+    }
+}
+
++ (float)scoreForMoveDuration:(float)durationOfLastMove withLevelSpeedDivider:(float)levelSpeedDivider {
+    return MAX_MOVE_SCORE * exp(SCORE_EXP_POWER_WEIGHT * durationOfLastMove / levelSpeedDivider);
+}
 + (int)nextLevelForScore:(float)score {
     int levelScore = 0;
     
@@ -79,7 +100,75 @@
     }
     return levelScore;
 }
-
++ (int)numberLevelForScore:(float)score {
+    int numberLevel = (int)score / 1000;
+    numberLevel     = numberLevel + 1;
+    numberLevel     = numberLevel * 1000;
+    return numberLevel;
+}
++ (NSString *)buttonNodeNameLabelDescriptionForSIIAPPack:(SIIAPPack)siiapPack {
+    switch (siiapPack) {
+        case SIIAPPackSmall:
+            return kSINodeLabelDescriptionBag;
+        case SIIAPPackMedium:
+            return kSINodeLabelDescriptionPile;
+        case SIIAPPackLarge:
+            return kSINodeLabelDescriptionBucket;
+        case SIIAPPackExtraLarge:
+            return kSINodeLabelDescriptionChest;
+        default:
+            return nil;
+    }
+}
++ (NSString *)buttonNodeNameLabelPriceForSIIAPPack:(SIIAPPack)siiapPack {
+    switch (siiapPack) {
+        case SIIAPPackSmall:
+            return kSINodeLabelPriceBag;
+        case SIIAPPackMedium:
+            return kSINodeLabelPricePile;
+        case SIIAPPackLarge:
+            return kSINodeLabelPriceBucket;
+        case SIIAPPackExtraLarge:
+            return kSINodeLabelPriceChest;
+        default:
+            return nil;
+    }
+}
++ (NSString *)buttonNodeNameNodeForSIIAPPack:(SIIAPPack)siiapPack {
+    switch (siiapPack) {
+        case SIIAPPackSmall:
+            return kSINodeNodeBag;
+        case SIIAPPackMedium:
+            return kSINodeNodePile;
+        case SIIAPPackLarge:
+            return kSINodeNodeBucket;
+        case SIIAPPackExtraLarge:
+            return kSINodeNodeChest;
+        default:
+            return nil;
+    }
+}
++ (NSString *)buttonTextForSIIAPPack:(SIIAPPack)siiapPack {
+    NSString *prefix;
+    switch (siiapPack) {
+        case SIIAPPackSmall:
+            prefix = kSIIAPPackNameSmall;
+            break;
+        case SIIAPPackMedium:
+            prefix = kSIIAPPackNameMedium;
+            break;
+        case SIIAPPackLarge:
+            prefix = kSIIAPPackNameLarge;
+            break;
+        case SIIAPPackExtraLarge:
+            prefix = kSIIAPPackNameExtraLarge;
+            break;
+        default:
+            prefix = @"XXX";
+            break;
+    }
+    return [NSString stringWithFormat:@"%@ of Coins",prefix];
+}
 + (NSString *)currentLevelStringForScore:(float)score {
     int numberLevel = 0;
     if (score < LEVEL1) {
@@ -128,14 +217,50 @@
     
     return [NSString stringWithFormat:@"Level %d",numberLevel];
 }
-
-+ (int)numberLevelForScore:(float)score {
-    int numberLevel = (int)score / 1000;
-    numberLevel     = numberLevel + 1;
-    numberLevel     = numberLevel * 1000;
-    return numberLevel;
++ (NSString *)productIDForSIIAPPack:(SIIAPPack)siiapPack {
+    switch (siiapPack) {
+        case SIIAPPackSmall:
+            return kSIIAPProductIDCoinPackSmall;
+        case SIIAPPackMedium:
+            return kSIIAPProductIDCoinPackMedium;
+        case SIIAPPackLarge:
+            return kSIIAPProductIDCoinPackLarge;
+        case SIIAPPackExtraLarge:
+            return kSIIAPProductIDCoinPackExtraLarge;
+        default:
+            return nil;
+    }
 }
-
+/*AUTO TESTED*/
++ (NSString *)stringForMove:(SIMove)move {
+    switch (move) {
+        case SIMoveTap:
+            return kSIMoveCommandTap;
+        case SIMoveSwype:
+            return kSIMoveCommandSwype;
+        case SIMovePinch:
+            return kSIMoveCommandPinch;
+        case SIMoveShake:
+            return kSIMoveCommandShake;
+        default:
+            return nil;
+    }
+}
+/*AUTO TESTED*/
++ (NSString *)stringForPowerUp:(SIPowerUp)powerUp {
+    switch (powerUp) {
+        case SIPowerUpFallingMonkeys:
+            return kSIPowerUpFallingMonkeys;
+        case SIPowerUpTimeFreeze:
+            return kSIPowerUpTimeFreeze;
+        case SIPowerUpRapidFire:
+            return kSIPowerUpRapidFire;
+        case SIPowerUpNone:
+            return kSIPowerUpNone;
+        default:
+            return nil;
+    }
+}
 + (UIColor *)backgroundColorForScore:(float)score forRandomNumber:(NSInteger)randomNumber {
     if (score < LEVEL1) {
         switch (randomNumber) {
@@ -270,9 +395,7 @@
         }
     }
 }
-+ (float)scoreForMoveDuration:(float)durationOfLastMove withLevelSpeedDivider:(float)levelSpeedDivider {
-    return MAX_MOVE_SCORE * exp(SCORE_EXP_POWER_WEIGHT * durationOfLastMove / levelSpeedDivider);
-}
+
 + (SIMove)getRandomMoveForGameMode:(SIGameMode)gameMode isRapidFireActiviated:(BOOL)isRapidFireActivated {
     if (isRapidFireActivated) {
         return SIMoveTap;
@@ -289,36 +412,6 @@
             } else { /*GameModeTwoHane*/
                 return SIMovePinch;
             }
-    }
-}
-/*AUTO TESTED*/
-+ (NSString *)stringForMove:(SIMove)move {
-    switch (move) {
-        case SIMoveTap:
-            return kSIMoveCommandTap;
-        case SIMoveSwype:
-            return kSIMoveCommandSwype;
-        case SIMovePinch:
-            return kSIMoveCommandPinch;
-        case SIMoveShake:
-            return kSIMoveCommandShake;
-        default:
-            return nil;
-    }
-}
-/*AUTO TESTED*/
-+ (NSString *)stringForPowerUp:(SIPowerUp)powerUp {
-    switch (powerUp) {
-        case SIPowerUpFallingMonkeys:
-            return kSIPowerUpFallingMonkeys;
-        case SIPowerUpTimeFreeze:
-            return kSIPowerUpTimeFreeze;
-        case SIPowerUpRapidFire:
-            return kSIPowerUpRapidFire;
-        case SIPowerUpNone:
-            return kSIPowerUpNone;
-        default:
-            return nil;
     }
 }
 /*AUTO TESTED*/
@@ -347,23 +440,35 @@
             return SIPowerUpDurationNone;
     }
 }
-+ (float)levelSpeedForScoreOriginal:(float)score {
-    if (score < LEVEL1) {
-        return 4.0f;
-    } else if (score < LEVEL2) {
-        return 3.0f;
-    } else if (score < LEVEL3) {
-        return 2.5f;
-    } else if (score < LEVEL4) {
-        return 2.0f;
-    } else if (score < LEVEL5) {
-        return 1.5f;
-    } else if (score < LEVEL8) {
-        return 1.0f;
+/*AUTO TESTED*/
++ (SIIAPPack)siiapPackForNameNodeNode:(NSString *)nodeName {
+    if ([nodeName isEqualToString:kSINodeNodeBag]) {
+        return SIIAPPackSmall;
+    } else if ([nodeName isEqualToString:kSINodeNodePile]) {
+        return SIIAPPackMedium;
+    } else if ([nodeName isEqualToString:kSINodeNodeBucket]) {
+        return SIIAPPackLarge;
+    } else if ([nodeName isEqualToString:kSINodeNodeChest]) {
+        return SIIAPPackExtraLarge;
     } else {
-        return 0.9f;
+        return NUMBER_OF_IAP_PACKS;
     }
 }
+/*AUTO TESTED*/
++ (SIIAPPack)siiapPackForNameNodeLabel:(NSString *)nodeName {
+    if ([nodeName isEqualToString:kSINodeLabelDescriptionBag]) {
+        return SIIAPPackSmall;
+    } else if ([nodeName isEqualToString:kSINodeLabelDescriptionPile]) {
+        return SIIAPPackMedium;
+    } else if ([nodeName isEqualToString:kSINodeLabelDescriptionBucket]) {
+        return SIIAPPackLarge;
+    } else if ([nodeName isEqualToString:kSINodeLabelDescriptionChest]) {
+        return SIIAPPackExtraLarge;
+    } else {
+        return NUMBER_OF_IAP_PACKS;
+    }
+}
+#pragma mark - Private Class Methods
 + (float)levelSpeedForScore:(float)score {
     if (score < MAX_MOVE_SCORE) {
         return 4.0f;

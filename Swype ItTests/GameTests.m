@@ -250,11 +250,11 @@
     /*Power Up None*/
     XCTAssertEqual(0, SIPowerUpCostNone);
     /*Power Up Double Points*/
-    XCTAssertEqual(1, SIPowerUpCostFallingMonkeys);
+    XCTAssertEqual(5, SIPowerUpCostFallingMonkeys);
     /*Power Up Time Freeze*/
-    XCTAssertEqual(3, SIPowerUpCostTimeFreeze);
+    XCTAssertEqual(1, SIPowerUpCostTimeFreeze);
     /*Power Up Rapid Fire*/
-    XCTAssertEqual(5, SIPowerUpCostRapidFire);
+    XCTAssertEqual(3, SIPowerUpCostRapidFire);
 }
 - (void)testGetRandomMoveForRapidFire {
     /*Check to make the Rapid Fire Returns Tap*/
@@ -272,5 +272,70 @@
         SIMove move = [Game getRandomMoveForGameMode:SIGameModeTwoHand isRapidFireActiviated:NO];
         XCTAssertNotEqual(move, SIMoveShake);
     }
+}
+- (void)testIAPButtonStringForSIIAPPack {
+    /*Bag of Coins*/
+    XCTAssertEqualObjects(@"Bag of Coins", [Game buttonTextForSIIAPPack:SIIAPPackSmall]);
+
+    /*Pile of Coins*/
+    XCTAssertEqualObjects(@"Pile of Coins", [Game buttonTextForSIIAPPack:SIIAPPackMedium]);
+
+    /*Bucket of Coins*/
+    XCTAssertEqualObjects(@"Bucket of Coins", [Game buttonTextForSIIAPPack:SIIAPPackLarge]);
+
+    /*Chest of Coins*/
+    XCTAssertEqualObjects(@"Chest of Coins", [Game buttonTextForSIIAPPack:SIIAPPackExtraLarge]);
+}
+- (void)testIAPButtonNodeNameForSIIAPPack {
+    /*Bag of Coins*/
+    XCTAssertEqualObjects(kSINodeNodeBag, [Game buttonNodeNameNodeForSIIAPPack:SIIAPPackSmall]);
+    
+    /*Pile of Coins*/
+    XCTAssertEqualObjects(kSINodeNodePile, [Game buttonNodeNameNodeForSIIAPPack:SIIAPPackMedium]);
+    
+    /*Bucket of Coins*/
+    XCTAssertEqualObjects(kSINodeNodeBucket, [Game buttonNodeNameNodeForSIIAPPack:SIIAPPackLarge]);
+    
+    /*Chest of Coins*/
+    XCTAssertEqualObjects(kSINodeNodeChest, [Game buttonNodeNameNodeForSIIAPPack:SIIAPPackExtraLarge]);
+}
+- (void)testIAPButtonNodeLabelDescriptionForSIIAPPack {
+    /*Bag of Coins*/
+    XCTAssertEqualObjects(kSINodeLabelDescriptionBag, [Game buttonNodeNameLabelDescriptionForSIIAPPack:SIIAPPackSmall]);
+    
+    /*Pile of Coins*/
+    XCTAssertEqualObjects(kSINodeLabelDescriptionPile, [Game buttonNodeNameLabelDescriptionForSIIAPPack:SIIAPPackMedium]);
+    
+    /*Bucket of Coins*/
+    XCTAssertEqualObjects(kSINodeLabelDescriptionBucket, [Game buttonNodeNameLabelDescriptionForSIIAPPack:SIIAPPackLarge]);
+    
+    /*Chest of Coins*/
+    XCTAssertEqualObjects(kSINodeLabelDescriptionChest, [Game buttonNodeNameLabelDescriptionForSIIAPPack:SIIAPPackExtraLarge]);
+}
+- (void)testIAPButtonNodeLabelPriceForSIIAPPack {
+    /*Bag of Coins*/
+    XCTAssertEqualObjects(kSINodeLabelPriceBag, [Game buttonNodeNameLabelPriceForSIIAPPack:SIIAPPackSmall]);
+    
+    /*Pile of Coins*/
+    XCTAssertEqualObjects(kSINodeLabelPricePile, [Game buttonNodeNameLabelPriceForSIIAPPack:SIIAPPackMedium]);
+    
+    /*Bucket of Coins*/
+    XCTAssertEqualObjects(kSINodeLabelPriceBucket, [Game buttonNodeNameLabelPriceForSIIAPPack:SIIAPPackLarge]);
+    
+    /*Chest of Coins*/
+    XCTAssertEqualObjects(kSINodeLabelPriceChest, [Game buttonNodeNameLabelPriceForSIIAPPack:SIIAPPackExtraLarge]);
+}
+- (void)testIAPProductIDForSIIAPPack {
+    /*Bag of Coins*/
+    XCTAssertEqualObjects(kSIIAPProductIDCoinPackSmall, [Game productIDForSIIAPPack:SIIAPPackSmall]);
+    
+    /*Pile of Coins*/
+    XCTAssertEqualObjects(kSIIAPProductIDCoinPackMedium, [Game productIDForSIIAPPack:SIIAPPackMedium]);
+    
+    /*Bucket of Coins*/
+    XCTAssertEqualObjects(kSIIAPProductIDCoinPackLarge, [Game productIDForSIIAPPack:SIIAPPackLarge]);
+    
+    /*Chest of Coins*/
+    XCTAssertEqualObjects(kSIIAPProductIDCoinPackExtraLarge, [Game productIDForSIIAPPack:SIIAPPackExtraLarge]);
 }
 @end

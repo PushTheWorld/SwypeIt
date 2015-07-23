@@ -26,16 +26,24 @@
 @property (strong, nonatomic) NSString          *currentLevel;
 
 #pragma mark - Public Class Methods
-+ (UIColor *)           backgroundColorForScore:(float)score forRandomNumber:(NSInteger)randomNumber;
-+ (NSString *)          currentLevelStringForScore:(float)score;
-+ (SIPowerUpDuration)   durationForPowerUp:(SIPowerUp)powerUp;
-+ (SIMove)              getRandomMoveForGameMode:(SIGameMode)gameMode isRapidFireActiviated:(BOOL)isRapidFireActivated;
++ (float)               scoreForMoveDuration:(float)durationOfLastMove withLevelSpeedDivider:(float)levelSpeedDivider;
 + (float)               levelSpeedForScore:(float)score;
 + (int)                 nextLevelForScore:(float)score;
-+ (SIPowerUpCost)       costForPowerUp:(SIPowerUp)powerUp;
++ (NSString *)          buttonNodeNameLabelDescriptionForSIIAPPack:(SIIAPPack)siiapPack;
++ (NSString *)          buttonNodeNameLabelPriceForSIIAPPack:(SIIAPPack)siiapPack;
++ (NSString *)          buttonNodeNameNodeForSIIAPPack:(SIIAPPack)siiapPack;
++ (NSString *)          buttonTextForSIIAPPack:(SIIAPPack)siiapPack;
++ (NSString *)          currentLevelStringForScore:(float)score;
++ (NSString *)          productIDForSIIAPPack:(SIIAPPack)siiapPack;
 + (NSString *)          stringForMove:(SIMove)move;
 + (NSString *)          stringForPowerUp:(SIPowerUp)powerUp;
-+ (float)               scoreForMoveDuration:(float)durationOfLastMove withLevelSpeedDivider:(float)levelSpeedDivider;
++ (SIIAPPack)           siiapPackForNameNodeLabel:(NSString *)nodeName;
++ (SIIAPPack)           siiapPackForNameNodeNode:(NSString *)nodeName;
++ (SIMove)              getRandomMoveForGameMode:(SIGameMode)gameMode isRapidFireActiviated:(BOOL)isRapidFireActivated;
++ (SIPowerUpCost)       costForPowerUp:(SIPowerUp)powerUp;
++ (SIPowerUpDuration)   durationForPowerUp:(SIPowerUp)powerUp;
++ (UIColor *)           backgroundColorForScore:(float)score forRandomNumber:(NSInteger)randomNumber;
+
 
 
 #pragma mark - Public Methods

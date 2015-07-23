@@ -8,41 +8,59 @@
 #import "AppSingleton.h"
 #import "EndGameScene.h"
 #import "GameScene.h"
+#import "StoreScene.h"
+#import "UIColor+Additions.h"
 
 @implementation EndGameScene
 
 -(nonnull instancetype)initWithSize:(CGSize)size {
     if (self = [super initWithSize:size]) {
-        self.backgroundColor = [SKColor blueColor];
+        self.backgroundColor = [SKColor sandColor];
         
-        SKLabelNode *label = [SKLabelNode labelNodeWithFontNamed:@"Futura Medium"];
-        label.text = @"Game Over";
-        label.fontColor = [SKColor whiteColor];
-        label.fontSize = 44;
-        label.position = CGPointMake(CGRectGetMidX(self.frame),CGRectGetMidY(self.frame));
+        SKLabelNode *label          = [SKLabelNode labelNodeWithFontNamed:kSIFontFuturaMedium];
+        label.text                  = @"Game Over";
+        label.fontColor             = [SKColor blackColor];
+        label.fontSize              = 44;
+        label.position              = CGPointMake(CGRectGetMidX(self.frame),CGRectGetMidY(self.frame));
         [self addChild:label];
         
-        // second label
-        SKLabelNode *tryAgain = [SKLabelNode labelNodeWithFontNamed:@"Futura Medium"];
-        tryAgain.text = @"Tap to replay";
-        tryAgain.fontColor = [SKColor whiteColor];
-        tryAgain.fontSize = 24;
-        tryAgain.position = CGPointMake(size.width/2, -50);
+        /*Replay Button*/
+        SKSpriteNode *replay        = [SKSpriteNode spriteNodeWithTexture:[SKTexture textureWithImageNamed:kSIImageButtonReplay] size:CGSizeMake(size.width / 2.0f, size.width / 4.0f)];
+        replay.position             = CGPointMake(-1.0f * (replay.size.width / 2.0f), (size.height / 2.0f) - replay.size.height);
+        replay.name                 = kSINodeButtonReplay;
         
-        SKAction *moveLabel = [SKAction moveToY:(size.height/2 - 40) duration:1.0];
-        [tryAgain runAction:moveLabel];
+        SKAction *moveReplayButton  = [SKAction moveToX:size.width/2 duration:1.0];
+        [replay runAction:moveReplayButton];
+
+        [self addChild:replay];
         
+        /*Store Button*/
+        SKSpriteNode *store         = [SKSpriteNode spriteNodeWithTexture:[SKTexture textureWithImageNamed:kSIImageButtonStore] size:CGSizeMake(size.width / 2.0f, size.width / 4.0f)];
+        store.position              = CGPointMake(size.width + (store.size.width / 2.0f), (size.height / 2.0f) - replay.size.height - VERTICAL_SPACING_8 - store.size.height);
+        store.name                  = kSINodeButtonStore;
         
-        [self addChild:tryAgain];
+        SKAction *moveStoreButton   = [SKAction moveToX:size.width/2 duration:1.0];
+        [store runAction:moveStoreButton];
+        
+        [self addChild:store];
         
     }
     
     return self;
 }
 -(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
-//    [[AppSingleton singleton] startGame];
-    GameScene *firstScene = [GameScene sceneWithSize:self.size];
-    [self.view presentScene:firstScene transition:[SKTransition doorsOpenHorizontalWithDuration:1.5]];
+    UITouch *touch          = [touches anyObject];
+    CGPoint location        = [touch locationInNode:self];
+    SKNode *node            = [self nodeAtPoint:location];
+
+    if ([node.name isEqualToString:kSINodeButtonReplay]) {
+        GameScene *firstScene = [GameScene sceneWithSize:self.size];
+        [self.view presentScene:firstScene transition:[SKTransition doorsOpenHorizontalWithDuration:1.0]];
+    } else if ([node.name isEqualToString:kSINodeButtonStore]) {
+        StoreScene *storeScene = [StoreScene sceneWithSize:self.size];
+        [self.view presentScene:storeScene transition:[SKTransition doorsOpenHorizontalWithDuration:1.5]];
+    }
+    
 }
 
 @end

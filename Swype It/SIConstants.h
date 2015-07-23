@@ -57,6 +57,7 @@
 #define NUMBER_OF_MOVES             3
 #define NUMBER_OF_BACKGROUNDS       3
 #define NUMBER_OF_MONKEYS_INIT      15
+#define NUMBER_OF_IAP_PACKS         4
 typedef enum {
     SIGameModeOneHand,
     SIGameModeTwoHand
@@ -78,9 +79,9 @@ typedef enum {
 
 typedef enum {
     SIPowerUpCostNone               = 0,
-    SIPowerUpCostFallingMonkeys     = 1,
-    SIPowerUpCostTimeFreeze         = 3,
-    SIPowerUpCostRapidFire          = 5
+    SIPowerUpCostTimeFreeze         = 1,
+    SIPowerUpCostRapidFire          = 3,
+    SIPowerUpCostFallingMonkeys     = 5
 } SIPowerUpCost;
 
 typedef enum {
@@ -153,10 +154,13 @@ extern NSString *const kSIScoreTotalScore;
 extern NSString *const kSIScoreNextMove;
 
 #pragma mark - Images
+extern NSString *const kSIImageButtonDone;
 extern NSString *const kSIImageButtonFallingMonkey;
 extern NSString *const kSIImageButtonGameModeOneHand;
 extern NSString *const kSIImageButtonGameModeTwoHand;
 extern NSString *const kSIImageButtonRapidFire;
+extern NSString *const kSIImageButtonReplay;
+extern NSString *const kSIImageButtonStore;
 extern NSString *const kSIImageButtonTimeFreeze;
 extern NSString *const kSIImageFallingMonkeys;
 extern NSString *const kSIImageProgressBarFill;
@@ -191,15 +195,31 @@ extern NSString *const kSIIAPPackNameExtraLarge;
 
 
 #pragma mark - Node Names
+extern NSString *const kSINodeLabelDescriptionChest;
+extern NSString *const kSINodeLabelDescriptionBag;
+extern NSString *const kSINodeLabelDescriptionBucket;
+extern NSString *const kSINodeLabelDescriptionPile;
+extern NSString *const kSINodeLabelPriceChest;
+extern NSString *const kSINodeLabelPriceBag;
+extern NSString *const kSINodeLabelPriceBucket;
+extern NSString *const kSINodeLabelPricePile;
+extern NSString *const kSINodeNodeChest;
+extern NSString *const kSINodeNodeBag;
+extern NSString *const kSINodeNodeBucket;
+extern NSString *const kSINodeNodePile;
+extern NSString *const kSINodeButtonDone;
+extern NSString *const kSINodeButtonFallingMonkey;
 extern NSString *const kSINodeButtonOneHand;
 extern NSString *const kSINodeButtonTwoHand;
 extern NSString *const kSINodeButtonTimeFreeze;
 extern NSString *const kSINodeButtonRapidFire;
-extern NSString *const kSINodeButtonFallingMonkey;
+extern NSString *const kSINodeButtonReplay;
+extern NSString *const kSINodeButtonStore;
 extern NSString *const kSINodeFallingMonkey;
 
 
-
+#pragma mark - Fonts
+extern NSString *const kSIFontFuturaMedium;
 
 
 
