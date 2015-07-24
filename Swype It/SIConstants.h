@@ -58,6 +58,11 @@
 #define NUMBER_OF_BACKGROUNDS       3
 #define NUMBER_OF_MONKEYS_INIT      15
 #define NUMBER_OF_IAP_PACKS         4
+
+#define IAP_PACK_PRICE_SMALL        00.99
+#define IAP_PACK_PRICE_MEDIUM       04.99
+#define IAP_PACK_PRICE_LARGE        09.99
+#define IAP_PACK_PRICE_EXTRA_LARGE  24.99
 typedef enum {
     SIGameModeOneHand,
     SIGameModeTwoHand

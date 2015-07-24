@@ -164,7 +164,7 @@
             prefix = kSIIAPPackNameExtraLarge;
             break;
         default:
-            prefix = @"XXX";
+            prefix = nil;
             break;
     }
     return [NSString stringWithFormat:@"%@ of Coins",prefix];

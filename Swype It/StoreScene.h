@@ -7,6 +7,7 @@
 
 @interface StoreScene : SKScene
 
+@property (assign, nonatomic) BOOL     isInTestMode;
 @property (assign, nonatomic) BOOL     wasLaunchedFromMainMenu;
 
 

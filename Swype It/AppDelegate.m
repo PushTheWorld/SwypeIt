@@ -91,7 +91,7 @@ static BOOL isRunningTests(void) __attribute__((const));
                                                   usingBlock:^(NSNotification *note) {
                                                       
                                                       /*Good Debug line to see if MKStoreKit is working*/
-//                                                      NSLog(@"Products available: %@", [[MKStoreKit sharedKit] availableProducts]);
+                                                      NSLog(@"Products available: %@", [[MKStoreKit sharedKit] availableProducts]);
                                                   }];
 }
 static BOOL isRunningTests(void) {

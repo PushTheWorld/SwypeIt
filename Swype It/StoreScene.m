@@ -13,22 +13,27 @@
 // Framework Import
 #import <StoreKit/StoreKit.h>
 // Drop-In Class Imports (CocoaPods/GitHub/Guru)
+#import "MBProgressHud.h"
 #import "MKStoreKit.h"
 // Category Import
 #import "UIColor+Additions.h"
 // Support/Data Class Imports
 #import "Game.h"
 #import "SIConstants.h"
+#import "SIIAPUtility.h"
 // Other Imports
 
-@interface StoreScene () {
-    NSNumberFormatter * _priceFormatter;
-}
-@property (assign, nonatomic) BOOL           isPurchaseInProgress;
-@property (assign, nonatomic) CGFloat        verticalNodeCenterPoint;
+#define MAX_NUMBER_OF_ATTEMPTS 20
 
-@property (strong, nonatomic) NSArray       *products;
-@property (strong, nonatomic) SKLabelNode   *itCoinsLabel;
+@interface StoreScene () {
+
+}
+@property (assign, nonatomic) BOOL               isPurchaseInProgress;
+@property (assign, nonatomic) CGFloat            verticalNodeCenterPoint;
+
+@property (strong, nonatomic) NSArray           *products;
+@property (strong, nonatomic) NSNumberFormatter *priceFormatter;
+@property (strong, nonatomic) SKLabelNode       *itCoinsLabel;
 
 @end
 
@@ -40,22 +45,63 @@
         
         self.backgroundColor            = [SKColor sandColor];
         
-        self.isPurchaseInProgress       = NO;
+        self.isInTestMode               = NO;
         
-        self.products                   = [MKStoreKit sharedKit].availableProducts;
+        self.isPurchaseInProgress       = NO;
         
         self.verticalNodeCenterPoint    = size.height / 6.0f;
         
+        [self registerForNotifications];
+        
+        /*Configure the price formatter before trying to add the buttons*/
+        [self configurePriceFormatter];
+        
         [self addButtons:size];
         [self addLabels:size];
-    
+        
+        if (self.isInTestMode) {
+            for (int i = 0; i < 5; i++) {
+                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 + 4*i * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                    [self changeCoinValue];
+                });
+            }
+        }
     }
     return self;
+}
+-(void)willMoveFromView:(nonnull SKView *)view {
+    [super willMoveFromView:view];
+    [self removeObserver:self forKeyPath:kMKStoreKitProductPurchasedNotification];
+    [self removeObserver:self forKeyPath:kMKStoreKitRestoredPurchasesNotification];
+    [self removeObserver:self forKeyPath:kMKStoreKitRestoringPurchasesFailedNotification];
+}
+- (BOOL)isMKStoreKitAvailableAttempt:(NSUInteger)attemptNumber {
+    NSArray *productsArray  = [MKStoreKit sharedKit].availableProducts;
+    
+    if (productsArray) {
+        /*MKStoreKit is up and running*/
+        self.products       = productsArray;
+        return YES;
+    } else {
+        /*MKStoreKit is loading*/
+        if (attemptNumber == MAX_NUMBER_OF_ATTEMPTS) {
+            NSLog(@"Hit max reload attemps");
+            return NO;
+        } else {
+            NSLog(@"Trying to load from MKStoreKit attempt: %lu",(unsigned long)attemptNumber);
+            return [self isMKStoreKitAvailableAttempt:attemptNumber + 1];
+        }
+    }
+}
+- (void)configurePriceFormatter {
+    self.priceFormatter = [[NSNumberFormatter alloc] init];
+    [self.priceFormatter setNumberStyle:NSNumberFormatterCurrencyStyle];
+    [self.priceFormatter setLocale:[NSLocale currentLocale]];
 }
 - (void)addLabels:(CGSize)size {
     SKLabelNode *storeLabel                     = [SKLabelNode labelNodeWithFontNamed:kSIFontFuturaMedium];
     storeLabel.text                             = @"Store";
-    storeLabel.position                         = CGPointMake(size.width / 2.0f, size.height - (VERTICAL_SPACING_8 + (storeLabel.frame.size.height / 2.0f)));
+    storeLabel.position                         = CGPointMake(size.width / 2.0f, size.height - (VERTICAL_SPACING_16 + (storeLabel.frame.size.height / 2.0f)));
     storeLabel.fontColor                        = [SKColor blackColor];
     storeLabel.fontSize                         = 30;
     storeLabel.horizontalAlignmentMode          = SKLabelHorizontalAlignmentModeCenter;
@@ -66,12 +112,15 @@
     self.itCoinsLabel.position                  = CGPointMake(self.itCoinsLabel.frame.size.width / 2.0f + VERTICAL_SPACING_8, size.height - VERTICAL_SPACING_8 - storeLabel.frame.size.height - VERTICAL_SPACING_8);
     self.itCoinsLabel.fontColor                 = [SKColor blackColor];
     self.itCoinsLabel.fontSize                  = 25;
-    self.itCoinsLabel.horizontalAlignmentMode   = SKLabelHorizontalAlignmentModeLeft;
+    self.itCoinsLabel.verticalAlignmentMode     = SKLabelVerticalAlignmentModeCenter;
+    self.itCoinsLabel.horizontalAlignmentMode   = SKLabelHorizontalAlignmentModeCenter;
     [self addChild:self.itCoinsLabel];
 
 }
 - (void)addButtons:(CGSize)size {
-    for (int i = 3; i >= 0; i--) {
+    NSLog(@"addButtons called");
+    
+    for (int i = 0; i < 4; i++) {
         [self addButton:size withSIIAPPack:(SIIAPPack)(i) withVerticalCenterPoints:self.verticalNodeCenterPoint];
     }
     
@@ -85,42 +134,66 @@
     
     NSArray *productArray = [MKStoreKit sharedKit].availableProducts;
     
-    SKProduct *product = [StoreScene productForSIIAPPack:siiapPack inPackArray:productArray];
-    if (product) {
-        NSLog(@"Trying to load product for SIIAPPack %d",siiapPack);
-
-        /*Main node... this is the button essentially*/
-        SKSpriteNode *mainNode                      = [SKSpriteNode spriteNodeWithColor:[SKColor mainColor] size:CGSizeMake(size.width - VERTICAL_SPACING_16, verticalNodeCenterPoint - VERTICAL_SPACING_8)];
-        mainNode.position                           = CGPointMake(size.width / 2.0f, verticalNodeCenterPoint + verticalNodeCenterPoint * (siiapPack + 1));
-        mainNode.name                               = [Game buttonNodeNameNodeForSIIAPPack:siiapPack];
-        [self addChild:mainNode];
-        
-        /*This is the product description*/
-        SKLabelNode *descriptionLabel               = [SKLabelNode labelNodeWithFontNamed:kSIFontFuturaMedium];
-        descriptionLabel.position                   = CGPointMake(0, 0); //CGPointMake(mainNode.frame.size.width / 2.0f, mainNode.frame.size.height - VERTICAL_SPACING_8);
-//        descriptionLabel.verticalAlignmentMode      = SKLabelVerticalAlignmentModeTop;
-//        descriptionLabel.horizontalAlignmentMode    = SKLabelHorizontalAlignmentModeLeft;
-        descriptionLabel.text                       = [Game buttonTextForSIIAPPack:siiapPack];
-        descriptionLabel.fontSize                   = 16;
-        descriptionLabel.fontColor                  = [SKColor whiteColor];
-        descriptionLabel.name                       = [Game buttonNodeNameLabelPriceForSIIAPPack:siiapPack];
-        [mainNode addChild:descriptionLabel];
-        
-//        /*This is the product price*/
-        [_priceFormatter setLocale:product.priceLocale];
-        SKLabelNode *priceLabel                     = [SKLabelNode labelNodeWithFontNamed:kSIFontFuturaMedium];
-        priceLabel.position                         = CGPointMake(0, 0.5); // CGPointMake(mainNode.frame.size.width / 2.0f, VERTICAL_SPACING_8);
-//        priceLabel.verticalAlignmentMode            = SKLabelVerticalAlignmentModeBottom;
-//        priceLabel.horizontalAlignmentMode          = SKLabelHorizontalAlignmentModeRight;
-        priceLabel.text                             = [_priceFormatter stringFromNumber:product.price];
-        NSLog(@"Price: %@",priceLabel.text);
-        priceLabel.fontSize                         = 14;
-        priceLabel.fontColor                        = [SKColor whiteColor];
-        priceLabel.name                             = [Game buttonNodeNameLabelPriceForSIIAPPack:siiapPack];
-        [mainNode addChild:priceLabel];
-    } else {
-        NSLog(@"Product is nil");
-    }
+    [SIIAPUtility productForSIIAPPack:siiapPack inPackArray:productArray withBlock:^(BOOL succeeded, SKProduct *product) {
+        if (succeeded) {
+            NSLog(@"Found IAP for SIIAPPack: %d || Creating dynamic button",siiapPack);
+            [self createButtonForProduct:product centerPoint:verticalNodeCenterPoint size:size siiapPack:siiapPack];
+        } else {
+            NSLog(@"Unable to find IAP for SIIAPPack: %d || Creating static button",siiapPack);
+            [self createButtonForSIIAPPack:siiapPack centerPoint:verticalNodeCenterPoint size:size];
+        }
+    }];
+}
+- (void)createButtonForProduct:(SKProduct *)product centerPoint:(CGFloat)verticalNodeCenterPoint size:(CGSize)size siiapPack:(SIIAPPack)siiapPack {
+    /*Main node... this is the button essentially*/
+    SKSpriteNode *mainNode                      = [SKSpriteNode spriteNodeWithColor:[SKColor mainColor] size:CGSizeMake(size.width - VERTICAL_SPACING_16, verticalNodeCenterPoint - VERTICAL_SPACING_8)];
+    mainNode.position                           = CGPointMake(size.width / 2.0f, verticalNodeCenterPoint + verticalNodeCenterPoint * (siiapPack + 1));
+    mainNode.name                               = [Game buttonNodeNameNodeForSIIAPPack:siiapPack];
+    [self addChild:mainNode];
+    
+    /*This is the product description*/
+    SKLabelNode *descriptionLabel               = [SKLabelNode labelNodeWithFontNamed:kSIFontFuturaMedium];
+    descriptionLabel.position                   = CGPointMake(0, 0); //CGPointMake(mainNode.frame.size.width / 2.0f, mainNode.frame.size.height - VERTICAL_SPACING_8);
+    descriptionLabel.text                       = [Game buttonTextForSIIAPPack:siiapPack];
+    descriptionLabel.fontSize                   = 16;
+    descriptionLabel.fontColor                  = [SKColor whiteColor];
+    descriptionLabel.name                       = [Game buttonNodeNameLabelPriceForSIIAPPack:siiapPack];
+    [mainNode addChild:descriptionLabel];
+    
+    //        /*This is the product price*/
+    SKLabelNode *priceLabel                     = [SKLabelNode labelNodeWithFontNamed:kSIFontFuturaMedium];
+    priceLabel.position                         = CGPointMake(0, -1.0f * descriptionLabel.frame.size.height); // CGPointMake(mainNode.frame.size.width / 2.0f, VERTICAL_SPACING_8);
+    priceLabel.text                             = [self.priceFormatter stringFromNumber:product.price];
+    priceLabel.fontSize                         = 14;
+    priceLabel.fontColor                        = [SKColor whiteColor];
+    priceLabel.name                             = [Game buttonNodeNameLabelPriceForSIIAPPack:siiapPack];
+    [mainNode addChild:priceLabel];
+}
+- (void)createButtonForSIIAPPack:(SIIAPPack)siiapPack centerPoint:(CGFloat)verticalNodeCenterPoint size:(CGSize)size {
+    /*Main node... this is the button essentially*/
+    SKSpriteNode *mainNode                      = [SKSpriteNode spriteNodeWithColor:[SKColor mainColor] size:CGSizeMake(size.width - VERTICAL_SPACING_16, verticalNodeCenterPoint - VERTICAL_SPACING_8)];
+    mainNode.position                           = CGPointMake(size.width / 2.0f, verticalNodeCenterPoint + verticalNodeCenterPoint * (siiapPack + 1));
+    mainNode.name                               = [Game buttonNodeNameNodeForSIIAPPack:siiapPack];
+    [self addChild:mainNode];
+    
+    /*This is the product description*/
+    SKLabelNode *descriptionLabel               = [SKLabelNode labelNodeWithFontNamed:kSIFontFuturaMedium];
+    descriptionLabel.position                   = CGPointMake(0, 0); //CGPointMake(mainNode.frame.size.width / 2.0f, mainNode.frame.size.height - VERTICAL_SPACING_8);
+    descriptionLabel.text                       = [Game buttonTextForSIIAPPack:siiapPack];
+    descriptionLabel.fontSize                   = 16;
+    descriptionLabel.fontColor                  = [SKColor whiteColor];
+    descriptionLabel.name                       = [Game buttonNodeNameLabelPriceForSIIAPPack:siiapPack];
+    [mainNode addChild:descriptionLabel];
+    
+    //        /*This is the product price*/
+    SKLabelNode *priceLabel                     = [SKLabelNode labelNodeWithFontNamed:kSIFontFuturaMedium];
+    priceLabel.position                         = CGPointMake(0, -1.0f * descriptionLabel.frame.size.height); // CGPointMake(mainNode.frame.size.width / 2.0f, VERTICAL_SPACING_8);
+    
+    priceLabel.text                             = [self.priceFormatter stringFromNumber:[SIIAPUtility productPriceForSIIAPPack:siiapPack]];
+    priceLabel.fontSize                         = 14;
+    priceLabel.fontColor                        = [SKColor whiteColor];
+    priceLabel.name                             = [Game buttonNodeNameLabelPriceForSIIAPPack:siiapPack];
+    [mainNode addChild:priceLabel];
 }
 - (void)touchesBegan:(nonnull NSSet<UITouch *> *)touches withEvent:(nullable UIEvent *)event {
     UITouch *touch          = [touches anyObject];
@@ -156,14 +229,36 @@
     NSArray *productArray = [MKStoreKit sharedKit].availableProducts;
     
     if (productArray.count > 0) {
-        SKProduct *product = [StoreScene productForSIIAPPack:siiapPack inPackArray:productArray];
-        if (product) {
-            [[MKStoreKit sharedKit] initiatePaymentRequestForProductWithIdentifier:product.productIdentifier];
-        } else {
-            NSLog(@"Error: finding purchase pack");
-        }
+        [SIIAPUtility productForSIIAPPack:siiapPack inPackArray:productArray withBlock:^(BOOL succeeded, SKProduct *product) {
+            if (succeeded) {
+                [[MKStoreKit sharedKit] initiatePaymentRequestForProductWithIdentifier:product.productIdentifier];
+            } else {
+                NSLog(@"Error: Could not find the SIIAPPack (%d) after button touch for purchase",siiapPack);
+            }
+        }];
     }
 }
+- (void)changeCoinValue {
+    /*transition out sequence*/
+//    SKAction *spin                = [SKAction rotateByAngle:M_PI duration:1.0f];
+    SKAction *shrink              = [SKAction scaleTo:0.2f duration:1.0f];
+    SKAction *reduceAlpha         = [SKAction fadeAlphaTo:0.0f duration:1.0f];
+    SKAction *oldCoinGroup        = [SKAction group:@[shrink,reduceAlpha]];
+    /*Change that value*/
+    SKAction *changeValue         = [SKAction runBlock:^{
+        self.itCoinsLabel.text    = [NSString stringWithFormat:@"%d",[[[MKStoreKit sharedKit] availableCreditsForConsumable:kSIIAPConsumableIDCoins] intValue]];
+    }];
+    /*transistion in*/
+    SKAction *growLarge           = [SKAction scaleTo:2.0 duration:1.2f];
+    SKAction *increaseAlpha       = [SKAction fadeAlphaTo:1.0f duration:1.0f];
+    SKAction *newCoinGroup        = [SKAction group:@[growLarge,increaseAlpha]];
+    SKAction *growNormal          = [SKAction scaleTo:1.0 duration:0.5f];
+    /*Make action sequence*/
+    SKAction *completeSequence    = [SKAction sequence:@[oldCoinGroup,changeValue,newCoinGroup,growNormal]];
+    /*run action*/
+    [self.itCoinsLabel runAction:completeSequence];
+}
+
 - (void)registerForNotifications {
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(packPurchaseRequest:) name:kSINotificationPackPurchaseRequest object:nil];
     [[NSNotificationCenter defaultCenter] addObserverForName:kMKStoreKitProductPurchasedNotification
@@ -173,7 +268,7 @@
                                                       
                                                       NSLog(@"Purchased/Subscribed to product with id: %@", [note object]);
                                                       self.isPurchaseInProgress = NO;
-                                                      self.itCoinsLabel.text    = [NSString stringWithFormat:@"%d",[[[MKStoreKit sharedKit] availableCreditsForConsumable:kSIIAPConsumableIDCoins] intValue]];
+                                                      [self changeCoinValue];
                                                   }];
     
     [[NSNotificationCenter defaultCenter] addObserverForName:kMKStoreKitRestoredPurchasesNotification
@@ -183,8 +278,7 @@
                                                       
                                                       NSLog(@"Restored Purchases");
                                                       self.isPurchaseInProgress = NO;
-                                                      self.itCoinsLabel.text    = [NSString stringWithFormat:@"%d",[[[MKStoreKit sharedKit] availableCreditsForConsumable:kSIIAPConsumableIDCoins] intValue]];
-
+                                                      [self changeCoinValue];
                                                   }];
     
     [[NSNotificationCenter defaultCenter] addObserverForName:kMKStoreKitRestoringPurchasesFailedNotification
@@ -197,18 +291,7 @@
 
                                                   }];
 }
-/**Retuns nil if the product cannot be found*/
-+ (SKProduct *)productForSIIAPPack:(SIIAPPack)siiapPack inPackArray:(NSArray *)productArray {
-    SKProduct *matchingProduct;
-    for (SKProduct *product in productArray) {
-        NSString *productID = product.productIdentifier;
-        if ([productID isEqualToString:[Game productIDForSIIAPPack:siiapPack]]) {
-            matchingProduct = product;
-        }
-        
-    }
-    return matchingProduct;
-}
+
 /**Checks to see if the node name is equal to the siiapPack*/
 + (BOOL)isNodeNode:(SKNode *)node matchingSIIAPPack:(SIIAPPack)siiapPack {
     /*Need to check node*/
