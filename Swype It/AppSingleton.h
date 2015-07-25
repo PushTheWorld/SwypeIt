@@ -37,6 +37,8 @@
 - (void)moveEnterForType:(SIMove)move;
 - (UIColor *)newBackgroundColor;
 - (void)startGame;
+- (void)pause;
+- (void)play;
 - (void)powerUpDidLoad:(SIPowerUp)powerUp;
 - (void)powerUpWillActivate:(SIPowerUp)powerUp withPowerUpCost:(SIPowerUpCost)powerUpCost;
 - (void)powerUpDidActivate;

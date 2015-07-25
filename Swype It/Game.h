@@ -43,6 +43,7 @@
 + (SIPowerUpCost)       costForPowerUp:(SIPowerUp)powerUp;
 + (SIPowerUpDuration)   durationForPowerUp:(SIPowerUp)powerUp;
 + (UIColor *)           backgroundColorForScore:(float)score forRandomNumber:(NSInteger)randomNumber;
++ (void)                transisitionToSKScene:(SKScene *)scene toSKView:(SKView *)view DoorsOpen:(BOOL)doorsOpen pausesIncomingScene:(BOOL)pausesIncomingScene pausesOutgoingScene:(BOOL)pausesOutgoingScene duration:(CGFloat)duration;
 
 
 

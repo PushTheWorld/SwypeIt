@@ -20,6 +20,7 @@
     
 }
 #pragma mark - BOOLS
+@property (assign, nonatomic) BOOL               isPaused;
 @property (assign, nonatomic) BOOL               willIgnoreShake;
 
 #pragma mark - Private CGFloats & Numbers
@@ -28,6 +29,7 @@
 @property (assign, nonatomic) float              timeFreezeMultiplyer;
 @property (assign, nonatomic) float              levelSpeedDivider;
 @property (assign, nonatomic) float              moveStartTimeInMiliSeconds;
+@property (assign, nonatomic) float              pauseStartTimeInMiliSeconds;
 @property (assign, nonatomic) float              powerUpTimeInMiliSeconds;
 
 
@@ -205,6 +207,12 @@
     NSTimeInterval elapsedTime = currentTime - self.startTime;
     
     self.compositeTimeInMiliSeconds = elapsedTime * MILI_SECS_IN_SEC;
+}
+- (void)pause {
+    self.pauseStartTimeInMiliSeconds = self.compositeTimeInMiliSeconds;
+}
+- (void)play {
+    self.moveStartTimeInMiliSeconds  = (self.compositeTimeInMiliSeconds - self.pauseStartTimeInMiliSeconds) + self.moveStartTimeInMiliSeconds;
 }
 #pragma mark - Power Up Methods
 /*This is the second step. This checks to see if we are currently using a powerup*/

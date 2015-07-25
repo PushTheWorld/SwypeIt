@@ -1,16 +1,21 @@
 PODS:
-  - MBProgressHUD (0.9.1)
+  - Crashlytics (3.1.0)
+  - Fabric (1.2.8):
+    - Fabric/Base (= 1.2.8)
+  - Fabric/Base (1.2.8)
   - SoundManager (1.4.2)
   - YLProgressBar (3.6.1)
 
 DEPENDENCIES:
-  - MBProgressHUD (~> 0.9.1)
+  - Crashlytics
+  - Fabric
   - SoundManager (~> 1.4.2)
   - YLProgressBar (~> 3.6.1)
 
 SPEC CHECKSUMS:
-  MBProgressHUD: c47f2c166c126cf2ce36498d80f33e754d4e93ad
+  Crashlytics: ef9a58a4e806b316a1748c06432f6f847ba09ac6
+  Fabric: a9eabe53915e9f1db55a84dd2838737928675878
   SoundManager: 99ae328a3ec9b259db774c9851a65feeceba8183
   YLProgressBar: 72095a2570e8d191975d8c11d7f24fff99b6adec
 
-COCOAPODS: 0.38.0
+COCOAPODS: 0.38.1

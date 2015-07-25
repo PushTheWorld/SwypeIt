@@ -1,15 +1,26 @@
-//
 //  StartScreenScene.m
 //  Swype It
 //
 //  Created by Andrew Keller on 7/19/15.
 //  Copyright © 2015 Push The World LLC. All rights reserved.
 //
+//
+//  Purpose: Thie is the startign screen for the swype it game
+//
+// Local Controller Import
 #import "AppSingleton.h"
-#import "StartScreenScene.h"
 #import "GameScene.h"
-#import "UIColor+Additions.h"
+#import "StartScreenScene.h"
 #import "StoreScene.h"
+// Framework Import
+// Drop-In Class Imports (CocoaPods/GitHub/Guru)
+// Category Import
+#import "UIColor+Additions.h"
+// Support/Data Class Imports
+#import "Game.h"
+#import "SIConstants.h"
+// Other Imports
+
 
 @implementation StartScreenScene
 
@@ -17,29 +28,34 @@
     if (self = [super initWithSize:size]) {
         self.backgroundColor = [SKColor sandColor];
         
-        SKLabelNode *label = [SKLabelNode labelNodeWithFontNamed:@"Futura Medium"];
+        SKLabelNode *label = [SKLabelNode labelNodeWithFontNamed:kSIFontFuturaMedium];
         label.text = @"Welcome";
         label.fontColor = [SKColor blackColor];
         label.fontSize = 44;
-        label.position = CGPointMake(CGRectGetMidX(self.frame),CGRectGetMidY(self.frame));
+        label.position = CGPointMake(CGRectGetMidX(self.frame),size.height - label.frame.size.height - VERTICAL_SPACING_16);
         [self addChild:label];
         
-        SKSpriteNode *oneHand   = [SKSpriteNode spriteNodeWithImageNamed:kSIImageButtonGameModeOneHand];
-        [oneHand setScale:0.25];
+        SKLabelNode *nameLabel = [SKLabelNode labelNodeWithFontNamed:kSIFontFuturaMedium];
+        nameLabel.text = @"Swype It 2.0 Beta";
+        nameLabel.fontColor = [SKColor blackColor];
+        nameLabel.fontSize = 30;
+        nameLabel.position = CGPointMake(CGRectGetMidX(self.frame),label.frame.origin.y - nameLabel.frame.size.height - VERTICAL_SPACING_16);
+        [self addChild:nameLabel];
+        
+        SKSpriteNode *oneHand   = [SKSpriteNode spriteNodeWithTexture:[[SIConstants buttonAtlas] textureNamed:kSIImageButtonGameModeOneHand] size:CGSizeMake((size.width / 2.0f), size.width / 4.0)];
         oneHand.name            = kSINodeButtonOneHand;
         oneHand.position        = CGPointMake(CGRectGetMidX(self.frame),
-                                              CGRectGetMidY(self.frame) - (oneHand.frame.size.height/2.0f) - VERTICAL_SPACING_8);
+                                              CGRectGetMidY(self.frame) + (oneHand.frame.size.height/2.0f) + VERTICAL_SPACING_8);
         [self addChild:oneHand];
         
-        SKSpriteNode *twoHand = [SKSpriteNode spriteNodeWithImageNamed:kSIImageButtonGameModeTwoHand];
-        [twoHand setScale:0.25];
+        SKSpriteNode *twoHand = [SKSpriteNode spriteNodeWithTexture:[[SIConstants buttonAtlas] textureNamed:kSIImageButtonGameModeTwoHand] size:CGSizeMake((size.width / 2.0f), size.width / 4.0)];
         twoHand.name            = kSINodeButtonTwoHand;
         twoHand.position        = CGPointMake(CGRectGetMidX(self.frame),
                                               oneHand.frame.origin.y - (oneHand.frame.size.height/2.0f) - VERTICAL_SPACING_8);
         [self addChild:twoHand];
         
         /*Store Button*/
-        SKSpriteNode *store     = [SKSpriteNode spriteNodeWithTexture:[SKTexture textureWithImageNamed:kSIImageButtonStore] size:CGSizeMake(size.width / 2.0f, size.width / 4.0f)];
+        SKSpriteNode *store     = [SKSpriteNode spriteNodeWithTexture:[[SIConstants buttonAtlas] textureNamed:kSIImageButtonStore] size:CGSizeMake(size.width / 2.0f, size.width / 4.0f)];
         store.position          = CGPointMake(CGRectGetMidX(self.frame),
                                               twoHand.frame.origin.y - (twoHand.frame.size.height/2.0f) - VERTICAL_SPACING_8);
         store.name              = kSINodeButtonStore;
@@ -61,8 +77,8 @@
     } else if ([node.name isEqualToString:kSINodeButtonStore]) {
         StoreScene *storeScene = [StoreScene sceneWithSize:self.size];
         storeScene.wasLaunchedFromMainMenu = YES;
-        [self.view presentScene:storeScene transition:[SKTransition doorsOpenHorizontalWithDuration:1.5]];
-
+        [Game transisitionToSKScene:storeScene toSKView:self.view DoorsOpen:YES pausesIncomingScene:NO pausesOutgoingScene:NO duration:1.0];
+        
     } else {
         // Do Nothing...
         NSLog(@"Non button area touched");
@@ -72,7 +88,8 @@
 - (void)launchGameSceneForGameMode:(SIGameMode)gameMode {
     [[AppSingleton singleton] initAppSingletonWithGameMode:gameMode];
     GameScene *firstScene = [[GameScene alloc] initWithSize:self.size gameMode:gameMode];
-    [self.view presentScene:firstScene transition:[SKTransition doorsOpenHorizontalWithDuration:1.0]];
+    [Game transisitionToSKScene:firstScene toSKView:self.view DoorsOpen:YES pausesIncomingScene:NO pausesOutgoingScene:NO duration:1.0];
+
 }
 
 @end

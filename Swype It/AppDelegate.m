@@ -10,6 +10,8 @@
 #import "StartScreenViewController.h"
 #import "MainViewController.h"
 // Framework Import
+#import <Fabric/Fabric.h>
+#import <Crashlytics/Crashlytics.h>
 // Drop-In Class Imports (CocoaPods/GitHub/Guru)
 #import "MKStoreKit.h"
 // Category Import
@@ -31,6 +33,7 @@ static BOOL isRunningTests(void) __attribute__((const));
         return YES;
     }
     /*RUN LOGIC*/
+    [Fabric with:@[CrashlyticsKit]];
     /*Init window*/
 //    self.window                             = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
 //    

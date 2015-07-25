@@ -57,6 +57,7 @@
 @property (strong, nonatomic) SKLabelNode       *itCoinsLabel;
 @property (strong, nonatomic) SKLabelNode       *moveCommandLabel;
 @property (strong, nonatomic) SKLabelNode       *totalScoreLabel;
+@property (strong, nonatomic) SKSpriteNode      *pausePlayNode;
 @property (strong, nonatomic) SKSpriteNode      *rapidFireNode;
 @property (strong, nonatomic) SKSpriteNode      *fallingMonkeysNode;
 @property (strong, nonatomic) SKSpriteNode      *timeFreezeNode;
@@ -124,7 +125,7 @@ static const uint32_t sideEdgeCategory      = 0x1 << 3; // 000000000000000000000
 #pragma mark - UI Life Cycle Methods
 - (void)setupUserInterfaceWithSize:(CGSize)size {
     [self createConstantsWithSize:size];
-    [self createControls];
+    [self createControlsWithSize:size];
     [self setupControlsWithSize:size];
     [self layoutControlsWithSize:size];
     [self registerForNotifications];
@@ -167,7 +168,7 @@ static const uint32_t sideEdgeCategory      = 0x1 << 3; // 000000000000000000000
 
     
 }
-- (void)createControls {
+- (void)createControlsWithSize:(CGSize)size {
     /**Labels*/
     /*Total Score Label*/
     self.totalScoreLabel        = [SKLabelNode labelNodeWithFontNamed:kSIFontFuturaMedium];
@@ -198,12 +199,14 @@ static const uint32_t sideEdgeCategory      = 0x1 << 3; // 000000000000000000000
                                    borderWidth:1.0f
                                    cornerRadius:4.0f];
     
-    /**Power Up Buttons*/
-    self.timeFreezeNode         = [SKSpriteNode spriteNodeWithImageNamed:kSIImageButtonTimeFreeze];
+    /**Buttons*/
+    self.timeFreezeNode         = [SKSpriteNode spriteNodeWithTexture:[[SIConstants buttonAtlas] textureNamed:kSIImageButtonTimeFreeze] size:self.buttonSize];
+
+    self.rapidFireNode          = [SKSpriteNode spriteNodeWithTexture:[[SIConstants buttonAtlas] textureNamed:kSIImageButtonRapidFire] size:self.buttonSize];
     
-    self.rapidFireNode          = [SKSpriteNode spriteNodeWithImageNamed:kSIImageButtonRapidFire];
-    
-    self.fallingMonkeysNode     = [SKSpriteNode spriteNodeWithImageNamed:kSIImageButtonFallingMonkey];
+    self.fallingMonkeysNode     = [SKSpriteNode spriteNodeWithTexture:[[SIConstants buttonAtlas] textureNamed:kSIImageButtonFallingMonkey] size:self.buttonSize];
+
+    self.pausePlayNode          = [SKSpriteNode spriteNodeWithTexture:[[SIConstants buttonAtlas] textureNamed:kSIImageButtonPause] size:self.buttonSize];
 
 }
 - (void)setupControlsWithSize:(CGSize)size {
@@ -243,19 +246,18 @@ static const uint32_t sideEdgeCategory      = 0x1 << 3; // 000000000000000000000
     [self.progressBarPowerUp runAction:fadeOut];
     
     /**Power Up Buttons*/
-    CGFloat scaleFactor                                 = 0.33f;
     
     self.timeFreezeNode.name                            = kSINodeButtonTimeFreeze;
     self.timeFreezeNode.physicsBody.categoryBitMask     = uiControlCategory;
-    [self.timeFreezeNode setScale:scaleFactor];
     
     self.rapidFireNode.name                             = kSINodeButtonRapidFire;
     self.rapidFireNode.physicsBody.categoryBitMask      = uiControlCategory;
-    [self.rapidFireNode setScale:scaleFactor];
     
     self.fallingMonkeysNode.name                        = kSINodeButtonFallingMonkey;
     self.fallingMonkeysNode.physicsBody.categoryBitMask = uiControlCategory;
-    [self.fallingMonkeysNode setScale:scaleFactor];
+    
+    self.pausePlayNode.name                             = kSINodeButtonPause;
+    self.pausePlayNode.physicsBody.categoryBitMask      = uiControlCategory;
 
     
 }
@@ -288,6 +290,10 @@ static const uint32_t sideEdgeCategory      = 0x1 << 3; // 000000000000000000000
     self.fallingMonkeysNode.position    = CGPointMake(CGRectGetMidX(self.frame) + (self.fallingMonkeysNode.frame.size.width) + VERTICAL_SPACING_8,
                                                       (self.fallingMonkeysNode.frame.size.height / 2.0f) + VERTICAL_SPACING_8);
     [self addChild:self.fallingMonkeysNode];
+    
+    self.pausePlayNode.position    = CGPointMake(size.width - (self.pausePlayNode.frame.size.width / 2.0f) - VERTICAL_SPACING_8,
+                                                      size.height - (self.pausePlayNode.frame.size.height / 2.0f) - VERTICAL_SPACING_8);
+    [self addChild:self.pausePlayNode];
     
     /**Progress Bars*/
     /*Move Progress Bar Sprite*/
@@ -462,8 +468,9 @@ static const uint32_t sideEdgeCategory      = 0x1 << 3; // 000000000000000000000
         [self powerUpDeactivated];
     }
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-    EndGameScene *endScene = [EndGameScene sceneWithSize:self.size];
-    [self.view presentScene:endScene transition:[SKTransition doorsOpenHorizontalWithDuration:1.5]];
+    EndGameScene *endScene      = [EndGameScene sceneWithSize:self.size];
+    [Game transisitionToSKScene:endScene toSKView:self.view DoorsOpen:NO pausesIncomingScene:NO pausesOutgoingScene:NO duration:1.0];
+
 
 }
 - (void)replayGame {
@@ -708,11 +715,10 @@ static const uint32_t sideEdgeCategory      = 0x1 << 3; // 000000000000000000000
     CGFloat yLocation                       = self.frame.size.height + self.fallingMonkeySize.height;
     
     /*Make Monkey*/
-    SKSpriteNode *monkey                    = [SKSpriteNode spriteNodeWithImageNamed:kSIImageFallingMonkeys];
+    SKSpriteNode *monkey = [SKSpriteNode spriteNodeWithTexture:[[SIConstants buttonAtlas] textureNamed:kSIImageFallingMonkeys] size:self.fallingMonkeySize];
     monkey.position                         = CGPointMake(xLocation, yLocation);
-    monkey.size                             = self.fallingMonkeySize;
     monkey.name                             = kSINodeFallingMonkey;
-    monkey.physicsBody                      = [SKPhysicsBody bodyWithCircleOfRadius:monkey.frame.size.width/2];
+    monkey.physicsBody                      = [SKPhysicsBody bodyWithRectangleOfSize:self.fallingMonkeySize];
     monkey.physicsBody.linearDamping        = 0.0f;
     monkey.physicsBody.categoryBitMask      = monkeyCategory;
     monkey.physicsBody.contactTestBitMask   = bottomEdgeCategory;

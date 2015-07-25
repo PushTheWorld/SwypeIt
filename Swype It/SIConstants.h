@@ -3,6 +3,7 @@
 //  Created by Andrew Keller on 6/26/15.
 //  Copyright (c) 2015 Push The World LLC. All rights reserved.
 #import <Foundation/Foundation.h>
+#import <SpriteKit/SpriteKit.h>
 
 #define IDIOM                       UI_USER_INTERFACE_IDIOM()
 #define IPAD                        UIUserInterfaceIdiomPad
@@ -145,6 +146,8 @@ extern NSString *const kSIPowerUpRapidFire;
 
 #pragma mark - NSNotification
 extern NSString *const kSINotificationCorrectMove;
+extern NSString *const kSINotificationHudHide;
+extern NSString *const kSINotificationHudShow;
 extern NSString *const kSINotificationGameEnded;
 extern NSString *const kSINotificationGameStarted;
 extern NSString *const kSINotificationLevelDidChange;
@@ -163,6 +166,9 @@ extern NSString *const kSIImageButtonDone;
 extern NSString *const kSIImageButtonFallingMonkey;
 extern NSString *const kSIImageButtonGameModeOneHand;
 extern NSString *const kSIImageButtonGameModeTwoHand;
+extern NSString *const kSIImageButtonMenu;
+extern NSString *const kSIImageButtonPause;
+extern NSString *const kSIImageButtonPlay;
 extern NSString *const kSIImageButtonRapidFire;
 extern NSString *const kSIImageButtonReplay;
 extern NSString *const kSIImageButtonStore;
@@ -172,13 +178,21 @@ extern NSString *const kSIImageProgressBarFill;
 extern NSString *const kSIImageProgressBarPowerUpFill;
 
 #pragma mark - Texture Atlas
-extern NSString *const kSIAtlasProgressBarMove;
+extern NSString *const kSIAtlasButtons;
 
 #pragma mark - Button Labels
 extern NSString *const kSIButtonLabelStringOneHand;
 extern NSString *const kSIButtonLabelStringTwoHand;
 
 #pragma mark - NSDictionary Keys
+extern NSString *const kSINSDictionaryKeyHudHoldDismissForDuration;
+extern NSString *const kSINSDictionaryKeyHudMessageDismissInfo;
+extern NSString *const kSINSDictionaryKeyHudMessageDismissTitle;
+extern NSString *const kSINSDictionaryKeyHudMessagePresentInfo;
+extern NSString *const kSINSDictionaryKeyHudMessagePresentTitle;
+extern NSString *const kSINSDictionaryKeyHudWillAnimate;
+extern NSString *const kSINSDictionaryKeyHudWillDimBackground;
+extern NSString *const kSINSDictionaryKeyHudWillShowCheckmark;
 extern NSString *const kSINSDictionaryKeyMoveScore;
 extern NSString *const kSINSDictionaryKeyPowerUp;
 extern NSString *const kSINSDictionaryKeyPackProduct;
@@ -214,7 +228,10 @@ extern NSString *const kSINodeNodeBucket;
 extern NSString *const kSINodeNodePile;
 extern NSString *const kSINodeButtonDone;
 extern NSString *const kSINodeButtonFallingMonkey;
+extern NSString *const kSINodeButtonMenu;
 extern NSString *const kSINodeButtonOneHand;
+extern NSString *const kSINodeButtonPause;
+extern NSString *const kSINodeButtonPlay;
 extern NSString *const kSINodeButtonTwoHand;
 extern NSString *const kSINodeButtonTimeFreeze;
 extern NSString *const kSINodeButtonRapidFire;
@@ -226,9 +243,11 @@ extern NSString *const kSINodeFallingMonkey;
 #pragma mark - Fonts
 extern NSString *const kSIFontFuturaMedium;
 
+@interface SIConstants : NSObject
 
++ (SKTextureAtlas *)buttonAtlas;
 
-
+@end
 
 
 

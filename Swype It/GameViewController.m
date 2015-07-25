@@ -671,25 +671,25 @@
 
 #pragma mark - Gesture Recognizer Methods
 - (void)tapRegistered:(UITapGestureRecognizer *)tapGestrureRecognizer {
-    if ([AppSingleton singleton].currentGame.currentPowerUp != SIPowerUpCostFallingMonkeys) {
+    if ([AppSingleton singleton].currentGame.currentPowerUp != SIPowerUpFallingMonkeys) {
         [[AppSingleton singleton] moveEnterForType:SIMoveTap];
     }
 }
 - (void)swypeRegistered:(UISwipeGestureRecognizer *)swipeGestrureRecognizer {
-    if ([AppSingleton singleton].currentGame.currentPowerUp != SIPowerUpCostFallingMonkeys) {
+    if ([AppSingleton singleton].currentGame.currentPowerUp != SIPowerUpFallingMonkeys) {
         [[AppSingleton singleton] moveEnterForType:SIMoveSwype];
     }
     
 }
 - (void)pinchRegistered:(UIPinchGestureRecognizer *)pinchGestrureRecognizer {
-    if ([AppSingleton singleton].currentGame.currentPowerUp != SIPowerUpCostFallingMonkeys) {
+    if ([AppSingleton singleton].currentGame.currentPowerUp != SIPowerUpFallingMonkeys) {
         if (pinchGestrureRecognizer.state == UIGestureRecognizerStateEnded) {
             [[AppSingleton singleton] moveEnterForType:SIMovePinch];
         }
     }
 }
 - (void)shakeRegistered {
-    if ([AppSingleton singleton].currentGame.currentPowerUp != SIPowerUpCostFallingMonkeys) {
+    if ([AppSingleton singleton].currentGame.currentPowerUp != SIPowerUpFallingMonkeys) {
         [[AppSingleton singleton] moveEnterForType:SIMoveShake];
     }
     

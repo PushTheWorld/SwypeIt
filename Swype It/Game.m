@@ -483,5 +483,20 @@
     return [Game currentLevelStringForScore:self.totalScore];
 }
 
++ (void)transisitionToSKScene:(SKScene *)scene toSKView:(SKView *)view DoorsOpen:(BOOL)doorsOpen pausesIncomingScene:(BOOL)pausesIncomingScene pausesOutgoingScene:(BOOL)pausesOutgoingScene duration:(CGFloat)duration {
+    SKTransition *transistion;
+    
+    if (doorsOpen) {
+        transistion = [SKTransition doorsOpenHorizontalWithDuration:duration];
+    } else {
+        transistion = [SKTransition doorsCloseHorizontalWithDuration:duration];
+    }
+
+    transistion.pausesIncomingScene = pausesIncomingScene;
+    transistion.pausesOutgoingScene = pausesOutgoingScene;
+
+    [view presentScene:scene transition:transistion];
+}
+
 
 @end

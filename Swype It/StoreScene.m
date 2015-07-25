@@ -13,7 +13,6 @@
 // Framework Import
 #import <StoreKit/StoreKit.h>
 // Drop-In Class Imports (CocoaPods/GitHub/Guru)
-#import "MBProgressHud.h"
 #import "MKStoreKit.h"
 // Category Import
 #import "UIColor+Additions.h"
@@ -71,9 +70,9 @@
 }
 -(void)willMoveFromView:(nonnull SKView *)view {
     [super willMoveFromView:view];
-    [self removeObserver:self forKeyPath:kMKStoreKitProductPurchasedNotification];
-    [self removeObserver:self forKeyPath:kMKStoreKitRestoredPurchasesNotification];
-    [self removeObserver:self forKeyPath:kMKStoreKitRestoringPurchasesFailedNotification];
+//    [self removeObserver:self forKeyPath:kMKStoreKitProductPurchasedNotification];
+//    [self removeObserver:self forKeyPath:kMKStoreKitRestoredPurchasesNotification];
+//    [self removeObserver:self forKeyPath:kMKStoreKitRestoringPurchasesFailedNotification];
 }
 - (BOOL)isMKStoreKitAvailableAttempt:(NSUInteger)attemptNumber {
     NSArray *productsArray  = [MKStoreKit sharedKit].availableProducts;
@@ -124,7 +123,7 @@
         [self addButton:size withSIIAPPack:(SIIAPPack)(i) withVerticalCenterPoints:self.verticalNodeCenterPoint];
     }
     
-    SKSpriteNode *doneButton    = [SKSpriteNode spriteNodeWithTexture:[SKTexture textureWithImageNamed:kSIImageButtonDone] size:CGSizeMake(size.width / 2.0f, size.width / 4.0f)];
+    SKSpriteNode *doneButton    = [SKSpriteNode spriteNodeWithTexture:[[SIConstants buttonAtlas] textureNamed:kSIImageButtonDone] size:CGSizeMake(size.width / 2.0f, size.width / 4.0f)];
     doneButton.name             = kSINodeButtonDone;
     doneButton.position         = CGPointMake(size.width / 2.0f, self.verticalNodeCenterPoint);
     [self addChild:doneButton];
@@ -147,7 +146,7 @@
 - (void)createButtonForProduct:(SKProduct *)product centerPoint:(CGFloat)verticalNodeCenterPoint size:(CGSize)size siiapPack:(SIIAPPack)siiapPack {
     /*Main node... this is the button essentially*/
     SKSpriteNode *mainNode                      = [SKSpriteNode spriteNodeWithColor:[SKColor mainColor] size:CGSizeMake(size.width - VERTICAL_SPACING_16, verticalNodeCenterPoint - VERTICAL_SPACING_8)];
-    mainNode.position                           = CGPointMake(size.width / 2.0f, verticalNodeCenterPoint + verticalNodeCenterPoint * (siiapPack + 1));
+    mainNode.position                           = CGPointMake(size.width / 2.0f, verticalNodeCenterPoint + verticalNodeCenterPoint * (4 - siiapPack));
     mainNode.name                               = [Game buttonNodeNameNodeForSIIAPPack:siiapPack];
     [self addChild:mainNode];
     
@@ -204,12 +203,11 @@
         if ([node.name isEqualToString:kSINodeButtonDone]) {
             if (self.wasLaunchedFromMainMenu) {
                 StartScreenScene *startScene = [StartScreenScene sceneWithSize:self.size];
-                [self.view presentScene:startScene transition:[SKTransition doorsOpenHorizontalWithDuration:1.0]];
+                [Game transisitionToSKScene:startScene toSKView:self.view DoorsOpen:NO pausesIncomingScene:NO pausesOutgoingScene:NO duration:1.0];
 
             } else {
                 EndGameScene *endScene = [EndGameScene sceneWithSize:self.size];
-                [self.view presentScene:endScene transition:[SKTransition doorsOpenHorizontalWithDuration:1.0]];
-
+                [Game transisitionToSKScene:endScene toSKView:self.view DoorsOpen:NO pausesIncomingScene:NO pausesOutgoingScene:NO duration:1.0];
             }
         } else {
             for (int i = 0; i < NUMBER_OF_IAP_PACKS; i++) {
@@ -231,6 +229,13 @@
     if (productArray.count > 0) {
         [SIIAPUtility productForSIIAPPack:siiapPack inPackArray:productArray withBlock:^(BOOL succeeded, SKProduct *product) {
             if (succeeded) {
+                NSDictionary *userInfo          = @{kSINSDictionaryKeyHudWillAnimate            : @YES,
+                                                    kSINSDictionaryKeyHudWillDimBackground      : @YES,
+                                                    kSINSDictionaryKeyHudMessagePresentTitle    : @"Purchasing...",
+                                                    kSINSDictionaryKeyHudMessagePresentInfo     : @"Working..."};
+                NSNotification *notification    = [[NSNotification alloc] initWithName:kSINotificationHudShow object:nil userInfo:userInfo];
+                [[NSNotificationCenter defaultCenter] postNotification:notification];
+
                 [[MKStoreKit sharedKit] initiatePaymentRequestForProductWithIdentifier:product.productIdentifier];
             } else {
                 NSLog(@"Error: Could not find the SIIAPPack (%d) after button touch for purchase",siiapPack);
@@ -269,6 +274,7 @@
                                                       NSLog(@"Purchased/Subscribed to product with id: %@", [note object]);
                                                       self.isPurchaseInProgress = NO;
                                                       [self changeCoinValue];
+                                                      [self purchaseSuccess:YES titleText:@"Purchased!" infoText:@"Swype On!" duration:2.0f];
                                                   }];
     
     [[NSNotificationCenter defaultCenter] addObserverForName:kMKStoreKitRestoredPurchasesNotification
@@ -279,6 +285,7 @@
                                                       NSLog(@"Restored Purchases");
                                                       self.isPurchaseInProgress = NO;
                                                       [self changeCoinValue];
+                                                      [self purchaseSuccess:YES titleText:@"Restored!" infoText:@"" duration:2.0f];
                                                   }];
     
     [[NSNotificationCenter defaultCenter] addObserverForName:kMKStoreKitRestoringPurchasesFailedNotification
@@ -288,8 +295,19 @@
                                                       
                                                       NSLog(@"Failed restoring purchases with error: %@", [note object]);
                                                       self.isPurchaseInProgress = NO;
+                                                      [self purchaseSuccess:NO titleText:@"Failed." infoText:@"Try again later..." duration:1.0f];
 
                                                   }];
+}
+- (void)purchaseSuccess:(BOOL)puchaseWasSuccessful titleText:(NSString *)titleText infoText:(NSString *)infoText duration:(CGFloat)duration {
+    NSDictionary *userInfo          = @{kSINSDictionaryKeyHudWillAnimate            : @YES,
+                                        kSINSDictionaryKeyHudWillShowCheckmark      : [NSNumber numberWithBool:puchaseWasSuccessful],
+                                        kSINSDictionaryKeyHudHoldDismissForDuration : [NSNumber numberWithFloat:duration],
+                                        kSINSDictionaryKeyHudMessagePresentTitle    : titleText,
+                                        kSINSDictionaryKeyHudMessagePresentInfo     : infoText};
+    NSNotification *notification    = [[NSNotification alloc] initWithName:kSINotificationHudHide object:nil userInfo:userInfo];
+    [[NSNotificationCenter defaultCenter] postNotification:notification];
+
 }
 
 /**Checks to see if the node name is equal to the siiapPack*/
