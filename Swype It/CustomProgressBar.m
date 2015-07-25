@@ -20,31 +20,47 @@
 
 @implementation CustomProgressBar
 
-- (instancetype)init {
+
+- (instancetype)initWithSize:(CGSize)size color:(UIColor *)color cornerRadius:(CGFloat)cornerRadius {
     if (self = [super init]) {
-        
+        [self addProgressBar:size color:color cornerRadius:cornerRadius];
     }
     return self;
 }
-- (void)configureForSize:(CGSize)size withType:(SIProgressBar)progressBar {
-    self.maskNode = [SKSpriteNode spriteNodeWithColor:[SKColor whiteColor] size:CGSizeMake(size.width, size.height)];
+//- (void)configureForSize:(CGSize)size withType:(SIProgressBar)progressBar {
+//    
+//    
+//    NSString *progressBarFillImageName;
+//    
+//    switch (progressBar) {
+//        case SIProgressBarMove:
+//            progressBarFillImageName = kSIImageProgressBarFill;
+//            break;
+//        case SIProgressBarPowerUp:
+//            progressBarFillImageName = kSIImageProgressBarPowerUpFill;
+//            break;
+//        default:
+//            progressBarFillImageName = kSIImageProgressBarFill;
+//            break;
+//    }
+//    
+//
+//}
+- (void)addProgressBar:(CGSize)size color:(UIColor *)color cornerRadius:(CGFloat)cornerRadius {
     
-    NSString *progressBarFillImageName;
+    SKShapeNode *maskNode;
+#ifdef __IPHONE_8_0
+    maskNode                = [SKShapeNode shapeNodeWithRectOfSize:size cornerRadius:cornerRadius];
+#else
+    maskNode                = [SKShapeNode node];
+    [maskNode setPath:CGPathCreateWithRoundedRect(CGRectMake(-1.0f * (size.width / 2.0f), -1.0f * (size.height / 2.0f), size.width, size.height), cornerRadius, cornerRadius, nil)];
+#endif
     
-    switch (progressBar) {
-        case SIProgressBarMove:
-            progressBarFillImageName = kSIImageProgressBarFill;
-            break;
-        case SIProgressBarPowerUp:
-            progressBarFillImageName = kSIImageProgressBarPowerUpFill;
-            break;
-        default:
-            progressBarFillImageName = kSIImageProgressBarFill;
-            break;
-    }
+    maskNode.fillColor      = [SKColor whiteColor];
     
-    SKSpriteNode *sprite    = [SKSpriteNode spriteNodeWithImageNamed:progressBarFillImageName];
-    sprite.size             = size;
+    self.maskNode           = maskNode;
+    
+    SKSpriteNode *sprite    = [SKSpriteNode spriteNodeWithColor:color size:CGSizeMake(size.width, size.height)];
     
     sprite.anchorPoint      = CGPointMake(0, 0.5);
     

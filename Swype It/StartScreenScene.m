@@ -71,8 +71,8 @@
 }
 - (void)launchGameSceneForGameMode:(SIGameMode)gameMode {
     [[AppSingleton singleton] initAppSingletonWithGameMode:gameMode];
-    GameScene *firstScene = [GameScene sceneWithSize:self.size];
-    [self.view presentScene:firstScene transition:[SKTransition doorsOpenHorizontalWithDuration:1.5]];
+    GameScene *firstScene = [[GameScene alloc] initWithSize:self.size gameMode:gameMode];
+    [self.view presentScene:firstScene transition:[SKTransition doorsOpenHorizontalWithDuration:1.0]];
 }
 
 @end

@@ -22,13 +22,14 @@
 		092720DF1B5EF1C30005A6B6 /* StoreScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 092720DE1B5EF1C30005A6B6 /* StoreScene.m */; };
 		092720E51B60D3CB0005A6B6 /* SIIAPUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = 092720E41B60D3CB0005A6B6 /* SIIAPUtility.m */; };
 		092720E71B60F2790005A6B6 /* SIIAPUtilityTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 092720E61B60F2790005A6B6 /* SIIAPUtilityTests.m */; };
+		092720E91B6388320005A6B6 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 092720E81B6388320005A6B6 /* AVFoundation.framework */; };
+		092720EC1B6388740005A6B6 /* ProgressBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 092720EB1B6388740005A6B6 /* ProgressBar.m */; };
+		092720EF1B63A62D0005A6B6 /* TCProgressBarNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 092720EE1B63A62D0005A6B6 /* TCProgressBarNode.m */; };
 		092B470E1B521B7900AFE43C /* GameTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 092B470D1B521B7900AFE43C /* GameTests.m */; };
 		092B47101B52273A00AFE43C /* libOCMock.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 092B470F1B52273A00AFE43C /* libOCMock.a */; };
 		09343DAA1B44BB1C00D1C707 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 09343DA91B44BB1C00D1C707 /* QuartzCore.framework */; };
 		097375461B57A97500BE1BCA /* BaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 097375451B57A97500BE1BCA /* BaseViewController.m */; };
 		097375491B57B8CA00BE1BCA /* ZCSlotMachine.m in Sources */ = {isa = PBXBuildFile; fileRef = 097375481B57B8CA00BE1BCA /* ZCSlotMachine.m */; };
-		0973754C1B57BA8000BE1BCA /* SlotMachineBackground@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0973754B1B57BA8000BE1BCA /* SlotMachineBackground@2x.png */; };
-		0973754E1B57BA8700BE1BCA /* SlotMachineCover@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0973754D1B57BA8700BE1BCA /* SlotMachineCover@2x.png */; };
 		097375531B57C64800BE1BCA /* SlotItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 097375501B57C64800BE1BCA /* SlotItem.m */; };
 		097375541B57C64800BE1BCA /* SlotView.m in Sources */ = {isa = PBXBuildFile; fileRef = 097375521B57C64800BE1BCA /* SlotView.m */; };
 		098B3B431B378B89000D4702 /* AppSingleton.m in Sources */ = {isa = PBXBuildFile; fileRef = 098B3B421B378B89000D4702 /* AppSingleton.m */; };
@@ -54,8 +55,6 @@
 		09DB639C1B5651C100387C13 /* MKStoreKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 09DB639B1B5651C100387C13 /* MKStoreKit.m */; };
 		09DB639E1B56525100387C13 /* MKStoreKitConfigs.plist in Resources */ = {isa = PBXBuildFile; fileRef = 09DB639D1B56525100387C13 /* MKStoreKitConfigs.plist */; };
 		09F61FAD1B5E51130067DFE5 /* SpriteBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 09F61FAC1B5E51130067DFE5 /* SpriteBar.m */; };
-		09F61FB01B5E53350067DFE5 /* progressBarMove.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 09F61FAF1B5E53350067DFE5 /* progressBarMove.atlas */; };
-		09F61FB21B5E53A70067DFE5 /* sb_default.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 09F61FB11B5E53A70067DFE5 /* sb_default.atlas */; };
 		F91BB9396F4CAAE0BC65B477 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 769385628457ECC646BCC3FE /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -99,6 +98,11 @@
 		092720E31B60D3CB0005A6B6 /* SIIAPUtility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SIIAPUtility.h; sourceTree = "<group>"; };
 		092720E41B60D3CB0005A6B6 /* SIIAPUtility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SIIAPUtility.m; sourceTree = "<group>"; };
 		092720E61B60F2790005A6B6 /* SIIAPUtilityTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SIIAPUtilityTests.m; sourceTree = "<group>"; };
+		092720E81B6388320005A6B6 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		092720EA1B6388740005A6B6 /* ProgressBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProgressBar.h; sourceTree = "<group>"; };
+		092720EB1B6388740005A6B6 /* ProgressBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProgressBar.m; sourceTree = "<group>"; };
+		092720ED1B63A62D0005A6B6 /* TCProgressBarNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCProgressBarNode.h; sourceTree = "<group>"; };
+		092720EE1B63A62D0005A6B6 /* TCProgressBarNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCProgressBarNode.m; sourceTree = "<group>"; };
 		092B470D1B521B7900AFE43C /* GameTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameTests.m; sourceTree = "<group>"; };
 		092B470F1B52273A00AFE43C /* libOCMock.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libOCMock.a; path = usr/lib/libOCMock.a; sourceTree = "<group>"; };
 		09343DA91B44BB1C00D1C707 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
@@ -106,8 +110,6 @@
 		097375451B57A97500BE1BCA /* BaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseViewController.m; sourceTree = "<group>"; };
 		097375471B57B8CA00BE1BCA /* ZCSlotMachine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZCSlotMachine.h; sourceTree = "<group>"; };
 		097375481B57B8CA00BE1BCA /* ZCSlotMachine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZCSlotMachine.m; sourceTree = "<group>"; };
-		0973754B1B57BA8000BE1BCA /* SlotMachineBackground@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "SlotMachineBackground@2x.png"; sourceTree = "<group>"; };
-		0973754D1B57BA8700BE1BCA /* SlotMachineCover@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "SlotMachineCover@2x.png"; sourceTree = "<group>"; };
 		0973754F1B57C64800BE1BCA /* SlotItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SlotItem.h; sourceTree = "<group>"; };
 		097375501B57C64800BE1BCA /* SlotItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SlotItem.m; sourceTree = "<group>"; };
 		097375511B57C64800BE1BCA /* SlotView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SlotView.h; sourceTree = "<group>"; };
@@ -149,8 +151,6 @@
 		09DB639D1B56525100387C13 /* MKStoreKitConfigs.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = MKStoreKitConfigs.plist; sourceTree = "<group>"; };
 		09F61FAB1B5E51130067DFE5 /* SpriteBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SpriteBar.h; sourceTree = "<group>"; };
 		09F61FAC1B5E51130067DFE5 /* SpriteBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SpriteBar.m; sourceTree = "<group>"; };
-		09F61FAF1B5E53350067DFE5 /* progressBarMove.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = progressBarMove.atlas; sourceTree = "<group>"; };
-		09F61FB11B5E53A70067DFE5 /* sb_default.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = sb_default.atlas; sourceTree = "<group>"; };
 		250606D5461711E9FC89BC0E /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		515AAE4709C37B6475D12AF4 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		769385628457ECC646BCC3FE /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -161,6 +161,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				092720E91B6388320005A6B6 /* AVFoundation.framework in Frameworks */,
 				099A621D1B5C62A6009BF339 /* SpriteKit.framework in Frameworks */,
 				099A621B1B5C62A0009BF339 /* CoreGraphics.framework in Frameworks */,
 				09DB63981B564F0900387C13 /* StoreKit.framework in Frameworks */,
@@ -299,10 +300,6 @@
 		091FED721B372EE70071F8DC /* Images */ = {
 			isa = PBXGroup;
 			children = (
-				09F61FB11B5E53A70067DFE5 /* sb_default.atlas */,
-				09F61FAF1B5E53350067DFE5 /* progressBarMove.atlas */,
-				0973754D1B57BA8700BE1BCA /* SlotMachineCover@2x.png */,
-				0973754B1B57BA8000BE1BCA /* SlotMachineBackground@2x.png */,
 				091FED531B37283E0071F8DC /* Images.xcassets */,
 			);
 			name = Images;
@@ -337,8 +334,19 @@
 				097375451B57A97500BE1BCA /* BaseViewController.m */,
 				099A62341B5C917A009BF339 /* CustomProgressBar.h */,
 				099A62351B5C917A009BF339 /* CustomProgressBar.m */,
+				092720EA1B6388740005A6B6 /* ProgressBar.h */,
+				092720EB1B6388740005A6B6 /* ProgressBar.m */,
 			);
 			name = CustomUIClasses;
+			sourceTree = "<group>";
+		};
+		092720F01B63A6350005A6B6 /* TCProgressBarNode */ = {
+			isa = PBXGroup;
+			children = (
+				092720ED1B63A62D0005A6B6 /* TCProgressBarNode.h */,
+				092720EE1B63A62D0005A6B6 /* TCProgressBarNode.m */,
+			);
+			name = TCProgressBarNode;
 			sourceTree = "<group>";
 		};
 		0973754A1B57B8CE00BE1BCA /* ZCSlotMachine */ = {
@@ -373,6 +381,7 @@
 		098B3B4B1B378EC8000D4702 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				092720F01B63A6350005A6B6 /* TCProgressBarNode */,
 				09F61FAE1B5E511A0067DFE5 /* SpriteBar */,
 				099A623A1B5C9EDC009BF339 /* AGSpriteButton */,
 				097375551B57C64E00BE1BCA /* Slot */,
@@ -467,6 +476,7 @@
 		0F880A65ACF3CFF0D72120E8 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				092720E81B6388320005A6B6 /* AVFoundation.framework */,
 				099A621C1B5C62A6009BF339 /* SpriteKit.framework */,
 				099A621A1B5C62A0009BF339 /* CoreGraphics.framework */,
 				09DB63971B564F0900387C13 /* StoreKit.framework */,
@@ -572,13 +582,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0973754C1B57BA8000BE1BCA /* SlotMachineBackground@2x.png in Resources */,
 				09DB639E1B56525100387C13 /* MKStoreKitConfigs.plist in Resources */,
 				091FED571B37283E0071F8DC /* LaunchScreen.xib in Resources */,
-				09F61FB01B5E53350067DFE5 /* progressBarMove.atlas in Resources */,
-				09F61FB21B5E53A70067DFE5 /* sb_default.atlas in Resources */,
 				099A62331B5C8B12009BF339 /* Main.storyboard in Resources */,
-				0973754E1B57BA8700BE1BCA /* SlotMachineCover@2x.png in Resources */,
 				091FED541B37283E0071F8DC /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -636,6 +642,7 @@
 				091FED791B3736210071F8DC /* UIColor+Additions.m in Sources */,
 				091FED7D1B374C470071F8DC /* BaseNavigationViewController.m in Sources */,
 				097375531B57C64800BE1BCA /* SlotItem.m in Sources */,
+				092720EF1B63A62D0005A6B6 /* TCProgressBarNode.m in Sources */,
 				099A62231B5C635F009BF339 /* MainViewController.m in Sources */,
 				099A622A1B5C6B3B009BF339 /* StartScreenScene.m in Sources */,
 				098B3B4A1B378EC0000D4702 /* FXReachability.m in Sources */,
@@ -654,6 +661,7 @@
 				091FED761B3733AF0071F8DC /* SIConstants.m in Sources */,
 				098B3B431B378B89000D4702 /* AppSingleton.m in Sources */,
 				099A62361B5C917A009BF339 /* CustomProgressBar.m in Sources */,
+				092720EC1B6388740005A6B6 /* ProgressBar.m in Sources */,
 				091FED6F1B37295D0071F8DC /* StartScreenViewController.m in Sources */,
 				09F61FAD1B5E51130067DFE5 /* SpriteBar.m in Sources */,
 				097375541B57C64800BE1BCA /* SlotView.m in Sources */,

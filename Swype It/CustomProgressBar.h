@@ -8,7 +8,7 @@
 
 @interface CustomProgressBar : SKCropNode
 
-- (void)configureForSize:(CGSize)size withType:(SIProgressBar)progressBar;
+- (instancetype)initWithSize:(CGSize)size color:(UIColor *)color cornerRadius:(CGFloat)cornerRadius;
 - (void)setProgress:(CGFloat)progress;
 
 @end

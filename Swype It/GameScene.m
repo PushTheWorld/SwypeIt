@@ -13,10 +13,10 @@
 #define LAUNCH_DX_VECTOR_MAX            25
 #define LAUNCH_DX_VECTOR_MIX            10
 #define LAUNCH_DY_MULTIPLIER            50
-#define MONKEY_SPEED_INCREASE           0.5
+#define MONKEY_SPEED_INCREASE           0.25
 // Local Controller Import
 #import "AppSingleton.h"
-#import "CustomProgressBar.h"
+#import "TCProgressBarNode.h"
 #import "EndGameScene.h"
 #import "GameScene.h"
 // Framework Import
@@ -37,6 +37,7 @@
 @property (assign, nonatomic) BOOL               isGameActive;
 @property (assign, nonatomic) BOOL               isShakeActive;
 @property (assign, nonatomic) CGSize             fallingMonkeySize;
+@property (assign, nonatomic) CGFloat            progressBarCornerRadius;
 @property (assign, nonatomic) CGSize             progressBarSize;
 @property (assign, nonatomic) CGSize             buttonSize;
 @property (assign, nonatomic) CGFloat            fontSize;
@@ -51,8 +52,8 @@
 #pragma mark - Constraints
 
 #pragma mark - UI Controls
-@property (strong, nonatomic) CustomProgressBar *progressBarMove;
-@property (strong, nonatomic) CustomProgressBar *progressBarPowerUp;
+@property (strong, nonatomic) TCProgressBarNode *progressBarMove;
+@property (strong, nonatomic) TCProgressBarNode *progressBarPowerUp;
 @property (strong, nonatomic) SKLabelNode       *itCoinsLabel;
 @property (strong, nonatomic) SKLabelNode       *moveCommandLabel;
 @property (strong, nonatomic) SKLabelNode       *totalScoreLabel;
@@ -77,6 +78,7 @@
 static const uint32_t monkeyCategory        = 0x1;      // 00000000000000000000000000000001
 static const uint32_t uiControlCategory     = 0x1 << 1; // 00000000000000000000000000000010
 static const uint32_t bottomEdgeCategory    = 0x1 << 2; // 00000000000000000000000000000100
+static const uint32_t sideEdgeCategory      = 0x1 << 3; // 00000000000000000000000000001000
 
 @implementation GameScene
 
@@ -85,6 +87,19 @@ static const uint32_t bottomEdgeCategory    = 0x1 << 2; // 000000000000000000000
 //        self.backgroundColor = [SKColor blackColor];
         
         self.gameMode                       = SIGameModeTwoHand;
+        self.isButtonTouched                = NO;
+        
+        self.physicsWorld.contactDelegate   = self;
+        
+        [self setupUserInterfaceWithSize:size];
+    }
+    return self;
+}
+- (instancetype)initWithSize:(CGSize)size gameMode:(SIGameMode)gameMode {
+    if (self = [super initWithSize:size]) {
+        //        self.backgroundColor = [SKColor blackColor];
+        
+        self.gameMode                       = gameMode;
         self.isButtonTouched                = NO;
         
         self.physicsWorld.contactDelegate   = self;
@@ -114,6 +129,7 @@ static const uint32_t bottomEdgeCategory    = 0x1 << 2; // 000000000000000000000
     [self layoutControlsWithSize:size];
     [self registerForNotifications];
     [self addBottomEdge:size];
+    [self addSideEdges:size];
 }
 - (void)createConstantsWithSize:(CGSize)size {
     if (IS_IPHONE_4) {
@@ -140,6 +156,7 @@ static const uint32_t bottomEdgeCategory    = 0x1 << 2; // 000000000000000000000
     self.buttonSize                     = CGSizeMake(size.width/5.0, size.width/5.0f);
 
     self.progressBarSize                = CGSizeMake(size.width / 2.0f, (size.width / 2.0f) * 0.2);
+    self.progressBarCornerRadius        = 12.0f;
     
     
     /*Init Fonts*/
@@ -163,10 +180,23 @@ static const uint32_t bottomEdgeCategory    = 0x1 << 2; // 000000000000000000000
     
     /**Progress Bars*/
     /*Move Progress Bar Sprite*/
-    self.progressBarMove        = [CustomProgressBar new];
+    self.progressBarMove        = [[TCProgressBarNode alloc]
+                                   initWithSize:self.progressBarSize
+                                   backgroundColor:[UIColor grayColor]
+                                   fillColor:[UIColor redColor]
+                                   borderColor:[UIColor blackColor]
+                                   borderWidth:1.0f
+                                   cornerRadius:4.0f];
+
     
     /*Power Up Progress Bar Sprite*/
-    self.progressBarPowerUp     = [CustomProgressBar new];
+    self.progressBarPowerUp     = [[TCProgressBarNode alloc]
+                                   initWithSize:self.progressBarSize
+                                   backgroundColor:[UIColor grayColor]
+                                   fillColor:[UIColor greenColor]
+                                   borderColor:[UIColor blackColor]
+                                   borderWidth:1.0f
+                                   cornerRadius:4.0f];
     
     /**Power Up Buttons*/
     self.timeFreezeNode         = [SKSpriteNode spriteNodeWithImageNamed:kSIImageButtonTimeFreeze];
@@ -200,20 +230,20 @@ static const uint32_t bottomEdgeCategory    = 0x1 << 2; // 000000000000000000000
     
     /**Progress Bars*/
     /*Move Progress Bar Sprite*/
+    self.progressBarMove.progress                       = 1.0f;
     self.progressBarMove.physicsBody.categoryBitMask    = uiControlCategory;
-    [self.progressBarMove configureForSize:self.progressBarSize withType:SIProgressBarMove];
-    [self.progressBarMove setProgress:1.0];
+
     
     /*Power Up Progress Bar Sprite*/
+    self.progressBarPowerUp.progress                    = 1.0f;
     self.progressBarPowerUp.physicsBody.categoryBitMask = uiControlCategory;
-    [self.progressBarPowerUp configureForSize:self.progressBarSize withType:SIProgressBarPowerUp];
-    [self.progressBarPowerUp setProgress:1.0];
+//    self.progressBarPowerUp.titleLabelNode.text         = @"Power Up";
     // Fade out the progress bar initially
-    SKAction *fadeOut = [SKAction fadeOutWithDuration:0];
+    SKAction *fadeOut = [SKAction fadeOutWithDuration:0.0f];
     [self.progressBarPowerUp runAction:fadeOut];
     
     /**Power Up Buttons*/
-    CGFloat scaleFactor                                 = 0.33;
+    CGFloat scaleFactor                                 = 0.33f;
     
     self.timeFreezeNode.name                            = kSINodeButtonTimeFreeze;
     self.timeFreezeNode.physicsBody.categoryBitMask     = uiControlCategory;
@@ -261,13 +291,13 @@ static const uint32_t bottomEdgeCategory    = 0x1 << 2; // 000000000000000000000
     
     /**Progress Bars*/
     /*Move Progress Bar Sprite*/
-    self.progressBarMove.position       = CGPointMake((size.width / 2.0f) - (self.progressBarSize.width / 4.0f),
+    self.progressBarMove.position       = CGPointMake(CGRectGetMidX(self.frame),
                                                       (size.height / 2.0f) - self.moveCommandLabel.frame.size.height);
     [self addChild:self.progressBarMove];
     
     
     /*Power Up Progress Bar Sprite*/
-    self.progressBarPowerUp.position    = CGPointMake((size.width / 2.0f) - (self.progressBarSize.width / 4.0f),
+    self.progressBarPowerUp.position    = CGPointMake(CGRectGetMidX(self.frame),
                                                       self.rapidFireNode.frame.size.height + VERTICAL_SPACING_16 + VERTICAL_SPACING_16);
     [self addChild:self.progressBarPowerUp];
     
@@ -314,13 +344,27 @@ static const uint32_t bottomEdgeCategory    = 0x1 << 2; // 000000000000000000000
         [[self view] addGestureRecognizer:self.pinch];
     }
 }
--(void) addBottomEdge:(CGSize) size {
+- (void)addBottomEdge:(CGSize)size {
     SKNode *bottomEdge                          = [SKNode node];
     bottomEdge.physicsBody                      = [SKPhysicsBody bodyWithEdgeFromPoint:CGPointMake(0, 1) toPoint:CGPointMake(size.width, 1)];
     bottomEdge.physicsBody.categoryBitMask      = bottomEdgeCategory;
     bottomEdge.physicsBody.collisionBitMask     = 0;
     [self addChild:bottomEdge];
+}
+- (void)addSideEdges:(CGSize) size {
+    SKNode *leftEdge                            = [SKNode node];
+    leftEdge.physicsBody                        = [SKPhysicsBody bodyWithEdgeFromPoint:CGPointMake(-1.0f * (self.fallingMonkeySize.width / 2.0f), 0)
+                                                                               toPoint:CGPointMake(-1.0f * (self.fallingMonkeySize.width / 2.0f), size.height)];
+    leftEdge.physicsBody.categoryBitMask        = sideEdgeCategory;
+    leftEdge.physicsBody.collisionBitMask       = sideEdgeCategory;
+    [self addChild:leftEdge];
     
+    SKNode *rightEdge                           = [SKNode node];
+    rightEdge.physicsBody                       = [SKPhysicsBody bodyWithEdgeFromPoint:CGPointMake(size.width + (self.fallingMonkeySize.width / 2.0f), 0)
+                                                                                toPoint:CGPointMake(size.width + (self.fallingMonkeySize.width / 2.0f), size.height)];
+    rightEdge.physicsBody.categoryBitMask       = sideEdgeCategory;
+    rightEdge.physicsBody.collisionBitMask      = sideEdgeCategory;
+    [self addChild:rightEdge];
 }
 #pragma mark - Gesture Recognizer Methods
 - (void)tapRegistered:(UITapGestureRecognizer *)tapGestrureRecognizer {
@@ -502,6 +546,7 @@ static const uint32_t bottomEdgeCategory    = 0x1 << 2; // 000000000000000000000
     [self.progressBarMove setProgress:[AppSingleton singleton].currentGame.moveScorePercentRemaining];
     if ([AppSingleton singleton].currentGame.currentPowerUp != SIPowerUpNone) {
         [self.progressBarPowerUp setProgress:[AppSingleton singleton].currentGame.powerUpPercentRemaining];
+        self.progressBarPowerUp.titleLabelNode.text = [NSString stringWithFormat:@"%0.2f",[AppSingleton singleton].currentGame.powerUpPercentRemaining * MAX_MOVE_SCORE];
     }
 }
 
@@ -671,15 +716,15 @@ static const uint32_t bottomEdgeCategory    = 0x1 << 2; // 000000000000000000000
     monkey.physicsBody.linearDamping        = 0.0f;
     monkey.physicsBody.categoryBitMask      = monkeyCategory;
     monkey.physicsBody.contactTestBitMask   = bottomEdgeCategory;
-    monkey.physicsBody.collisionBitMask     = 1;
-    self.physicsWorld.gravity               = CGVectorMake(0, -1);
+    monkey.physicsBody.collisionBitMask     = sideEdgeCategory;
+    self.physicsWorld.gravity               = CGVectorMake(0, -self.monkeySpeed);
     
     [self addChild:monkey];
     
     
     //create the vector
     NSLog(@"Launching Monkey with speed of: %0.1f",self.monkeySpeed);
-    CGVector monkeyVector                   = CGVectorMake(0, -self.monkeySpeed);
+    CGVector monkeyVector                   = CGVectorMake(0, -3.0);
     [monkey.physicsBody applyImpulse:monkeyVector];
     
     /*Call Function again*/

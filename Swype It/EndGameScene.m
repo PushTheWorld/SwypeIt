@@ -8,6 +8,7 @@
 #import "AppSingleton.h"
 #import "EndGameScene.h"
 #import "GameScene.h"
+#import "Game.h"
 #import "StoreScene.h"
 #import "UIColor+Additions.h"
 
@@ -56,7 +57,7 @@
     SKNode *node            = [self nodeAtPoint:location];
 
     if ([node.name isEqualToString:kSINodeButtonReplay]) {
-        GameScene *firstScene = [GameScene sceneWithSize:self.size];
+        GameScene *firstScene = [[GameScene alloc] initWithSize:self.size gameMode:[AppSingleton singleton].currentGame.gameMode];
         [self.view presentScene:firstScene transition:[SKTransition doorsOpenHorizontalWithDuration:1.0]];
     } else if ([node.name isEqualToString:kSINodeButtonStore]) {
         StoreScene *storeScene = [StoreScene sceneWithSize:self.size];

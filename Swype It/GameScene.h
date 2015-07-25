@@ -10,4 +10,6 @@
 
 @interface GameScene : SKScene <SKPhysicsContactDelegate>
 
+- (instancetype)initWithSize:(CGSize)size gameMode:(SIGameMode)gameMode;
+
 @end
