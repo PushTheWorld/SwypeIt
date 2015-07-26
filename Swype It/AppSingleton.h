@@ -25,6 +25,7 @@
 
 #pragma mark - Public Properties
 @property (assign, nonatomic) BOOL               isSaving;
+@property (assign, nonatomic) BOOL               willResume;
 
 #pragma mark - Public Objects
 @property (strong, nonatomic) CMMotionManager   *manager;
@@ -43,5 +44,6 @@
 - (void)powerUpWillActivate:(SIPowerUp)powerUp withPowerUpCost:(SIPowerUpCost)powerUpCost;
 - (void)powerUpDidActivate;
 - (void)powerUpDidEnd;
+- (void)willPrepareToShowNewMove;
 
 @end

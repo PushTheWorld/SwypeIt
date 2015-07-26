@@ -24,19 +24,19 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		200F1B2C67F6DBBDF3258F2D806BA0E3 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = D41D8CD98F00B204E9800998ECF8427E /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = B23988C3A4BFAC9D37363371DD33CA65;
-			remoteInfo = YLProgressBar;
-		};
-		BEB3A4427912C5D4276DC110E0D10BFA /* PBXContainerItemProxy */ = {
+		5D71852BFA5B2F721B1F096F5FC97589 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = D41D8CD98F00B204E9800998ECF8427E /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = CAACA7F2F102129C4943A078580CAF17;
 			remoteInfo = SoundManager;
+		};
+		F6E7D4F378E682E3171E3D0D9C457B90 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D41D8CD98F00B204E9800998ECF8427E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = B23988C3A4BFAC9D37363371DD33CA65;
+			remoteInfo = YLProgressBar;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -298,8 +298,8 @@
 			buildRules = (
 			);
 			dependencies = (
-				D1F20B8167C47EDD4C7489ECA14DD11E /* PBXTargetDependency */,
-				4331FD85F9AC9C41363246CE234900B6 /* PBXTargetDependency */,
+				0F7FA18BF1A87ACDD4B02A8412BAD1A6 /* PBXTargetDependency */,
+				54133ACA1B69A227B7B2CD4A4F0BD8BE /* PBXTargetDependency */,
 			);
 			name = Pods;
 			productName = Pods;
@@ -398,17 +398,17 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		4331FD85F9AC9C41363246CE234900B6 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = YLProgressBar;
-			target = B23988C3A4BFAC9D37363371DD33CA65 /* YLProgressBar */;
-			targetProxy = 200F1B2C67F6DBBDF3258F2D806BA0E3 /* PBXContainerItemProxy */;
-		};
-		D1F20B8167C47EDD4C7489ECA14DD11E /* PBXTargetDependency */ = {
+		0F7FA18BF1A87ACDD4B02A8412BAD1A6 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = SoundManager;
 			target = CAACA7F2F102129C4943A078580CAF17 /* SoundManager */;
-			targetProxy = BEB3A4427912C5D4276DC110E0D10BFA /* PBXContainerItemProxy */;
+			targetProxy = 5D71852BFA5B2F721B1F096F5FC97589 /* PBXContainerItemProxy */;
+		};
+		54133ACA1B69A227B7B2CD4A4F0BD8BE /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = YLProgressBar;
+			target = B23988C3A4BFAC9D37363371DD33CA65 /* YLProgressBar */;
+			targetProxy = F6E7D4F378E682E3171E3D0D9C457B90 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 

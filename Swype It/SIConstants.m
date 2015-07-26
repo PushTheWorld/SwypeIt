@@ -38,6 +38,7 @@ NSString *const kSINotificationCorrectMove                          = @"com.push
 NSString *const kSINotificationHudHide                              = @"com.pushtheworldllc.swipeit.hudHide";
 NSString *const kSINotificationHudShow                              = @"com.pushtheworldllc.swipeit.hudShow";
 NSString *const kSINotificationGameEnded                            = @"com.pushtheworldllc.swipeit.gameEnded";
+NSString *const kSINotificationGameResumed                          = @"com.pushtheworldllc.swipeit.gameResumed";
 NSString *const kSINotificationGameStarted                          = @"com.pushtheworldllc.swipeit.gameStarted";
 NSString *const kSINotificationLevelDidChange                       = @"com.pushtheworldllc.swipeit.levelDidChange";
 NSString *const kSINotificationNewBackgroundReady                   = @"com.pushtheworldllc.swipeit.newBackgroundReady";
@@ -52,6 +53,8 @@ NSString *const kSIScoreTotalScore                                  = @"totalSco
 NSString *const kSIScoreNextMove                                    = @"nextMove";
 
 #pragma mark - Images
+NSString *const kSIImageButtonContinue                              = @"continueButton";
+NSString *const kSIImageButtonContinueGrayed                        = @"continueGrayedButton";
 NSString *const kSIImageButtonDone                                  = @"doneButton";
 NSString *const kSIImageButtonFallingMonkey                         = @"monkey";
 NSString *const kSIImageButtonGameModeOneHand                       = @"oneHandRevB";
@@ -63,7 +66,7 @@ NSString *const kSIImageButtonRapidFire                             = @"rapidFir
 NSString *const kSIImageButtonReplay                                = @"replayButton";
 NSString *const kSIImageButtonStore                                 = @"storeButton";
 NSString *const kSIImageButtonTimeFreeze                            = @"timeFreeze";
-NSString *const kSIImageFallingMonkeys                              = @"fallingMonkey";
+NSString *const kSIImageFallingMonkeys                              = @"monkeyFreeVector";
 NSString *const kSIImageProgressBarFill                             = @"progressBarFill";
 NSString *const kSIImageProgressBarPowerUpFill                      = @"progressBarPowerUpFill";
 
@@ -115,6 +118,7 @@ NSString *const kSINodeNodeChest                                    = @"chestOfC
 NSString *const kSINodeNodeBag                                      = @"bagOfCoinsNode";
 NSString *const kSINodeNodeBucket                                   = @"bucketOfCoinsNode";
 NSString *const kSINodeNodePile                                     = @"pileOfCoinsNode";
+NSString *const kSINodeButtonContinue                               = @"continueButton";
 NSString *const kSINodeButtonDone                                   = @"doneButton";
 NSString *const kSINodeButtonFallingMonkey                          = @"fallingMonkeyButton";
 NSString *const kSINodeButtonMenu                                   = @"menuButton";

@@ -57,7 +57,9 @@
 @property (strong, nonatomic) SKLabelNode       *itCoinsLabel;
 @property (strong, nonatomic) SKLabelNode       *moveCommandLabel;
 @property (strong, nonatomic) SKLabelNode       *totalScoreLabel;
-@property (strong, nonatomic) SKSpriteNode      *pausePlayNode;
+@property (strong, nonatomic) SKSpriteNode      *pauseNode;
+@property (strong, nonatomic) SKSpriteNode      *playNode;
+@property (strong, nonatomic) SKSpriteNode      *pauseScreenNode;
 @property (strong, nonatomic) SKSpriteNode      *rapidFireNode;
 @property (strong, nonatomic) SKSpriteNode      *fallingMonkeysNode;
 @property (strong, nonatomic) SKSpriteNode      *timeFreezeNode;
@@ -85,35 +87,39 @@ static const uint32_t sideEdgeCategory      = 0x1 << 3; // 000000000000000000000
 
 -(instancetype)initWithSize:(CGSize)size {
     if (self = [super initWithSize:size]) {
-//        self.backgroundColor = [SKColor blackColor];
-        
-        self.gameMode                       = SIGameModeTwoHand;
-        self.isButtonTouched                = NO;
-        
-        self.physicsWorld.contactDelegate   = self;
-        
-        [self setupUserInterfaceWithSize:size];
+        [self setupDefaults:size gameMode:SIGameModeTwoHand];
     }
     return self;
 }
 - (instancetype)initWithSize:(CGSize)size gameMode:(SIGameMode)gameMode {
     if (self = [super initWithSize:size]) {
-        //        self.backgroundColor = [SKColor blackColor];
-        
-        self.gameMode                       = gameMode;
-        self.isButtonTouched                = NO;
-        
-        self.physicsWorld.contactDelegate   = self;
-        
-        [self setupUserInterfaceWithSize:size];
+        [self setupDefaults:size gameMode:gameMode];
     }
     return self;
 }
+- (void)setupDefaults:(CGSize)size gameMode:(SIGameMode)gameMode {
+    self.gameMode                       = gameMode;
+    self.isButtonTouched                = NO;
+    
+    self.physicsWorld.contactDelegate   = self;
+    
+    [self setupUserInterfaceWithSize:size];
+}
+
 - (void)didMoveToView:(nonnull SKView *)view {
     [self setupGestureRecognizersWithView:view];
-    [[AppSingleton singleton] startGame];
+    if ([AppSingleton singleton].willResume) {
+        [AppSingleton singleton].willResume = NO;
+        [[AppSingleton singleton] play];
+        [self gameResume];
+        [[AppSingleton singleton] willPrepareToShowNewMove];
+    } else {
+        self.progressBarMove.progress = 1.0f;
+        [[AppSingleton singleton] startGame];
+        self.backgroundColor                = [[AppSingleton singleton] newBackgroundColor];
+
+    }
     /*Get Background Color*/
-    self.backgroundColor                = [[AppSingleton singleton] newBackgroundColor];
 }
 - (void)removeGestureRecognizers {
     [self.view removeGestureRecognizer:self.tap];
@@ -206,7 +212,9 @@ static const uint32_t sideEdgeCategory      = 0x1 << 3; // 000000000000000000000
     
     self.fallingMonkeysNode     = [SKSpriteNode spriteNodeWithTexture:[[SIConstants buttonAtlas] textureNamed:kSIImageButtonFallingMonkey] size:self.buttonSize];
 
-    self.pausePlayNode          = [SKSpriteNode spriteNodeWithTexture:[[SIConstants buttonAtlas] textureNamed:kSIImageButtonPause] size:self.buttonSize];
+    self.pauseNode              = [SKSpriteNode spriteNodeWithTexture:[[SIConstants buttonAtlas] textureNamed:kSIImageButtonPause] size:self.buttonSize];
+
+    self.playNode               = [SKSpriteNode spriteNodeWithTexture:[[SIConstants buttonAtlas] textureNamed:kSIImageButtonPlay] size:self.buttonSize];
 
 }
 - (void)setupControlsWithSize:(CGSize)size {
@@ -246,7 +254,6 @@ static const uint32_t sideEdgeCategory      = 0x1 << 3; // 000000000000000000000
     [self.progressBarPowerUp runAction:fadeOut];
     
     /**Power Up Buttons*/
-    
     self.timeFreezeNode.name                            = kSINodeButtonTimeFreeze;
     self.timeFreezeNode.physicsBody.categoryBitMask     = uiControlCategory;
     
@@ -256,10 +263,12 @@ static const uint32_t sideEdgeCategory      = 0x1 << 3; // 000000000000000000000
     self.fallingMonkeysNode.name                        = kSINodeButtonFallingMonkey;
     self.fallingMonkeysNode.physicsBody.categoryBitMask = uiControlCategory;
     
-    self.pausePlayNode.name                             = kSINodeButtonPause;
-    self.pausePlayNode.physicsBody.categoryBitMask      = uiControlCategory;
+    self.pauseNode.name                                 = kSINodeButtonPause;
+    self.pauseNode.physicsBody.categoryBitMask          = uiControlCategory;
 
-    
+    self.playNode.name                                  = kSINodeButtonPlay;
+    self.playNode.zPosition                             = 3;
+    self.playNode.physicsBody.categoryBitMask           = uiControlCategory;
 }
 - (void)layoutControlsWithSize:(CGSize)size {
     /**Labels*/
@@ -291,9 +300,16 @@ static const uint32_t sideEdgeCategory      = 0x1 << 3; // 000000000000000000000
                                                       (self.fallingMonkeysNode.frame.size.height / 2.0f) + VERTICAL_SPACING_8);
     [self addChild:self.fallingMonkeysNode];
     
-    self.pausePlayNode.position    = CGPointMake(size.width - (self.pausePlayNode.frame.size.width / 2.0f) - VERTICAL_SPACING_8,
-                                                      size.height - (self.pausePlayNode.frame.size.height / 2.0f) - VERTICAL_SPACING_8);
-    [self addChild:self.pausePlayNode];
+    self.pauseNode.position             = CGPointMake(size.width - (self.pauseNode.frame.size.width / 2.0f) - VERTICAL_SPACING_8,
+                                                      size.height - (self.pauseNode.frame.size.height / 2.0f) - VERTICAL_SPACING_8);
+    [self addChild:self.pauseNode];
+    
+    self.playNode.position              = CGPointMake(size.width  / 2.0f,
+                                                      size.height / 2.0f);
+    [self.playNode runAction:[SKAction fadeAlphaTo:0.0 duration:0.0]];
+    [self addChild:self.playNode];
+    
+    
     
     /**Progress Bars*/
     /*Move Progress Bar Sprite*/
@@ -378,29 +394,41 @@ static const uint32_t sideEdgeCategory      = 0x1 << 3; // 000000000000000000000
     CGPoint locationInScene = [self convertPointFromView:locationInView];
     SKNode *node = [self nodeAtPoint:locationInScene];
     
-    if ([node.name isEqualToString:kSINodeButtonTimeFreeze]) {
-        [self powerUpTapped:SIPowerUpTimeFreeze];
-        
-    } else if ([node.name isEqualToString:kSINodeButtonRapidFire]) {
-        [self powerUpTapped:SIPowerUpRapidFire];
-        
-    } else if ([node.name isEqualToString:kSINodeButtonFallingMonkey]) {
-        [self powerUpTapped:SIPowerUpFallingMonkeys];
-        
-    } else if ([node.name isEqualToString:kSINodeFallingMonkey]) {
-        [self monkeyWasTapped:node];
+    if ([AppSingleton singleton].currentGame.isPaused) {
+        if ([node.name isEqualToString:kSINodeButtonPlay]) {
+            [self play];
+        }
     } else {
-        if ([AppSingleton singleton].currentGame.currentPowerUp != SIPowerUpFallingMonkeys) {
-            if (self.isButtonTouched == NO) {
-                if (tapGestrureRecognizer.state == UIGestureRecognizerStateEnded) {
-                    [[AppSingleton singleton] moveEnterForType:SIMoveTap];
+        if ([node.name isEqualToString:kSINodeButtonTimeFreeze]) {
+            [self powerUpTapped:SIPowerUpTimeFreeze];
+            
+        } else if ([node.name isEqualToString:kSINodeButtonRapidFire]) {
+            [self powerUpTapped:SIPowerUpRapidFire];
+            
+        } else if ([node.name isEqualToString:kSINodeButtonFallingMonkey]) {
+            [self powerUpTapped:SIPowerUpFallingMonkeys];
+            
+        } else if ([node.name isEqualToString:kSINodeFallingMonkey]) {
+            [self monkeyWasTapped:node];
+            
+        } else if ([node.name isEqualToString:kSINodeButtonPause]) {
+            [self pause];
+            
+        } else {
+            if ([AppSingleton singleton].currentGame.currentPowerUp != SIPowerUpFallingMonkeys) {
+                if (self.isButtonTouched == NO) {
+                    if (tapGestrureRecognizer.state == UIGestureRecognizerStateEnded) {
+                        [[AppSingleton singleton] moveEnterForType:SIMoveTap];
+                    }
                 }
             }
         }
     }
+
 }
+
 - (void)swypeRegistered:(UISwipeGestureRecognizer *)swypeGestrureRecognizer {
-    if ([AppSingleton singleton].currentGame.currentPowerUp != SIPowerUpFallingMonkeys) {
+    if ([AppSingleton singleton].currentGame.currentPowerUp != SIPowerUpFallingMonkeys || [AppSingleton singleton].currentGame.isPaused == NO) {
         if (swypeGestrureRecognizer.state == UIGestureRecognizerStateEnded) {
             [[AppSingleton singleton] moveEnterForType:SIMoveSwype];
         }
@@ -408,14 +436,14 @@ static const uint32_t sideEdgeCategory      = 0x1 << 3; // 000000000000000000000
     
 }
 - (void)pinchRegistered:(UIPinchGestureRecognizer *)pinchGestrureRecognizer {
-    if ([AppSingleton singleton].currentGame.currentPowerUp != SIPowerUpFallingMonkeys) {
+    if ([AppSingleton singleton].currentGame.currentPowerUp != SIPowerUpFallingMonkeys || [AppSingleton singleton].currentGame.isPaused == NO) {
         if (pinchGestrureRecognizer.state == UIGestureRecognizerStateEnded) {
             [[AppSingleton singleton] moveEnterForType:SIMovePinch];
         }
     }
 }
 - (void)shakeRegistered {
-    if ([AppSingleton singleton].currentGame.currentPowerUp != SIPowerUpFallingMonkeys) {
+    if ([AppSingleton singleton].currentGame.currentPowerUp != SIPowerUpFallingMonkeys || [AppSingleton singleton].currentGame.isPaused == NO) {
         [[AppSingleton singleton] moveEnterForType:SIMoveShake];
     }
 }
@@ -453,9 +481,19 @@ static const uint32_t sideEdgeCategory      = 0x1 << 3; // 000000000000000000000
     }
 }
 #pragma mark - Notification Methods
+- (void)gameResume {
+    self.moveCommandLabel.fontColor         = [SKColor whiteColor];
+    if ([AppSingleton singleton].currentGame.gameMode == SIGameModeOneHand) {
+        /*Setup Shake recognizer*/
+        self.restCount                      = 0;
+        self.isShakeActive                  = NO;
+        [self startAccelerometerForShake];
+    }
+    [self setupGestureRecognizersWithView:self.view];
+}
 - (void)gameStarted {
     self.moveCommandLabel.fontColor         = [SKColor whiteColor];
-    if (self.gameMode == SIGameModeOneHand) {
+    if ([AppSingleton singleton].currentGame.gameMode == SIGameModeOneHand) {
         /*Setup Shake recognizer*/
         self.restCount                      = 0;
         self.isShakeActive                  = NO;
@@ -501,6 +539,48 @@ static const uint32_t sideEdgeCategory      = 0x1 << 3; // 000000000000000000000
 }
 - (void)levelDidChange {
     self.currentLevelLabel.text             = [AppSingleton singleton].currentGame.currentLevel;
+}
+- (void)pause {
+    [[AppSingleton singleton] pause];
+    
+    [self.playNode runAction:[SKAction fadeAlphaTo:1.0 duration:0.7]];
+    
+    self.pauseScreenNode            = [SKSpriteNode spriteNodeWithTexture:[SKTexture textureWithImage:[self getBluredScreenshot]]];
+    self.pauseScreenNode.position   = CGPointMake(CGRectGetMidX(self.frame), CGRectGetMidY(self.frame));
+    self.pauseScreenNode.alpha      = 0;
+    self.pauseScreenNode.zPosition  = 2;
+    [self.pauseScreenNode runAction:[SKAction fadeAlphaTo:1 duration:0.4]];
+    [self addChild:self.pauseScreenNode];
+}
+- (void)play {
+    [self.pauseScreenNode removeFromParent];
+    
+    [self.playNode runAction:[SKAction fadeAlphaTo:0.0 duration:0.0]];
+    
+    [[AppSingleton singleton] play];
+}
+
+- (UIImage *)getBluredScreenshot {
+    UIGraphicsBeginImageContextWithOptions(self.view.bounds.size, NO, 1);
+    [self.view drawViewHierarchyInRect:self.view.frame afterScreenUpdates:YES];
+    UIImage *ss = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+    CIFilter *gaussianBlurFilter = [CIFilter filterWithName:@"CIGaussianBlur"];
+    [gaussianBlurFilter setDefaults];
+    [gaussianBlurFilter setValue:[CIImage imageWithCGImage:[ss CGImage]] forKey:kCIInputImageKey];
+    [gaussianBlurFilter setValue:@10 forKey:kCIInputRadiusKey];
+    
+    CIImage *outputImage = [gaussianBlurFilter outputImage];
+    CIContext *context   = [CIContext contextWithOptions:nil];
+    CGRect rect          = [outputImage extent];
+    rect.origin.x        += (rect.size.width  - ss.size.width ) / 2;
+    rect.origin.y        += (rect.size.height - ss.size.height) / 2;
+    rect.size            = ss.size;
+    CGImageRef cgimg     = [context createCGImage:outputImage fromRect:rect];
+    UIImage *image       = [UIImage imageWithCGImage:cgimg];
+    CGImageRelease(cgimg);
+    return image;
 }
 #pragma mark - GUI Functions
 - (void)presentMoveScore:(NSNumber *)score {
@@ -550,10 +630,12 @@ static const uint32_t sideEdgeCategory      = 0x1 << 3; // 000000000000000000000
 //        [self.itCoinsLabel runAction:moveItCoins];
 //    }
 
-    [self.progressBarMove setProgress:[AppSingleton singleton].currentGame.moveScorePercentRemaining];
-    if ([AppSingleton singleton].currentGame.currentPowerUp != SIPowerUpNone) {
-        [self.progressBarPowerUp setProgress:[AppSingleton singleton].currentGame.powerUpPercentRemaining];
-        self.progressBarPowerUp.titleLabelNode.text = [NSString stringWithFormat:@"%0.2f",[AppSingleton singleton].currentGame.powerUpPercentRemaining * MAX_MOVE_SCORE];
+    if ([AppSingleton singleton].currentGame.isPaused == NO) {
+        [self.progressBarMove setProgress:[AppSingleton singleton].currentGame.moveScorePercentRemaining];
+        if ([AppSingleton singleton].currentGame.currentPowerUp != SIPowerUpNone) {
+            [self.progressBarPowerUp setProgress:[AppSingleton singleton].currentGame.powerUpPercentRemaining];
+            self.progressBarPowerUp.titleLabelNode.text = [NSString stringWithFormat:@"%0.2f",[AppSingleton singleton].currentGame.powerUpPercentRemaining * MAX_MOVE_SCORE];
+        }
     }
 }
 

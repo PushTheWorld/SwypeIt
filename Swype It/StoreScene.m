@@ -107,7 +107,7 @@
     [self addChild:storeLabel];
     
     self.itCoinsLabel                           = [SKLabelNode labelNodeWithFontNamed:kSIFontFuturaMedium];
-    self.itCoinsLabel.text                      = [NSString stringWithFormat:@"%d",[[[MKStoreKit sharedKit] availableCreditsForConsumable:kSIIAPConsumableIDCoins] intValue]];
+    self.itCoinsLabel.text                      = [NSString stringWithFormat:@"You have %d IT Coins",[[[MKStoreKit sharedKit] availableCreditsForConsumable:kSIIAPConsumableIDCoins] intValue]];
     self.itCoinsLabel.position                  = CGPointMake(self.itCoinsLabel.frame.size.width / 2.0f + VERTICAL_SPACING_8, size.height - VERTICAL_SPACING_8 - storeLabel.frame.size.height - VERTICAL_SPACING_8);
     self.itCoinsLabel.fontColor                 = [SKColor blackColor];
     self.itCoinsLabel.fontSize                  = 25;
@@ -159,7 +159,7 @@
     descriptionLabel.name                       = [Game buttonNodeNameLabelPriceForSIIAPPack:siiapPack];
     [mainNode addChild:descriptionLabel];
     
-    //        /*This is the product price*/
+    /*This is the product price*/
     SKLabelNode *priceLabel                     = [SKLabelNode labelNodeWithFontNamed:kSIFontFuturaMedium];
     priceLabel.position                         = CGPointMake(0, -1.0f * descriptionLabel.frame.size.height); // CGPointMake(mainNode.frame.size.width / 2.0f, VERTICAL_SPACING_8);
     priceLabel.text                             = [self.priceFormatter stringFromNumber:product.price];
@@ -167,6 +167,15 @@
     priceLabel.fontColor                        = [SKColor whiteColor];
     priceLabel.name                             = [Game buttonNodeNameLabelPriceForSIIAPPack:siiapPack];
     [mainNode addChild:priceLabel];
+    
+    /*This is the product price*/
+    SKLabelNode *amountOfItCoinsLabel           = [SKLabelNode labelNodeWithFontNamed:kSIFontFuturaMedium];
+    amountOfItCoinsLabel.position               = CGPointMake(0, descriptionLabel.frame.size.height); // CGPointMake(mainNode.frame.size.width / 2.0f, VERTICAL_SPACING_8);
+    amountOfItCoinsLabel.text                   = [NSString stringWithFormat:@"Value: %d IT Coins",[Game numberOfCoinsForSIIAPPack:siiapPack]];
+    amountOfItCoinsLabel.fontSize               = 14;
+    amountOfItCoinsLabel.fontColor              = [SKColor whiteColor];
+    amountOfItCoinsLabel.name                   = [Game buttonNodeNameLabelPriceForSIIAPPack:siiapPack];
+    [mainNode addChild:amountOfItCoinsLabel];
 }
 - (void)createButtonForSIIAPPack:(SIIAPPack)siiapPack centerPoint:(CGFloat)verticalNodeCenterPoint size:(CGSize)size {
     /*Main node... this is the button essentially*/

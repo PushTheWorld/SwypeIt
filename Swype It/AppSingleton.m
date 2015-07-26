@@ -58,8 +58,10 @@
     if (self.currentGame == nil) {
         self.currentGame                            = [[Game alloc] init];
     }
+    self.willResume                                 = NO;
     self.previousLevel                              = [Game currentLevelStringForScore:0.0f];
     self.timerInterval                              = TIMER_INTERVAL;
+    self.currentGame.currentNumberOfTimesContinued  = SIContinueLifeCost1;
     self.currentGame.currentLevel                   = [Game currentLevelStringForScore:0.0f];
     self.currentGame.currentPowerUp                 = SIPowerUpNone;
     self.currentGame.totalScore                     = 0.0f;
@@ -86,6 +88,7 @@
     self.levelSpeedDivider          = 1.0f;
     self.timeFreezeMultiplyer       = 1.0f;
     self.currentGame.totalScore     = 0.0f;
+    self.currentGame.isPaused       = NO;
     self.moveStartTimeInMiliSeconds = 0;
     
     if (self.currentGame.gameMode == SIGameModeOneHand) {
@@ -96,13 +99,29 @@
     [self startTimer];
     
     /*Send Notification that Game has STARTED*/
-    NSNotification *notification    = [[NSNotification alloc] initWithName:kSINotificationGameStarted object:nil userInfo:nil];
+    NSNotification *notification        = [[NSNotification alloc] initWithName:kSINotificationGameStarted object:nil userInfo:nil];
     [[NSNotificationCenter defaultCenter] postNotification:notification];
+}
+- (void)pause {
+    self.currentGame.isPaused           = YES;
+    self.pauseStartTimeInMiliSeconds    = self.compositeTimeInMiliSeconds;
+}
+- (void)play {
+    self.currentGame.isPaused           = NO;
+    self.moveStartTimeInMiliSeconds     = (self.compositeTimeInMiliSeconds - self.pauseStartTimeInMiliSeconds) + self.moveStartTimeInMiliSeconds;
 }
 - (void)endGame {
     [self.manager stopAccelerometerUpdates];
     [self.timer invalidate];
-    
+//    
+//    /*Send Notification that Game has ENDED*/
+//    NSNotification *notification    = [[NSNotification alloc] initWithName:kSINotificationGameEnded object:nil userInfo:nil];
+//    [[NSNotificationCenter defaultCenter] postNotification:notification];
+//    
+//    [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(powerUpDidEnd) object:nil];
+}
+- (void)stopGame {
+    [self pause];
     /*Send Notification that Game has ENDED*/
     NSNotification *notification    = [[NSNotification alloc] initWithName:kSINotificationGameEnded object:nil userInfo:nil];
     [[NSNotificationCenter defaultCenter] postNotification:notification];
@@ -113,7 +132,7 @@
     if (move == self.currentGame.currentMove) {
         [self willPrepareToShowNewMove];
     } else {
-        [self endGame];
+        [self stopGame];
     }
 }
 - (void)willPrepareToShowNewMove {
@@ -208,12 +227,7 @@
     
     self.compositeTimeInMiliSeconds = elapsedTime * MILI_SECS_IN_SEC;
 }
-- (void)pause {
-    self.pauseStartTimeInMiliSeconds = self.compositeTimeInMiliSeconds;
-}
-- (void)play {
-    self.moveStartTimeInMiliSeconds  = (self.compositeTimeInMiliSeconds - self.pauseStartTimeInMiliSeconds) + self.moveStartTimeInMiliSeconds;
-}
+
 #pragma mark - Power Up Methods
 /*This is the second step. This checks to see if we are currently using a powerup*/
 - (void)powerUpDidLoad:(SIPowerUp)powerUp {

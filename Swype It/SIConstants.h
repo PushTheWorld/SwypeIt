@@ -112,6 +112,30 @@ typedef enum {
 } SIIAPPack;
 
 typedef enum {
+    SIContinueLifeCost0     = 0,
+    SIContinueLifeCost1     = 5,
+    SIContinueLifeCost2     = 10,
+    SIContinueLifeCost3     = 20,
+    SIContinueLifeCost4     = 50,
+    SIContinueLifeCost5     = 100,
+    SIContinueLifeCost6     = 250,
+    SIContinueLifeCost7     = 500,
+    SIContinueLifeCost8     = 1000,
+    SIContinueLifeCost9     = 2500,
+    SIContinueLifeCost10    = 5000,
+    SIContinueLifeCost11    = 10000,
+    SIContinueLifeCost12    = 12500,
+    SIContinueLifeCost13    = 15000,
+    SIContinueLifeCost14    = 20000,
+    SIContinueLifeCost15    = 25000,
+    SIContinueLifeCost16    = 30000,
+    SIContinueLifeCost17    = 40000,
+    SIContinueLifeCost18    = 50000,
+    SIContinueLifeCost19    = 100000,
+    SIContinueLifeCost20    = 1000000
+} SIContinueLifeCost;
+
+typedef enum {
     SIProgressBarMove,
     SIProgressBarPowerUp
 }SIProgressBar;
@@ -149,6 +173,7 @@ extern NSString *const kSINotificationCorrectMove;
 extern NSString *const kSINotificationHudHide;
 extern NSString *const kSINotificationHudShow;
 extern NSString *const kSINotificationGameEnded;
+extern NSString *const kSINotificationGameResumed;
 extern NSString *const kSINotificationGameStarted;
 extern NSString *const kSINotificationLevelDidChange;
 extern NSString *const kSINotificationNewBackgroundReady;
@@ -162,6 +187,8 @@ extern NSString *const kSIScoreTotalScore;
 extern NSString *const kSIScoreNextMove;
 
 #pragma mark - Images
+extern NSString *const kSIImageButtonContinue;
+extern NSString *const kSIImageButtonContinueGrayed;
 extern NSString *const kSIImageButtonDone;
 extern NSString *const kSIImageButtonFallingMonkey;
 extern NSString *const kSIImageButtonGameModeOneHand;
@@ -226,6 +253,7 @@ extern NSString *const kSINodeNodeChest;
 extern NSString *const kSINodeNodeBag;
 extern NSString *const kSINodeNodeBucket;
 extern NSString *const kSINodeNodePile;
+extern NSString *const kSINodeButtonContinue;
 extern NSString *const kSINodeButtonDone;
 extern NSString *const kSINodeButtonFallingMonkey;
 extern NSString *const kSINodeButtonMenu;

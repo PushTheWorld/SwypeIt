@@ -13,6 +13,7 @@
 #pragma mark - Public Objects
 
 #pragma mark - Public Properties
+@property (assign, nonatomic) BOOL               isPaused;
 @property (assign, nonatomic) NSInteger          currentPointsRemainingThisRound;
 @property (assign, nonatomic) NSInteger          currentBackgroundColorNumber;
 @property (assign, nonatomic) float              moveScore;
@@ -22,6 +23,7 @@
 @property (assign, nonatomic) SIGameMode         gameMode;
 @property (assign, nonatomic) SIMove             currentMove;
 @property (assign, nonatomic) SIPowerUp          currentPowerUp;
+@property (assign, nonatomic) SIContinueLifeCost currentNumberOfTimesContinued;
 
 @property (strong, nonatomic) NSString          *currentLevel;
 
@@ -29,6 +31,7 @@
 + (float)               scoreForMoveDuration:(float)durationOfLastMove withLevelSpeedDivider:(float)levelSpeedDivider;
 + (float)               levelSpeedForScore:(float)score;
 + (int)                 nextLevelForScore:(float)score;
++ (int)                 numberOfCoinsForSIIAPPack:(SIIAPPack)siiapPack;
 + (NSString *)          buttonNodeNameLabelDescriptionForSIIAPPack:(SIIAPPack)siiapPack;
 + (NSString *)          buttonNodeNameLabelPriceForSIIAPPack:(SIIAPPack)siiapPack;
 + (NSString *)          buttonNodeNameNodeForSIIAPPack:(SIIAPPack)siiapPack;
@@ -37,6 +40,7 @@
 + (NSString *)          productIDForSIIAPPack:(SIIAPPack)siiapPack;
 + (NSString *)          stringForMove:(SIMove)move;
 + (NSString *)          stringForPowerUp:(SIPowerUp)powerUp;
++ (SIContinueLifeCost)  lifeCostForCurrentContinueLeve:(SIContinueLifeCost)siContinuedLifeCost;
 + (SIIAPPack)           siiapPackForNameNodeLabel:(NSString *)nodeName;
 + (SIIAPPack)           siiapPackForNameNodeNode:(NSString *)nodeName;
 + (SIMove)              getRandomMoveForGameMode:(SIGameMode)gameMode isRapidFireActiviated:(BOOL)isRapidFireActivated;

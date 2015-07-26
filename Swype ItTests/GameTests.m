@@ -338,4 +338,47 @@
     /*Chest of Coins*/
     XCTAssertEqualObjects(kSIIAPProductIDCoinPackExtraLarge, [Game productIDForSIIAPPack:SIIAPPackExtraLarge]);
 }
+- (void)testContinueCost {
+    
+    XCTAssertEqual(SIContinueLifeCost1, [Game lifeCostForCurrentContinueLeve:SIContinueLifeCost0]);
+
+    XCTAssertEqual(SIContinueLifeCost2, [Game lifeCostForCurrentContinueLeve:SIContinueLifeCost1]);
+
+    XCTAssertEqual(SIContinueLifeCost3, [Game lifeCostForCurrentContinueLeve:SIContinueLifeCost2]);
+    
+    XCTAssertEqual(SIContinueLifeCost4, [Game lifeCostForCurrentContinueLeve:SIContinueLifeCost3]);
+    
+    XCTAssertEqual(SIContinueLifeCost5, [Game lifeCostForCurrentContinueLeve:SIContinueLifeCost4]);
+    
+    XCTAssertEqual(SIContinueLifeCost6, [Game lifeCostForCurrentContinueLeve:SIContinueLifeCost5]);
+    
+    XCTAssertEqual(SIContinueLifeCost7, [Game lifeCostForCurrentContinueLeve:SIContinueLifeCost6]);
+    
+    XCTAssertEqual(SIContinueLifeCost8, [Game lifeCostForCurrentContinueLeve:SIContinueLifeCost7]);
+    
+    XCTAssertEqual(SIContinueLifeCost9, [Game lifeCostForCurrentContinueLeve:SIContinueLifeCost8]);
+    
+    XCTAssertEqual(SIContinueLifeCost10, [Game lifeCostForCurrentContinueLeve:SIContinueLifeCost9]);
+    
+    XCTAssertEqual(SIContinueLifeCost11, [Game lifeCostForCurrentContinueLeve:SIContinueLifeCost10]);
+    
+    XCTAssertEqual(SIContinueLifeCost12, [Game lifeCostForCurrentContinueLeve:SIContinueLifeCost11]);
+    
+    XCTAssertEqual(SIContinueLifeCost13, [Game lifeCostForCurrentContinueLeve:SIContinueLifeCost12]);
+    
+    XCTAssertEqual(SIContinueLifeCost14, [Game lifeCostForCurrentContinueLeve:SIContinueLifeCost13]);
+    
+    XCTAssertEqual(SIContinueLifeCost15, [Game lifeCostForCurrentContinueLeve:SIContinueLifeCost14]);
+    
+    XCTAssertEqual(SIContinueLifeCost16, [Game lifeCostForCurrentContinueLeve:SIContinueLifeCost15]);
+    
+    XCTAssertEqual(SIContinueLifeCost17, [Game lifeCostForCurrentContinueLeve:SIContinueLifeCost16]);
+    
+    XCTAssertEqual(SIContinueLifeCost18, [Game lifeCostForCurrentContinueLeve:SIContinueLifeCost17]);
+    
+    XCTAssertEqual(SIContinueLifeCost19, [Game lifeCostForCurrentContinueLeve:SIContinueLifeCost18]);
+    
+    XCTAssertEqual(SIContinueLifeCost20, [Game lifeCostForCurrentContinueLeve:SIContinueLifeCost19]);
+
+}
 @end
