@@ -8,17 +8,14 @@
 
 /* Begin PBXBuildFile section */
 		0906AAF21B551F0A008F28C1 /* IAPViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0906AAF11B551F0A008F28C1 /* IAPViewController.m */; };
-		0906AAF51B552176008F28C1 /* FallingMonkeyView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0906AAF41B552176008F28C1 /* FallingMonkeyView.m */; };
 		091FED491B37283E0071F8DC /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 091FED481B37283E0071F8DC /* main.m */; };
 		091FED4C1B37283E0071F8DC /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 091FED4B1B37283E0071F8DC /* AppDelegate.m */; };
 		091FED541B37283E0071F8DC /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 091FED531B37283E0071F8DC /* Images.xcassets */; };
 		091FED571B37283E0071F8DC /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 091FED551B37283E0071F8DC /* LaunchScreen.xib */; };
 		091FED631B37283E0071F8DC /* Swype_ItTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 091FED621B37283E0071F8DC /* Swype_ItTests.m */; };
-		091FED6F1B37295D0071F8DC /* StartScreenViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 091FED6E1B37295D0071F8DC /* StartScreenViewController.m */; };
 		091FED761B3733AF0071F8DC /* SIConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 091FED751B3733AF0071F8DC /* SIConstants.m */; };
 		091FED791B3736210071F8DC /* UIColor+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 091FED781B3736210071F8DC /* UIColor+Additions.m */; };
 		091FED7D1B374C470071F8DC /* BaseNavigationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 091FED7C1B374C470071F8DC /* BaseNavigationViewController.m */; };
-		091FED811B375DA50071F8DC /* GameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 091FED801B375DA50071F8DC /* GameViewController.m */; };
 		092720DF1B5EF1C30005A6B6 /* StoreScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 092720DE1B5EF1C30005A6B6 /* StoreScene.m */; };
 		092720E51B60D3CB0005A6B6 /* SIIAPUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = 092720E41B60D3CB0005A6B6 /* SIIAPUtility.m */; };
 		092720E71B60F2790005A6B6 /* SIIAPUtilityTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 092720E61B60F2790005A6B6 /* SIIAPUtilityTests.m */; };
@@ -49,6 +46,9 @@
 		099A62331B5C8B12009BF339 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 099A62321B5C8B12009BF339 /* Main.storyboard */; };
 		099A62361B5C917A009BF339 /* CustomProgressBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 099A62351B5C917A009BF339 /* CustomProgressBar.m */; };
 		099A62391B5C9ED7009BF339 /* AGSpriteButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 099A62381B5C9ED7009BF339 /* AGSpriteButton.m */; };
+		09A904061B6616C300C48A9B /* SIConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 091FED751B3733AF0071F8DC /* SIConstants.m */; };
+		09A904071B6616DA00C48A9B /* Game.m in Sources */ = {isa = PBXBuildFile; fileRef = 098B3B461B378C27000D4702 /* Game.m */; };
+		09A904081B6616DE00C48A9B /* SIIAPUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = 092720E41B60D3CB0005A6B6 /* SIIAPUtility.m */; };
 		09CAF9A91B646BE100466606 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 09CAF9A81B646BE100466606 /* MBProgressHUD.m */; };
 		09CAF9AC1B646F4C00466606 /* buttons.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 09CAF9AB1B646F4C00466606 /* buttons.atlas */; };
 		09DB638A1B564DA700387C13 /* IAPTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 09DB63891B564DA700387C13 /* IAPTableViewController.m */; };
@@ -72,8 +72,6 @@
 /* Begin PBXFileReference section */
 		0906AAF01B551F0A008F28C1 /* IAPViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IAPViewController.h; sourceTree = "<group>"; };
 		0906AAF11B551F0A008F28C1 /* IAPViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IAPViewController.m; sourceTree = "<group>"; };
-		0906AAF31B552176008F28C1 /* FallingMonkeyView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FallingMonkeyView.h; sourceTree = "<group>"; };
-		0906AAF41B552176008F28C1 /* FallingMonkeyView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FallingMonkeyView.m; sourceTree = "<group>"; };
 		091FED431B37283E0071F8DC /* Swype It.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Swype It.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		091FED471B37283E0071F8DC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		091FED481B37283E0071F8DC /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -84,16 +82,12 @@
 		091FED5C1B37283E0071F8DC /* Swype ItTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Swype ItTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		091FED611B37283E0071F8DC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		091FED621B37283E0071F8DC /* Swype_ItTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Swype_ItTests.m; sourceTree = "<group>"; };
-		091FED6D1B37295D0071F8DC /* StartScreenViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StartScreenViewController.h; sourceTree = "<group>"; };
-		091FED6E1B37295D0071F8DC /* StartScreenViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StartScreenViewController.m; sourceTree = "<group>"; };
 		091FED741B3733AF0071F8DC /* SIConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SIConstants.h; sourceTree = "<group>"; };
 		091FED751B3733AF0071F8DC /* SIConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SIConstants.m; sourceTree = "<group>"; };
 		091FED771B3736210071F8DC /* UIColor+Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+Additions.h"; sourceTree = "<group>"; };
 		091FED781B3736210071F8DC /* UIColor+Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+Additions.m"; sourceTree = "<group>"; };
 		091FED7B1B374C470071F8DC /* BaseNavigationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseNavigationViewController.h; sourceTree = "<group>"; };
 		091FED7C1B374C470071F8DC /* BaseNavigationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseNavigationViewController.m; sourceTree = "<group>"; };
-		091FED7F1B375DA50071F8DC /* GameViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameViewController.h; sourceTree = "<group>"; };
-		091FED801B375DA50071F8DC /* GameViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = GameViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		092720DD1B5EF1C30005A6B6 /* StoreScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StoreScene.h; sourceTree = "<group>"; };
 		092720DE1B5EF1C30005A6B6 /* StoreScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StoreScene.m; sourceTree = "<group>"; };
 		092720E31B60D3CB0005A6B6 /* SIIAPUtility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SIIAPUtility.h; sourceTree = "<group>"; };
@@ -190,8 +184,6 @@
 		0906AAF61B552180008F28C1 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				0906AAF31B552176008F28C1 /* FallingMonkeyView.h */,
-				0906AAF41B552176008F28C1 /* FallingMonkeyView.m */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -287,14 +279,10 @@
 		091FED711B37298D0071F8DC /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
-				091FED7F1B375DA50071F8DC /* GameViewController.h */,
-				091FED801B375DA50071F8DC /* GameViewController.m */,
 				0906AAF01B551F0A008F28C1 /* IAPViewController.h */,
 				0906AAF11B551F0A008F28C1 /* IAPViewController.m */,
 				099A62211B5C635F009BF339 /* MainViewController.h */,
 				099A62221B5C635F009BF339 /* MainViewController.m */,
-				091FED6D1B37295D0071F8DC /* StartScreenViewController.h */,
-				091FED6E1B37295D0071F8DC /* StartScreenViewController.m */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -655,7 +643,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0906AAF51B552176008F28C1 /* FallingMonkeyView.m in Sources */,
 				092720E51B60D3CB0005A6B6 /* SIIAPUtility.m in Sources */,
 				099A622E1B5C6C2A009BF339 /* GameScene.m in Sources */,
 				091FED791B3736210071F8DC /* UIColor+Additions.m in Sources */,
@@ -667,7 +654,6 @@
 				098B3B4A1B378EC0000D4702 /* FXReachability.m in Sources */,
 				09DB639C1B5651C100387C13 /* MKStoreKit.m in Sources */,
 				098B3B471B378C27000D4702 /* Game.m in Sources */,
-				091FED811B375DA50071F8DC /* GameViewController.m in Sources */,
 				097375461B57A97500BE1BCA /* BaseViewController.m in Sources */,
 				097375491B57B8CA00BE1BCA /* ZCSlotMachine.m in Sources */,
 				09DB638E1B564DCA00387C13 /* IAPTableViewCell.m in Sources */,
@@ -682,7 +668,6 @@
 				098B3B431B378B89000D4702 /* AppSingleton.m in Sources */,
 				099A62361B5C917A009BF339 /* CustomProgressBar.m in Sources */,
 				092720EC1B6388740005A6B6 /* ProgressBar.m in Sources */,
-				091FED6F1B37295D0071F8DC /* StartScreenViewController.m in Sources */,
 				097375541B57C64800BE1BCA /* SlotView.m in Sources */,
 				092720DF1B5EF1C30005A6B6 /* StoreScene.m in Sources */,
 				091FED491B37283E0071F8DC /* main.m in Sources */,
@@ -693,7 +678,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				09A904071B6616DA00C48A9B /* Game.m in Sources */,
+				09A904081B6616DE00C48A9B /* SIIAPUtility.m in Sources */,
 				091FED631B37283E0071F8DC /* Swype_ItTests.m in Sources */,
+				09A904061B6616C300C48A9B /* SIConstants.m in Sources */,
 				092720E71B60F2790005A6B6 /* SIIAPUtilityTests.m in Sources */,
 				092B470E1B521B7900AFE43C /* GameTests.m in Sources */,
 			);
@@ -738,8 +726,8 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Andrew Keller (4QBKTXP3K7)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Andrew Keller (4QBKTXP3K7)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Andrew Keller (G2YUCSS226)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Andrew Keller (G2YUCSS226)";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -762,8 +750,9 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.pushtheworldllc.swipeit.dev;
 				PRODUCT_NAME = "Swype It";
-				PROVISIONING_PROFILE = "c7ba4f47-45d8-409b-8c87-927ad2b71ff8";
+				PROVISIONING_PROFILE = "51768e95-f8d5-43f7-b225-a3c01a29b9c0";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -786,8 +775,8 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Andrew Keller (4QBKTXP3K7)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Andrew Keller (4QBKTXP3K7)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Andrew Keller (G2YUCSS226)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Andrew Keller (G2YUCSS226)";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
@@ -802,8 +791,9 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
 				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.pushtheworldllc.swipeit${BUNDLE_ID_SUFFIX}";
 				PRODUCT_NAME = "Swype It";
-				PROVISIONING_PROFILE = "c7ba4f47-45d8-409b-8c87-927ad2b71ff8";
+				PROVISIONING_PROFILE = "51768e95-f8d5-43f7-b225-a3c01a29b9c0";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
@@ -816,18 +806,19 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon${BUNDLE_ID_SUFFIX}";
 				BUNDLE_ID_SUFFIX = .dev;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Andrew Keller (G2YUCSS226)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Andrew Keller (G2YUCSS226)";
+				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(PROJECT_DIR)",
 					"$(inherited)",
 				);
 				INFOPLIST_FILE = "Swype It/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.pushtheworldllc.swipeit;
+				PRODUCT_BUNDLE_IDENTIFIER = com.pushtheworldllc.swipeit.beta;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "51768e95-f8d5-43f7-b225-a3c01a29b9c0";
 			};
 			name = Debug;
 		};
@@ -837,18 +828,19 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon${BUNDLE_ID_SUFFIX}";
 				BUNDLE_ID_SUFFIX = "";
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Andrew Keller (G2YUCSS226)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Andrew Keller (G2YUCSS226)";
+				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(PROJECT_DIR)",
 					"$(inherited)",
 				);
 				INFOPLIST_FILE = "Swype It/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.pushtheworldllc.swipeit;
+				PRODUCT_BUNDLE_IDENTIFIER = com.pushtheworldllc.swipeit.beta;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "51768e95-f8d5-43f7-b225-a3c01a29b9c0";
 			};
 			name = Release;
 		};
@@ -856,9 +848,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Andrew Keller (G2YUCSS226)";
 				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
+					"$(PROJECT_DIR)",
 				);
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
@@ -881,8 +874,9 @@
 					XCTest,
 					"-ObjC",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.pushtheworldllc.swipeit;
+				PRODUCT_BUNDLE_IDENTIFIER = com.pushtheworldllc.swipeit.dev;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "51768e95-f8d5-43f7-b225-a3c01a29b9c0";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Swype It.app/Swype It";
 			};
 			name = Debug;
@@ -891,9 +885,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Andrew Keller (G2YUCSS226)";
 				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
+					"$(PROJECT_DIR)",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -914,6 +909,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.pushtheworldllc.swipeit;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "51768e95-f8d5-43f7-b225-a3c01a29b9c0";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Swype It.app/Swype It";
 			};
 			name = Release;
@@ -935,8 +931,8 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Andrew Keller (4QBKTXP3K7)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Andrew Keller (4QBKTXP3K7)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Andrew Keller (G2YUCSS226)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Andrew Keller (G2YUCSS226)";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
@@ -951,8 +947,9 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
 				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_BUNDLE_IDENTIFIER = com.pushtheworldllc.swipeit.beta;
 				PRODUCT_NAME = "Swype It Beta";
-				PROVISIONING_PROFILE = "c7ba4f47-45d8-409b-8c87-927ad2b71ff8";
+				PROVISIONING_PROFILE = "51768e95-f8d5-43f7-b225-a3c01a29b9c0";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
@@ -965,18 +962,19 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon${BUNDLE_ID_SUFFIX}";
 				BUNDLE_ID_SUFFIX = .beta;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Andrew Keller (G2YUCSS226)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Andrew Keller (G2YUCSS226)";
+				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(PROJECT_DIR)",
 					"$(inherited)",
 				);
 				INFOPLIST_FILE = "Swype It/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.pushtheworldllc.swipeit;
+				PRODUCT_BUNDLE_IDENTIFIER = com.pushtheworldllc.swipeit.beta;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "51768e95-f8d5-43f7-b225-a3c01a29b9c0";
 			};
 			name = Beta;
 		};
@@ -984,9 +982,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Andrew Keller (G2YUCSS226)";
 				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
+					"$(PROJECT_DIR)",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1005,8 +1004,9 @@
 					XCTest,
 					"-ObjC",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.pushtheworldllc.swipeit;
+				PRODUCT_BUNDLE_IDENTIFIER = com.pushtheworldllc.swipeit.beta;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "51768e95-f8d5-43f7-b225-a3c01a29b9c0";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Swype It.app/Swype It";
 			};
 			name = Beta;

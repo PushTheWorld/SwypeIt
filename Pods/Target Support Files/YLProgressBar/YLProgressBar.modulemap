@@ -1,6 +1,0 @@
-module YLProgressBar {
-  umbrella header "YLProgressBar-umbrella.h"
-
-  export *
-  module * { export * }
-}

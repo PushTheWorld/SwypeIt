@@ -9,7 +9,6 @@
 //
 // Local Controller Import
 #import "Game.h"
-#import "GameViewController.h"
 // Framework Import
 #import <OCMock/OCMock.h>
 #import <UIKit/UIKit.h>
@@ -239,12 +238,10 @@
 - (void)testTypeDefForPowerUpDuration {
     /*Power Up None*/
     XCTAssertEqual(0, SIPowerUpDurationNone);
-    /*Power Up Double Points*/
-    XCTAssertEqual(5, SIPowerUpDurationFallingMonkeys);
     /*Power Up Time Freeze*/
-    XCTAssertEqual(5, SIPowerUpDurationTimeFreeze);
+    XCTAssertEqual(8, SIPowerUpDurationTimeFreeze);
     /*Power Up Rapid Fire*/
-    XCTAssertEqual(5, SIPowerUpDurationRapidFire);
+    XCTAssertEqual(3, SIPowerUpDurationRapidFire);
 }
 - (void)testTypeDefForPowerUpCost {
     /*Power Up None*/

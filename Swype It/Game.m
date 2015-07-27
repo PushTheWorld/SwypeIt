@@ -14,6 +14,8 @@
 #import "UIColor+Additions.h"
 // Support/Data Class Imports
 // Other Imports
+
+
 @interface Game () {
     
 }
@@ -432,8 +434,6 @@
     switch (powerUp) {
         case SIPowerUpTimeFreeze:
             return SIPowerUpDurationTimeFreeze;
-        case SIPowerUpFallingMonkeys:
-            return SIPowerUpDurationFallingMonkeys;
         case SIPowerUpRapidFire:
             return SIPowerUpDurationRapidFire;
         default: /*None*/

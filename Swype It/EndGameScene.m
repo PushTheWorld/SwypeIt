@@ -20,7 +20,7 @@
 // Category Import
 #import "UIColor+Additions.h"
 // Support/Data Class Imports
-#import "SIConstants.h"
+//#import "SIConstants.h"
 // Other Imports
 @interface EndGameScene ()
 
@@ -87,7 +87,7 @@
     [self addChild:continueNode];
     
     SKLabelNode *label                  = [SKLabelNode labelNodeWithFontNamed:kSIFontFuturaMedium];
-    label.text                          = [NSString stringWithFormat:@"Continue for %d IT Coins?",[AppSingleton singleton].currentGame.currentNumberOfTimesContinued];
+    label.text                          = [NSString stringWithFormat:@"Continue for %ld IT Coins?",(long)[AppSingleton singleton].currentGame.currentNumberOfTimesContinued];
     label.fontColor                     = [SKColor blackColor];
     label.fontSize                      = 30;
     label.alpha                         = 0.0f;

@@ -64,54 +64,49 @@
 #define IAP_PACK_PRICE_MEDIUM       04.99
 #define IAP_PACK_PRICE_LARGE        09.99
 #define IAP_PACK_PRICE_EXTRA_LARGE  24.99
-typedef enum {
+
+typedef NS_ENUM(NSInteger, SIGameMode) {
     SIGameModeOneHand,
     SIGameModeTwoHand
-} SIGameMode;
-
-typedef enum {
+};
+typedef NS_ENUM(NSInteger, SIMove) {
     SIMoveTap,
     SIMoveSwype,
     SIMovePinch,
     SIMoveShake
-} SIMove;
-
-typedef enum {
+};
+typedef NS_ENUM(NSInteger, SIPowerUp) {
     SIPowerUpNone,
     SIPowerUpFallingMonkeys,
     SIPowerUpTimeFreeze,
     SIPowerUpRapidFire
-} SIPowerUp;
-
-typedef enum {
+};
+typedef NS_ENUM(NSInteger, SIPowerUpCost) {
     SIPowerUpCostNone               = 0,
     SIPowerUpCostTimeFreeze         = 1,
     SIPowerUpCostRapidFire          = 3,
     SIPowerUpCostFallingMonkeys     = 5
-} SIPowerUpCost;
+};
 
-typedef enum {
+typedef NS_ENUM(NSInteger, SIPowerUpDuration) {
     SIPowerUpDurationNone           = 0,
-    SIPowerUpDurationFallingMonkeys = 5,
-    SIPowerUpDurationTimeFreeze     = 5,
-    SIPowerUpDurationRapidFire      = 5
-} SIPowerUpDuration;
+    SIPowerUpDurationRapidFire      = 3,
+    SIPowerUpDurationTimeFreeze     = 8
+};
 
-typedef enum {
+typedef NS_ENUM(NSInteger, SIIAPNumberOfCoins) {
     SIIAPNumberOfCoinsSmall         = 30,
     SIIAPNumberOfCoinsMedium        = 200,
     SIIAPNumberOfCoinsLarge         = 500,
     SIIAPNumberOfCoinsExtraLarge    = 1500
-} SIIAPNumberOfCoins;
-
-typedef enum {
+};
+typedef NS_ENUM(NSInteger, SIIAPPack) {
     SIIAPPackSmall,
     SIIAPPackMedium,
     SIIAPPackLarge,
     SIIAPPackExtraLarge
-} SIIAPPack;
-
-typedef enum {
+};
+typedef NS_ENUM(NSInteger, SIContinueLifeCost) {
     SIContinueLifeCost0     = 0,
     SIContinueLifeCost1     = 5,
     SIContinueLifeCost2     = 10,
@@ -133,13 +128,12 @@ typedef enum {
     SIContinueLifeCost18    = 50000,
     SIContinueLifeCost19    = 100000,
     SIContinueLifeCost20    = 1000000
-} SIContinueLifeCost;
+};
 
-typedef enum {
+typedef NS_ENUM(NSInteger, SIProgressBar) {
     SIProgressBarMove,
     SIProgressBarPowerUp
-}SIProgressBar;
-
+};
 #pragma mark - Images
 extern NSString *const kSIImageTitleLabel;
 

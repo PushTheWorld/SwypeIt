@@ -17,8 +17,6 @@
 // Category Import
 #import "UIColor+Additions.h"
 // Support/Data Class Imports
-#import "Game.h"
-#import "SIConstants.h"
 #import "SIIAPUtility.h"
 // Other Imports
 
@@ -135,10 +133,10 @@
     
     [SIIAPUtility productForSIIAPPack:siiapPack inPackArray:productArray withBlock:^(BOOL succeeded, SKProduct *product) {
         if (succeeded) {
-            NSLog(@"Found IAP for SIIAPPack: %d || Creating dynamic button",siiapPack);
+            NSLog(@"Found IAP for SIIAPPack: %ld || Creating dynamic button",(long)siiapPack);
             [self createButtonForProduct:product centerPoint:verticalNodeCenterPoint size:size siiapPack:siiapPack];
         } else {
-            NSLog(@"Unable to find IAP for SIIAPPack: %d || Creating static button",siiapPack);
+            NSLog(@"Unable to find IAP for SIIAPPack: %ld || Creating static button",(long)siiapPack);
             [self createButtonForSIIAPPack:siiapPack centerPoint:verticalNodeCenterPoint size:size];
         }
     }];
@@ -247,7 +245,7 @@
 
                 [[MKStoreKit sharedKit] initiatePaymentRequestForProductWithIdentifier:product.productIdentifier];
             } else {
-                NSLog(@"Error: Could not find the SIIAPPack (%d) after button touch for purchase",siiapPack);
+                NSLog(@"Error: Could not find the SIIAPPack (%ld) after button touch for purchase",(long)siiapPack);
             }
         }];
     }

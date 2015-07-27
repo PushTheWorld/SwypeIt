@@ -7,312 +7,226 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0B471BB81322D6C156E786CA76C3E25B /* SoundManager-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 2ECC6B791E18839ABB9373E837853012 /* SoundManager-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		67DFF78345340AFAD75D931654004FA6 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 277153601919C96F67E679C03F06E9AE /* CoreGraphics.framework */; };
-		7096BD07313D8551F12401B737C21047 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 712F56700251CEC1A39347DE489AC732 /* UIKit.framework */; };
-		777DC15EF79D297A4CCC654129DC5422 /* YLProgressBar-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 09B580530225262958AA978D31EBC64D /* YLProgressBar-dummy.m */; };
-		8CC5B1060051C23D81D4C939B85BA068 /* SoundManager-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A4694E464338F3259E07C6464CF86D6 /* SoundManager-dummy.m */; };
-		B0AEF20C3FB05EBCD2711A30BD03CC1A /* YLProgressBar.m in Sources */ = {isa = PBXBuildFile; fileRef = C8550F0A60DB8EE681DA9D213501BFC8 /* YLProgressBar.m */; settings = {COMPILER_FLAGS = "-DOS_OBJECT_USE_OBJC=0"; }; };
-		C24FC1F403B6E3203E986C526D74568E /* SoundManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E04AE7268716ED0D1A02AC7168C068CC /* SoundManager.m */; settings = {COMPILER_FLAGS = "-DOS_OBJECT_USE_OBJC=0"; }; };
-		D5083A107B7F8718B46C136909831CAE /* SoundManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 70D967E7E5D4E14898B67EEB611133E0 /* SoundManager.h */; };
-		DCFDD470FEA1572BDB07E4FB0DFEF6DF /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 15EE448CCD5B57F92A33D8BD6A73C383 /* Foundation.framework */; };
-		EA5759B9F5C8318076DD4F88E31B51EF /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 15EE448CCD5B57F92A33D8BD6A73C383 /* Foundation.framework */; };
-		EE270BBDE0B183C97210A343CFF9B363 /* YLProgressBar.h in Headers */ = {isa = PBXBuildFile; fileRef = 529FD884635D7578B4DEFD09D337B0AD /* YLProgressBar.h */; };
-		F242DA4E60FD57FC807320EB0F1423F4 /* Pods-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = C39B9DDD6F254278B62813604D2D2F74 /* Pods-dummy.m */; };
-		FABC31C5A2DC3E7D26733885804E8BBC /* YLProgressBar-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = E1420E498ADD8554183DF44243FC6F7F /* YLProgressBar-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		FEF572AD29330B3430BC74A873A9D56F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 15EE448CCD5B57F92A33D8BD6A73C383 /* Foundation.framework */; };
+		1791899A960A3EB9C4BF05B0BA6B31B0 /* Pods-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 7AB8996D24C8684AA18D1A9EB244AE21 /* Pods-dummy.m */; };
+		1D1C3E026B9EC56F4556981CEC31E510 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 36F32422929045205F49C3D82E7F9D9F /* UIKit.framework */; };
+		46487E3398FA53B61D4BCA99E7AC312D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DFCF832DB32C15CD77859F5E4A01E2F2 /* CoreGraphics.framework */; };
+		836245B9CBFCBF0AD66EEE9FB52C6505 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4DAF098A827729CBD50C2303160026CE /* Foundation.framework */; };
+		9671EAF7C7E3B75AA1837F228FE1DA5F /* YLProgressBar-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 3231E225644E3342243C25F85384D461 /* YLProgressBar-dummy.m */; };
+		C42A8857EE0003BBA6BC704C1F078375 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4DAF098A827729CBD50C2303160026CE /* Foundation.framework */; };
+		C705A07F3FA89887AA87E5D880CB97BF /* YLProgressBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 736714DAFE59C88F15B584FE96AD3C62 /* YLProgressBar.m */; settings = {COMPILER_FLAGS = "-DOS_OBJECT_USE_OBJC=0"; }; };
+		F8C02614D1410AD1382528111DB51B89 /* YLProgressBar.h in Headers */ = {isa = PBXBuildFile; fileRef = 544523DC7B0AFBF202F8E3533FB6F34F /* YLProgressBar.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		5D71852BFA5B2F721B1F096F5FC97589 /* PBXContainerItemProxy */ = {
+		5BDFB071BB0E7C28B0BFBF294C4FCCD4 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = D41D8CD98F00B204E9800998ECF8427E /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = CAACA7F2F102129C4943A078580CAF17;
-			remoteInfo = SoundManager;
-		};
-		F6E7D4F378E682E3171E3D0D9C457B90 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = D41D8CD98F00B204E9800998ECF8427E /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = B23988C3A4BFAC9D37363371DD33CA65;
+			remoteGlobalIDString = 6D415504B459C89D3732566B274EDC43;
 			remoteInfo = YLProgressBar;
 		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		021E84501B3FCBCE2BB970F6A31A73D9 /* SoundManager.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "sourcecode.module-map"; path = SoundManager.modulemap; sourceTree = "<group>"; };
-		09B580530225262958AA978D31EBC64D /* YLProgressBar-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "YLProgressBar-dummy.m"; sourceTree = "<group>"; };
-		15EE448CCD5B57F92A33D8BD6A73C383 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS8.3.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
-		19F830CABFD7C5AB3A939E4B18915F47 /* Pods-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-acknowledgements.markdown"; sourceTree = "<group>"; };
-		277153601919C96F67E679C03F06E9AE /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS8.3.sdk/System/Library/Frameworks/CoreGraphics.framework; sourceTree = DEVELOPER_DIR; };
-		2ECC6B791E18839ABB9373E837853012 /* SoundManager-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "SoundManager-umbrella.h"; sourceTree = "<group>"; };
-		495F0F530123C1F81CBC111C4BBB476C /* SoundManager-Private.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "SoundManager-Private.xcconfig"; sourceTree = "<group>"; };
-		529FD884635D7578B4DEFD09D337B0AD /* YLProgressBar.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = YLProgressBar.h; path = YLProgressBar/YLProgressBar.h; sourceTree = "<group>"; };
-		583D641097FAB882F64B1AECCA37D424 /* libSoundManager.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libSoundManager.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		5D5EEBE7A712A67A7AA7817B4153B153 /* YLProgressBar-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "YLProgressBar-prefix.pch"; sourceTree = "<group>"; };
-		69A6B570486AD3CEE8477B0CE0F73CB5 /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
-		70D967E7E5D4E14898B67EEB611133E0 /* SoundManager.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SoundManager.h; path = SoundManager/SoundManager.h; sourceTree = "<group>"; };
-		712F56700251CEC1A39347DE489AC732 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS8.3.sdk/System/Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
-		79718C9D14D4DEE96B5BB71186301726 /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Fabric.framework; sourceTree = "<group>"; };
-		820C36F7AC7792DD112C91FC77FA8D84 /* libYLProgressBar.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libYLProgressBar.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		85046ABA65AEB36775C32B9D3CB9476E /* YLProgressBar.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = YLProgressBar.xcconfig; sourceTree = "<group>"; };
-		8A4694E464338F3259E07C6464CF86D6 /* SoundManager-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "SoundManager-dummy.m"; sourceTree = "<group>"; };
-		8E77374230F95BA41C7F79C11D2E4E85 /* YLProgressBar.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "sourcecode.module-map"; path = YLProgressBar.modulemap; sourceTree = "<group>"; };
-		918020A53BC2361920A627EF1A70307B /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = Pods.release.xcconfig; sourceTree = "<group>"; };
-		94177A5B47BAC483A5ED375060A47E95 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = Pods.debug.xcconfig; sourceTree = "<group>"; };
-		98FEC9E7366CC24D32142B59D2FD2DAA /* SoundManager-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "SoundManager-prefix.pch"; sourceTree = "<group>"; };
-		A5F822E59C48343778A7A0893BEB2933 /* Pods-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-acknowledgements.plist"; sourceTree = "<group>"; };
-		B3BB5840B4BDD2DDB6F5AB1247265D75 /* Pods-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-resources.sh"; sourceTree = "<group>"; };
-		C39B9DDD6F254278B62813604D2D2F74 /* Pods-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-dummy.m"; sourceTree = "<group>"; };
-		C8550F0A60DB8EE681DA9D213501BFC8 /* YLProgressBar.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = YLProgressBar.m; path = YLProgressBar/YLProgressBar.m; sourceTree = "<group>"; };
-		C88113A79685B4EFEE7BAD12896829F7 /* Podfile */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
-		CE0F6943C63B62C08857776FBC645789 /* YLProgressBar-Private.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "YLProgressBar-Private.xcconfig"; sourceTree = "<group>"; };
-		E04AE7268716ED0D1A02AC7168C068CC /* SoundManager.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = SoundManager.m; path = SoundManager/SoundManager.m; sourceTree = "<group>"; };
-		E1420E498ADD8554183DF44243FC6F7F /* YLProgressBar-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "YLProgressBar-umbrella.h"; sourceTree = "<group>"; };
-		E2C075403F10ECF290D992ADA45CC821 /* SoundManager.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = SoundManager.xcconfig; sourceTree = "<group>"; };
-		ED784B8409F1344DD53426A30B69619D /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		3231E225644E3342243C25F85384D461 /* YLProgressBar-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "YLProgressBar-dummy.m"; sourceTree = "<group>"; };
+		35A33F3B2C9E18C0511CB829A48A6131 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = Pods.debug.xcconfig; sourceTree = "<group>"; };
+		36F32422929045205F49C3D82E7F9D9F /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS8.3.sdk/System/Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
+		4DAF098A827729CBD50C2303160026CE /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS8.3.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
+		544523DC7B0AFBF202F8E3533FB6F34F /* YLProgressBar.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = YLProgressBar.h; path = YLProgressBar/YLProgressBar.h; sourceTree = "<group>"; };
+		6385B2B2E81E690F3D87FB96F834E4F9 /* YLProgressBar.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = YLProgressBar.xcconfig; sourceTree = "<group>"; };
+		71DAE238EF0322C62A75BBFD617FA58F /* Pods-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-acknowledgements.plist"; sourceTree = "<group>"; };
+		736714DAFE59C88F15B584FE96AD3C62 /* YLProgressBar.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = YLProgressBar.m; path = YLProgressBar/YLProgressBar.m; sourceTree = "<group>"; };
+		7AB8996D24C8684AA18D1A9EB244AE21 /* Pods-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-dummy.m"; sourceTree = "<group>"; };
+		7B2DEBF2B7D68C9D65BBC51E267AB1F7 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = Pods.release.xcconfig; sourceTree = "<group>"; };
+		86964450F4A81189B5187547BD8AA7D8 /* YLProgressBar-Private.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "YLProgressBar-Private.xcconfig"; sourceTree = "<group>"; };
+		87273324F07953C770137585C2420AE7 /* libYLProgressBar.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libYLProgressBar.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		8FC278D2241C9D9E296CA337158A329A /* Pods-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-acknowledgements.markdown"; sourceTree = "<group>"; };
+		92839E8A34F063C4465F5B32863C6EDC /* Pods.beta.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = Pods.beta.xcconfig; sourceTree = "<group>"; };
+		98B55B1B01EEC2AD252BD009F0A132FA /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Fabric.framework; sourceTree = "<group>"; };
+		AC461A49288C0861DA7E87869EF37CA1 /* YLProgressBar-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "YLProgressBar-prefix.pch"; sourceTree = "<group>"; };
+		ADB4A8EBE377DD076ABE377FA56A2201 /* Pods-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-resources.sh"; sourceTree = "<group>"; };
+		BA6428E9F66FD5A23C0A2E06ED26CD2F /* Podfile */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		DFCF832DB32C15CD77859F5E4A01E2F2 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS8.3.sdk/System/Library/Frameworks/CoreGraphics.framework; sourceTree = DEVELOPER_DIR; };
+		E304DE2CE3EF0AEE17BB6947D4FDBFE9 /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
+		F84CA0959AB11D73CCF071154939D293 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		786E869B0F6A71136687264A6D3CB030 /* Frameworks */ = {
+		046629E90050D6182D91ED60C540C0B2 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				67DFF78345340AFAD75D931654004FA6 /* CoreGraphics.framework in Frameworks */,
-				EA5759B9F5C8318076DD4F88E31B51EF /* Foundation.framework in Frameworks */,
-				7096BD07313D8551F12401B737C21047 /* UIKit.framework in Frameworks */,
+				836245B9CBFCBF0AD66EEE9FB52C6505 /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		C383CA23E405C32CD85D18A428C6FB46 /* Frameworks */ = {
+		28CF2D7286BE02598FD03C3976CB9433 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DCFDD470FEA1572BDB07E4FB0DFEF6DF /* Foundation.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		E314BEAF3772E1FF449241D866D08CE9 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				FEF572AD29330B3430BC74A873A9D56F /* Foundation.framework in Frameworks */,
+				46487E3398FA53B61D4BCA99E7AC312D /* CoreGraphics.framework in Frameworks */,
+				C42A8857EE0003BBA6BC704C1F078375 /* Foundation.framework in Frameworks */,
+				1D1C3E026B9EC56F4556981CEC31E510 /* UIKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		04F3888F31107BAEA54903A7A05B7D70 /* Base */ = {
+		037C0CA694176A3C0915F62C9D20B3E6 /* Targets Support Files */ = {
 			isa = PBXGroup;
 			children = (
-				F4DB5D13E93A6D707C1EC2559739C472 /* Frameworks */,
+				38DD29E242A3978C6F085A33BE0E7A50 /* Pods */,
 			);
-			name = Base;
+			name = "Targets Support Files";
 			sourceTree = "<group>";
 		};
-		1A0A0CF6287F1A98A056C626346023A4 /* Support Files */ = {
+		0E913A1653FEA9817DD92C890EBF7EEB /* Fabric */ = {
 			isa = PBXGroup;
 			children = (
-				021E84501B3FCBCE2BB970F6A31A73D9 /* SoundManager.modulemap */,
-				E2C075403F10ECF290D992ADA45CC821 /* SoundManager.xcconfig */,
-				495F0F530123C1F81CBC111C4BBB476C /* SoundManager-Private.xcconfig */,
-				8A4694E464338F3259E07C6464CF86D6 /* SoundManager-dummy.m */,
-				98FEC9E7366CC24D32142B59D2FD2DAA /* SoundManager-prefix.pch */,
-				2ECC6B791E18839ABB9373E837853012 /* SoundManager-umbrella.h */,
+				AD642F1A5541A1F9C5C905B49CF4BA14 /* Base */,
 			);
-			name = "Support Files";
-			path = "../Target Support Files/SoundManager";
+			path = Fabric;
 			sourceTree = "<group>";
 		};
-		5E1F3384B1B39575144FEBFCF3210CCC /* Frameworks */ = {
+		122DA2E5084A4393C29BE363C764795C /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				AE3C420F843D28CC19CB40DCE9D7D8D1 /* iOS */,
+				39CF33B2E976FD3E12A7D9F562B97919 /* iOS */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		6FD3E34139C991EBA686BD4A55CCB45D /* Pods */ = {
+		38DD29E242A3978C6F085A33BE0E7A50 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				19F830CABFD7C5AB3A939E4B18915F47 /* Pods-acknowledgements.markdown */,
-				A5F822E59C48343778A7A0893BEB2933 /* Pods-acknowledgements.plist */,
-				C39B9DDD6F254278B62813604D2D2F74 /* Pods-dummy.m */,
-				B3BB5840B4BDD2DDB6F5AB1247265D75 /* Pods-resources.sh */,
-				94177A5B47BAC483A5ED375060A47E95 /* Pods.debug.xcconfig */,
-				918020A53BC2361920A627EF1A70307B /* Pods.release.xcconfig */,
+				8FC278D2241C9D9E296CA337158A329A /* Pods-acknowledgements.markdown */,
+				71DAE238EF0322C62A75BBFD617FA58F /* Pods-acknowledgements.plist */,
+				7AB8996D24C8684AA18D1A9EB244AE21 /* Pods-dummy.m */,
+				ADB4A8EBE377DD076ABE377FA56A2201 /* Pods-resources.sh */,
+				92839E8A34F063C4465F5B32863C6EDC /* Pods.beta.xcconfig */,
+				35A33F3B2C9E18C0511CB829A48A6131 /* Pods.debug.xcconfig */,
+				7B2DEBF2B7D68C9D65BBC51E267AB1F7 /* Pods.release.xcconfig */,
 			);
 			name = Pods;
 			path = "Target Support Files/Pods";
 			sourceTree = "<group>";
 		};
-		7B7FDDF8EA79DAF40131B84A7FBCD87A /* Fabric */ = {
+		39CF33B2E976FD3E12A7D9F562B97919 /* iOS */ = {
 			isa = PBXGroup;
 			children = (
-				04F3888F31107BAEA54903A7A05B7D70 /* Base */,
+				DFCF832DB32C15CD77859F5E4A01E2F2 /* CoreGraphics.framework */,
+				4DAF098A827729CBD50C2303160026CE /* Foundation.framework */,
+				36F32422929045205F49C3D82E7F9D9F /* UIKit.framework */,
 			);
-			path = Fabric;
+			name = iOS;
 			sourceTree = "<group>";
 		};
-		7D8F32BD1620EEBE140175ABFFB7BFB3 /* Support Files */ = {
+		3EE3C8D6478C5CBEBC89C53047324C53 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				8E77374230F95BA41C7F79C11D2E4E85 /* YLProgressBar.modulemap */,
-				85046ABA65AEB36775C32B9D3CB9476E /* YLProgressBar.xcconfig */,
-				CE0F6943C63B62C08857776FBC645789 /* YLProgressBar-Private.xcconfig */,
-				09B580530225262958AA978D31EBC64D /* YLProgressBar-dummy.m */,
-				5D5EEBE7A712A67A7AA7817B4153B153 /* YLProgressBar-prefix.pch */,
-				E1420E498ADD8554183DF44243FC6F7F /* YLProgressBar-umbrella.h */,
+				98B55B1B01EEC2AD252BD009F0A132FA /* Fabric.framework */,
 			);
-			name = "Support Files";
-			path = "../Target Support Files/YLProgressBar";
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		623C29C872C9658AE2377A55B2830ECB /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				69996E32187238D2F00049A57255DA1B /* Crashlytics */,
+				0E913A1653FEA9817DD92C890EBF7EEB /* Fabric */,
+				C49EE1C2D9C8C84C773F23420038B7AC /* YLProgressBar */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		69996E32187238D2F00049A57255DA1B /* Crashlytics */ = {
+			isa = PBXGroup;
+			children = (
+				923BCA007531011A10E964D0EF0EE763 /* Frameworks */,
+			);
+			path = Crashlytics;
 			sourceTree = "<group>";
 		};
 		7DB346D0F39D3F0E887471402A8071AB = {
 			isa = PBXGroup;
 			children = (
-				C88113A79685B4EFEE7BAD12896829F7 /* Podfile */,
-				5E1F3384B1B39575144FEBFCF3210CCC /* Frameworks */,
-				EF447B4E1DFAE4F853BEEBB25E70B50E /* Pods */,
+				BA6428E9F66FD5A23C0A2E06ED26CD2F /* Podfile */,
+				122DA2E5084A4393C29BE363C764795C /* Frameworks */,
+				623C29C872C9658AE2377A55B2830ECB /* Pods */,
 				CCA510CFBEA2D207524CDA0D73C3B561 /* Products */,
-				848A6CE8DA3504A266A17F635DC3683A /* Targets Support Files */,
+				037C0CA694176A3C0915F62C9D20B3E6 /* Targets Support Files */,
 			);
 			sourceTree = "<group>";
 		};
-		848A6CE8DA3504A266A17F635DC3683A /* Targets Support Files */ = {
+		923BCA007531011A10E964D0EF0EE763 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				6FD3E34139C991EBA686BD4A55CCB45D /* Pods */,
+				E304DE2CE3EF0AEE17BB6947D4FDBFE9 /* Crashlytics.framework */,
 			);
-			name = "Targets Support Files";
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		93E54799C6A11F40F3D5E73C540BEC37 /* SoundManager */ = {
+		AD642F1A5541A1F9C5C905B49CF4BA14 /* Base */ = {
 			isa = PBXGroup;
 			children = (
-				70D967E7E5D4E14898B67EEB611133E0 /* SoundManager.h */,
-				E04AE7268716ED0D1A02AC7168C068CC /* SoundManager.m */,
-				1A0A0CF6287F1A98A056C626346023A4 /* Support Files */,
+				3EE3C8D6478C5CBEBC89C53047324C53 /* Frameworks */,
 			);
-			path = SoundManager;
+			name = Base;
 			sourceTree = "<group>";
 		};
-		A7DC26BC451119298CE9935E69A8A88A /* YLProgressBar */ = {
+		C49EE1C2D9C8C84C773F23420038B7AC /* YLProgressBar */ = {
 			isa = PBXGroup;
 			children = (
-				529FD884635D7578B4DEFD09D337B0AD /* YLProgressBar.h */,
-				C8550F0A60DB8EE681DA9D213501BFC8 /* YLProgressBar.m */,
-				7D8F32BD1620EEBE140175ABFFB7BFB3 /* Support Files */,
+				544523DC7B0AFBF202F8E3533FB6F34F /* YLProgressBar.h */,
+				736714DAFE59C88F15B584FE96AD3C62 /* YLProgressBar.m */,
+				FC84CA8479E1B2E546B73127617B5B51 /* Support Files */,
 			);
 			path = YLProgressBar;
-			sourceTree = "<group>";
-		};
-		AE3C420F843D28CC19CB40DCE9D7D8D1 /* iOS */ = {
-			isa = PBXGroup;
-			children = (
-				277153601919C96F67E679C03F06E9AE /* CoreGraphics.framework */,
-				15EE448CCD5B57F92A33D8BD6A73C383 /* Foundation.framework */,
-				712F56700251CEC1A39347DE489AC732 /* UIKit.framework */,
-			);
-			name = iOS;
 			sourceTree = "<group>";
 		};
 		CCA510CFBEA2D207524CDA0D73C3B561 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				ED784B8409F1344DD53426A30B69619D /* libPods.a */,
-				583D641097FAB882F64B1AECCA37D424 /* libSoundManager.a */,
-				820C36F7AC7792DD112C91FC77FA8D84 /* libYLProgressBar.a */,
+				F84CA0959AB11D73CCF071154939D293 /* libPods.a */,
+				87273324F07953C770137585C2420AE7 /* libYLProgressBar.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		D88EB7665968A1718BC80196586F8791 /* Frameworks */ = {
+		FC84CA8479E1B2E546B73127617B5B51 /* Support Files */ = {
 			isa = PBXGroup;
 			children = (
-				69A6B570486AD3CEE8477B0CE0F73CB5 /* Crashlytics.framework */,
+				6385B2B2E81E690F3D87FB96F834E4F9 /* YLProgressBar.xcconfig */,
+				86964450F4A81189B5187547BD8AA7D8 /* YLProgressBar-Private.xcconfig */,
+				3231E225644E3342243C25F85384D461 /* YLProgressBar-dummy.m */,
+				AC461A49288C0861DA7E87869EF37CA1 /* YLProgressBar-prefix.pch */,
 			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		DD60A35968738A14C2CCF3FAA1D05C2E /* Crashlytics */ = {
-			isa = PBXGroup;
-			children = (
-				D88EB7665968A1718BC80196586F8791 /* Frameworks */,
-			);
-			path = Crashlytics;
-			sourceTree = "<group>";
-		};
-		EF447B4E1DFAE4F853BEEBB25E70B50E /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				DD60A35968738A14C2CCF3FAA1D05C2E /* Crashlytics */,
-				7B7FDDF8EA79DAF40131B84A7FBCD87A /* Fabric */,
-				93E54799C6A11F40F3D5E73C540BEC37 /* SoundManager */,
-				A7DC26BC451119298CE9935E69A8A88A /* YLProgressBar */,
-			);
-			name = Pods;
-			sourceTree = "<group>";
-		};
-		F4DB5D13E93A6D707C1EC2559739C472 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				79718C9D14D4DEE96B5BB71186301726 /* Fabric.framework */,
-			);
-			name = Frameworks;
+			name = "Support Files";
+			path = "../Target Support Files/YLProgressBar";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
-		48A28F1FAF69BB6F21A6EC411029D47F /* Headers */ = {
+		EE43AE22535B47A6280E1237C543075E /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FABC31C5A2DC3E7D26733885804E8BBC /* YLProgressBar-umbrella.h in Headers */,
-				EE270BBDE0B183C97210A343CFF9B363 /* YLProgressBar.h in Headers */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		E5934F4158AC4C20347913FA5C29563C /* Headers */ = {
-			isa = PBXHeadersBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				0B471BB81322D6C156E786CA76C3E25B /* SoundManager-umbrella.h in Headers */,
-				D5083A107B7F8718B46C136909831CAE /* SoundManager.h in Headers */,
+				F8C02614D1410AD1382528111DB51B89 /* YLProgressBar.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		277B0C4BF83B4D8D1DEC8548033D7128 /* Pods */ = {
+		6D415504B459C89D3732566B274EDC43 /* YLProgressBar */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 53B44C7CFF0E028838E5ABA692A63598 /* Build configuration list for PBXNativeTarget "Pods" */;
+			buildConfigurationList = C52B5CB8B1F042A114028F898C9C8119 /* Build configuration list for PBXNativeTarget "YLProgressBar" */;
 			buildPhases = (
-				5830286D6C84B727E502C3D7579F8FA8 /* Sources */,
-				E314BEAF3772E1FF449241D866D08CE9 /* Frameworks */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				0F7FA18BF1A87ACDD4B02A8412BAD1A6 /* PBXTargetDependency */,
-				54133ACA1B69A227B7B2CD4A4F0BD8BE /* PBXTargetDependency */,
-			);
-			name = Pods;
-			productName = Pods;
-			productReference = ED784B8409F1344DD53426A30B69619D /* libPods.a */;
-			productType = "com.apple.product-type.library.static";
-		};
-		B23988C3A4BFAC9D37363371DD33CA65 /* YLProgressBar */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = A64766FFD09E4A76254FCF396284415D /* Build configuration list for PBXNativeTarget "YLProgressBar" */;
-			buildPhases = (
-				11E2B41164F3C3ADDDAEEFB318D69459 /* Sources */,
-				786E869B0F6A71136687264A6D3CB030 /* Frameworks */,
-				48A28F1FAF69BB6F21A6EC411029D47F /* Headers */,
+				F5EE8C76FB6006FF91DB7FE2576473E7 /* Sources */,
+				28CF2D7286BE02598FD03C3976CB9433 /* Frameworks */,
+				EE43AE22535B47A6280E1237C543075E /* Headers */,
 			);
 			buildRules = (
 			);
@@ -320,24 +234,24 @@
 			);
 			name = YLProgressBar;
 			productName = YLProgressBar;
-			productReference = 820C36F7AC7792DD112C91FC77FA8D84 /* libYLProgressBar.a */;
+			productReference = 87273324F07953C770137585C2420AE7 /* libYLProgressBar.a */;
 			productType = "com.apple.product-type.library.static";
 		};
-		CAACA7F2F102129C4943A078580CAF17 /* SoundManager */ = {
+		C6F4236C3F877A1DFD0E10F7ABC8F342 /* Pods */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 9B196998C83D5DE8DB08B3B5C55CD5E4 /* Build configuration list for PBXNativeTarget "SoundManager" */;
+			buildConfigurationList = DEFC3954ED864E80130C05DA9EFB16AE /* Build configuration list for PBXNativeTarget "Pods" */;
 			buildPhases = (
-				AEFEE4438C525BC2653E800718EA72AF /* Sources */,
-				C383CA23E405C32CD85D18A428C6FB46 /* Frameworks */,
-				E5934F4158AC4C20347913FA5C29563C /* Headers */,
+				420FC276D41B0058C2E79AE10A25B5CA /* Sources */,
+				046629E90050D6182D91ED60C540C0B2 /* Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				4CA96E7AA5F2602D7B6183C5F8DC24F6 /* PBXTargetDependency */,
 			);
-			name = SoundManager;
-			productName = SoundManager;
-			productReference = 583D641097FAB882F64B1AECCA37D424 /* libSoundManager.a */;
+			name = Pods;
+			productName = Pods;
+			productReference = F84CA0959AB11D73CCF071154939D293 /* libPods.a */;
 			productType = "com.apple.product-type.library.static";
 		};
 /* End PBXNativeTarget section */
@@ -361,93 +275,166 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				277B0C4BF83B4D8D1DEC8548033D7128 /* Pods */,
-				CAACA7F2F102129C4943A078580CAF17 /* SoundManager */,
-				B23988C3A4BFAC9D37363371DD33CA65 /* YLProgressBar */,
+				C6F4236C3F877A1DFD0E10F7ABC8F342 /* Pods */,
+				6D415504B459C89D3732566B274EDC43 /* YLProgressBar */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXSourcesBuildPhase section */
-		11E2B41164F3C3ADDDAEEFB318D69459 /* Sources */ = {
+		420FC276D41B0058C2E79AE10A25B5CA /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				777DC15EF79D297A4CCC654129DC5422 /* YLProgressBar-dummy.m in Sources */,
-				B0AEF20C3FB05EBCD2711A30BD03CC1A /* YLProgressBar.m in Sources */,
+				1791899A960A3EB9C4BF05B0BA6B31B0 /* Pods-dummy.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		5830286D6C84B727E502C3D7579F8FA8 /* Sources */ = {
+		F5EE8C76FB6006FF91DB7FE2576473E7 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F242DA4E60FD57FC807320EB0F1423F4 /* Pods-dummy.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		AEFEE4438C525BC2653E800718EA72AF /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				8CC5B1060051C23D81D4C939B85BA068 /* SoundManager-dummy.m in Sources */,
-				C24FC1F403B6E3203E986C526D74568E /* SoundManager.m in Sources */,
+				9671EAF7C7E3B75AA1837F228FE1DA5F /* YLProgressBar-dummy.m in Sources */,
+				C705A07F3FA89887AA87E5D880CB97BF /* YLProgressBar.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		0F7FA18BF1A87ACDD4B02A8412BAD1A6 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = SoundManager;
-			target = CAACA7F2F102129C4943A078580CAF17 /* SoundManager */;
-			targetProxy = 5D71852BFA5B2F721B1F096F5FC97589 /* PBXContainerItemProxy */;
-		};
-		54133ACA1B69A227B7B2CD4A4F0BD8BE /* PBXTargetDependency */ = {
+		4CA96E7AA5F2602D7B6183C5F8DC24F6 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = YLProgressBar;
-			target = B23988C3A4BFAC9D37363371DD33CA65 /* YLProgressBar */;
-			targetProxy = F6E7D4F378E682E3171E3D0D9C457B90 /* PBXContainerItemProxy */;
+			target = 6D415504B459C89D3732566B274EDC43 /* YLProgressBar */;
+			targetProxy = 5BDFB071BB0E7C28B0BFBF294C4FCCD4 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
-		088BFD97B41ADD5297A3E4DE9961F6BE /* Debug */ = {
+		052A17875CB827423D627183396CEB60 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = CE0F6943C63B62C08857776FBC645789 /* YLProgressBar-Private.xcconfig */;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_PREPROCESSOR_DEFINITIONS = "RELEASE=1";
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.pushtheworldllc.swipeit;
+				STRIP_INSTALLED_PRODUCT = NO;
+				SYMROOT = "${SRCROOT}/../build";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		201E5644224134EE67B5445EC300A78D /* Beta */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_PREPROCESSOR_DEFINITIONS = "BETA=1";
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.pushtheworldllc.swipeit.beta;
+				STRIP_INSTALLED_PRODUCT = NO;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Beta;
+		};
+		5550361D9D9729E35A4FCEB13454F751 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 35A33F3B2C9E18C0511CB829A48A6131 /* Pods.debug.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer: Andrew Keller (4QBKTXP3K7)";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.pushtheworldllc.swipeit.dev;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "194b6b8c-e956-4f0e-b9fe-a80abbcf8d31";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		856A80A38B35FBEB43231012309C8F65 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 86964450F4A81189B5187547BD8AA7D8 /* YLProgressBar-Private.xcconfig */;
 			buildSettings = {
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_PREFIX_HEADER = "Target Support Files/YLProgressBar/YLProgressBar-prefix.pch";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
-				MODULEMAP_FILE = "Target Support Files/YLProgressBar/YLProgressBar.modulemap";
-				MTL_ENABLE_DEBUG_INFO = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
 				OTHER_LDFLAGS = "";
 				OTHER_LIBTOOLFLAGS = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 			};
-			name = Debug;
+			name = Release;
 		};
-		0BDA2692D388E11C5A25FCDD0E9789AF /* Debug */ = {
+		92D88C1540E5019D08ED8181E515AB26 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 495F0F530123C1F81CBC111C4BBB476C /* SoundManager-Private.xcconfig */;
+			baseConfigurationReference = 7B2DEBF2B7D68C9D65BBC51E267AB1F7 /* Pods.release.xcconfig */;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer: Andrew Keller (4QBKTXP3K7)";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_PREFIX_HEADER = "Target Support Files/SoundManager/SoundManager-prefix.pch";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
-				MODULEMAP_FILE = "Target Support Files/SoundManager/SoundManager.modulemap";
-				MTL_ENABLE_DEBUG_INFO = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
 				OTHER_LDFLAGS = "";
 				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.pushtheworldllc.swipeit;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "194b6b8c-e956-4f0e-b9fe-a80abbcf8d31";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 			};
-			name = Debug;
+			name = Release;
 		};
-		3523159348E1035C58EF859238BFEDB0 /* Debug */ = {
+		B37F0F91F85060E28F1DAAB522DC7EC1 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -481,102 +468,38 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.pushtheworldllc.swipeit.dev;
 				STRIP_INSTALLED_PRODUCT = NO;
 				SYMROOT = "${SRCROOT}/../build";
 			};
 			name = Debug;
 		};
-		412FE87EC81ABB2D46DFC8463A2B7B55 /* Debug */ = {
+		B51D430E9BBD407D62479D8884C9DB81 /* Beta */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 94177A5B47BAC483A5ED375060A47E95 /* Pods.debug.xcconfig */;
+			baseConfigurationReference = 92839E8A34F063C4465F5B32863C6EDC /* Pods.beta.xcconfig */;
 			buildSettings = {
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
-				MTL_ENABLE_DEBUG_INFO = YES;
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PODS_ROOT = "$(SRCROOT)";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-			};
-			name = Debug;
-		};
-		45B6D62078F926A75666A9BDD7D72A0D /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 918020A53BC2361920A627EF1A70307B /* Pods.release.xcconfig */;
-			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer: Andrew Keller (4QBKTXP3K7)";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				OTHER_LDFLAGS = "";
 				OTHER_LIBTOOLFLAGS = "";
 				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.pushtheworldllc.swipeit.beta;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "194b6b8c-e956-4f0e-b9fe-a80abbcf8d31";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 			};
-			name = Release;
+			name = Beta;
 		};
-		A88658A9552ACB0502744ED7A6EDBEFD /* Release */ = {
+		B7BAC6E02FDA958EF443E2D8BB4F1006 /* Beta */ = {
 			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
-				CLANG_CXX_LIBRARY = "libc++";
-				CLANG_ENABLE_MODULES = YES;
-				CLANG_ENABLE_OBJC_ARC = YES;
-				CLANG_WARN_BOOL_CONVERSION = YES;
-				CLANG_WARN_CONSTANT_CONVERSION = YES;
-				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES;
-				CLANG_WARN_EMPTY_BODY = YES;
-				CLANG_WARN_ENUM_CONVERSION = YES;
-				CLANG_WARN_INT_CONVERSION = YES;
-				CLANG_WARN_OBJC_ROOT_CLASS = YES;
-				CLANG_WARN_UNREACHABLE_CODE = YES;
-				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				COPY_PHASE_STRIP = YES;
-				ENABLE_NS_ASSERTIONS = NO;
-				GCC_C_LANGUAGE_STANDARD = gnu99;
-				GCC_PREPROCESSOR_DEFINITIONS = "RELEASE=1";
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES;
-				GCC_WARN_UNDECLARED_SELECTOR = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES;
-				GCC_WARN_UNUSED_FUNCTION = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
-				STRIP_INSTALLED_PRODUCT = NO;
-				SYMROOT = "${SRCROOT}/../build";
-				VALIDATE_PRODUCT = YES;
-			};
-			name = Release;
-		};
-		CBAD6B2C28360BBAD83106A541D382B0 /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 495F0F530123C1F81CBC111C4BBB476C /* SoundManager-Private.xcconfig */;
-			buildSettings = {
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_PREFIX_HEADER = "Target Support Files/SoundManager/SoundManager-prefix.pch";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
-				MODULEMAP_FILE = "Target Support Files/SoundManager/SoundManager.modulemap";
-				MTL_ENABLE_DEBUG_INFO = NO;
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-			};
-			name = Release;
-		};
-		CFE4570AF090E114F11F30C1D33467D0 /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = CE0F6943C63B62C08857776FBC645789 /* YLProgressBar-Private.xcconfig */;
+			baseConfigurationReference = 86964450F4A81189B5187547BD8AA7D8 /* YLProgressBar-Private.xcconfig */;
 			buildSettings = {
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_PREFIX_HEADER = "Target Support Files/YLProgressBar/YLProgressBar-prefix.pch";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
-				MODULEMAP_FILE = "Target Support Files/YLProgressBar/YLProgressBar.modulemap";
 				MTL_ENABLE_DEBUG_INFO = NO;
 				OTHER_LDFLAGS = "";
 				OTHER_LIBTOOLFLAGS = "";
@@ -584,7 +507,23 @@
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 			};
-			name = Release;
+			name = Beta;
+		};
+		C5DBFF058A1932324D691D1D19DC3790 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 86964450F4A81189B5187547BD8AA7D8 /* YLProgressBar-Private.xcconfig */;
+			buildSettings = {
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_PREFIX_HEADER = "Target Support Files/YLProgressBar/YLProgressBar-prefix.pch";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
 		};
 /* End XCBuildConfiguration section */
 
@@ -592,35 +531,29 @@
 		2D8E8EC45A3A1A1D94AE762CB5028504 /* Build configuration list for PBXProject "Pods" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				3523159348E1035C58EF859238BFEDB0 /* Debug */,
-				A88658A9552ACB0502744ED7A6EDBEFD /* Release */,
+				201E5644224134EE67B5445EC300A78D /* Beta */,
+				B37F0F91F85060E28F1DAAB522DC7EC1 /* Debug */,
+				052A17875CB827423D627183396CEB60 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		53B44C7CFF0E028838E5ABA692A63598 /* Build configuration list for PBXNativeTarget "Pods" */ = {
+		C52B5CB8B1F042A114028F898C9C8119 /* Build configuration list for PBXNativeTarget "YLProgressBar" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				412FE87EC81ABB2D46DFC8463A2B7B55 /* Debug */,
-				45B6D62078F926A75666A9BDD7D72A0D /* Release */,
+				B7BAC6E02FDA958EF443E2D8BB4F1006 /* Beta */,
+				C5DBFF058A1932324D691D1D19DC3790 /* Debug */,
+				856A80A38B35FBEB43231012309C8F65 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		9B196998C83D5DE8DB08B3B5C55CD5E4 /* Build configuration list for PBXNativeTarget "SoundManager" */ = {
+		DEFC3954ED864E80130C05DA9EFB16AE /* Build configuration list for PBXNativeTarget "Pods" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				0BDA2692D388E11C5A25FCDD0E9789AF /* Debug */,
-				CBAD6B2C28360BBAD83106A541D382B0 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		A64766FFD09E4A76254FCF396284415D /* Build configuration list for PBXNativeTarget "YLProgressBar" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				088BFD97B41ADD5297A3E4DE9961F6BE /* Debug */,
-				CFE4570AF090E114F11F30C1D33467D0 /* Release */,
+				B51D430E9BBD407D62479D8884C9DB81 /* Beta */,
+				5550361D9D9729E35A4FCEB13454F751 /* Debug */,
+				92D88C1540E5019D08ED8181E515AB26 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

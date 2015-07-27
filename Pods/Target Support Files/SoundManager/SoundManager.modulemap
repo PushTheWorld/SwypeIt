@@ -1,6 +1,0 @@
-module SoundManager {
-  umbrella header "SoundManager-umbrella.h"
-
-  export *
-  module * { export * }
-}
