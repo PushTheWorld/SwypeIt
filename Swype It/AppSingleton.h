@@ -12,7 +12,7 @@
 // Drop-In Class Imports (CocoaPods/GitHub/Guru)
 // Category Import
 // Support/Data Class Imports
-#import "SIConstants.h"
+#import "SIIAPUtility.h"
 // Other Imports
 
 @class Game;
@@ -25,6 +25,7 @@
 
 #pragma mark - Public Properties
 @property (assign, nonatomic) BOOL               isSaving;
+@property (assign, nonatomic) BOOL               willResume;
 
 #pragma mark - Public Objects
 @property (strong, nonatomic) CMMotionManager   *manager;
@@ -36,11 +37,13 @@
 - (void)initAppSingletonWithGameMode:(SIGameMode)gameMode;
 - (void)moveEnterForType:(SIMove)move;
 - (UIColor *)newBackgroundColor;
-- (void)runFirstGame;
 - (void)startGame;
+- (void)pause;
+- (void)play;
 - (void)powerUpDidLoad:(SIPowerUp)powerUp;
 - (void)powerUpWillActivate:(SIPowerUp)powerUp withPowerUpCost:(SIPowerUpCost)powerUpCost;
 - (void)powerUpDidActivate;
 - (void)powerUpDidEnd;
+- (void)willPrepareToShowNewMove;
 
 @end

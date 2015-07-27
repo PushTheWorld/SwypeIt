@@ -3,6 +3,7 @@
 //  Created by Andrew Keller on 6/26/15.
 //  Copyright (c) 2015 Push The World LLC. All rights reserved.
 #import <Foundation/Foundation.h>
+#import <SpriteKit/SpriteKit.h>
 
 #define IDIOM                       UI_USER_INTERFACE_IDIOM()
 #define IPAD                        UIUserInterfaceIdiomPad
@@ -57,53 +58,82 @@
 #define NUMBER_OF_MOVES             3
 #define NUMBER_OF_BACKGROUNDS       3
 #define NUMBER_OF_MONKEYS_INIT      15
-typedef enum {
+#define NUMBER_OF_IAP_PACKS         4
+
+#define IAP_PACK_PRICE_SMALL        00.99
+#define IAP_PACK_PRICE_MEDIUM       04.99
+#define IAP_PACK_PRICE_LARGE        09.99
+#define IAP_PACK_PRICE_EXTRA_LARGE  24.99
+
+typedef NS_ENUM(NSInteger, SIGameMode) {
     SIGameModeOneHand,
     SIGameModeTwoHand
-} SIGameMode;
-
-typedef enum {
+};
+typedef NS_ENUM(NSInteger, SIMove) {
     SIMoveTap,
     SIMoveSwype,
     SIMovePinch,
     SIMoveShake
-} SIMove;
-
-typedef enum {
+};
+typedef NS_ENUM(NSInteger, SIPowerUp) {
     SIPowerUpNone,
     SIPowerUpFallingMonkeys,
     SIPowerUpTimeFreeze,
     SIPowerUpRapidFire
-} SIPowerUp;
-
-typedef enum {
+};
+typedef NS_ENUM(NSInteger, SIPowerUpCost) {
     SIPowerUpCostNone               = 0,
-    SIPowerUpCostFallingMonkeys        = 1,
-    SIPowerUpCostTimeFreeze         = 3,
-    SIPowerUpCostRapidFire          = 5
-} SIPowerUpCost;
+    SIPowerUpCostTimeFreeze         = 1,
+    SIPowerUpCostRapidFire          = 3,
+    SIPowerUpCostFallingMonkeys     = 5
+};
 
-typedef enum {
+typedef NS_ENUM(NSInteger, SIPowerUpDuration) {
     SIPowerUpDurationNone           = 0,
-    SIPowerUpDurationFallingMonkeys    = 5,
-    SIPowerUpDurationTimeFreeze     = 5,
-    SIPowerUpDurationRapidFire      = 5
-} SIPowerUpDuration;
+    SIPowerUpDurationRapidFire      = 3,
+    SIPowerUpDurationTimeFreeze     = 8
+};
 
-typedef enum {
+typedef NS_ENUM(NSInteger, SIIAPNumberOfCoins) {
     SIIAPNumberOfCoinsSmall         = 30,
     SIIAPNumberOfCoinsMedium        = 200,
     SIIAPNumberOfCoinsLarge         = 500,
     SIIAPNumberOfCoinsExtraLarge    = 1500
-} SIIAPNumberOfCoins;
-
-typedef enum {
+};
+typedef NS_ENUM(NSInteger, SIIAPPack) {
     SIIAPPackSmall,
     SIIAPPackMedium,
     SIIAPPackLarge,
     SIIAPPackExtraLarge
-} SIIAPPack;
+};
+typedef NS_ENUM(NSInteger, SIContinueLifeCost) {
+    SIContinueLifeCost0     = 0,
+    SIContinueLifeCost1     = 5,
+    SIContinueLifeCost2     = 10,
+    SIContinueLifeCost3     = 20,
+    SIContinueLifeCost4     = 50,
+    SIContinueLifeCost5     = 100,
+    SIContinueLifeCost6     = 250,
+    SIContinueLifeCost7     = 500,
+    SIContinueLifeCost8     = 1000,
+    SIContinueLifeCost9     = 2500,
+    SIContinueLifeCost10    = 5000,
+    SIContinueLifeCost11    = 10000,
+    SIContinueLifeCost12    = 12500,
+    SIContinueLifeCost13    = 15000,
+    SIContinueLifeCost14    = 20000,
+    SIContinueLifeCost15    = 25000,
+    SIContinueLifeCost16    = 30000,
+    SIContinueLifeCost17    = 40000,
+    SIContinueLifeCost18    = 50000,
+    SIContinueLifeCost19    = 100000,
+    SIContinueLifeCost20    = 1000000
+};
 
+typedef NS_ENUM(NSInteger, SIProgressBar) {
+    SIProgressBarMove,
+    SIProgressBarPowerUp
+};
 #pragma mark - Images
 extern NSString *const kSIImageTitleLabel;
 
@@ -134,7 +164,10 @@ extern NSString *const kSIPowerUpRapidFire;
 
 #pragma mark - NSNotification
 extern NSString *const kSINotificationCorrectMove;
+extern NSString *const kSINotificationHudHide;
+extern NSString *const kSINotificationHudShow;
 extern NSString *const kSINotificationGameEnded;
+extern NSString *const kSINotificationGameResumed;
 extern NSString *const kSINotificationGameStarted;
 extern NSString *const kSINotificationLevelDidChange;
 extern NSString *const kSINotificationNewBackgroundReady;
@@ -148,13 +181,39 @@ extern NSString *const kSIScoreTotalScore;
 extern NSString *const kSIScoreNextMove;
 
 #pragma mark - Images
+extern NSString *const kSIImageButtonContinue;
+extern NSString *const kSIImageButtonContinueGrayed;
+extern NSString *const kSIImageButtonDone;
+extern NSString *const kSIImageButtonFallingMonkey;
+extern NSString *const kSIImageButtonGameModeOneHand;
+extern NSString *const kSIImageButtonGameModeTwoHand;
+extern NSString *const kSIImageButtonMenu;
+extern NSString *const kSIImageButtonPause;
+extern NSString *const kSIImageButtonPlay;
+extern NSString *const kSIImageButtonRapidFire;
+extern NSString *const kSIImageButtonReplay;
+extern NSString *const kSIImageButtonStore;
+extern NSString *const kSIImageButtonTimeFreeze;
 extern NSString *const kSIImageFallingMonkeys;
+extern NSString *const kSIImageProgressBarFill;
+extern NSString *const kSIImageProgressBarPowerUpFill;
+
+#pragma mark - Texture Atlas
+extern NSString *const kSIAtlasButtons;
 
 #pragma mark - Button Labels
 extern NSString *const kSIButtonLabelStringOneHand;
 extern NSString *const kSIButtonLabelStringTwoHand;
 
 #pragma mark - NSDictionary Keys
+extern NSString *const kSINSDictionaryKeyHudHoldDismissForDuration;
+extern NSString *const kSINSDictionaryKeyHudMessageDismissInfo;
+extern NSString *const kSINSDictionaryKeyHudMessageDismissTitle;
+extern NSString *const kSINSDictionaryKeyHudMessagePresentInfo;
+extern NSString *const kSINSDictionaryKeyHudMessagePresentTitle;
+extern NSString *const kSINSDictionaryKeyHudWillAnimate;
+extern NSString *const kSINSDictionaryKeyHudWillDimBackground;
+extern NSString *const kSINSDictionaryKeyHudWillShowCheckmark;
 extern NSString *const kSINSDictionaryKeyMoveScore;
 extern NSString *const kSINSDictionaryKeyPowerUp;
 extern NSString *const kSINSDictionaryKeyPackProduct;
@@ -175,15 +234,42 @@ extern NSString *const kSIIAPPackNameLarge;
 extern NSString *const kSIIAPPackNameExtraLarge;
 
 
+#pragma mark - Node Names
+extern NSString *const kSINodeLabelDescriptionChest;
+extern NSString *const kSINodeLabelDescriptionBag;
+extern NSString *const kSINodeLabelDescriptionBucket;
+extern NSString *const kSINodeLabelDescriptionPile;
+extern NSString *const kSINodeLabelPriceChest;
+extern NSString *const kSINodeLabelPriceBag;
+extern NSString *const kSINodeLabelPriceBucket;
+extern NSString *const kSINodeLabelPricePile;
+extern NSString *const kSINodeNodeChest;
+extern NSString *const kSINodeNodeBag;
+extern NSString *const kSINodeNodeBucket;
+extern NSString *const kSINodeNodePile;
+extern NSString *const kSINodeButtonContinue;
+extern NSString *const kSINodeButtonDone;
+extern NSString *const kSINodeButtonFallingMonkey;
+extern NSString *const kSINodeButtonMenu;
+extern NSString *const kSINodeButtonOneHand;
+extern NSString *const kSINodeButtonPause;
+extern NSString *const kSINodeButtonPlay;
+extern NSString *const kSINodeButtonTwoHand;
+extern NSString *const kSINodeButtonTimeFreeze;
+extern NSString *const kSINodeButtonRapidFire;
+extern NSString *const kSINodeButtonReplay;
+extern NSString *const kSINodeButtonStore;
+extern NSString *const kSINodeFallingMonkey;
 
 
+#pragma mark - Fonts
+extern NSString *const kSIFontFuturaMedium;
 
+@interface SIConstants : NSObject
 
++ (SKTextureAtlas *)buttonAtlas;
 
-
-
-
-
+@end
 
 
 

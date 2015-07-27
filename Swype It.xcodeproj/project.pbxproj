@@ -8,24 +8,25 @@
 
 /* Begin PBXBuildFile section */
 		0906AAF21B551F0A008F28C1 /* IAPViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0906AAF11B551F0A008F28C1 /* IAPViewController.m */; };
-		0906AAF51B552176008F28C1 /* FallingMonkeyView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0906AAF41B552176008F28C1 /* FallingMonkeyView.m */; };
 		091FED491B37283E0071F8DC /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 091FED481B37283E0071F8DC /* main.m */; };
 		091FED4C1B37283E0071F8DC /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 091FED4B1B37283E0071F8DC /* AppDelegate.m */; };
 		091FED541B37283E0071F8DC /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 091FED531B37283E0071F8DC /* Images.xcassets */; };
 		091FED571B37283E0071F8DC /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 091FED551B37283E0071F8DC /* LaunchScreen.xib */; };
 		091FED631B37283E0071F8DC /* Swype_ItTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 091FED621B37283E0071F8DC /* Swype_ItTests.m */; };
-		091FED6F1B37295D0071F8DC /* StartScreenViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 091FED6E1B37295D0071F8DC /* StartScreenViewController.m */; };
 		091FED761B3733AF0071F8DC /* SIConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 091FED751B3733AF0071F8DC /* SIConstants.m */; };
 		091FED791B3736210071F8DC /* UIColor+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 091FED781B3736210071F8DC /* UIColor+Additions.m */; };
 		091FED7D1B374C470071F8DC /* BaseNavigationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 091FED7C1B374C470071F8DC /* BaseNavigationViewController.m */; };
-		091FED811B375DA50071F8DC /* GameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 091FED801B375DA50071F8DC /* GameViewController.m */; };
+		092720DF1B5EF1C30005A6B6 /* StoreScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 092720DE1B5EF1C30005A6B6 /* StoreScene.m */; };
+		092720E51B60D3CB0005A6B6 /* SIIAPUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = 092720E41B60D3CB0005A6B6 /* SIIAPUtility.m */; };
+		092720E71B60F2790005A6B6 /* SIIAPUtilityTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 092720E61B60F2790005A6B6 /* SIIAPUtilityTests.m */; };
+		092720E91B6388320005A6B6 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 092720E81B6388320005A6B6 /* AVFoundation.framework */; };
+		092720EC1B6388740005A6B6 /* ProgressBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 092720EB1B6388740005A6B6 /* ProgressBar.m */; };
+		092720EF1B63A62D0005A6B6 /* TCProgressBarNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 092720EE1B63A62D0005A6B6 /* TCProgressBarNode.m */; };
 		092B470E1B521B7900AFE43C /* GameTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 092B470D1B521B7900AFE43C /* GameTests.m */; };
 		092B47101B52273A00AFE43C /* libOCMock.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 092B470F1B52273A00AFE43C /* libOCMock.a */; };
 		09343DAA1B44BB1C00D1C707 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 09343DA91B44BB1C00D1C707 /* QuartzCore.framework */; };
 		097375461B57A97500BE1BCA /* BaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 097375451B57A97500BE1BCA /* BaseViewController.m */; };
 		097375491B57B8CA00BE1BCA /* ZCSlotMachine.m in Sources */ = {isa = PBXBuildFile; fileRef = 097375481B57B8CA00BE1BCA /* ZCSlotMachine.m */; };
-		0973754C1B57BA8000BE1BCA /* SlotMachineBackground@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0973754B1B57BA8000BE1BCA /* SlotMachineBackground@2x.png */; };
-		0973754E1B57BA8700BE1BCA /* SlotMachineCover@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0973754D1B57BA8700BE1BCA /* SlotMachineCover@2x.png */; };
 		097375531B57C64800BE1BCA /* SlotItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 097375501B57C64800BE1BCA /* SlotItem.m */; };
 		097375541B57C64800BE1BCA /* SlotView.m in Sources */ = {isa = PBXBuildFile; fileRef = 097375521B57C64800BE1BCA /* SlotView.m */; };
 		098B3B431B378B89000D4702 /* AppSingleton.m in Sources */ = {isa = PBXBuildFile; fileRef = 098B3B421B378B89000D4702 /* AppSingleton.m */; };
@@ -36,6 +37,20 @@
 		098B3B521B379C8D000D4702 /* GameKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 098B3B511B379C8D000D4702 /* GameKit.framework */; };
 		098B3B541B379C93000D4702 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 098B3B531B379C93000D4702 /* AudioToolbox.framework */; };
 		098B3B571B395091000D4702 /* MSSProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 098B3B561B395091000D4702 /* MSSProgressView.m */; };
+		099A621B1B5C62A0009BF339 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 099A621A1B5C62A0009BF339 /* CoreGraphics.framework */; };
+		099A621D1B5C62A6009BF339 /* SpriteKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 099A621C1B5C62A6009BF339 /* SpriteKit.framework */; };
+		099A62231B5C635F009BF339 /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 099A62221B5C635F009BF339 /* MainViewController.m */; };
+		099A622A1B5C6B3B009BF339 /* StartScreenScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 099A62291B5C6B3B009BF339 /* StartScreenScene.m */; };
+		099A622E1B5C6C2A009BF339 /* GameScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 099A622D1B5C6C2A009BF339 /* GameScene.m */; };
+		099A62311B5C8750009BF339 /* EndGameScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 099A62301B5C8750009BF339 /* EndGameScene.m */; };
+		099A62331B5C8B12009BF339 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 099A62321B5C8B12009BF339 /* Main.storyboard */; };
+		099A62361B5C917A009BF339 /* CustomProgressBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 099A62351B5C917A009BF339 /* CustomProgressBar.m */; };
+		099A62391B5C9ED7009BF339 /* AGSpriteButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 099A62381B5C9ED7009BF339 /* AGSpriteButton.m */; };
+		09A904061B6616C300C48A9B /* SIConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 091FED751B3733AF0071F8DC /* SIConstants.m */; };
+		09A904071B6616DA00C48A9B /* Game.m in Sources */ = {isa = PBXBuildFile; fileRef = 098B3B461B378C27000D4702 /* Game.m */; };
+		09A904081B6616DE00C48A9B /* SIIAPUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = 092720E41B60D3CB0005A6B6 /* SIIAPUtility.m */; };
+		09CAF9A91B646BE100466606 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 09CAF9A81B646BE100466606 /* MBProgressHUD.m */; };
+		09CAF9AC1B646F4C00466606 /* buttons.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 09CAF9AB1B646F4C00466606 /* buttons.atlas */; };
 		09DB638A1B564DA700387C13 /* IAPTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 09DB63891B564DA700387C13 /* IAPTableViewController.m */; };
 		09DB638E1B564DCA00387C13 /* IAPTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 09DB638D1B564DCA00387C13 /* IAPTableViewCell.m */; };
 		09DB63981B564F0900387C13 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 09DB63971B564F0900387C13 /* StoreKit.framework */; };
@@ -57,8 +72,6 @@
 /* Begin PBXFileReference section */
 		0906AAF01B551F0A008F28C1 /* IAPViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IAPViewController.h; sourceTree = "<group>"; };
 		0906AAF11B551F0A008F28C1 /* IAPViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IAPViewController.m; sourceTree = "<group>"; };
-		0906AAF31B552176008F28C1 /* FallingMonkeyView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FallingMonkeyView.h; sourceTree = "<group>"; };
-		0906AAF41B552176008F28C1 /* FallingMonkeyView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FallingMonkeyView.m; sourceTree = "<group>"; };
 		091FED431B37283E0071F8DC /* Swype It.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Swype It.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		091FED471B37283E0071F8DC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		091FED481B37283E0071F8DC /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -69,16 +82,22 @@
 		091FED5C1B37283E0071F8DC /* Swype ItTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Swype ItTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		091FED611B37283E0071F8DC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		091FED621B37283E0071F8DC /* Swype_ItTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Swype_ItTests.m; sourceTree = "<group>"; };
-		091FED6D1B37295D0071F8DC /* StartScreenViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StartScreenViewController.h; sourceTree = "<group>"; };
-		091FED6E1B37295D0071F8DC /* StartScreenViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StartScreenViewController.m; sourceTree = "<group>"; };
 		091FED741B3733AF0071F8DC /* SIConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SIConstants.h; sourceTree = "<group>"; };
 		091FED751B3733AF0071F8DC /* SIConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SIConstants.m; sourceTree = "<group>"; };
 		091FED771B3736210071F8DC /* UIColor+Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+Additions.h"; sourceTree = "<group>"; };
 		091FED781B3736210071F8DC /* UIColor+Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+Additions.m"; sourceTree = "<group>"; };
 		091FED7B1B374C470071F8DC /* BaseNavigationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseNavigationViewController.h; sourceTree = "<group>"; };
 		091FED7C1B374C470071F8DC /* BaseNavigationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseNavigationViewController.m; sourceTree = "<group>"; };
-		091FED7F1B375DA50071F8DC /* GameViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameViewController.h; sourceTree = "<group>"; };
-		091FED801B375DA50071F8DC /* GameViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = GameViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		092720DD1B5EF1C30005A6B6 /* StoreScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StoreScene.h; sourceTree = "<group>"; };
+		092720DE1B5EF1C30005A6B6 /* StoreScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StoreScene.m; sourceTree = "<group>"; };
+		092720E31B60D3CB0005A6B6 /* SIIAPUtility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SIIAPUtility.h; sourceTree = "<group>"; };
+		092720E41B60D3CB0005A6B6 /* SIIAPUtility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SIIAPUtility.m; sourceTree = "<group>"; };
+		092720E61B60F2790005A6B6 /* SIIAPUtilityTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SIIAPUtilityTests.m; sourceTree = "<group>"; };
+		092720E81B6388320005A6B6 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		092720EA1B6388740005A6B6 /* ProgressBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProgressBar.h; sourceTree = "<group>"; };
+		092720EB1B6388740005A6B6 /* ProgressBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProgressBar.m; sourceTree = "<group>"; };
+		092720ED1B63A62D0005A6B6 /* TCProgressBarNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCProgressBarNode.h; sourceTree = "<group>"; };
+		092720EE1B63A62D0005A6B6 /* TCProgressBarNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCProgressBarNode.m; sourceTree = "<group>"; };
 		092B470D1B521B7900AFE43C /* GameTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameTests.m; sourceTree = "<group>"; };
 		092B470F1B52273A00AFE43C /* libOCMock.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libOCMock.a; path = usr/lib/libOCMock.a; sourceTree = "<group>"; };
 		09343DA91B44BB1C00D1C707 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
@@ -86,8 +105,6 @@
 		097375451B57A97500BE1BCA /* BaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseViewController.m; sourceTree = "<group>"; };
 		097375471B57B8CA00BE1BCA /* ZCSlotMachine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZCSlotMachine.h; sourceTree = "<group>"; };
 		097375481B57B8CA00BE1BCA /* ZCSlotMachine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZCSlotMachine.m; sourceTree = "<group>"; };
-		0973754B1B57BA8000BE1BCA /* SlotMachineBackground@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "SlotMachineBackground@2x.png"; sourceTree = "<group>"; };
-		0973754D1B57BA8700BE1BCA /* SlotMachineCover@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "SlotMachineCover@2x.png"; sourceTree = "<group>"; };
 		0973754F1B57C64800BE1BCA /* SlotItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SlotItem.h; sourceTree = "<group>"; };
 		097375501B57C64800BE1BCA /* SlotItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SlotItem.m; sourceTree = "<group>"; };
 		097375511B57C64800BE1BCA /* SlotView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SlotView.h; sourceTree = "<group>"; };
@@ -104,6 +121,24 @@
 		098B3B531B379C93000D4702 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		098B3B551B395091000D4702 /* MSSProgressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSSProgressView.h; path = "Swype It/MSSProgressView.h"; sourceTree = "<group>"; };
 		098B3B561B395091000D4702 /* MSSProgressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MSSProgressView.m; path = "Swype It/MSSProgressView.m"; sourceTree = "<group>"; };
+		099A621A1B5C62A0009BF339 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		099A621C1B5C62A6009BF339 /* SpriteKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SpriteKit.framework; path = System/Library/Frameworks/SpriteKit.framework; sourceTree = SDKROOT; };
+		099A62211B5C635F009BF339 /* MainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainViewController.h; sourceTree = "<group>"; };
+		099A62221B5C635F009BF339 /* MainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainViewController.m; sourceTree = "<group>"; };
+		099A62281B5C6B3B009BF339 /* StartScreenScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StartScreenScene.h; sourceTree = "<group>"; };
+		099A62291B5C6B3B009BF339 /* StartScreenScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StartScreenScene.m; sourceTree = "<group>"; };
+		099A622C1B5C6C2A009BF339 /* GameScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameScene.h; sourceTree = "<group>"; };
+		099A622D1B5C6C2A009BF339 /* GameScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameScene.m; sourceTree = "<group>"; };
+		099A622F1B5C8750009BF339 /* EndGameScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EndGameScene.h; sourceTree = "<group>"; };
+		099A62301B5C8750009BF339 /* EndGameScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EndGameScene.m; sourceTree = "<group>"; };
+		099A62321B5C8B12009BF339 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
+		099A62341B5C917A009BF339 /* CustomProgressBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomProgressBar.h; sourceTree = "<group>"; };
+		099A62351B5C917A009BF339 /* CustomProgressBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomProgressBar.m; sourceTree = "<group>"; };
+		099A62371B5C9ED7009BF339 /* AGSpriteButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AGSpriteButton.h; sourceTree = "<group>"; };
+		099A62381B5C9ED7009BF339 /* AGSpriteButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AGSpriteButton.m; sourceTree = "<group>"; };
+		09CAF9A71B646BE100466606 /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = "<group>"; };
+		09CAF9A81B646BE100466606 /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
+		09CAF9AB1B646F4C00466606 /* buttons.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = buttons.atlas; sourceTree = "<group>"; };
 		09DB63881B564DA700387C13 /* IAPTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IAPTableViewController.h; sourceTree = "<group>"; };
 		09DB63891B564DA700387C13 /* IAPTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IAPTableViewController.m; sourceTree = "<group>"; };
 		09DB638C1B564DCA00387C13 /* IAPTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IAPTableViewCell.h; sourceTree = "<group>"; };
@@ -122,6 +157,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				092720E91B6388320005A6B6 /* AVFoundation.framework in Frameworks */,
+				099A621D1B5C62A6009BF339 /* SpriteKit.framework in Frameworks */,
+				099A621B1B5C62A0009BF339 /* CoreGraphics.framework in Frameworks */,
 				09DB63981B564F0900387C13 /* StoreKit.framework in Frameworks */,
 				098B3B541B379C93000D4702 /* AudioToolbox.framework in Frameworks */,
 				098B3B521B379C8D000D4702 /* GameKit.framework in Frameworks */,
@@ -146,8 +184,6 @@
 		0906AAF61B552180008F28C1 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				0906AAF31B552176008F28C1 /* FallingMonkeyView.h */,
-				0906AAF41B552176008F28C1 /* FallingMonkeyView.m */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -176,6 +212,7 @@
 		091FED451B37283E0071F8DC /* Swype It */ = {
 			isa = PBXGroup;
 			children = (
+				099A62321B5C8B12009BF339 /* Main.storyboard */,
 				091FED6C1B3729040071F8DC /* 000 - AppDelegate */,
 				098B3B441B378B8F000D4702 /* 000 - GameSingleton */,
 				091FED7A1B37362A0071F8DC /* Categories */,
@@ -183,6 +220,7 @@
 				091FED731B37339D0071F8DC /* DataFiles */,
 				091FED721B372EE70071F8DC /* Images */,
 				09DB63991B56516700387C13 /* InAppPurchase */,
+				099A622B1B5C6B41009BF339 /* Scenes */,
 				091FED461B37283E0071F8DC /* Supporting Files */,
 				09DB638F1B564DD400387C13 /* TableViewCells */,
 				09DB638B1B564DAF00387C13 /* TableViewControllers */,
@@ -205,6 +243,7 @@
 		091FED5F1B37283E0071F8DC /* Swype ItTests */ = {
 			isa = PBXGroup;
 			children = (
+				092720E61B60F2790005A6B6 /* SIIAPUtilityTests.m */,
 				092B470D1B521B7900AFE43C /* GameTests.m */,
 				091FED621B37283E0071F8DC /* Swype_ItTests.m */,
 				091FED601B37283E0071F8DC /* Supporting Files */,
@@ -240,12 +279,10 @@
 		091FED711B37298D0071F8DC /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
-				091FED7F1B375DA50071F8DC /* GameViewController.h */,
-				091FED801B375DA50071F8DC /* GameViewController.m */,
 				0906AAF01B551F0A008F28C1 /* IAPViewController.h */,
 				0906AAF11B551F0A008F28C1 /* IAPViewController.m */,
-				091FED6D1B37295D0071F8DC /* StartScreenViewController.h */,
-				091FED6E1B37295D0071F8DC /* StartScreenViewController.m */,
+				099A62211B5C635F009BF339 /* MainViewController.h */,
+				099A62221B5C635F009BF339 /* MainViewController.m */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -253,8 +290,7 @@
 		091FED721B372EE70071F8DC /* Images */ = {
 			isa = PBXGroup;
 			children = (
-				0973754D1B57BA8700BE1BCA /* SlotMachineCover@2x.png */,
-				0973754B1B57BA8000BE1BCA /* SlotMachineBackground@2x.png */,
+				09CAF9AB1B646F4C00466606 /* buttons.atlas */,
 				091FED531B37283E0071F8DC /* Images.xcassets */,
 			);
 			name = Images;
@@ -287,8 +323,21 @@
 				091FED7C1B374C470071F8DC /* BaseNavigationViewController.m */,
 				097375441B57A97500BE1BCA /* BaseViewController.h */,
 				097375451B57A97500BE1BCA /* BaseViewController.m */,
+				099A62341B5C917A009BF339 /* CustomProgressBar.h */,
+				099A62351B5C917A009BF339 /* CustomProgressBar.m */,
+				092720EA1B6388740005A6B6 /* ProgressBar.h */,
+				092720EB1B6388740005A6B6 /* ProgressBar.m */,
 			);
 			name = CustomUIClasses;
+			sourceTree = "<group>";
+		};
+		092720F01B63A6350005A6B6 /* TCProgressBarNode */ = {
+			isa = PBXGroup;
+			children = (
+				092720ED1B63A62D0005A6B6 /* TCProgressBarNode.h */,
+				092720EE1B63A62D0005A6B6 /* TCProgressBarNode.m */,
+			);
+			name = TCProgressBarNode;
 			sourceTree = "<group>";
 		};
 		0973754A1B57B8CE00BE1BCA /* ZCSlotMachine */ = {
@@ -323,6 +372,9 @@
 		098B3B4B1B378EC8000D4702 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				09CAF9AA1B646BE600466606 /* MBProgressHud */,
+				092720F01B63A6350005A6B6 /* TCProgressBarNode */,
+				099A623A1B5C9EDC009BF339 /* AGSpriteButton */,
 				097375551B57C64E00BE1BCA /* Slot */,
 				0973754A1B57B8CE00BE1BCA /* ZCSlotMachine */,
 				098B3B4C1B378ED1000D4702 /* FXReachability */,
@@ -349,6 +401,39 @@
 			name = MSSProgressView;
 			sourceTree = "<group>";
 		};
+		099A622B1B5C6B41009BF339 /* Scenes */ = {
+			isa = PBXGroup;
+			children = (
+				099A622F1B5C8750009BF339 /* EndGameScene.h */,
+				099A62301B5C8750009BF339 /* EndGameScene.m */,
+				099A622C1B5C6C2A009BF339 /* GameScene.h */,
+				099A622D1B5C6C2A009BF339 /* GameScene.m */,
+				099A62281B5C6B3B009BF339 /* StartScreenScene.h */,
+				099A62291B5C6B3B009BF339 /* StartScreenScene.m */,
+				092720DD1B5EF1C30005A6B6 /* StoreScene.h */,
+				092720DE1B5EF1C30005A6B6 /* StoreScene.m */,
+			);
+			name = Scenes;
+			sourceTree = "<group>";
+		};
+		099A623A1B5C9EDC009BF339 /* AGSpriteButton */ = {
+			isa = PBXGroup;
+			children = (
+				099A62371B5C9ED7009BF339 /* AGSpriteButton.h */,
+				099A62381B5C9ED7009BF339 /* AGSpriteButton.m */,
+			);
+			name = AGSpriteButton;
+			sourceTree = "<group>";
+		};
+		09CAF9AA1B646BE600466606 /* MBProgressHud */ = {
+			isa = PBXGroup;
+			children = (
+				09CAF9A71B646BE100466606 /* MBProgressHUD.h */,
+				09CAF9A81B646BE100466606 /* MBProgressHUD.m */,
+			);
+			name = MBProgressHud;
+			sourceTree = "<group>";
+		};
 		09DB638B1B564DAF00387C13 /* TableViewControllers */ = {
 			isa = PBXGroup;
 			children = (
@@ -373,6 +458,8 @@
 				09DB639A1B5651C100387C13 /* MKStoreKit.h */,
 				09DB639B1B5651C100387C13 /* MKStoreKit.m */,
 				09DB639D1B56525100387C13 /* MKStoreKitConfigs.plist */,
+				092720E31B60D3CB0005A6B6 /* SIIAPUtility.h */,
+				092720E41B60D3CB0005A6B6 /* SIIAPUtility.m */,
 			);
 			name = InAppPurchase;
 			sourceTree = "<group>";
@@ -380,6 +467,9 @@
 		0F880A65ACF3CFF0D72120E8 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				092720E81B6388320005A6B6 /* AVFoundation.framework */,
+				099A621C1B5C62A6009BF339 /* SpriteKit.framework */,
+				099A621A1B5C62A0009BF339 /* CoreGraphics.framework */,
 				09DB63971B564F0900387C13 /* StoreKit.framework */,
 				092B470F1B52273A00AFE43C /* libOCMock.a */,
 				09343DA91B44BB1C00D1C707 /* QuartzCore.framework */,
@@ -413,6 +503,7 @@
 				091FED401B37283E0071F8DC /* Frameworks */,
 				091FED411B37283E0071F8DC /* Resources */,
 				C6CE4681C1A3381F1E73A368 /* Copy Pods Resources */,
+				09CAF9A61B63F12C00466606 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -452,6 +543,7 @@
 				TargetAttributes = {
 					091FED421B37283E0071F8DC = {
 						CreatedOnToolsVersion = 6.3.2;
+						DevelopmentTeam = G2YUCSS226;
 					};
 					091FED5B1B37283E0071F8DC = {
 						CreatedOnToolsVersion = 6.3.2;
@@ -483,10 +575,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0973754C1B57BA8000BE1BCA /* SlotMachineBackground@2x.png in Resources */,
 				09DB639E1B56525100387C13 /* MKStoreKitConfigs.plist in Resources */,
 				091FED571B37283E0071F8DC /* LaunchScreen.xib in Resources */,
-				0973754E1B57BA8700BE1BCA /* SlotMachineCover@2x.png in Resources */,
+				099A62331B5C8B12009BF339 /* Main.storyboard in Resources */,
+				09CAF9AC1B646F4C00466606 /* buttons.atlas in Resources */,
 				091FED541B37283E0071F8DC /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -501,6 +593,19 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		09CAF9A61B63F12C00466606 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Fabric/Fabric.framework/run\" cdd784b627fa9b97a6ab3f31b02ee9d49c156b9b 41c2ba59091378d091d6fd0f9795578d58c40e32d48031fee2245db8c7b8d423";
+		};
 		AA23FA67938786C98319F44E /* Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -538,25 +643,33 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0906AAF51B552176008F28C1 /* FallingMonkeyView.m in Sources */,
+				092720E51B60D3CB0005A6B6 /* SIIAPUtility.m in Sources */,
+				099A622E1B5C6C2A009BF339 /* GameScene.m in Sources */,
 				091FED791B3736210071F8DC /* UIColor+Additions.m in Sources */,
 				091FED7D1B374C470071F8DC /* BaseNavigationViewController.m in Sources */,
 				097375531B57C64800BE1BCA /* SlotItem.m in Sources */,
+				092720EF1B63A62D0005A6B6 /* TCProgressBarNode.m in Sources */,
+				099A62231B5C635F009BF339 /* MainViewController.m in Sources */,
+				099A622A1B5C6B3B009BF339 /* StartScreenScene.m in Sources */,
 				098B3B4A1B378EC0000D4702 /* FXReachability.m in Sources */,
 				09DB639C1B5651C100387C13 /* MKStoreKit.m in Sources */,
 				098B3B471B378C27000D4702 /* Game.m in Sources */,
-				091FED811B375DA50071F8DC /* GameViewController.m in Sources */,
 				097375461B57A97500BE1BCA /* BaseViewController.m in Sources */,
 				097375491B57B8CA00BE1BCA /* ZCSlotMachine.m in Sources */,
 				09DB638E1B564DCA00387C13 /* IAPTableViewCell.m in Sources */,
 				091FED4C1B37283E0071F8DC /* AppDelegate.m in Sources */,
 				0906AAF21B551F0A008F28C1 /* IAPViewController.m in Sources */,
+				099A62311B5C8750009BF339 /* EndGameScene.m in Sources */,
 				09DB638A1B564DA700387C13 /* IAPTableViewController.m in Sources */,
+				099A62391B5C9ED7009BF339 /* AGSpriteButton.m in Sources */,
 				098B3B571B395091000D4702 /* MSSProgressView.m in Sources */,
+				09CAF9A91B646BE100466606 /* MBProgressHUD.m in Sources */,
 				091FED761B3733AF0071F8DC /* SIConstants.m in Sources */,
 				098B3B431B378B89000D4702 /* AppSingleton.m in Sources */,
-				091FED6F1B37295D0071F8DC /* StartScreenViewController.m in Sources */,
+				099A62361B5C917A009BF339 /* CustomProgressBar.m in Sources */,
+				092720EC1B6388740005A6B6 /* ProgressBar.m in Sources */,
 				097375541B57C64800BE1BCA /* SlotView.m in Sources */,
+				092720DF1B5EF1C30005A6B6 /* StoreScene.m in Sources */,
 				091FED491B37283E0071F8DC /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -565,7 +678,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				09A904071B6616DA00C48A9B /* Game.m in Sources */,
+				09A904081B6616DE00C48A9B /* SIIAPUtility.m in Sources */,
 				091FED631B37283E0071F8DC /* Swype_ItTests.m in Sources */,
+				09A904061B6616C300C48A9B /* SIConstants.m in Sources */,
+				092720E71B60F2790005A6B6 /* SIIAPUtilityTests.m in Sources */,
 				092B470E1B521B7900AFE43C /* GameTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -609,8 +726,8 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Andrew Keller (4QBKTXP3K7)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Andrew Keller (4QBKTXP3K7)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Andrew Keller (G2YUCSS226)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Andrew Keller (G2YUCSS226)";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -633,7 +750,9 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				PROVISIONING_PROFILE = "c7ba4f47-45d8-409b-8c87-927ad2b71ff8";
+				PRODUCT_BUNDLE_IDENTIFIER = com.pushtheworldllc.swipeit.dev;
+				PRODUCT_NAME = "Swype It";
+				PROVISIONING_PROFILE = "51768e95-f8d5-43f7-b225-a3c01a29b9c0";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -656,8 +775,8 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Andrew Keller (4QBKTXP3K7)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Andrew Keller (4QBKTXP3K7)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Andrew Keller (G2YUCSS226)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Andrew Keller (G2YUCSS226)";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
@@ -672,7 +791,9 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
 				MTL_ENABLE_DEBUG_INFO = NO;
-				PROVISIONING_PROFILE = "c7ba4f47-45d8-409b-8c87-927ad2b71ff8";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.pushtheworldllc.swipeit${BUNDLE_ID_SUFFIX}";
+				PRODUCT_NAME = "Swype It";
+				PROVISIONING_PROFILE = "51768e95-f8d5-43f7-b225-a3c01a29b9c0";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
@@ -683,14 +804,21 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 515AAE4709C37B6475D12AF4 /* Pods.debug.xcconfig */;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Andrew Keller (4QBKTXP3K7)";
+				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon${BUNDLE_ID_SUFFIX}";
+				BUNDLE_ID_SUFFIX = .dev;
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Andrew Keller (G2YUCSS226)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Andrew Keller (G2YUCSS226)";
+				ENABLE_BITCODE = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(PROJECT_DIR)",
+					"$(inherited)",
+				);
 				INFOPLIST_FILE = "Swype It/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.pushtheworldllc.swipeit;
+				PRODUCT_BUNDLE_IDENTIFIER = com.pushtheworldllc.swipeit.beta;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "c7ba4f47-45d8-409b-8c87-927ad2b71ff8";
+				PROVISIONING_PROFILE = "51768e95-f8d5-43f7-b225-a3c01a29b9c0";
 			};
 			name = Debug;
 		};
@@ -698,14 +826,21 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 250606D5461711E9FC89BC0E /* Pods.release.xcconfig */;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Andrew Keller (4QBKTXP3K7)";
+				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon${BUNDLE_ID_SUFFIX}";
+				BUNDLE_ID_SUFFIX = "";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Andrew Keller (G2YUCSS226)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Andrew Keller (G2YUCSS226)";
+				ENABLE_BITCODE = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(PROJECT_DIR)",
+					"$(inherited)",
+				);
 				INFOPLIST_FILE = "Swype It/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.pushtheworldllc.swipeit;
+				PRODUCT_BUNDLE_IDENTIFIER = com.pushtheworldllc.swipeit.beta;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "c7ba4f47-45d8-409b-8c87-927ad2b71ff8";
+				PROVISIONING_PROFILE = "51768e95-f8d5-43f7-b225-a3c01a29b9c0";
 			};
 			name = Release;
 		};
@@ -713,9 +848,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Andrew Keller (G2YUCSS226)";
 				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
+					"$(PROJECT_DIR)",
 				);
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
@@ -738,8 +874,9 @@
 					XCTest,
 					"-ObjC",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.pushtheworldllc.swipeit;
+				PRODUCT_BUNDLE_IDENTIFIER = com.pushtheworldllc.swipeit.dev;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "51768e95-f8d5-43f7-b225-a3c01a29b9c0";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Swype It.app/Swype It";
 			};
 			name = Debug;
@@ -748,9 +885,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Andrew Keller (G2YUCSS226)";
 				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
+					"$(PROJECT_DIR)",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -771,9 +909,107 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.pushtheworldllc.swipeit;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "51768e95-f8d5-43f7-b225-a3c01a29b9c0";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Swype It.app/Swype It";
 			};
 			name = Release;
+		};
+		09CAF9AD1B64A60100466606 /* Beta */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Andrew Keller (G2YUCSS226)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Andrew Keller (G2YUCSS226)";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_BUNDLE_IDENTIFIER = com.pushtheworldllc.swipeit.beta;
+				PRODUCT_NAME = "Swype It Beta";
+				PROVISIONING_PROFILE = "51768e95-f8d5-43f7-b225-a3c01a29b9c0";
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Beta;
+		};
+		09CAF9AE1B64A60100466606 /* Beta */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 250606D5461711E9FC89BC0E /* Pods.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon${BUNDLE_ID_SUFFIX}";
+				BUNDLE_ID_SUFFIX = .beta;
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Andrew Keller (G2YUCSS226)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Andrew Keller (G2YUCSS226)";
+				ENABLE_BITCODE = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(PROJECT_DIR)",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = "Swype It/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.pushtheworldllc.swipeit.beta;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "51768e95-f8d5-43f7-b225-a3c01a29b9c0";
+			};
+			name = Beta;
+		};
+		09CAF9AF1B64A60100466606 /* Beta */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Andrew Keller (G2YUCSS226)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					"$(PROJECT_DIR)/usr/include",
+				);
+				INFOPLIST_FILE = "Swype ItTests/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/usr/lib",
+				);
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-framework",
+					XCTest,
+					"-ObjC",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.pushtheworldllc.swipeit.beta;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "51768e95-f8d5-43f7-b225-a3c01a29b9c0";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Swype It.app/Swype It";
+			};
+			name = Beta;
 		};
 /* End XCBuildConfiguration section */
 
@@ -783,6 +1019,7 @@
 			buildConfigurations = (
 				091FED641B37283E0071F8DC /* Debug */,
 				091FED651B37283E0071F8DC /* Release */,
+				09CAF9AD1B64A60100466606 /* Beta */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -792,6 +1029,7 @@
 			buildConfigurations = (
 				091FED671B37283E0071F8DC /* Debug */,
 				091FED681B37283E0071F8DC /* Release */,
+				09CAF9AE1B64A60100466606 /* Beta */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -801,6 +1039,7 @@
 			buildConfigurations = (
 				091FED6A1B37283E0071F8DC /* Debug */,
 				091FED6B1B37283E0071F8DC /* Release */,
+				09CAF9AF1B64A60100466606 /* Beta */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

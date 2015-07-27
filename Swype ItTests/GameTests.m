@@ -9,7 +9,6 @@
 //
 // Local Controller Import
 #import "Game.h"
-#import "GameViewController.h"
 // Framework Import
 #import <OCMock/OCMock.h>
 #import <UIKit/UIKit.h>
@@ -239,22 +238,20 @@
 - (void)testTypeDefForPowerUpDuration {
     /*Power Up None*/
     XCTAssertEqual(0, SIPowerUpDurationNone);
-    /*Power Up Double Points*/
-    XCTAssertEqual(5, SIPowerUpDurationFallingMonkeys);
     /*Power Up Time Freeze*/
-    XCTAssertEqual(5, SIPowerUpDurationTimeFreeze);
+    XCTAssertEqual(8, SIPowerUpDurationTimeFreeze);
     /*Power Up Rapid Fire*/
-    XCTAssertEqual(5, SIPowerUpDurationRapidFire);
+    XCTAssertEqual(3, SIPowerUpDurationRapidFire);
 }
 - (void)testTypeDefForPowerUpCost {
     /*Power Up None*/
     XCTAssertEqual(0, SIPowerUpCostNone);
     /*Power Up Double Points*/
-    XCTAssertEqual(1, SIPowerUpCostFallingMonkeys);
+    XCTAssertEqual(5, SIPowerUpCostFallingMonkeys);
     /*Power Up Time Freeze*/
-    XCTAssertEqual(3, SIPowerUpCostTimeFreeze);
+    XCTAssertEqual(1, SIPowerUpCostTimeFreeze);
     /*Power Up Rapid Fire*/
-    XCTAssertEqual(5, SIPowerUpCostRapidFire);
+    XCTAssertEqual(3, SIPowerUpCostRapidFire);
 }
 - (void)testGetRandomMoveForRapidFire {
     /*Check to make the Rapid Fire Returns Tap*/
@@ -272,5 +269,113 @@
         SIMove move = [Game getRandomMoveForGameMode:SIGameModeTwoHand isRapidFireActiviated:NO];
         XCTAssertNotEqual(move, SIMoveShake);
     }
+}
+- (void)testIAPButtonStringForSIIAPPack {
+    /*Bag of Coins*/
+    XCTAssertEqualObjects(@"Bag of Coins", [Game buttonTextForSIIAPPack:SIIAPPackSmall]);
+
+    /*Pile of Coins*/
+    XCTAssertEqualObjects(@"Pile of Coins", [Game buttonTextForSIIAPPack:SIIAPPackMedium]);
+
+    /*Bucket of Coins*/
+    XCTAssertEqualObjects(@"Bucket of Coins", [Game buttonTextForSIIAPPack:SIIAPPackLarge]);
+
+    /*Chest of Coins*/
+    XCTAssertEqualObjects(@"Chest of Coins", [Game buttonTextForSIIAPPack:SIIAPPackExtraLarge]);
+}
+- (void)testIAPButtonNodeNameForSIIAPPack {
+    /*Bag of Coins*/
+    XCTAssertEqualObjects(kSINodeNodeBag, [Game buttonNodeNameNodeForSIIAPPack:SIIAPPackSmall]);
+    
+    /*Pile of Coins*/
+    XCTAssertEqualObjects(kSINodeNodePile, [Game buttonNodeNameNodeForSIIAPPack:SIIAPPackMedium]);
+    
+    /*Bucket of Coins*/
+    XCTAssertEqualObjects(kSINodeNodeBucket, [Game buttonNodeNameNodeForSIIAPPack:SIIAPPackLarge]);
+    
+    /*Chest of Coins*/
+    XCTAssertEqualObjects(kSINodeNodeChest, [Game buttonNodeNameNodeForSIIAPPack:SIIAPPackExtraLarge]);
+}
+- (void)testIAPButtonNodeLabelDescriptionForSIIAPPack {
+    /*Bag of Coins*/
+    XCTAssertEqualObjects(kSINodeLabelDescriptionBag, [Game buttonNodeNameLabelDescriptionForSIIAPPack:SIIAPPackSmall]);
+    
+    /*Pile of Coins*/
+    XCTAssertEqualObjects(kSINodeLabelDescriptionPile, [Game buttonNodeNameLabelDescriptionForSIIAPPack:SIIAPPackMedium]);
+    
+    /*Bucket of Coins*/
+    XCTAssertEqualObjects(kSINodeLabelDescriptionBucket, [Game buttonNodeNameLabelDescriptionForSIIAPPack:SIIAPPackLarge]);
+    
+    /*Chest of Coins*/
+    XCTAssertEqualObjects(kSINodeLabelDescriptionChest, [Game buttonNodeNameLabelDescriptionForSIIAPPack:SIIAPPackExtraLarge]);
+}
+- (void)testIAPButtonNodeLabelPriceForSIIAPPack {
+    /*Bag of Coins*/
+    XCTAssertEqualObjects(kSINodeLabelPriceBag, [Game buttonNodeNameLabelPriceForSIIAPPack:SIIAPPackSmall]);
+    
+    /*Pile of Coins*/
+    XCTAssertEqualObjects(kSINodeLabelPricePile, [Game buttonNodeNameLabelPriceForSIIAPPack:SIIAPPackMedium]);
+    
+    /*Bucket of Coins*/
+    XCTAssertEqualObjects(kSINodeLabelPriceBucket, [Game buttonNodeNameLabelPriceForSIIAPPack:SIIAPPackLarge]);
+    
+    /*Chest of Coins*/
+    XCTAssertEqualObjects(kSINodeLabelPriceChest, [Game buttonNodeNameLabelPriceForSIIAPPack:SIIAPPackExtraLarge]);
+}
+- (void)testIAPProductIDForSIIAPPack {
+    /*Bag of Coins*/
+    XCTAssertEqualObjects(kSIIAPProductIDCoinPackSmall, [Game productIDForSIIAPPack:SIIAPPackSmall]);
+    
+    /*Pile of Coins*/
+    XCTAssertEqualObjects(kSIIAPProductIDCoinPackMedium, [Game productIDForSIIAPPack:SIIAPPackMedium]);
+    
+    /*Bucket of Coins*/
+    XCTAssertEqualObjects(kSIIAPProductIDCoinPackLarge, [Game productIDForSIIAPPack:SIIAPPackLarge]);
+    
+    /*Chest of Coins*/
+    XCTAssertEqualObjects(kSIIAPProductIDCoinPackExtraLarge, [Game productIDForSIIAPPack:SIIAPPackExtraLarge]);
+}
+- (void)testContinueCost {
+    
+    XCTAssertEqual(SIContinueLifeCost1, [Game lifeCostForCurrentContinueLeve:SIContinueLifeCost0]);
+
+    XCTAssertEqual(SIContinueLifeCost2, [Game lifeCostForCurrentContinueLeve:SIContinueLifeCost1]);
+
+    XCTAssertEqual(SIContinueLifeCost3, [Game lifeCostForCurrentContinueLeve:SIContinueLifeCost2]);
+    
+    XCTAssertEqual(SIContinueLifeCost4, [Game lifeCostForCurrentContinueLeve:SIContinueLifeCost3]);
+    
+    XCTAssertEqual(SIContinueLifeCost5, [Game lifeCostForCurrentContinueLeve:SIContinueLifeCost4]);
+    
+    XCTAssertEqual(SIContinueLifeCost6, [Game lifeCostForCurrentContinueLeve:SIContinueLifeCost5]);
+    
+    XCTAssertEqual(SIContinueLifeCost7, [Game lifeCostForCurrentContinueLeve:SIContinueLifeCost6]);
+    
+    XCTAssertEqual(SIContinueLifeCost8, [Game lifeCostForCurrentContinueLeve:SIContinueLifeCost7]);
+    
+    XCTAssertEqual(SIContinueLifeCost9, [Game lifeCostForCurrentContinueLeve:SIContinueLifeCost8]);
+    
+    XCTAssertEqual(SIContinueLifeCost10, [Game lifeCostForCurrentContinueLeve:SIContinueLifeCost9]);
+    
+    XCTAssertEqual(SIContinueLifeCost11, [Game lifeCostForCurrentContinueLeve:SIContinueLifeCost10]);
+    
+    XCTAssertEqual(SIContinueLifeCost12, [Game lifeCostForCurrentContinueLeve:SIContinueLifeCost11]);
+    
+    XCTAssertEqual(SIContinueLifeCost13, [Game lifeCostForCurrentContinueLeve:SIContinueLifeCost12]);
+    
+    XCTAssertEqual(SIContinueLifeCost14, [Game lifeCostForCurrentContinueLeve:SIContinueLifeCost13]);
+    
+    XCTAssertEqual(SIContinueLifeCost15, [Game lifeCostForCurrentContinueLeve:SIContinueLifeCost14]);
+    
+    XCTAssertEqual(SIContinueLifeCost16, [Game lifeCostForCurrentContinueLeve:SIContinueLifeCost15]);
+    
+    XCTAssertEqual(SIContinueLifeCost17, [Game lifeCostForCurrentContinueLeve:SIContinueLifeCost16]);
+    
+    XCTAssertEqual(SIContinueLifeCost18, [Game lifeCostForCurrentContinueLeve:SIContinueLifeCost17]);
+    
+    XCTAssertEqual(SIContinueLifeCost19, [Game lifeCostForCurrentContinueLeve:SIContinueLifeCost18]);
+    
+    XCTAssertEqual(SIContinueLifeCost20, [Game lifeCostForCurrentContinueLeve:SIContinueLifeCost19]);
+
 }
 @end

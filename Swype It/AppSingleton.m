@@ -14,12 +14,13 @@
 // Category Import
 #import "UIColor+Additions.h"
 // Support/Data Class Imports
-#import "Game.h"
+
 // Other Imports
 @interface AppSingleton () {
     
 }
 #pragma mark - BOOLS
+@property (assign, nonatomic) BOOL               isPaused;
 @property (assign, nonatomic) BOOL               willIgnoreShake;
 
 #pragma mark - Private CGFloats & Numbers
@@ -28,6 +29,7 @@
 @property (assign, nonatomic) float              timeFreezeMultiplyer;
 @property (assign, nonatomic) float              levelSpeedDivider;
 @property (assign, nonatomic) float              moveStartTimeInMiliSeconds;
+@property (assign, nonatomic) float              pauseStartTimeInMiliSeconds;
 @property (assign, nonatomic) float              powerUpTimeInMiliSeconds;
 
 
@@ -56,43 +58,70 @@
     if (self.currentGame == nil) {
         self.currentGame                            = [[Game alloc] init];
     }
+    self.willResume                                 = NO;
     self.previousLevel                              = [Game currentLevelStringForScore:0.0f];
+    self.timerInterval                              = TIMER_INTERVAL;
+    self.currentGame.currentNumberOfTimesContinued  = SIContinueLifeCost1;
     self.currentGame.currentLevel                   = [Game currentLevelStringForScore:0.0f];
     self.currentGame.currentPowerUp                 = SIPowerUpNone;
     self.currentGame.totalScore                     = 0.0f;
     self.currentGame.gameMode                       = gameMode;
     self.currentGame.currentMove                    = [Game getRandomMoveForGameMode:gameMode isRapidFireActiviated:NO];
-    self.currentGame.nextMove                       = [Game getRandomMoveForGameMode:gameMode isRapidFireActiviated:NO];
     self.currentGame.currentBackgroundColorNumber   = arc4random_uniform(NUMBER_OF_MOVES);
+    
     [self initalizeObjects];
 }
-- (void)runFirstGame {
-    [self startGame];
-    self.moveStartTimeInMiliSeconds = 0.0f;
-}
 - (void)initalizeObjects {
-    self.manager                    = [[CMMotionManager alloc] init];
-    self.timer                      = [[NSTimer alloc] init];
-    self.timerInterval              = TIMER_INTERVAL;
+    if (self.manager == nil) {
+        self.manager                = [[CMMotionManager alloc] init];
+    } else {
+        NSLog(@"Manager already going");
+    }
+    if (self.timer == nil) {
+        self.timer                  = [[NSTimer alloc] init];
+    } else {
+        NSLog(@"Time already going");
+    }
 }
 #pragma mark - Game Functions
 - (void)startGame {
     self.levelSpeedDivider          = 1.0f;
     self.timeFreezeMultiplyer       = 1.0f;
-    self.currentGame.totalScore     = 0.0;
+    self.currentGame.totalScore     = 0.0f;
+    self.currentGame.isPaused       = NO;
     self.moveStartTimeInMiliSeconds = 0;
-
-    /*Send Notification that Game has STARTED*/
-    NSNotification *notification    = [[NSNotification alloc] initWithName:kSINotificationGameStarted object:nil userInfo:nil];
-    [[NSNotificationCenter defaultCenter] postNotification:notification];
+    
+    if (self.currentGame.gameMode == SIGameModeOneHand) {
+        [self.manager startAccelerometerUpdates];
+    }
     
     /*Start The Timer*/
     [self startTimer];
+    
+    /*Send Notification that Game has STARTED*/
+    NSNotification *notification        = [[NSNotification alloc] initWithName:kSINotificationGameStarted object:nil userInfo:nil];
+    [[NSNotificationCenter defaultCenter] postNotification:notification];
+}
+- (void)pause {
+    self.currentGame.isPaused           = YES;
+    self.pauseStartTimeInMiliSeconds    = self.compositeTimeInMiliSeconds;
+}
+- (void)play {
+    self.currentGame.isPaused           = NO;
+    self.moveStartTimeInMiliSeconds     = (self.compositeTimeInMiliSeconds - self.pauseStartTimeInMiliSeconds) + self.moveStartTimeInMiliSeconds;
 }
 - (void)endGame {
     [self.manager stopAccelerometerUpdates];
     [self.timer invalidate];
-    
+//    
+//    /*Send Notification that Game has ENDED*/
+//    NSNotification *notification    = [[NSNotification alloc] initWithName:kSINotificationGameEnded object:nil userInfo:nil];
+//    [[NSNotificationCenter defaultCenter] postNotification:notification];
+//    
+//    [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(powerUpDidEnd) object:nil];
+}
+- (void)stopGame {
+    [self pause];
     /*Send Notification that Game has ENDED*/
     NSNotification *notification    = [[NSNotification alloc] initWithName:kSINotificationGameEnded object:nil userInfo:nil];
     [[NSNotificationCenter defaultCenter] postNotification:notification];
@@ -103,7 +132,7 @@
     if (move == self.currentGame.currentMove) {
         [self willPrepareToShowNewMove];
     } else {
-        [self endGame];
+        [self stopGame];
     }
 }
 - (void)willPrepareToShowNewMove {
@@ -117,11 +146,7 @@
     
     BOOL isRapidFireActive          = (self.currentGame.currentPowerUp == SIPowerUpRapidFire) ? YES : NO;
     
-    self.currentGame.currentMove    = isRapidFireActive ? SIMoveTap : self.currentGame.nextMove; /*Return Tap for if Rapid Fire*/
-    
-    /*Get new move*/
-    self.currentGame.nextMove       = [Game getRandomMoveForGameMode:self.currentGame.gameMode isRapidFireActiviated:isRapidFireActive];
-    
+    self.currentGame.currentMove    = [Game getRandomMoveForGameMode:self.currentGame.gameMode isRapidFireActiviated:isRapidFireActive]; /*Return Tap for if Rapid Fire*/
     
     NSNotification *notification    = [[NSNotification alloc] initWithName:kSINotificationCorrectMove object:nil userInfo:userInfo];
     [[NSNotificationCenter defaultCenter] postNotification:notification];
@@ -202,6 +227,7 @@
     
     self.compositeTimeInMiliSeconds = elapsedTime * MILI_SECS_IN_SEC;
 }
+
 #pragma mark - Power Up Methods
 /*This is the second step. This checks to see if we are currently using a powerup*/
 - (void)powerUpDidLoad:(SIPowerUp)powerUp {

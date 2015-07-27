@@ -7,8 +7,10 @@
 // Local Controller Import
 #import "AppDelegate.h"
 #import "BaseNavigationViewController.h"
-#import "StartScreenViewController.h"
+#import "MainViewController.h"
 // Framework Import
+#import <Fabric/Fabric.h>
+#import <Crashlytics/Crashlytics.h>
 // Drop-In Class Imports (CocoaPods/GitHub/Guru)
 #import "MKStoreKit.h"
 // Category Import
@@ -30,15 +32,16 @@ static BOOL isRunningTests(void) __attribute__((const));
         return YES;
     }
     /*RUN LOGIC*/
+    [Fabric with:@[CrashlyticsKit]];
     /*Init window*/
-    self.window                             = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
-    
-    
-    StartScreenViewController       *vc1    = [[StartScreenViewController alloc] init];
-    BaseNavigationViewController    *nav    = [[BaseNavigationViewController alloc] initWithRootViewController:vc1];
-    
-    self.window.rootViewController          = nav;
-    [self.window makeKeyAndVisible];
+//    self.window                             = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
+//    
+//    
+//    MainViewController       *vc1    = [[MainViewController alloc] init];
+////    BaseNavigationViewController    *nav    = [[BaseNavigationViewController alloc] initWithRootViewController:vc1];
+//    
+//    self.window.rootViewController          = vc1;
+//    [self.window makeKeyAndVisible];
     
     /*Check the NSUserDefaults*/
     [self setNSUserDefaults];
@@ -90,7 +93,7 @@ static BOOL isRunningTests(void) __attribute__((const));
                                                   usingBlock:^(NSNotification *note) {
                                                       
                                                       /*Good Debug line to see if MKStoreKit is working*/
-//                                                      NSLog(@"Products available: %@", [[MKStoreKit sharedKit] availableProducts]);
+                                                      NSLog(@"Products available: %@", [[MKStoreKit sharedKit] availableProducts]);
                                                   }];
 }
 static BOOL isRunningTests(void) {

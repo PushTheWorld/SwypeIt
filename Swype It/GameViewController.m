@@ -95,7 +95,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self setupUserInterface];
-    [[AppSingleton singleton] runFirstGame];
+//    [[AppSingleton singleton] runFirstGame];
 }
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
@@ -667,34 +667,32 @@
         UIPinchGestureRecognizer *pinchGR                   = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(pinchRegistered:)];
         [self.view addGestureRecognizer:pinchGR];
     }
-
-    
 }
 
 #pragma mark - Gesture Recognizer Methods
 - (void)tapRegistered:(UITapGestureRecognizer *)tapGestrureRecognizer {
-    if ([AppSingleton singleton].currentGame.currentPowerUp != SIPowerUpCostFallingMonkeys) {
+    if ([AppSingleton singleton].currentGame.currentPowerUp != SIPowerUpFallingMonkeys) {
         [[AppSingleton singleton] moveEnterForType:SIMoveTap];
     }
 }
 - (void)swypeRegistered:(UISwipeGestureRecognizer *)swipeGestrureRecognizer {
-    if ([AppSingleton singleton].currentGame.currentPowerUp != SIPowerUpCostFallingMonkeys) {
+    if ([AppSingleton singleton].currentGame.currentPowerUp != SIPowerUpFallingMonkeys) {
         [[AppSingleton singleton] moveEnterForType:SIMoveSwype];
     }
-
+    
 }
 - (void)pinchRegistered:(UIPinchGestureRecognizer *)pinchGestrureRecognizer {
-    if ([AppSingleton singleton].currentGame.currentPowerUp != SIPowerUpCostFallingMonkeys) {
+    if ([AppSingleton singleton].currentGame.currentPowerUp != SIPowerUpFallingMonkeys) {
         if (pinchGestrureRecognizer.state == UIGestureRecognizerStateEnded) {
             [[AppSingleton singleton] moveEnterForType:SIMovePinch];
         }
     }
 }
 - (void)shakeRegistered {
-    if ([AppSingleton singleton].currentGame.currentPowerUp != SIPowerUpCostFallingMonkeys) {
+    if ([AppSingleton singleton].currentGame.currentPowerUp != SIPowerUpFallingMonkeys) {
         [[AppSingleton singleton] moveEnterForType:SIMoveShake];
     }
-
+    
 }
 
 #pragma mark - Accelerometer Methods
@@ -955,18 +953,6 @@
         /*Add that monkey to the view*/
         [self.gravity addItem:monkey];
         [self.animator addBehavior:self.gravity];
-        
-//        /*Launch That Monkey!*/
-//        [UIView animateWithDuration:4.0 animations:^{
-//            monkey.center = CGPointMake(xLocation, self.fallingMonkeySize.height + SCREEN_HEIGHT);
-//        } completion:^(BOOL finished) {
-//            if (finished) {
-//                NSLog(@"Monkey Tapped");
-//            } else {
-//                NSLog(@"Monkey Not Tapped");
-//            }
-//            self.monkeyDestroyedCount = self.monkeyDestroyedCount + 1;
-//        }];
         
         /*Call Function again*/
         CGFloat randomDelay            = arc4random_uniform(75);
