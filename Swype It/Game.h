@@ -14,12 +14,15 @@
 
 #pragma mark - Public Properties
 @property (assign, nonatomic) BOOL               isPaused;
-@property (assign, nonatomic) NSInteger          currentPointsRemainingThisRound;
-@property (assign, nonatomic) NSInteger          currentBackgroundColorNumber;
+@property (assign, nonatomic) int                freeCoinsEarned;
 @property (assign, nonatomic) float              moveScore;
+@property (assign, nonatomic) float              freeCoinPercentRemaining;
+@property (assign, nonatomic) float              freeCoinInPoints;
 @property (assign, nonatomic) float              moveScorePercentRemaining;
 @property (assign, nonatomic) float              powerUpPercentRemaining;
 @property (assign, nonatomic) float              totalScore;
+@property (assign, nonatomic) NSInteger          currentPointsRemainingThisRound;
+@property (assign, nonatomic) NSInteger          currentBackgroundColorNumber;
 @property (assign, nonatomic) SIGameMode         gameMode;
 @property (assign, nonatomic) SIMove             currentMove;
 @property (assign, nonatomic) SIPowerUp          currentPowerUp;
@@ -47,8 +50,8 @@
 + (SIPowerUpCost)       costForPowerUp:(SIPowerUp)powerUp;
 + (SIPowerUpDuration)   durationForPowerUp:(SIPowerUp)powerUp;
 + (UIColor *)           backgroundColorForScore:(float)score forRandomNumber:(NSInteger)randomNumber;
++ (void)                incrementGamesPlayed;
 + (void)                transisitionToSKScene:(SKScene *)scene toSKView:(SKView *)view DoorsOpen:(BOOL)doorsOpen pausesIncomingScene:(BOOL)pausesIncomingScene pausesOutgoingScene:(BOOL)pausesOutgoingScene duration:(CGFloat)duration;
-
 
 
 #pragma mark - Public Methods

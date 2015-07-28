@@ -37,6 +37,7 @@
 - (void)initAppSingletonWithGameMode:(SIGameMode)gameMode;
 - (void)moveEnterForType:(SIMove)move;
 - (UIColor *)newBackgroundColor;
+- (void)setAndCheckDefaults:(float)score;
 - (void)startGame;
 - (void)pause;
 - (void)play;
@@ -45,5 +46,6 @@
 - (void)powerUpDidActivate;
 - (void)powerUpDidEnd;
 - (void)willPrepareToShowNewMove;
+
 
 @end
