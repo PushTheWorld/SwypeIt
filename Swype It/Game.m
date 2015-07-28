@@ -52,6 +52,7 @@
 }
 
 + (float)scoreForMoveDuration:(float)durationOfLastMove withLevelSpeedDivider:(float)levelSpeedDivider {
+//    NSLog(@"Duration of last move: %0.2f",durationOfLastMove);
     return MAX_MOVE_SCORE * exp(SCORE_EXP_POWER_WEIGHT * durationOfLastMove / levelSpeedDivider);
 }
 + (int)nextLevelForScore:(float)score {
@@ -526,6 +527,11 @@
     } else {
         return SIContinueLifeCost0;
     }
+}
++ (void)incrementGamesPlayed {
+    NSInteger gamesPlayed = [[NSUserDefaults standardUserDefaults] integerForKey:kSINSUserDefaultLifetimeGamesPlayed];
+    [[NSUserDefaults standardUserDefaults] setInteger:gamesPlayed + 1 forKey:kSINSUserDefaultLifetimeGamesPlayed];
+    [[NSUserDefaults standardUserDefaults] synchronize];
 }
 #pragma mark - Private Class Methods
 + (float)levelSpeedForScore:(float)score {

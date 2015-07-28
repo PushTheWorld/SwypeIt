@@ -20,8 +20,10 @@ NSString *const kSIGameModeOneHand                                  = @"gameMode
 
 #pragma mark - NSUserDefaults
 NSString *const kSINSUserDefaultFirstLaunch                         = @"firstLaunch";
-NSString *const kSINSUserDefaultNumberOfItCoins                     = @"numberOfItCoins";
+NSString *const kSINSUserDefaultLifetimePointsEarned                = @"lifetimePointsEarned";
+NSString *const kSINSUserDefaultLifetimeGamesPlayed                 = @"lifetimeGamesPlayed";
 NSString *const kSINSUserDefaultGameMode                            = @"gameMode";
+NSString *const kSINSUserDefaultPointsTowardsFreeCoin               = @"pointsTowardsFreeCoin";
 NSString *const kSINSUserDefaultPowerUpReadyFallingMonkeys          = @"powerUpReadyTimeFallingMonkeys";
 NSString *const kSINSUserDefaultPowerUpReadyRapidFire               = @"powerUpReadyRapidFire";
 NSString *const kSINSUserDefaultPowerUpReadyTimeFreeze              = @"powerUpReadyTimeFreeze";
@@ -34,6 +36,7 @@ NSString *const kSIPowerUpTimeFreeze                                = @"Time Fre
 NSString *const kSIPowerUpRapidFire                                 = @"Rapid Fire";
 
 #pragma mark - NSNotification
+NSString *const kSINotificationFreeCoinEarned                       = @"com.pushtheworldllc.swipeit.freeCoinEarned";
 NSString *const kSINotificationCorrectMove                          = @"com.pushtheworldllc.swipeit.correctMove";
 NSString *const kSINotificationHudHide                              = @"com.pushtheworldllc.swipeit.hudHide";
 NSString *const kSINotificationHudShow                              = @"com.pushtheworldllc.swipeit.hudShow";

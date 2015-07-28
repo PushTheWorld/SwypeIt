@@ -128,8 +128,10 @@
     SKNode *node            = [self nodeAtPoint:location];
 
     if ([node.name isEqualToString:kSINodeButtonReplay]) {
+        [[AppSingleton singleton] endGame];
+        [Game incrementGamesPlayed];
         GameScene *firstScene = [[GameScene alloc] initWithSize:self.size gameMode:[AppSingleton singleton].currentGame.gameMode];
-        [Game transisitionToSKScene:firstScene toSKView:self.view DoorsOpen:NO pausesIncomingScene:NO pausesOutgoingScene:NO duration:1.0];
+        [Game transisitionToSKScene:firstScene toSKView:self.view DoorsOpen:NO pausesIncomingScene:YES pausesOutgoingScene:NO duration:1.0];
         
     } else if ([node.name isEqualToString:kSINodeButtonStore]) {
         StoreScene *storeScene = [StoreScene sceneWithSize:self.size];
@@ -137,6 +139,7 @@
         
     } else if ([node.name isEqualToString:kSINodeButtonMenu]) {
         [[AppSingleton singleton] endGame];
+        [Game incrementGamesPlayed];
         StartScreenScene *startScene = [StartScreenScene sceneWithSize:self.size];
         [Game transisitionToSKScene:startScene toSKView:self.view DoorsOpen:NO pausesIncomingScene:NO pausesOutgoingScene:NO duration:1.0];
     } else if ([node.name isEqualToString:kSINodeButtonContinue]) {
@@ -145,7 +148,7 @@
             [[MKStoreKit sharedKit] consumeCredits:[NSNumber numberWithInteger:[AppSingleton singleton].currentGame.currentNumberOfTimesContinued] identifiedByConsumableIdentifier:kSIIAPConsumableIDCoins];
             [AppSingleton singleton].currentGame.currentNumberOfTimesContinued = [Game lifeCostForCurrentContinueLeve:[AppSingleton singleton].currentGame.currentNumberOfTimesContinued];
             GameScene *firstScene = [[GameScene alloc] initWithSize:self.size gameMode:[AppSingleton singleton].currentGame.gameMode];
-            [Game transisitionToSKScene:firstScene toSKView:self.view DoorsOpen:NO pausesIncomingScene:NO pausesOutgoingScene:NO duration:1.0];
+            [Game transisitionToSKScene:firstScene toSKView:self.view DoorsOpen:NO pausesIncomingScene:YES pausesOutgoingScene:NO duration:1.0];
         } else {
             NSLog(@"Not enough coins...");
         }

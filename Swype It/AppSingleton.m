@@ -85,11 +85,13 @@
 }
 #pragma mark - Game Functions
 - (void)startGame {
-    self.levelSpeedDivider          = 1.0f;
-    self.timeFreezeMultiplyer       = 1.0f;
-    self.currentGame.totalScore     = 0.0f;
-    self.currentGame.isPaused       = NO;
-    self.moveStartTimeInMiliSeconds = 0;
+    self.currentGame.freeCoinsEarned            = 0;
+    self.levelSpeedDivider                      = 1.0f;
+    self.timeFreezeMultiplyer                   = 1.0f;
+    self.currentGame.totalScore                 = 0.0f;
+    self.currentGame.isPaused                   = NO;
+    self.moveStartTimeInMiliSeconds             = 0;
+    self.currentGame.moveScorePercentRemaining  = 1.0f;
     
     if (self.currentGame.gameMode == SIGameModeOneHand) {
         [self.manager startAccelerometerUpdates];
@@ -107,8 +109,11 @@
     self.pauseStartTimeInMiliSeconds    = self.compositeTimeInMiliSeconds;
 }
 - (void)play {
-    self.currentGame.isPaused           = NO;
-    self.moveStartTimeInMiliSeconds     = (self.compositeTimeInMiliSeconds - self.pauseStartTimeInMiliSeconds) + self.moveStartTimeInMiliSeconds;
+    if (self.currentGame.isPaused) {
+        self.currentGame.isPaused           = NO;
+        NSLog(@"Play... Comp Time: %0.2f || PauseStart: %0.2f || MoveStart: %0.2f",self.compositeTimeInMiliSeconds,self.pauseStartTimeInMiliSeconds,self.moveStartTimeInMiliSeconds);
+        self.moveStartTimeInMiliSeconds     = (self.compositeTimeInMiliSeconds - self.pauseStartTimeInMiliSeconds) + self.moveStartTimeInMiliSeconds;
+    }
 }
 - (void)endGame {
     [self.manager stopAccelerometerUpdates];
@@ -121,12 +126,14 @@
 //    [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(powerUpDidEnd) object:nil];
 }
 - (void)stopGame {
-    [self pause];
     /*Send Notification that Game has ENDED*/
     NSNotification *notification    = [[NSNotification alloc] initWithName:kSINotificationGameEnded object:nil userInfo:nil];
     [[NSNotificationCenter defaultCenter] postNotification:notification];
     
     [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(powerUpDidEnd) object:nil];
+    
+    [self pause];
+
 }
 - (void)moveEnterForType:(SIMove)move {
     if (move == self.currentGame.currentMove) {
@@ -136,21 +143,59 @@
     }
 }
 - (void)willPrepareToShowNewMove {
-    NSDictionary *userInfo          = [NSDictionary dictionaryWithObject:@(self.currentGame.moveScore) forKey:kSINSDictionaryKeyMoveScore];
+    NSDictionary *userInfo                      = [NSDictionary dictionaryWithObject:@(self.currentGame.moveScore) forKey:kSINSDictionaryKeyMoveScore];
     
     [self captureTime];     /*Capture the time for the next move*/
     
-    self.currentGame.totalScore     = self.currentGame.totalScore + self.currentGame.moveScore; /*Add moveScore to total score*/
+    if (self.isPaused == NO) {
+        NSLog(@"Move score: %0.2f and Total score: %0.2f",self.currentGame.moveScore,self.currentGame.totalScore);
+        self.currentGame.totalScore                 = self.currentGame.totalScore + self.currentGame.moveScore; /*Add moveScore to total score*/
+        
+        [self setAndCheckDefaults:self.currentGame.moveScore];
+        
+        
+        [self didLevelStringChange:self.previousLevel newLevelString:[Game currentLevelStringForScore:self.currentGame.totalScore]];
+        
+        BOOL isRapidFireActive                      = (self.currentGame.currentPowerUp == SIPowerUpRapidFire) ? YES : NO;
+        
+        self.currentGame.currentMove                = [Game getRandomMoveForGameMode:self.currentGame.gameMode isRapidFireActiviated:isRapidFireActive]; /*Return Tap for if Rapid Fire*/
+    }
     
-    [self didLevelStringChange:self.previousLevel newLevelString:[Game currentLevelStringForScore:self.currentGame.totalScore]];
     
-    BOOL isRapidFireActive          = (self.currentGame.currentPowerUp == SIPowerUpRapidFire) ? YES : NO;
-    
-    self.currentGame.currentMove    = [Game getRandomMoveForGameMode:self.currentGame.gameMode isRapidFireActiviated:isRapidFireActive]; /*Return Tap for if Rapid Fire*/
-    
-    NSNotification *notification    = [[NSNotification alloc] initWithName:kSINotificationCorrectMove object:nil userInfo:userInfo];
+    NSNotification *notification                = [[NSNotification alloc] initWithName:kSINotificationCorrectMove object:nil userInfo:userInfo];
     [[NSNotificationCenter defaultCenter] postNotification:notification];
 
+}
+- (void)setAndCheckDefaults:(float)score {
+    NSNumber *lifeTimePointsEarned              = [[NSUserDefaults standardUserDefaults] objectForKey:kSINSUserDefaultLifetimePointsEarned];
+    if (lifeTimePointsEarned == nil) {
+        [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithFloat:0.0f] forKey:kSINSUserDefaultLifetimePointsEarned];
+    } else {
+        lifeTimePointsEarned                    = [NSNumber numberWithFloat: [lifeTimePointsEarned floatValue] + score];
+        [[NSUserDefaults standardUserDefaults] setObject:lifeTimePointsEarned forKey:kSINSUserDefaultLifetimePointsEarned];
+    }
+    
+    
+    NSNumber *pointsTillFreeCoinNumber          = [[NSUserDefaults standardUserDefaults] objectForKey:kSINSUserDefaultPointsTowardsFreeCoin];
+    if (pointsTillFreeCoinNumber == nil) {
+        pointsTillFreeCoinNumber = [NSNumber numberWithFloat:0.0f];
+        [[NSUserDefaults standardUserDefaults] setObject:pointsTillFreeCoinNumber forKey:kSINSUserDefaultPointsTowardsFreeCoin];
+    }
+    float pointsTillFreeCoin                    = [pointsTillFreeCoinNumber floatValue];
+//    NSLog(@"Points till free coin before: %0.2f",pointsTillFreeCoin);
+    pointsTillFreeCoin                          = pointsTillFreeCoin + score;
+    self.currentGame.freeCoinInPoints           = pointsTillFreeCoin;
+    if (pointsTillFreeCoin > POINTS_NEEDED_FOR_FREE_COIN) {
+        pointsTillFreeCoin                      = pointsTillFreeCoin - POINTS_NEEDED_FOR_FREE_COIN;
+        self.currentGame.freeCoinsEarned        = self.currentGame.freeCoinsEarned + 1;
+        [[MKStoreKit sharedKit] addFreeCredits:[NSNumber numberWithInt:1] identifiedByConsumableIdentifier:kSIIAPConsumableIDCoins];
+        NSNotification *notification            = [[NSNotification alloc] initWithName:kSINotificationFreeCoinEarned object:nil userInfo:nil];
+        [[NSNotificationCenter defaultCenter] postNotification:notification];
+    }
+    self.currentGame.freeCoinPercentRemaining   = (pointsTillFreeCoin / (float)POINTS_NEEDED_FOR_FREE_COIN);
+//    NSLog(@"Points till free coin after: %0.2f",pointsTillFreeCoin);
+    [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithFloat:pointsTillFreeCoin] forKey:kSINSUserDefaultPointsTowardsFreeCoin];
+    [[NSUserDefaults standardUserDefaults] synchronize];
 }
 - (UIColor *)newBackgroundColor {
     NSInteger randomNumber;
@@ -179,6 +224,7 @@
 }
 #pragma mark - Timer Methods
 - (void)captureTime {
+    NSLog(@"Capture time...");
     self.moveStartTimeInMiliSeconds = self.compositeTimeInMiliSeconds;
 }
 - (void)startTimer {
@@ -193,17 +239,24 @@
     /*Update the master timer*/
     [self updateCompositeTime];
     
-    /*Calculate new time*/
-    float durationOfLastMove                    = (self.compositeTimeInMiliSeconds - self.moveStartTimeInMiliSeconds) * self.timeFreezeMultiplyer;
-    
-    /*Calculate Level Speed Divider*/
-    self.levelSpeedDivider                      = [Game levelSpeedForScore:self.currentGame.totalScore];
+    if (self.isPaused == NO) {
+        /*Calculate new time*/
+//        NSLog(@"Comp Time: %0.2f || Move Start Time: %0.2f || Difference: %0.2f",self.compositeTimeInMiliSeconds,self.moveStartTimeInMiliSeconds,(self.compositeTimeInMiliSeconds - self.moveStartTimeInMiliSeconds));
+        float durationOfLastMove                    = (self.compositeTimeInMiliSeconds - self.moveStartTimeInMiliSeconds) * self.timeFreezeMultiplyer;
+        
+        /*Calculate Level Speed Divider*/
+        self.levelSpeedDivider                      = [Game levelSpeedForScore:self.currentGame.totalScore];
+        
+        /*Get the new score for this time -- Always keep the time current*/
+        self.currentGame.moveScore                  = [Game scoreForMoveDuration:durationOfLastMove withLevelSpeedDivider:self.levelSpeedDivider];
+        
+//        NSLog(@"MoveScore: %0.2f",self.currentGame.moveScore);
+        
+        /*Get the new percentage for score*/
+        self.currentGame.moveScorePercentRemaining  = self.currentGame.moveScore / MAX_MOVE_SCORE;
 
-    /*Get the new score for this time -- Always keep the time current*/
-    self.currentGame.moveScore                  = [Game scoreForMoveDuration:durationOfLastMove withLevelSpeedDivider:self.levelSpeedDivider];
-    
-    /*Get the new percentage for score*/
-    self.currentGame.moveScorePercentRemaining  = self.currentGame.moveScore / MAX_MOVE_SCORE;
+    }
+//    NSLog(@"MovePercentRemaining: %0.2f",self.currentGame.moveScorePercentRemaining);
     
     /*Set the new percentage for Power UP*/
     if (self.currentGame.currentPowerUp != SIPowerUpNone) {
