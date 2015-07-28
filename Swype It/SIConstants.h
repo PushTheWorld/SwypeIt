@@ -40,20 +40,20 @@
 #define IS_IPHONE_6                 (MAX([UIScreen mainScreen].bounds.size.height, [UIScreen mainScreen].bounds.size.width) == 667.0)
 #define IS_IPHONE_6_PLUS            (MAX([UIScreen mainScreen].bounds.size.height, [UIScreen mainScreen].bounds.size.width) == 736.0)
 
-
 #define SCREEN_WIDTH                MIN([UIScreen mainScreen].bounds.size.height, [UIScreen mainScreen].bounds.size.width)
 #define SCREEN_HEIGHT               MAX([UIScreen mainScreen].bounds.size.height, [UIScreen mainScreen].bounds.size.width)
 
 #define MILI_SECS_IN_SEC            1000
 
 #pragma mark - Game Constants
+#define POINTS_NEEDED_FOR_FREE_COIN 500
 #define mSlope                      -7/240
 #define SCORE_EXP_POWER_WEIGHT      -0.001205
 #define MAX_MOVE_SCORE              10.78457
 #define TIMER_INTERVAL              1/30
 #define LEVEL_SPEED_DIV_MULT        -0.384
 #define LEVEL_SPEED_INTERCEPT       4.4182
-#define VALUE_OF_MONKEY             50
+#define VALUE_OF_MONKEY             25
 
 #define NUMBER_OF_MOVES             3
 #define NUMBER_OF_BACKGROUNDS       3
@@ -149,8 +149,10 @@ extern NSString *const kSIGameModeOneHand;
 
 #pragma mark - NSUserDefaults
 extern NSString *const kSINSUserDefaultFirstLaunch;
-extern NSString *const kSINSUserDefaultNumberOfItCoins;
+extern NSString *const kSINSUserDefaultLifetimePointsEarned;
+extern NSString *const kSINSUserDefaultLifetimeGamesPlayed;
 extern NSString *const kSINSUserDefaultGameMode;
+extern NSString *const kSINSUserDefaultPointsTowardsFreeCoin;
 extern NSString *const kSINSUserDefaultPowerUpReadyFallingMonkeys;
 extern NSString *const kSINSUserDefaultPowerUpReadyRapidFire;
 extern NSString *const kSINSUserDefaultPowerUpReadyTimeFreeze;
@@ -163,6 +165,7 @@ extern NSString *const kSIPowerUpTimeFreeze;
 extern NSString *const kSIPowerUpRapidFire;
 
 #pragma mark - NSNotification
+extern NSString *const kSINotificationFreeCoinEarned;
 extern NSString *const kSINotificationCorrectMove;
 extern NSString *const kSINotificationHudHide;
 extern NSString *const kSINotificationHudShow;

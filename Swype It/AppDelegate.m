@@ -78,6 +78,9 @@ static BOOL isRunningTests(void) __attribute__((const));
     BOOL isThisTheFirstLaunch = [[NSUserDefaults standardUserDefaults] boolForKey:kSINSUserDefaultFirstLaunch];
     if (isThisTheFirstLaunch == NO) {
         //set to no
+        [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithInt:0] forKey:kSINSUserDefaultPointsTowardsFreeCoin];
+        [[NSUserDefaults standardUserDefaults] setInteger:0                         forKey:kSINSUserDefaultLifetimeGamesPlayed];
+        [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithInt:0] forKey:kSINSUserDefaultLifetimePointsEarned];
         [[NSUserDefaults standardUserDefaults] setInteger:0                         forKey:kSINSUserDefaultGameMode];
         [[NSUserDefaults standardUserDefaults] setInteger:NUMBER_OF_MONKEYS_INIT    forKey:kSINSUserDefaultNumberOfMonkeys];
         [[NSUserDefaults standardUserDefaults] setBool:YES                          forKey:kSINSUserDefaultFirstLaunch];
@@ -86,7 +89,7 @@ static BOOL isRunningTests(void) __attribute__((const));
 }
 - (void)configureMKStoreKit {
     [[MKStoreKit sharedKit] startProductRequest];
-    [[MKStoreKit sharedKit] setDefaultCredits:[NSNumber numberWithInt:100] forConsumableIdentifier:kSIIAPConsumableIDCoins];
+    [[MKStoreKit sharedKit] setDefaultCredits:[NSNumber numberWithInt:1000] forConsumableIdentifier:kSIIAPConsumableIDCoins];
     [[NSNotificationCenter defaultCenter] addObserverForName:kMKStoreKitProductsAvailableNotification
                                                       object:nil
                                                        queue:[[NSOperationQueue alloc] init]

@@ -53,6 +53,7 @@
 + (UIColor *)backgroundColorForLevelThirteenB;
 + (UIColor *)backgroundColorForLevelThirteenC;
 
++ (UIColor *)goldColor;
 + (UIColor *)mainColor;
 + (UIColor *)sandColor;
 @end
