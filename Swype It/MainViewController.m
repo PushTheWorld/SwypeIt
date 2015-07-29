@@ -101,7 +101,7 @@
     
     MBProgressHUD *hud      = [MBProgressHUD showHUDAddedTo:self.view animated:willAnimate];
     hud.detailsLabelText    = titleString;
-    hud.dimBackground       = dimBackground;
+    hud.dimBackground       = willDimBackground;
     hud.labelText           = infoString;
     hud.mode                = MBProgressHUDModeIndeterminate;
     self.hud                = hud;

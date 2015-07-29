@@ -5,3 +5,5 @@ pod 'YLProgressBar', '~> 3.6.1'
 pod 'Fabric'
 
 pod 'Crashlytics'
+
+pod 'HLSpriteKit'

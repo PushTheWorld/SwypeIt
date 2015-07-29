@@ -574,7 +574,7 @@ static const uint32_t sideEdgeCategory      = 0x1 << 3; // 000000000000000000000
     
     [self.playNode runAction:[SKAction fadeAlphaTo:1.0 duration:0.7]];
     
-    self.pauseScreenNode            = [SKSpriteNode spriteNodeWithTexture:[SKTexture textureWithImage:[self getBluredScreenshot]]];
+    self.pauseScreenNode            = [SKSpriteNode spriteNodeWithTexture:[SKTexture textureWithImage:[Game getBluredScreenshot:self.view]]];
     self.pauseScreenNode.position   = CGPointMake(CGRectGetMidX(self.frame), CGRectGetMidY(self.frame));
     self.pauseScreenNode.alpha      = 0;
     self.pauseScreenNode.zPosition  = 1;
@@ -589,28 +589,7 @@ static const uint32_t sideEdgeCategory      = 0x1 << 3; // 000000000000000000000
     [[AppSingleton singleton] play];
 }
 
-- (UIImage *)getBluredScreenshot {
-    UIGraphicsBeginImageContextWithOptions(self.view.bounds.size, NO, 1);
-    [self.view drawViewHierarchyInRect:self.view.frame afterScreenUpdates:YES];
-    UIImage *ss = UIGraphicsGetImageFromCurrentImageContext();
-    UIGraphicsEndImageContext();
-    
-    CIFilter *gaussianBlurFilter = [CIFilter filterWithName:@"CIGaussianBlur"];
-    [gaussianBlurFilter setDefaults];
-    [gaussianBlurFilter setValue:[CIImage imageWithCGImage:[ss CGImage]] forKey:kCIInputImageKey];
-    [gaussianBlurFilter setValue:@10 forKey:kCIInputRadiusKey];
-    
-    CIImage *outputImage = [gaussianBlurFilter outputImage];
-    CIContext *context   = [CIContext contextWithOptions:nil];
-    CGRect rect          = [outputImage extent];
-    rect.origin.x        += (rect.size.width  - ss.size.width ) / 2;
-    rect.origin.y        += (rect.size.height - ss.size.height) / 2;
-    rect.size            = ss.size;
-    CGImageRef cgimg     = [context createCGImage:outputImage fromRect:rect];
-    UIImage *image       = [UIImage imageWithCGImage:cgimg];
-    CGImageRelease(cgimg);
-    return image;
-}
+
 #pragma mark - GUI Functions
 - (void)presentMoveScore:(NSNumber *)score {
     SKLabelNode *moveLabel                      = [SKLabelNode labelNodeWithFontNamed:kSIFontFuturaMedium];

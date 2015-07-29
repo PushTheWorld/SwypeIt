@@ -15,17 +15,20 @@
 #import "StoreScene.h"
 // Framework Import
 // Drop-In Class Imports (CocoaPods/GitHub/Guru)
-#import "Game.h"
+#import "HLSpriteKit.h"
 #import "MKStoreKit.h"
 // Category Import
 #import "UIColor+Additions.h"
 // Support/Data Class Imports
+#import "Game.h"
 //#import "SIConstants.h"
 // Other Imports
 @interface EndGameScene ()
 
-@property (strong, nonatomic) SKLabelNode *gameScoreLabel;
+@property (assign, nonatomic) BOOL           userCanAffordContinue;
 
+@property (strong, nonatomic) SKLabelNode   *gameScoreLabel;
+@property (strong, nonatomic) SKSpriteNode  *pauseScreenNode;
 @end
 
 @implementation EndGameScene
@@ -75,9 +78,11 @@
     /*Continue Button*/
     SKSpriteNode *continueNode;
     if ([[[MKStoreKit sharedKit] availableCreditsForConsumable:kSIIAPConsumableIDCoins] intValue] >= [AppSingleton singleton].currentGame.currentNumberOfTimesContinued) {
-        continueNode = [SKSpriteNode spriteNodeWithTexture:[[SIConstants buttonAtlas] textureNamed:kSIImageButtonContinue] size:CGSizeMake(size.width / 2.0f, size.width / 4.0f)];
+        self.userCanAffordContinue  = YES;
+        continueNode                = [SKSpriteNode spriteNodeWithTexture:[[SIConstants buttonAtlas] textureNamed:kSIImageButtonContinue] size:CGSizeMake(size.width / 2.0f, size.width / 4.0f)];
     } else {
-        continueNode = [SKSpriteNode spriteNodeWithTexture:[[SIConstants buttonAtlas] textureNamed:kSIImageButtonContinueGrayed] size:CGSizeMake(size.width / 2.0f, size.width / 4.0f)];
+        self.userCanAffordContinue  = NO;
+        continueNode                = [SKSpriteNode spriteNodeWithTexture:[[SIConstants buttonAtlas] textureNamed:kSIImageButtonContinueGrayed] size:CGSizeMake(size.width / 2.0f, size.width / 4.0f)];
     }
     continueNode.position           = CGPointMake(size.width + (continueNode.size.width / 2.0f), (size.height / 2.0f) + (continueNode.frame.size.height/2.0f) );
     continueNode.name               = kSINodeButtonContinue;
@@ -143,16 +148,25 @@
         StartScreenScene *startScene = [StartScreenScene sceneWithSize:self.size];
         [Game transisitionToSKScene:startScene toSKView:self.view DoorsOpen:NO pausesIncomingScene:NO pausesOutgoingScene:NO duration:1.0];
     } else if ([node.name isEqualToString:kSINodeButtonContinue]) {
-        if ([[[MKStoreKit sharedKit] availableCreditsForConsumable:kSIIAPConsumableIDCoins] intValue] >= [AppSingleton singleton].currentGame.currentNumberOfTimesContinued) {
+        if (self.userCanAffordContinue) {
             [AppSingleton singleton].willResume = YES;
             [[MKStoreKit sharedKit] consumeCredits:[NSNumber numberWithInteger:[AppSingleton singleton].currentGame.currentNumberOfTimesContinued] identifiedByConsumableIdentifier:kSIIAPConsumableIDCoins];
             [AppSingleton singleton].currentGame.currentNumberOfTimesContinued = [Game lifeCostForCurrentContinueLeve:[AppSingleton singleton].currentGame.currentNumberOfTimesContinued];
-            GameScene *firstScene = [[GameScene alloc] initWithSize:self.size gameMode:[AppSingleton singleton].currentGame.gameMode];
-            [Game transisitionToSKScene:firstScene toSKView:self.view DoorsOpen:NO pausesIncomingScene:YES pausesOutgoingScene:NO duration:1.0];
-        } else {
-            NSLog(@"Not enough coins...");
+            GameScene *gameScene = [[GameScene alloc] initWithSize:self.size gameMode:[AppSingleton singleton].currentGame.gameMode];
+            [Game transisitionToSKScene:gameScene toSKView:self.view DoorsOpen:NO pausesIncomingScene:YES pausesOutgoingScene:NO duration:1.0];
+        } else { /*User cannot afford the to contiue*/
+            [self showCanNotAfford];
         }
     }
+}
+- (void)showCanNotAfford {
+    self.pauseScreenNode            = [SKSpriteNode spriteNodeWithTexture:[SKTexture textureWithImage:[Game getBluredScreenshot:self.view]]];
+    self.pauseScreenNode.position   = CGPointMake(CGRectGetMidX(self.frame), CGRectGetMidY(self.frame));
+    self.pauseScreenNode.alpha      = 0;
+    self.pauseScreenNode.zPosition  = 1;
+    [self.pauseScreenNode runAction:[SKAction fadeAlphaTo:1 duration:0.4]];
+    [self addChild:self.pauseScreenNode];
+    
     
 }
 
