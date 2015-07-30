@@ -115,8 +115,6 @@
 
 }
 - (void)addButtons:(CGSize)size {
-    NSLog(@"addButtons called");
-    
     for (int i = 0; i < 4; i++) {
         [self addButton:size withSIIAPPack:(SIIAPPack)(i) withVerticalCenterPoints:self.verticalNodeCenterPoint];
     }
@@ -258,7 +256,7 @@
     SKAction *oldCoinGroup        = [SKAction group:@[shrink,reduceAlpha]];
     /*Change that value*/
     SKAction *changeValue         = [SKAction runBlock:^{
-        self.itCoinsLabel.text    = [NSString stringWithFormat:@"%d",[[[MKStoreKit sharedKit] availableCreditsForConsumable:kSIIAPConsumableIDCoins] intValue]];
+        self.itCoinsLabel.text    = [NSString stringWithFormat:@"You have %d IT Coins",[[[MKStoreKit sharedKit] availableCreditsForConsumable:kSIIAPConsumableIDCoins] intValue]];
     }];
     /*transistion in*/
     SKAction *growLarge           = [SKAction scaleTo:2.0 duration:1.2f];

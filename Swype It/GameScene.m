@@ -24,6 +24,7 @@
 // Drop-In Class Imports (CocoaPods/GitHub/Guru)
 #import "MKStoreKit.h"
 // Category Import
+#import "SKNode+HLGestureTarget.h"
 #import "UIColor+Additions.h"
 // Support/Data Class Imports
 #import "Game.h"
@@ -36,6 +37,7 @@
 @property (assign, nonatomic) BOOL               isButtonTouched;
 @property (assign, nonatomic) BOOL               isGameActive;
 @property (assign, nonatomic) BOOL               isShakeActive;
+@property (assign, nonatomic) BOOL               isHighScoreShowing;
 @property (assign, nonatomic) CGSize             fallingMonkeySize;
 @property (assign, nonatomic) CGFloat            progressBarCornerRadius;
 @property (assign, nonatomic) CGSize             progressBarSize;
@@ -73,6 +75,7 @@
 
 #pragma mark - Gesture Recognizers
 @property (nonatomic) UITapGestureRecognizer    *tap;
+@property (nonatomic) UISwipeGestureRecognizer  *swype;
 @property (nonatomic) UISwipeGestureRecognizer  *swypeTopBottom;
 @property (nonatomic) UISwipeGestureRecognizer  *swypeLeft;
 @property (nonatomic) UISwipeGestureRecognizer  *swypeRight;
@@ -106,22 +109,16 @@ static const uint32_t sideEdgeCategory      = 0x1 << 3; // 000000000000000000000
     self.physicsWorld.contactDelegate   = self;
     
     [self setupUserInterfaceWithSize:size];
+    
 }
 
 - (void)didMoveToView:(nonnull SKView *)view {
     [self setupGestureRecognizersWithView:view];
-    if ([AppSingleton singleton].willResume) {
-        [AppSingleton singleton].willResume = NO;
-        [[AppSingleton singleton] play];
-        [self gameResume];
-        [[AppSingleton singleton] willPrepareToShowNewMove];
-    } else {
-        self.progressBarMove.progress = 1.0f;
-        [[AppSingleton singleton] startGame];
-        self.backgroundColor                = [[AppSingleton singleton] newBackgroundColor];
-
-    }
-    /*Get Background Color*/
+    self.backgroundColor                = [[AppSingleton singleton] newBackgroundColor];
+}
+- (void)willMoveFromView:(nonnull SKView *)view {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    [super willMoveFromView:view];
 }
 - (void)removeGestureRecognizers {
     [self.view removeGestureRecognizer:self.tap];
@@ -175,7 +172,7 @@ static const uint32_t sideEdgeCategory      = 0x1 << 3; // 000000000000000000000
     self.moveCommandFont                = [UIFont fontWithName:kSIFontFuturaMedium size:self.fontSize];
     self.totalScoreFont                 = [UIFont fontWithName:kSIFontFuturaMedium size:self.fontSize * 2.0f];
 
-    
+    self.isHighScoreShowing             = NO;
 }
 - (void)createControlsWithSize:(CGSize)size {
     /**Labels*/
@@ -252,6 +249,7 @@ static const uint32_t sideEdgeCategory      = 0x1 << 3; // 000000000000000000000
     
     /**Progress Bars*/
     /*Free Coin Progress Bar Sprite*/
+    SKAction *initFadeOut = [SKAction fadeOutWithDuration:0.0f];
     NSNumber *freeCoinNumber                                = [[NSUserDefaults standardUserDefaults] objectForKey:kSINSUserDefaultPointsTowardsFreeCoin];
     float freeCoinIn                                        = POINTS_NEEDED_FOR_FREE_COIN - [freeCoinNumber floatValue];
     self.progressBarFreeCoin.titleLabelNode.text            = [NSString stringWithFormat:@"IT Coin In %0.2f Points", freeCoinIn];
@@ -267,9 +265,13 @@ static const uint32_t sideEdgeCategory      = 0x1 << 3; // 000000000000000000000
     self.progressBarPowerUp.progress                        = 1.0f;
     self.progressBarPowerUp.titleLabelNode.fontSize         = 25;
     self.progressBarPowerUp.physicsBody.categoryBitMask     = uiControlCategory;
-    // Fade out the progress bar initially
-    SKAction *fadeOut = [SKAction fadeOutWithDuration:0.0f];
-    [self.progressBarPowerUp runAction:fadeOut];
+    
+    
+    if ([AppSingleton singleton].willResume == NO) {
+        [self.progressBarFreeCoin   runAction:initFadeOut];
+        [self.progressBarMove       runAction:initFadeOut];
+        [self.progressBarPowerUp    runAction:initFadeOut];
+    }
     
     /**Power Up Buttons*/
     self.timeFreezeNode.name                                = kSINodeButtonTimeFreeze;
@@ -355,40 +357,88 @@ static const uint32_t sideEdgeCategory      = 0x1 << 3; // 000000000000000000000
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(powerUpActivated)         name:kSINotificationPowerUpActive       object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(levelDidChange)           name:kSINotificationLevelDidChange      object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(freeCoinEarned)           name:kSINotificationFreeCoinEarned      object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(newHighScore)             name:kSINotificationNewHighScore        object:nil];
     
 }
 - (void)setupGestureRecognizersWithView:(SKView *)view {
     /*Both Game modes get tap*/
-    self.tap                            = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapRegistered:)];
-    self.tap.numberOfTapsRequired       = 1;
-    [[self view] addGestureRecognizer:self.tap];
+    UITapGestureRecognizer *tap      = [[UITapGestureRecognizer alloc] init];
+    tap.numberOfTapsRequired       = 1;
+//    [tap addTarget:self action:@selector(tapRegistered:)];
+//    [self.view addGestureRecognizer:tap];
     
     /*Both Game modes get swype*/
-    /*Right swype*/
-    self.swypeRight                                     = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swypeRegistered:)];
-    self.swypeRight.direction                           = UISwipeGestureRecognizerDirectionRight;
-    [[self view] addGestureRecognizer:self.swypeRight];
-    
-    /*Left swype*/
-    self.swypeLeft                                      = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swypeRegistered:)];
-    self.swypeLeft.direction                            = UISwipeGestureRecognizerDirectionLeft;
-    [[self view] addGestureRecognizer:self.swypeLeft];
-    /*Up/Down swype*/
-    self.swypeTopBottom                                 = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swypeRegistered:)];
-    self.swypeTopBottom.direction                       = UISwipeGestureRecognizerDirectionUp | UISwipeGestureRecognizerDirectionDown;
-    [[self view] addGestureRecognizer:self.swypeTopBottom];
+    UISwipeGestureRecognizer *swype    = [[UISwipeGestureRecognizer alloc] init];
+    swype.direction                = UISwipeGestureRecognizerDirectionRight | UISwipeGestureRecognizerDirectionLeft | UISwipeGestureRecognizerDirectionDown | UISwipeGestureRecognizerDirectionUp;
+//    [swype addTarget:self action:@selector(swypeRegistered:)];
+//    [self.view addGestureRecognizer:swype];
     
     if (self.gameMode == SIGameModeOneHand) {
         /*Setup Shake recognizer*/
         self.restCount                                  = 0;
         self.isShakeActive                              = NO;
         [self startAccelerometerForShake];
+        [self needSharedGestureRecognizers:@[tap,swype]];
+        
     } else {
         /*Setup up pinch recognizer*/
-        self.pinch                                      = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(pinchRegistered:)];
-        [[self view] addGestureRecognizer:self.pinch];
+        UIGestureRecognizer *pinch                                      = [[UIPinchGestureRecognizer alloc] init];
+        [pinch addTarget:self action:@selector(pinchRegistered:)];
+//        [self.view addGestureRecognizer:pinch];
+        [self needSharedGestureRecognizers:@[tap,swype,pinch]];
     }
 }
+- (BOOL)gestureRecognizer:(nonnull UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(nonnull UITouch *)touch {
+//    CGPoint viewLocation = [touch locationInView:self.view];
+//    CGPoint sceneLocation = [self convertPointFromView:viewLocation];
+    
+    [self checkIfGameShallStartOrResume];
+    
+    // Modal overlay layer (handled by HLScene).
+    if ([self modalNodePresented]) {
+        return [super gestureRecognizer:gestureRecognizer shouldReceiveTouch:touch];
+    }
+    
+    //World
+    if ([gestureRecognizer isKindOfClass:[UITapGestureRecognizer class]]) {
+        [gestureRecognizer removeTarget:nil action:NULL];
+        [gestureRecognizer addTarget:self action:@selector(tapRegistered:)];
+        return YES;
+    } else if ([gestureRecognizer isKindOfClass:[UIPinchGestureRecognizer class]]) {
+        [gestureRecognizer removeTarget:nil action:NULL];
+        [gestureRecognizer addTarget:self action:@selector(pinchRegistered:)];
+        return YES;
+    } else if ([gestureRecognizer isKindOfClass:[UISwipeGestureRecognizer class]]) {
+        [gestureRecognizer removeTarget:nil action:NULL];
+        [gestureRecognizer addTarget:self action:@selector(swypeRegistered:)];
+        return YES;
+    }
+    return NO;
+}
+
+- (void)checkIfGameShallStartOrResume {
+    if ([AppSingleton singleton].currentGame.isStarted == NO) {
+        [AppSingleton singleton].currentGame.isStarted = YES;
+        [[AppSingleton singleton] startGame];
+        
+        SKAction *fadeIn = [SKAction fadeInWithDuration:0.7f];
+        [self.progressBarFreeCoin runAction:fadeIn];
+        [self.progressBarMove runAction:fadeIn];
+        
+    } else if ([AppSingleton singleton].willResume) {
+        [AppSingleton singleton].willResume = NO;
+        [[AppSingleton singleton] play];
+        [self gameResume];
+//        [[AppSingleton singleton] willPrepareToShowNewMove];
+        
+//        SKAction *fadeIn = [SKAction fadeInWithDuration:0.7f];
+//        [self.progressBarFreeCoin runAction:fadeIn];
+//        [self.progressBarMove runAction:fadeIn];
+    } else {
+        NSLog(@"Normal");
+    }
+}
+
 - (void)addBottomEdge:(CGSize)size {
     SKNode *bottomEdge                          = [SKNode node];
     bottomEdge.physicsBody                      = [SKPhysicsBody bodyWithEdgeFromPoint:CGPointMake(0, 1) toPoint:CGPointMake(size.width, 1)];
@@ -530,10 +580,12 @@ static const uint32_t sideEdgeCategory      = 0x1 << 3; // 000000000000000000000
     }
 }
 - (void)gameEnded {
-    [self removeGestureRecognizers];
+//    NSArray *gestures = _sharedGestureRecognizers;
+//    [self removeGestureRecognizers];
     if ([AppSingleton singleton].currentGame.currentPowerUp != SIPowerUpNone) {
         [self powerUpDeactivated];
     }
+//    gestures = _sharedGestureRecognizers;
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     EndGameScene *endScene      = [EndGameScene sceneWithSize:self.size];
     [Game transisitionToSKScene:endScene toSKView:self.view DoorsOpen:NO pausesIncomingScene:NO pausesOutgoingScene:NO duration:1.0];
@@ -588,7 +640,23 @@ static const uint32_t sideEdgeCategory      = 0x1 << 3; // 000000000000000000000
     
     [[AppSingleton singleton] play];
 }
-
+- (void)newHighScore {
+    if (self.isHighScoreShowing == NO) {
+        self.isHighScoreShowing     = YES;
+        SKLabelNode *newHighScore   = [[SKLabelNode alloc] initWithFontNamed:kSIFontFuturaMedium];
+        newHighScore.text           = @"High Score!";
+        newHighScore.fontSize       = 40;
+        newHighScore.fontColor      = [SKColor whiteColor];
+        newHighScore.position       = CGPointMake(self.frame.size.width / 2.0f, self.moveCommandLabel.frame.origin.y + self.moveCommandLabel.frame.size.height + VERTICAL_SPACING_16);
+        
+        SKAction *increaseSize      = [SKAction scaleTo:1.3 duration:1.0];
+        SKAction *decreaseSize      = [SKAction scaleTo:0.9 duration:1.0];
+        SKAction *scaleSequence     = [SKAction sequence:@[increaseSize, decreaseSize]];
+        [newHighScore runAction:[SKAction repeatActionForever:scaleSequence]];
+        
+        [self addChild:newHighScore];
+    }
+}
 
 #pragma mark - GUI Functions
 - (void)presentMoveScore:(NSNumber *)score {

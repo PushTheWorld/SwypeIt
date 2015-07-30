@@ -9,7 +9,7 @@
 #import <SpriteKit/SpriteKit.h>
 #import "HLSpriteKit.h"
 
-@interface GameScene : HLScene <SKPhysicsContactDelegate>
+@interface GameScene : HLScene <SKPhysicsContactDelegate, UIGestureRecognizerDelegate>
 
 - (instancetype)initWithSize:(CGSize)size gameMode:(SIGameMode)gameMode;
 

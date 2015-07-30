@@ -17,7 +17,6 @@
 #import "UIColor+Additions.h"
 // Support/Data Class Imports
 #import "Game.h"
-#import "SIConstants.h"
 // Other Imports
 
 @interface MainViewController ()
@@ -146,5 +145,30 @@
         [self.hud hide:willAnimate];
     });
 
+}
++ (HLLabelButtonNode *)SI_sharedMenuButtonPrototypeBasic:(CGSize)size {
+    static HLLabelButtonNode *buttonPrototype = nil;
+    if (!buttonPrototype) {
+        buttonPrototype                         = [[MainViewController SIInterfaceLabelButton:size] copy];
+        buttonPrototype.verticalAlignmentMode   = HLLabelNodeVerticalAlignFontAscenderBias;
+    }
+    return buttonPrototype;
+}
++ (HLLabelButtonNode *)SI_sharedMenuButtonPrototypeBack:(CGSize)size {
+    static HLLabelButtonNode *buttonPrototype = nil;
+    if (!buttonPrototype) {
+        buttonPrototype                     = [[MainViewController SI_sharedMenuButtonPrototypeBasic:size] copy];
+        buttonPrototype.color               = [UIColor blueColor];
+        buttonPrototype.colorBlendFactor    = 1.0f;
+    }
+    return buttonPrototype;
+}
++ (HLLabelButtonNode *)SIInterfaceLabelButton:(CGSize)size {
+    HLLabelButtonNode *labelButton      = [[HLLabelButtonNode alloc] initWithColor:[UIColor mainColor] size:size];
+    labelButton.fontName                = kSIFontFuturaMedium;
+    labelButton.fontSize                = 20.0f;
+    labelButton.fontColor               = [UIColor whiteColor];
+    labelButton.verticalAlignmentMode   = HLLabelNodeVerticalAlignFont; /*NOT working*/ // Neither is this: HLLabelNodeVerticalAlignText
+    return labelButton;
 }
 @end

@@ -14,6 +14,8 @@
 
 #pragma mark - Public Properties
 @property (assign, nonatomic) BOOL               isPaused;
+@property (assign, nonatomic) BOOL               isStarted;
+@property (assign, nonatomic) BOOL               isHighScore;
 @property (assign, nonatomic) int                freeCoinsEarned;
 @property (assign, nonatomic) float              moveScore;
 @property (assign, nonatomic) float              freeCoinPercentRemaining;

@@ -20,8 +20,9 @@ NSString *const kSIGameModeOneHand                                  = @"gameMode
 
 #pragma mark - NSUserDefaults
 NSString *const kSINSUserDefaultFirstLaunch                         = @"firstLaunch";
-NSString *const kSINSUserDefaultLifetimePointsEarned                = @"lifetimePointsEarned";
+NSString *const kSINSUserDefaultLifetimeHighScore                   = @"lifetimeHighScore";
 NSString *const kSINSUserDefaultLifetimeGamesPlayed                 = @"lifetimeGamesPlayed";
+NSString *const kSINSUserDefaultLifetimePointsEarned                = @"lifetimePointsEarned";
 NSString *const kSINSUserDefaultGameMode                            = @"gameMode";
 NSString *const kSINSUserDefaultPointsTowardsFreeCoin               = @"pointsTowardsFreeCoin";
 NSString *const kSINSUserDefaultPowerUpReadyFallingMonkeys          = @"powerUpReadyTimeFallingMonkeys";
@@ -45,6 +46,7 @@ NSString *const kSINotificationGameResumed                          = @"com.push
 NSString *const kSINotificationGameStarted                          = @"com.pushtheworldllc.swipeit.gameStarted";
 NSString *const kSINotificationLevelDidChange                       = @"com.pushtheworldllc.swipeit.levelDidChange";
 NSString *const kSINotificationNewBackgroundReady                   = @"com.pushtheworldllc.swipeit.newBackgroundReady";
+NSString *const kSINotificationNewHighScore                         = @"com.pushtheworldllc.swipeit.newHighScore";
 NSString *const kSINotificationPackPurchaseRequest                  = @"com.pushtheworldllc.swipeit.purchasePack";
 NSString *const kSINotificationPowerUpActive                        = @"com.pushtheworldllc.swipeit.powerUpActive";
 NSString *const kSINotificationPowerUpDeactivated                   = @"com.pushtheworldllc.swipeit.powerUpDeactivated";
@@ -67,6 +69,7 @@ NSString *const kSIImageButtonPause                                 = @"pauseBut
 NSString *const kSIImageButtonPlay                                  = @"playButton";
 NSString *const kSIImageButtonRapidFire                             = @"rapidFire";
 NSString *const kSIImageButtonReplay                                = @"replayButton";
+NSString *const kSIImageButtonSettings                              = @"settingsButtonRevB";
 NSString *const kSIImageButtonStore                                 = @"storeButton";
 NSString *const kSIImageButtonTimeFreeze                            = @"timeFreeze";
 NSString *const kSIImageFallingMonkeys                              = @"monkeyFreeVector";
@@ -94,10 +97,10 @@ NSString *const kSINSDictionaryKeyPowerUp                           = @"powerUp"
 NSString *const kSINSDictionaryKeyPackProduct                       = @"packProduct";
 
 #pragma mark - In App Purchase Product ID
-NSString *const kSIIAPProductIDCoinPackSmall                        = @"com.pushtheworldllc.swipeit.swypeItSmallPack";
-NSString *const kSIIAPProductIDCoinPackMedium                       = @"com.pushtheworldllc.swipeit.swypeItMediumPack";
-NSString *const kSIIAPProductIDCoinPackLarge                        = @"com.pushtheworldllc.swipeit.swypeItLargePack";
-NSString *const kSIIAPProductIDCoinPackExtraLarge                   = @"com.pushtheworldllc.swipeit.swypeItExtraLargePack";
+NSString *const kSIIAPProductIDCoinPackSmall                        = @"com.pushtheworldllc.swipeit.dev.swypeItSmallPack";
+NSString *const kSIIAPProductIDCoinPackMedium                       = @"com.pushtheworldllc.swipeit.dev.swypeItMediumPack";
+NSString *const kSIIAPProductIDCoinPackLarge                        = @"com.pushtheworldllc.swipeit.dev.swypeItLargePack";
+NSString *const kSIIAPProductIDCoinPackExtraLarge                   = @"com.pushtheworldllc.swipeit.dev.swypeItExtraLargePack";
 
 #pragma mark - In App Purchase Consumable ID
 NSString *const kSIIAPConsumableIDCoins                             = @"ITCoins";
@@ -130,6 +133,7 @@ NSString *const kSINodeButtonPause                                  = @"pause";
 NSString *const kSINodeButtonPlay                                   = @"play";
 NSString *const kSINodeButtonRapidFire                              = @"rapidFire";
 NSString *const kSINodeButtonReplay                                 = @"replay";
+NSString *const kSINodeButtonSettings                               = @"settings";
 NSString *const kSINodeButtonStore                                  = @"store";
 NSString *const kSINodeButtonTwoHand                                = @"twoHand";
 NSString *const kSINodeButtonTimeFreeze                             = @"timeFreeze";
@@ -137,6 +141,12 @@ NSString *const kSINodeFallingMonkey                                = @"fallingM
 
 #pragma mark - Fonts
 NSString *const kSIFontFuturaMedium                                 = @"Futura Medium";
+
+#pragma mark - Menu Button Texts
+NSString *const kSIMenuTextBack                                     = @"Back";
+NSString *const kSIMenuTextSettingsBugReport                        = @"Report Bug";
+NSString *const kSIMenuTextSettingsResetHighScore                   = @"Reset High Score";
+NSString *const kSIMenuTextSettingsRestorePurchases                 = @"Restore Purchases";
 
 @implementation SIConstants 
 

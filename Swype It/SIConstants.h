@@ -149,8 +149,9 @@ extern NSString *const kSIGameModeOneHand;
 
 #pragma mark - NSUserDefaults
 extern NSString *const kSINSUserDefaultFirstLaunch;
-extern NSString *const kSINSUserDefaultLifetimePointsEarned;
+extern NSString *const kSINSUserDefaultLifetimeHighScore;
 extern NSString *const kSINSUserDefaultLifetimeGamesPlayed;
+extern NSString *const kSINSUserDefaultLifetimePointsEarned;
 extern NSString *const kSINSUserDefaultGameMode;
 extern NSString *const kSINSUserDefaultPointsTowardsFreeCoin;
 extern NSString *const kSINSUserDefaultPowerUpReadyFallingMonkeys;
@@ -174,6 +175,7 @@ extern NSString *const kSINotificationGameResumed;
 extern NSString *const kSINotificationGameStarted;
 extern NSString *const kSINotificationLevelDidChange;
 extern NSString *const kSINotificationNewBackgroundReady;
+extern NSString *const kSINotificationNewHighScore;
 extern NSString *const kSINotificationPowerUpActive;
 extern NSString *const kSINotificationPowerUpDeactivated;
 extern NSString *const kSINotificationScoreUpdate;
@@ -195,6 +197,7 @@ extern NSString *const kSIImageButtonPause;
 extern NSString *const kSIImageButtonPlay;
 extern NSString *const kSIImageButtonRapidFire;
 extern NSString *const kSIImageButtonReplay;
+extern NSString *const kSIImageButtonSettings;
 extern NSString *const kSIImageButtonStore;
 extern NSString *const kSIImageButtonTimeFreeze;
 extern NSString *const kSIImageFallingMonkeys;
@@ -261,12 +264,19 @@ extern NSString *const kSINodeButtonTwoHand;
 extern NSString *const kSINodeButtonTimeFreeze;
 extern NSString *const kSINodeButtonRapidFire;
 extern NSString *const kSINodeButtonReplay;
+extern NSString *const kSINodeButtonSettings;
 extern NSString *const kSINodeButtonStore;
 extern NSString *const kSINodeFallingMonkey;
 
 
 #pragma mark - Fonts
 extern NSString *const kSIFontFuturaMedium;
+
+#pragma mark - Menu Button Texts
+extern NSString *const kSIMenuTextBack;
+extern NSString *const kSIMenuTextSettingsBugReport;
+extern NSString *const kSIMenuTextSettingsResetHighScore;
+extern NSString *const kSIMenuTextSettingsRestorePurchases;
 
 @interface SIConstants : NSObject
 

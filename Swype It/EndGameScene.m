@@ -23,7 +23,7 @@
 #import "Game.h"
 //#import "SIConstants.h"
 // Other Imports
-@interface EndGameScene ()
+@interface EndGameScene () <HLMenuNodeDelegate>
 
 @property (assign, nonatomic) BOOL           userCanAffordContinue;
 
@@ -101,6 +101,18 @@
     [label runAction:[SKAction fadeAlphaTo:1.0 duration:0.5]];
     [self addChild:label];
     
+    if ([AppSingleton singleton].currentGame.isHighScore) {
+        SKLabelNode *highScoreLabel         = [SKLabelNode labelNodeWithFontNamed:kSIFontFuturaMedium];
+        highScoreLabel.text                          = @"High Score!";
+        highScoreLabel.fontColor                     = [SKColor blackColor];
+        highScoreLabel.fontSize                      = 30;
+        highScoreLabel.alpha                         = 0.0f;
+        highScoreLabel.position                      = CGPointMake(size.width / 2.0f,
+                                                                   label.frame.origin.y + label.frame.size.height + highScoreLabel.frame.size.height + VERTICAL_SPACING_8);
+        [highScoreLabel runAction:[SKAction fadeAlphaTo:1.0 duration:0.5]];
+        [self addChild:highScoreLabel];
+    }
+    
     /*Replay Button*/
     SKSpriteNode *replay        = [SKSpriteNode spriteNodeWithTexture:[[SIConstants buttonAtlas] textureNamed:kSIImageButtonReplay] size:CGSizeMake(size.width / 2.0f, size.width / 4.0f)];
     replay.position             = CGPointMake(-1.0f * (replay.size.width / 2.0f), (size.height / 2.0f) - (replay.frame.size.height/2.0f) - VERTICAL_SPACING_8);
@@ -148,6 +160,7 @@
         StartScreenScene *startScene = [StartScreenScene sceneWithSize:self.size];
         [Game transisitionToSKScene:startScene toSKView:self.view DoorsOpen:NO pausesIncomingScene:NO pausesOutgoingScene:NO duration:1.0];
     } else if ([node.name isEqualToString:kSINodeButtonContinue]) {
+//        [self showCanNotAfford];
         if (self.userCanAffordContinue) {
             [AppSingleton singleton].willResume = YES;
             [[MKStoreKit sharedKit] consumeCredits:[NSNumber numberWithInteger:[AppSingleton singleton].currentGame.currentNumberOfTimesContinued] identifiedByConsumableIdentifier:kSIIAPConsumableIDCoins];
@@ -155,19 +168,37 @@
             GameScene *gameScene = [[GameScene alloc] initWithSize:self.size gameMode:[AppSingleton singleton].currentGame.gameMode];
             [Game transisitionToSKScene:gameScene toSKView:self.view DoorsOpen:NO pausesIncomingScene:YES pausesOutgoingScene:NO duration:1.0];
         } else { /*User cannot afford the to contiue*/
-            [self showCanNotAfford];
+            StoreScene *storeScene = [StoreScene sceneWithSize:self.size];
+            [Game transisitionToSKScene:storeScene toSKView:self.view DoorsOpen:YES pausesIncomingScene:NO pausesOutgoingScene:NO duration:1.0];
+
         }
     }
 }
 - (void)showCanNotAfford {
-    self.pauseScreenNode            = [SKSpriteNode spriteNodeWithTexture:[SKTexture textureWithImage:[Game getBluredScreenshot:self.view]]];
-    self.pauseScreenNode.position   = CGPointMake(CGRectGetMidX(self.frame), CGRectGetMidY(self.frame));
-    self.pauseScreenNode.alpha      = 0;
-    self.pauseScreenNode.zPosition  = 1;
-    [self.pauseScreenNode runAction:[SKAction fadeAlphaTo:1 duration:0.4]];
-    [self addChild:self.pauseScreenNode];
+//    self.pauseScreenNode            = [SKSpriteNode spriteNodeWithTexture:[SKTexture textureWithImage:[Game getBluredScreenshot:self.view]]];
+//    self.pauseScreenNode.position   = CGPointMake(CGRectGetMidX(self.frame), CGRectGetMidY(self.frame));
+//    self.pauseScreenNode.alpha      = 0;
+//    self.pauseScreenNode.zPosition  = 1;
+//    [self.pauseScreenNode runAction:[SKAction fadeAlphaTo:1 duration:0.4]];
+//    [self addChild:self.pauseScreenNode];
+
     
+//    HLMenu *menu                    = [HLMenu menuWithText:@"Items" items:@[item1,item2]];
     
+    HLMenuNode *menuNode            = [[HLMenuNode alloc] init];
+    
+    menuNode.position               = CGPointMake(self.frame.size.width, self.frame.size.height);
+    menuNode.delegate               = self;
+    menuNode.itemSpacing            = 44.0f;
+    [menuNode.menu addItem:[HLMenu menuWithText:@"Buy More Coins" items:@[] ]];
+    [menuNode.menu addItem:[HLMenu menuWithText:@"Cancel" items:@[] ]];
+    
+    [self presentModalNode:menuNode animation:HLScenePresentationAnimationFade];
+
+}
+
+- (void)menuNode:(HLMenuNode *)menuNode didTapMenuItem:(HLMenuItem *)menuItem itemIndex:(NSUInteger)itemIndex {
+    NSLog(@"Did tap item %lu",(unsigned long)itemIndex);
 }
 
 @end

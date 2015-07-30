@@ -61,6 +61,8 @@
     self.willResume                                 = NO;
     self.previousLevel                              = [Game currentLevelStringForScore:0.0f];
     self.timerInterval                              = TIMER_INTERVAL;
+    self.currentGame.isStarted                      = NO;
+    self.currentGame.isHighScore                    = NO;
     self.currentGame.currentNumberOfTimesContinued  = SIContinueLifeCost1;
     self.currentGame.currentLevel                   = [Game currentLevelStringForScore:0.0f];
     self.currentGame.currentPowerUp                 = SIPowerUpNone;
@@ -116,6 +118,7 @@
     }
 }
 - (void)endGame {
+    self.currentGame.isStarted  = NO;
     [self.manager stopAccelerometerUpdates];
     [self.timer invalidate];
 //    
@@ -167,6 +170,19 @@
 
 }
 - (void)setAndCheckDefaults:(float)score {
+    NSNumber *lifeTimeHighScore                 = [[NSUserDefaults standardUserDefaults] objectForKey:kSINSUserDefaultLifetimeHighScore];
+    if (lifeTimeHighScore == nil) {
+        [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithFloat:0.0f] forKey:kSINSUserDefaultLifetimeHighScore];
+    } else {
+        if (self.currentGame.totalScore > [lifeTimeHighScore floatValue]) {
+            self.currentGame.isHighScore        = YES;
+            [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithFloat:self.currentGame.totalScore] forKey:kSINSUserDefaultLifetimeHighScore];
+            NSNotification *notification        = [[NSNotification alloc] initWithName:kSINotificationNewHighScore object:nil userInfo:nil];
+            [[NSNotificationCenter defaultCenter] postNotification:notification];
+        }
+    }
+
+    
     NSNumber *lifeTimePointsEarned              = [[NSUserDefaults standardUserDefaults] objectForKey:kSINSUserDefaultLifetimePointsEarned];
     if (lifeTimePointsEarned == nil) {
         [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithFloat:0.0f] forKey:kSINSUserDefaultLifetimePointsEarned];
