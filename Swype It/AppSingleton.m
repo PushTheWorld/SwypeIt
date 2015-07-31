@@ -11,6 +11,7 @@
 // Drop-In Class Imports (CocoaPods/GitHub/Guru)
 #import "FXReachability.h"
 #import "MKStoreKit.h"
+#import "SoundManager.h"
 // Category Import
 #import "UIColor+Additions.h"
 // Support/Data Class Imports
@@ -64,6 +65,7 @@
     self.currentGame.isStarted                      = NO;
     self.currentGame.isHighScore                    = NO;
     self.currentGame.currentNumberOfTimesContinued  = SIContinueLifeCost1;
+    self.currentGame.currentBackgroundSound         = SIBackgroundSoundMenu;
     self.currentGame.currentLevel                   = [Game currentLevelStringForScore:0.0f];
     self.currentGame.currentPowerUp                 = SIPowerUpNone;
     self.currentGame.totalScore                     = 0.0f;

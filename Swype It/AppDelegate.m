@@ -9,8 +9,9 @@
 #import "BaseNavigationViewController.h"
 #import "MainViewController.h"
 // Framework Import
-#import <Fabric/Fabric.h>
 #import <Crashlytics/Crashlytics.h>
+#import <Fabric/Fabric.h>
+//#import <Instabug/Instabug.h>
 // Drop-In Class Imports (CocoaPods/GitHub/Guru)
 #import "MKStoreKit.h"
 // Category Import
@@ -33,6 +34,9 @@ static BOOL isRunningTests(void) __attribute__((const));
     }
     /*RUN LOGIC*/
     [Fabric with:@[CrashlyticsKit]];
+    
+//    [Instabug startWithToken:@"dd30ee11bb2fde9bf61f850ba2d73b30" captureSource:IBGCaptureSourceUIKit invocationEvent:IBGInvocationEventShake];
+    
     /*Init window*/
 //    self.window                             = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
 //    
@@ -48,6 +52,9 @@ static BOOL isRunningTests(void) __attribute__((const));
     
     /*Get In App Purcahses Up and Running*/
     [self configureMKStoreKit];
+    
+    /*Setup Sound Manager*/
+    
     
     return YES;
 }

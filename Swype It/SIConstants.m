@@ -50,7 +50,9 @@ NSString *const kSINotificationNewHighScore                         = @"com.push
 NSString *const kSINotificationPackPurchaseRequest                  = @"com.pushtheworldllc.swipeit.purchasePack";
 NSString *const kSINotificationPowerUpActive                        = @"com.pushtheworldllc.swipeit.powerUpActive";
 NSString *const kSINotificationPowerUpDeactivated                   = @"com.pushtheworldllc.swipeit.powerUpDeactivated";
+NSString *const kSINotificationSettingsLaunchBugReport              = @"com.pushtheworldllc.swipeit.settingsLaunchBugReport";
 NSString *const kSINotificationScoreUpdate                          = @"com.pushtheworldllc.swipeit.scoreUpdate";
+NSString *const kSINotificationShowAlert                            = @"com.pushtheworldllc.swipeit.showAlert";
 
 
 #pragma mark - Score Constants
@@ -140,13 +142,27 @@ NSString *const kSINodeButtonTimeFreeze                             = @"timeFree
 NSString *const kSINodeFallingMonkey                                = @"fallingMonkey";
 
 #pragma mark - Fonts
-NSString *const kSIFontFuturaMedium                                 = @"Futura Medium";
+NSString *const kSIFontFuturaMedium                                 = @"Futura-Medium";
 
 #pragma mark - Menu Button Texts
 NSString *const kSIMenuTextBack                                     = @"Back";
 NSString *const kSIMenuTextSettingsBugReport                        = @"Report Bug";
 NSString *const kSIMenuTextSettingsResetHighScore                   = @"Reset High Score";
 NSString *const kSIMenuTextSettingsRestorePurchases                 = @"Restore Purchases";
+
+#pragma mark - Emails
+NSString *const kSIEmailBugReportReciever                           = @"buggy.bug@pushtheworld.us";
+
+#pragma mark - Sounds
+NSString *const kSISoundBackgroundMenu                              = @"menuSound";
+NSString *const kSISoundBackgroundOne                               = @"swypeItSound1";
+NSString *const kSISoundBackgroundTwo                               = @"swypeItSound2";
+NSString *const kSISoundBackgroundThree                             = @"swypeItSound3";
+NSString *const kSISoundBackgroundFour                              = @"swypeItSound4";
+NSString *const kSISoundBackgroundFive                              = @"swypeItSound5";
+NSString *const kSISoundBackgroundSix                               = @"swypeItSound6";
+NSString *const kSISoundBackgroundSeven                             = @"swypeItSound7";
+NSString *const kSISoundGameOver                                    = @"swypeItGameOver";
 
 @implementation SIConstants 
 

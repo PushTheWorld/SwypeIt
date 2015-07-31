@@ -1,21 +1,24 @@
 PODS:
+  - Aardvark (1.1)
   - Crashlytics (3.1.0)
   - Fabric (1.2.8):
     - Fabric/Base (= 1.2.8)
   - Fabric/Base (1.2.8)
   - HLSpriteKit (0.9.7)
-  - YLProgressBar (3.6.1)
+  - SoundManager (1.4.2)
 
 DEPENDENCIES:
+  - Aardvark
   - Crashlytics
   - Fabric
   - HLSpriteKit
-  - YLProgressBar (~> 3.6.1)
+  - SoundManager
 
 SPEC CHECKSUMS:
+  Aardvark: c5e087209a6467eebc03273d890e8bccc14de507
   Crashlytics: ef9a58a4e806b316a1748c06432f6f847ba09ac6
   Fabric: a9eabe53915e9f1db55a84dd2838737928675878
   HLSpriteKit: 96b464e2dfc3cc0358fd065893fefe94e3662ebc
-  YLProgressBar: 72095a2570e8d191975d8c11d7f24fff99b6adec
+  SoundManager: 99ae328a3ec9b259db774c9851a65feeceba8183
 
 COCOAPODS: 0.38.2

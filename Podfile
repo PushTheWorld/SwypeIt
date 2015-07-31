@@ -1,9 +1,11 @@
 platform :ios, '7.0'
 
-pod 'YLProgressBar', '~> 3.6.1'
+pod 'SoundManager'
 
 pod 'Fabric'
 
 pod 'Crashlytics'
 
 pod 'HLSpriteKit'
+
+pod 'Aardvark'

@@ -12,6 +12,7 @@
 #import "SettingsScene.h"
 #import "StartScreenScene.h"
 // Framework Import
+//#import <Instabug/Instabug.h>
 // Drop-In Class Imports (CocoaPods/GitHub/Guru)
 // Category Import
 #import "UIColor+Additions.h"
@@ -105,7 +106,12 @@
     /**Layout those controls*/
     
     /*Menu Node*/
-    self.menuNode.position  = CGPointMake(size.width / 2.0f, size.height - VERTICAL_SPACING_16 -VERTICAL_SPACING_16);
+    self.menuNode.position  = CGPointMake(size.width / 2.0f,
+                                          (size.height / 2.0f) +
+                                          (self.buttonSpacing / 2.0f) +
+                                          self.buttonSize.height +
+                                          self.buttonSpacing +
+                                          self.buttonSize.height);
     [self addChild:self.menuNode];
     [self.menuNode hlSetGestureTarget:self.menuNode];
     [self registerDescendant:self.menuNode withOptions:[NSSet setWithObject:HLSceneChildGestureTarget]];
@@ -113,23 +119,63 @@
 }
 - (void)viewSetup:(SKView *)view {
     /**Preform setup post-view load*/
-    self.menuNode.scene.backgroundColor = [SKColor sandColor]; /*Maybe add a convience method*/
+    self.backgroundColor = [SKColor sandColor]; /*Maybe add a convience method*/
 }
 - (void)menuCreate {
     HLMenu *menu = [[HLMenu alloc] init];
+    
+    /*Add the regular buttons*/
     [menu addItem:[HLMenuItem menuItemWithText:kSIMenuTextSettingsResetHighScore]];
     [menu addItem:[HLMenuItem menuItemWithText:kSIMenuTextSettingsRestorePurchases]];
     [menu addItem:[HLMenuItem menuItemWithText:kSIMenuTextSettingsBugReport]];
-    [menu addItem:[HLMenuBackItem menuItemWithText:kSIMenuTextBack]];
+    
+    /*Add the Back Button... Need to change the prototype*/
+    HLMenuItem *resumeItem = [HLMenuItem menuItemWithText:kSIMenuTextBack];
+    resumeItem.buttonPrototype = [MainViewController SI_sharedMenuButtonPrototypeBack:self.buttonSize];
+    [menu addItem:resumeItem];
+    
     [self.menuNode setMenu:menu animation:HLMenuNodeAnimationNone];
 }
 #pragma mark - HLMenuNodeDelegate
 - (void)menuNode:(HLMenuNode *)menuNode didTapMenuItem:(HLMenuItem *)menuItem itemIndex:(NSUInteger)itemIndex {
     NSLog(@"Tapped Menu Item [%@] at index %u",menuItem.text,(unsigned)itemIndex);
     if ([menuItem.text isEqualToString:kSIMenuTextBack]) {
-        StartScreenScene *startScene = [StartScreenScene sceneWithSize:self.frame.size];
-        [Game transisitionToSKScene:startScene toSKView:self.view DoorsOpen:NO pausesIncomingScene:NO pausesOutgoingScene:YES duration:0.5f];
+        [self goBack];
+    } else if ([menuItem.text isEqualToString:kSIMenuTextSettingsBugReport]) {
+        NSNotification *notification        = [[NSNotification alloc] initWithName:kSINotificationSettingsLaunchBugReport object:nil userInfo:nil];
+        [[NSNotificationCenter defaultCenter] postNotification:notification];
+    } else if ([menuItem.text isEqualToString:kSIMenuTextSettingsResetHighScore]) {
+        [self resetHighScore];
+        
     }
 }
+#pragma mark - Private Methods
+- (void)goBack {
+    StartScreenScene *startScene = [StartScreenScene sceneWithSize:self.frame.size];
+    [Game transisitionToSKScene:startScene toSKView:self.view DoorsOpen:NO pausesIncomingScene:NO pausesOutgoingScene:YES duration:0.5f];
+}
+- (void)resetHighScore {
+    NSDictionary *userInfo          = @{kSINSDictionaryKeyHudWillAnimate            : @YES,
+                                        kSINSDictionaryKeyHudWillDimBackground      : @YES,
+                                        kSINSDictionaryKeyHudMessagePresentTitle    : @"High Score",
+                                        kSINSDictionaryKeyHudMessagePresentInfo     : @"Resettings..."};
+    NSNotification *notification    = [[NSNotification alloc] initWithName:kSINotificationHudShow object:nil userInfo:userInfo];
+    [[NSNotificationCenter defaultCenter] postNotification:notification];
+    
+    /*Reset the user defaults*/
+    [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithFloat:0.0f] forKey:kSINSUserDefaultLifetimeHighScore];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+    
+    /*Hide the hud*/
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        NSDictionary *userInfo          = @{kSINSDictionaryKeyHudWillAnimate            : @YES,
+                                            kSINSDictionaryKeyHudWillShowCheckmark      : @YES,
+                                            kSINSDictionaryKeyHudHoldDismissForDuration : [NSNumber numberWithFloat:1.75],
+                                            kSINSDictionaryKeyHudMessagePresentTitle    : @"High Score",
+                                            kSINSDictionaryKeyHudMessagePresentInfo     : @"Reset!"};
+        NSNotification *notification    = [[NSNotification alloc] initWithName:kSINotificationHudHide object:nil userInfo:userInfo];
+        [[NSNotificationCenter defaultCenter] postNotification:notification];
+    });
 
+}
 @end

@@ -533,6 +533,45 @@
     [[NSUserDefaults standardUserDefaults] setInteger:gamesPlayed + 1 forKey:kSINSUserDefaultLifetimeGamesPlayed];
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
++ (SIBackgroundSound)backgroundSoundForScore:(float)score {
+    if (score < SOUNDLEVEL1) {
+        return SIBackgroundSoundOne;
+    } else if (score < SOUNDLEVEL2) {
+        return SIBackgroundSoundTwo;
+    } else if (score < SOUNDLEVEL3) {
+        return SIBackgroundSoundThree;
+    } else if (score < SOUNDLEVEL4) {
+        return SIBackgroundSoundFour;
+    } else if (score < SOUNDLEVEL5) {
+        return SIBackgroundSoundFive;
+    } else if (score < SOUNDLEVEL6) {
+        return SIBackgroundSoundSix;
+    } else {
+        return SIBackgroundSoundSeven;
+    }
+}
++ (NSString *)soundNameForSIBackgroundSound:(SIBackgroundSound)siBackgroundSound {
+    switch (siBackgroundSound) {
+        case SIBackgroundSoundMenu:
+            return kSISoundBackgroundMenu;
+        case SIBackgroundSoundOne:
+            return kSISoundBackgroundOne;
+        case SIBackgroundSoundTwo:
+            return kSISoundBackgroundTwo;
+        case SIBackgroundSoundThree:
+            return kSISoundBackgroundThree;
+        case SIBackgroundSoundFour:
+            return kSISoundBackgroundFour;
+        case SIBackgroundSoundFive:
+            return kSISoundBackgroundFive;
+        case SIBackgroundSoundSix:
+            return kSISoundBackgroundSix;
+        case SIBackgroundSoundSeven:
+            return kSISoundBackgroundSeven;
+        default:
+            return kSISoundBackgroundMenu;
+    }
+}
 #pragma mark - Private Class Methods
 + (float)levelSpeedForScore:(float)score {
     if (score < MAX_MOVE_SCORE) {

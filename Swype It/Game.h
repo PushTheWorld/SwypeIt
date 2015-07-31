@@ -25,10 +25,11 @@
 @property (assign, nonatomic) float              totalScore;
 @property (assign, nonatomic) NSInteger          currentPointsRemainingThisRound;
 @property (assign, nonatomic) NSInteger          currentBackgroundColorNumber;
+@property (assign, nonatomic) SIBackgroundSound  currentBackgroundSound;
+@property (assign, nonatomic) SIContinueLifeCost currentNumberOfTimesContinued;
 @property (assign, nonatomic) SIGameMode         gameMode;
 @property (assign, nonatomic) SIMove             currentMove;
 @property (assign, nonatomic) SIPowerUp          currentPowerUp;
-@property (assign, nonatomic) SIContinueLifeCost currentNumberOfTimesContinued;
 
 @property (strong, nonatomic) NSString          *currentLevel;
 
@@ -43,8 +44,10 @@
 + (NSString *)          buttonTextForSIIAPPack:(SIIAPPack)siiapPack;
 + (NSString *)          currentLevelStringForScore:(float)score;
 + (NSString *)          productIDForSIIAPPack:(SIIAPPack)siiapPack;
++ (NSString *)          soundNameForSIBackgroundSound:(SIBackgroundSound)siBackgroundSound;
 + (NSString *)          stringForMove:(SIMove)move;
 + (NSString *)          stringForPowerUp:(SIPowerUp)powerUp;
++ (SIBackgroundSound)   backgroundSoundForScore:(float)score;
 + (SIContinueLifeCost)  lifeCostForCurrentContinueLeve:(SIContinueLifeCost)siContinuedLifeCost;
 + (SIIAPPack)           siiapPackForNameNodeLabel:(NSString *)nodeName;
 + (SIIAPPack)           siiapPackForNameNodeNode:(NSString *)nodeName;

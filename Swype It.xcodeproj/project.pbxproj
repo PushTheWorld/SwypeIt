@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		091470F71B68F1A2006B0CC1 /* SettingsScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 091470F61B68F1A2006B0CC1 /* SettingsScene.m */; };
+		091470F91B6AF7D1006B0CC1 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 091470F81B6AF7D1006B0CC1 /* CoreTelephony.framework */; };
+		091470FB1B6AF7E0006B0CC1 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 091470FA1B6AF7E0006B0CC1 /* Foundation.framework */; };
+		091470FD1B6AF7E8006B0CC1 /* GLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 091470FC1B6AF7E8006B0CC1 /* GLKit.framework */; };
 		091FED491B37283E0071F8DC /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 091FED481B37283E0071F8DC /* main.m */; };
 		091FED4C1B37283E0071F8DC /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 091FED4B1B37283E0071F8DC /* AppDelegate.m */; };
 		091FED541B37283E0071F8DC /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 091FED531B37283E0071F8DC /* Images.xcassets */; };
@@ -25,10 +28,22 @@
 		092B470E1B521B7900AFE43C /* GameTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 092B470D1B521B7900AFE43C /* GameTests.m */; };
 		092B47101B52273A00AFE43C /* libOCMock.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 092B470F1B52273A00AFE43C /* libOCMock.a */; };
 		09343DAA1B44BB1C00D1C707 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 09343DA91B44BB1C00D1C707 /* QuartzCore.framework */; };
+		096ABDCA1B6AF83A005B2F12 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 096ABDC91B6AF83A005B2F12 /* MessageUI.framework */; };
+		096ABDCC1B6AF843005B2F12 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 096ABDCB1B6AF843005B2F12 /* OpenGLES.framework */; };
+		096ABDCD1B6AF84C005B2F12 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 09343DA91B44BB1C00D1C707 /* QuartzCore.framework */; };
+		096ABDCF1B6AF856005B2F12 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 096ABDCE1B6AF856005B2F12 /* SystemConfiguration.framework */; };
+		096ABDD11B6AF864005B2F12 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 096ABDD01B6AF864005B2F12 /* UIKit.framework */; };
+		096ABDD31B6AF879005B2F12 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 096ABDD21B6AF879005B2F12 /* libc++.tbd */; };
+		096ABDF01B6B6ABB005B2F12 /* menuSound.caf in Resources */ = {isa = PBXBuildFile; fileRef = 096ABDE71B6B6ABB005B2F12 /* menuSound.caf */; };
+		096ABDF11B6B6ABB005B2F12 /* swypeItGameOver.caf in Resources */ = {isa = PBXBuildFile; fileRef = 096ABDE81B6B6ABB005B2F12 /* swypeItGameOver.caf */; };
+		096ABDF21B6B6ABB005B2F12 /* swypeItSound1.caf in Resources */ = {isa = PBXBuildFile; fileRef = 096ABDE91B6B6ABB005B2F12 /* swypeItSound1.caf */; };
+		096ABDF31B6B6ABB005B2F12 /* swypeItSound2.caf in Resources */ = {isa = PBXBuildFile; fileRef = 096ABDEA1B6B6ABB005B2F12 /* swypeItSound2.caf */; };
+		096ABDF41B6B6ABB005B2F12 /* swypeItSound3.caf in Resources */ = {isa = PBXBuildFile; fileRef = 096ABDEB1B6B6ABB005B2F12 /* swypeItSound3.caf */; };
+		096ABDF51B6B6ABB005B2F12 /* swypeItSound4.caf in Resources */ = {isa = PBXBuildFile; fileRef = 096ABDEC1B6B6ABB005B2F12 /* swypeItSound4.caf */; };
+		096ABDF61B6B6ABB005B2F12 /* swypeItSound5.caf in Resources */ = {isa = PBXBuildFile; fileRef = 096ABDED1B6B6ABB005B2F12 /* swypeItSound5.caf */; };
+		096ABDF71B6B6ABB005B2F12 /* swypeItSound6.caf in Resources */ = {isa = PBXBuildFile; fileRef = 096ABDEE1B6B6ABB005B2F12 /* swypeItSound6.caf */; };
+		096ABDF81B6B6ABB005B2F12 /* swypeItSound7.caf in Resources */ = {isa = PBXBuildFile; fileRef = 096ABDEF1B6B6ABB005B2F12 /* swypeItSound7.caf */; };
 		097375461B57A97500BE1BCA /* BaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 097375451B57A97500BE1BCA /* BaseViewController.m */; };
-		097375491B57B8CA00BE1BCA /* ZCSlotMachine.m in Sources */ = {isa = PBXBuildFile; fileRef = 097375481B57B8CA00BE1BCA /* ZCSlotMachine.m */; };
-		097375531B57C64800BE1BCA /* SlotItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 097375501B57C64800BE1BCA /* SlotItem.m */; };
-		097375541B57C64800BE1BCA /* SlotView.m in Sources */ = {isa = PBXBuildFile; fileRef = 097375521B57C64800BE1BCA /* SlotView.m */; };
 		098B3B431B378B89000D4702 /* AppSingleton.m in Sources */ = {isa = PBXBuildFile; fileRef = 098B3B421B378B89000D4702 /* AppSingleton.m */; };
 		098B3B471B378C27000D4702 /* Game.m in Sources */ = {isa = PBXBuildFile; fileRef = 098B3B461B378C27000D4702 /* Game.m */; };
 		098B3B4A1B378EC0000D4702 /* FXReachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 098B3B491B378EC0000D4702 /* FXReachability.m */; };
@@ -36,7 +51,6 @@
 		098B3B501B379C87000D4702 /* iAd.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 098B3B4F1B379C87000D4702 /* iAd.framework */; };
 		098B3B521B379C8D000D4702 /* GameKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 098B3B511B379C8D000D4702 /* GameKit.framework */; };
 		098B3B541B379C93000D4702 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 098B3B531B379C93000D4702 /* AudioToolbox.framework */; };
-		098B3B571B395091000D4702 /* MSSProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 098B3B561B395091000D4702 /* MSSProgressView.m */; };
 		099A621B1B5C62A0009BF339 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 099A621A1B5C62A0009BF339 /* CoreGraphics.framework */; };
 		099A621D1B5C62A6009BF339 /* SpriteKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 099A621C1B5C62A6009BF339 /* SpriteKit.framework */; };
 		099A62231B5C635F009BF339 /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 099A62221B5C635F009BF339 /* MainViewController.m */; };
@@ -45,7 +59,6 @@
 		099A62311B5C8750009BF339 /* EndGameScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 099A62301B5C8750009BF339 /* EndGameScene.m */; };
 		099A62331B5C8B12009BF339 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 099A62321B5C8B12009BF339 /* Main.storyboard */; };
 		099A62361B5C917A009BF339 /* CustomProgressBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 099A62351B5C917A009BF339 /* CustomProgressBar.m */; };
-		099A62391B5C9ED7009BF339 /* AGSpriteButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 099A62381B5C9ED7009BF339 /* AGSpriteButton.m */; };
 		09A904061B6616C300C48A9B /* SIConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 091FED751B3733AF0071F8DC /* SIConstants.m */; };
 		09A904071B6616DA00C48A9B /* Game.m in Sources */ = {isa = PBXBuildFile; fileRef = 098B3B461B378C27000D4702 /* Game.m */; };
 		09A904081B6616DE00C48A9B /* SIIAPUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = 092720E41B60D3CB0005A6B6 /* SIIAPUtility.m */; };
@@ -72,6 +85,9 @@
 /* Begin PBXFileReference section */
 		091470F51B68F1A2006B0CC1 /* SettingsScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsScene.h; sourceTree = "<group>"; };
 		091470F61B68F1A2006B0CC1 /* SettingsScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsScene.m; sourceTree = "<group>"; };
+		091470F81B6AF7D1006B0CC1 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
+		091470FA1B6AF7E0006B0CC1 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		091470FC1B6AF7E8006B0CC1 /* GLKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLKit.framework; path = System/Library/Frameworks/GLKit.framework; sourceTree = SDKROOT; };
 		091FED431B37283E0071F8DC /* Swype It.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Swype It.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		091FED471B37283E0071F8DC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		091FED481B37283E0071F8DC /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -101,14 +117,22 @@
 		092B470D1B521B7900AFE43C /* GameTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameTests.m; sourceTree = "<group>"; };
 		092B470F1B52273A00AFE43C /* libOCMock.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libOCMock.a; path = usr/lib/libOCMock.a; sourceTree = "<group>"; };
 		09343DA91B44BB1C00D1C707 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		096ABDC91B6AF83A005B2F12 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
+		096ABDCB1B6AF843005B2F12 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
+		096ABDCE1B6AF856005B2F12 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		096ABDD01B6AF864005B2F12 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		096ABDD21B6AF879005B2F12 /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
+		096ABDE71B6B6ABB005B2F12 /* menuSound.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = menuSound.caf; sourceTree = "<group>"; };
+		096ABDE81B6B6ABB005B2F12 /* swypeItGameOver.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = swypeItGameOver.caf; sourceTree = "<group>"; };
+		096ABDE91B6B6ABB005B2F12 /* swypeItSound1.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = swypeItSound1.caf; sourceTree = "<group>"; };
+		096ABDEA1B6B6ABB005B2F12 /* swypeItSound2.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = swypeItSound2.caf; sourceTree = "<group>"; };
+		096ABDEB1B6B6ABB005B2F12 /* swypeItSound3.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = swypeItSound3.caf; sourceTree = "<group>"; };
+		096ABDEC1B6B6ABB005B2F12 /* swypeItSound4.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = swypeItSound4.caf; sourceTree = "<group>"; };
+		096ABDED1B6B6ABB005B2F12 /* swypeItSound5.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = swypeItSound5.caf; sourceTree = "<group>"; };
+		096ABDEE1B6B6ABB005B2F12 /* swypeItSound6.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = swypeItSound6.caf; sourceTree = "<group>"; };
+		096ABDEF1B6B6ABB005B2F12 /* swypeItSound7.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = swypeItSound7.caf; sourceTree = "<group>"; };
 		097375441B57A97500BE1BCA /* BaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseViewController.h; sourceTree = "<group>"; };
 		097375451B57A97500BE1BCA /* BaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseViewController.m; sourceTree = "<group>"; };
-		097375471B57B8CA00BE1BCA /* ZCSlotMachine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZCSlotMachine.h; sourceTree = "<group>"; };
-		097375481B57B8CA00BE1BCA /* ZCSlotMachine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZCSlotMachine.m; sourceTree = "<group>"; };
-		0973754F1B57C64800BE1BCA /* SlotItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SlotItem.h; sourceTree = "<group>"; };
-		097375501B57C64800BE1BCA /* SlotItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SlotItem.m; sourceTree = "<group>"; };
-		097375511B57C64800BE1BCA /* SlotView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SlotView.h; sourceTree = "<group>"; };
-		097375521B57C64800BE1BCA /* SlotView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SlotView.m; sourceTree = "<group>"; };
 		098B3B411B378B89000D4702 /* AppSingleton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppSingleton.h; sourceTree = "<group>"; };
 		098B3B421B378B89000D4702 /* AppSingleton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = AppSingleton.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		098B3B451B378C27000D4702 /* Game.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Game.h; sourceTree = "<group>"; };
@@ -119,8 +143,6 @@
 		098B3B4F1B379C87000D4702 /* iAd.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = iAd.framework; path = System/Library/Frameworks/iAd.framework; sourceTree = SDKROOT; };
 		098B3B511B379C8D000D4702 /* GameKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameKit.framework; path = System/Library/Frameworks/GameKit.framework; sourceTree = SDKROOT; };
 		098B3B531B379C93000D4702 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
-		098B3B551B395091000D4702 /* MSSProgressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSSProgressView.h; path = "Swype It/MSSProgressView.h"; sourceTree = "<group>"; };
-		098B3B561B395091000D4702 /* MSSProgressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MSSProgressView.m; path = "Swype It/MSSProgressView.m"; sourceTree = "<group>"; };
 		099A621A1B5C62A0009BF339 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		099A621C1B5C62A6009BF339 /* SpriteKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SpriteKit.framework; path = System/Library/Frameworks/SpriteKit.framework; sourceTree = SDKROOT; };
 		099A62211B5C635F009BF339 /* MainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainViewController.h; sourceTree = "<group>"; };
@@ -134,8 +156,6 @@
 		099A62321B5C8B12009BF339 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		099A62341B5C917A009BF339 /* CustomProgressBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomProgressBar.h; sourceTree = "<group>"; };
 		099A62351B5C917A009BF339 /* CustomProgressBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomProgressBar.m; sourceTree = "<group>"; };
-		099A62371B5C9ED7009BF339 /* AGSpriteButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AGSpriteButton.h; sourceTree = "<group>"; };
-		099A62381B5C9ED7009BF339 /* AGSpriteButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AGSpriteButton.m; sourceTree = "<group>"; };
 		09CAF9A71B646BE100466606 /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = "<group>"; };
 		09CAF9A81B646BE100466606 /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
 		09CAF9AB1B646F4C00466606 /* buttons.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = buttons.atlas; sourceTree = "<group>"; };
@@ -157,6 +177,15 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				096ABDD31B6AF879005B2F12 /* libc++.tbd in Frameworks */,
+				096ABDD11B6AF864005B2F12 /* UIKit.framework in Frameworks */,
+				096ABDCF1B6AF856005B2F12 /* SystemConfiguration.framework in Frameworks */,
+				096ABDCD1B6AF84C005B2F12 /* QuartzCore.framework in Frameworks */,
+				096ABDCC1B6AF843005B2F12 /* OpenGLES.framework in Frameworks */,
+				096ABDCA1B6AF83A005B2F12 /* MessageUI.framework in Frameworks */,
+				091470FD1B6AF7E8006B0CC1 /* GLKit.framework in Frameworks */,
+				091470FB1B6AF7E0006B0CC1 /* Foundation.framework in Frameworks */,
+				091470F91B6AF7D1006B0CC1 /* CoreTelephony.framework in Frameworks */,
 				092720E91B6388320005A6B6 /* AVFoundation.framework in Frameworks */,
 				099A621D1B5C62A6009BF339 /* SpriteKit.framework in Frameworks */,
 				099A621B1B5C62A0009BF339 /* CoreGraphics.framework in Frameworks */,
@@ -212,7 +241,6 @@
 		091FED451B37283E0071F8DC /* Swype It */ = {
 			isa = PBXGroup;
 			children = (
-				099A62321B5C8B12009BF339 /* Main.storyboard */,
 				091FED6C1B3729040071F8DC /* 000 - AppDelegate */,
 				098B3B441B378B8F000D4702 /* 000 - GameSingleton */,
 				091FED7A1B37362A0071F8DC /* Categories */,
@@ -221,6 +249,7 @@
 				091FED721B372EE70071F8DC /* Images */,
 				09DB63991B56516700387C13 /* InAppPurchase */,
 				099A622B1B5C6B41009BF339 /* Scenes */,
+				096ABDF91B6B6AC4005B2F12 /* Sounds */,
 				091FED461B37283E0071F8DC /* Supporting Files */,
 				09DB638F1B564DD400387C13 /* TableViewCells */,
 				09DB638B1B564DAF00387C13 /* TableViewControllers */,
@@ -234,6 +263,7 @@
 		091FED461B37283E0071F8DC /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				099A62321B5C8B12009BF339 /* Main.storyboard */,
 				091FED471B37283E0071F8DC /* Info.plist */,
 				091FED481B37283E0071F8DC /* main.m */,
 			);
@@ -338,24 +368,20 @@
 			name = TCProgressBarNode;
 			sourceTree = "<group>";
 		};
-		0973754A1B57B8CE00BE1BCA /* ZCSlotMachine */ = {
+		096ABDF91B6B6AC4005B2F12 /* Sounds */ = {
 			isa = PBXGroup;
 			children = (
-				097375471B57B8CA00BE1BCA /* ZCSlotMachine.h */,
-				097375481B57B8CA00BE1BCA /* ZCSlotMachine.m */,
+				096ABDE71B6B6ABB005B2F12 /* menuSound.caf */,
+				096ABDE81B6B6ABB005B2F12 /* swypeItGameOver.caf */,
+				096ABDE91B6B6ABB005B2F12 /* swypeItSound1.caf */,
+				096ABDEA1B6B6ABB005B2F12 /* swypeItSound2.caf */,
+				096ABDEB1B6B6ABB005B2F12 /* swypeItSound3.caf */,
+				096ABDEC1B6B6ABB005B2F12 /* swypeItSound4.caf */,
+				096ABDED1B6B6ABB005B2F12 /* swypeItSound5.caf */,
+				096ABDEE1B6B6ABB005B2F12 /* swypeItSound6.caf */,
+				096ABDEF1B6B6ABB005B2F12 /* swypeItSound7.caf */,
 			);
-			name = ZCSlotMachine;
-			sourceTree = "<group>";
-		};
-		097375551B57C64E00BE1BCA /* Slot */ = {
-			isa = PBXGroup;
-			children = (
-				0973754F1B57C64800BE1BCA /* SlotItem.h */,
-				097375501B57C64800BE1BCA /* SlotItem.m */,
-				097375511B57C64800BE1BCA /* SlotView.h */,
-				097375521B57C64800BE1BCA /* SlotView.m */,
-			);
-			name = Slot;
+			name = Sounds;
 			sourceTree = "<group>";
 		};
 		098B3B441B378B8F000D4702 /* 000 - GameSingleton */ = {
@@ -372,11 +398,7 @@
 			children = (
 				09CAF9AA1B646BE600466606 /* MBProgressHud */,
 				092720F01B63A6350005A6B6 /* TCProgressBarNode */,
-				099A623A1B5C9EDC009BF339 /* AGSpriteButton */,
-				097375551B57C64E00BE1BCA /* Slot */,
-				0973754A1B57B8CE00BE1BCA /* ZCSlotMachine */,
 				098B3B4C1B378ED1000D4702 /* FXReachability */,
-				098B3B581B3950A3000D4702 /* MSSProgressView */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -388,15 +410,6 @@
 				098B3B491B378EC0000D4702 /* FXReachability.m */,
 			);
 			name = FXReachability;
-			sourceTree = "<group>";
-		};
-		098B3B581B3950A3000D4702 /* MSSProgressView */ = {
-			isa = PBXGroup;
-			children = (
-				098B3B551B395091000D4702 /* MSSProgressView.h */,
-				098B3B561B395091000D4702 /* MSSProgressView.m */,
-			);
-			name = MSSProgressView;
 			sourceTree = "<group>";
 		};
 		099A622B1B5C6B41009BF339 /* Scenes */ = {
@@ -414,15 +427,6 @@
 				092720DE1B5EF1C30005A6B6 /* StoreScene.m */,
 			);
 			name = Scenes;
-			sourceTree = "<group>";
-		};
-		099A623A1B5C9EDC009BF339 /* AGSpriteButton */ = {
-			isa = PBXGroup;
-			children = (
-				099A62371B5C9ED7009BF339 /* AGSpriteButton.h */,
-				099A62381B5C9ED7009BF339 /* AGSpriteButton.m */,
-			);
-			name = AGSpriteButton;
 			sourceTree = "<group>";
 		};
 		09CAF9AA1B646BE600466606 /* MBProgressHud */ = {
@@ -467,6 +471,14 @@
 		0F880A65ACF3CFF0D72120E8 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				096ABDD21B6AF879005B2F12 /* libc++.tbd */,
+				096ABDD01B6AF864005B2F12 /* UIKit.framework */,
+				096ABDCE1B6AF856005B2F12 /* SystemConfiguration.framework */,
+				096ABDCB1B6AF843005B2F12 /* OpenGLES.framework */,
+				096ABDC91B6AF83A005B2F12 /* MessageUI.framework */,
+				091470FC1B6AF7E8006B0CC1 /* GLKit.framework */,
+				091470FA1B6AF7E0006B0CC1 /* Foundation.framework */,
+				091470F81B6AF7D1006B0CC1 /* CoreTelephony.framework */,
 				092720E81B6388320005A6B6 /* AVFoundation.framework */,
 				099A621C1B5C62A6009BF339 /* SpriteKit.framework */,
 				099A621A1B5C62A0009BF339 /* CoreGraphics.framework */,
@@ -575,11 +587,20 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				096ABDF61B6B6ABB005B2F12 /* swypeItSound5.caf in Resources */,
+				096ABDF21B6B6ABB005B2F12 /* swypeItSound1.caf in Resources */,
+				096ABDF71B6B6ABB005B2F12 /* swypeItSound6.caf in Resources */,
 				09DB639E1B56525100387C13 /* MKStoreKitConfigs.plist in Resources */,
+				096ABDF41B6B6ABB005B2F12 /* swypeItSound3.caf in Resources */,
 				091FED571B37283E0071F8DC /* LaunchScreen.xib in Resources */,
 				099A62331B5C8B12009BF339 /* Main.storyboard in Resources */,
+				096ABDF51B6B6ABB005B2F12 /* swypeItSound4.caf in Resources */,
 				09CAF9AC1B646F4C00466606 /* buttons.atlas in Resources */,
 				091FED541B37283E0071F8DC /* Images.xcassets in Resources */,
+				096ABDF31B6B6ABB005B2F12 /* swypeItSound2.caf in Resources */,
+				096ABDF11B6B6ABB005B2F12 /* swypeItGameOver.caf in Resources */,
+				096ABDF81B6B6ABB005B2F12 /* swypeItSound7.caf in Resources */,
+				096ABDF01B6B6ABB005B2F12 /* menuSound.caf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -647,7 +668,6 @@
 				099A622E1B5C6C2A009BF339 /* GameScene.m in Sources */,
 				091FED791B3736210071F8DC /* UIColor+Additions.m in Sources */,
 				091FED7D1B374C470071F8DC /* BaseNavigationViewController.m in Sources */,
-				097375531B57C64800BE1BCA /* SlotItem.m in Sources */,
 				092720EF1B63A62D0005A6B6 /* TCProgressBarNode.m in Sources */,
 				099A62231B5C635F009BF339 /* MainViewController.m in Sources */,
 				099A622A1B5C6B3B009BF339 /* StartScreenScene.m in Sources */,
@@ -655,19 +675,15 @@
 				09DB639C1B5651C100387C13 /* MKStoreKit.m in Sources */,
 				098B3B471B378C27000D4702 /* Game.m in Sources */,
 				097375461B57A97500BE1BCA /* BaseViewController.m in Sources */,
-				097375491B57B8CA00BE1BCA /* ZCSlotMachine.m in Sources */,
 				09DB638E1B564DCA00387C13 /* IAPTableViewCell.m in Sources */,
 				091FED4C1B37283E0071F8DC /* AppDelegate.m in Sources */,
 				099A62311B5C8750009BF339 /* EndGameScene.m in Sources */,
 				09DB638A1B564DA700387C13 /* IAPTableViewController.m in Sources */,
-				099A62391B5C9ED7009BF339 /* AGSpriteButton.m in Sources */,
-				098B3B571B395091000D4702 /* MSSProgressView.m in Sources */,
 				09CAF9A91B646BE100466606 /* MBProgressHUD.m in Sources */,
 				091FED761B3733AF0071F8DC /* SIConstants.m in Sources */,
 				098B3B431B378B89000D4702 /* AppSingleton.m in Sources */,
 				099A62361B5C917A009BF339 /* CustomProgressBar.m in Sources */,
 				092720EC1B6388740005A6B6 /* ProgressBar.m in Sources */,
-				097375541B57C64800BE1BCA /* SlotView.m in Sources */,
 				091470F71B68F1A2006B0CC1 /* SettingsScene.m in Sources */,
 				092720DF1B5EF1C30005A6B6 /* StoreScene.m in Sources */,
 				091FED491B37283E0071F8DC /* main.m in Sources */,

@@ -11,15 +11,23 @@
 #import "MainViewController.h"
 #import "StartScreenScene.h"
 // Framework Import
+#import <MessageUI/MessageUI.h>
 // Drop-In Class Imports (CocoaPods/GitHub/Guru)
+#import "Aardvark.h"
+#import "ARKBugReporter.h"
+#import "ARKIndividualLogViewController.h"
+#import "ARKLogDistributor.h"
+#import "ARKLogMessage.h"
+#import "ARKLogStore.h"
 #import "MBProgressHud.h"
+#import "SoundManager.h"
 // Category Import
 #import "UIColor+Additions.h"
 // Support/Data Class Imports
 #import "Game.h"
 // Other Imports
 
-@interface MainViewController ()
+@interface MainViewController () <MFMailComposeViewControllerDelegate>
 
 @property (strong, nonatomic) MBProgressHUD *hud;
 
@@ -30,6 +38,10 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    /*Start Sounds*/
+    [SoundManager sharedManager].allowsBackgroundMusic = YES;
+    [[SoundManager sharedManager] prepareToPlayWithSound:[Sound soundNamed:kSISoundBackgroundMenu]];
     
     // Configure the view.
     SKView * skView         = (SKView *)self.view;
@@ -58,8 +70,9 @@
 }
 
 - (void)registerForNotifications {
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(hudWillHide:) name:kSINotificationHudHide object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(hudWillShow:) name:kSINotificationHudShow object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(hudWillHide:)     name:kSINotificationHudHide object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(hudWillShow:)     name:kSINotificationHudShow object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(launchBugReport:) name:kSINotificationSettingsLaunchBugReport object:nil];
 }
 - (void)unregisterForNotifications {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
@@ -170,5 +183,43 @@
     labelButton.fontColor               = [UIColor whiteColor];
     labelButton.verticalAlignmentMode   = HLLabelNodeVerticalAlignFont; /*NOT working*/ // Neither is this: HLLabelNodeVerticalAlignText
     return labelButton;
+}
+#pragma mark - MFMailComposeViewContorllerDelegate
+- (void)launchBugReport:(NSNotification *)notification {
+    //    ARKLogStore *logStore = [ARKLogDistributor defaultDistributor].defaultLogStore;
+    //    ARKEmailBugReporter *bugReporter = [[ARKEmailBugReporter alloc] initWithEmailAddress:kSIEmailBugReportReciever logStore:logStore];
+    if ([MFMailComposeViewController canSendMail]) {
+        MFMailComposeViewController *mail = [[MFMailComposeViewController alloc] init];
+        mail.mailComposeDelegate = self;
+        [mail setSubject:@"Swype It Bug Report"];
+        [mail setMessageBody:@"Bug Description:\n \n\nSteps to duplicate:\n1) \n2) \n..." isHTML:NO];
+        [mail setToRecipients:@[kSIEmailBugReportReciever]];
+        
+        [self presentViewController:mail animated:YES completion:NULL];
+    } else {
+        NSLog(@"Cannot send email");
+    }
+}
+- (void)mailComposeController:(MFMailComposeViewController *)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError *)error
+{
+    switch (result) {
+        case MFMailComposeResultSent:
+            NSLog(@"You sent the email.");
+            break;
+        case MFMailComposeResultSaved:
+            NSLog(@"You saved a draft of this email");
+            break;
+        case MFMailComposeResultCancelled:
+            NSLog(@"You cancelled sending this email.");
+            break;
+        case MFMailComposeResultFailed:
+            NSLog(@"Mail failed:  An error occurred when trying to compose this email");
+            break;
+        default:
+            NSLog(@"An error occurred when trying to compose this email");
+            break;
+    }
+    
+    [self dismissViewControllerAnimated:YES completion:NULL];
 }
 @end

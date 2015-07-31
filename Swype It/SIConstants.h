@@ -31,6 +31,14 @@
 #define LEVEL21                     11000
 #define LEVEL22                     12000
 
+#define SOUNDLEVEL1                 100
+#define SOUNDLEVEL2                 200
+#define SOUNDLEVEL3                 300
+#define SOUNDLEVEL4                 400
+#define SOUNDLEVEL5                 500
+#define SOUNDLEVEL6                 600
+#define SOUNDLEVEL7                 700
+
 #define VERTICAL_SPACING_4          4
 #define VERTICAL_SPACING_8          8
 #define VERTICAL_SPACING_16         16
@@ -134,6 +142,17 @@ typedef NS_ENUM(NSInteger, SIProgressBar) {
     SIProgressBarMove,
     SIProgressBarPowerUp
 };
+
+typedef NS_ENUM(NSInteger, SIBackgroundSound) {
+    SIBackgroundSoundMenu,
+    SIBackgroundSoundOne,
+    SIBackgroundSoundTwo,
+    SIBackgroundSoundThree,
+    SIBackgroundSoundFour,
+    SIBackgroundSoundFive,
+    SIBackgroundSoundSix,
+    SIBackgroundSoundSeven
+};
 #pragma mark - Images
 extern NSString *const kSIImageTitleLabel;
 
@@ -179,6 +198,7 @@ extern NSString *const kSINotificationNewHighScore;
 extern NSString *const kSINotificationPowerUpActive;
 extern NSString *const kSINotificationPowerUpDeactivated;
 extern NSString *const kSINotificationScoreUpdate;
+extern NSString *const kSINotificationSettingsLaunchBugReport;
 extern NSString *const kSINotificationPackPurchaseRequest;
 
 #pragma mark - Score Constants
@@ -277,6 +297,20 @@ extern NSString *const kSIMenuTextBack;
 extern NSString *const kSIMenuTextSettingsBugReport;
 extern NSString *const kSIMenuTextSettingsResetHighScore;
 extern NSString *const kSIMenuTextSettingsRestorePurchases;
+
+#pragma mark - Emails
+extern NSString *const kSIEmailBugReportReciever;
+
+#pragma mark - Sounds
+extern NSString *const kSISoundBackgroundMenu;
+extern NSString *const kSISoundBackgroundOne;
+extern NSString *const kSISoundBackgroundTwo;
+extern NSString *const kSISoundBackgroundThree;
+extern NSString *const kSISoundBackgroundFour;
+extern NSString *const kSISoundBackgroundFive;
+extern NSString *const kSISoundBackgroundSix;
+extern NSString *const kSISoundBackgroundSeven;
+extern NSString *const kSISoundGameOver;
 
 @interface SIConstants : NSObject
 
