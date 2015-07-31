@@ -14,6 +14,7 @@
 // Framework Import
 //#import <Instabug/Instabug.h>
 // Drop-In Class Imports (CocoaPods/GitHub/Guru)
+#import "SoundManager.h"
 // Category Import
 #import "UIColor+Additions.h"
 // Support/Data Class Imports
@@ -33,7 +34,8 @@
 
 @implementation SettingsScene {
     BOOL _contentCreated;
-    
+    NSString *_buttonSoundBackgroundText;
+    NSString *_buttonSoundFXText;
 }
 
 #pragma mark - Scene Life Cycle
@@ -126,7 +128,13 @@
     
     /*Add the regular buttons*/
     [menu addItem:[HLMenuItem menuItemWithText:kSIMenuTextSettingsResetHighScore]];
-    [menu addItem:[HLMenuItem menuItemWithText:kSIMenuTextSettingsRestorePurchases]];
+    
+    _buttonSoundBackgroundText = [[NSUserDefaults standardUserDefaults] boolForKey:kSINSUserDefaultSoundIsAllowedBackground] ? kSIMenuTextSettingsToggleSoundOffBackground : kSIMenuTextSettingsToggleSoundOnBackground;
+    [menu addItem:[HLMenuItem menuItemWithText:_buttonSoundBackgroundText]];
+    
+    _buttonSoundFXText = [[NSUserDefaults standardUserDefaults] boolForKey:kSINSUserDefaultSoundIsAllowedFX] ? kSIMenuTextSettingsToggleSoundOffFX : kSIMenuTextSettingsToggleSoundOnFX;
+    [menu addItem:[HLMenuItem menuItemWithText:_buttonSoundFXText]];
+    
     [menu addItem:[HLMenuItem menuItemWithText:kSIMenuTextSettingsBugReport]];
     
     /*Add the Back Button... Need to change the prototype*/
@@ -146,7 +154,10 @@
         [[NSNotificationCenter defaultCenter] postNotification:notification];
     } else if ([menuItem.text isEqualToString:kSIMenuTextSettingsResetHighScore]) {
         [self resetHighScore];
-        
+    } else if ([menuItem.text isEqualToString:_buttonSoundBackgroundText]) {
+        [self changeBackgroundSoundIsAllowed:menuItem];
+    } else if ([menuItem.text isEqualToString:_buttonSoundFXText]) {
+        [self changeFXSoundIsAllowed:menuItem];
     }
 }
 #pragma mark - Private Methods
@@ -177,5 +188,33 @@
         [[NSNotificationCenter defaultCenter] postNotification:notification];
     });
 
+}
+- (void)changeBackgroundSoundIsAllowed:(HLMenuItem *)menuItem {
+    if ([menuItem.text isEqualToString:kSIMenuTextSettingsToggleSoundOffBackground]) {
+        /*Turn Background Sound Off*/
+//        menuItem.buttonPrototype.text = kSIMenuTextSettingsToggleSoundOnBackground;
+        menuItem.text = kSIMenuTextSettingsToggleSoundOnBackground;
+        [[NSUserDefaults standardUserDefaults] setBool:NO forKey:kSINSUserDefaultSoundIsAllowedBackground];
+        [[SoundManager sharedManager] stopMusic];
+    } else {
+        /*Turn Sound On*/
+        menuItem.text = kSIMenuTextSettingsToggleSoundOffBackground;
+        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:kSINSUserDefaultSoundIsAllowedBackground];
+        [[SoundManager sharedManager] playMusic:kSISoundBackgroundMenu looping:YES fadeIn:YES];
+    }
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+- (void)changeFXSoundIsAllowed:(HLMenuItem *)menuItem {
+    if ([menuItem.text isEqualToString:kSIMenuTextSettingsToggleSoundOffFX]) {
+        /*Turn Background Sound Off*/
+        menuItem.text = kSIMenuTextSettingsToggleSoundOnFX;
+        [[NSUserDefaults standardUserDefaults] setBool:NO forKey:kSINSUserDefaultSoundIsAllowedFX];
+        [[SoundManager sharedManager] stopAllSounds];
+    } else {
+        /*Turn Sound On*/
+        menuItem.text = kSIMenuTextSettingsToggleSoundOffFX;
+        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:kSINSUserDefaultSoundIsAllowedFX];
+    }
+    [[NSUserDefaults standardUserDefaults] synchronize];
 }
 @end

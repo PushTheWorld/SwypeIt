@@ -177,6 +177,8 @@ extern NSString *const kSINSUserDefaultPowerUpReadyFallingMonkeys;
 extern NSString *const kSINSUserDefaultPowerUpReadyRapidFire;
 extern NSString *const kSINSUserDefaultPowerUpReadyTimeFreeze;
 extern NSString *const kSINSUserDefaultNumberOfMonkeys;
+extern NSString *const kSINSUserDefaultSoundIsAllowedBackground;
+extern NSString *const kSINSUserDefaultSoundIsAllowedFX;
 
 #pragma mark - Power Ups
 extern NSString *const kSIPowerUpFallingMonkeys;
@@ -297,6 +299,10 @@ extern NSString *const kSIMenuTextBack;
 extern NSString *const kSIMenuTextSettingsBugReport;
 extern NSString *const kSIMenuTextSettingsResetHighScore;
 extern NSString *const kSIMenuTextSettingsRestorePurchases;
+extern NSString *const kSIMenuTextSettingsToggleSoundOffBackground;
+extern NSString *const kSIMenuTextSettingsToggleSoundOffFX;
+extern NSString *const kSIMenuTextSettingsToggleSoundOnBackground;
+extern NSString *const kSIMenuTextSettingsToggleSoundOnFX;
 
 #pragma mark - Emails
 extern NSString *const kSIEmailBugReportReciever;
@@ -310,7 +316,9 @@ extern NSString *const kSISoundBackgroundFour;
 extern NSString *const kSISoundBackgroundFive;
 extern NSString *const kSISoundBackgroundSix;
 extern NSString *const kSISoundBackgroundSeven;
-extern NSString *const kSISoundGameOver;
+extern NSString *const kSISoundFXChaChing;
+extern NSString *const kSISoundFXGameOver;
+extern NSString *const kSISoundFXInitalize;
 
 @interface SIConstants : NSObject
 

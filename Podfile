@@ -9,3 +9,7 @@ pod 'Crashlytics'
 pod 'HLSpriteKit'
 
 pod 'Aardvark'
+
+pod 'iRate'
+
+pod 'iVersion'

@@ -40,8 +40,11 @@
     [super viewDidLoad];
     
     /*Start Sounds*/
-    [SoundManager sharedManager].allowsBackgroundMusic = YES;
-    [[SoundManager sharedManager] prepareToPlayWithSound:[Sound soundNamed:kSISoundBackgroundMenu]];
+    [SoundManager sharedManager].allowsBackgroundMusic  = YES;
+    [SoundManager sharedManager].soundFadeDuration      = 1.0f;
+    [SoundManager sharedManager].musicFadeDuration      = 2.0f;
+    [[SoundManager sharedManager] prepareToPlayWithSound:[Sound soundNamed:kSISoundFXInitalize]];
+    
     
     // Configure the view.
     SKView * skView         = (SKView *)self.view;
@@ -167,6 +170,14 @@
     }
     return buttonPrototype;
 }
++ (HLLabelButtonNode *)SI_sharedMenuButtonPrototypeBasic:(CGSize)size color:(UIColor *)color {
+    static HLLabelButtonNode *buttonPrototype = nil;
+    if (!buttonPrototype) {
+        buttonPrototype                         = [[MainViewController SIInterfaceLabelButton:size color:color] copy];
+        buttonPrototype.verticalAlignmentMode   = HLLabelNodeVerticalAlignFontAscenderBias;
+    }
+    return buttonPrototype;
+}
 + (HLLabelButtonNode *)SI_sharedMenuButtonPrototypeBack:(CGSize)size {
     static HLLabelButtonNode *buttonPrototype = nil;
     if (!buttonPrototype) {
@@ -178,6 +189,14 @@
 }
 + (HLLabelButtonNode *)SIInterfaceLabelButton:(CGSize)size {
     HLLabelButtonNode *labelButton      = [[HLLabelButtonNode alloc] initWithColor:[UIColor mainColor] size:size];
+    labelButton.fontName                = kSIFontFuturaMedium;
+    labelButton.fontSize                = 20.0f;
+    labelButton.fontColor               = [UIColor whiteColor];
+    labelButton.verticalAlignmentMode   = HLLabelNodeVerticalAlignFont; /*NOT working*/ // Neither is this: HLLabelNodeVerticalAlignText
+    return labelButton;
+}
++ (HLLabelButtonNode *)SIInterfaceLabelButton:(CGSize)size color:(UIColor *)color {
+    HLLabelButtonNode *labelButton      = [[HLLabelButtonNode alloc] initWithColor:color size:size];
     labelButton.fontName                = kSIFontFuturaMedium;
     labelButton.fontSize                = 20.0f;
     labelButton.fontColor               = [UIColor whiteColor];

@@ -25,55 +25,122 @@
 // Other Imports
 @interface EndGameScene () <HLMenuNodeDelegate>
 
+#pragma mark - Private Constraints
 @property (assign, nonatomic) BOOL           userCanAffordContinue;
+@property (assign, nonatomic) CGFloat        buttonSpacing;
+@property (assign, nonatomic) CGFloat        buttonAnimationDuration;
+@property (assign, nonatomic) CGSize         buttonSize;
 
+#pragma mark - Private Properties
+@property (strong, nonatomic) HLMenuNode    *menuNode;
+@property (strong, nonatomic) SKLabelNode   *gameOverLabel;
 @property (strong, nonatomic) SKLabelNode   *gameScoreLabel;
+@property (strong, nonatomic) SKLabelNode   *itCoinsLabel;
+@property (strong, nonatomic) SKLabelNode   *scoreMessageLabel;
 @property (strong, nonatomic) SKSpriteNode  *pauseScreenNode;
 @end
 
-@implementation EndGameScene
--(nonnull instancetype)initWithSize:(CGSize)size {
+@implementation EndGameScene {
+    CGFloat _fontSize;
+}
+#pragma mark - Scene Life Cycle
+- (instancetype)initWithSize:(CGSize)size {
     if (self = [super initWithSize:size]) {
+        /**Do any setup before self.view is loaded*/
         self.backgroundColor = [SKColor sandColor];
-        
-        [self addLabels:size];
-        [self addButtons:size];
+        [self initSetup:size];
     }
-    
     return self;
 }
-- (void)addLabels:(CGSize)size {
-    /*Game Over Label*/
-    SKLabelNode *label                  = [SKLabelNode labelNodeWithFontNamed:kSIFontFuturaMedium];
-    label.text                          = @"Game Over";
-    label.fontColor                     = [SKColor blackColor];
-    label.fontSize                      = 44;
-    label.alpha                         = 0.0f;
-    label.position                      = CGPointMake(size.width / 2.0f,
-                                                      size.height - label.frame.size.height - VERTICAL_SPACING_16);
-    [label runAction:[SKAction fadeAlphaTo:1.0 duration:0.5]];
-    [self addChild:label];
-    
-    self.gameScoreLabel                 = [SKLabelNode labelNodeWithFontNamed:kSIFontFuturaMedium];
-    self.gameScoreLabel.text            = [NSString stringWithFormat:@"Score: %0.2f", [AppSingleton singleton].currentGame.totalScore];
-    self.gameScoreLabel.fontColor       = [SKColor blackColor];
-    self.gameScoreLabel.fontSize        = 40;
-    self.gameScoreLabel.alpha           = 0.0f;
-    self.gameScoreLabel.position        = CGPointMake(size.width / 2.0f,
-                                                      label.frame.origin.y - self.gameScoreLabel.frame.size.height - VERTICAL_SPACING_8);
-    [self.gameScoreLabel runAction:[SKAction fadeAlphaTo:1.0 duration:0.5]];
-    [self addChild:self.gameScoreLabel];
-    
-    SKLabelNode *itCoins                = [SKLabelNode labelNodeWithFontNamed:kSIFontFuturaMedium];
-    itCoins.text                        = [NSString stringWithFormat:@"Total It Coins: %d",[[[MKStoreKit sharedKit] availableCreditsForConsumable:kSIIAPConsumableIDCoins ] intValue]];
-    itCoins.fontColor                   = [SKColor blackColor];
-    itCoins.fontSize                    = 40;
-    itCoins.alpha                       = 0.0f;
-    itCoins.position                    = CGPointMake(size.width / 2.0f,
-                                                        self.gameScoreLabel.frame.origin.y - (self.gameScoreLabel.frame.size.height / 2.0f) - (itCoins.frame.size.height / 2.0f) - VERTICAL_SPACING_8);
-    [itCoins runAction:[SKAction fadeAlphaTo:1.0 duration:0.5]];
-    [self addChild:itCoins];
+- (void)didMoveToView:(nonnull SKView *)view {
+    [super didMoveToView:view];
+    /**Do any setup post self.view creation*/
+    [self viewSetup:view];
 }
+- (void)willMoveFromView:(nonnull SKView *)view {
+    /**Do any breakdown prior to the view being unloaded*/
+    
+    /*Resume move from view*/
+    [super willMoveFromView:view];
+}
+- (void)initSetup:(CGSize)size {
+    /**Preform initalization pre-view load*/
+    [self createConstantsWithSize:size];
+    [self createControlsWithSize:size];
+    [self setupControlsWithSize:size];
+    [self layoutControlsWithSize:size];
+}
+- (void)viewSetup:(SKView *)view {
+    /**Preform setup post-view load*/
+    
+}
+#pragma mark Scene Setup
+- (void)createConstantsWithSize:(CGSize)size {
+    /**Configure any constants*/
+    if (IS_IPHONE_4) {
+        _fontSize                       = 36.0f;
+
+    } else if (IS_IPHONE_5) {
+        _fontSize                       = 40.0f;
+        
+    } else if (IS_IPHONE_6) {
+        _fontSize                       = 44.0f;
+        
+    } else if (IS_IPHONE_6_PLUS) {
+        _fontSize                       = 48.0f;
+        
+    } else {
+        _fontSize                       = 52.0f;
+        
+    }
+    self.buttonSpacing                  = (size.width / 2.0f) * 0.25;
+    self.buttonSize                     = CGSizeMake(size.width / 2.0f, (size.width / 2.0f) * 0.25);
+    self.buttonAnimationDuration        = 0.25f;
+}
+- (void)createControlsWithSize:(CGSize)size {
+    /**Preform all your alloc/init's here*/
+    _itCoinsLabel                       = [SKLabelNode labelNodeWithFontNamed:kSIFontFuturaMedium];
+    _gameOverLabel                      = [SKLabelNode labelNodeWithFontNamed:kSIFontFuturaMedium];
+    _gameScoreLabel                     = [SKLabelNode labelNodeWithFontNamed:kSIFontFuturaMedium];
+
+}
+- (void)setupControlsWithSize:(CGSize)size {
+    /**Configrue the labels, nodes and what ever else you can*/
+    _gameOverLabel.text                 = @"Game Over!";
+    _gameOverLabel.fontColor            = [SKColor blackColor];
+    _gameOverLabel.fontSize             = _fontSize;
+    _gameOverLabel.alpha                = 0.0f;
+    
+    _gameScoreLabel.text                = [NSString stringWithFormat:@"Score: %0.2f", [AppSingleton singleton].currentGame.totalScore];
+    _gameScoreLabel.fontColor           = [SKColor blackColor];
+    _gameScoreLabel.fontSize            = _fontSize - 4.0f;
+    _gameScoreLabel.alpha               = 0.0f;
+    
+    _itCoinsLabel.text                  = [NSString stringWithFormat:@"Total It Coins: %d",[[[MKStoreKit sharedKit] availableCreditsForConsumable:kSIIAPConsumableIDCoins ] intValue]];
+    _itCoinsLabel.fontColor             = [SKColor blackColor];
+    _itCoinsLabel.fontSize              = _fontSize - 4.0f;
+    _itCoinsLabel.alpha                 = 0.0f;
+
+}
+- (void)layoutControlsWithSize:(CGSize)size {
+    /**Layout those controls*/
+    _gameOverLabel.position             = CGPointMake(size.width / 2.0f,
+                                                      size.height - _gameOverLabel.frame.size.height - VERTICAL_SPACING_16);
+    [_gameOverLabel runAction:[SKAction fadeAlphaTo:1.0 duration:0.5]];
+    [self addChild:_gameOverLabel];
+    
+    _gameScoreLabel.position            = CGPointMake(size.width / 2.0f,
+                                                      _gameOverLabel.frame.origin.y - _gameScoreLabel.frame.size.height - VERTICAL_SPACING_8);
+    [_gameScoreLabel runAction:[SKAction fadeAlphaTo:1.0 duration:0.5]];
+    [self addChild:_gameScoreLabel];
+    
+    _itCoinsLabel.position              = CGPointMake(size.width / 2.0f,
+                                                      _gameScoreLabel.frame.origin.y - (_gameScoreLabel.frame.size.height / 2.0f) - (_itCoinsLabel.frame.size.height / 2.0f) - VERTICAL_SPACING_8);
+    [_itCoinsLabel runAction:[SKAction fadeAlphaTo:1.0 duration:0.5]];
+    [self addChild:_itCoinsLabel];
+}
+
+
 - (void)addButtons:(CGSize)size {
     /*Continue Button*/
     SKSpriteNode *continueNode;

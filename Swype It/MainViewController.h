@@ -16,5 +16,6 @@
 
 + (HLLabelButtonNode *)SI_sharedMenuButtonPrototypeBack:(CGSize)size;
 + (HLLabelButtonNode *)SI_sharedMenuButtonPrototypeBasic:(CGSize)size;
++ (HLLabelButtonNode *)SI_sharedMenuButtonPrototypeBasic:(CGSize)size color:(UIColor *)color;
 
 @end

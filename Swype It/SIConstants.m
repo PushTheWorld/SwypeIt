@@ -29,6 +29,8 @@ NSString *const kSINSUserDefaultPowerUpReadyFallingMonkeys          = @"powerUpR
 NSString *const kSINSUserDefaultPowerUpReadyRapidFire               = @"powerUpReadyRapidFire";
 NSString *const kSINSUserDefaultPowerUpReadyTimeFreeze              = @"powerUpReadyTimeFreeze";
 NSString *const kSINSUserDefaultNumberOfMonkeys                     = @"numberOfMonkeys";
+NSString *const kSINSUserDefaultSoundIsAllowedBackground            = @"backgroundSoundIsAllowed";
+NSString *const kSINSUserDefaultSoundIsAllowedFX                    = @"fXSoundIsAllowed";
 
 #pragma mark - Power Ups
 NSString *const kSIPowerUpFallingMonkeys                            = @"Falling Monkeys";
@@ -149,6 +151,10 @@ NSString *const kSIMenuTextBack                                     = @"Back";
 NSString *const kSIMenuTextSettingsBugReport                        = @"Report Bug";
 NSString *const kSIMenuTextSettingsResetHighScore                   = @"Reset High Score";
 NSString *const kSIMenuTextSettingsRestorePurchases                 = @"Restore Purchases";
+NSString *const kSIMenuTextSettingsToggleSoundOffBackground         = @"Turn Music Off";
+NSString *const kSIMenuTextSettingsToggleSoundOffFX                 = @"Turn Sound FX Off";
+NSString *const kSIMenuTextSettingsToggleSoundOnBackground          = @"Turn Music On";
+NSString *const kSIMenuTextSettingsToggleSoundOnFX                  = @"Turn Sound FX On";
 
 #pragma mark - Emails
 NSString *const kSIEmailBugReportReciever                           = @"buggy.bug@pushtheworld.us";
@@ -162,7 +168,9 @@ NSString *const kSISoundBackgroundFour                              = @"swypeItS
 NSString *const kSISoundBackgroundFive                              = @"swypeItSound5";
 NSString *const kSISoundBackgroundSix                               = @"swypeItSound6";
 NSString *const kSISoundBackgroundSeven                             = @"swypeItSound7";
-NSString *const kSISoundGameOver                                    = @"swypeItGameOver";
+NSString *const kSISoundFXChaChing                                  = @"swypeItFXChaChing";
+NSString *const kSISoundFXGameOver                                  = @"swypeItGameOver";
+NSString *const kSISoundFXInitalize                                 = @"swypeItFXInitalize.caf";
 
 @implementation SIConstants 
 

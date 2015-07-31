@@ -19,6 +19,8 @@
 		091FED761B3733AF0071F8DC /* SIConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 091FED751B3733AF0071F8DC /* SIConstants.m */; };
 		091FED791B3736210071F8DC /* UIColor+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 091FED781B3736210071F8DC /* UIColor+Additions.m */; };
 		091FED7D1B374C470071F8DC /* BaseNavigationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 091FED7C1B374C470071F8DC /* BaseNavigationViewController.m */; };
+		092113B01B6B787B005F7D8B /* swypeItFXChaChing.caf in Resources */ = {isa = PBXBuildFile; fileRef = 092113AE1B6B787B005F7D8B /* swypeItFXChaChing.caf */; };
+		092113B11B6B787B005F7D8B /* swypeItFXInitalize.caf in Resources */ = {isa = PBXBuildFile; fileRef = 092113AF1B6B787B005F7D8B /* swypeItFXInitalize.caf */; };
 		092720DF1B5EF1C30005A6B6 /* StoreScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 092720DE1B5EF1C30005A6B6 /* StoreScene.m */; };
 		092720E51B60D3CB0005A6B6 /* SIIAPUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = 092720E41B60D3CB0005A6B6 /* SIIAPUtility.m */; };
 		092720E71B60F2790005A6B6 /* SIIAPUtilityTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 092720E61B60F2790005A6B6 /* SIIAPUtilityTests.m */; };
@@ -104,6 +106,8 @@
 		091FED781B3736210071F8DC /* UIColor+Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+Additions.m"; sourceTree = "<group>"; };
 		091FED7B1B374C470071F8DC /* BaseNavigationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseNavigationViewController.h; sourceTree = "<group>"; };
 		091FED7C1B374C470071F8DC /* BaseNavigationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseNavigationViewController.m; sourceTree = "<group>"; };
+		092113AE1B6B787B005F7D8B /* swypeItFXChaChing.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = swypeItFXChaChing.caf; sourceTree = "<group>"; };
+		092113AF1B6B787B005F7D8B /* swypeItFXInitalize.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = swypeItFXInitalize.caf; sourceTree = "<group>"; };
 		092720DD1B5EF1C30005A6B6 /* StoreScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StoreScene.h; sourceTree = "<group>"; };
 		092720DE1B5EF1C30005A6B6 /* StoreScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StoreScene.m; sourceTree = "<group>"; };
 		092720E31B60D3CB0005A6B6 /* SIIAPUtility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SIIAPUtility.h; sourceTree = "<group>"; };
@@ -372,6 +376,8 @@
 			isa = PBXGroup;
 			children = (
 				096ABDE71B6B6ABB005B2F12 /* menuSound.caf */,
+				092113AE1B6B787B005F7D8B /* swypeItFXChaChing.caf */,
+				092113AF1B6B787B005F7D8B /* swypeItFXInitalize.caf */,
 				096ABDE81B6B6ABB005B2F12 /* swypeItGameOver.caf */,
 				096ABDE91B6B6ABB005B2F12 /* swypeItSound1.caf */,
 				096ABDEA1B6B6ABB005B2F12 /* swypeItSound2.caf */,
@@ -588,6 +594,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				096ABDF61B6B6ABB005B2F12 /* swypeItSound5.caf in Resources */,
+				092113B01B6B787B005F7D8B /* swypeItFXChaChing.caf in Resources */,
 				096ABDF21B6B6ABB005B2F12 /* swypeItSound1.caf in Resources */,
 				096ABDF71B6B6ABB005B2F12 /* swypeItSound6.caf in Resources */,
 				09DB639E1B56525100387C13 /* MKStoreKitConfigs.plist in Resources */,
@@ -596,6 +603,7 @@
 				099A62331B5C8B12009BF339 /* Main.storyboard in Resources */,
 				096ABDF51B6B6ABB005B2F12 /* swypeItSound4.caf in Resources */,
 				09CAF9AC1B646F4C00466606 /* buttons.atlas in Resources */,
+				092113B11B6B787B005F7D8B /* swypeItFXInitalize.caf in Resources */,
 				091FED541B37283E0071F8DC /* Images.xcassets in Resources */,
 				096ABDF31B6B6ABB005B2F12 /* swypeItSound2.caf in Resources */,
 				096ABDF11B6B6ABB005B2F12 /* swypeItGameOver.caf in Resources */,

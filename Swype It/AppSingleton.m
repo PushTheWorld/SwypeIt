@@ -44,7 +44,10 @@
 
 @end
 
-@implementation AppSingleton
+@implementation AppSingleton {
+    BOOL _fXIsAllowed;
+    BOOL _backgroundSoundIsAllowed;
+}
 
 #pragma mark - Singleton Method
 + (instancetype)singleton {
@@ -72,6 +75,9 @@
     self.currentGame.gameMode                       = gameMode;
     self.currentGame.currentMove                    = [Game getRandomMoveForGameMode:gameMode isRapidFireActiviated:NO];
     self.currentGame.currentBackgroundColorNumber   = arc4random_uniform(NUMBER_OF_MOVES);
+    
+    _fXIsAllowed                                    = [[NSUserDefaults standardUserDefaults] boolForKey:kSINSUserDefaultSoundIsAllowedFX];
+    _backgroundSoundIsAllowed                       = [[NSUserDefaults standardUserDefaults] boolForKey:kSINSUserDefaultSoundIsAllowedBackground];
     
     [self initalizeObjects];
 }
@@ -104,6 +110,15 @@
     /*Start The Timer*/
     [self startTimer];
     
+    /*Start Sound*/
+    if (_backgroundSoundIsAllowed) {
+        SIBackgroundSound soundForScore = [Game backgroundSoundForScore:self.currentGame.totalScore];
+        if (soundForScore != self.currentGame.currentBackgroundSound) {
+            self.currentGame.currentBackgroundSound = soundForScore;
+            [[SoundManager sharedManager] playMusic:[Game soundNameForSIBackgroundSound:soundForScore] looping:YES fadeIn:YES];
+        }
+    }
+    
     /*Send Notification that Game has STARTED*/
     NSNotification *notification        = [[NSNotification alloc] initWithName:kSINotificationGameStarted object:nil userInfo:nil];
     [[NSNotificationCenter defaultCenter] postNotification:notification];
@@ -111,6 +126,7 @@
 - (void)pause {
     self.currentGame.isPaused           = YES;
     self.pauseStartTimeInMiliSeconds    = self.compositeTimeInMiliSeconds;
+//    [[SoundManager sharedManager] st]
 }
 - (void)play {
     if (self.currentGame.isPaused) {
@@ -136,6 +152,19 @@
     [[NSNotificationCenter defaultCenter] postNotification:notification];
     
     [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(powerUpDidEnd) object:nil];
+    
+    /*Stop all sound, vibrate phone, play game over sound*/
+    if (_backgroundSoundIsAllowed) {
+        [[SoundManager sharedManager] stopMusic];
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [[SoundManager sharedManager] playMusic:kSISoundBackgroundMenu looping:YES fadeIn:YES];
+        });
+        self.currentGame.currentBackgroundSound = SIBackgroundSoundMenu;
+    }
+    if (_fXIsAllowed) {
+        [[SoundManager sharedManager] stopAllSounds];
+        [[SoundManager sharedManager] playSound:kSISoundFXGameOver];
+    }
     
     [self pause];
 
@@ -164,6 +193,15 @@
         BOOL isRapidFireActive                      = (self.currentGame.currentPowerUp == SIPowerUpRapidFire) ? YES : NO;
         
         self.currentGame.currentMove                = [Game getRandomMoveForGameMode:self.currentGame.gameMode isRapidFireActiviated:isRapidFireActive]; /*Return Tap for if Rapid Fire*/
+        
+        /*See if you should load new sound*/
+        if (_backgroundSoundIsAllowed) {
+            SIBackgroundSound soundForScore = [Game backgroundSoundForScore:self.currentGame.totalScore];
+            if (soundForScore != self.currentGame.currentBackgroundSound) {
+                self.currentGame.currentBackgroundSound = soundForScore;
+                [[SoundManager sharedManager] playMusic:[Game soundNameForSIBackgroundSound:soundForScore] looping:YES fadeIn:YES];
+            }
+        }
     }
     
     
@@ -204,6 +242,9 @@
     pointsTillFreeCoin                          = pointsTillFreeCoin + score;
     self.currentGame.freeCoinInPoints           = pointsTillFreeCoin;
     if (pointsTillFreeCoin > POINTS_NEEDED_FOR_FREE_COIN) {
+        if (_fXIsAllowed) {
+            [[SoundManager sharedManager] playSound:kSISoundFXChaChing];
+        }
         pointsTillFreeCoin                      = pointsTillFreeCoin - POINTS_NEEDED_FOR_FREE_COIN;
         self.currentGame.freeCoinsEarned        = self.currentGame.freeCoinsEarned + 1;
         [[MKStoreKit sharedKit] addFreeCredits:[NSNumber numberWithInt:1] identifiedByConsumableIdentifier:kSIIAPConsumableIDCoins];

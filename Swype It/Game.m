@@ -544,10 +544,12 @@
         return SIBackgroundSoundFour;
     } else if (score < SOUNDLEVEL5) {
         return SIBackgroundSoundFive;
-    } else if (score < SOUNDLEVEL6) {
-        return SIBackgroundSoundSix;
     } else {
-        return SIBackgroundSoundSeven;
+        if ((int)score % SOUNDLEVEL5 < (SOUNDLEVEL5 / 2)) {
+            return SIBackgroundSoundFour;
+        } else {
+            return SIBackgroundSoundFive;
+        }
     }
 }
 + (NSString *)soundNameForSIBackgroundSound:(SIBackgroundSound)siBackgroundSound {
