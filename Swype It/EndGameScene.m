@@ -35,8 +35,9 @@
 @property (strong, nonatomic) HLMenuNode    *menuNode;
 @property (strong, nonatomic) SKLabelNode   *gameOverLabel;
 @property (strong, nonatomic) SKLabelNode   *gameScoreLabel;
+@property (strong, nonatomic) SKLabelNode   *highScoreLabel;
 @property (strong, nonatomic) SKLabelNode   *itCoinsLabel;
-@property (strong, nonatomic) SKLabelNode   *scoreMessageLabel;
+@property (strong, nonatomic) SKLabelNode   *userMessageLabel;
 @property (strong, nonatomic) SKSpriteNode  *pauseScreenNode;
 @end
 
@@ -102,6 +103,8 @@
     _itCoinsLabel                       = [SKLabelNode labelNodeWithFontNamed:kSIFontFuturaMedium];
     _gameOverLabel                      = [SKLabelNode labelNodeWithFontNamed:kSIFontFuturaMedium];
     _gameScoreLabel                     = [SKLabelNode labelNodeWithFontNamed:kSIFontFuturaMedium];
+    _highScoreLabel                     = [SKLabelNode labelNodeWithFontNamed:kSIFontFuturaMedium];
+    _userMessageLabel                   = [SKLabelNode labelNodeWithFontNamed:kSIFontFuturaMedium];
 
 }
 - (void)setupControlsWithSize:(CGSize)size {
@@ -120,7 +123,27 @@
     _itCoinsLabel.fontColor             = [SKColor blackColor];
     _itCoinsLabel.fontSize              = _fontSize - 4.0f;
     _itCoinsLabel.alpha                 = 0.0f;
+    
+    if ([AppSingleton singleton].currentGame.isHighScore) {
+        _highScoreLabel.text         = @"New High Score!";
+    } else {
+        NSNumber *highScore             = [[NSUserDefaults standardUserDefaults] objectForKey:kSINSUserDefaultLifetimeHighScore];
+        _highScoreLabel.text         = [NSString stringWithFormat:@"High Score: %0.2f",[highScore floatValue]];
+    }
+    _highScoreLabel.fontColor        = [SKColor blackColor];
+    _highScoreLabel.fontSize         = _fontSize - 8.0f;
+    _highScoreLabel.alpha            = 0.0f;
 
+    
+    if ([AppSingleton singleton].currentGame.isHighScore) {
+        _userMessageLabel.text       = @"Get a new high score!";
+    } else {
+        NSNumber *highScore          = [[NSUserDefaults standardUserDefaults] objectForKey:kSINSUserDefaultLifetimeHighScore];
+        _highScoreLabel.text         = [NSString stringWithFormat:@"High Score: %0.2f",[highScore floatValue]];
+    }
+    _userMessageLabel.fontColor      = [SKColor blackColor];
+    _userMessageLabel.fontSize       = _fontSize - 8.0f;
+    _userMessageLabel.alpha          = 0.0f;
 }
 - (void)layoutControlsWithSize:(CGSize)size {
     /**Layout those controls*/
@@ -138,6 +161,11 @@
                                                       _gameScoreLabel.frame.origin.y - (_gameScoreLabel.frame.size.height / 2.0f) - (_itCoinsLabel.frame.size.height / 2.0f) - VERTICAL_SPACING_8);
     [_itCoinsLabel runAction:[SKAction fadeAlphaTo:1.0 duration:0.5]];
     [self addChild:_itCoinsLabel];
+    
+    _highScoreLabel.position              = CGPointMake(size.width / 2.0f,
+                                                      _itCoinsLabel.frame.origin.y - (_itCoinsLabel.frame.size.height / 2.0f) - (_highScoreLabel.frame.size.height / 2.0f) - VERTICAL_SPACING_8);
+    [_highScoreLabel runAction:[SKAction fadeAlphaTo:1.0 duration:0.5]];
+    [self addChild:_highScoreLabel];
 }
 
 

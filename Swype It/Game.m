@@ -574,6 +574,45 @@
             return kSISoundBackgroundMenu;
     }
 }
++ (NSString *)userMessageForScore:(float)score highScore:(float)highScore {
+    if (score > highScore) {
+        return @"Beat your new high score!";
+    }
+    
+    if (score / highScore > 0.8) { /*Give user a encourage to keep going... maybe spend money?*/
+        NSUInteger randomNumber = arc4random_uniform(5);
+        switch (randomNumber) {
+            case 0:
+                return @"Continue Now!";
+            case 1:
+                return @"So Close!!!";
+            case 2:
+                return @"Use IT Coins!";
+            case 3:
+                return @"Nooo! You had it!";
+            default:
+                return @"Use Monkeys!";
+        }
+    } else {
+        NSUInteger randomNumber = arc4random_uniform(7);
+        switch (randomNumber) {
+            case 0:
+                return @"🙅 NO HIGH SCORE!";
+            case 1:
+                return @"You Can Do Better";
+            case 2:
+                return @"You're The Best 😊";
+            case 3:
+                return @"Try Again";
+            case 4:
+                return @"Swype Faster";
+            case 5:
+                return @"You Are Awesome 😊";
+            default:
+                return @"😭 Game over 😭";
+        }
+    }
+}
 #pragma mark - Private Class Methods
 + (float)levelSpeedForScore:(float)score {
     if (score < MAX_MOVE_SCORE) {

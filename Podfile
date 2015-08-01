@@ -8,7 +8,7 @@ pod 'Crashlytics'
 
 pod 'HLSpriteKit'
 
-pod 'Aardvark'
+pod 'Instabug'
 
 pod 'iRate'
 

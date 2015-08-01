@@ -1,1 +1,0 @@
-../../../Aardvark/Logging/ARKLogObserver.h

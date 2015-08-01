@@ -47,6 +47,7 @@
 + (NSString *)          soundNameForSIBackgroundSound:(SIBackgroundSound)siBackgroundSound;
 + (NSString *)          stringForMove:(SIMove)move;
 + (NSString *)          stringForPowerUp:(SIPowerUp)powerUp;
++ (NSString *)          userMessageForScore:(float)score highScore:(float)highScore;
 + (SIBackgroundSound)   backgroundSoundForScore:(float)score;
 + (SIContinueLifeCost)  lifeCostForCurrentContinueLeve:(SIContinueLifeCost)siContinuedLifeCost;
 + (SIIAPPack)           siiapPackForNameNodeLabel:(NSString *)nodeName;
