@@ -574,10 +574,15 @@
             return kSISoundBackgroundMenu;
     }
 }
-+ (NSString *)userMessageForScore:(float)score highScore:(float)highScore {
-    if (score > highScore) {
-        return @"Beat your new high score!";
-    }
++ (NSString *)userMessageForScore:(float)score isHighScore:(BOOL)isHighScore highScore:(float)highScore {
+    if (isHighScore) {
+        NSUInteger randomNumber = arc4random_uniform(2);
+        switch (randomNumber) {
+            case 0:
+                return @"New High Score!";
+            default:
+                return @"Congrats High Score!";
+        }    }
     
     if (score / highScore > 0.8) { /*Give user a encourage to keep going... maybe spend money?*/
         NSUInteger randomNumber = arc4random_uniform(5);

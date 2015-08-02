@@ -47,6 +47,7 @@ NSString *const kSINotificationGameEnded                            = @"com.push
 NSString *const kSINotificationGameResumed                          = @"com.pushtheworldllc.swipeit.gameResumed";
 NSString *const kSINotificationGameStarted                          = @"com.pushtheworldllc.swipeit.gameStarted";
 NSString *const kSINotificationLevelDidChange                       = @"com.pushtheworldllc.swipeit.levelDidChange";
+NSString *const kSINotificationMenuLoaded                           = @"com.pushtheworldllc.swipeit.menuLoaded";
 NSString *const kSINotificationNewBackgroundReady                   = @"com.pushtheworldllc.swipeit.newBackgroundReady";
 NSString *const kSINotificationNewHighScore                         = @"com.pushtheworldllc.swipeit.newHighScore";
 NSString *const kSINotificationPackPurchaseRequest                  = @"com.pushtheworldllc.swipeit.purchasePack";
@@ -148,6 +149,10 @@ NSString *const kSIFontFuturaMedium                                 = @"Futura-M
 
 #pragma mark - Menu Button Texts
 NSString *const kSIMenuTextBack                                     = @"Back";
+NSString *const kSIMenuTextEndGameContinue                          = @"Continue";
+NSString *const kSIMenuTextEndGameReplay                            = @"Replay";
+NSString *const kSIMenuTextEndGameStore                             = @"Store";
+NSString *const kSIMenuTextEndGameMainMenu                          = @"Main Menu";
 NSString *const kSIMenuTextSettingsBugReport                        = @"Report Bug";
 NSString *const kSIMenuTextSettingsResetHighScore                   = @"Reset High Score";
 NSString *const kSIMenuTextSettingsRestorePurchases                 = @"Restore Purchases";
@@ -155,6 +160,10 @@ NSString *const kSIMenuTextSettingsToggleSoundOffBackground         = @"Turn Mus
 NSString *const kSIMenuTextSettingsToggleSoundOffFX                 = @"Turn Sound FX Off";
 NSString *const kSIMenuTextSettingsToggleSoundOnBackground          = @"Turn Music On";
 NSString *const kSIMenuTextSettingsToggleSoundOnFX                  = @"Turn Sound FX On";
+NSString *const kSIMenuTextStartScreenOneHand                       = @"One Hand";
+NSString *const kSIMenuTextStartScreenTwoHand                       = @"Two Hand";
+NSString *const kSIMenuTextStartScreenSettings                      = @"Settings";
+NSString *const kSIMenuTextStartScreenStore                         = @"Store";
 
 #pragma mark - Emails
 NSString *const kSIEmailBugReportReciever                           = @"buggy.bug@pushtheworld.us";

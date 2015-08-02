@@ -3,7 +3,6 @@ PODS:
   - Fabric (1.2.8):
     - Fabric/Base (= 1.2.8)
   - Fabric/Base (1.2.8)
-  - HLSpriteKit (0.9.7)
   - Instabug (4.1.4)
   - iRate (1.11.4)
   - iVersion (1.11.4)
@@ -12,7 +11,6 @@ PODS:
 DEPENDENCIES:
   - Crashlytics
   - Fabric
-  - HLSpriteKit
   - Instabug
   - iRate
   - iVersion
@@ -21,7 +19,6 @@ DEPENDENCIES:
 SPEC CHECKSUMS:
   Crashlytics: ef9a58a4e806b316a1748c06432f6f847ba09ac6
   Fabric: a9eabe53915e9f1db55a84dd2838737928675878
-  HLSpriteKit: 96b464e2dfc3cc0358fd065893fefe94e3662ebc
   Instabug: de19c1b0f89c4e5deda6dd7f1dc3515e54238b08
   iRate: 599ed07c854e0695f3c605d1b2a64c67d912acb7
   iVersion: 2b6ffe708672cb494ba3cab150a94800c2892e81

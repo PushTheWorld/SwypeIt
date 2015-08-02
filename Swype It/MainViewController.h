@@ -13,9 +13,8 @@
 
 
 @interface MainViewController : UIViewController
-
++ (CGFloat)buttonFontSize;
 + (HLLabelButtonNode *)SI_sharedMenuButtonPrototypeBack:(CGSize)size;
-+ (HLLabelButtonNode *)SI_sharedMenuButtonPrototypeBasic:(CGSize)size;
-+ (HLLabelButtonNode *)SI_sharedMenuButtonPrototypeBasic:(CGSize)size color:(UIColor *)color;
-
++ (HLLabelButtonNode *)SI_sharedMenuButtonPrototypeBasic:(CGSize)size fontSize:(CGFloat)fontSize;
++ (HLLabelButtonNode *)SI_sharedMenuButtonPrototypeBasic:(CGSize)size fontSize:(CGFloat)fontSize backgroundColor:(UIColor *)backgroundColor fontColor:(UIColor *)fontColor;
 @end

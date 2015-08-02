@@ -6,8 +6,6 @@ pod 'Fabric'
 
 pod 'Crashlytics'
 
-pod 'HLSpriteKit'
-
 pod 'Instabug'
 
 pod 'iRate'

@@ -10,97 +10,149 @@
 // Local Controller Import
 #import "AppSingleton.h"
 #import "GameScene.h"
+#import "MainViewController.h"
 #import "SettingsScene.h"
 #import "StartScreenScene.h"
 #import "StoreScene.h"
 // Framework Import
 // Drop-In Class Imports (CocoaPods/GitHub/Guru)
+#import "HLSpriteKit.h"
 #import "SoundManager.h"
 // Category Import
 #import "UIColor+Additions.h"
 // Support/Data Class Imports
 #import "Game.h"
 // Other Imports
+@interface StartScreenScene () <HLMenuNodeDelegate>
 
+#pragma mark - Private Properties
+@property (strong, nonatomic) HLMenuNode    *menuNode;
+@property (strong, nonatomic) SKLabelNode   *gameTitleLabel;
+@property (strong, nonatomic) SKLabelNode   *welcomeLabel;
 
-@implementation StartScreenScene
+@end
+@implementation StartScreenScene {
+    CGFloat     _buttonAnimationDuration;
+    CGFloat     _buttonSpacing;
+    CGSize      _buttonSize;
+}
 
--(nonnull instancetype)initWithSize:(CGSize)size {
+#pragma mark - Scene Life Cycle
+- (instancetype)initWithSize:(CGSize)size {
     if (self = [super initWithSize:size]) {
-        self.backgroundColor = [SKColor sandColor];
-        
-        SKLabelNode *label = [SKLabelNode labelNodeWithFontNamed:kSIFontFuturaMedium];
-        label.text = @"Welcome";
-        label.fontColor = [SKColor blackColor];
-        label.fontSize = 44;
-        label.position = CGPointMake(CGRectGetMidX(self.frame),size.height - label.frame.size.height - VERTICAL_SPACING_16);
-        [self addChild:label];
-        
-        SKLabelNode *nameLabel = [SKLabelNode labelNodeWithFontNamed:kSIFontFuturaMedium];
-        nameLabel.text = @"Swype It 2.0 Beta";
-        nameLabel.fontColor = [SKColor blackColor];
-        nameLabel.fontSize = 30;
-        nameLabel.position = CGPointMake(CGRectGetMidX(self.frame),label.frame.origin.y - nameLabel.frame.size.height - VERTICAL_SPACING_16);
-        [self addChild:nameLabel];
-        
-        SKSpriteNode *oneHand   = [SKSpriteNode spriteNodeWithTexture:[[SIConstants buttonAtlas] textureNamed:kSIImageButtonGameModeOneHand] size:CGSizeMake((size.width / 2.0f), size.width / 5.0)];
-        oneHand.name            = kSINodeButtonOneHand;
-        oneHand.position        = CGPointMake(CGRectGetMidX(self.frame),
-                                              CGRectGetMidY(self.frame) + (oneHand.frame.size.height/2.0f) + VERTICAL_SPACING_8);
-        [self addChild:oneHand];
-        
-        SKSpriteNode *twoHand = [SKSpriteNode spriteNodeWithTexture:[[SIConstants buttonAtlas] textureNamed:kSIImageButtonGameModeTwoHand] size:CGSizeMake((size.width / 2.0f), size.width / 5.0)];
-        twoHand.name            = kSINodeButtonTwoHand;
-        twoHand.position        = CGPointMake(CGRectGetMidX(self.frame),
-                                              oneHand.frame.origin.y - (oneHand.frame.size.height/2.0f) - VERTICAL_SPACING_8);
-        [self addChild:twoHand];
-        
-        /*Store Button*/
-        SKSpriteNode *store     = [SKSpriteNode spriteNodeWithTexture:[[SIConstants buttonAtlas] textureNamed:kSIImageButtonStore] size:CGSizeMake(size.width / 2.0f, size.width / 5.0f)];
-        store.position          = CGPointMake(CGRectGetMidX(self.frame),
-                                              twoHand.frame.origin.y - (twoHand.frame.size.height/2.0f) - VERTICAL_SPACING_8);
-        store.name              = kSINodeButtonStore;
-        [self addChild:store];
-        
-        /*Store Button*/
-        SKSpriteNode *settings  = [SKSpriteNode spriteNodeWithTexture:[[SIConstants buttonAtlas] textureNamed:kSIImageButtonSettings] size:CGSizeMake(size.width / 2.0f, size.width / 5.0f)];
-        settings.position       = CGPointMake(CGRectGetMidX(self.frame),
-                                              store.frame.origin.y - (store.frame.size.height/2.0f) - VERTICAL_SPACING_8);
-        settings.name           = kSINodeButtonSettings;
-        [self addChild:settings];
-        
+        /**Do any setup before self.view is loaded*/
+        [self initSetup:size];
     }
-    
     return self;
 }
 - (void)didMoveToView:(nonnull SKView *)view {
+    [super didMoveToView:view];
+    /**Do any setup post self.view creation*/
+    [self viewSetup:view];
     if ([[NSUserDefaults standardUserDefaults] boolForKey:kSINSUserDefaultSoundIsAllowedBackground]) {
         [[SoundManager sharedManager] playMusic:kSISoundBackgroundMenu looping:YES fadeIn:YES];
     }
+    NSNotification *notification        = [[NSNotification alloc] initWithName:kSINotificationMenuLoaded object:nil userInfo:nil];
+    [[NSNotificationCenter defaultCenter] postNotification:notification];
 }
--(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
-    UITouch *touch      = [touches anyObject];
-    CGPoint location    = [touch locationInNode:self];
-    SKNode  *node       = [self nodeAtPoint:location];
+- (void)willMoveFromView:(nonnull SKView *)view {
+    /**Do any breakdown prior to the view being unloaded*/
     
-    if ([node.name isEqualToString:kSINodeButtonOneHand]) {
-        [self launchGameSceneForGameMode:SIGameModeOneHand];
-    } else if ([node.name isEqualToString:kSINodeButtonTwoHand]) {
+    /*Resume move from view*/
+    [super willMoveFromView:view];
+}
+- (void)initSetup:(CGSize)size {
+    /**Preform initalization pre-view load*/
+    [self createConstantsWithSize:size];
+    [self createControlsWithSize:size];
+    [self setupControlsWithSize:size];
+    [self layoutControlsWithSize:size];
+}
+- (void)viewSetup:(SKView *)view {
+    /**Preform setup post-view load*/
+    self.backgroundColor = [SKColor sandColor];
+    
+}
+#pragma mark Scene Setup
+- (void)createConstantsWithSize:(CGSize)size {
+    /**Configure any constants*/
+    _buttonSize                             = CGSizeMake(size.width / 2.0f, (size.width / 2.0f) * 0.25);
+    _buttonSpacing                          = (size.width / 2.0f) * 0.25;
+    _buttonAnimationDuration                = 0.25f;
+}
+- (void)createControlsWithSize:(CGSize)size {
+    /**Preform all your alloc/init's here*/
+    _welcomeLabel                           = [SKLabelNode labelNodeWithFontNamed:kSIFontFuturaMedium];
+    
+    _gameTitleLabel                         = [SKLabelNode labelNodeWithFontNamed:kSIFontFuturaMedium];
+    
+    /*Menu Node*/
+    _menuNode                           = [[HLMenuNode alloc] init];
+}
+- (void)setupControlsWithSize:(CGSize)size {
+    /**Configrue the labels, nodes and what ever else you can*/
+    _welcomeLabel.text                      = @"Welcome";
+    _welcomeLabel.fontColor                 = [SKColor blackColor];
+    _welcomeLabel.fontSize                  = [MainViewController buttonFontSize];
+    
+    _gameTitleLabel.text                    = @"Swype It 2.0 Beta";
+    _gameTitleLabel.fontColor               = [SKColor blackColor];
+    _gameTitleLabel.fontSize                = [MainViewController buttonFontSize] - 8.0f;
+    
+    /*Menu Node*/
+    _menuNode.delegate                  = self;
+    _menuNode.itemAnimation             = HLMenuNodeAnimationSlideLeft;
+    _menuNode.itemAnimationDuration     = _buttonAnimationDuration;
+    _menuNode.itemButtonPrototype       = [MainViewController SI_sharedMenuButtonPrototypeBasic:_buttonSize fontSize:[MainViewController buttonFontSize]];
+    _menuNode.backItemButtonPrototype   = [MainViewController SI_sharedMenuButtonPrototypeBack:_buttonSize];
+    _menuNode.itemSpacing               = _buttonSpacing;
+
+}
+- (void)layoutControlsWithSize:(CGSize)size {
+    /**Layout those controls*/
+    _welcomeLabel.position                  = CGPointMake(CGRectGetMidX(self.frame),size.height - _welcomeLabel.frame.size.height - VERTICAL_SPACING_16);
+    [self addChild:_welcomeLabel];
+
+    _gameTitleLabel.position                = CGPointMake(CGRectGetMidX(self.frame),_welcomeLabel.frame.origin.y - _gameTitleLabel.frame.size.height - VERTICAL_SPACING_16);
+    [self addChild:_gameTitleLabel];
+    
+    /*Menu Node*/
+    _menuNode.position                      = CGPointMake(size.width / 2.0f,
+                                                          _gameTitleLabel.frame.origin.y - (_gameTitleLabel.frame.size.height / 2.0f) - VERTICAL_SPACING_16);
+    [self addChild:_menuNode];
+    [_menuNode hlSetGestureTarget:_menuNode];
+    [self registerDescendant:_menuNode withOptions:[NSSet setWithObject:HLSceneChildGestureTarget]];
+    [self menuCreate];
+}
+- (void)menuCreate {
+    HLMenu *menu = [[HLMenu alloc] init];
+    
+    /*Add the regular buttons*/
+    [menu addItem:[HLMenuItem menuItemWithText:kSIMenuTextStartScreenTwoHand]];
+    
+    [menu addItem:[HLMenuItem menuItemWithText:kSIMenuTextStartScreenOneHand]];
+    
+    [menu addItem:[HLMenuItem menuItemWithText:kSIMenuTextStartScreenStore]];
+    
+    [self.menuNode setMenu:menu animation:HLMenuNodeAnimationNone];
+}
+- (void)menuNode:(HLMenuNode *)menuNode didTapMenuItem:(HLMenuItem *)menuItem itemIndex:(NSUInteger)itemIndex {
+    if ([menuItem.text isEqualToString:kSIMenuTextStartScreenTwoHand]) {
         [self launchGameSceneForGameMode:SIGameModeTwoHand];
-    } else if ([node.name isEqualToString:kSINodeButtonStore]) {
+
+    } else if ([menuItem.text isEqualToString:kSIMenuTextStartScreenOneHand]) {
+        [self launchGameSceneForGameMode:SIGameModeOneHand];
+        
+    } else if ([menuItem.text isEqualToString:kSIMenuTextStartScreenStore]) {
         StoreScene *storeScene = [StoreScene sceneWithSize:self.size];
         storeScene.wasLaunchedFromMainMenu = YES;
         [Game transisitionToSKScene:storeScene toSKView:self.view DoorsOpen:YES pausesIncomingScene:NO pausesOutgoingScene:NO duration:1.0];
-        
-    } else if ([node.name isEqualToString:kSINodeButtonSettings]) {
+
+    } else if ([menuItem.text isEqualToString:kSIMenuTextStartScreenStore]) {
         SettingsScene *settingsScene = [SettingsScene sceneWithSize:self.size];
         [Game transisitionToSKScene:settingsScene toSKView:self.view DoorsOpen:YES pausesIncomingScene:NO pausesOutgoingScene:NO duration:1.0];
-        
-    } else {
-        // Do Nothing...
-        NSLog(@"Non button area touched");
+
     }
-    
 }
 - (void)launchGameSceneForGameMode:(SIGameMode)gameMode {
     [[AppSingleton singleton] initAppSingletonWithGameMode:gameMode];

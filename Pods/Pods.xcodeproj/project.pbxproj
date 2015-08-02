@@ -8,203 +8,89 @@
 
 /* Begin PBXBuildFile section */
 		016767C10AFD0D020AF02A4014E8DA0E /* iVersion.m in Sources */ = {isa = PBXBuildFile; fileRef = ECB326294357B5B2FD714EC9D4E5EEF7 /* iVersion.m */; settings = {COMPILER_FLAGS = "-DOS_OBJECT_USE_OBJC=0"; }; };
-		05307A1210300892A558C8E9AFBFAA22 /* SKSpriteNode+HLSpriteNodeAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = B40CA84B973C7830FE02623C39636223 /* SKSpriteNode+HLSpriteNodeAdditions.h */; };
-		0D6682F1E91FCDDF25FCB03629E1778D /* HLLabelButtonNode.m in Sources */ = {isa = PBXBuildFile; fileRef = EC43A8BE20E7752CD9F205270A9A4339 /* HLLabelButtonNode.m */; };
-		0DFB985875BF938AA2E8D57D594112C6 /* HLGestureTarget.h in Headers */ = {isa = PBXBuildFile; fileRef = DC7A693BFE3426CFA2E4AE0B8C0B996E /* HLGestureTarget.h */; };
-		17251AAA98C57630D29BAE2F7AF1D971 /* HLScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 10BD2B6D01D8EDFFA06AB082FFD402F5 /* HLScene.m */; };
-		1919CDF4241DF82D01B7F9021CD1AFC5 /* HLGridNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 064295E7C7536A2CCAB92E92612B985C /* HLGridNode.m */; };
-		19E655BC0D9A74B37E715BA13F573242 /* HLComponentNode.m in Sources */ = {isa = PBXBuildFile; fileRef = CB4B11FF76B57BFC2EFD19D8D68136E2 /* HLComponentNode.m */; };
-		1A09481707D866A711E0D8DACAA3E6EC /* HLGestureTarget.m in Sources */ = {isa = PBXBuildFile; fileRef = 188FF6ECA13386A6FF208F74DA27FC86 /* HLGestureTarget.m */; };
-		1B6F1AC0B9627A030345DC123F076979 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4925ACBEC07E77580C2382A14AE7A037 /* Foundation.framework */; };
-		1C75AF48321DD734DFABE7DF5B7119B2 /* UIImage+HLImageAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 5746A6C0101C6F05CEEA78DC786E8019 /* UIImage+HLImageAdditions.h */; };
-		1F55FBD427A6181B3A31FC065C26C681 /* HLGridNode.h in Headers */ = {isa = PBXBuildFile; fileRef = 336DD65E59B94F2936F904757D345542 /* HLGridNode.h */; };
-		2591B2A3024D6AF29BEBB396E4F92571 /* HLEmitterStore.h in Headers */ = {isa = PBXBuildFile; fileRef = 8E8DFE04CD1AEB6F314F82C298E9D802 /* HLEmitterStore.h */; };
-		28B8DBD13BFAB7E89B946FF5E2AA81C8 /* HLMenuNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FFC2340CC2633BEE87EBC1224D0BA77 /* HLMenuNode.m */; };
-		2FCCE560C2DFF70455C7F7A66CDE8BA6 /* Pods-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 6CED97C72EB54F1995DAF5C8ECA194AE /* Pods-dummy.m */; };
-		35B7DCB1ABC3511AB3F01966EABD3E90 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D0796E3CF74C4A4EAAE00200B3DE260F /* UIKit.framework */; };
+		31B067C9EC08B7D738F27DD5E5766823 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4925ACBEC07E77580C2382A14AE7A037 /* Foundation.framework */; };
 		4474781C5BF93D7055C3494FA136684D /* iRate.h in Headers */ = {isa = PBXBuildFile; fileRef = ED7D4D4D7CF355E84187ADD0CE47E6F5 /* iRate.h */; };
-		4B96985D42D9AA9C3837A722C5479345 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4925ACBEC07E77580C2382A14AE7A037 /* Foundation.framework */; };
 		54D040826ADDA797A3A87623B1EFFFE0 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4925ACBEC07E77580C2382A14AE7A037 /* Foundation.framework */; };
-		587926F88AB74379D5969A5C45360277 /* HLLayoutManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 06D01BC7289D515278DE316A154EA69E /* HLLayoutManager.h */; };
 		5B24C3BDD92F546DB217A9D95BAECF49 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4925ACBEC07E77580C2382A14AE7A037 /* Foundation.framework */; };
 		5CFA1DEEB2BE845F2D11C788BC63B727 /* iVersion-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 3532A93AEA5DBB796BD40DE644EC9CD9 /* iVersion-dummy.m */; };
-		63DE338E1FAEBE7E2262CF502419A2E0 /* SpriteKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 949B0859B109141FD7F14FB33B500261 /* SpriteKit.framework */; };
-		6F8703A4BC15BB39B43E84952DCEC687 /* HLTextureStore.m in Sources */ = {isa = PBXBuildFile; fileRef = CAF6AE091E923A268D01321D2AEB4CCB /* HLTextureStore.m */; };
-		7C5E54C55C79C82D38C90B52343AFB11 /* HLTiledNode.m in Sources */ = {isa = PBXBuildFile; fileRef = F9D35E5A1281F08FD2E5FDB7A2006CF5 /* HLTiledNode.m */; };
 		80C430C599440BE6789D4B2341EAFB82 /* SoundManager.h in Headers */ = {isa = PBXBuildFile; fileRef = A463FF737841538EB3808A069DCD95B4 /* SoundManager.h */; };
-		82C267E397FDDFACCF9193CBBE6D098B /* SKSpriteNode+HLSpriteNodeAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = CC8484C80711D435EDDC46AF71C17E1E /* SKSpriteNode+HLSpriteNodeAdditions.m */; };
-		86F5103B0E3EFD811AEA0209AC949124 /* UIImage+HLImageAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = B802DB3B539D2D84C3F6D7A5AE682AAE /* UIImage+HLImageAdditions.m */; };
-		8B505876A2764B34137F3C92C4719FA1 /* SKLabelNode+HLLabelNodeAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C72EF7D381777F310B53EC66E54DBEE /* SKLabelNode+HLLabelNodeAdditions.m */; };
-		917354FF365B5167E57FB1DC2168D84F /* HLTiledNode.h in Headers */ = {isa = PBXBuildFile; fileRef = A77C98215599645B18FA550F803623CE /* HLTiledNode.h */; };
-		93C7369D752C5D14B63115D9DDB07AE8 /* HLError.h in Headers */ = {isa = PBXBuildFile; fileRef = 52262950E1068DCA5608AED1C347A690 /* HLError.h */; };
-		94BE6AD8957E7EC4D4B42A98082398F3 /* HLToolNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D58E15FDE14E18E9589AAACD1F95884 /* HLToolNode.m */; };
-		9BA016E8C8939706CED2A136CB4A8AA0 /* HLEmitterStore.m in Sources */ = {isa = PBXBuildFile; fileRef = C2F33B55C2DDA46039853691FC93280A /* HLEmitterStore.m */; };
-		A13CD902AD6B4D639D07670779384628 /* HLToolbarNode.m in Sources */ = {isa = PBXBuildFile; fileRef = D568ADBABADB8FDBFAE1BEFE7FABB520 /* HLToolbarNode.m */; };
 		A1D770A1C2339A89897E4978C5677FD7 /* SoundManager-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DEB31C818DB69B0D42BECFD48765E8B /* SoundManager-dummy.m */; };
-		A22747D581C4D7097315BD46E9F8973B /* HLToolbarNode.h in Headers */ = {isa = PBXBuildFile; fileRef = A0B451199BAD581211CE1CF5EB503C09 /* HLToolbarNode.h */; };
-		A24657002EA025006B8374F528AFC003 /* HLTextureStore.h in Headers */ = {isa = PBXBuildFile; fileRef = 125480687EF14B0DDF4F967988943409 /* HLTextureStore.h */; };
-		A416E3B84D704B2D2918ED4DD46B8236 /* HLMath.h in Headers */ = {isa = PBXBuildFile; fileRef = 40538DCA975A3249A20F0A420B095C89 /* HLMath.h */; };
-		A42A4092AE0EBC59E1D4C044FC02FE2A /* HLToolNode.h in Headers */ = {isa = PBXBuildFile; fileRef = 924B52C19B1471C1C0324969539D0784 /* HLToolNode.h */; };
-		AB16A7DFC0A2F95008577E74D393776A /* HLSpriteKit.h in Headers */ = {isa = PBXBuildFile; fileRef = D3479D2C06B363A012641CBD8619EBD9 /* HLSpriteKit.h */; };
-		B50F70B29F3B6C7F5BE5E0EB964EA44D /* HLMenuNode.h in Headers */ = {isa = PBXBuildFile; fileRef = 8070ED8C513729F4E8B24737215E99E3 /* HLMenuNode.h */; };
-		B5F74E722C1574489AD02C35F0B82579 /* SKNode+HLLayoutManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DDE438C6E5A963E5560EE9321E42413 /* SKNode+HLLayoutManager.m */; };
 		B88A6ED05CA4CA5A65A912C8FC929003 /* iRate.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FE1515078BEA58B8741246358144431 /* iRate.m */; settings = {COMPILER_FLAGS = "-DOS_OBJECT_USE_OBJC=0"; }; };
-		B8AAF87516784EC1499DC6BE0541DDFF /* HLScrollNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 89C1DC8BEEB5A92E19981D5A47FECE8E /* HLScrollNode.m */; };
-		BE9A9E97B750AE23653C099F1645C8DC /* SKNode+HLGestureTarget.m in Sources */ = {isa = PBXBuildFile; fileRef = 35F3CEAB57201B26E088ED54DB56B218 /* SKNode+HLGestureTarget.m */; };
-		C2076DF5150D52B65423FE8AEFC8CDE8 /* SKLabelNode+HLLabelNodeAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 0C1819ABF73FC90FDEFD7E6A42846FD8 /* SKLabelNode+HLLabelNodeAdditions.h */; };
-		C3531772CBF1583B8278FDD3BC0B8A87 /* HLMath.m in Sources */ = {isa = PBXBuildFile; fileRef = D2DC22336C789B30D017ABABFC40E7AA /* HLMath.m */; };
-		C4D5A243DD1D80F9548E9627D5C6523C /* HLScrollNode.h in Headers */ = {isa = PBXBuildFile; fileRef = 354036451DDDA1F03AA5DD7D97EE1ABD /* HLScrollNode.h */; };
-		CBC2D7DEE65FD857F7448CEB2ACEAFFA /* HLMessageNode.h in Headers */ = {isa = PBXBuildFile; fileRef = 18E86F55C3ADAA6CAC31DA3A6B7B47DE /* HLMessageNode.h */; };
-		D37C19E9A5FA0B8D803C7095ECF04389 /* HLScene.h in Headers */ = {isa = PBXBuildFile; fileRef = 55711007770D6D4EDABAFA79AB18C811 /* HLScene.h */; };
-		D3B239163CC41831ECE0816FB69935FA /* SKNode+HLLayoutManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 56776705B75A01A98941FD8C44865EFA /* SKNode+HLLayoutManager.h */; };
-		D591B81FF76DB05DB7456B416D9F7CFF /* HLMessageNode.m in Sources */ = {isa = PBXBuildFile; fileRef = F47D55CF744250059D0F30022E684FFF /* HLMessageNode.m */; };
-		DEFE7D47D5197311AA189690776A1BAF /* HLSpriteKit-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 55B064EB7E738926E5CEC1AA338F7820 /* HLSpriteKit-dummy.m */; };
-		E60EA6F8E10175546F909AD013218FAF /* HLLabelButtonNode.h in Headers */ = {isa = PBXBuildFile; fileRef = C51DA063F9A201749E6AD737B5991255 /* HLLabelButtonNode.h */; };
-		ED2D0C1629672F9F1DC22E2C7F249EB3 /* HLTableLayoutManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 06EC03681F049558E531A06671419509 /* HLTableLayoutManager.h */; };
+		C70ACF93862C256FE928E08C1CAA542C /* Pods-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 519C925FD22B49B93CDF74A3CA2F37FD /* Pods-dummy.m */; };
 		ED343C724EB70312F20A36090CEB59DD /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F8261116021A44AD8ECBC1DC9CCD9D32 /* StoreKit.framework */; };
 		EF1B5B2763BD21E8E1601D6198A2BD12 /* iRate-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = A8D739DB02CBADFCA4340ACFFA5688DF /* iRate-dummy.m */; };
-		F2B0828771828CEA2E5C1E9152DD12E4 /* HLComponentNode.h in Headers */ = {isa = PBXBuildFile; fileRef = D26257FF35EF747354FE279895E89291 /* HLComponentNode.h */; };
 		F5C55261326E0535CDD07DBD4BDAC5D5 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4925ACBEC07E77580C2382A14AE7A037 /* Foundation.framework */; };
 		F8187903AECB36A8B9B1609717706FAA /* iVersion.h in Headers */ = {isa = PBXBuildFile; fileRef = 43719EF02BCED54710B2C724CA3DADC5 /* iVersion.h */; };
 		F85B0C2947F7154CCAB224FCCC2AF7DC /* SoundManager.m in Sources */ = {isa = PBXBuildFile; fileRef = AA3955B5AFE75AFB4CD249331DA1EE2E /* SoundManager.m */; settings = {COMPILER_FLAGS = "-DOS_OBJECT_USE_OBJC=0"; }; };
-		FA52C48536E5FDDB87A9A000F20C1139 /* HLTableLayoutManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 6451242D8712674468958CD77459E320 /* HLTableLayoutManager.m */; };
-		FB7AE7D6150D3DE4810E41C09ED231FE /* SKNode+HLGestureTarget.h in Headers */ = {isa = PBXBuildFile; fileRef = F64B46B25C8A2CEA81A71C876D7DA3D2 /* SKNode+HLGestureTarget.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		2AB31319D8EF9E0DBBD66A2AFF455A76 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = D41D8CD98F00B204E9800998ECF8427E /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 8EE777272D86546A0EF4A57FF36AC6EB;
-			remoteInfo = iRate;
-		};
-		57688027C55B2C59F1BF46E3DCE902F2 /* PBXContainerItemProxy */ = {
+		0A607949EFE7D9641465154E6DDA03C9 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = D41D8CD98F00B204E9800998ECF8427E /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 7A9BEA8890730B7F3E4C9EFC8A057297;
 			remoteInfo = iVersion;
 		};
-		60B17A4FE35113DBB24539B1640E6441 /* PBXContainerItemProxy */ = {
+		5C621694EF2827C70C64793488BBF641 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = D41D8CD98F00B204E9800998ECF8427E /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 524113E25680CB0E7B3EA68BC07AF2A8;
 			remoteInfo = SoundManager;
 		};
-		BC722FBB021E694B9602CDAA8E4A0155 /* PBXContainerItemProxy */ = {
+		7CBC56840E046C4D516E89FF795A4853 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = D41D8CD98F00B204E9800998ECF8427E /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = B89EFDC95B6BA64175E81AD7CA8F20EA;
-			remoteInfo = HLSpriteKit;
+			remoteGlobalIDString = 8EE777272D86546A0EF4A57FF36AC6EB;
+			remoteInfo = iRate;
 		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		02812423E69D4AE352A5E6A9BA73F970 /* iVersion-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "iVersion-prefix.pch"; sourceTree = "<group>"; };
-		064295E7C7536A2CCAB92E92612B985C /* HLGridNode.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = HLGridNode.m; path = HLSpriteKit/HLGridNode.m; sourceTree = "<group>"; };
-		06D01BC7289D515278DE316A154EA69E /* HLLayoutManager.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = HLLayoutManager.h; path = HLSpriteKit/HLLayoutManager.h; sourceTree = "<group>"; };
-		06EC03681F049558E531A06671419509 /* HLTableLayoutManager.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = HLTableLayoutManager.h; path = HLSpriteKit/HLTableLayoutManager.h; sourceTree = "<group>"; };
+		00F664227B38A5E6D8E3913F89E4786B /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
+		055447632653814C966F7D7404757759 /* SoundManager.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = SoundManager.xcconfig; sourceTree = "<group>"; };
 		07EADE48A68C3E58E1BD322D741F5DE9 /* iRate-Private.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "iRate-Private.xcconfig"; sourceTree = "<group>"; };
-		0C1819ABF73FC90FDEFD7E6A42846FD8 /* SKLabelNode+HLLabelNodeAdditions.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "SKLabelNode+HLLabelNodeAdditions.h"; path = "HLSpriteKit/SKLabelNode+HLLabelNodeAdditions.h"; sourceTree = "<group>"; };
-		10BD2B6D01D8EDFFA06AB082FFD402F5 /* HLScene.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = HLScene.m; path = HLSpriteKit/HLScene.m; sourceTree = "<group>"; };
-		125480687EF14B0DDF4F967988943409 /* HLTextureStore.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = HLTextureStore.h; path = HLSpriteKit/HLTextureStore.h; sourceTree = "<group>"; };
-		188FF6ECA13386A6FF208F74DA27FC86 /* HLGestureTarget.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = HLGestureTarget.m; path = HLSpriteKit/HLGestureTarget.m; sourceTree = "<group>"; };
-		18E86F55C3ADAA6CAC31DA3A6B7B47DE /* HLMessageNode.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = HLMessageNode.h; path = HLSpriteKit/HLMessageNode.h; sourceTree = "<group>"; };
-		1C72EF7D381777F310B53EC66E54DBEE /* SKLabelNode+HLLabelNodeAdditions.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "SKLabelNode+HLLabelNodeAdditions.m"; path = "HLSpriteKit/SKLabelNode+HLLabelNodeAdditions.m"; sourceTree = "<group>"; };
-		1DDE438C6E5A963E5560EE9321E42413 /* SKNode+HLLayoutManager.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "SKNode+HLLayoutManager.m"; path = "HLSpriteKit/SKNode+HLLayoutManager.m"; sourceTree = "<group>"; };
-		2D58E15FDE14E18E9589AAACD1F95884 /* HLToolNode.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = HLToolNode.m; path = HLSpriteKit/HLToolNode.m; sourceTree = "<group>"; };
+		0D395D47C06A0589ABA56DAE68B0F7C1 /* iRate-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "iRate-prefix.pch"; sourceTree = "<group>"; };
+		2D76E51471C98B835DB6D73306DF2135 /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Fabric.framework; sourceTree = "<group>"; };
 		318469250BDDFDFAE21D4E8085AF38C5 /* libiVersion.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libiVersion.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		336DD65E59B94F2936F904757D345542 /* HLGridNode.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = HLGridNode.h; path = HLSpriteKit/HLGridNode.h; sourceTree = "<group>"; };
 		3532A93AEA5DBB796BD40DE644EC9CD9 /* iVersion-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "iVersion-dummy.m"; sourceTree = "<group>"; };
-		354036451DDDA1F03AA5DD7D97EE1ABD /* HLScrollNode.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = HLScrollNode.h; path = HLSpriteKit/HLScrollNode.h; sourceTree = "<group>"; };
-		35F3CEAB57201B26E088ED54DB56B218 /* SKNode+HLGestureTarget.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "SKNode+HLGestureTarget.m"; path = "HLSpriteKit/SKNode+HLGestureTarget.m"; sourceTree = "<group>"; };
-		36CB880743FEF36FFD16AC1D774E4085 /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Fabric.framework; sourceTree = "<group>"; };
 		3DEB31C818DB69B0D42BECFD48765E8B /* SoundManager-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "SoundManager-dummy.m"; sourceTree = "<group>"; };
-		40538DCA975A3249A20F0A420B095C89 /* HLMath.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = HLMath.h; path = HLSpriteKit/HLMath.h; sourceTree = "<group>"; };
-		4212D712FB4E3407E7641CFDEB4B7198 /* iRate.bundle */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "wrapper.plug-in"; name = iRate.bundle; path = iRate/iRate.bundle; sourceTree = "<group>"; };
 		43719EF02BCED54710B2C724CA3DADC5 /* iVersion.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = iVersion.h; path = iVersion/iVersion.h; sourceTree = "<group>"; };
+		44F0285DD5B8EFB045A26379827DBBAA /* iRate.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = iRate.xcconfig; sourceTree = "<group>"; };
 		4925ACBEC07E77580C2382A14AE7A037 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS8.3.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
-		4FFC2340CC2633BEE87EBC1224D0BA77 /* HLMenuNode.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = HLMenuNode.m; path = HLSpriteKit/HLMenuNode.m; sourceTree = "<group>"; };
-		52262950E1068DCA5608AED1C347A690 /* HLError.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = HLError.h; path = HLSpriteKit/HLError.h; sourceTree = "<group>"; };
-		532CA9296FE182F215BC781CFF621EFC /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		54EF77FA5CDA31F5E53E7E00112EAA49 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = Pods.release.xcconfig; sourceTree = "<group>"; };
-		55711007770D6D4EDABAFA79AB18C811 /* HLScene.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = HLScene.h; path = HLSpriteKit/HLScene.h; sourceTree = "<group>"; };
-		55B064EB7E738926E5CEC1AA338F7820 /* HLSpriteKit-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "HLSpriteKit-dummy.m"; sourceTree = "<group>"; };
-		56776705B75A01A98941FD8C44865EFA /* SKNode+HLLayoutManager.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "SKNode+HLLayoutManager.h"; path = "HLSpriteKit/SKNode+HLLayoutManager.h"; sourceTree = "<group>"; };
-		5746A6C0101C6F05CEEA78DC786E8019 /* UIImage+HLImageAdditions.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "UIImage+HLImageAdditions.h"; path = "HLSpriteKit/UIImage+HLImageAdditions.h"; sourceTree = "<group>"; };
-		63C35B3696666F1DF285CE0270AF7FDC /* iRate.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = iRate.xcconfig; sourceTree = "<group>"; };
-		6451242D8712674468958CD77459E320 /* HLTableLayoutManager.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = HLTableLayoutManager.m; path = HLSpriteKit/HLTableLayoutManager.m; sourceTree = "<group>"; };
-		6CED97C72EB54F1995DAF5C8ECA194AE /* Pods-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-dummy.m"; sourceTree = "<group>"; };
+		4C1AA47260A1487113FF544C6AA85C06 /* iVersion.bundle */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "wrapper.plug-in"; name = iVersion.bundle; path = iVersion/iVersion.bundle; sourceTree = "<group>"; };
+		519C925FD22B49B93CDF74A3CA2F37FD /* Pods-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-dummy.m"; sourceTree = "<group>"; };
+		57DCAA6F549FDF932C47207E9AF32DD2 /* SoundManager-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "SoundManager-prefix.pch"; sourceTree = "<group>"; };
+		59BE1B6C6825E3606250968D934E973F /* Instabug.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = Instabug.h; path = Instabug.framework/Versions/A/Headers/Instabug.h; sourceTree = "<group>"; };
+		5F0A71C3708300DFB9A1F535408C102A /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		64EAFAEF09FC35DC02D7F1FD3313D9AC /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = Pods.debug.xcconfig; sourceTree = "<group>"; };
 		6FE1515078BEA58B8741246358144431 /* iRate.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = iRate.m; path = iRate/iRate.m; sourceTree = "<group>"; };
-		7100C281C127C92C51B1B18AE33B1EC8 /* HLSpriteKit-Private.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "HLSpriteKit-Private.xcconfig"; sourceTree = "<group>"; };
+		719C1A79E2EB81ACBF29F826469EB653 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = Pods.release.xcconfig; sourceTree = "<group>"; };
 		71DAE238EF0322C62A75BBFD617FA58F /* Pods-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-acknowledgements.plist"; sourceTree = "<group>"; };
-		74D4CA19E3C49DC074DF461369367CA4 /* Pods.beta.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = Pods.beta.xcconfig; sourceTree = "<group>"; };
 		74FAE0FA09A31394691FBD46EA2F358A /* libSoundManager.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libSoundManager.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		8070ED8C513729F4E8B24737215E99E3 /* HLMenuNode.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = HLMenuNode.h; path = HLSpriteKit/HLMenuNode.h; sourceTree = "<group>"; };
-		89C1DC8BEEB5A92E19981D5A47FECE8E /* HLScrollNode.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = HLScrollNode.m; path = HLSpriteKit/HLScrollNode.m; sourceTree = "<group>"; };
-		8E8DFE04CD1AEB6F314F82C298E9D802 /* HLEmitterStore.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = HLEmitterStore.h; path = HLSpriteKit/HLEmitterStore.h; sourceTree = "<group>"; };
+		7D6A9391C7C295BAE7A7E8C184C529B2 /* Pods.beta.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = Pods.beta.xcconfig; sourceTree = "<group>"; };
 		8FC278D2241C9D9E296CA337158A329A /* Pods-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-acknowledgements.markdown"; sourceTree = "<group>"; };
-		90B64E61943E381ADA4821BD3DB0FCAC /* HLSpriteKit.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = HLSpriteKit.xcconfig; sourceTree = "<group>"; };
-		924B52C19B1471C1C0324969539D0784 /* HLToolNode.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = HLToolNode.h; path = HLSpriteKit/HLToolNode.h; sourceTree = "<group>"; };
-		949B0859B109141FD7F14FB33B500261 /* SpriteKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SpriteKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS8.3.sdk/System/Library/Frameworks/SpriteKit.framework; sourceTree = DEVELOPER_DIR; };
-		97B77EBE4D3154F791C2A8A858FB7EE2 /* iVersion.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = iVersion.xcconfig; sourceTree = "<group>"; };
-		9D33004986DC4F5BE13BEAA98B944B17 /* iVersion.bundle */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "wrapper.plug-in"; name = iVersion.bundle; path = iVersion/iVersion.bundle; sourceTree = "<group>"; };
-		A0B451199BAD581211CE1CF5EB503C09 /* HLToolbarNode.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = HLToolbarNode.h; path = HLSpriteKit/HLToolbarNode.h; sourceTree = "<group>"; };
+		98DA1381B3F4162E8EAE58C06CE46DA8 /* iRate.bundle */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "wrapper.plug-in"; name = iRate.bundle; path = iRate/iRate.bundle; sourceTree = "<group>"; };
 		A463FF737841538EB3808A069DCD95B4 /* SoundManager.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SoundManager.h; path = SoundManager/SoundManager.h; sourceTree = "<group>"; };
-		A667A8F5365309489B937D1F1E9E40D8 /* IBGEnums.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = IBGEnums.h; path = Instabug.framework/Versions/A/Headers/IBGEnums.h; sourceTree = "<group>"; };
-		A77C98215599645B18FA550F803623CE /* HLTiledNode.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = HLTiledNode.h; path = HLSpriteKit/HLTiledNode.h; sourceTree = "<group>"; };
 		A8D739DB02CBADFCA4340ACFFA5688DF /* iRate-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "iRate-dummy.m"; sourceTree = "<group>"; };
 		AA2B0DDC428E8EEBF9C09D792FC5F135 /* iVersion-Private.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "iVersion-Private.xcconfig"; sourceTree = "<group>"; };
 		AA3955B5AFE75AFB4CD249331DA1EE2E /* SoundManager.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = SoundManager.m; path = SoundManager/SoundManager.m; sourceTree = "<group>"; };
-		AA4A7C87266AF3868DC6F89DD37C904F /* HLSpriteKit-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "HLSpriteKit-prefix.pch"; sourceTree = "<group>"; };
-		AC43666916DC7D0FFE726F05C2854A3F /* libHLSpriteKit.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libHLSpriteKit.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		ADB4A8EBE377DD076ABE377FA56A2201 /* Pods-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-resources.sh"; sourceTree = "<group>"; };
-		B40CA84B973C7830FE02623C39636223 /* SKSpriteNode+HLSpriteNodeAdditions.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "SKSpriteNode+HLSpriteNodeAdditions.h"; path = "HLSpriteKit/SKSpriteNode+HLSpriteNodeAdditions.h"; sourceTree = "<group>"; };
-		B802DB3B539D2D84C3F6D7A5AE682AAE /* UIImage+HLImageAdditions.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "UIImage+HLImageAdditions.m"; path = "HLSpriteKit/UIImage+HLImageAdditions.m"; sourceTree = "<group>"; };
+		AEF3BFA422BC072BEEBD85669B73138A /* Instabug.bundle */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "wrapper.plug-in"; path = Instabug.bundle; sourceTree = "<group>"; };
 		BA6428E9F66FD5A23C0A2E06ED26CD2F /* Podfile */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
-		BC865E86BB739150DFAA5833EBA3FDF4 /* Instabug.bundle */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "wrapper.plug-in"; path = Instabug.bundle; sourceTree = "<group>"; };
-		C2F33B55C2DDA46039853691FC93280A /* HLEmitterStore.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = HLEmitterStore.m; path = HLSpriteKit/HLEmitterStore.m; sourceTree = "<group>"; };
-		C51DA063F9A201749E6AD737B5991255 /* HLLabelButtonNode.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = HLLabelButtonNode.h; path = HLSpriteKit/HLLabelButtonNode.h; sourceTree = "<group>"; };
-		CAF6AE091E923A268D01321D2AEB4CCB /* HLTextureStore.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = HLTextureStore.m; path = HLSpriteKit/HLTextureStore.m; sourceTree = "<group>"; };
-		CB4B11FF76B57BFC2EFD19D8D68136E2 /* HLComponentNode.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = HLComponentNode.m; path = HLSpriteKit/HLComponentNode.m; sourceTree = "<group>"; };
-		CC0B8D43156ADB01F8E6DB921D678B1D /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = Pods.debug.xcconfig; sourceTree = "<group>"; };
-		CC8484C80711D435EDDC46AF71C17E1E /* SKSpriteNode+HLSpriteNodeAdditions.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "SKSpriteNode+HLSpriteNodeAdditions.m"; path = "HLSpriteKit/SKSpriteNode+HLSpriteNodeAdditions.m"; sourceTree = "<group>"; };
+		BFCF4F8B6A5474C576F66AA4AC517438 /* IBGEnums.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = IBGEnums.h; path = Instabug.framework/Versions/A/Headers/IBGEnums.h; sourceTree = "<group>"; };
+		C56D88DBDF8536CED6678F0D6B295B1E /* iVersion-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "iVersion-prefix.pch"; sourceTree = "<group>"; };
 		CFA35CA0E5D81E11B52853426FD65C74 /* SoundManager-Private.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "SoundManager-Private.xcconfig"; sourceTree = "<group>"; };
-		D0796E3CF74C4A4EAAE00200B3DE260F /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS8.3.sdk/System/Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
-		D26257FF35EF747354FE279895E89291 /* HLComponentNode.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = HLComponentNode.h; path = HLSpriteKit/HLComponentNode.h; sourceTree = "<group>"; };
-		D2DC22336C789B30D017ABABFC40E7AA /* HLMath.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = HLMath.m; path = HLSpriteKit/HLMath.m; sourceTree = "<group>"; };
-		D3479D2C06B363A012641CBD8619EBD9 /* HLSpriteKit.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = HLSpriteKit.h; path = HLSpriteKit/HLSpriteKit.h; sourceTree = "<group>"; };
-		D41B101F2BC1BC35608240DBF1586D49 /* SoundManager-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "SoundManager-prefix.pch"; sourceTree = "<group>"; };
-		D568ADBABADB8FDBFAE1BEFE7FABB520 /* HLToolbarNode.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = HLToolbarNode.m; path = HLSpriteKit/HLToolbarNode.m; sourceTree = "<group>"; };
-		DC7A693BFE3426CFA2E4AE0B8C0B996E /* HLGestureTarget.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = HLGestureTarget.h; path = HLSpriteKit/HLGestureTarget.h; sourceTree = "<group>"; };
-		EC43A8BE20E7752CD9F205270A9A4339 /* HLLabelButtonNode.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = HLLabelButtonNode.m; path = HLSpriteKit/HLLabelButtonNode.m; sourceTree = "<group>"; };
 		ECB326294357B5B2FD714EC9D4E5EEF7 /* iVersion.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = iVersion.m; path = iVersion/iVersion.m; sourceTree = "<group>"; };
 		ED7D4D4D7CF355E84187ADD0CE47E6F5 /* iRate.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = iRate.h; path = iRate/iRate.h; sourceTree = "<group>"; };
-		F31E80ACA2DCFA579994922791B16A24 /* iRate-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "iRate-prefix.pch"; sourceTree = "<group>"; };
-		F3245FB26F5BD171CBE021CD2EADC923 /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
+		F0FF59BB570F72B6744E7081C9B8C2EF /* iVersion.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = iVersion.xcconfig; sourceTree = "<group>"; };
 		F4354AD79C9019FBA632A64E0832A9BF /* libiRate.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libiRate.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		F47D55CF744250059D0F30022E684FFF /* HLMessageNode.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = HLMessageNode.m; path = HLSpriteKit/HLMessageNode.m; sourceTree = "<group>"; };
-		F64B46B25C8A2CEA81A71C876D7DA3D2 /* SKNode+HLGestureTarget.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "SKNode+HLGestureTarget.h"; path = "HLSpriteKit/SKNode+HLGestureTarget.h"; sourceTree = "<group>"; };
-		F7E10214FC53AB50792A430B92E4756E /* SoundManager.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = SoundManager.xcconfig; sourceTree = "<group>"; };
 		F8261116021A44AD8ECBC1DC9CCD9D32 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS8.3.sdk/System/Library/Frameworks/StoreKit.framework; sourceTree = DEVELOPER_DIR; };
-		F9D35E5A1281F08FD2E5FDB7A2006CF5 /* HLTiledNode.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = HLTiledNode.m; path = HLSpriteKit/HLTiledNode.m; sourceTree = "<group>"; };
-		FC79854D2F3AC9E96BB5099D258F512D /* Instabug.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = Instabug.h; path = Instabug.framework/Versions/A/Headers/Instabug.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		41805C0F04DD542BC86AEE09320CA969 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				4B96985D42D9AA9C3837A722C5479345 /* Foundation.framework in Frameworks */,
-				63DE338E1FAEBE7E2262CF502419A2E0 /* SpriteKit.framework in Frameworks */,
-				35B7DCB1ABC3511AB3F01966EABD3E90 /* UIKit.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		5B9DC77610C4B16F99C8CC26F830CAE6 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -221,20 +107,20 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		9CC88BE90FB2293815E1DABFB3738B3E /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				1B6F1AC0B9627A030345DC123F076979 /* Foundation.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		B3B63264826A6BE46BB5C5AA27C4A9FE /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				54D040826ADDA797A3A87623B1EFFFE0 /* Foundation.framework in Frameworks */,
 				ED343C724EB70312F20A36090CEB59DD /* StoreKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C69FFADF3BEE05EEA06077BCD15704B8 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				31B067C9EC08B7D738F27DD5E5766823 /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -249,43 +135,24 @@
 			name = "Targets Support Files";
 			sourceTree = "<group>";
 		};
-		049D8B88D2B4DD28DF0A944351E337EE /* iOS */ = {
+		0BE9D5AC8E20015B2C2A983A0ED4E937 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				4925ACBEC07E77580C2382A14AE7A037 /* Foundation.framework */,
-				949B0859B109141FD7F14FB33B500261 /* SpriteKit.framework */,
-				F8261116021A44AD8ECBC1DC9CCD9D32 /* StoreKit.framework */,
-				D0796E3CF74C4A4EAAE00200B3DE260F /* UIKit.framework */,
+				00F664227B38A5E6D8E3913F89E4786B /* Crashlytics.framework */,
 			);
-			name = iOS;
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		09002C2042673451D5580F8701239EA4 /* Support Files */ = {
+		1ADD950E09A1981FFA64D0E9FB7EC951 /* Support Files */ = {
 			isa = PBXGroup;
 			children = (
-				97B77EBE4D3154F791C2A8A858FB7EE2 /* iVersion.xcconfig */,
-				AA2B0DDC428E8EEBF9C09D792FC5F135 /* iVersion-Private.xcconfig */,
-				3532A93AEA5DBB796BD40DE644EC9CD9 /* iVersion-dummy.m */,
-				02812423E69D4AE352A5E6A9BA73F970 /* iVersion-prefix.pch */,
+				44F0285DD5B8EFB045A26379827DBBAA /* iRate.xcconfig */,
+				07EADE48A68C3E58E1BD322D741F5DE9 /* iRate-Private.xcconfig */,
+				A8D739DB02CBADFCA4340ACFFA5688DF /* iRate-dummy.m */,
+				0D395D47C06A0589ABA56DAE68B0F7C1 /* iRate-prefix.pch */,
 			);
 			name = "Support Files";
-			path = "../Target Support Files/iVersion";
-			sourceTree = "<group>";
-		};
-		14B8B9B15ECBE87983FF987239AB2D7B /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				049D8B88D2B4DD28DF0A944351E337EE /* iOS */,
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		16FEF38FAA7681544FF1A4E2A43F82EA /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				36CB880743FEF36FFD16AC1D774E4085 /* Fabric.framework */,
-			);
-			name = Frameworks;
+			path = "../Target Support Files/iRate";
 			sourceTree = "<group>";
 		};
 		38DD29E242A3978C6F085A33BE0E7A50 /* Pods */ = {
@@ -293,180 +160,138 @@
 			children = (
 				8FC278D2241C9D9E296CA337158A329A /* Pods-acknowledgements.markdown */,
 				71DAE238EF0322C62A75BBFD617FA58F /* Pods-acknowledgements.plist */,
-				6CED97C72EB54F1995DAF5C8ECA194AE /* Pods-dummy.m */,
+				519C925FD22B49B93CDF74A3CA2F37FD /* Pods-dummy.m */,
 				ADB4A8EBE377DD076ABE377FA56A2201 /* Pods-resources.sh */,
-				74D4CA19E3C49DC074DF461369367CA4 /* Pods.beta.xcconfig */,
-				CC0B8D43156ADB01F8E6DB921D678B1D /* Pods.debug.xcconfig */,
-				54EF77FA5CDA31F5E53E7E00112EAA49 /* Pods.release.xcconfig */,
+				7D6A9391C7C295BAE7A7E8C184C529B2 /* Pods.beta.xcconfig */,
+				64EAFAEF09FC35DC02D7F1FD3313D9AC /* Pods.debug.xcconfig */,
+				719C1A79E2EB81ACBF29F826469EB653 /* Pods.release.xcconfig */,
 			);
 			name = Pods;
 			path = "Target Support Files/Pods";
 			sourceTree = "<group>";
 		};
-		5423B14B87CC1B006495C1B3AA3C09F3 /* Base */ = {
+		40F6C8BB37B45B090A0E0569ADF1827D /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				16FEF38FAA7681544FF1A4E2A43F82EA /* Frameworks */,
-			);
-			name = Base;
-			sourceTree = "<group>";
-		};
-		5614BD7170E199078B8B28B80CC21F8A /* Instabug */ = {
-			isa = PBXGroup;
-			children = (
-				A667A8F5365309489B937D1F1E9E40D8 /* IBGEnums.h */,
-				FC79854D2F3AC9E96BB5099D258F512D /* Instabug.h */,
-				915CC1343AD3E2D913C674C4FA5FE17E /* Resources */,
-			);
-			path = Instabug;
-			sourceTree = "<group>";
-		};
-		64C25F722A61EB89DA82A4EBB6618F72 /* Support Files */ = {
-			isa = PBXGroup;
-			children = (
-				F7E10214FC53AB50792A430B92E4756E /* SoundManager.xcconfig */,
-				CFA35CA0E5D81E11B52853426FD65C74 /* SoundManager-Private.xcconfig */,
-				3DEB31C818DB69B0D42BECFD48765E8B /* SoundManager-dummy.m */,
-				D41B101F2BC1BC35608240DBF1586D49 /* SoundManager-prefix.pch */,
-			);
-			name = "Support Files";
-			path = "../Target Support Files/SoundManager";
-			sourceTree = "<group>";
-		};
-		6837EC7984D01601397C7D0BE6BDE49B /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				DD65B66CB86494D4F79FF27EDB902704 /* Crashlytics */,
-				B72F49D1F6C44174A583A371B2F26856 /* Fabric */,
-				6986A50A2E5B19C5F5A7E961CBCE5EE5 /* HLSpriteKit */,
-				5614BD7170E199078B8B28B80CC21F8A /* Instabug */,
-				AA825E82F27BC1A31283A30042CC3EDD /* SoundManager */,
-				CD78EBA85EE8DE6D6D930DAE80909D45 /* iRate */,
-				82D4999F8895CA610E10114FA634FFC9 /* iVersion */,
+				96C89AC642652931F5EA419C072511B4 /* Crashlytics */,
+				A009840C7B6B895ACD602AD7EFC054E3 /* Fabric */,
+				D0373C6B68B7C351E0B63140D2FC38AA /* Instabug */,
+				50DCAB03722B904774B8780DA9B63632 /* SoundManager */,
+				E79D56A77E18C84FE8B4BD2E4DF46875 /* iRate */,
+				9BE82464F04A924F48E28CD1BD97BE5D /* iVersion */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
 		};
-		6986A50A2E5B19C5F5A7E961CBCE5EE5 /* HLSpriteKit */ = {
+		433CD3331B6C3787F473C941B61FC68F /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				D26257FF35EF747354FE279895E89291 /* HLComponentNode.h */,
-				CB4B11FF76B57BFC2EFD19D8D68136E2 /* HLComponentNode.m */,
-				8E8DFE04CD1AEB6F314F82C298E9D802 /* HLEmitterStore.h */,
-				C2F33B55C2DDA46039853691FC93280A /* HLEmitterStore.m */,
-				52262950E1068DCA5608AED1C347A690 /* HLError.h */,
-				DC7A693BFE3426CFA2E4AE0B8C0B996E /* HLGestureTarget.h */,
-				188FF6ECA13386A6FF208F74DA27FC86 /* HLGestureTarget.m */,
-				336DD65E59B94F2936F904757D345542 /* HLGridNode.h */,
-				064295E7C7536A2CCAB92E92612B985C /* HLGridNode.m */,
-				C51DA063F9A201749E6AD737B5991255 /* HLLabelButtonNode.h */,
-				EC43A8BE20E7752CD9F205270A9A4339 /* HLLabelButtonNode.m */,
-				06D01BC7289D515278DE316A154EA69E /* HLLayoutManager.h */,
-				40538DCA975A3249A20F0A420B095C89 /* HLMath.h */,
-				D2DC22336C789B30D017ABABFC40E7AA /* HLMath.m */,
-				8070ED8C513729F4E8B24737215E99E3 /* HLMenuNode.h */,
-				4FFC2340CC2633BEE87EBC1224D0BA77 /* HLMenuNode.m */,
-				18E86F55C3ADAA6CAC31DA3A6B7B47DE /* HLMessageNode.h */,
-				F47D55CF744250059D0F30022E684FFF /* HLMessageNode.m */,
-				55711007770D6D4EDABAFA79AB18C811 /* HLScene.h */,
-				10BD2B6D01D8EDFFA06AB082FFD402F5 /* HLScene.m */,
-				354036451DDDA1F03AA5DD7D97EE1ABD /* HLScrollNode.h */,
-				89C1DC8BEEB5A92E19981D5A47FECE8E /* HLScrollNode.m */,
-				D3479D2C06B363A012641CBD8619EBD9 /* HLSpriteKit.h */,
-				06EC03681F049558E531A06671419509 /* HLTableLayoutManager.h */,
-				6451242D8712674468958CD77459E320 /* HLTableLayoutManager.m */,
-				125480687EF14B0DDF4F967988943409 /* HLTextureStore.h */,
-				CAF6AE091E923A268D01321D2AEB4CCB /* HLTextureStore.m */,
-				A77C98215599645B18FA550F803623CE /* HLTiledNode.h */,
-				F9D35E5A1281F08FD2E5FDB7A2006CF5 /* HLTiledNode.m */,
-				924B52C19B1471C1C0324969539D0784 /* HLToolNode.h */,
-				2D58E15FDE14E18E9589AAACD1F95884 /* HLToolNode.m */,
-				A0B451199BAD581211CE1CF5EB503C09 /* HLToolbarNode.h */,
-				D568ADBABADB8FDBFAE1BEFE7FABB520 /* HLToolbarNode.m */,
-				0C1819ABF73FC90FDEFD7E6A42846FD8 /* SKLabelNode+HLLabelNodeAdditions.h */,
-				1C72EF7D381777F310B53EC66E54DBEE /* SKLabelNode+HLLabelNodeAdditions.m */,
-				F64B46B25C8A2CEA81A71C876D7DA3D2 /* SKNode+HLGestureTarget.h */,
-				35F3CEAB57201B26E088ED54DB56B218 /* SKNode+HLGestureTarget.m */,
-				56776705B75A01A98941FD8C44865EFA /* SKNode+HLLayoutManager.h */,
-				1DDE438C6E5A963E5560EE9321E42413 /* SKNode+HLLayoutManager.m */,
-				B40CA84B973C7830FE02623C39636223 /* SKSpriteNode+HLSpriteNodeAdditions.h */,
-				CC8484C80711D435EDDC46AF71C17E1E /* SKSpriteNode+HLSpriteNodeAdditions.m */,
-				5746A6C0101C6F05CEEA78DC786E8019 /* UIImage+HLImageAdditions.h */,
-				B802DB3B539D2D84C3F6D7A5AE682AAE /* UIImage+HLImageAdditions.m */,
-				F33629B8A7DE3DCC23F8FA466987F620 /* Support Files */,
+				A42B4D1B7EFE8724F075E57E04D5028D /* iOS */,
 			);
-			path = HLSpriteKit;
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		50DCAB03722B904774B8780DA9B63632 /* SoundManager */ = {
+			isa = PBXGroup;
+			children = (
+				A463FF737841538EB3808A069DCD95B4 /* SoundManager.h */,
+				AA3955B5AFE75AFB4CD249331DA1EE2E /* SoundManager.m */,
+				FE14616CEA6281B08D70075580F694BB /* Support Files */,
+			);
+			path = SoundManager;
+			sourceTree = "<group>";
+		};
+		7AF405DEBC42A2457204622E44407203 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				4C1AA47260A1487113FF544C6AA85C06 /* iVersion.bundle */,
+			);
+			name = Resources;
 			sourceTree = "<group>";
 		};
 		7DB346D0F39D3F0E887471402A8071AB = {
 			isa = PBXGroup;
 			children = (
 				BA6428E9F66FD5A23C0A2E06ED26CD2F /* Podfile */,
-				14B8B9B15ECBE87983FF987239AB2D7B /* Frameworks */,
-				6837EC7984D01601397C7D0BE6BDE49B /* Pods */,
+				433CD3331B6C3787F473C941B61FC68F /* Frameworks */,
+				40F6C8BB37B45B090A0E0569ADF1827D /* Pods */,
 				CCA510CFBEA2D207524CDA0D73C3B561 /* Products */,
 				037C0CA694176A3C0915F62C9D20B3E6 /* Targets Support Files */,
 			);
 			sourceTree = "<group>";
 		};
-		82D4999F8895CA610E10114FA634FFC9 /* iVersion */ = {
+		80A57BA3FB5D26350FF9F0CE8FE6123A /* Base */ = {
+			isa = PBXGroup;
+			children = (
+				C1FFC597869FD4BD540876E8C31AE02F /* Frameworks */,
+			);
+			name = Base;
+			sourceTree = "<group>";
+		};
+		96C89AC642652931F5EA419C072511B4 /* Crashlytics */ = {
+			isa = PBXGroup;
+			children = (
+				0BE9D5AC8E20015B2C2A983A0ED4E937 /* Frameworks */,
+			);
+			path = Crashlytics;
+			sourceTree = "<group>";
+		};
+		9A52ADCFD8AE5677EEFE216FD15C5E2B /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				98DA1381B3F4162E8EAE58C06CE46DA8 /* iRate.bundle */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		9BE82464F04A924F48E28CD1BD97BE5D /* iVersion */ = {
 			isa = PBXGroup;
 			children = (
 				43719EF02BCED54710B2C724CA3DADC5 /* iVersion.h */,
 				ECB326294357B5B2FD714EC9D4E5EEF7 /* iVersion.m */,
-				CB26A5BF12B1C87523BDB38A25633512 /* Resources */,
-				09002C2042673451D5580F8701239EA4 /* Support Files */,
+				7AF405DEBC42A2457204622E44407203 /* Resources */,
+				D6ED08777585A6662F4281AB7FA635DD /* Support Files */,
 			);
 			path = iVersion;
 			sourceTree = "<group>";
 		};
-		915CC1343AD3E2D913C674C4FA5FE17E /* Resources */ = {
+		A009840C7B6B895ACD602AD7EFC054E3 /* Fabric */ = {
 			isa = PBXGroup;
 			children = (
-				BC865E86BB739150DFAA5833EBA3FDF4 /* Instabug.bundle */,
-			);
-			name = Resources;
-			sourceTree = "<group>";
-		};
-		AA825E82F27BC1A31283A30042CC3EDD /* SoundManager */ = {
-			isa = PBXGroup;
-			children = (
-				A463FF737841538EB3808A069DCD95B4 /* SoundManager.h */,
-				AA3955B5AFE75AFB4CD249331DA1EE2E /* SoundManager.m */,
-				64C25F722A61EB89DA82A4EBB6618F72 /* Support Files */,
-			);
-			path = SoundManager;
-			sourceTree = "<group>";
-		};
-		B41E190BB0DEA1DE3965B4710642F1F6 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				F3245FB26F5BD171CBE021CD2EADC923 /* Crashlytics.framework */,
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		B72F49D1F6C44174A583A371B2F26856 /* Fabric */ = {
-			isa = PBXGroup;
-			children = (
-				5423B14B87CC1B006495C1B3AA3C09F3 /* Base */,
+				80A57BA3FB5D26350FF9F0CE8FE6123A /* Base */,
 			);
 			path = Fabric;
 			sourceTree = "<group>";
 		};
-		CB26A5BF12B1C87523BDB38A25633512 /* Resources */ = {
+		A42B4D1B7EFE8724F075E57E04D5028D /* iOS */ = {
 			isa = PBXGroup;
 			children = (
-				9D33004986DC4F5BE13BEAA98B944B17 /* iVersion.bundle */,
+				4925ACBEC07E77580C2382A14AE7A037 /* Foundation.framework */,
+				F8261116021A44AD8ECBC1DC9CCD9D32 /* StoreKit.framework */,
+			);
+			name = iOS;
+			sourceTree = "<group>";
+		};
+		BDE8D71E521FD4EE865F8C97FAC1C465 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				AEF3BFA422BC072BEEBD85669B73138A /* Instabug.bundle */,
 			);
 			name = Resources;
+			sourceTree = "<group>";
+		};
+		C1FFC597869FD4BD540876E8C31AE02F /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				2D76E51471C98B835DB6D73306DF2135 /* Fabric.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		CCA510CFBEA2D207524CDA0D73C3B561 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				AC43666916DC7D0FFE726F05C2854A3F /* libHLSpriteKit.a */,
-				532CA9296FE182F215BC781CFF621EFC /* libPods.a */,
+				5F0A71C3708300DFB9A1F535408C102A /* libPods.a */,
 				74FAE0FA09A31394691FBD46EA2F358A /* libSoundManager.a */,
 				F4354AD79C9019FBA632A64E0832A9BF /* libiRate.a */,
 				318469250BDDFDFAE21D4E8085AF38C5 /* libiVersion.a */,
@@ -474,55 +299,49 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		CD78EBA85EE8DE6D6D930DAE80909D45 /* iRate */ = {
+		D0373C6B68B7C351E0B63140D2FC38AA /* Instabug */ = {
+			isa = PBXGroup;
+			children = (
+				BFCF4F8B6A5474C576F66AA4AC517438 /* IBGEnums.h */,
+				59BE1B6C6825E3606250968D934E973F /* Instabug.h */,
+				BDE8D71E521FD4EE865F8C97FAC1C465 /* Resources */,
+			);
+			path = Instabug;
+			sourceTree = "<group>";
+		};
+		D6ED08777585A6662F4281AB7FA635DD /* Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				F0FF59BB570F72B6744E7081C9B8C2EF /* iVersion.xcconfig */,
+				AA2B0DDC428E8EEBF9C09D792FC5F135 /* iVersion-Private.xcconfig */,
+				3532A93AEA5DBB796BD40DE644EC9CD9 /* iVersion-dummy.m */,
+				C56D88DBDF8536CED6678F0D6B295B1E /* iVersion-prefix.pch */,
+			);
+			name = "Support Files";
+			path = "../Target Support Files/iVersion";
+			sourceTree = "<group>";
+		};
+		E79D56A77E18C84FE8B4BD2E4DF46875 /* iRate */ = {
 			isa = PBXGroup;
 			children = (
 				ED7D4D4D7CF355E84187ADD0CE47E6F5 /* iRate.h */,
 				6FE1515078BEA58B8741246358144431 /* iRate.m */,
-				D9C31CDB889E6E8BC63A6105C28C271E /* Resources */,
-				FF724BD5C5649F8E2FFDD76175E0007C /* Support Files */,
+				9A52ADCFD8AE5677EEFE216FD15C5E2B /* Resources */,
+				1ADD950E09A1981FFA64D0E9FB7EC951 /* Support Files */,
 			);
 			path = iRate;
 			sourceTree = "<group>";
 		};
-		D9C31CDB889E6E8BC63A6105C28C271E /* Resources */ = {
+		FE14616CEA6281B08D70075580F694BB /* Support Files */ = {
 			isa = PBXGroup;
 			children = (
-				4212D712FB4E3407E7641CFDEB4B7198 /* iRate.bundle */,
-			);
-			name = Resources;
-			sourceTree = "<group>";
-		};
-		DD65B66CB86494D4F79FF27EDB902704 /* Crashlytics */ = {
-			isa = PBXGroup;
-			children = (
-				B41E190BB0DEA1DE3965B4710642F1F6 /* Frameworks */,
-			);
-			path = Crashlytics;
-			sourceTree = "<group>";
-		};
-		F33629B8A7DE3DCC23F8FA466987F620 /* Support Files */ = {
-			isa = PBXGroup;
-			children = (
-				90B64E61943E381ADA4821BD3DB0FCAC /* HLSpriteKit.xcconfig */,
-				7100C281C127C92C51B1B18AE33B1EC8 /* HLSpriteKit-Private.xcconfig */,
-				55B064EB7E738926E5CEC1AA338F7820 /* HLSpriteKit-dummy.m */,
-				AA4A7C87266AF3868DC6F89DD37C904F /* HLSpriteKit-prefix.pch */,
+				055447632653814C966F7D7404757759 /* SoundManager.xcconfig */,
+				CFA35CA0E5D81E11B52853426FD65C74 /* SoundManager-Private.xcconfig */,
+				3DEB31C818DB69B0D42BECFD48765E8B /* SoundManager-dummy.m */,
+				57DCAA6F549FDF932C47207E9AF32DD2 /* SoundManager-prefix.pch */,
 			);
 			name = "Support Files";
-			path = "../Target Support Files/HLSpriteKit";
-			sourceTree = "<group>";
-		};
-		FF724BD5C5649F8E2FFDD76175E0007C /* Support Files */ = {
-			isa = PBXGroup;
-			children = (
-				63C35B3696666F1DF285CE0270AF7FDC /* iRate.xcconfig */,
-				07EADE48A68C3E58E1BD322D741F5DE9 /* iRate-Private.xcconfig */,
-				A8D739DB02CBADFCA4340ACFFA5688DF /* iRate-dummy.m */,
-				F31E80ACA2DCFA579994922791B16A24 /* iRate-prefix.pch */,
-			);
-			name = "Support Files";
-			path = "../Target Support Files/iRate";
+			path = "../Target Support Files/SoundManager";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -533,36 +352,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				80C430C599440BE6789D4B2341EAFB82 /* SoundManager.h in Headers */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		87E3A618D1B23FFF2968E2BF49153EB5 /* Headers */ = {
-			isa = PBXHeadersBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				F2B0828771828CEA2E5C1E9152DD12E4 /* HLComponentNode.h in Headers */,
-				2591B2A3024D6AF29BEBB396E4F92571 /* HLEmitterStore.h in Headers */,
-				93C7369D752C5D14B63115D9DDB07AE8 /* HLError.h in Headers */,
-				0DFB985875BF938AA2E8D57D594112C6 /* HLGestureTarget.h in Headers */,
-				1F55FBD427A6181B3A31FC065C26C681 /* HLGridNode.h in Headers */,
-				E60EA6F8E10175546F909AD013218FAF /* HLLabelButtonNode.h in Headers */,
-				587926F88AB74379D5969A5C45360277 /* HLLayoutManager.h in Headers */,
-				A416E3B84D704B2D2918ED4DD46B8236 /* HLMath.h in Headers */,
-				B50F70B29F3B6C7F5BE5E0EB964EA44D /* HLMenuNode.h in Headers */,
-				CBC2D7DEE65FD857F7448CEB2ACEAFFA /* HLMessageNode.h in Headers */,
-				D37C19E9A5FA0B8D803C7095ECF04389 /* HLScene.h in Headers */,
-				C4D5A243DD1D80F9548E9627D5C6523C /* HLScrollNode.h in Headers */,
-				AB16A7DFC0A2F95008577E74D393776A /* HLSpriteKit.h in Headers */,
-				ED2D0C1629672F9F1DC22E2C7F249EB3 /* HLTableLayoutManager.h in Headers */,
-				A24657002EA025006B8374F528AFC003 /* HLTextureStore.h in Headers */,
-				917354FF365B5167E57FB1DC2168D84F /* HLTiledNode.h in Headers */,
-				A42A4092AE0EBC59E1D4C044FC02FE2A /* HLToolNode.h in Headers */,
-				A22747D581C4D7097315BD46E9F8973B /* HLToolbarNode.h in Headers */,
-				C2076DF5150D52B65423FE8AEFC8CDE8 /* SKLabelNode+HLLabelNodeAdditions.h in Headers */,
-				FB7AE7D6150D3DE4810E41C09ED231FE /* SKNode+HLGestureTarget.h in Headers */,
-				D3B239163CC41831ECE0816FB69935FA /* SKNode+HLLayoutManager.h in Headers */,
-				05307A1210300892A558C8E9AFBFAA22 /* SKSpriteNode+HLSpriteNodeAdditions.h in Headers */,
-				1C75AF48321DD734DFABE7DF5B7119B2 /* UIImage+HLImageAdditions.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -585,6 +374,25 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
+		26EE12B1B89072367CB60374DAE5C4FC /* Pods */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A8DD6BF1C8FA1FD20DAF33D0A95E9210 /* Build configuration list for PBXNativeTarget "Pods" */;
+			buildPhases = (
+				315C308F583BC1BE3B36F6E3C224144D /* Sources */,
+				C69FFADF3BEE05EEA06077BCD15704B8 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				2ED8F25CC119894D50A3567C8659FADC /* PBXTargetDependency */,
+				B1808942B2344220092CC05860AF4584 /* PBXTargetDependency */,
+				3193F3876BC1013BBC8303B132B5931B /* PBXTargetDependency */,
+			);
+			name = Pods;
+			productName = Pods;
+			productReference = 5F0A71C3708300DFB9A1F535408C102A /* libPods.a */;
+			productType = "com.apple.product-type.library.static";
+		};
 		524113E25680CB0E7B3EA68BC07AF2A8 /* SoundManager */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 4E01BCF6B7CB045F33FE607FD1BF3198 /* Build configuration list for PBXNativeTarget "SoundManager" */;
@@ -636,43 +444,6 @@
 			productReference = F4354AD79C9019FBA632A64E0832A9BF /* libiRate.a */;
 			productType = "com.apple.product-type.library.static";
 		};
-		B89EFDC95B6BA64175E81AD7CA8F20EA /* HLSpriteKit */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 8FE5DDD6D85CDFD99978CBFA391693C1 /* Build configuration list for PBXNativeTarget "HLSpriteKit" */;
-			buildPhases = (
-				31A3F2A868DDEC4D1E5C3C6BBA782A60 /* Sources */,
-				41805C0F04DD542BC86AEE09320CA969 /* Frameworks */,
-				87E3A618D1B23FFF2968E2BF49153EB5 /* Headers */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = HLSpriteKit;
-			productName = HLSpriteKit;
-			productReference = AC43666916DC7D0FFE726F05C2854A3F /* libHLSpriteKit.a */;
-			productType = "com.apple.product-type.library.static";
-		};
-		DC561AE95810ABC6F65E677D6EEBA40F /* Pods */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 94AD7FB5E88AB98AFEC82F7AC84EE5E7 /* Build configuration list for PBXNativeTarget "Pods" */;
-			buildPhases = (
-				605876B8E4E67AECB11866E8FB01AFE1 /* Sources */,
-				9CC88BE90FB2293815E1DABFB3738B3E /* Frameworks */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				0D7A3CDE5A4F4B66DE9E51293B1F3BE4 /* PBXTargetDependency */,
-				821574910A8B89091687326BB38AA4E4 /* PBXTargetDependency */,
-				7AEE3C8F21FE2FBA3BFB059BD8F6CBEC /* PBXTargetDependency */,
-				0B74E27E3164410BFBBFDAE35035E77E /* PBXTargetDependency */,
-			);
-			name = Pods;
-			productName = Pods;
-			productReference = 532CA9296FE182F215BC781CFF621EFC /* libPods.a */;
-			productType = "com.apple.product-type.library.static";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -694,8 +465,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				B89EFDC95B6BA64175E81AD7CA8F20EA /* HLSpriteKit */,
-				DC561AE95810ABC6F65E677D6EEBA40F /* Pods */,
+				26EE12B1B89072367CB60374DAE5C4FC /* Pods */,
 				524113E25680CB0E7B3EA68BC07AF2A8 /* SoundManager */,
 				8EE777272D86546A0EF4A57FF36AC6EB /* iRate */,
 				7A9BEA8890730B7F3E4C9EFC8A057297 /* iVersion */,
@@ -704,31 +474,11 @@
 /* End PBXProject section */
 
 /* Begin PBXSourcesBuildPhase section */
-		31A3F2A868DDEC4D1E5C3C6BBA782A60 /* Sources */ = {
+		315C308F583BC1BE3B36F6E3C224144D /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				19E655BC0D9A74B37E715BA13F573242 /* HLComponentNode.m in Sources */,
-				9BA016E8C8939706CED2A136CB4A8AA0 /* HLEmitterStore.m in Sources */,
-				1A09481707D866A711E0D8DACAA3E6EC /* HLGestureTarget.m in Sources */,
-				1919CDF4241DF82D01B7F9021CD1AFC5 /* HLGridNode.m in Sources */,
-				0D6682F1E91FCDDF25FCB03629E1778D /* HLLabelButtonNode.m in Sources */,
-				C3531772CBF1583B8278FDD3BC0B8A87 /* HLMath.m in Sources */,
-				28B8DBD13BFAB7E89B946FF5E2AA81C8 /* HLMenuNode.m in Sources */,
-				D591B81FF76DB05DB7456B416D9F7CFF /* HLMessageNode.m in Sources */,
-				17251AAA98C57630D29BAE2F7AF1D971 /* HLScene.m in Sources */,
-				B8AAF87516784EC1499DC6BE0541DDFF /* HLScrollNode.m in Sources */,
-				DEFE7D47D5197311AA189690776A1BAF /* HLSpriteKit-dummy.m in Sources */,
-				FA52C48536E5FDDB87A9A000F20C1139 /* HLTableLayoutManager.m in Sources */,
-				6F8703A4BC15BB39B43E84952DCEC687 /* HLTextureStore.m in Sources */,
-				7C5E54C55C79C82D38C90B52343AFB11 /* HLTiledNode.m in Sources */,
-				94BE6AD8957E7EC4D4B42A98082398F3 /* HLToolNode.m in Sources */,
-				A13CD902AD6B4D639D07670779384628 /* HLToolbarNode.m in Sources */,
-				8B505876A2764B34137F3C92C4719FA1 /* SKLabelNode+HLLabelNodeAdditions.m in Sources */,
-				BE9A9E97B750AE23653C099F1645C8DC /* SKNode+HLGestureTarget.m in Sources */,
-				B5F74E722C1574489AD02C35F0B82579 /* SKNode+HLLayoutManager.m in Sources */,
-				82C267E397FDDFACCF9193CBBE6D098B /* SKSpriteNode+HLSpriteNodeAdditions.m in Sources */,
-				86F5103B0E3EFD811AEA0209AC949124 /* UIImage+HLImageAdditions.m in Sources */,
+				C70ACF93862C256FE928E08C1CAA542C /* Pods-dummy.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -738,14 +488,6 @@
 			files = (
 				EF1B5B2763BD21E8E1601D6198A2BD12 /* iRate-dummy.m in Sources */,
 				B88A6ED05CA4CA5A65A912C8FC929003 /* iRate.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		605876B8E4E67AECB11866E8FB01AFE1 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				2FCCE560C2DFF70455C7F7A66CDE8BA6 /* Pods-dummy.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -770,29 +512,23 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		0B74E27E3164410BFBBFDAE35035E77E /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = iVersion;
-			target = 7A9BEA8890730B7F3E4C9EFC8A057297 /* iVersion */;
-			targetProxy = 57688027C55B2C59F1BF46E3DCE902F2 /* PBXContainerItemProxy */;
-		};
-		0D7A3CDE5A4F4B66DE9E51293B1F3BE4 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = HLSpriteKit;
-			target = B89EFDC95B6BA64175E81AD7CA8F20EA /* HLSpriteKit */;
-			targetProxy = BC722FBB021E694B9602CDAA8E4A0155 /* PBXContainerItemProxy */;
-		};
-		7AEE3C8F21FE2FBA3BFB059BD8F6CBEC /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = iRate;
-			target = 8EE777272D86546A0EF4A57FF36AC6EB /* iRate */;
-			targetProxy = 2AB31319D8EF9E0DBBD66A2AFF455A76 /* PBXContainerItemProxy */;
-		};
-		821574910A8B89091687326BB38AA4E4 /* PBXTargetDependency */ = {
+		2ED8F25CC119894D50A3567C8659FADC /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = SoundManager;
 			target = 524113E25680CB0E7B3EA68BC07AF2A8 /* SoundManager */;
-			targetProxy = 60B17A4FE35113DBB24539B1640E6441 /* PBXContainerItemProxy */;
+			targetProxy = 5C621694EF2827C70C64793488BBF641 /* PBXContainerItemProxy */;
+		};
+		3193F3876BC1013BBC8303B132B5931B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = iVersion;
+			target = 7A9BEA8890730B7F3E4C9EFC8A057297 /* iVersion */;
+			targetProxy = 0A607949EFE7D9641465154E6DDA03C9 /* PBXContainerItemProxy */;
+		};
+		B1808942B2344220092CC05860AF4584 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = iRate;
+			target = 8EE777272D86546A0EF4A57FF36AC6EB /* iRate */;
+			targetProxy = 7CBC56840E046C4D516E89FF795A4853 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -837,22 +573,6 @@
 			buildSettings = {
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_PREFIX_HEADER = "Target Support Files/SoundManager/SoundManager-prefix.pch";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
-				MTL_ENABLE_DEBUG_INFO = YES;
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-			};
-			name = Debug;
-		};
-		153046637DEC03AFB23A48400605DBD5 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 7100C281C127C92C51B1B18AE33B1EC8 /* HLSpriteKit-Private.xcconfig */;
-			buildSettings = {
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_PREFIX_HEADER = "Target Support Files/HLSpriteKit/HLSpriteKit-prefix.pch";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				OTHER_LDFLAGS = "";
@@ -911,38 +631,6 @@
 				SKIP_INSTALL = YES;
 			};
 			name = Beta;
-		};
-		2E32556073E654E7B43B87C027BA50CB /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 54EF77FA5CDA31F5E53E7E00112EAA49 /* Pods.release.xcconfig */;
-			buildSettings = {
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
-				MTL_ENABLE_DEBUG_INFO = NO;
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PODS_ROOT = "$(SRCROOT)";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-			};
-			name = Release;
-		};
-		458F58ACCB495D4D30EDB2C65A116105 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = CC0B8D43156ADB01F8E6DB921D678B1D /* Pods.debug.xcconfig */;
-			buildSettings = {
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
-				MTL_ENABLE_DEBUG_INFO = YES;
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PODS_ROOT = "$(SRCROOT)";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-			};
-			name = Debug;
 		};
 		62324174F19D01245711860E59556F3B /* Beta */ = {
 			isa = XCBuildConfiguration;
@@ -1008,25 +696,9 @@
 			};
 			name = Debug;
 		};
-		774B3FA162128980B2D64136E2B0C3B0 /* Beta */ = {
+		8509457089EF42EE80AC952D41652531 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 7100C281C127C92C51B1B18AE33B1EC8 /* HLSpriteKit-Private.xcconfig */;
-			buildSettings = {
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_PREFIX_HEADER = "Target Support Files/HLSpriteKit/HLSpriteKit-prefix.pch";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
-				MTL_ENABLE_DEBUG_INFO = NO;
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-			};
-			name = Beta;
-		};
-		79D3B3923F0C750A3BB892F1B74D6136 /* Beta */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 74D4CA19E3C49DC074DF461369367CA4 /* Pods.beta.xcconfig */;
+			baseConfigurationReference = 719C1A79E2EB81ACBF29F826469EB653 /* Pods.release.xcconfig */;
 			buildSettings = {
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
@@ -1038,7 +710,7 @@
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 			};
-			name = Beta;
+			name = Release;
 		};
 		86B6642E6839EBD9DFA47A964CE5F474 /* Release */ = {
 			isa = XCBuildConfiguration;
@@ -1111,21 +783,37 @@
 			};
 			name = Debug;
 		};
-		D3D8DEAA01A452E8BBD53EAC05BA52E0 /* Release */ = {
+		E9CACFFE316D314944C04CD459DC52C0 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 7100C281C127C92C51B1B18AE33B1EC8 /* HLSpriteKit-Private.xcconfig */;
+			baseConfigurationReference = 64EAFAEF09FC35DC02D7F1FD3313D9AC /* Pods.debug.xcconfig */;
 			buildSettings = {
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_PREFIX_HEADER = "Target Support Files/HLSpriteKit/HLSpriteKit-prefix.pch";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
-				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_ENABLE_DEBUG_INFO = YES;
 				OTHER_LDFLAGS = "";
 				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 			};
-			name = Release;
+			name = Debug;
+		};
+		EFDC08060487BE71C9B61996E0698109 /* Beta */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7D6A9391C7C295BAE7A7E8C184C529B2 /* Pods.beta.xcconfig */;
+			buildSettings = {
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+			};
+			name = Beta;
 		};
 		FECB8BE9129C88E02B533FFF717A841E /* Release */ = {
 			isa = XCBuildConfiguration;
@@ -1186,22 +874,12 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		8FE5DDD6D85CDFD99978CBFA391693C1 /* Build configuration list for PBXNativeTarget "HLSpriteKit" */ = {
+		A8DD6BF1C8FA1FD20DAF33D0A95E9210 /* Build configuration list for PBXNativeTarget "Pods" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				774B3FA162128980B2D64136E2B0C3B0 /* Beta */,
-				153046637DEC03AFB23A48400605DBD5 /* Debug */,
-				D3D8DEAA01A452E8BBD53EAC05BA52E0 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		94AD7FB5E88AB98AFEC82F7AC84EE5E7 /* Build configuration list for PBXNativeTarget "Pods" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				79D3B3923F0C750A3BB892F1B74D6136 /* Beta */,
-				458F58ACCB495D4D30EDB2C65A116105 /* Debug */,
-				2E32556073E654E7B43B87C027BA50CB /* Release */,
+				EFDC08060487BE71C9B61996E0698109 /* Beta */,
+				E9CACFFE316D314944C04CD459DC52C0 /* Debug */,
+				8509457089EF42EE80AC952D41652531 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

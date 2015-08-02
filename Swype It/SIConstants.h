@@ -195,6 +195,7 @@ extern NSString *const kSINotificationGameEnded;
 extern NSString *const kSINotificationGameResumed;
 extern NSString *const kSINotificationGameStarted;
 extern NSString *const kSINotificationLevelDidChange;
+extern NSString *const kSINotificationMenuLoaded;
 extern NSString *const kSINotificationNewBackgroundReady;
 extern NSString *const kSINotificationNewHighScore;
 extern NSString *const kSINotificationPowerUpActive;
@@ -296,6 +297,10 @@ extern NSString *const kSIFontFuturaMedium;
 
 #pragma mark - Menu Button Texts
 extern NSString *const kSIMenuTextBack;
+extern NSString *const kSIMenuTextEndGameContinue;
+extern NSString *const kSIMenuTextEndGameReplay;
+extern NSString *const kSIMenuTextEndGameStore;
+extern NSString *const kSIMenuTextEndGameMainMenu;
 extern NSString *const kSIMenuTextSettingsBugReport;
 extern NSString *const kSIMenuTextSettingsResetHighScore;
 extern NSString *const kSIMenuTextSettingsRestorePurchases;
@@ -303,6 +308,10 @@ extern NSString *const kSIMenuTextSettingsToggleSoundOffBackground;
 extern NSString *const kSIMenuTextSettingsToggleSoundOffFX;
 extern NSString *const kSIMenuTextSettingsToggleSoundOnBackground;
 extern NSString *const kSIMenuTextSettingsToggleSoundOnFX;
+extern NSString *const kSIMenuTextStartScreenOneHand;
+extern NSString *const kSIMenuTextStartScreenTwoHand;
+extern NSString *const kSIMenuTextStartScreenSettings;
+extern NSString *const kSIMenuTextStartScreenStore;
 
 #pragma mark - Emails
 extern NSString *const kSIEmailBugReportReciever;

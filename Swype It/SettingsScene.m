@@ -33,9 +33,10 @@
 @end
 
 @implementation SettingsScene {
-    BOOL _contentCreated;
-    NSString *_buttonSoundBackgroundText;
-    NSString *_buttonSoundFXText;
+    BOOL         _contentCreated;
+    CGFloat      _fontSize;
+    NSString    *_buttonSoundBackgroundText;
+    NSString    *_buttonSoundFXText;
 }
 
 #pragma mark - Scene Life Cycle
@@ -68,19 +69,19 @@
 - (void)createConstantsWithSize:(CGSize)size {
     /**Configure any constants*/
     if (IS_IPHONE_4) {
-//        self.buttonSpacing              = 36.0f;
+        _fontSize                       = 36.0f;
         
     } else if (IS_IPHONE_5) {
-//        self.buttonSpacing              = 40.0f;
+        _fontSize                       = 40.0f;
         
     } else if (IS_IPHONE_6) {
-//        self.buttonSpacing              = 80.0f;
+        _fontSize                       = 44.0f;
         
     } else if (IS_IPHONE_6_PLUS) {
-//        self.buttonSpacing              = 48.0f;
+        _fontSize                       = 48.0f;
 
     } else {
-//        self.buttonSpacing              = 52.0f;
+        _fontSize                       = 52.0f;
         
     }
     self.buttonSpacing                  = (size.width / 2.0f) * 0.5;
@@ -100,7 +101,7 @@
     self.menuNode.delegate                  = self;
     self.menuNode.itemAnimation             = HLMenuNodeAnimationSlideLeft;
     self.menuNode.itemAnimationDuration     = self.buttonAnimationDuration;
-    self.menuNode.itemButtonPrototype       = [MainViewController SI_sharedMenuButtonPrototypeBasic:self.buttonSize];
+    self.menuNode.itemButtonPrototype       = [MainViewController SI_sharedMenuButtonPrototypeBasic:self.buttonSize fontSize:_fontSize];
     self.menuNode.backItemButtonPrototype   = [MainViewController SI_sharedMenuButtonPrototypeBack:self.buttonSize];
     self.menuNode.itemSpacing               = self.buttonSpacing;
 }

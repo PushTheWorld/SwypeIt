@@ -11,10 +11,10 @@
 		091470F91B6AF7D1006B0CC1 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 091470F81B6AF7D1006B0CC1 /* CoreTelephony.framework */; };
 		091470FB1B6AF7E0006B0CC1 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 091470FA1B6AF7E0006B0CC1 /* Foundation.framework */; };
 		091470FD1B6AF7E8006B0CC1 /* GLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 091470FC1B6AF7E8006B0CC1 /* GLKit.framework */; };
+		0917D45D1B6DAC270046B5FF /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0917D45C1B6DAC270046B5FF /* LaunchScreen.xib */; };
 		091FED491B37283E0071F8DC /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 091FED481B37283E0071F8DC /* main.m */; };
 		091FED4C1B37283E0071F8DC /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 091FED4B1B37283E0071F8DC /* AppDelegate.m */; };
 		091FED541B37283E0071F8DC /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 091FED531B37283E0071F8DC /* Images.xcassets */; };
-		091FED571B37283E0071F8DC /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 091FED551B37283E0071F8DC /* LaunchScreen.xib */; };
 		091FED631B37283E0071F8DC /* Swype_ItTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 091FED621B37283E0071F8DC /* Swype_ItTests.m */; };
 		091FED761B3733AF0071F8DC /* SIConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 091FED751B3733AF0071F8DC /* SIConstants.m */; };
 		091FED791B3736210071F8DC /* UIColor+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 091FED781B3736210071F8DC /* UIColor+Additions.m */; };
@@ -90,13 +90,13 @@
 		091470F81B6AF7D1006B0CC1 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
 		091470FA1B6AF7E0006B0CC1 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		091470FC1B6AF7E8006B0CC1 /* GLKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLKit.framework; path = System/Library/Frameworks/GLKit.framework; sourceTree = SDKROOT; };
+		0917D45C1B6DAC270046B5FF /* LaunchScreen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LaunchScreen.xib; sourceTree = "<group>"; };
 		091FED431B37283E0071F8DC /* Swype It.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Swype It.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		091FED471B37283E0071F8DC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		091FED481B37283E0071F8DC /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		091FED4A1B37283E0071F8DC /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		091FED4B1B37283E0071F8DC /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		091FED531B37283E0071F8DC /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
-		091FED561B37283E0071F8DC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		091FED5C1B37283E0071F8DC /* Swype ItTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Swype ItTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		091FED611B37283E0071F8DC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		091FED621B37283E0071F8DC /* Swype_ItTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Swype_ItTests.m; sourceTree = "<group>"; };
@@ -267,6 +267,7 @@
 		091FED461B37283E0071F8DC /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				0917D45C1B6DAC270046B5FF /* LaunchScreen.xib */,
 				099A62321B5C8B12009BF339 /* Main.storyboard */,
 				091FED471B37283E0071F8DC /* Info.plist */,
 				091FED481B37283E0071F8DC /* main.m */,
@@ -305,7 +306,6 @@
 		091FED701B37296E0071F8DC /* UserInterface */ = {
 			isa = PBXGroup;
 			children = (
-				091FED551B37283E0071F8DC /* LaunchScreen.xib */,
 			);
 			name = UserInterface;
 			sourceTree = "<group>";
@@ -599,13 +599,13 @@
 				096ABDF71B6B6ABB005B2F12 /* swypeItSound6.caf in Resources */,
 				09DB639E1B56525100387C13 /* MKStoreKitConfigs.plist in Resources */,
 				096ABDF41B6B6ABB005B2F12 /* swypeItSound3.caf in Resources */,
-				091FED571B37283E0071F8DC /* LaunchScreen.xib in Resources */,
 				099A62331B5C8B12009BF339 /* Main.storyboard in Resources */,
 				096ABDF51B6B6ABB005B2F12 /* swypeItSound4.caf in Resources */,
 				09CAF9AC1B646F4C00466606 /* buttons.atlas in Resources */,
 				092113B11B6B787B005F7D8B /* swypeItFXInitalize.caf in Resources */,
 				091FED541B37283E0071F8DC /* Images.xcassets in Resources */,
 				096ABDF31B6B6ABB005B2F12 /* swypeItSound2.caf in Resources */,
+				0917D45D1B6DAC270046B5FF /* LaunchScreen.xib in Resources */,
 				096ABDF11B6B6ABB005B2F12 /* swypeItGameOver.caf in Resources */,
 				096ABDF81B6B6ABB005B2F12 /* swypeItSound7.caf in Resources */,
 				096ABDF01B6B6ABB005B2F12 /* menuSound.caf in Resources */,
@@ -720,17 +720,6 @@
 			targetProxy = 091FED5D1B37283E0071F8DC /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
-
-/* Begin PBXVariantGroup section */
-		091FED551B37283E0071F8DC /* LaunchScreen.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				091FED561B37283E0071F8DC /* Base */,
-			);
-			name = LaunchScreen.xib;
-			sourceTree = "<group>";
-		};
-/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		091FED641B37283E0071F8DC /* Debug */ = {

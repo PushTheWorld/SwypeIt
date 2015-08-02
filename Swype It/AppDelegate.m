@@ -11,7 +11,7 @@
 // Framework Import
 #import <Crashlytics/Crashlytics.h>
 #import <Fabric/Fabric.h>
-//#import <Instabug/Instabug.h>
+#import <Instabug/Instabug.h>
 // Drop-In Class Imports (CocoaPods/GitHub/Guru)
 #import "MKStoreKit.h"
 // Category Import
@@ -35,7 +35,8 @@ static BOOL isRunningTests(void) __attribute__((const));
     /*RUN LOGIC*/
     [Fabric with:@[CrashlyticsKit]];
     
-//    [Instabug startWithToken:@"dd30ee11bb2fde9bf61f850ba2d73b30" captureSource:IBGCaptureSourceUIKit invocationEvent:IBGInvocationEventShake];
+    /*Start Instabug*/
+    [Instabug startWithToken:@"dd30ee11bb2fde9bf61f850ba2d73b30" captureSource:IBGCaptureSourceUIKit invocationEvent:IBGInvocationEventTwoFingersSwipeLeft];
     
     /*Init window*/
 //    self.window                             = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
