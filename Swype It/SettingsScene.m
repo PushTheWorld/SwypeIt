@@ -75,7 +75,7 @@
         _fontSize                       = 40.0f;
         
     } else if (IS_IPHONE_6) {
-        _fontSize                       = 44.0f;
+        _fontSize                       = 30.0f;
         
     } else if (IS_IPHONE_6_PLUS) {
         _fontSize                       = 48.0f;
@@ -92,32 +92,27 @@
     /**Preform all your alloc/init's here*/
     
     /*Menu Node*/
-    self.menuNode = [[HLMenuNode alloc] init];
+    _menuNode = [[HLMenuNode alloc] init];
 }
 - (void)setupControlsWithSize:(CGSize)size {
     /**Configrue the labels, nodes and what ever else you can*/
     
     /*Menu Node*/
-    self.menuNode.delegate                  = self;
-    self.menuNode.itemAnimation             = HLMenuNodeAnimationSlideLeft;
-    self.menuNode.itemAnimationDuration     = self.buttonAnimationDuration;
-    self.menuNode.itemButtonPrototype       = [MainViewController SI_sharedMenuButtonPrototypeBasic:self.buttonSize fontSize:_fontSize];
-    self.menuNode.backItemButtonPrototype   = [MainViewController SI_sharedMenuButtonPrototypeBack:self.buttonSize];
-    self.menuNode.itemSpacing               = self.buttonSpacing;
+    _menuNode.delegate                  = self;
+    _menuNode.itemAnimation             = HLMenuNodeAnimationSlideLeft;
+    _menuNode.itemAnimationDuration     = self.buttonAnimationDuration;
+    _menuNode.itemButtonPrototype       = [MainViewController SI_sharedMenuButtonPrototypeBasic:self.buttonSize fontSize:_fontSize];
+    _menuNode.backItemButtonPrototype   = [MainViewController SI_sharedMenuButtonPrototypeBack:self.buttonSize];
+    _menuNode.itemSeparatorSize         = self.buttonSpacing;
 }
 - (void)layoutControlsWithSize:(CGSize)size {
     /**Layout those controls*/
     
     /*Menu Node*/
-    self.menuNode.position  = CGPointMake(size.width / 2.0f,
-                                          (size.height / 2.0f) +
-                                          (self.buttonSpacing / 2.0f) +
-                                          self.buttonSize.height +
-                                          self.buttonSpacing +
-                                          self.buttonSize.height);
-    [self addChild:self.menuNode];
-    [self.menuNode hlSetGestureTarget:self.menuNode];
-    [self registerDescendant:self.menuNode withOptions:[NSSet setWithObject:HLSceneChildGestureTarget]];
+    _menuNode.position  = CGPointMake(size.width / 2.0f, size.height / 2.0f);
+    [self addChild:_menuNode];
+    [_menuNode hlSetGestureTarget:_menuNode];
+    [self registerDescendant:_menuNode withOptions:[NSSet setWithObject:HLSceneChildGestureTarget]];
     [self menuCreate];
 }
 - (void)viewSetup:(SKView *)view {
@@ -143,7 +138,7 @@
     resumeItem.buttonPrototype = [MainViewController SI_sharedMenuButtonPrototypeBack:self.buttonSize];
     [menu addItem:resumeItem];
     
-    [self.menuNode setMenu:menu animation:HLMenuNodeAnimationNone];
+    [_menuNode setMenu:menu animation:HLMenuNodeAnimationNone];
 }
 #pragma mark - HLMenuNodeDelegate
 - (void)menuNode:(HLMenuNode *)menuNode didTapMenuItem:(HLMenuItem *)menuItem itemIndex:(NSUInteger)itemIndex {
@@ -204,6 +199,7 @@
         [[SoundManager sharedManager] playMusic:kSISoundBackgroundMenu looping:YES fadeIn:YES];
     }
     [[NSUserDefaults standardUserDefaults] synchronize];
+    [_menuNode redisplayMenuAnimation:HLMenuNodeAnimationNone];
 }
 - (void)changeFXSoundIsAllowed:(HLMenuItem *)menuItem {
     if ([menuItem.text isEqualToString:kSIMenuTextSettingsToggleSoundOffFX]) {
@@ -217,5 +213,6 @@
         [[NSUserDefaults standardUserDefaults] setBool:YES forKey:kSINSUserDefaultSoundIsAllowedFX];
     }
     [[NSUserDefaults standardUserDefaults] synchronize];
+    [_menuNode redisplayMenuAnimation:HLMenuNodeAnimationNone];
 }
 @end

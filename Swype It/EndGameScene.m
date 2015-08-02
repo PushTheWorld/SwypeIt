@@ -105,7 +105,7 @@
     _userMessageLabel                       = [SKLabelNode labelNodeWithFontNamed:kSIFontFuturaMedium];
     
     /*Menu Node*/
-    self.menuNode                           = [[HLMenuNode alloc] init];
+    _menuNode                               = [[HLMenuNode alloc] init];
 }
 - (void)setupControlsWithSize:(CGSize)size {
     /**Configrue the labels, nodes and what ever else you can*/
@@ -146,12 +146,13 @@
     _userMessageLabel.alpha                 = 0.0f;
     
     /*Menu Node*/
-    self.menuNode.delegate                  = self;
-    self.menuNode.itemAnimation             = HLMenuNodeAnimationSlideLeft;
-    self.menuNode.itemAnimationDuration     = _buttonAnimationDuration;
-    self.menuNode.itemButtonPrototype       = [MainViewController SI_sharedMenuButtonPrototypeBasic:_buttonSize fontSize:_fontSize];
-    self.menuNode.backItemButtonPrototype   = [MainViewController SI_sharedMenuButtonPrototypeBack:_buttonSize];
-    self.menuNode.itemSpacing               = _buttonSpacing;
+    _menuNode.delegate                      = self;
+    _menuNode.itemAnimation                 = HLMenuNodeAnimationSlideLeft;
+    _menuNode.itemAnimationDuration         = _buttonAnimationDuration;
+    _menuNode.itemButtonPrototype           = [MainViewController SI_sharedMenuButtonPrototypeBasic:_buttonSize fontSize:_fontSize];
+    _menuNode.backItemButtonPrototype       = [MainViewController SI_sharedMenuButtonPrototypeBack:_buttonSize];
+    _menuNode.itemSeparatorSize             = _buttonSpacing;
+    _menuNode.anchorPoint                   = CGPointMake(0.5, 1);
 }
 - (void)layoutControlsWithSize:(CGSize)size {
     /**Layout those controls*/
@@ -209,7 +210,7 @@
     
     menuNode.position                       = CGPointMake(self.frame.size.width, self.frame.size.height);
     menuNode.delegate                       = self;
-    menuNode.itemSpacing                    = _buttonSpacing;
+    menuNode.itemSeparatorSize              = _buttonSpacing;
     [menuNode.menu addItem:[HLMenu menuWithText:@"Buy More Coins" items:@[] ]];
     [menuNode.menu addItem:[HLMenu menuWithText:@"Cancel" items:@[] ]];
     

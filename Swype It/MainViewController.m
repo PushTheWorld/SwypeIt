@@ -34,15 +34,15 @@
 }
 + (CGFloat)buttonFontSize {
     if (IS_IPHONE_4) {
-        return 36.0f;
+        return 26.0f;
     } else if (IS_IPHONE_5) {
-        return 40.0f;
+        return 28.0f;
     } else if (IS_IPHONE_6) {
-        return 44.0f;
+        return 30.0f;
     } else if (IS_IPHONE_6_PLUS) {
-        return 48.0f;
+        return 32.0f;
     } else {
-        return 52.0f;
+        return 36.0f;
     }
 }
 

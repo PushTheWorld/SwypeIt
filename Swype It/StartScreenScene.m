@@ -100,12 +100,14 @@
     _gameTitleLabel.fontSize                = [MainViewController buttonFontSize] - 8.0f;
     
     /*Menu Node*/
-    _menuNode.delegate                  = self;
-    _menuNode.itemAnimation             = HLMenuNodeAnimationSlideLeft;
-    _menuNode.itemAnimationDuration     = _buttonAnimationDuration;
-    _menuNode.itemButtonPrototype       = [MainViewController SI_sharedMenuButtonPrototypeBasic:_buttonSize fontSize:[MainViewController buttonFontSize]];
-    _menuNode.backItemButtonPrototype   = [MainViewController SI_sharedMenuButtonPrototypeBack:_buttonSize];
-    _menuNode.itemSpacing               = _buttonSpacing;
+    _menuNode.delegate                      = self;
+    _menuNode.itemAnimation                 = HLMenuNodeAnimationSlideLeft;
+    _menuNode.itemAnimationDuration         = _buttonAnimationDuration;
+    _menuNode.itemButtonPrototype           = [MainViewController SI_sharedMenuButtonPrototypeBasic:_buttonSize fontSize:[MainViewController buttonFontSize]];
+    _menuNode.backItemButtonPrototype       = [MainViewController SI_sharedMenuButtonPrototypeBack:_buttonSize];
+    _menuNode.itemSeparatorSize             = _buttonSpacing;
+    _menuNode.anchorPoint                   = CGPointMake(0.5, 1);
+
 
 }
 - (void)layoutControlsWithSize:(CGSize)size {
@@ -134,6 +136,8 @@
     
     [menu addItem:[HLMenuItem menuItemWithText:kSIMenuTextStartScreenStore]];
     
+    [menu addItem:[HLMenuItem menuItemWithText:kSIMenuTextStartScreenSettings]];
+    
     [self.menuNode setMenu:menu animation:HLMenuNodeAnimationNone];
 }
 - (void)menuNode:(HLMenuNode *)menuNode didTapMenuItem:(HLMenuItem *)menuItem itemIndex:(NSUInteger)itemIndex {
@@ -148,7 +152,7 @@
         storeScene.wasLaunchedFromMainMenu = YES;
         [Game transisitionToSKScene:storeScene toSKView:self.view DoorsOpen:YES pausesIncomingScene:NO pausesOutgoingScene:NO duration:1.0];
 
-    } else if ([menuItem.text isEqualToString:kSIMenuTextStartScreenStore]) {
+    } else if ([menuItem.text isEqualToString:kSIMenuTextStartScreenSettings]) {
         SettingsScene *settingsScene = [SettingsScene sceneWithSize:self.size];
         [Game transisitionToSKScene:settingsScene toSKView:self.view DoorsOpen:YES pausesIncomingScene:NO pausesOutgoingScene:NO duration:1.0];
 
