@@ -29,6 +29,7 @@
 
 #pragma mark - Private Properties
 @property (strong, nonatomic) HLMenuNode    *menuNode;
+@property (strong, nonatomic) SKLabelNode   *titleLabel;
 
 @end
 
@@ -84,29 +85,39 @@
         _fontSize                       = 52.0f;
         
     }
-    self.buttonSpacing                  = (size.width / 2.0f) * 0.5;
-    self.buttonSize                     = CGSizeMake(size.width / 2.0f, (size.width / 2.0f) * 0.25);
-    self.buttonAnimationDuration        = 0.25f;
+    _buttonSize                     = CGSizeMake(size.width / 1.25f, (size.width / 1.25f) * 0.25);
+    _buttonSpacing                  = _buttonSize.height * 0.33;
+    _buttonAnimationDuration        = 0.25f;
 }
 - (void)createControlsWithSize:(CGSize)size {
     /**Preform all your alloc/init's here*/
+    _titleLabel = [SKLabelNode labelNodeWithFontNamed:kSIFontFuturaMedium];
     
     /*Menu Node*/
-    _menuNode = [[HLMenuNode alloc] init];
+    _menuNode   = [[HLMenuNode alloc] init];
 }
 - (void)setupControlsWithSize:(CGSize)size {
     /**Configrue the labels, nodes and what ever else you can*/
+    _titleLabel.text                                = kSIMenuTextStartScreenSettings;
+    _titleLabel.fontColor                           = [SKColor blackColor];
+    _titleLabel.fontSize                            = [MainViewController headerFontSize];
+
     
     /*Menu Node*/
-    _menuNode.delegate                  = self;
-    _menuNode.itemAnimation             = HLMenuNodeAnimationSlideLeft;
-    _menuNode.itemAnimationDuration     = self.buttonAnimationDuration;
-    _menuNode.itemButtonPrototype       = [MainViewController SI_sharedMenuButtonPrototypeBasic:self.buttonSize fontSize:_fontSize];
-    _menuNode.backItemButtonPrototype   = [MainViewController SI_sharedMenuButtonPrototypeBack:self.buttonSize];
-    _menuNode.itemSeparatorSize         = self.buttonSpacing;
+    _menuNode.delegate                              = self;
+    _menuNode.itemAnimation                         = HLMenuNodeAnimationSlideLeft;
+    _menuNode.itemAnimationDuration                 = self.buttonAnimationDuration;
+    _menuNode.itemButtonPrototype                   = [MainViewController SI_sharedMenuButtonPrototypeBasic:_buttonSize fontSize:_fontSize];
+    _menuNode.backItemButtonPrototype               = [MainViewController SI_sharedMenuButtonPrototypeBack:_buttonSize];
+    _menuNode.itemSeparatorSize                     = self.buttonSpacing;
 }
 - (void)layoutControlsWithSize:(CGSize)size {
     /**Layout those controls*/
+    /*Welcome Label*/
+    _titleLabel.position       = CGPointMake((size.width / 2.0f),
+                                                  size.height - _titleLabel.frame.size.height - VERTICAL_SPACING_8);
+    [self addChild:_titleLabel];
+
     
     /*Menu Node*/
     _menuNode.position  = CGPointMake(size.width / 2.0f, size.height / 2.0f);
@@ -188,30 +199,31 @@
 - (void)changeBackgroundSoundIsAllowed:(HLMenuItem *)menuItem {
     if ([menuItem.text isEqualToString:kSIMenuTextSettingsToggleSoundOffBackground]) {
         /*Turn Background Sound Off*/
-//        menuItem.buttonPrototype.text = kSIMenuTextSettingsToggleSoundOnBackground;
-        menuItem.text = kSIMenuTextSettingsToggleSoundOnBackground;
+        _buttonSoundBackgroundText = kSIMenuTextSettingsToggleSoundOnBackground;
         [[NSUserDefaults standardUserDefaults] setBool:NO forKey:kSINSUserDefaultSoundIsAllowedBackground];
         [[SoundManager sharedManager] stopMusic];
     } else {
         /*Turn Sound On*/
-        menuItem.text = kSIMenuTextSettingsToggleSoundOffBackground;
+        _buttonSoundBackgroundText = kSIMenuTextSettingsToggleSoundOffBackground;
         [[NSUserDefaults standardUserDefaults] setBool:YES forKey:kSINSUserDefaultSoundIsAllowedBackground];
         [[SoundManager sharedManager] playMusic:kSISoundBackgroundMenu looping:YES fadeIn:YES];
     }
+    menuItem.text = _buttonSoundBackgroundText;
     [[NSUserDefaults standardUserDefaults] synchronize];
     [_menuNode redisplayMenuAnimation:HLMenuNodeAnimationNone];
 }
 - (void)changeFXSoundIsAllowed:(HLMenuItem *)menuItem {
     if ([menuItem.text isEqualToString:kSIMenuTextSettingsToggleSoundOffFX]) {
         /*Turn Background Sound Off*/
-        menuItem.text = kSIMenuTextSettingsToggleSoundOnFX;
         [[NSUserDefaults standardUserDefaults] setBool:NO forKey:kSINSUserDefaultSoundIsAllowedFX];
         [[SoundManager sharedManager] stopAllSounds];
     } else {
         /*Turn Sound On*/
+        _buttonSoundFXText = kSIMenuTextSettingsToggleSoundOffFX;
         menuItem.text = kSIMenuTextSettingsToggleSoundOffFX;
         [[NSUserDefaults standardUserDefaults] setBool:YES forKey:kSINSUserDefaultSoundIsAllowedFX];
     }
+    menuItem.text = _buttonSoundFXText;
     [[NSUserDefaults standardUserDefaults] synchronize];
     [_menuNode redisplayMenuAnimation:HLMenuNodeAnimationNone];
 }

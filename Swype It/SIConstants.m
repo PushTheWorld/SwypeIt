@@ -160,8 +160,8 @@ NSString *const kSIMenuTextSettingsToggleSoundOffBackground         = @"Turn Mus
 NSString *const kSIMenuTextSettingsToggleSoundOffFX                 = @"Turn Sound FX Off";
 NSString *const kSIMenuTextSettingsToggleSoundOnBackground          = @"Turn Music On";
 NSString *const kSIMenuTextSettingsToggleSoundOnFX                  = @"Turn Sound FX On";
-NSString *const kSIMenuTextStartScreenOneHand                       = @"One Hand";
-NSString *const kSIMenuTextStartScreenTwoHand                       = @"Two Hand";
+NSString *const kSIMenuTextStartScreenOneHand                       = @"Play One Hand";
+NSString *const kSIMenuTextStartScreenTwoHand                       = @"Play Original";
 NSString *const kSIMenuTextStartScreenSettings                      = @"Settings";
 NSString *const kSIMenuTextStartScreenStore                         = @"Store";
 

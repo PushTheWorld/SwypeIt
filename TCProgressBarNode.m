@@ -235,12 +235,12 @@
  textures if you just want a basic progress bar */
 - (SKTexture *)textureFromLayer:(CALayer *)layer
 {
-    CGFloat width = layer.frame.size.width;
-    CGFloat height = layer.frame.size.height;
+    CGFloat width               = layer.frame.size.width;
+    CGFloat height              = layer.frame.size.height;
     
     // value of 0 for scale will use device's main screen scale
     UIGraphicsBeginImageContextWithOptions(CGSizeMake(width, height), NO, 0.0);
-    CGContextRef context = UIGraphicsGetCurrentContext();
+    CGContextRef context        = UIGraphicsGetCurrentContext();
     
     CGContextSetAllowsAntialiasing(context, YES);
     CGContextSetFillColorWithColor(context, [UIColor clearColor].CGColor);
@@ -248,11 +248,11 @@
     
     [layer renderInContext:context];
     
-    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+    UIImage *image              = UIGraphicsGetImageFromCurrentImageContext();
     
     UIGraphicsEndImageContext();
     
-    SKTexture *texture = [SKTexture textureWithImage:image];
+    SKTexture *texture          = [SKTexture textureWithImage:image];
     
     return texture;
 }

@@ -93,7 +93,8 @@
         _fontSize                           = 52.0f;
         
     }
-    _buttonSpacing                          = (size.width / 2.0f) * 0.25;
+    _buttonSize                             = CGSizeMake(size.width / 1.25f, (size.width / 1.25f) * 0.25f);
+    _buttonSpacing                          = _buttonSize.height * 0.33f;
     _buttonAnimationDuration                = 0.25f;
 }
 - (void)createControlsWithSize:(CGSize)size {
@@ -200,7 +201,7 @@
     [menu addItem:[HLMenuItem menuItemWithText:kSIMenuTextEndGameStore]];
     
     HLMenuItem *mainMenuItem = [HLMenuItem menuItemWithText:kSIMenuTextEndGameMainMenu];
-    mainMenuItem.buttonPrototype = [MainViewController SI_sharedMenuButtonPrototypeBasic:_buttonSize fontSize:_fontSize backgroundColor:[UIColor blueColor] fontColor:[UIColor whiteColor]];
+    mainMenuItem.buttonPrototype = [MainViewController SI_sharedMenuButtonPrototypeBack:_buttonSize];
     [menu addItem:mainMenuItem];
     
     [self.menuNode setMenu:menu animation:HLMenuNodeAnimationNone];

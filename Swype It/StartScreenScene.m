@@ -76,8 +76,8 @@
 #pragma mark Scene Setup
 - (void)createConstantsWithSize:(CGSize)size {
     /**Configure any constants*/
-    _buttonSize                             = CGSizeMake(size.width / 2.0f, (size.width / 2.0f) * 0.25);
-    _buttonSpacing                          = (size.width / 2.0f) * 0.25;
+    _buttonSize                             = CGSizeMake(size.width / 1.25, (size.width / 1.25f) * 0.25);
+    _buttonSpacing                          = _buttonSize.height * 0.33;
     _buttonAnimationDuration                = 0.25f;
 }
 - (void)createControlsWithSize:(CGSize)size {
@@ -130,6 +130,7 @@
     HLMenu *menu = [[HLMenu alloc] init];
     
     /*Add the regular buttons*/
+    
     [menu addItem:[HLMenuItem menuItemWithText:kSIMenuTextStartScreenTwoHand]];
     
     [menu addItem:[HLMenuItem menuItemWithText:kSIMenuTextStartScreenOneHand]];

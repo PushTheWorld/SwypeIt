@@ -45,6 +45,19 @@
         return 36.0f;
     }
 }
++ (CGFloat)headerFontSize {
+    if (IS_IPHONE_4) {
+        return 36.0f;
+    } else if (IS_IPHONE_5) {
+        return 40.0f;
+    } else if (IS_IPHONE_6) {
+        return 44.0f;
+    } else if (IS_IPHONE_6_PLUS) {
+        return 48.0f;
+    } else {
+        return 52.0f;
+    }
+}
 
 #pragma mark - UI Life Cycle Methods
 - (void)viewDidLoad {
@@ -107,7 +120,8 @@
 }
 - (void)setupControls {
     _loadingLabel.text      = @"Loading...";
-    [_loadingLabel setTextColor:[UIColor whiteColor]];
+    _loadingLabel.alpha     = 0.0f;
+    [_loadingLabel setTextColor:[UIColor blackColor]];
     [_loadingLabel setFont:[UIFont fontWithName:kSIFontFuturaMedium size:[MainViewController buttonFontSize]]];
     [_loadingLabel setTranslatesAutoresizingMaskIntoConstraints:NO];
 }
@@ -224,7 +238,7 @@
 
 }
 - (void)menuDidLoad {
-    [UIView animateWithDuration:1.0f animations:^{
+    [UIView animateWithDuration:0.5f animations:^{
         self.loadingLabel.alpha = 0.0f;
     }];
 }
@@ -236,7 +250,7 @@
     }
     return buttonPrototype;
 }
-+ (HLLabelButtonNode *)SI_sharedMenuButtonPrototypeBasic:(CGSize)size fontSize:(CGFloat)fontSize backgroundColor:(UIColor *)backgroundColor fontColor:(UIColor *)fontColor {
++ (HLLabelButtonNode *)SI_sharedMenuButtonPrototypeBasic:(CGSize)size fontSize:(CGFloat)fontSize backgroundColor:(SKColor *)backgroundColor fontColor:(UIColor *)fontColor {
     static HLLabelButtonNode *buttonPrototype = nil;
     if (!buttonPrototype) {
         buttonPrototype                         = [[MainViewController SIInterfaceLabelButton:size backgroundColor:fontColor fontColor:fontColor fontSize:fontSize] copy];
@@ -255,18 +269,22 @@
 }
 + (HLLabelButtonNode *)SIInterfaceLabelButton:(CGSize)size fontSize:(CGFloat)fontSize {
     HLLabelButtonNode *labelButton              = [[HLLabelButtonNode alloc] initWithColor:[UIColor mainColor] size:size];
+    labelButton.cornerRadius                    = 12.0f;
     labelButton.fontName                        = kSIFontFuturaMedium;
     labelButton.fontSize                        = fontSize;
+//    labelButton.borderWidth                     = 2.0f;
+//    labelButton.borderColor                     = [SKColor blackColor];
     labelButton.fontColor                       = [UIColor whiteColor];
-    labelButton.verticalAlignmentMode           = HLLabelNodeVerticalAlignFont; /*NOT working*/ // Neither is this: HLLabelNodeVerticalAlignText
+    labelButton.verticalAlignmentMode           = HLLabelNodeVerticalAlignFont;
     return labelButton;
 }
-+ (HLLabelButtonNode *)SIInterfaceLabelButton:(CGSize)size backgroundColor:(UIColor *)backgroundColor fontColor:(UIColor *)fontColor fontSize:(CGFloat)fontSize {
++ (HLLabelButtonNode *)SIInterfaceLabelButton:(CGSize)size backgroundColor:(SKColor *)backgroundColor fontColor:(UIColor *)fontColor fontSize:(CGFloat)fontSize {
     HLLabelButtonNode *labelButton              = [[HLLabelButtonNode alloc] initWithColor:backgroundColor size:size];
     labelButton.fontName                        = kSIFontFuturaMedium;
+    labelButton.cornerRadius                    = 12.0f;
     labelButton.fontSize                        = fontSize;
     labelButton.fontColor                       = fontColor;
-    labelButton.verticalAlignmentMode           = HLLabelNodeVerticalAlignFont; /*NOT working*/ // Neither is this: HLLabelNodeVerticalAlignText
+    labelButton.verticalAlignmentMode           = HLLabelNodeVerticalAlignFont;
     return labelButton;
 }
 #pragma mark - MFMailComposeViewContorllerDelegate
