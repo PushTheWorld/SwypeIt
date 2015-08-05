@@ -78,11 +78,18 @@ NSString *const kSIImageButtonSettings                              = @"settings
 NSString *const kSIImageButtonStore                                 = @"storeButton";
 NSString *const kSIImageButtonTimeFreeze                            = @"timeFreeze";
 NSString *const kSIImageFallingMonkeys                              = @"monkeyFreeVector";
+NSString *const kSIImageIAPSmall                                    = @"tempPile";
+NSString *const kSIImageIAPMedium                                   = @"tempBucket";
+NSString *const kSIImageIAPLarge                                    = @"tempBag";
+NSString *const kSIImageIAPExtraLarge                               = @"tempChest";
 NSString *const kSIImageProgressBarFill                             = @"progressBarFill";
 NSString *const kSIImageProgressBarPowerUpFill                      = @"progressBarPowerUpFill";
+NSString *const kSIImageShapePowerupCost                            = @"powerupCost";
 
 #pragma mark - Texture Atlas
 NSString *const kSIAtlasButtons                                     = @"buttons";
+NSString *const kSIAtlasImages                                      = @"images";
+NSString *const kSIAtlasShapes                                      = @"shapes";
 
 #pragma mark - Button Labels
 NSString *const kSIButtonLabelStringOneHand                         = @"One Hand";
@@ -111,9 +118,9 @@ NSString *const kSIIAPProductIDCoinPackExtraLarge                   = @"com.push
 NSString *const kSIIAPConsumableIDCoins                             = @"ITCoins";
 
 #pragma mark - In App Purchase Pack Names
-NSString *const kSIIAPPackNameSmall                                 = @"Bag";
-NSString *const kSIIAPPackNameMedium                                = @"Pile";
-NSString *const kSIIAPPackNameLarge                                 = @"Bucket";
+NSString *const kSIIAPPackNameSmall                                 = @"Pile";
+NSString *const kSIIAPPackNameMedium                                = @"Bucket";
+NSString *const kSIIAPPackNameLarge                                 = @"Bag";
 NSString *const kSIIAPPackNameExtraLarge                            = @"Chest";
 
 #pragma mark - Node Names
@@ -146,6 +153,7 @@ NSString *const kSINodeFallingMonkey                                = @"fallingM
 
 #pragma mark - Fonts
 NSString *const kSIFontFuturaMedium                                 = @"Futura-Medium";
+NSString *const kSIFontUltra                                        = @"Ultra";
 
 #pragma mark - Menu Button Texts
 NSString *const kSIMenuTextBack                                     = @"Back";
@@ -156,10 +164,10 @@ NSString *const kSIMenuTextEndGameMainMenu                          = @"Main Men
 NSString *const kSIMenuTextSettingsBugReport                        = @"Report Bug";
 NSString *const kSIMenuTextSettingsResetHighScore                   = @"Reset High Score";
 NSString *const kSIMenuTextSettingsRestorePurchases                 = @"Restore Purchases";
-NSString *const kSIMenuTextSettingsToggleSoundOffBackground         = @"Turn Music Off";
-NSString *const kSIMenuTextSettingsToggleSoundOffFX                 = @"Turn Sound FX Off";
-NSString *const kSIMenuTextSettingsToggleSoundOnBackground          = @"Turn Music On";
-NSString *const kSIMenuTextSettingsToggleSoundOnFX                  = @"Turn Sound FX On";
+NSString *const kSIMenuTextSettingsToggleSoundOffBackground         = @"Music Off";
+NSString *const kSIMenuTextSettingsToggleSoundOffFX                 = @"Sound FX Off";
+NSString *const kSIMenuTextSettingsToggleSoundOnBackground          = @"Music On";
+NSString *const kSIMenuTextSettingsToggleSoundOnFX                  = @"Sound FX On";
 NSString *const kSIMenuTextStartScreenOneHand                       = @"Play One Hand";
 NSString *const kSIMenuTextStartScreenTwoHand                       = @"Play Original";
 NSString *const kSIMenuTextStartScreenSettings                      = @"Settings";
@@ -186,6 +194,11 @@ NSString *const kSISoundFXInitalize                                 = @"swypeItF
 + (SKTextureAtlas *)buttonAtlas {
     return [SKTextureAtlas atlasNamed:kSIAtlasButtons];
 }
-
++ (SKTextureAtlas *)imagesAtlas {
+    return [SKTextureAtlas atlasNamed:kSIAtlasImages];
+}
++ (SKTextureAtlas *)shapesAtlas {
+    return [SKTextureAtlas atlasNamed:kSIAtlasShapes];
+}
 @end
 

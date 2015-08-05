@@ -34,7 +34,7 @@
 @implementation StartScreenScene {
     CGFloat     _buttonAnimationDuration;
     CGFloat     _buttonSpacing;
-    CGSize      _buttonSize;
+//    CGSize      _buttonSize;
 }
 
 #pragma mark - Scene Life Cycle
@@ -76,37 +76,30 @@
 #pragma mark Scene Setup
 - (void)createConstantsWithSize:(CGSize)size {
     /**Configure any constants*/
-    _buttonSize                             = CGSizeMake(size.width / 1.25, (size.width / 1.25f) * 0.25);
-    _buttonSpacing                          = _buttonSize.height * 0.33;
+//    _buttonSize                             = CGSizeMake(size.width / 1.25, (size.width / 1.25f) * 0.25);
+    _buttonSpacing                          = [MainViewController buttonSize:size].height * 0.25;
     _buttonAnimationDuration                = 0.25f;
 }
 - (void)createControlsWithSize:(CGSize)size {
     /**Preform all your alloc/init's here*/
-    _welcomeLabel                           = [SKLabelNode labelNodeWithFontNamed:kSIFontFuturaMedium];
+    _welcomeLabel                           = [MainViewController SI_sharedLabelHeader:@"Welcome"];
     
-    _gameTitleLabel                         = [SKLabelNode labelNodeWithFontNamed:kSIFontFuturaMedium];
+    _gameTitleLabel                         = [MainViewController SI_sharedLabelParagraph1:@"Swype It 2.0 Beta"];
     
     /*Menu Node*/
     _menuNode                           = [[HLMenuNode alloc] init];
 }
 - (void)setupControlsWithSize:(CGSize)size {
     /**Configrue the labels, nodes and what ever else you can*/
-    _welcomeLabel.text                      = @"Welcome";
-    _welcomeLabel.fontColor                 = [SKColor blackColor];
-    _welcomeLabel.fontSize                  = [MainViewController buttonFontSize];
-    
-    _gameTitleLabel.text                    = @"Swype It 2.0 Beta";
-    _gameTitleLabel.fontColor               = [SKColor blackColor];
-    _gameTitleLabel.fontSize                = [MainViewController buttonFontSize] - 8.0f;
     
     /*Menu Node*/
     _menuNode.delegate                      = self;
     _menuNode.itemAnimation                 = HLMenuNodeAnimationSlideLeft;
     _menuNode.itemAnimationDuration         = _buttonAnimationDuration;
-    _menuNode.itemButtonPrototype           = [MainViewController SI_sharedMenuButtonPrototypeBasic:_buttonSize fontSize:[MainViewController buttonFontSize]];
-    _menuNode.backItemButtonPrototype       = [MainViewController SI_sharedMenuButtonPrototypeBack:_buttonSize];
+    _menuNode.itemButtonPrototype           = [MainViewController SI_sharedMenuButtonPrototypeBasic:[MainViewController buttonSize:size] fontSize:[MainViewController fontSizeButton]];
+    _menuNode.backItemButtonPrototype       = [MainViewController SI_sharedMenuButtonPrototypeBack:[MainViewController buttonSize:size]];
     _menuNode.itemSeparatorSize             = _buttonSpacing;
-    _menuNode.anchorPoint                   = CGPointMake(0.5, 1);
+    _menuNode.anchorPoint                   = CGPointMake(0.5, 0);
 
 
 }
@@ -120,7 +113,7 @@
     
     /*Menu Node*/
     _menuNode.position                      = CGPointMake(size.width / 2.0f,
-                                                          _gameTitleLabel.frame.origin.y - (_gameTitleLabel.frame.size.height / 2.0f) - VERTICAL_SPACING_16);
+                                                          VERTICAL_SPACING_16);
     [self addChild:_menuNode];
     [_menuNode hlSetGestureTarget:_menuNode];
     [self registerDescendant:_menuNode withOptions:[NSSet setWithObject:HLSceneChildGestureTarget]];

@@ -112,11 +112,11 @@
 + (NSString *)buttonNodeNameLabelDescriptionForSIIAPPack:(SIIAPPack)siiapPack {
     switch (siiapPack) {
         case SIIAPPackSmall:
-            return kSINodeLabelDescriptionBag;
-        case SIIAPPackMedium:
             return kSINodeLabelDescriptionPile;
-        case SIIAPPackLarge:
+        case SIIAPPackMedium:
             return kSINodeLabelDescriptionBucket;
+        case SIIAPPackLarge:
+            return kSINodeLabelDescriptionBag;
         case SIIAPPackExtraLarge:
             return kSINodeLabelDescriptionChest;
         default:
@@ -126,11 +126,11 @@
 + (NSString *)buttonNodeNameLabelPriceForSIIAPPack:(SIIAPPack)siiapPack {
     switch (siiapPack) {
         case SIIAPPackSmall:
-            return kSINodeLabelPriceBag;
-        case SIIAPPackMedium:
             return kSINodeLabelPricePile;
-        case SIIAPPackLarge:
+        case SIIAPPackMedium:
             return kSINodeLabelPriceBucket;
+        case SIIAPPackLarge:
+            return kSINodeLabelPriceBag;
         case SIIAPPackExtraLarge:
             return kSINodeLabelPriceChest;
         default:
@@ -140,11 +140,11 @@
 + (NSString *)buttonNodeNameNodeForSIIAPPack:(SIIAPPack)siiapPack {
     switch (siiapPack) {
         case SIIAPPackSmall:
-            return kSINodeNodeBag;
-        case SIIAPPackMedium:
             return kSINodeNodePile;
-        case SIIAPPackLarge:
+        case SIIAPPackMedium:
             return kSINodeNodeBucket;
+        case SIIAPPackLarge:
+            return kSINodeNodeBag;
         case SIIAPPackExtraLarge:
             return kSINodeNodeChest;
         default:
@@ -483,7 +483,7 @@
             return 0;
     }
 }
-+ (SIContinueLifeCost)lifeCostForCurrentContinueLeve:(SIContinueLifeCost)siContinuedLifeCost {
++ (SIContinueLifeCost)lifeCostForCurrentContinueLevel:(SIContinueLifeCost)siContinuedLifeCost {
     if (siContinuedLifeCost < SIContinueLifeCost1) {
         return SIContinueLifeCost1;
     } else if (siContinuedLifeCost < SIContinueLifeCost2) {
@@ -576,12 +576,14 @@
 }
 + (NSString *)userMessageForScore:(float)score isHighScore:(BOOL)isHighScore highScore:(float)highScore {
     if (isHighScore) {
-        NSUInteger randomNumber = arc4random_uniform(2);
+        NSUInteger randomNumber = arc4random_uniform(3);
         switch (randomNumber) {
             case 0:
-                return @"New High Score!";
+                return @"You did it!";
+            case 1:
+                return @"Can you beat that?";
             default:
-                return @"Congrats High Score!";
+                return @"Your Awesome! 👍";
         }    }
     
     if (score / highScore > 0.8) { /*Give user a encourage to keep going... maybe spend money?*/
@@ -668,6 +670,45 @@
     transistion.pausesOutgoingScene = pausesOutgoingScene;
 
     [view presentScene:scene transition:transistion];
+}
++ (SKTexture *)textureBackgroundColor:(SKColor *)backgroundColor size:(CGSize)size cornerRadius:(CGFloat)cornerRadius borderWidth:(CGFloat)borderWidth borderColor:(UIColor *)borderColor {
+    UIBezierPath *maskPath      = [UIBezierPath bezierPathWithRoundedRect:CGRectMake(0, 0, size.width, size.height) cornerRadius:cornerRadius];
+    
+    CAShapeLayer *shapeLayer    = [CAShapeLayer layer];
+    shapeLayer.frame            = CGRectMake(0, 0, size.width, size.height);
+    shapeLayer.path             = maskPath.CGPath;
+    shapeLayer.fillColor        = backgroundColor.CGColor;
+    shapeLayer.strokeColor      = borderColor.CGColor;
+    shapeLayer.lineWidth        = borderWidth;
+    shapeLayer.cornerRadius     = cornerRadius;
+    shapeLayer.masksToBounds    = YES;
+    
+    return [Game textureFromLayer:shapeLayer];
+}
+
+// note: we are going from CALayer -> UIImage -> SKTexture here, so that we can create SKSpriteNodes instead of SKShapeNodes
+// (SKShapeNode doesn't work well with SKCropNode), which are then plugged into the maskNode property of a SKCropNode.
++ (SKTexture *)textureFromLayer:(CALayer *)layer {
+    CGFloat width = layer.frame.size.width;
+    CGFloat height = layer.frame.size.height;
+    
+    // value of 0 for scale will use device's main screen scale
+    UIGraphicsBeginImageContextWithOptions(CGSizeMake(width, height), NO, 0.0);
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    
+    CGContextSetAllowsAntialiasing(context, YES);
+    CGContextSetFillColorWithColor(context, [UIColor clearColor].CGColor);
+    CGContextFillRect(context, CGRectMake(0.0, 0.0, width, height));
+    
+    [layer renderInContext:context];
+    
+    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+    
+    UIGraphicsEndImageContext();
+    
+    SKTexture *texture = [SKTexture textureWithImage:image];
+    
+    return texture;
 }
 
 

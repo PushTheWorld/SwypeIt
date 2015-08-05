@@ -38,10 +38,11 @@
 
 @implementation EndGameScene {
     BOOL    _userCanAffordContinue;
+    BOOL    _userCanTap;
     CGFloat _buttonAnimationDuration;
     CGFloat _buttonSpacing;
-    CGFloat _fontSize;
-    CGSize  _buttonSize;
+//    CGFloat _fontSize;
+//    CGSize  _buttonSize;
 }
 #pragma mark - Scene Life Cycle
 - (instancetype)initWithSize:(CGSize)size {
@@ -77,83 +78,46 @@
 #pragma mark Scene Setup
 - (void)createConstantsWithSize:(CGSize)size {
     /**Configure any constants*/
-    if (IS_IPHONE_4) {
-        _fontSize                           = 36.0f;
 
-    } else if (IS_IPHONE_5) {
-        _fontSize                           = 40.0f;
-        
-    } else if (IS_IPHONE_6) {
-        _fontSize                           = 44.0f;
-        
-    } else if (IS_IPHONE_6_PLUS) {
-        _fontSize                           = 48.0f;
-        
-    } else {
-        _fontSize                           = 52.0f;
-        
-    }
-    _buttonSize                             = CGSizeMake(size.width / 1.25f, (size.width / 1.25f) * 0.25f);
-    _buttonSpacing                          = _buttonSize.height * 0.33f;
-    _buttonAnimationDuration                = 0.25f;
+//    _buttonSize                             = CGSizeMake(size.width / 1.25f, (size.width / 1.25f) * 0.25f);
+    _buttonSpacing                          = [MainViewController buttonSize:size].height * 0.25f;
+    _buttonAnimationDuration                = 0.5f;
 }
 - (void)createControlsWithSize:(CGSize)size {
     /**Preform all your alloc/init's here*/
-    _itCoinsLabel                           = [SKLabelNode labelNodeWithFontNamed:kSIFontFuturaMedium];
-    _gameOverLabel                          = [SKLabelNode labelNodeWithFontNamed:kSIFontFuturaMedium];
-    _gameScoreLabel                         = [SKLabelNode labelNodeWithFontNamed:kSIFontFuturaMedium];
-    _highScoreLabel                         = [SKLabelNode labelNodeWithFontNamed:kSIFontFuturaMedium];
-    _userMessageLabel                       = [SKLabelNode labelNodeWithFontNamed:kSIFontFuturaMedium];
+    _gameOverLabel                          = [MainViewController SI_sharedLabelHeader:@"Game Over!"];
+    _gameScoreLabel                         = [MainViewController SI_sharedLabelParagraph1:[NSString stringWithFormat:@"Score: %0.2f", [AppSingleton singleton].currentGame.totalScore]];
+    _itCoinsLabel                           = [MainViewController SI_sharedLabelParagraph4:[NSString stringWithFormat:@"Total It Coins: %d",[[[MKStoreKit sharedKit] availableCreditsForConsumable:kSIIAPConsumableIDCoins ] intValue]]];
+    
+    NSNumber *highScore                     = [[NSUserDefaults standardUserDefaults] objectForKey:kSINSUserDefaultLifetimeHighScore];
+
+    if ([AppSingleton singleton].currentGame.isHighScore) {
+        _highScoreLabel                     = [MainViewController SI_sharedLabelParagraph4:@"New High Score!"];
+    } else {
+        _highScoreLabel                     = [MainViewController SI_sharedLabelParagraph4:[NSString stringWithFormat:@"High Score: %0.2f",[highScore floatValue]]];
+    }
+    
+    if ([AppSingleton singleton].currentGame.isHighScore) {
+        _userMessageLabel                   = [MainViewController SI_sharedLabelParagraph2:[Game userMessageForScore:[AppSingleton singleton].currentGame.totalScore isHighScore:YES    highScore:[highScore floatValue]]];
+        [AppSingleton singleton].currentGame.isHighScore = NO;
+    } else {
+        _userMessageLabel                   = [MainViewController SI_sharedLabelParagraph2:[Game userMessageForScore:[AppSingleton singleton].currentGame.totalScore isHighScore:NO     highScore:[highScore floatValue]]];
+    }
     
     /*Menu Node*/
     _menuNode                               = [[HLMenuNode alloc] init];
 }
 - (void)setupControlsWithSize:(CGSize)size {
     /**Configrue the labels, nodes and what ever else you can*/
-    _gameOverLabel.text                     = @"Game Over!";
-    _gameOverLabel.fontColor                = [SKColor blackColor];
-    _gameOverLabel.fontSize                 = _fontSize;
-    _gameOverLabel.alpha                    = 0.0f;
-    
-    _gameScoreLabel.text                        = [NSString stringWithFormat:@"Score: %0.2f", [AppSingleton singleton].currentGame.totalScore];
-    _gameScoreLabel.fontColor               = [SKColor blackColor];
-    _gameScoreLabel.fontSize                = _fontSize - 4.0f;
-    _gameScoreLabel.alpha                   = 0.0f;
-    
-    _itCoinsLabel.text                      = [NSString stringWithFormat:@"Total It Coins: %d",[[[MKStoreKit sharedKit] availableCreditsForConsumable:kSIIAPConsumableIDCoins ] intValue]];
-    _itCoinsLabel.fontColor                 = [SKColor blackColor];
-    _itCoinsLabel.fontSize                  = _fontSize - 4.0f;
-    _itCoinsLabel.alpha                     = 0.0f;
-    
-    NSNumber *highScore                     = [[NSUserDefaults standardUserDefaults] objectForKey:kSINSUserDefaultLifetimeHighScore];
-
-    if ([AppSingleton singleton].currentGame.isHighScore) {
-        _highScoreLabel.text                = @"New High Score!";
-    } else {
-        _highScoreLabel.text                = [NSString stringWithFormat:@"High Score: %0.2f",[highScore floatValue]];
-    }
-    _highScoreLabel.fontColor               = [SKColor blackColor];
-    _highScoreLabel.fontSize                = _fontSize - 8.0f;
-    _highScoreLabel.alpha                   = 0.0f;
-
-    
-    if ([AppSingleton singleton].currentGame.isHighScore) {
-        _userMessageLabel.text              = [Game userMessageForScore:[AppSingleton singleton].currentGame.totalScore isHighScore:YES    highScore:[highScore floatValue]];
-    } else {
-        _userMessageLabel.text              = [Game userMessageForScore:[AppSingleton singleton].currentGame.totalScore isHighScore:NO     highScore:[highScore floatValue]];
-    }
-    _userMessageLabel.fontColor             = [SKColor blackColor];
-    _userMessageLabel.fontSize              = _fontSize - 8.0f;
-    _userMessageLabel.alpha                 = 0.0f;
     
     /*Menu Node*/
     _menuNode.delegate                      = self;
     _menuNode.itemAnimation                 = HLMenuNodeAnimationSlideLeft;
     _menuNode.itemAnimationDuration         = _buttonAnimationDuration;
-    _menuNode.itemButtonPrototype           = [MainViewController SI_sharedMenuButtonPrototypeBasic:_buttonSize fontSize:_fontSize];
-    _menuNode.backItemButtonPrototype       = [MainViewController SI_sharedMenuButtonPrototypeBack:_buttonSize];
+    _menuNode.itemButtonPrototype           = [MainViewController SI_sharedMenuButtonPrototypeBasic:[MainViewController buttonSize:size] fontSize:[MainViewController fontSizeButton]];
+    _menuNode.backItemButtonPrototype       = [MainViewController SI_sharedMenuButtonPrototypeBack:[MainViewController buttonSize:size]];
     _menuNode.itemSeparatorSize             = _buttonSpacing;
-    _menuNode.anchorPoint                   = CGPointMake(0.5, 1);
+    _menuNode.anchorPoint                   = CGPointMake(0.5, 0);
 }
 - (void)layoutControlsWithSize:(CGSize)size {
     /**Layout those controls*/
@@ -184,24 +148,31 @@
     
     /*Menu Node*/
     _menuNode.position                      = CGPointMake(size.width / 2.0f,
-                                                          _userMessageLabel.frame.origin.y - (_userMessageLabel.frame.size.height / 2.0f) - VERTICAL_SPACING_16);
+                                                          VERTICAL_SPACING_16);
     [self addChild:_menuNode];
     [_menuNode hlSetGestureTarget:_menuNode];
     [self registerDescendant:_menuNode withOptions:[NSSet setWithObject:HLSceneChildGestureTarget]];
-    [self menuCreate];
+    [self menuCreate:size];
 }
-- (void)menuCreate {
+- (void)menuCreate:(CGSize)size {
     HLMenu *menu = [[HLMenu alloc] init];
     
     /*Add the regular buttons*/
-    [menu addItem:[HLMenuItem menuItemWithText:kSIMenuTextEndGameContinue]];
+    _userCanAffordContinue = [self userCanContinue];
+    if (_userCanAffordContinue) {
+        [menu addItem:[HLMenuItem menuItemWithText:kSIMenuTextEndGameContinue]];
+    } else {
+        HLMenuItem *continueGameMenuItem = [HLMenuItem menuItemWithText:kSIMenuTextEndGameContinue];
+        continueGameMenuItem.buttonPrototype = [MainViewController SI_sharedMenuButtonPrototypeBasic:[MainViewController buttonSize:size] fontSize:[MainViewController fontSizeButton] backgroundColor:[UIColor grayColor] fontColor:[UIColor blackColor]];
+        [menu addItem:continueGameMenuItem];
+    }
     
     [menu addItem:[HLMenuItem menuItemWithText:kSIMenuTextEndGameReplay]];
     
     [menu addItem:[HLMenuItem menuItemWithText:kSIMenuTextEndGameStore]];
     
     HLMenuItem *mainMenuItem = [HLMenuItem menuItemWithText:kSIMenuTextEndGameMainMenu];
-    mainMenuItem.buttonPrototype = [MainViewController SI_sharedMenuButtonPrototypeBack:_buttonSize];
+    mainMenuItem.buttonPrototype = [MainViewController SI_sharedMenuButtonPrototypeBack:[MainViewController buttonSize:size]];
     [menu addItem:mainMenuItem];
     
     [self.menuNode setMenu:menu animation:HLMenuNodeAnimationNone];
@@ -226,7 +197,7 @@
         if (_userCanAffordContinue) {
             [[MKStoreKit sharedKit] consumeCredits:[NSNumber numberWithInteger:[AppSingleton singleton].currentGame.currentNumberOfTimesContinued] identifiedByConsumableIdentifier:kSIIAPConsumableIDCoins];
             [AppSingleton singleton].willResume                                 = YES;
-            [AppSingleton singleton].currentGame.currentNumberOfTimesContinued  = [Game lifeCostForCurrentContinueLeve:[AppSingleton singleton].currentGame.currentNumberOfTimesContinued];
+            [AppSingleton singleton].currentGame.currentNumberOfTimesContinued  = [Game lifeCostForCurrentContinueLevel:[AppSingleton singleton].currentGame.currentNumberOfTimesContinued];
             GameScene *gameScene                                                = [[GameScene alloc] initWithSize:self.size gameMode:[AppSingleton singleton].currentGame.gameMode];
             [Game transisitionToSKScene:gameScene toSKView:self.view DoorsOpen:NO pausesIncomingScene:YES pausesOutgoingScene:NO duration:1.0];
         } else { /*User cannot afford the to contiue*/
@@ -255,6 +226,13 @@
 
     }
 }
-
+- (BOOL)userCanContinue {
+    int continueCost = [Game lifeCostForCurrentContinueLevel:[AppSingleton singleton].currentGame.currentNumberOfTimesContinued];
+    int numberOfItCoins = [[[MKStoreKit sharedKit] availableCreditsForConsumable:kSIIAPConsumableIDCoins] intValue];
+    if (continueCost <= numberOfItCoins) {
+        return YES;
+    }
+    return NO;
+}
 
 @end

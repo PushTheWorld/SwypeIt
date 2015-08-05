@@ -50,5 +50,19 @@
             return [NSDecimalNumber decimalNumberWithString:@"0.00"];
     }
 }
++ (NSString *)imageNameForSIIAPPack:(SIIAPPack)siiapPack {
+    switch (siiapPack) {
+        case SIIAPPackSmall:
+            return kSIImageIAPSmall;
+        case SIIAPPackMedium:
+            return kSIImageIAPMedium;
+        case SIIAPPackLarge:
+            return kSIImageIAPLarge;
+        case SIIAPPackExtraLarge:
+            return kSIImageIAPExtraLarge;
+        default:
+            return nil;
+    }
+}
 
 @end

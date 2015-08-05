@@ -13,9 +13,22 @@
 
 
 @interface MainViewController : UIViewController
-+ (CGFloat)buttonFontSize;
-+ (CGFloat)headerFontSize;
-+ (HLLabelButtonNode *)SI_sharedMenuButtonPrototypeBack:(CGSize)size;
-+ (HLLabelButtonNode *)SI_sharedMenuButtonPrototypeBasic:(CGSize)size fontSize:(CGFloat)fontSize;
-+ (HLLabelButtonNode *)SI_sharedMenuButtonPrototypeBasic:(CGSize)size fontSize:(CGFloat)fontSize backgroundColor:(SKColor *)backgroundColor fontColor:(UIColor *)fontColor;
++ (CGFloat)             fontSizeButton;
++ (CGFloat)             fontSizeHeader;
++ (CGFloat)             fontSizeParagraph1;
++ (CGFloat)             fontSizeParagraph2;
++ (CGFloat)             fontSizeParagraph3;
++ (CGFloat)             fontSizeParagraph4;
+
++ (CGSize)              buttonSize:(CGSize)size;
+
++ (HLLabelButtonNode *) SI_sharedMenuButtonPrototypeBack:(CGSize)size;
++ (HLLabelButtonNode *) SI_sharedMenuButtonPrototypeBasic:(CGSize)size fontSize:(CGFloat)fontSize;
++ (HLLabelButtonNode *) SI_sharedMenuButtonPrototypeBasic:(CGSize)size fontSize:(CGFloat)fontSize backgroundColor:(SKColor *)backgroundColor fontColor:(UIColor *)fontColor;
+
++ (SKLabelNode *)       SI_sharedLabelHeader:(NSString *)text;
++ (SKLabelNode *)       SI_sharedLabelParagraph1:(NSString *)text;
++ (SKLabelNode *)       SI_sharedLabelParagraph2:(NSString *)text;
++ (SKLabelNode *)       SI_sharedLabelParagraph3:(NSString *)text;
++ (SKLabelNode *)       SI_sharedLabelParagraph4:(NSString *)text;
 @end

@@ -224,11 +224,18 @@ extern NSString *const kSIImageButtonSettings;
 extern NSString *const kSIImageButtonStore;
 extern NSString *const kSIImageButtonTimeFreeze;
 extern NSString *const kSIImageFallingMonkeys;
+extern NSString *const kSIImageIAPSmall;
+extern NSString *const kSIImageIAPMedium;
+extern NSString *const kSIImageIAPLarge;
+extern NSString *const kSIImageIAPExtraLarge;
 extern NSString *const kSIImageProgressBarFill;
 extern NSString *const kSIImageProgressBarPowerUpFill;
+extern NSString *const kSIImageShapePowerupCost;
 
 #pragma mark - Texture Atlas
 extern NSString *const kSIAtlasButtons;
+extern NSString *const kSIAtlasImages;
+extern NSString *const kSIAtlasShapes;
 
 #pragma mark - Button Labels
 extern NSString *const kSIButtonLabelStringOneHand;
@@ -294,6 +301,7 @@ extern NSString *const kSINodeFallingMonkey;
 
 #pragma mark - Fonts
 extern NSString *const kSIFontFuturaMedium;
+extern NSString *const kSIFontUltra;
 
 #pragma mark - Menu Button Texts
 extern NSString *const kSIMenuTextBack;
@@ -332,7 +340,8 @@ extern NSString *const kSISoundFXInitalize;
 @interface SIConstants : NSObject
 
 + (SKTextureAtlas *)buttonAtlas;
-
++ (SKTextureAtlas *)imagesAtlas;
++ (SKTextureAtlas *)shapesAtlas;
 @end
 
 

@@ -25,7 +25,7 @@
 #pragma mark - Private Constraints
 @property (assign, nonatomic) CGFloat        buttonSpacing;
 @property (assign, nonatomic) CGFloat        buttonAnimationDuration;
-@property (assign, nonatomic) CGSize         buttonSize;
+//@property (assign, nonatomic) CGSize         buttonSize;
 
 #pragma mark - Private Properties
 @property (strong, nonatomic) HLMenuNode    *menuNode;
@@ -69,51 +69,53 @@
 #pragma mark Scene Setup
 - (void)createConstantsWithSize:(CGSize)size {
     /**Configure any constants*/
+    CGFloat buttonSizeDivder;
     if (IS_IPHONE_4) {
         _fontSize                       = 36.0f;
+        buttonSizeDivder                = 1.5f;
         
     } else if (IS_IPHONE_5) {
         _fontSize                       = 40.0f;
+        buttonSizeDivder                = 1.5f;
         
     } else if (IS_IPHONE_6) {
         _fontSize                       = 30.0f;
+        buttonSizeDivder                = 1.25f;
         
     } else if (IS_IPHONE_6_PLUS) {
         _fontSize                       = 48.0f;
+        buttonSizeDivder                = 1.5f;
 
     } else {
         _fontSize                       = 52.0f;
+        buttonSizeDivder                = 1.5f;
         
     }
-    _buttonSize                     = CGSizeMake(size.width / 1.25f, (size.width / 1.25f) * 0.25);
-    _buttonSpacing                  = _buttonSize.height * 0.33;
+//    _buttonSize                     = CGSizeMake(size.width / buttonSizeDivder, (size.width / buttonSizeDivder) * 0.25);
+    _buttonSpacing                  = [MainViewController buttonSize:size].height * 0.25;
     _buttonAnimationDuration        = 0.25f;
 }
 - (void)createControlsWithSize:(CGSize)size {
     /**Preform all your alloc/init's here*/
-    _titleLabel = [SKLabelNode labelNodeWithFontNamed:kSIFontFuturaMedium];
+    _titleLabel = [MainViewController SI_sharedLabelHeader:kSIMenuTextStartScreenSettings];
     
     /*Menu Node*/
     _menuNode   = [[HLMenuNode alloc] init];
 }
 - (void)setupControlsWithSize:(CGSize)size {
     /**Configrue the labels, nodes and what ever else you can*/
-    _titleLabel.text                                = kSIMenuTextStartScreenSettings;
-    _titleLabel.fontColor                           = [SKColor blackColor];
-    _titleLabel.fontSize                            = [MainViewController headerFontSize];
 
-    
     /*Menu Node*/
     _menuNode.delegate                              = self;
     _menuNode.itemAnimation                         = HLMenuNodeAnimationSlideLeft;
     _menuNode.itemAnimationDuration                 = self.buttonAnimationDuration;
-    _menuNode.itemButtonPrototype                   = [MainViewController SI_sharedMenuButtonPrototypeBasic:_buttonSize fontSize:_fontSize];
-    _menuNode.backItemButtonPrototype               = [MainViewController SI_sharedMenuButtonPrototypeBack:_buttonSize];
+    _menuNode.itemButtonPrototype                   = [MainViewController SI_sharedMenuButtonPrototypeBasic:[MainViewController buttonSize:size] fontSize:[MainViewController fontSizeButton]];
+    _menuNode.backItemButtonPrototype               = [MainViewController SI_sharedMenuButtonPrototypeBack:[MainViewController buttonSize:size]];
     _menuNode.itemSeparatorSize                     = self.buttonSpacing;
 }
 - (void)layoutControlsWithSize:(CGSize)size {
     /**Layout those controls*/
-    /*Welcome Label*/
+    /*Title Label*/
     _titleLabel.position       = CGPointMake((size.width / 2.0f),
                                                   size.height - _titleLabel.frame.size.height - VERTICAL_SPACING_8);
     [self addChild:_titleLabel];
@@ -124,13 +126,13 @@
     [self addChild:_menuNode];
     [_menuNode hlSetGestureTarget:_menuNode];
     [self registerDescendant:_menuNode withOptions:[NSSet setWithObject:HLSceneChildGestureTarget]];
-    [self menuCreate];
+    [self menuCreate:size];
 }
 - (void)viewSetup:(SKView *)view {
     /**Preform setup post-view load*/
     self.backgroundColor = [SKColor sandColor]; /*Maybe add a convience method*/
 }
-- (void)menuCreate {
+- (void)menuCreate:(CGSize)size {
     HLMenu *menu = [[HLMenu alloc] init];
     
     /*Add the regular buttons*/
@@ -146,7 +148,7 @@
     
     /*Add the Back Button... Need to change the prototype*/
     HLMenuItem *resumeItem = [HLMenuItem menuItemWithText:kSIMenuTextBack];
-    resumeItem.buttonPrototype = [MainViewController SI_sharedMenuButtonPrototypeBack:self.buttonSize];
+    resumeItem.buttonPrototype = [MainViewController SI_sharedMenuButtonPrototypeBack:[MainViewController buttonSize:size]];
     [menu addItem:resumeItem];
     
     [_menuNode setMenu:menu animation:HLMenuNodeAnimationNone];
@@ -215,6 +217,7 @@
 - (void)changeFXSoundIsAllowed:(HLMenuItem *)menuItem {
     if ([menuItem.text isEqualToString:kSIMenuTextSettingsToggleSoundOffFX]) {
         /*Turn Background Sound Off*/
+        _buttonSoundFXText = kSIMenuTextSettingsToggleSoundOnFX;
         [[NSUserDefaults standardUserDefaults] setBool:NO forKey:kSINSUserDefaultSoundIsAllowedFX];
         [[SoundManager sharedManager] stopAllSounds];
     } else {

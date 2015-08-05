@@ -32,11 +32,11 @@
 @implementation MainViewController {
     
 }
-+ (CGFloat)buttonFontSize {
++ (CGFloat)fontSizeButton {
     if (IS_IPHONE_4) {
-        return 26.0f;
+        return 22.0f;
     } else if (IS_IPHONE_5) {
-        return 28.0f;
+        return 26.0f;
     } else if (IS_IPHONE_6) {
         return 30.0f;
     } else if (IS_IPHONE_6_PLUS) {
@@ -45,7 +45,20 @@
         return 36.0f;
     }
 }
-+ (CGFloat)headerFontSize {
++ (CGSize)buttonSize:(CGSize)size {
+    if (IS_IPHONE_4) {
+        return CGSizeMake(size.width / 1.5, size.width / 1.5 * 0.25);
+    } else if (IS_IPHONE_5) {
+        return CGSizeMake(size.width / 1.4, size.width / 1.4 * 0.25);
+    } else if (IS_IPHONE_6) {
+        return CGSizeMake(size.width / 1.3, size.width / 1.3 * 0.25);
+    } else if (IS_IPHONE_6_PLUS) {
+        return CGSizeMake(size.width / 1.2, size.width / 1.2 * 0.25);
+    } else {
+        return CGSizeMake(size.width / 1.1, size.width / 1.1 * 0.25);
+    }
+}
++ (CGFloat)fontSizeHeader {
     if (IS_IPHONE_4) {
         return 36.0f;
     } else if (IS_IPHONE_5) {
@@ -58,6 +71,19 @@
         return 52.0f;
     }
 }
++ (CGFloat)fontSizeParagraph1 {
+    return [MainViewController fontSizeHeader] - 4.0f;
+}
++ (CGFloat)fontSizeParagraph2 {
+    return [MainViewController fontSizeHeader] - 8.0f;
+}
++ (CGFloat)fontSizeParagraph3 {
+    return [MainViewController fontSizeHeader] - 12.0f;
+}
++ (CGFloat)fontSizeParagraph4 {
+    return [MainViewController fontSizeHeader] - 16.0f;
+}
+
 
 #pragma mark - UI Life Cycle Methods
 - (void)viewDidLoad {
@@ -122,7 +148,7 @@
     _loadingLabel.text      = @"Loading...";
     _loadingLabel.alpha     = 0.0f;
     [_loadingLabel setTextColor:[UIColor blackColor]];
-    [_loadingLabel setFont:[UIFont fontWithName:kSIFontFuturaMedium size:[MainViewController buttonFontSize]]];
+    [_loadingLabel setFont:[UIFont fontWithName:kSIFontFuturaMedium size:[MainViewController fontSizeButton]]];
     [_loadingLabel setTranslatesAutoresizingMaskIntoConstraints:NO];
 }
 - (void)layoutControls {
@@ -245,7 +271,7 @@
 + (HLLabelButtonNode *)SI_sharedMenuButtonPrototypeBasic:(CGSize)size fontSize:(CGFloat)fontSize {
     static HLLabelButtonNode *buttonPrototype = nil;
     if (!buttonPrototype) {
-        buttonPrototype                         = [[MainViewController SIInterfaceLabelButton:size fontSize:fontSize] copy];
+        buttonPrototype                         = [[MainViewController SIHLInterfaceLabelButton:size fontSize:fontSize] copy];
         buttonPrototype.verticalAlignmentMode   = HLLabelNodeVerticalAlignFontAscenderBias;
     }
     return buttonPrototype;
@@ -253,7 +279,7 @@
 + (HLLabelButtonNode *)SI_sharedMenuButtonPrototypeBasic:(CGSize)size fontSize:(CGFloat)fontSize backgroundColor:(SKColor *)backgroundColor fontColor:(UIColor *)fontColor {
     static HLLabelButtonNode *buttonPrototype = nil;
     if (!buttonPrototype) {
-        buttonPrototype                         = [[MainViewController SIInterfaceLabelButton:size backgroundColor:fontColor fontColor:fontColor fontSize:fontSize] copy];
+        buttonPrototype                         = [[MainViewController SIHLInterfaceLabelButton:size backgroundColor:fontColor fontColor:fontColor fontSize:fontSize] copy];
         buttonPrototype.verticalAlignmentMode   = HLLabelNodeVerticalAlignFontAscenderBias;
     }
     return buttonPrototype;
@@ -261,24 +287,24 @@
 + (HLLabelButtonNode *)SI_sharedMenuButtonPrototypeBack:(CGSize)size {
     static HLLabelButtonNode *buttonPrototype = nil;
     if (!buttonPrototype) {
-        buttonPrototype                         = [[MainViewController SI_sharedMenuButtonPrototypeBasic:size fontSize:[MainViewController buttonFontSize]] copy];
+        buttonPrototype                         = [[MainViewController SI_sharedMenuButtonPrototypeBasic:size fontSize:[MainViewController fontSizeButton]] copy];
         buttonPrototype.color                   = [UIColor blueColor];
         buttonPrototype.colorBlendFactor        = 1.0f;
     }
     return buttonPrototype;
 }
-+ (HLLabelButtonNode *)SIInterfaceLabelButton:(CGSize)size fontSize:(CGFloat)fontSize {
++ (HLLabelButtonNode *)SIHLInterfaceLabelButton:(CGSize)size fontSize:(CGFloat)fontSize {
     HLLabelButtonNode *labelButton              = [[HLLabelButtonNode alloc] initWithColor:[UIColor mainColor] size:size];
     labelButton.cornerRadius                    = 12.0f;
-    labelButton.fontName                        = kSIFontFuturaMedium;
+    labelButton.fontName                        = kSIFontUltra; // kSIFontFuturaMedium;
     labelButton.fontSize                        = fontSize;
-//    labelButton.borderWidth                     = 2.0f;
-//    labelButton.borderColor                     = [SKColor blackColor];
+    labelButton.borderWidth                     = 8.0f;
+    labelButton.borderColor                     = [SKColor blackColor];
     labelButton.fontColor                       = [UIColor whiteColor];
     labelButton.verticalAlignmentMode           = HLLabelNodeVerticalAlignFont;
     return labelButton;
 }
-+ (HLLabelButtonNode *)SIInterfaceLabelButton:(CGSize)size backgroundColor:(SKColor *)backgroundColor fontColor:(UIColor *)fontColor fontSize:(CGFloat)fontSize {
++ (HLLabelButtonNode *)SIHLInterfaceLabelButton:(CGSize)size backgroundColor:(SKColor *)backgroundColor fontColor:(UIColor *)fontColor fontSize:(CGFloat)fontSize {
     HLLabelButtonNode *labelButton              = [[HLLabelButtonNode alloc] initWithColor:backgroundColor size:size];
     labelButton.fontName                        = kSIFontFuturaMedium;
     labelButton.cornerRadius                    = 12.0f;
@@ -286,6 +312,39 @@
     labelButton.fontColor                       = fontColor;
     labelButton.verticalAlignmentMode           = HLLabelNodeVerticalAlignFont;
     return labelButton;
+}
++ (SKLabelNode *)SI_sharedLabelHeader:(NSString *)text {
+    SKLabelNode *label  = [MainViewController SIInterfaceLabelFontSize:[MainViewController fontSizeHeader]];
+    label.text          = text;
+    return label;
+}
++ (SKLabelNode *)SI_sharedLabelParagraph1:(NSString *)text {
+    SKLabelNode *label  = [MainViewController SIInterfaceLabelFontSize:[MainViewController fontSizeParagraph1]];
+    label.text          = text;
+    return label;
+}
++ (SKLabelNode *)SI_sharedLabelParagraph2:(NSString *)text {
+    SKLabelNode *label  = [MainViewController SIInterfaceLabelFontSize:[MainViewController fontSizeParagraph2]];
+    label.text          = text;
+    return label;
+}
++ (SKLabelNode *)SI_sharedLabelParagraph3:(NSString *)text {
+    SKLabelNode *label  = [MainViewController SIInterfaceLabelFontSize:[MainViewController fontSizeParagraph3]];
+    label.text          = text;
+    return label;
+}
++ (SKLabelNode *)SI_sharedLabelParagraph4:(NSString *)text {
+    SKLabelNode *label  = [MainViewController SIInterfaceLabelFontSize:[MainViewController fontSizeParagraph4]];
+    label.text          = text;
+    return label;
+}
++ (SKLabelNode *)SIInterfaceLabelFontSize:(CGFloat)fontSize {
+    SKLabelNode *label                          = [SKLabelNode labelNodeWithFontNamed:kSIFontUltra];
+    label.fontColor                             = [SKColor blackColor];
+    label.fontSize                              = fontSize;
+    label.horizontalAlignmentMode               = SKLabelHorizontalAlignmentModeCenter;
+    label.verticalAlignmentMode                 = SKLabelVerticalAlignmentModeCenter;
+    return label;
 }
 #pragma mark - MFMailComposeViewContorllerDelegate
 - (void)launchBugReport:(NSNotification *)notification {

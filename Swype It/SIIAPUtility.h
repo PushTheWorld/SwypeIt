@@ -23,7 +23,8 @@
 @interface SIIAPUtility : NSObject
 
 /**Retuns nil if the product cannot be found*/
-+ (NSDecimalNumber *)productPriceForSIIAPPack:(SIIAPPack)siiapPack;
-+ (void)productForSIIAPPack:(SIIAPPack)siiapPack inPackArray:(NSArray *)productArray withBlock:(void (^)(BOOL succeeded, SKProduct *product))completionBlock;
++ (NSDecimalNumber *)   productPriceForSIIAPPack:(SIIAPPack)siiapPack;
++ (NSString *)          imageNameForSIIAPPack:(SIIAPPack)siiapPack;
++ (void)                productForSIIAPPack:(SIIAPPack)siiapPack inPackArray:(NSArray *)productArray withBlock:(void (^)(BOOL succeeded, SKProduct *product))completionBlock;
 
 @end

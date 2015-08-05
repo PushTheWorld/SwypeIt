@@ -8,6 +8,8 @@
 //
 // Local Controller Import
 #import "EndGameScene.h"
+#import "MainViewController.h"
+#import "SIStoreButtonNode.h"
 #import "StartScreenScene.h"
 #import "StoreScene.h"
 // Framework Import
@@ -22,62 +24,209 @@
 
 #define MAX_NUMBER_OF_ATTEMPTS 20
 
-@interface StoreScene () {
+@interface StoreScene () <HLMenuNodeDelegate> {
 
 }
-@property (assign, nonatomic) BOOL               isPurchaseInProgress;
-@property (assign, nonatomic) CGFloat            verticalNodeCenterPoint;
 
-@property (strong, nonatomic) NSArray           *products;
-@property (strong, nonatomic) NSNumberFormatter *priceFormatter;
-@property (strong, nonatomic) SKLabelNode       *itCoinsLabel;
+@property (strong, nonatomic) HLMenuNode    *menuNode;
+@property (strong, nonatomic) SKLabelNode   *itCoinsLabel;
+@property (strong, nonatomic) SKLabelNode   *titleLabel;
 
 @end
 
-@implementation StoreScene
+@implementation StoreScene {
+    BOOL         _isPurchaseInProgress;
+    
+    CGFloat      _buttonAnimationDuration;
+    CGFloat      _buttonSpacing;
 
+    NSArray     *_products;
+}
 
--(nonnull instancetype)initWithSize:(CGSize)size {
+#pragma mark - Scene Life Cycle
+- (instancetype)initWithSize:(CGSize)size {
     if (self = [super initWithSize:size]) {
-        
-        self.backgroundColor            = [SKColor sandColor];
-        
-        self.isInTestMode               = NO;
-        
-        self.isPurchaseInProgress       = NO;
-        
-        self.verticalNodeCenterPoint    = size.height / 6.0f;
-        
-        [self registerForNotifications];
-        
-        /*Configure the price formatter before trying to add the buttons*/
-        [self configurePriceFormatter];
-        
-        [self addButtons:size];
-        [self addLabels:size];
-        
-        if (self.isInTestMode) {
-            for (int i = 0; i < 5; i++) {
-                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 + 4*i * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                    [self changeCoinValue];
-                });
-            }
-        }
+        /**Do any setup before self.view is loaded*/
+        [self initSetup:size];
     }
     return self;
 }
--(void)willMoveFromView:(nonnull SKView *)view {
-    [super willMoveFromView:view];
-//    [self removeObserver:self forKeyPath:kMKStoreKitProductPurchasedNotification];
-//    [self removeObserver:self forKeyPath:kMKStoreKitRestoredPurchasesNotification];
-//    [self removeObserver:self forKeyPath:kMKStoreKitRestoringPurchasesFailedNotification];
+- (void)didMoveToView:(nonnull SKView *)view {
+    [super didMoveToView:view];
+    /**Do any setup post self.view creation*/
+    [self viewSetup:view];
 }
+- (void)willMoveFromView:(nonnull SKView *)view {
+    /**Do any breakdown prior to the view being unloaded*/
+    
+    /*Resume move from view*/
+    [super willMoveFromView:view];
+}
+- (void)initSetup:(CGSize)size {
+    /**Preform initalization pre-view load*/
+    [self createConstantsWithSize:size];
+    [self createControlsWithSize:size];
+    [self setupControlsWithSize:size];
+    [self layoutControlsWithSize:size];
+    [self registerForNotifications];
+}
+- (void)viewSetup:(SKView *)view {
+    /**Preform setup post-view load*/
+    self.backgroundColor            = [SKColor sandColor];
+}
+#pragma mark Scene Setup
+- (void)createConstantsWithSize:(CGSize)size {
+    /**Configure any constants*/
+    _isPurchaseInProgress           = NO;
+    
+    _buttonAnimationDuration        = 0.5;
+    _buttonSpacing                  = VERTICAL_SPACING_16;
+    
+}
+- (void)createControlsWithSize:(CGSize)size {
+    /**Preform all your alloc/init's here*/
+    _titleLabel                     = [MainViewController SI_sharedLabelHeader:@"Store"];
+    
+    _itCoinsLabel                   = [MainViewController SI_sharedLabelParagraph1:[NSString stringWithFormat:@"You have %d IT Coins",[[[MKStoreKit sharedKit] availableCreditsForConsumable:kSIIAPConsumableIDCoins] intValue]]];
+
+    
+    /*Menu Node*/
+    _menuNode                       = [[HLMenuNode alloc] init];
+
+}
+- (void)setupControlsWithSize:(CGSize)size {
+    /**Configrue the labels, nodes and what ever else you can*/
+    /*Menu Node*/
+    _menuNode.delegate                              = self;
+    _menuNode.itemAnimation                         = HLMenuNodeAnimationSlideLeft;
+    _menuNode.itemAnimationDuration                 = _buttonAnimationDuration;
+//    _menuNode.itemButtonPrototype                   = [[SIStoreButtonNode alloc] initWithSize:[MainViewController buttonSize:size] buttonName:[Game buttonNodeNameNodeForSIIAPPack:SIIAPPackSmall] SIIAPPack:SIIAPPackSmall];
+    _menuNode.backItemButtonPrototype               = [MainViewController SI_sharedMenuButtonPrototypeBack:[MainViewController buttonSize:size]];
+    _menuNode.itemSeparatorSize                     = _buttonSpacing;
+    _menuNode.anchorPoint                           = CGPointMake(0.5, 0);
+
+    
+}
+- (void)layoutControlsWithSize:(CGSize)size {
+    /**Layout those controls*/
+    /*Title Label*/
+    _titleLabel.position       = CGPointMake((size.width / 2.0f),
+                                             size.height - _titleLabel.frame.size.height - VERTICAL_SPACING_8);
+    [self addChild:_titleLabel];
+    
+    _itCoinsLabel.position                  = CGPointMake((size.width / 2.0f), size.height - VERTICAL_SPACING_8 - _titleLabel.frame.size.height - VERTICAL_SPACING_8);
+    [self addChild:_itCoinsLabel];
+    
+    /*Menu Node*/
+    _menuNode.position  = CGPointMake(size.width / 2.0f, VERTICAL_SPACING_16);
+    [self addChild:_menuNode];
+    [_menuNode hlSetGestureTarget:_menuNode];
+    [self registerDescendant:_menuNode withOptions:[NSSet setWithObject:HLSceneChildGestureTarget]];
+    [self menuCreate:size];
+    
+}
+- (void)registerForNotifications {
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(packPurchaseRequest:) name:kSINotificationPackPurchaseRequest object:nil];
+    [[NSNotificationCenter defaultCenter] addObserverForName:kMKStoreKitProductPurchasedNotification
+                                                      object:nil
+                                                       queue:[[NSOperationQueue alloc] init]
+                                                  usingBlock:^(NSNotification *note) {
+                                                      
+                                                      NSLog(@"Purchased/Subscribed to product with id: %@", [note object]);
+                                                      _isPurchaseInProgress = NO;
+                                                      [self changeCoinValue];
+                                                      [self purchaseSuccess:YES titleText:@"Purchased!" infoText:@"Swype On!" duration:2.0f];
+                                                  }];
+    
+    [[NSNotificationCenter defaultCenter] addObserverForName:kMKStoreKitRestoredPurchasesNotification
+                                                      object:nil
+                                                       queue:[[NSOperationQueue alloc] init]
+                                                  usingBlock:^(NSNotification *note) {
+                                                      
+                                                      NSLog(@"Restored Purchases");
+                                                      _isPurchaseInProgress = NO;
+                                                      [self changeCoinValue];
+                                                      [self purchaseSuccess:YES titleText:@"Restored!" infoText:@"" duration:2.0f];
+                                                  }];
+    
+    [[NSNotificationCenter defaultCenter] addObserverForName:kMKStoreKitRestoringPurchasesFailedNotification
+                                                      object:nil
+                                                       queue:[[NSOperationQueue alloc] init]
+                                                  usingBlock:^(NSNotification *note) {
+                                                      
+                                                      NSLog(@"Failed restoring purchases with error: %@", [note object]);
+                                                      _isPurchaseInProgress = NO;
+                                                      [self purchaseSuccess:NO titleText:@"Failed." infoText:@"Try again later..." duration:1.0f];
+                                                      
+                                                  }];
+}
+- (void)menuCreate:(CGSize)size {
+    HLMenu *menu = [[HLMenu alloc] init];
+    
+    /*Add the regular buttons*/
+    HLMenuItem *item1       = [HLMenuItem menuItemWithText:[Game buttonNodeNameNodeForSIIAPPack:SIIAPPackSmall]];
+    item1.buttonPrototype   = [[SIStoreButtonNode alloc] initWithSize:[MainViewController buttonSize:size] buttonName:[Game buttonNodeNameNodeForSIIAPPack:SIIAPPackSmall] SIIAPPack:SIIAPPackSmall];
+    [menu addItem:item1];
+
+    HLMenuItem *item2       = [HLMenuItem menuItemWithText:[Game buttonNodeNameNodeForSIIAPPack:SIIAPPackMedium]];
+    item2.buttonPrototype   = [[SIStoreButtonNode alloc] initWithSize:[MainViewController buttonSize:size] buttonName:[Game buttonNodeNameNodeForSIIAPPack:SIIAPPackMedium] SIIAPPack:SIIAPPackMedium];
+    [menu addItem:item2];
+    
+    HLMenuItem *item3       = [HLMenuItem menuItemWithText:[Game buttonNodeNameNodeForSIIAPPack:SIIAPPackLarge]];
+    item3.buttonPrototype   = [[SIStoreButtonNode alloc] initWithSize:[MainViewController buttonSize:size] buttonName:[Game buttonNodeNameNodeForSIIAPPack:SIIAPPackLarge] SIIAPPack:SIIAPPackLarge];
+    [menu addItem:item3];
+    
+    HLMenuItem *item4       = [HLMenuItem menuItemWithText:[Game buttonNodeNameNodeForSIIAPPack:SIIAPPackExtraLarge]];
+    item4.buttonPrototype   = [[SIStoreButtonNode alloc] initWithSize:[MainViewController buttonSize:size] buttonName:[Game buttonNodeNameNodeForSIIAPPack:SIIAPPackExtraLarge] SIIAPPack:SIIAPPackExtraLarge];
+    [menu addItem:item4];
+
+    
+    /*Add the Back Button... Need to change the prototype*/
+    HLMenuItem *resumeItem = [HLMenuItem menuItemWithText:kSIMenuTextBack];
+    resumeItem.buttonPrototype = [MainViewController SI_sharedMenuButtonPrototypeBack:[MainViewController buttonSize:size]];
+    [menu addItem:resumeItem];
+    
+    [_menuNode setMenu:menu animation:HLMenuNodeAnimationNone];
+}
+#pragma mark - HLMenuNodeDelegate
+- (void)menuNode:(HLMenuNode *)menuNode didTapMenuItem:(HLMenuItem *)menuItem itemIndex:(NSUInteger)itemIndex {
+    NSLog(@"Tapped Menu Item [%@] at index %u",menuItem.text,(unsigned)itemIndex);
+    if ([menuItem.text isEqualToString:[Game buttonNodeNameNodeForSIIAPPack:SIIAPPackSmall]]) {
+        [self requestPurchaseForPack:SIIAPPackSmall];
+    } else if ([menuItem.text isEqualToString:[Game buttonNodeNameNodeForSIIAPPack:SIIAPPackMedium]]) {
+        [self requestPurchaseForPack:SIIAPPackMedium];
+    }  else if ([menuItem.text isEqualToString:[Game buttonNodeNameNodeForSIIAPPack:SIIAPPackLarge]]) {
+        [self requestPurchaseForPack:SIIAPPackLarge];
+    }  else if ([menuItem.text isEqualToString:[Game buttonNodeNameNodeForSIIAPPack:SIIAPPackExtraLarge]]) {
+        [self requestPurchaseForPack:SIIAPPackExtraLarge];
+    } else if ([menuItem.text isEqualToString:kSIMenuTextBack]) {
+        [self goBack];
+    }
+}
+- (void)goBack {
+    if (self.wasLaunchedFromMainMenu) {
+        StartScreenScene *startScene = [StartScreenScene sceneWithSize:self.size];
+        [Game transisitionToSKScene:startScene toSKView:self.view DoorsOpen:NO pausesIncomingScene:NO pausesOutgoingScene:NO duration:1.0];
+        
+    } else {
+        EndGameScene *endScene = [EndGameScene sceneWithSize:self.size];
+        [Game transisitionToSKScene:endScene toSKView:self.view DoorsOpen:NO pausesIncomingScene:NO pausesOutgoingScene:NO duration:1.0];
+    }
+}
+- (void)requestPurchaseForPack:(SIIAPPack)siiapPack {
+    if (_isPurchaseInProgress == NO) {
+        _isPurchaseInProgress = YES;
+        [self packPurchaseRequest:siiapPack attemptNumber:0];
+    }
+}
+
+
 - (BOOL)isMKStoreKitAvailableAttempt:(NSUInteger)attemptNumber {
     NSArray *productsArray  = [MKStoreKit sharedKit].availableProducts;
     
     if (productsArray) {
         /*MKStoreKit is up and running*/
-        self.products       = productsArray;
+        _products       = productsArray;
         return YES;
     } else {
         /*MKStoreKit is loading*/
@@ -90,145 +239,36 @@
         }
     }
 }
-- (void)configurePriceFormatter {
-    self.priceFormatter = [[NSNumberFormatter alloc] init];
-    [self.priceFormatter setNumberStyle:NSNumberFormatterCurrencyStyle];
-    [self.priceFormatter setLocale:[NSLocale currentLocale]];
-}
+
 - (void)addLabels:(CGSize)size {
-    SKLabelNode *storeLabel                     = [SKLabelNode labelNodeWithFontNamed:kSIFontFuturaMedium];
-    storeLabel.text                             = @"Store";
-    storeLabel.position                         = CGPointMake(size.width / 2.0f, size.height - (VERTICAL_SPACING_16 + (storeLabel.frame.size.height / 2.0f)));
-    storeLabel.fontColor                        = [SKColor blackColor];
-    storeLabel.fontSize                         = 30;
-    storeLabel.horizontalAlignmentMode          = SKLabelHorizontalAlignmentModeCenter;
-    [self addChild:storeLabel];
+    _titleLabel                     = [SKLabelNode labelNodeWithFontNamed:kSIFontFuturaMedium];
+    _titleLabel.text                             = @"Store";
+    _titleLabel.position                         = CGPointMake(size.width / 2.0f, size.height - (VERTICAL_SPACING_16 + (_titleLabel.frame.size.height / 2.0f)));
+    _titleLabel.fontColor                        = [SKColor blackColor];
+    _titleLabel.fontSize                         = [MainViewController fontSizeHeader];
+    _titleLabel.horizontalAlignmentMode          = SKLabelHorizontalAlignmentModeCenter;
+    [self addChild:_titleLabel];
     
-    self.itCoinsLabel                           = [SKLabelNode labelNodeWithFontNamed:kSIFontFuturaMedium];
-    self.itCoinsLabel.text                      = [NSString stringWithFormat:@"You have %d IT Coins",[[[MKStoreKit sharedKit] availableCreditsForConsumable:kSIIAPConsumableIDCoins] intValue]];
-    self.itCoinsLabel.position                  = CGPointMake(self.itCoinsLabel.frame.size.width / 2.0f + VERTICAL_SPACING_8, size.height - VERTICAL_SPACING_8 - storeLabel.frame.size.height - VERTICAL_SPACING_8);
-    self.itCoinsLabel.fontColor                 = [SKColor blackColor];
-    self.itCoinsLabel.fontSize                  = 25;
-    self.itCoinsLabel.verticalAlignmentMode     = SKLabelVerticalAlignmentModeCenter;
-    self.itCoinsLabel.horizontalAlignmentMode   = SKLabelHorizontalAlignmentModeCenter;
-    [self addChild:self.itCoinsLabel];
+    _itCoinsLabel                           = [SKLabelNode labelNodeWithFontNamed:kSIFontFuturaMedium];
+    _itCoinsLabel.text                      = [NSString stringWithFormat:@"You have %d IT Coins",[[[MKStoreKit sharedKit] availableCreditsForConsumable:kSIIAPConsumableIDCoins] intValue]];
+    _itCoinsLabel.position                  = CGPointMake(self.itCoinsLabel.frame.size.width / 2.0f + VERTICAL_SPACING_8, size.height - VERTICAL_SPACING_8 - _titleLabel.frame.size.height - VERTICAL_SPACING_8);
+    _itCoinsLabel.fontColor                 = [SKColor blackColor];
+    _itCoinsLabel.fontSize                  = [MainViewController fontSizeParagraph1];
+    _itCoinsLabel.verticalAlignmentMode     = SKLabelVerticalAlignmentModeCenter;
+    _itCoinsLabel.horizontalAlignmentMode   = SKLabelHorizontalAlignmentModeCenter;
+    [self addChild:_itCoinsLabel];
 
-}
-- (void)addButtons:(CGSize)size {
-    for (int i = 0; i < 4; i++) {
-        [self addButton:size withSIIAPPack:(SIIAPPack)(i) withVerticalCenterPoints:self.verticalNodeCenterPoint];
-    }
-    
-    SKSpriteNode *doneButton    = [SKSpriteNode spriteNodeWithTexture:[[SIConstants buttonAtlas] textureNamed:kSIImageButtonDone] size:CGSizeMake(size.width / 2.0f, size.width / 4.0f)];
-    doneButton.name             = kSINodeButtonDone;
-    doneButton.position         = CGPointMake(size.width / 2.0f, self.verticalNodeCenterPoint);
-    [self addChild:doneButton];
-    
-}
-- (void)addButton:(CGSize)size withSIIAPPack:(SIIAPPack)siiapPack withVerticalCenterPoints:(CGFloat)verticalNodeCenterPoint {
-    
-    NSArray *productArray = [MKStoreKit sharedKit].availableProducts;
-    
-    [SIIAPUtility productForSIIAPPack:siiapPack inPackArray:productArray withBlock:^(BOOL succeeded, SKProduct *product) {
-        if (succeeded) {
-            NSLog(@"Found IAP for SIIAPPack: %ld || Creating dynamic button",(long)siiapPack);
-            [self createButtonForProduct:product centerPoint:verticalNodeCenterPoint size:size siiapPack:siiapPack];
-        } else {
-            NSLog(@"Unable to find IAP for SIIAPPack: %ld || Creating static button",(long)siiapPack);
-            [self createButtonForSIIAPPack:siiapPack centerPoint:verticalNodeCenterPoint size:size];
-        }
-    }];
-}
-- (void)createButtonForProduct:(SKProduct *)product centerPoint:(CGFloat)verticalNodeCenterPoint size:(CGSize)size siiapPack:(SIIAPPack)siiapPack {
-    /*Main node... this is the button essentially*/
-    SKSpriteNode *mainNode                      = [SKSpriteNode spriteNodeWithColor:[SKColor mainColor] size:CGSizeMake(size.width - VERTICAL_SPACING_16, verticalNodeCenterPoint - VERTICAL_SPACING_8)];
-    mainNode.position                           = CGPointMake(size.width / 2.0f, verticalNodeCenterPoint + verticalNodeCenterPoint * (4 - siiapPack));
-    mainNode.name                               = [Game buttonNodeNameNodeForSIIAPPack:siiapPack];
-    [self addChild:mainNode];
-    
-    /*This is the product description*/
-    SKLabelNode *descriptionLabel               = [SKLabelNode labelNodeWithFontNamed:kSIFontFuturaMedium];
-    descriptionLabel.position                   = CGPointMake(0, 0); //CGPointMake(mainNode.frame.size.width / 2.0f, mainNode.frame.size.height - VERTICAL_SPACING_8);
-    descriptionLabel.text                       = [Game buttonTextForSIIAPPack:siiapPack];
-    descriptionLabel.fontSize                   = 16;
-    descriptionLabel.fontColor                  = [SKColor whiteColor];
-    descriptionLabel.name                       = [Game buttonNodeNameLabelPriceForSIIAPPack:siiapPack];
-    [mainNode addChild:descriptionLabel];
-    
-    /*This is the product price*/
-    SKLabelNode *priceLabel                     = [SKLabelNode labelNodeWithFontNamed:kSIFontFuturaMedium];
-    priceLabel.position                         = CGPointMake(0, -1.0f * descriptionLabel.frame.size.height); // CGPointMake(mainNode.frame.size.width / 2.0f, VERTICAL_SPACING_8);
-    priceLabel.text                             = [self.priceFormatter stringFromNumber:product.price];
-    priceLabel.fontSize                         = 14;
-    priceLabel.fontColor                        = [SKColor whiteColor];
-    priceLabel.name                             = [Game buttonNodeNameLabelPriceForSIIAPPack:siiapPack];
-    [mainNode addChild:priceLabel];
-    
-    /*This is the product price*/
-    SKLabelNode *amountOfItCoinsLabel           = [SKLabelNode labelNodeWithFontNamed:kSIFontFuturaMedium];
-    amountOfItCoinsLabel.position               = CGPointMake(0, descriptionLabel.frame.size.height); // CGPointMake(mainNode.frame.size.width / 2.0f, VERTICAL_SPACING_8);
-    amountOfItCoinsLabel.text                   = [NSString stringWithFormat:@"Value: %d IT Coins",[Game numberOfCoinsForSIIAPPack:siiapPack]];
-    amountOfItCoinsLabel.fontSize               = 14;
-    amountOfItCoinsLabel.fontColor              = [SKColor whiteColor];
-    amountOfItCoinsLabel.name                   = [Game buttonNodeNameLabelPriceForSIIAPPack:siiapPack];
-    [mainNode addChild:amountOfItCoinsLabel];
-}
-- (void)createButtonForSIIAPPack:(SIIAPPack)siiapPack centerPoint:(CGFloat)verticalNodeCenterPoint size:(CGSize)size {
-    /*Main node... this is the button essentially*/
-    SKSpriteNode *mainNode                      = [SKSpriteNode spriteNodeWithColor:[SKColor mainColor] size:CGSizeMake(size.width - VERTICAL_SPACING_16, verticalNodeCenterPoint - VERTICAL_SPACING_8)];
-    mainNode.position                           = CGPointMake(size.width / 2.0f, verticalNodeCenterPoint + verticalNodeCenterPoint * (siiapPack + 1));
-    mainNode.name                               = [Game buttonNodeNameNodeForSIIAPPack:siiapPack];
-    [self addChild:mainNode];
-    
-    /*This is the product description*/
-    SKLabelNode *descriptionLabel               = [SKLabelNode labelNodeWithFontNamed:kSIFontFuturaMedium];
-    descriptionLabel.position                   = CGPointMake(0, 0); //CGPointMake(mainNode.frame.size.width / 2.0f, mainNode.frame.size.height - VERTICAL_SPACING_8);
-    descriptionLabel.text                       = [Game buttonTextForSIIAPPack:siiapPack];
-    descriptionLabel.fontSize                   = 16;
-    descriptionLabel.fontColor                  = [SKColor whiteColor];
-    descriptionLabel.name                       = [Game buttonNodeNameLabelPriceForSIIAPPack:siiapPack];
-    [mainNode addChild:descriptionLabel];
-    
-    //        /*This is the product price*/
-    SKLabelNode *priceLabel                     = [SKLabelNode labelNodeWithFontNamed:kSIFontFuturaMedium];
-    priceLabel.position                         = CGPointMake(0, -1.0f * descriptionLabel.frame.size.height); // CGPointMake(mainNode.frame.size.width / 2.0f, VERTICAL_SPACING_8);
-    
-    priceLabel.text                             = [self.priceFormatter stringFromNumber:[SIIAPUtility productPriceForSIIAPPack:siiapPack]];
-    priceLabel.fontSize                         = 14;
-    priceLabel.fontColor                        = [SKColor whiteColor];
-    priceLabel.name                             = [Game buttonNodeNameLabelPriceForSIIAPPack:siiapPack];
-    [mainNode addChild:priceLabel];
-}
-- (void)touchesBegan:(nonnull NSSet<UITouch *> *)touches withEvent:(nullable UIEvent *)event {
-    UITouch *touch          = [touches anyObject];
-    CGPoint location        = [touch locationInNode:self];
-    NSArray *nodesAtPoint   = [self nodesAtPoint:location];
-    
-    for (SKNode *node in nodesAtPoint) {
-        if ([node.name isEqualToString:kSINodeButtonDone]) {
-            if (self.wasLaunchedFromMainMenu) {
-                StartScreenScene *startScene = [StartScreenScene sceneWithSize:self.size];
-                [Game transisitionToSKScene:startScene toSKView:self.view DoorsOpen:NO pausesIncomingScene:NO pausesOutgoingScene:NO duration:1.0];
-
-            } else {
-                EndGameScene *endScene = [EndGameScene sceneWithSize:self.size];
-                [Game transisitionToSKScene:endScene toSKView:self.view DoorsOpen:NO pausesIncomingScene:NO pausesOutgoingScene:NO duration:1.0];
-            }
-        } else {
-            for (int i = 0; i < NUMBER_OF_IAP_PACKS; i++) {
-                if ([StoreScene isNodeNode:node matchingSIIAPPack:(SIIAPPack)i]) {
-                    if (self.isPurchaseInProgress == NO) {
-                        self.isPurchaseInProgress = YES;
-                        SIIAPPack siiapPack = [Game siiapPackForNameNodeNode:node.name];
-                        [self packPurchaseRequest:siiapPack];
-                    }
-                }
-            }
-        }
-    }
 }
 #pragma mark - Class Methods
-- (void)packPurchaseRequest:(SIIAPPack)siiapPack {
+- (void)packPurchaseRequest:(SIIAPPack)siiapPack attemptNumber:(int)attemptNumber {
+    if (attemptNumber == 6) {
+        NSLog(@"Failed after 3 seconds.... ");
+        /*TODO: Throw error message about not being able to connect*/
+        // blah blah
+        _isPurchaseInProgress                   = NO;
+        return;
+    }
+    
     NSArray *productArray = [MKStoreKit sharedKit].availableProducts;
     
     if (productArray.count > 0) {
@@ -246,6 +286,11 @@
                 NSLog(@"Error: Could not find the SIIAPPack (%ld) after button touch for purchase",(long)siiapPack);
             }
         }];
+    } else {
+        NSLog(@"Trying Request Again....");
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [self packPurchaseRequest:siiapPack attemptNumber:attemptNumber + 1];
+        });
     }
 }
 - (void)changeCoinValue {
@@ -269,41 +314,7 @@
     [self.itCoinsLabel runAction:completeSequence];
 }
 
-- (void)registerForNotifications {
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(packPurchaseRequest:) name:kSINotificationPackPurchaseRequest object:nil];
-    [[NSNotificationCenter defaultCenter] addObserverForName:kMKStoreKitProductPurchasedNotification
-                                                      object:nil
-                                                       queue:[[NSOperationQueue alloc] init]
-                                                  usingBlock:^(NSNotification *note) {
-                                                      
-                                                      NSLog(@"Purchased/Subscribed to product with id: %@", [note object]);
-                                                      self.isPurchaseInProgress = NO;
-                                                      [self changeCoinValue];
-                                                      [self purchaseSuccess:YES titleText:@"Purchased!" infoText:@"Swype On!" duration:2.0f];
-                                                  }];
-    
-    [[NSNotificationCenter defaultCenter] addObserverForName:kMKStoreKitRestoredPurchasesNotification
-                                                      object:nil
-                                                       queue:[[NSOperationQueue alloc] init]
-                                                  usingBlock:^(NSNotification *note) {
-                                                      
-                                                      NSLog(@"Restored Purchases");
-                                                      self.isPurchaseInProgress = NO;
-                                                      [self changeCoinValue];
-                                                      [self purchaseSuccess:YES titleText:@"Restored!" infoText:@"" duration:2.0f];
-                                                  }];
-    
-    [[NSNotificationCenter defaultCenter] addObserverForName:kMKStoreKitRestoringPurchasesFailedNotification
-                                                      object:nil
-                                                       queue:[[NSOperationQueue alloc] init]
-                                                  usingBlock:^(NSNotification *note) {
-                                                      
-                                                      NSLog(@"Failed restoring purchases with error: %@", [note object]);
-                                                      self.isPurchaseInProgress = NO;
-                                                      [self purchaseSuccess:NO titleText:@"Failed." infoText:@"Try again later..." duration:1.0f];
 
-                                                  }];
-}
 - (void)purchaseSuccess:(BOOL)puchaseWasSuccessful titleText:(NSString *)titleText infoText:(NSString *)infoText duration:(CGFloat)duration {
     NSDictionary *userInfo          = @{kSINSDictionaryKeyHudWillAnimate            : @YES,
                                         kSINSDictionaryKeyHudWillShowCheckmark      : [NSNumber numberWithBool:puchaseWasSuccessful],
@@ -315,14 +326,5 @@
 
 }
 
-/**Checks to see if the node name is equal to the siiapPack*/
-+ (BOOL)isNodeNode:(SKNode *)node matchingSIIAPPack:(SIIAPPack)siiapPack {
-    /*Need to check node*/
-    if ([node.name isEqualToString:[Game buttonNodeNameNodeForSIIAPPack:siiapPack]]) {
-        return YES;
-    } else {
-        return NO;
-    }
-}
 
 @end

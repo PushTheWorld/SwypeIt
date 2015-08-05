@@ -269,6 +269,8 @@ static const uint32_t sideEdgeCategory      = 0x1 << 3; // 000000000000000000000
         [_progressBarFreeCoin   runAction:initFadeOut];
         [_progressBarMove       runAction:initFadeOut];
         [_progressBarPowerUp    runAction:initFadeOut];
+    } else {
+        [_progressBarPowerUp    runAction:initFadeOut];        
     }
     
     /**Power Up Buttons*/
@@ -492,7 +494,7 @@ static const uint32_t sideEdgeCategory      = 0x1 << 3; // 000000000000000000000
     }
 
 }
--(void)touchesBegan:(nonnull NSSet<UITouch *> *)touches withEvent:(nullable UIEvent *)event {
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
     UITouch *touch          = [touches anyObject];
     CGPoint location        = [touch locationInNode:self];
     SKNode *node            = [self nodeAtPoint:location];
@@ -858,7 +860,7 @@ static const uint32_t sideEdgeCategory      = 0x1 << 3; // 000000000000000000000
     CGFloat yLocation                       = self.frame.size.height + _fallingMonkeySize.height;
     
     /*Make Monkey*/
-    SKSpriteNode *monkey = [SKSpriteNode spriteNodeWithTexture:[[SIConstants buttonAtlas] textureNamed:kSIImageFallingMonkeys] size:_fallingMonkeySize];
+    SKSpriteNode *monkey                    = [SKSpriteNode spriteNodeWithTexture:[[SIConstants buttonAtlas] textureNamed:kSIImageFallingMonkeys] size:_fallingMonkeySize];
     monkey.position                         = CGPointMake(xLocation, yLocation);
     monkey.name                             = kSINodeFallingMonkey;
     monkey.physicsBody                      = [SKPhysicsBody bodyWithRectangleOfSize:_fallingMonkeySize];
@@ -967,4 +969,11 @@ static const uint32_t sideEdgeCategory      = 0x1 << 3; // 000000000000000000000
         }
     }
 }
+//- (SKSpriteNode *)powerupCostNode:(SIPowerUp)siPowerUp {
+//    int powerupCost = [Game costForPowerUp:siPowerUp];
+//    SKSpriteNode *costNode = [SKSpriteNode spriteNodeWithTexture:[[SIConstants buttonAtlas] textureNamed:kSIImageButtonTimeFreeze] size:CGSizeMake(_buttonSize.width * 0.25, _buttonSize.height * 0.25)];
+//    HLLabelButtonNode *labelNode = [[HLLabelButtonNode alloc] initWithColor:[UIColor redColor] size:CGSizeMake(_buttonSize.width * 0.25, _buttonSize.height * 0.25)];
+//    
+//
+//}
 @end

@@ -11,7 +11,6 @@
 		091470F91B6AF7D1006B0CC1 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 091470F81B6AF7D1006B0CC1 /* CoreTelephony.framework */; };
 		091470FB1B6AF7E0006B0CC1 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 091470FA1B6AF7E0006B0CC1 /* Foundation.framework */; };
 		091470FD1B6AF7E8006B0CC1 /* GLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 091470FC1B6AF7E8006B0CC1 /* GLKit.framework */; };
-		0917D45D1B6DAC270046B5FF /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0917D45C1B6DAC270046B5FF /* LaunchScreen.xib */; };
 		0917D4E61B6DD8240046B5FF /* HLComponentNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 0917D4B11B6DD8240046B5FF /* HLComponentNode.m */; };
 		0917D4E71B6DD8240046B5FF /* HLEmitterStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 0917D4B31B6DD8240046B5FF /* HLEmitterStore.m */; };
 		0917D4E81B6DD8240046B5FF /* HLGestureTarget.m in Sources */ = {isa = PBXBuildFile; fileRef = 0917D4B61B6DD8240046B5FF /* HLGestureTarget.m */; };
@@ -55,6 +54,7 @@
 		092720EF1B63A62D0005A6B6 /* TCProgressBarNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 092720EE1B63A62D0005A6B6 /* TCProgressBarNode.m */; };
 		092B470E1B521B7900AFE43C /* GameTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 092B470D1B521B7900AFE43C /* GameTests.m */; };
 		092B47101B52273A00AFE43C /* libOCMock.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 092B470F1B52273A00AFE43C /* libOCMock.a */; };
+		092DBE6D1B6F022E00328A6B /* shapes.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 092DBE6C1B6F022E00328A6B /* shapes.atlas */; };
 		09343DAA1B44BB1C00D1C707 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 09343DA91B44BB1C00D1C707 /* QuartzCore.framework */; };
 		096ABDCA1B6AF83A005B2F12 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 096ABDC91B6AF83A005B2F12 /* MessageUI.framework */; };
 		096ABDCC1B6AF843005B2F12 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 096ABDCB1B6AF843005B2F12 /* OpenGLES.framework */; };
@@ -72,6 +72,9 @@
 		096ABDF71B6B6ABB005B2F12 /* swypeItSound6.caf in Resources */ = {isa = PBXBuildFile; fileRef = 096ABDEE1B6B6ABB005B2F12 /* swypeItSound6.caf */; };
 		096ABDF81B6B6ABB005B2F12 /* swypeItSound7.caf in Resources */ = {isa = PBXBuildFile; fileRef = 096ABDEF1B6B6ABB005B2F12 /* swypeItSound7.caf */; };
 		097375461B57A97500BE1BCA /* BaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 097375451B57A97500BE1BCA /* BaseViewController.m */; };
+		0988CC941B70C82300BF429D /* SIStoreButtonNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 0988CC931B70C82300BF429D /* SIStoreButtonNode.m */; };
+		0988CC961B7203CA00BF429D /* Ultra.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0988CC951B7203CA00BF429D /* Ultra.ttf */; };
+		0988CC9B1B720F3B00BF429D /* images.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 0988CC9A1B720F3B00BF429D /* images.atlas */; };
 		098B3B431B378B89000D4702 /* AppSingleton.m in Sources */ = {isa = PBXBuildFile; fileRef = 098B3B421B378B89000D4702 /* AppSingleton.m */; };
 		098B3B471B378C27000D4702 /* Game.m in Sources */ = {isa = PBXBuildFile; fileRef = 098B3B461B378C27000D4702 /* Game.m */; };
 		098B3B4A1B378EC0000D4702 /* FXReachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 098B3B491B378EC0000D4702 /* FXReachability.m */; };
@@ -116,7 +119,6 @@
 		091470F81B6AF7D1006B0CC1 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
 		091470FA1B6AF7E0006B0CC1 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		091470FC1B6AF7E8006B0CC1 /* GLKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLKit.framework; path = System/Library/Frameworks/GLKit.framework; sourceTree = SDKROOT; };
-		0917D45C1B6DAC270046B5FF /* LaunchScreen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LaunchScreen.xib; sourceTree = "<group>"; };
 		0917D4B01B6DD8240046B5FF /* HLComponentNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HLComponentNode.h; sourceTree = "<group>"; };
 		0917D4B11B6DD8240046B5FF /* HLComponentNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HLComponentNode.m; sourceTree = "<group>"; };
 		0917D4B21B6DD8240046B5FF /* HLEmitterStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HLEmitterStore.h; sourceTree = "<group>"; };
@@ -200,6 +202,7 @@
 		092720EE1B63A62D0005A6B6 /* TCProgressBarNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCProgressBarNode.m; sourceTree = "<group>"; };
 		092B470D1B521B7900AFE43C /* GameTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameTests.m; sourceTree = "<group>"; };
 		092B470F1B52273A00AFE43C /* libOCMock.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libOCMock.a; path = usr/lib/libOCMock.a; sourceTree = "<group>"; };
+		092DBE6C1B6F022E00328A6B /* shapes.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = shapes.atlas; sourceTree = "<group>"; };
 		09343DA91B44BB1C00D1C707 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		096ABDC91B6AF83A005B2F12 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		096ABDCB1B6AF843005B2F12 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
@@ -217,6 +220,10 @@
 		096ABDEF1B6B6ABB005B2F12 /* swypeItSound7.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = swypeItSound7.caf; sourceTree = "<group>"; };
 		097375441B57A97500BE1BCA /* BaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseViewController.h; sourceTree = "<group>"; };
 		097375451B57A97500BE1BCA /* BaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseViewController.m; sourceTree = "<group>"; };
+		0988CC921B70C82300BF429D /* SIStoreButtonNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SIStoreButtonNode.h; sourceTree = "<group>"; };
+		0988CC931B70C82300BF429D /* SIStoreButtonNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SIStoreButtonNode.m; sourceTree = "<group>"; };
+		0988CC951B7203CA00BF429D /* Ultra.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Ultra.ttf; sourceTree = "<group>"; };
+		0988CC9A1B720F3B00BF429D /* images.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = images.atlas; sourceTree = "<group>"; };
 		098B3B411B378B89000D4702 /* AppSingleton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppSingleton.h; sourceTree = "<group>"; };
 		098B3B421B378B89000D4702 /* AppSingleton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = AppSingleton.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		098B3B451B378C27000D4702 /* Game.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Game.h; sourceTree = "<group>"; };
@@ -394,6 +401,7 @@
 				091FED731B37339D0071F8DC /* DataFiles */,
 				091FED721B372EE70071F8DC /* Images */,
 				09DB63991B56516700387C13 /* InAppPurchase */,
+				0988CC971B7203CE00BF429D /* Resources */,
 				099A622B1B5C6B41009BF339 /* Scenes */,
 				096ABDF91B6B6AC4005B2F12 /* Sounds */,
 				091FED461B37283E0071F8DC /* Supporting Files */,
@@ -409,7 +417,6 @@
 		091FED461B37283E0071F8DC /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				0917D45C1B6DAC270046B5FF /* LaunchScreen.xib */,
 				099A62321B5C8B12009BF339 /* Main.storyboard */,
 				091FED471B37283E0071F8DC /* Info.plist */,
 				091FED481B37283E0071F8DC /* main.m */,
@@ -464,8 +471,10 @@
 		091FED721B372EE70071F8DC /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				0988CC9A1B720F3B00BF429D /* images.atlas */,
 				09CAF9AB1B646F4C00466606 /* buttons.atlas */,
 				091FED531B37283E0071F8DC /* Images.xcassets */,
+				092DBE6C1B6F022E00328A6B /* shapes.atlas */,
 			);
 			name = Images;
 			sourceTree = "<group>";
@@ -501,6 +510,8 @@
 				099A62351B5C917A009BF339 /* CustomProgressBar.m */,
 				092720EA1B6388740005A6B6 /* ProgressBar.h */,
 				092720EB1B6388740005A6B6 /* ProgressBar.m */,
+				0988CC921B70C82300BF429D /* SIStoreButtonNode.h */,
+				0988CC931B70C82300BF429D /* SIStoreButtonNode.m */,
 			);
 			name = CustomUIClasses;
 			sourceTree = "<group>";
@@ -530,6 +541,14 @@
 				096ABDEF1B6B6ABB005B2F12 /* swypeItSound7.caf */,
 			);
 			name = Sounds;
+			sourceTree = "<group>";
+		};
+		0988CC971B7203CE00BF429D /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				0988CC951B7203CA00BF429D /* Ultra.ttf */,
+			);
+			name = Resources;
 			sourceTree = "<group>";
 		};
 		098B3B441B378B8F000D4702 /* 000 - GameSingleton */ = {
@@ -739,6 +758,7 @@
 				096ABDF61B6B6ABB005B2F12 /* swypeItSound5.caf in Resources */,
 				092113B01B6B787B005F7D8B /* swypeItFXChaChing.caf in Resources */,
 				096ABDF21B6B6ABB005B2F12 /* swypeItSound1.caf in Resources */,
+				092DBE6D1B6F022E00328A6B /* shapes.atlas in Resources */,
 				096ABDF71B6B6ABB005B2F12 /* swypeItSound6.caf in Resources */,
 				09DB639E1B56525100387C13 /* MKStoreKitConfigs.plist in Resources */,
 				096ABDF41B6B6ABB005B2F12 /* swypeItSound3.caf in Resources */,
@@ -748,8 +768,9 @@
 				092113B11B6B787B005F7D8B /* swypeItFXInitalize.caf in Resources */,
 				091FED541B37283E0071F8DC /* Images.xcassets in Resources */,
 				096ABDF31B6B6ABB005B2F12 /* swypeItSound2.caf in Resources */,
-				0917D45D1B6DAC270046B5FF /* LaunchScreen.xib in Resources */,
+				0988CC9B1B720F3B00BF429D /* images.atlas in Resources */,
 				096ABDF11B6B6ABB005B2F12 /* swypeItGameOver.caf in Resources */,
+				0988CC961B7203CA00BF429D /* Ultra.ttf in Resources */,
 				096ABDF81B6B6ABB005B2F12 /* swypeItSound7.caf in Resources */,
 				096ABDF01B6B6ABB005B2F12 /* menuSound.caf in Resources */,
 			);
@@ -832,6 +853,7 @@
 				098B3B4A1B378EC0000D4702 /* FXReachability.m in Sources */,
 				09DB639C1B5651C100387C13 /* MKStoreKit.m in Sources */,
 				0917D4E61B6DD8240046B5FF /* HLComponentNode.m in Sources */,
+				0988CC941B70C82300BF429D /* SIStoreButtonNode.m in Sources */,
 				098B3B471B378C27000D4702 /* Game.m in Sources */,
 				0917D4F11B6DD8240046B5FF /* HLMessageNode.m in Sources */,
 				097375461B57A97500BE1BCA /* BaseViewController.m in Sources */,
@@ -987,6 +1009,7 @@
 			baseConfigurationReference = 515AAE4709C37B6475D12AF4 /* Pods.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon.dev;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				BUNDLE_ID_SUFFIX = .dev;
 				CODE_SIGN_IDENTITY = "iPhone Developer: Andrew Keller (4QBKTXP3K7)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Andrew Keller (4QBKTXP3K7)";
@@ -996,7 +1019,7 @@
 					"$(inherited)",
 				);
 				INFOPLIST_FILE = "Swype It/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.pushtheworldllc.swipeit.dev;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1009,6 +1032,7 @@
 			baseConfigurationReference = 250606D5461711E9FC89BC0E /* Pods.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon.dev;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				BUNDLE_ID_SUFFIX = "";
 				CODE_SIGN_IDENTITY = "iPhone Developer: Andrew Keller (4QBKTXP3K7)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Andrew Keller (4QBKTXP3K7)";
@@ -1018,7 +1042,7 @@
 					"$(inherited)",
 				);
 				INFOPLIST_FILE = "Swype It/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.pushtheworldllc.swipeit.dev;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1143,6 +1167,7 @@
 			baseConfigurationReference = 250606D5461711E9FC89BC0E /* Pods.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon.dev;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				BUNDLE_ID_SUFFIX = .beta;
 				CODE_SIGN_IDENTITY = "iPhone Developer: Andrew Keller (4QBKTXP3K7)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Andrew Keller (4QBKTXP3K7)";
@@ -1152,7 +1177,7 @@
 					"$(inherited)",
 				);
 				INFOPLIST_FILE = "Swype It/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.pushtheworldllc.swipeit.dev;
 				PRODUCT_NAME = "$(TARGET_NAME)";
