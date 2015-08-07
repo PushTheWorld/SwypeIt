@@ -36,13 +36,13 @@ enum {
 }
 + (CGFloat)cornerRadius {
     if (IS_IPHONE_4) {
-        return 4.0;
+        return 8.0;
     } else if (IS_IPHONE_5) {
-        return 5.0;
+        return 8.0;
     } else if (IS_IPHONE_6) {
-        return 6.0;
+        return 8.0;
     } else if (IS_IPHONE_6_PLUS) {
-        return 7.0;
+        return 8.0;
     } else {
         return 8.0;
     }
@@ -53,7 +53,7 @@ enum {
     } else if (IS_IPHONE_5) {
         return 20.0;
     } else if (IS_IPHONE_6) {
-        return 24.0;
+        return 20.0;
     } else if (IS_IPHONE_6_PLUS) {
         return 28.0;
     } else {
@@ -70,9 +70,9 @@ enum {
     self = [super init];
     if (self) {
         /*Set Defaults*/
-        _size   = size;
-        _text   = buttonName;
-        _pack   = pack;
+        _size               = size;
+        _text               = buttonName;
+        _pack               = pack;
         
         /*Run Initialization*/
         [self initSetup:size];
@@ -101,7 +101,6 @@ enum {
 - (void)createControlsWithSize:(CGSize)size {
     /**Preform all your alloc/init's here*/
     _backgroundNode                         = [SKSpriteNode spriteNodeWithColor:[UIColor mainColor] size:size];
-    _backgroundNode.anchorPoint             = CGPointMake(0.5, 0.5);
     
     _imageNode                              = [SKSpriteNode spriteNodeWithTexture:[[SIConstants imagesAtlas] textureNamed:[SIIAPUtility imageNameForSIIAPPack:_pack]] size:_imageSize];
     
@@ -117,14 +116,15 @@ enum {
     _backgroundNode.texture                 = [Game textureBackgroundColor:[UIColor mainColor]
                                                                       size:size
                                                               cornerRadius:[SIStoreButtonNode cornerRadius]
-                                                               borderWidth:4.0
+                                                               borderWidth:8.0
                                                                borderColor:[UIColor blackColor]];
     _backgroundNode.zPosition               = SIStoreButtonNodeZPositionLayerBackground;
+    _backgroundNode.anchorPoint             = CGPointMake(1, 0.5);
     
     _imageNode.zPosition                    = SIStoreButtonNodeZPositionLayerLabel;
     
     _valueLabelNode.text                    = [NSString stringWithFormat:@"%d IT Coins",[Game numberOfCoinsForSIIAPPack:_pack]];
-    _valueLabelNode.fontSize                = [SIStoreButtonNode fontSizeLarge];
+    _valueLabelNode.fontSize                = [SIStoreButtonNode fontSizeSmall];
     _valueLabelNode.fontColor               = [SKColor goldColor];
     _valueLabelNode.verticalAlignmentMode   = SKLabelVerticalAlignmentModeCenter;
     _valueLabelNode.horizontalAlignmentMode = SKLabelHorizontalAlignmentModeCenter;
@@ -147,19 +147,34 @@ enum {
 }
 - (void)layoutControlsWithSize:(CGSize)size {
     /**Layout those controls*/
+    CGFloat xImage                          = -3.2f * (_backgroundNode.frame.size.width / 4.0f);
+    CGFloat xLabels                         = -1.1f * (_backgroundNode.frame.size.width / 3.0f);
     _backgroundNode.position                = CGPointMake(size.width / 2.0f, size.height / 2.0f);
     [self addChild:_backgroundNode];
     
-    _imageNode.position                     = CGPointMake(size.width - (size.width / 3.0f), 0.0f);
     [_backgroundNode addChild:_imageNode];
-
-    _valueLabelNode.position                = CGPointMake(size.width + (size.width / 3.0f), 0.0f);
     [_backgroundNode addChild:_valueLabelNode];
-    
-    _titleLabelNode.position                = CGPointMake(_valueLabelNode.frame.size.height, 0.0f);
     [_backgroundNode addChild:_titleLabelNode];
-
-    _priceLabelNode.position                = CGPointMake(-1.0f * _valueLabelNode.frame.size.height, 0.0f);
     [_backgroundNode addChild:_priceLabelNode];
+
+    
+    _imageNode.position                     = CGPointMake(xImage, 0.0f);
+
+    _valueLabelNode.position                = CGPointMake(xLabels, 0.0f);
+
+    _titleLabelNode.position                = CGPointMake(xLabels, _valueLabelNode.frame.size.height + VERTICAL_SPACING_4);
+
+    _priceLabelNode.position                = CGPointMake(xLabels, -1.0f * (_valueLabelNode.frame.size.height + VERTICAL_SPACING_4));
+}
+
+- (void)setAnchorPoint:(CGPoint)anchorPoint
+{
+    _backgroundNode.anchorPoint = anchorPoint;
+
+}
+
+- (CGPoint)anchorPoint
+{
+    return _backgroundNode.anchorPoint;
 }
 @end

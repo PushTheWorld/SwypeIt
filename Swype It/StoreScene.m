@@ -87,7 +87,7 @@
     /**Preform all your alloc/init's here*/
     _titleLabel                     = [MainViewController SI_sharedLabelHeader:@"Store"];
     
-    _itCoinsLabel                   = [MainViewController SI_sharedLabelParagraph1:[NSString stringWithFormat:@"You have %d IT Coins",[[[MKStoreKit sharedKit] availableCreditsForConsumable:kSIIAPConsumableIDCoins] intValue]]];
+    _itCoinsLabel                   = [MainViewController SI_sharedLabelParagraph4:[NSString stringWithFormat:@"Bank: %d IT Coins",[[[MKStoreKit sharedKit] availableCreditsForConsumable:kSIIAPConsumableIDCoins] intValue]]];
 
     
     /*Menu Node*/
@@ -100,9 +100,9 @@
     _menuNode.delegate                              = self;
     _menuNode.itemAnimation                         = HLMenuNodeAnimationSlideLeft;
     _menuNode.itemAnimationDuration                 = _buttonAnimationDuration;
-//    _menuNode.itemButtonPrototype                   = [[SIStoreButtonNode alloc] initWithSize:[MainViewController buttonSize:size] buttonName:[Game buttonNodeNameNodeForSIIAPPack:SIIAPPackSmall] SIIAPPack:SIIAPPackSmall];
+    _menuNode.itemButtonPrototype                   = [[SIStoreButtonNode alloc] initWithSize:[MainViewController buttonSize:size] buttonName:[Game buttonNodeNameNodeForSIIAPPack:SIIAPPackSmall] SIIAPPack:SIIAPPackSmall];
     _menuNode.backItemButtonPrototype               = [MainViewController SI_sharedMenuButtonPrototypeBack:[MainViewController buttonSize:size]];
-    _menuNode.itemSeparatorSize                     = _buttonSpacing;
+    _menuNode.itemSeparatorSize                     = _buttonSpacing + [MainViewController buttonSize:size].height;
     _menuNode.anchorPoint                           = CGPointMake(0.5, 0);
 
     
@@ -110,11 +110,12 @@
 - (void)layoutControlsWithSize:(CGSize)size {
     /**Layout those controls*/
     /*Title Label*/
-    _titleLabel.position       = CGPointMake((size.width / 2.0f),
-                                             size.height - _titleLabel.frame.size.height - VERTICAL_SPACING_8);
+    _titleLabel.position                            = CGPointMake((size.width / 2.0f),
+                                                                  size.height - _titleLabel.frame.size.height - VERTICAL_SPACING_8);
     [self addChild:_titleLabel];
     
-    _itCoinsLabel.position                  = CGPointMake((size.width / 2.0f), size.height - VERTICAL_SPACING_8 - _titleLabel.frame.size.height - VERTICAL_SPACING_8);
+    _itCoinsLabel.position                          = CGPointMake((size.width / 2.0f),
+                                                                  _titleLabel.frame.origin.y - (_titleLabel.frame.size.height / 2.0f) - (_itCoinsLabel.frame.size.height / 2.0f) );
     [self addChild:_itCoinsLabel];
     
     /*Menu Node*/
@@ -164,22 +165,23 @@
     HLMenu *menu = [[HLMenu alloc] init];
     
     /*Add the regular buttons*/
-    HLMenuItem *item1       = [HLMenuItem menuItemWithText:[Game buttonNodeNameNodeForSIIAPPack:SIIAPPackSmall]];
-    item1.buttonPrototype   = [[SIStoreButtonNode alloc] initWithSize:[MainViewController buttonSize:size] buttonName:[Game buttonNodeNameNodeForSIIAPPack:SIIAPPackSmall] SIIAPPack:SIIAPPackSmall];
-    [menu addItem:item1];
+    HLMenuItem *item1           = [HLMenuItem menuItemWithText:[Game buttonNodeNameNodeForSIIAPPack:SIIAPPackExtraLarge]];
+    item1.buttonPrototype       = [[SIStoreButtonNode alloc] initWithSize:[MainViewController buttonSize:size] buttonName:[Game buttonNodeNameNodeForSIIAPPack:SIIAPPackExtraLarge] SIIAPPack:SIIAPPackExtraLarge];
 
-    HLMenuItem *item2       = [HLMenuItem menuItemWithText:[Game buttonNodeNameNodeForSIIAPPack:SIIAPPackMedium]];
-    item2.buttonPrototype   = [[SIStoreButtonNode alloc] initWithSize:[MainViewController buttonSize:size] buttonName:[Game buttonNodeNameNodeForSIIAPPack:SIIAPPackMedium] SIIAPPack:SIIAPPackMedium];
-    [menu addItem:item2];
+    HLMenuItem *item2       = [HLMenuItem menuItemWithText:[Game buttonNodeNameNodeForSIIAPPack:SIIAPPackLarge]];
+    item2.buttonPrototype   = [[SIStoreButtonNode alloc] initWithSize:[MainViewController buttonSize:size] buttonName:[Game buttonNodeNameNodeForSIIAPPack:SIIAPPackLarge] SIIAPPack:SIIAPPackLarge];
     
-    HLMenuItem *item3       = [HLMenuItem menuItemWithText:[Game buttonNodeNameNodeForSIIAPPack:SIIAPPackLarge]];
-    item3.buttonPrototype   = [[SIStoreButtonNode alloc] initWithSize:[MainViewController buttonSize:size] buttonName:[Game buttonNodeNameNodeForSIIAPPack:SIIAPPackLarge] SIIAPPack:SIIAPPackLarge];
-    [menu addItem:item3];
-    
-    HLMenuItem *item4       = [HLMenuItem menuItemWithText:[Game buttonNodeNameNodeForSIIAPPack:SIIAPPackExtraLarge]];
-    item4.buttonPrototype   = [[SIStoreButtonNode alloc] initWithSize:[MainViewController buttonSize:size] buttonName:[Game buttonNodeNameNodeForSIIAPPack:SIIAPPackExtraLarge] SIIAPPack:SIIAPPackExtraLarge];
+    HLMenuItem *item3       = [HLMenuItem menuItemWithText:[Game buttonNodeNameNodeForSIIAPPack:SIIAPPackMedium]];
+    item3.buttonPrototype   = [[SIStoreButtonNode alloc] initWithSize:[MainViewController buttonSize:size] buttonName:[Game buttonNodeNameNodeForSIIAPPack:SIIAPPackMedium] SIIAPPack:SIIAPPackMedium];
+
+    HLMenuItem *item4       = [HLMenuItem menuItemWithText:[Game buttonNodeNameNodeForSIIAPPack:SIIAPPackSmall]];
+    item4.buttonPrototype   = [[SIStoreButtonNode alloc] initWithSize:[MainViewController buttonSize:size] buttonName:[Game buttonNodeNameNodeForSIIAPPack:SIIAPPackSmall] SIIAPPack:SIIAPPackSmall];
+
     [menu addItem:item4];
-
+    [menu addItem:item3];
+    [menu addItem:item2];
+    [menu addItem:item1];
+    
     
     /*Add the Back Button... Need to change the prototype*/
     HLMenuItem *resumeItem = [HLMenuItem menuItemWithText:kSIMenuTextBack];
@@ -187,6 +189,7 @@
     [menu addItem:resumeItem];
     
     [_menuNode setMenu:menu animation:HLMenuNodeAnimationNone];
+//    [_menuNode redisplayMenuAnimation:HLMenuNodeAnimationNone];
 }
 #pragma mark - HLMenuNodeDelegate
 - (void)menuNode:(HLMenuNode *)menuNode didTapMenuItem:(HLMenuItem *)menuItem itemIndex:(NSUInteger)itemIndex {

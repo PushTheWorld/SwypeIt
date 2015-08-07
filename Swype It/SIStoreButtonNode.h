@@ -46,6 +46,13 @@
 @property (nonatomic, assign) CGSize size;
 
 /**
+ Specifies the anchor point of the button.
+ 
+ Default value `(0.5,0.5)`.
+ */
+@property (nonatomic, assign) CGPoint anchorPoint;
+
+/**
  The image to be used
  */
 @property (nonatomic, strong) UIImage *nodeImage;
@@ -74,6 +81,5 @@
  The SIIAP being called
  */
 @property (nonatomic, assign) SIIAPPack pack;
-
 
 @end

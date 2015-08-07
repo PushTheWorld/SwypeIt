@@ -84,7 +84,7 @@
     /**Preform all your alloc/init's here*/
     _welcomeLabel                           = [MainViewController SI_sharedLabelHeader:@"Welcome"];
     
-    _gameTitleLabel                         = [MainViewController SI_sharedLabelParagraph1:@"Swype It 2.0 Beta"];
+    _gameTitleLabel                         = [MainViewController SI_sharedLabelParagraph3:@"Swype It 2.0 Beta"];
     
     /*Menu Node*/
     _menuNode                           = [[HLMenuNode alloc] init];
