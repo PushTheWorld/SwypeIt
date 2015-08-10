@@ -35,6 +35,8 @@
 
 @implementation SettingsScene {
     BOOL         _contentCreated;
+    BOOL         _shouldRespondToTap;
+    
     CGFloat      _fontSize;
     NSString    *_buttonSoundBackgroundText;
     NSString    *_buttonSoundFXText;
@@ -94,6 +96,8 @@
 //    _buttonSize                     = CGSizeMake(size.width / buttonSizeDivder, (size.width / buttonSizeDivder) * 0.25);
     _buttonSpacing                  = [MainViewController buttonSize:size].height * 0.25;
     _buttonAnimationDuration        = 0.25f;
+    
+    _shouldRespondToTap             = YES;
 }
 - (void)createControlsWithSize:(CGSize)size {
     /**Preform all your alloc/init's here*/
@@ -169,10 +173,14 @@
         [self changeFXSoundIsAllowed:menuItem];
     }
 }
+-(BOOL)menuNode:(HLMenuNode *)menuNode shouldTapMenuItem:(HLMenuItem *)menuItem itemIndex:(NSUInteger)itemIndex {
+    return _shouldRespondToTap;
+}
 #pragma mark - Private Methods
 - (void)goBack {
+    _shouldRespondToTap = NO;
     StartScreenScene *startScene = [StartScreenScene sceneWithSize:self.frame.size];
-    [Game transisitionToSKScene:startScene toSKView:self.view DoorsOpen:NO pausesIncomingScene:NO pausesOutgoingScene:YES duration:0.5f];
+    [Game transisitionToSKScene:startScene toSKView:self.view DoorsOpen:NO pausesIncomingScene:YES pausesOutgoingScene:YES duration:SCENE_TRANSISTION_DURATION];
 }
 - (void)resetHighScore {
     NSDictionary *userInfo          = @{kSINSDictionaryKeyHudWillAnimate            : @YES,

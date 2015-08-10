@@ -283,7 +283,7 @@
 }
 #pragma mark - Timer Methods
 - (void)captureTime {
-    NSLog(@"Capture time...");
+//    NSLog(@"Capture time...");
     self.moveStartTimeInMiliSeconds = self.compositeTimeInMiliSeconds;
 }
 - (void)startTimer {
@@ -298,7 +298,7 @@
     /*Update the master timer*/
     [self updateCompositeTime];
     
-    if (self.isPaused == NO) {
+    if (self.currentGame.isPaused == NO) {
         /*Calculate new time*/
 //        NSLog(@"Comp Time: %0.2f || Move Start Time: %0.2f || Difference: %0.2f",self.compositeTimeInMiliSeconds,self.moveStartTimeInMiliSeconds,(self.compositeTimeInMiliSeconds - self.moveStartTimeInMiliSeconds));
         float durationOfLastMove                    = (self.compositeTimeInMiliSeconds - self.moveStartTimeInMiliSeconds) * self.timeFreezeMultiplyer;
@@ -313,6 +313,10 @@
         
         /*Get the new percentage for score*/
         self.currentGame.moveScorePercentRemaining  = self.currentGame.moveScore / MAX_MOVE_SCORE;
+        
+        
+        NSNotification *notification    = [[NSNotification alloc] initWithName:kSINotificationScoreUpdate object:nil userInfo:nil];
+        [[NSNotificationCenter defaultCenter] postNotification:notification];
 
     }
 //    NSLog(@"MovePercentRemaining: %0.2f",self.currentGame.moveScorePercentRemaining);
@@ -327,9 +331,7 @@
             self.currentGame.powerUpPercentRemaining    = powerUpPercent;
         }
     }
-    
-    NSNotification *notification    = [[NSNotification alloc] initWithName:kSINotificationScoreUpdate object:nil userInfo:nil];
-    [[NSNotificationCenter defaultCenter] postNotification:notification];
+
 }
 /*updateCompositeTime gets updated every time updateTimeAndScore does*/
 - (void)updateCompositeTime {
@@ -365,7 +367,7 @@
         
         /*DEBUG Print the new value*/
         NSNumber *newCoinAmount = [[MKStoreKit sharedKit] availableCreditsForConsumable:kSIIAPConsumableIDCoins];
-        NSLog(@"Old Coin Value: %@ || New Coin Value: %@",oldCoinAmount,newCoinAmount);
+//        NSLog(@"Old Coin Value: %@ || New Coin Value: %@",oldCoinAmount,newCoinAmount);
     }
 }
 /*This is the 6th step. The UI View controller did react to the powerup*/

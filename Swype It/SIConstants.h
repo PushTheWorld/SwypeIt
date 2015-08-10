@@ -58,7 +58,12 @@
 #define mSlope                      -7/240
 #define SCORE_EXP_POWER_WEIGHT      -0.001205
 #define MAX_MOVE_SCORE              10.78457
+#define SPEED_TRANSISTION_SCORE     8629.55
 #define TIMER_INTERVAL              1/30
+#define SPEED_LOG_INTERCEPT         4.418243235
+#define SPEED_LOG_MULTIPLIER        -0.383625766
+#define SPEED_POWER_EXPONENT        -0.22291709
+#define SPEED_POWER_MULTIPLIER      7.07850289
 #define LEVEL_SPEED_DIV_MULT        -0.384
 #define LEVEL_SPEED_INTERCEPT       4.4182
 #define VALUE_OF_MONKEY             25
@@ -72,6 +77,8 @@
 #define IAP_PACK_PRICE_MEDIUM       04.99
 #define IAP_PACK_PRICE_LARGE        09.99
 #define IAP_PACK_PRICE_EXTRA_LARGE  24.99
+
+#define SCENE_TRANSISTION_DURATION  0.5
 
 typedef NS_ENUM(NSInteger, SIGameMode) {
     SIGameModeOneHand,
@@ -172,6 +179,7 @@ extern NSString *const kSINSUserDefaultLifetimeHighScore;
 extern NSString *const kSINSUserDefaultLifetimeGamesPlayed;
 extern NSString *const kSINSUserDefaultLifetimePointsEarned;
 extern NSString *const kSINSUserDefaultGameMode;
+extern NSString *const kSINSUserDefaultPremiumUser;
 extern NSString *const kSINSUserDefaultPointsTowardsFreeCoin;
 extern NSString *const kSINSUserDefaultPowerUpReadyFallingMonkeys;
 extern NSString *const kSINSUserDefaultPowerUpReadyRapidFire;
@@ -187,10 +195,17 @@ extern NSString *const kSIPowerUpTimeFreeze;
 extern NSString *const kSIPowerUpRapidFire;
 
 #pragma mark - NSNotification
+extern NSString *const kSINotificationInterstitialAdFinish;
+extern NSString *const kSINotificationInterstitialAdShallLaunch;
 extern NSString *const kSINotificationFreeCoinEarned;
 extern NSString *const kSINotificationCorrectMove;
 extern NSString *const kSINotificationHudHide;
 extern NSString *const kSINotificationHudShow;
+extern NSString *const kSINotificationGameContinueUseAD;
+extern NSString *const kSINotificationGameContinueUseCancel;
+extern NSString *const kSINotificationGameContinueUseCoins;
+extern NSString *const kSINotificationGameContinueUseLaunchStore;
+extern NSString *const kSINotificationGameContinueUsePopup;
 extern NSString *const kSINotificationGameEnded;
 extern NSString *const kSINotificationGameResumed;
 extern NSString *const kSINotificationGameStarted;
@@ -209,8 +224,11 @@ extern NSString *const kSIScoreTotalScore;
 extern NSString *const kSIScoreNextMove;
 
 #pragma mark - Images
+extern NSString *const kSIImageBackgroundDiamondPlate;
+extern NSString *const kSIImageButtonCoinSmall;
 extern NSString *const kSIImageButtonContinue;
 extern NSString *const kSIImageButtonContinueGrayed;
+extern NSString *const kSIImageButtonCross;
 extern NSString *const kSIImageButtonDone;
 extern NSString *const kSIImageButtonFallingMonkey;
 extern NSString *const kSIImageButtonGameModeOneHand;
@@ -242,6 +260,8 @@ extern NSString *const kSIButtonLabelStringOneHand;
 extern NSString *const kSIButtonLabelStringTwoHand;
 
 #pragma mark - NSDictionary Keys
+extern NSString *const kSINSDictionaryKeyCanAfford;
+extern NSString *const kSINSDictionaryKeyCanAffordCost;
 extern NSString *const kSINSDictionaryKeyHudHoldDismissForDuration;
 extern NSString *const kSINSDictionaryKeyHudMessageDismissInfo;
 extern NSString *const kSINSDictionaryKeyHudMessageDismissTitle;
@@ -300,6 +320,7 @@ extern NSString *const kSINodeFallingMonkey;
 
 
 #pragma mark - Fonts
+extern NSString *const kSIFontGameScore;
 extern NSString *const kSIFontFuturaMedium;
 extern NSString *const kSIFontUltra;
 

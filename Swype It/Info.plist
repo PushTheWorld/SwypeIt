@@ -10,6 +10,8 @@
 	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
 	<key>UIAppFonts</key>
 	<array>
+		<string>LongIslandContour.otf</string>
+		<string>LongIsland-Shadow.otf</string>
 		<string>Ultra.ttf</string>
 	</array>
 	<key>CFBundleInfoDictionaryVersion</key>

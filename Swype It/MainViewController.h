@@ -15,20 +15,33 @@
 @interface MainViewController : UIViewController
 + (CGFloat)             fontSizeButton;
 + (CGFloat)             fontSizeHeader;
-+ (CGFloat)             fontSizeParagraph1;
-+ (CGFloat)             fontSizeParagraph2;
-+ (CGFloat)             fontSizeParagraph3;
-+ (CGFloat)             fontSizeParagraph4;
++ (CGFloat)             fontSizeHeader_x2;
++ (CGFloat)             fontSizeHeader_x3;
++ (CGFloat)             fontSizeParagraph;
++ (CGFloat)             fontSizeParagraph_x2;
++ (CGFloat)             fontSizeParagraph_x3;
++ (CGFloat)             fontSizeParagraph_x4;
++ (CGFloat)             fontSizeText;
++ (CGFloat)             fontSizeText_x2;
++ (CGFloat)             fontSizeText_x3;
 
 + (CGSize)              buttonSize:(CGSize)size;
 
 + (HLLabelButtonNode *) SI_sharedMenuButtonPrototypeBack:(CGSize)size;
 + (HLLabelButtonNode *) SI_sharedMenuButtonPrototypeBasic:(CGSize)size fontSize:(CGFloat)fontSize;
-+ (HLLabelButtonNode *) SI_sharedMenuButtonPrototypeBasic:(CGSize)size fontSize:(CGFloat)fontSize backgroundColor:(SKColor *)backgroundColor fontColor:(UIColor *)fontColor;
++ (HLLabelButtonNode *) SI_sharedMenuButtonPrototypeBasic:(CGSize)size fontSize:(CGFloat)fontSize backgroundColor:(UIColor *)backgroundColor fontColor:(UIColor *)fontColor;
 
 + (SKLabelNode *)       SI_sharedLabelHeader:(NSString *)text;
-+ (SKLabelNode *)       SI_sharedLabelParagraph1:(NSString *)text;
-+ (SKLabelNode *)       SI_sharedLabelParagraph2:(NSString *)text;
-+ (SKLabelNode *)       SI_sharedLabelParagraph3:(NSString *)text;
-+ (SKLabelNode *)       SI_sharedLabelParagraph4:(NSString *)text;
++ (SKLabelNode *)       SI_sharedLabelHeader_x2:(NSString *)text;
++ (SKLabelNode *)       SI_sharedLabelHeader_x3:(NSString *)text;
++ (SKLabelNode *)       SI_sharedLabelParagraph:(NSString *)text;
++ (SKLabelNode *)       SI_sharedLabelParagraph_x2:(NSString *)text;
++ (SKLabelNode *)       SI_sharedLabelParagraph_x3:(NSString *)text;
++ (SKLabelNode *)       SI_sharedLabelParagraph_x4:(NSString *)text;
+
+- (void)bannerAdHide;
+- (void)bannerAdShow;
+
+@property (nonatomic, assign) BOOL  premiumUser;
+
 @end

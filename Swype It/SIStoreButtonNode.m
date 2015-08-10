@@ -51,13 +51,13 @@ enum {
     if (IS_IPHONE_4) {
         return 16.0;
     } else if (IS_IPHONE_5) {
-        return 20.0;
+        return 16.0;
     } else if (IS_IPHONE_6) {
         return 20.0;
     } else if (IS_IPHONE_6_PLUS) {
-        return 28.0;
+        return 22.0;
     } else {
-        return 32.0;
+        return 26.0;
     }
 }
 + (CGFloat)fontSizeMedium {
@@ -122,6 +122,7 @@ enum {
     _backgroundNode.anchorPoint             = CGPointMake(1, 0.5);
     
     _imageNode.zPosition                    = SIStoreButtonNodeZPositionLayerLabel;
+    _imageNode.anchorPoint                  = CGPointMake(0.5, 0.5);
     
     _valueLabelNode.text                    = [NSString stringWithFormat:@"%d IT Coins",[Game numberOfCoinsForSIIAPPack:_pack]];
     _valueLabelNode.fontSize                = [SIStoreButtonNode fontSizeSmall];
@@ -147,7 +148,7 @@ enum {
 }
 - (void)layoutControlsWithSize:(CGSize)size {
     /**Layout those controls*/
-    CGFloat xImage                          = -3.2f * (_backgroundNode.frame.size.width / 4.0f);
+    CGFloat xImage                          = -3.3f * (_backgroundNode.frame.size.width / 4.0f);
     CGFloat xLabels                         = -1.1f * (_backgroundNode.frame.size.width / 3.0f);
     _backgroundNode.position                = CGPointMake(size.width / 2.0f, size.height / 2.0f);
     [self addChild:_backgroundNode];

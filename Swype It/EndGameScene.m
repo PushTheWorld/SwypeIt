@@ -37,12 +37,12 @@
 @end
 
 @implementation EndGameScene {
+    BOOL    _shouldRespondToTap;
     BOOL    _userCanAffordContinue;
     BOOL    _userCanTap;
+    
     CGFloat _buttonAnimationDuration;
     CGFloat _buttonSpacing;
-//    CGFloat _fontSize;
-//    CGSize  _buttonSize;
 }
 #pragma mark - Scene Life Cycle
 - (instancetype)initWithSize:(CGSize)size {
@@ -60,6 +60,7 @@
 }
 - (void)willMoveFromView:(nonnull SKView *)view {
     /**Do any breakdown prior to the view being unloaded*/
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
     
     /*Resume move from view*/
     [super willMoveFromView:view];
@@ -73,6 +74,10 @@
 }
 - (void)viewSetup:(SKView *)view {
     /**Preform setup post-view load*/
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(adDidFinish)          name:kSINotificationInterstitialAdFinish        object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(continueCoins)        name:kSINotificationGameContinueUseCoins        object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(continueLaunchStore)  name:kSINotificationGameContinueUseLaunchStore  object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(continueCancel)       name:kSINotificationGameContinueUseCancel       object:nil];
     
 }
 #pragma mark Scene Setup
@@ -82,26 +87,30 @@
 //    _buttonSize                             = CGSizeMake(size.width / 1.25f, (size.width / 1.25f) * 0.25f);
     _buttonSpacing                          = [MainViewController buttonSize:size].height * 0.25f;
     _buttonAnimationDuration                = 0.5f;
+    
+    _shouldRespondToTap                     = YES;
+
+    
 }
 - (void)createControlsWithSize:(CGSize)size {
     /**Preform all your alloc/init's here*/
-    _gameOverLabel                          = [MainViewController SI_sharedLabelHeader:@"Game Over!"];
-    _gameScoreLabel                         = [MainViewController SI_sharedLabelParagraph1:[NSString stringWithFormat:@"Score: %0.2f", [AppSingleton singleton].currentGame.totalScore]];
-    _itCoinsLabel                           = [MainViewController SI_sharedLabelParagraph4:[NSString stringWithFormat:@"Total It Coins: %d",[[[MKStoreKit sharedKit] availableCreditsForConsumable:kSIIAPConsumableIDCoins ] intValue]]];
+    _gameOverLabel                          = [MainViewController SI_sharedLabelHeader_x2:@"Game Over!"];
+    _gameScoreLabel                         = [MainViewController SI_sharedLabelParagraph:[NSString stringWithFormat:@"Score: %0.2f", [AppSingleton singleton].currentGame.totalScore]];
+    _itCoinsLabel                           = [MainViewController SI_sharedLabelParagraph:[NSString stringWithFormat:@"Total It Coins: %d",[[[MKStoreKit sharedKit] availableCreditsForConsumable:kSIIAPConsumableIDCoins ] intValue]]];
     
     NSNumber *highScore                     = [[NSUserDefaults standardUserDefaults] objectForKey:kSINSUserDefaultLifetimeHighScore];
 
     if ([AppSingleton singleton].currentGame.isHighScore) {
-        _highScoreLabel                     = [MainViewController SI_sharedLabelParagraph4:@"New High Score!"];
+        _highScoreLabel                     = [MainViewController SI_sharedLabelParagraph:@"New High Score!"];
     } else {
-        _highScoreLabel                     = [MainViewController SI_sharedLabelParagraph4:[NSString stringWithFormat:@"High Score: %0.2f",[highScore floatValue]]];
+        _highScoreLabel                     = [MainViewController SI_sharedLabelParagraph:[NSString stringWithFormat:@"High Score: %0.2f",[highScore floatValue]]];
     }
     
     if ([AppSingleton singleton].currentGame.isHighScore) {
-        _userMessageLabel                   = [MainViewController SI_sharedLabelParagraph2:[Game userMessageForScore:[AppSingleton singleton].currentGame.totalScore isHighScore:YES    highScore:[highScore floatValue]]];
+        _userMessageLabel                   = [MainViewController SI_sharedLabelParagraph:[Game userMessageForScore:[AppSingleton singleton].currentGame.totalScore isHighScore:YES    highScore:[highScore floatValue]]];
         [AppSingleton singleton].currentGame.isHighScore = NO;
     } else {
-        _userMessageLabel                   = [MainViewController SI_sharedLabelParagraph2:[Game userMessageForScore:[AppSingleton singleton].currentGame.totalScore isHighScore:NO     highScore:[highScore floatValue]]];
+        _userMessageLabel                   = [MainViewController SI_sharedLabelParagraph:[Game userMessageForScore:[AppSingleton singleton].currentGame.totalScore isHighScore:NO     highScore:[highScore floatValue]]];
     }
     
     /*Menu Node*/
@@ -155,17 +164,20 @@
     [self menuCreate:size];
 }
 - (void)menuCreate:(CGSize)size {
-    HLMenu *menu = [[HLMenu alloc] init];
+    HLMenu *menu                            = [[HLMenu alloc] init];
     
     /*Add the regular buttons*/
-    _userCanAffordContinue = [self userCanContinue];
-    if (_userCanAffordContinue) {
-        [menu addItem:[HLMenuItem menuItemWithText:kSIMenuTextEndGameContinue]];
-    } else {
-        HLMenuItem *continueGameMenuItem = [HLMenuItem menuItemWithText:kSIMenuTextEndGameContinue];
-        continueGameMenuItem.buttonPrototype = [MainViewController SI_sharedMenuButtonPrototypeBasic:[MainViewController buttonSize:size] fontSize:[MainViewController fontSizeButton] backgroundColor:[UIColor grayColor] fontColor:[UIColor blackColor]];
-        [menu addItem:continueGameMenuItem];
-    }
+    _userCanAffordContinue                  = [self userCanContinue];
+    HLMenuItem *continueGameMenuItem        = [HLMenuItem menuItemWithText:kSIMenuTextEndGameContinue];
+    continueGameMenuItem.buttonPrototype    = [MainViewController SI_sharedMenuButtonPrototypeBasic:[MainViewController buttonSize:size] fontSize:[MainViewController fontSizeButton] backgroundColor:[SKColor orangeColor] fontColor:[UIColor whiteColor]];
+    [menu addItem:continueGameMenuItem];
+//    if (_userCanAffordContinue) {
+//        [menu addItem:[HLMenuItem menuItemWithText:kSIMenuTextEndGameContinue]];
+//    } else {
+//        HLMenuItem *continueGameMenuItem = [HLMenuItem menuItemWithText:kSIMenuTextEndGameContinue];
+//        continueGameMenuItem.buttonPrototype = [MainViewController SI_sharedMenuButtonPrototypeBasic:[MainViewController buttonSize:size] fontSize:[MainViewController fontSizeButton] backgroundColor:[SKColor grayColor] fontColor:[UIColor blackColor]];
+//        [menu addItem:continueGameMenuItem];
+//    }
     
     [menu addItem:[HLMenuItem menuItemWithText:kSIMenuTextEndGameReplay]];
     
@@ -191,40 +203,50 @@
 #pragma mark - HLMenuNodeDelegate
 - (void)menuNode:(HLMenuNode *)menuNode didTapMenuItem:(HLMenuItem *)menuItem itemIndex:(NSUInteger)itemIndex {
     NSLog(@"Tapped Menu Item [%@] at index %u",menuItem.text,(unsigned)itemIndex);
-
+    _shouldRespondToTap = NO;
     if ([menuItem.text isEqualToString:kSIMenuTextEndGameContinue]) {
         /*Continue Game Button*/
-        if (_userCanAffordContinue) {
-            [[MKStoreKit sharedKit] consumeCredits:[NSNumber numberWithInteger:[AppSingleton singleton].currentGame.currentNumberOfTimesContinued] identifiedByConsumableIdentifier:kSIIAPConsumableIDCoins];
-            [AppSingleton singleton].willResume                                 = YES;
-            [AppSingleton singleton].currentGame.currentNumberOfTimesContinued  = [Game lifeCostForCurrentContinueLevel:[AppSingleton singleton].currentGame.currentNumberOfTimesContinued];
-            GameScene *gameScene                                                = [[GameScene alloc] initWithSize:self.size gameMode:[AppSingleton singleton].currentGame.gameMode];
-            [Game transisitionToSKScene:gameScene toSKView:self.view DoorsOpen:NO pausesIncomingScene:YES pausesOutgoingScene:NO duration:1.0];
-        } else { /*User cannot afford the to contiue*/
-            StoreScene *storeScene                                              = [StoreScene sceneWithSize:self.size];
-            [Game transisitionToSKScene:storeScene toSKView:self.view DoorsOpen:YES pausesIncomingScene:NO pausesOutgoingScene:NO duration:1.0];
-        }
+        NSDictionary *userInfo          = @{kSINSDictionaryKeyCanAfford     : @(_userCanAffordContinue),
+                                            kSINSDictionaryKeyCanAffordCost : @([AppSingleton singleton].currentGame.currentNumberOfTimesContinued)};
+        NSNotification *notification = [[NSNotification alloc] initWithName:kSINotificationGameContinueUsePopup object:nil userInfo:userInfo];
+        [[NSNotificationCenter defaultCenter] postNotification:notification];
+//        if (_userCanAffordContinue) {
+//            [[MKStoreKit sharedKit] consumeCredits:[NSNumber numberWithInteger:[AppSingleton singleton].currentGame.currentNumberOfTimesContinued] identifiedByConsumableIdentifier:kSIIAPConsumableIDCoins];
+//            [AppSingleton singleton].willResume                                 = YES;
+//            [AppSingleton singleton].currentGame.currentNumberOfTimesContinued  = [Game lifeCostForCurrentContinueLevel:[AppSingleton singleton].currentGame.currentNumberOfTimesContinued];
+//            GameScene *gameScene                                                = [[GameScene alloc] initWithSize:self.size gameMode:[AppSingleton singleton].currentGame.gameMode];
+//            [Game transisitionToSKScene:gameScene toSKView:self.view DoorsOpen:NO pausesIncomingScene:YES pausesOutgoingScene:NO duration:SCENE_TRANSISTION_DURATION];
+//        } else { /*User cannot afford the to contiue*/
+//            NSNotification *notification = [[NSNotification alloc] initWithName:kSINotificationInterstitialAdShallLaunch object:nil userInfo:nil];
+//            [[NSNotificationCenter defaultCenter] postNotification:notification];
+//
+////            StoreScene *storeScene                                              = [StoreScene sceneWithSize:self.size];
+////            [Game transisitionToSKScene:storeScene toSKView:self.view DoorsOpen:YES pausesIncomingScene:NO pausesOutgoingScene:NO duration:SCENE_TRANSISTION_DURATION];
+//        }
 
     } else if ([menuItem.text isEqualToString:kSIMenuTextEndGameReplay]) {
         /*Replay Button*/
         [[AppSingleton singleton] endGame];
         [Game incrementGamesPlayed];
         GameScene *firstScene               = [[GameScene alloc] initWithSize:self.size gameMode:[AppSingleton singleton].currentGame.gameMode];
-        [Game transisitionToSKScene:firstScene toSKView:self.view DoorsOpen:NO pausesIncomingScene:YES pausesOutgoingScene:NO duration:1.0];
+        [Game transisitionToSKScene:firstScene toSKView:self.view DoorsOpen:NO pausesIncomingScene:YES pausesOutgoingScene:NO duration:SCENE_TRANSISTION_DURATION];
 
     } else if ([menuItem.text isEqualToString:kSIMenuTextEndGameStore]) {
         /*Store Button*/
         StoreScene *storeScene              = [StoreScene sceneWithSize:self.size];
-        [Game transisitionToSKScene:storeScene toSKView:self.view DoorsOpen:YES pausesIncomingScene:NO pausesOutgoingScene:NO duration:1.0];
+        [Game transisitionToSKScene:storeScene toSKView:self.view DoorsOpen:YES pausesIncomingScene:YES pausesOutgoingScene:YES duration:SCENE_TRANSISTION_DURATION];
         
     } else if ([menuItem.text isEqualToString:kSIMenuTextEndGameMainMenu]) {
         /*Main Menu Button*/
         [[AppSingleton singleton] endGame];
         [Game incrementGamesPlayed];
         StartScreenScene *startScene        = [StartScreenScene sceneWithSize:self.size];
-        [Game transisitionToSKScene:startScene toSKView:self.view DoorsOpen:NO pausesIncomingScene:NO pausesOutgoingScene:NO duration:1.0];
+        [Game transisitionToSKScene:startScene toSKView:self.view DoorsOpen:NO pausesIncomingScene:YES pausesOutgoingScene:YES duration:SCENE_TRANSISTION_DURATION];
 
     }
+}
+-(BOOL)menuNode:(HLMenuNode *)menuNode shouldTapMenuItem:(HLMenuItem *)menuItem itemIndex:(NSUInteger)itemIndex {
+    return _shouldRespondToTap;
 }
 - (BOOL)userCanContinue {
     int continueCost = [Game lifeCostForCurrentContinueLevel:[AppSingleton singleton].currentGame.currentNumberOfTimesContinued];
@@ -234,5 +256,28 @@
     }
     return NO;
 }
+#pragma mark - Contiue Game Methods
 
+- (void)continueCoins {
+    [[MKStoreKit sharedKit] consumeCredits:[NSNumber numberWithInteger:[AppSingleton singleton].currentGame.currentNumberOfTimesContinued] identifiedByConsumableIdentifier:kSIIAPConsumableIDCoins];
+    [AppSingleton singleton].willResume                                 = YES;
+    [AppSingleton singleton].currentGame.currentNumberOfTimesContinued  = [Game lifeCostForCurrentContinueLevel:[AppSingleton singleton].currentGame.currentNumberOfTimesContinued];
+    GameScene *gameScene                                                = [[GameScene alloc] initWithSize:self.size gameMode:[AppSingleton singleton].currentGame.gameMode];
+    [Game transisitionToSKScene:gameScene toSKView:self.view DoorsOpen:NO pausesIncomingScene:YES pausesOutgoingScene:NO duration:SCENE_TRANSISTION_DURATION];
+}
+
+- (void)continueLaunchStore {
+    StoreScene *storeScene              = [StoreScene sceneWithSize:self.size];
+    [Game transisitionToSKScene:storeScene toSKView:self.view DoorsOpen:YES pausesIncomingScene:YES pausesOutgoingScene:YES duration:SCENE_TRANSISTION_DURATION];
+}
+
+- (void)adDidFinish {
+    [AppSingleton singleton].willResume                                 = YES;
+    [AppSingleton singleton].currentGame.currentNumberOfTimesContinued  = [Game lifeCostForCurrentContinueLevel:[AppSingleton singleton].currentGame.currentNumberOfTimesContinued];
+    GameScene *gameScene                                                = [[GameScene alloc] initWithSize:self.size gameMode:[AppSingleton singleton].currentGame.gameMode];
+    [Game transisitionToSKScene:gameScene toSKView:self.view DoorsOpen:NO pausesIncomingScene:YES pausesOutgoingScene:NO duration:SCENE_TRANSISTION_DURATION];
+}
+- (void)continueCancel {
+    _shouldRespondToTap =   YES;
+}
 @end

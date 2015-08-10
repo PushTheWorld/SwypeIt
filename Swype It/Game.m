@@ -9,6 +9,7 @@
 // Local Controller Import
 #import "Game.h"
 // Framework Import
+#import <math.h>
 // Drop-In Class Imports (CocoaPods/GitHub/Guru)
 // Category Import
 #import "UIColor+Additions.h"
@@ -624,8 +625,11 @@
 + (float)levelSpeedForScore:(float)score {
     if (score < MAX_MOVE_SCORE) {
         return 4.0f;
+    } else if (score < SPEED_TRANSISTION_SCORE) {
+        return SPEED_POWER_MULTIPLIER * pow(score,SPEED_POWER_EXPONENT);
+    } else {
+        return SPEED_LOG_MULTIPLIER * log(score) + SPEED_LOG_INTERCEPT;
     }
-    return LEVEL_SPEED_DIV_MULT * log((double)score) + LEVEL_SPEED_INTERCEPT;
 }
 + (UIImage *)getBluredScreenshot:(SKView *)view {
     UIGraphicsBeginImageContextWithOptions(view.bounds.size, NO, 1);

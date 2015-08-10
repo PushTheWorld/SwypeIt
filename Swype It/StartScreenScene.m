@@ -23,6 +23,7 @@
 // Support/Data Class Imports
 #import "Game.h"
 // Other Imports
+
 @interface StartScreenScene () <HLMenuNodeDelegate>
 
 #pragma mark - Private Properties
@@ -32,6 +33,8 @@
 
 @end
 @implementation StartScreenScene {
+    BOOL        _shouldRespondToTap;
+    
     CGFloat     _buttonAnimationDuration;
     CGFloat     _buttonSpacing;
 //    CGSize      _buttonSize;
@@ -70,7 +73,8 @@
 }
 - (void)viewSetup:(SKView *)view {
     /**Preform setup post-view load*/
-    self.backgroundColor = [SKColor sandColor];
+    self.backgroundColor    = [SKColor sandColor];
+    _shouldRespondToTap     = YES;
     
 }
 #pragma mark Scene Setup
@@ -82,9 +86,9 @@
 }
 - (void)createControlsWithSize:(CGSize)size {
     /**Preform all your alloc/init's here*/
-    _welcomeLabel                           = [MainViewController SI_sharedLabelHeader:@"Welcome"];
+    _welcomeLabel                           = [MainViewController SI_sharedLabelHeader_x3:@"Welcome"];
     
-    _gameTitleLabel                         = [MainViewController SI_sharedLabelParagraph3:@"Swype It 2.0 Beta"];
+    _gameTitleLabel                         = [MainViewController SI_sharedLabelParagraph:@"Swype It 2.0 Beta"];
     
     /*Menu Node*/
     _menuNode                           = [[HLMenuNode alloc] init];
@@ -135,27 +139,32 @@
     [self.menuNode setMenu:menu animation:HLMenuNodeAnimationNone];
 }
 - (void)menuNode:(HLMenuNode *)menuNode didTapMenuItem:(HLMenuItem *)menuItem itemIndex:(NSUInteger)itemIndex {
+    _shouldRespondToTap             = NO;
+    
     if ([menuItem.text isEqualToString:kSIMenuTextStartScreenTwoHand]) {
         [self launchGameSceneForGameMode:SIGameModeTwoHand];
-
+        
     } else if ([menuItem.text isEqualToString:kSIMenuTextStartScreenOneHand]) {
         [self launchGameSceneForGameMode:SIGameModeOneHand];
         
     } else if ([menuItem.text isEqualToString:kSIMenuTextStartScreenStore]) {
         StoreScene *storeScene = [StoreScene sceneWithSize:self.size];
         storeScene.wasLaunchedFromMainMenu = YES;
-        [Game transisitionToSKScene:storeScene toSKView:self.view DoorsOpen:YES pausesIncomingScene:NO pausesOutgoingScene:NO duration:1.0];
-
+        [Game transisitionToSKScene:storeScene toSKView:self.view DoorsOpen:YES pausesIncomingScene:YES pausesOutgoingScene:YES duration:SCENE_TRANSISTION_DURATION];
+        
     } else if ([menuItem.text isEqualToString:kSIMenuTextStartScreenSettings]) {
-        SettingsScene *settingsScene = [SettingsScene sceneWithSize:self.size];
-        [Game transisitionToSKScene:settingsScene toSKView:self.view DoorsOpen:YES pausesIncomingScene:NO pausesOutgoingScene:NO duration:1.0];
-
+        SettingsScene *settingsScene    = [SettingsScene sceneWithSize:self.size];
+        [Game transisitionToSKScene:settingsScene toSKView:self.view DoorsOpen:YES pausesIncomingScene:YES pausesOutgoingScene:YES duration:SCENE_TRANSISTION_DURATION];
+        
     }
+}
+-(BOOL)menuNode:(HLMenuNode *)menuNode shouldTapMenuItem:(HLMenuItem *)menuItem itemIndex:(NSUInteger)itemIndex {
+    return _shouldRespondToTap;
 }
 - (void)launchGameSceneForGameMode:(SIGameMode)gameMode {
     [[AppSingleton singleton] initAppSingletonWithGameMode:gameMode];
     GameScene *firstScene = [[GameScene alloc] initWithSize:self.size gameMode:gameMode];
-    [Game transisitionToSKScene:firstScene toSKView:self.view DoorsOpen:YES pausesIncomingScene:NO pausesOutgoingScene:NO duration:1.0];
+    [Game transisitionToSKScene:firstScene toSKView:self.view DoorsOpen:YES pausesIncomingScene:NO pausesOutgoingScene:NO duration:SCENE_TRANSISTION_DURATION];
 
 }
 

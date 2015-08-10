@@ -72,6 +72,11 @@
 		096ABDF71B6B6ABB005B2F12 /* swypeItSound6.caf in Resources */ = {isa = PBXBuildFile; fileRef = 096ABDEE1B6B6ABB005B2F12 /* swypeItSound6.caf */; };
 		096ABDF81B6B6ABB005B2F12 /* swypeItSound7.caf in Resources */ = {isa = PBXBuildFile; fileRef = 096ABDEF1B6B6ABB005B2F12 /* swypeItSound7.caf */; };
 		097375461B57A97500BE1BCA /* BaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 097375451B57A97500BE1BCA /* BaseViewController.m */; };
+		0979E6501B768168002FC2F2 /* HLPopupNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 0979E64F1B768168002FC2F2 /* HLPopupNode.m */; };
+		0979E6531B76AA30002FC2F2 /* MSSAlertViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0979E6521B76AA30002FC2F2 /* MSSAlertViewController.m */; };
+		0979E6581B77A614002FC2F2 /* LongIsland-Shadow.otf in Resources */ = {isa = PBXBuildFile; fileRef = 0979E6571B77A614002FC2F2 /* LongIsland-Shadow.otf */; };
+		0979E65A1B77A74E002FC2F2 /* LongIslandContour.otf in Resources */ = {isa = PBXBuildFile; fileRef = 0979E6591B77A74E002FC2F2 /* LongIslandContour.otf */; };
+		0979E65C1B77C0F2002FC2F2 /* diamondPlate3.png in Resources */ = {isa = PBXBuildFile; fileRef = 0979E65B1B77C0F2002FC2F2 /* diamondPlate3.png */; };
 		0988CC941B70C82300BF429D /* SIStoreButtonNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 0988CC931B70C82300BF429D /* SIStoreButtonNode.m */; };
 		0988CC961B7203CA00BF429D /* Ultra.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0988CC951B7203CA00BF429D /* Ultra.ttf */; };
 		0988CC9B1B720F3B00BF429D /* images.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 0988CC9A1B720F3B00BF429D /* images.atlas */; };
@@ -90,6 +95,7 @@
 		099A62311B5C8750009BF339 /* EndGameScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 099A62301B5C8750009BF339 /* EndGameScene.m */; };
 		099A62331B5C8B12009BF339 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 099A62321B5C8B12009BF339 /* Main.storyboard */; };
 		099A62361B5C917A009BF339 /* CustomProgressBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 099A62351B5C917A009BF339 /* CustomProgressBar.m */; };
+		09A57ABB1B788BEF003B6F08 /* SIGameNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 09A57ABA1B788BEF003B6F08 /* SIGameNode.m */; };
 		09A904061B6616C300C48A9B /* SIConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 091FED751B3733AF0071F8DC /* SIConstants.m */; };
 		09A904071B6616DA00C48A9B /* Game.m in Sources */ = {isa = PBXBuildFile; fileRef = 098B3B461B378C27000D4702 /* Game.m */; };
 		09A904081B6616DE00C48A9B /* SIIAPUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = 092720E41B60D3CB0005A6B6 /* SIIAPUtility.m */; };
@@ -220,6 +226,13 @@
 		096ABDEF1B6B6ABB005B2F12 /* swypeItSound7.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = swypeItSound7.caf; sourceTree = "<group>"; };
 		097375441B57A97500BE1BCA /* BaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseViewController.h; sourceTree = "<group>"; };
 		097375451B57A97500BE1BCA /* BaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseViewController.m; sourceTree = "<group>"; };
+		0979E64E1B768168002FC2F2 /* HLPopupNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HLPopupNode.h; sourceTree = "<group>"; };
+		0979E64F1B768168002FC2F2 /* HLPopupNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HLPopupNode.m; sourceTree = "<group>"; };
+		0979E6511B76AA30002FC2F2 /* MSSAlertViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSSAlertViewController.h; sourceTree = "<group>"; };
+		0979E6521B76AA30002FC2F2 /* MSSAlertViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSSAlertViewController.m; sourceTree = "<group>"; };
+		0979E6571B77A614002FC2F2 /* LongIsland-Shadow.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "LongIsland-Shadow.otf"; sourceTree = "<group>"; };
+		0979E6591B77A74E002FC2F2 /* LongIslandContour.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = LongIslandContour.otf; sourceTree = "<group>"; };
+		0979E65B1B77C0F2002FC2F2 /* diamondPlate3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = diamondPlate3.png; sourceTree = "<group>"; };
 		0988CC921B70C82300BF429D /* SIStoreButtonNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SIStoreButtonNode.h; sourceTree = "<group>"; };
 		0988CC931B70C82300BF429D /* SIStoreButtonNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SIStoreButtonNode.m; sourceTree = "<group>"; };
 		0988CC951B7203CA00BF429D /* Ultra.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Ultra.ttf; sourceTree = "<group>"; };
@@ -247,6 +260,8 @@
 		099A62321B5C8B12009BF339 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		099A62341B5C917A009BF339 /* CustomProgressBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomProgressBar.h; sourceTree = "<group>"; };
 		099A62351B5C917A009BF339 /* CustomProgressBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomProgressBar.m; sourceTree = "<group>"; };
+		09A57AB91B788BEF003B6F08 /* SIGameNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SIGameNode.h; sourceTree = "<group>"; };
+		09A57ABA1B788BEF003B6F08 /* SIGameNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SIGameNode.m; sourceTree = "<group>"; };
 		09CAF9A71B646BE100466606 /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = "<group>"; };
 		09CAF9A81B646BE100466606 /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
 		09CAF9AB1B646F4C00466606 /* buttons.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = buttons.atlas; sourceTree = "<group>"; };
@@ -338,6 +353,8 @@
 				0917D4C81B6DD8240046B5FF /* HLMessageNode.m */,
 				0917D4C91B6DD8240046B5FF /* HLOutlineLayoutManager.h */,
 				0917D4CA1B6DD8240046B5FF /* HLOutlineLayoutManager.m */,
+				0979E64E1B768168002FC2F2 /* HLPopupNode.h */,
+				0979E64F1B768168002FC2F2 /* HLPopupNode.m */,
 				0917D4CB1B6DD8240046B5FF /* HLRingLayoutManager.h */,
 				0917D4CC1B6DD8240046B5FF /* HLRingLayoutManager.m */,
 				0917D4CD1B6DD8240046B5FF /* HLRingNode.h */,
@@ -471,6 +488,7 @@
 		091FED721B372EE70071F8DC /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				0979E65B1B77C0F2002FC2F2 /* diamondPlate3.png */,
 				0988CC9A1B720F3B00BF429D /* images.atlas */,
 				09CAF9AB1B646F4C00466606 /* buttons.atlas */,
 				091FED531B37283E0071F8DC /* Images.xcassets */,
@@ -512,6 +530,8 @@
 				092720EB1B6388740005A6B6 /* ProgressBar.m */,
 				0988CC921B70C82300BF429D /* SIStoreButtonNode.h */,
 				0988CC931B70C82300BF429D /* SIStoreButtonNode.m */,
+				09A57AB91B788BEF003B6F08 /* SIGameNode.h */,
+				09A57ABA1B788BEF003B6F08 /* SIGameNode.m */,
 			);
 			name = CustomUIClasses;
 			sourceTree = "<group>";
@@ -543,9 +563,20 @@
 			name = Sounds;
 			sourceTree = "<group>";
 		};
+		0979E6541B76AA37002FC2F2 /* MSSAlertViewController */ = {
+			isa = PBXGroup;
+			children = (
+				0979E6511B76AA30002FC2F2 /* MSSAlertViewController.h */,
+				0979E6521B76AA30002FC2F2 /* MSSAlertViewController.m */,
+			);
+			name = MSSAlertViewController;
+			sourceTree = "<group>";
+		};
 		0988CC971B7203CE00BF429D /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				0979E6591B77A74E002FC2F2 /* LongIslandContour.otf */,
+				0979E6571B77A614002FC2F2 /* LongIsland-Shadow.otf */,
 				0988CC951B7203CA00BF429D /* Ultra.ttf */,
 			);
 			name = Resources;
@@ -563,10 +594,11 @@
 		098B3B4B1B378EC8000D4702 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				098B3B4C1B378ED1000D4702 /* FXReachability */,
 				0917D4AF1B6DD8240046B5FF /* HLSpriteKit */,
 				09CAF9AA1B646BE600466606 /* MBProgressHud */,
+				0979E6541B76AA37002FC2F2 /* MSSAlertViewController */,
 				092720F01B63A6350005A6B6 /* TCProgressBarNode */,
-				098B3B4C1B378ED1000D4702 /* FXReachability */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -756,7 +788,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				096ABDF61B6B6ABB005B2F12 /* swypeItSound5.caf in Resources */,
+				0979E65A1B77A74E002FC2F2 /* LongIslandContour.otf in Resources */,
 				092113B01B6B787B005F7D8B /* swypeItFXChaChing.caf in Resources */,
+				0979E65C1B77C0F2002FC2F2 /* diamondPlate3.png in Resources */,
 				096ABDF21B6B6ABB005B2F12 /* swypeItSound1.caf in Resources */,
 				092DBE6D1B6F022E00328A6B /* shapes.atlas in Resources */,
 				096ABDF71B6B6ABB005B2F12 /* swypeItSound6.caf in Resources */,
@@ -765,6 +799,7 @@
 				099A62331B5C8B12009BF339 /* Main.storyboard in Resources */,
 				096ABDF51B6B6ABB005B2F12 /* swypeItSound4.caf in Resources */,
 				09CAF9AC1B646F4C00466606 /* buttons.atlas in Resources */,
+				0979E6581B77A614002FC2F2 /* LongIsland-Shadow.otf in Resources */,
 				092113B11B6B787B005F7D8B /* swypeItFXInitalize.caf in Resources */,
 				091FED541B37283E0071F8DC /* Images.xcassets in Resources */,
 				096ABDF31B6B6ABB005B2F12 /* swypeItSound2.caf in Resources */,
@@ -865,6 +900,7 @@
 				091FED4C1B37283E0071F8DC /* AppDelegate.m in Sources */,
 				0917D4FB1B6DD8240046B5FF /* SKLabelNode+HLLabelNodeAdditions.m in Sources */,
 				099A62311B5C8750009BF339 /* EndGameScene.m in Sources */,
+				09A57ABB1B788BEF003B6F08 /* SIGameNode.m in Sources */,
 				0917D4FF1B6DD8240046B5FF /* UIImage+HLImageAdditions.m in Sources */,
 				0917D4EC1B6DD8240046B5FF /* HLItemsNode.m in Sources */,
 				09DB638A1B564DA700387C13 /* IAPTableViewController.m in Sources */,
@@ -873,6 +909,8 @@
 				091FED761B3733AF0071F8DC /* SIConstants.m in Sources */,
 				0917D4F21B6DD8240046B5FF /* HLOutlineLayoutManager.m in Sources */,
 				098B3B431B378B89000D4702 /* AppSingleton.m in Sources */,
+				0979E6531B76AA30002FC2F2 /* MSSAlertViewController.m in Sources */,
+				0979E6501B768168002FC2F2 /* HLPopupNode.m in Sources */,
 				099A62361B5C917A009BF339 /* CustomProgressBar.m in Sources */,
 				0917D4EE1B6DD8240046B5FF /* HLLayoutManager.m in Sources */,
 				092720EC1B6388740005A6B6 /* ProgressBar.m in Sources */,

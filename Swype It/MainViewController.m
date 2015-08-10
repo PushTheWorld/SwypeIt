@@ -8,11 +8,15 @@
 //  Purpose: This is the main game view controller... has HUD
 //
 // Local Controller Import
+#import "AppSingleton.h"
+#import "EndGameScene.h"
 #import "MainViewController.h"
 #import "StartScreenScene.h"
 // Framework Import
+#import <iAd/iAd.h>
 #import <Instabug/Instabug.h>
 #import <MessageUI/MessageUI.h>
+#import "MSSAlertViewController.h"
 // Drop-In Class Imports (CocoaPods/GitHub/Guru)
 #import "MBProgressHud.h"
 #import "SoundManager.h"
@@ -22,10 +26,14 @@
 #import "Game.h"
 // Other Imports
 
-@interface MainViewController () <MFMailComposeViewControllerDelegate>
+@interface MainViewController () <MFMailComposeViewControllerDelegate, ADBannerViewDelegate, ADInterstitialAdDelegate>
 
+@property (strong, nonatomic) ADBannerView      *adBannerView;
+@property (strong, nonatomic) ADInterstitialAd  *interstitialAd;
 @property (strong, nonatomic) MBProgressHUD     *hud;
+@property (strong, nonatomic) UIButton          *closeButton;
 @property (strong, nonatomic) UILabel           *loadingLabel;
+@property (strong, nonatomic) UIView            *placeHolderView;
 
 @end
 
@@ -36,9 +44,9 @@
     if (IS_IPHONE_4) {
         return 22.0f;
     } else if (IS_IPHONE_5) {
-        return 26.0f;
+        return 24.0f;
     } else if (IS_IPHONE_6) {
-        return 30.0f;
+        return 28.0f;
     } else if (IS_IPHONE_6_PLUS) {
         return 32.0f;
     } else {
@@ -71,17 +79,52 @@
         return 52.0f;
     }
 }
-+ (CGFloat)fontSizeParagraph1 {
-    return [MainViewController fontSizeHeader] - 4.0f;
++ (CGFloat)fontSizeHeader_x2 {
+    return [MainViewController fontSizeHeader] + 4.0f;
 }
-+ (CGFloat)fontSizeParagraph2 {
-    return [MainViewController fontSizeHeader] - 8.0f;
++ (CGFloat)fontSizeHeader_x3 {
+    return [MainViewController fontSizeHeader] + 8.0f;
 }
-+ (CGFloat)fontSizeParagraph3 {
-    return [MainViewController fontSizeHeader] - 12.0f;
++ (CGFloat)fontSizeParagraph {
+    if (IS_IPHONE_4) {
+        return 20.0f;
+    } else if (IS_IPHONE_5) {
+        return 24.0f;
+    } else if (IS_IPHONE_6) {
+        return 28.0f;
+    } else if (IS_IPHONE_6_PLUS) {
+        return 32.0f;
+    } else {
+        return 36.0f;
+    }
 }
-+ (CGFloat)fontSizeParagraph4 {
-    return [MainViewController fontSizeHeader] - 16.0f;
++ (CGFloat)fontSizeParagraph_x2 {
+    return [MainViewController fontSizeHeader] + 4.0f;
+}
++ (CGFloat)fontSizeParagraph_x3 {
+    return [MainViewController fontSizeHeader] + 8.0f;
+}
++ (CGFloat)fontSizeParagraph_x4 {
+    return [MainViewController fontSizeHeader] + 12.0f;
+}
++ (CGFloat)fontSizeText {
+    if (IS_IPHONE_4) {
+        return 12.0f;
+    } else if (IS_IPHONE_5) {
+        return 13.0f;
+    } else if (IS_IPHONE_6) {
+        return 14.0f;
+    } else if (IS_IPHONE_6_PLUS) {
+        return 15.0f;
+    } else {
+        return 16.0f;
+    }
+}
++ (CGFloat)fontSizeText_x2 {
+    return [MainViewController fontSizeHeader] + 2.0f;
+}
++ (CGFloat)fontSizeText_x3 {
+    return [MainViewController fontSizeHeader] + 4.0f;
 }
 
 
@@ -97,12 +140,14 @@
     
     [self registerForNotifications];
     
+    [self cycleInterstitial];
+    
     [self setupUserInterface];
     
     // Configure the view.
     SKView * skView         = (SKView *)self.view;
-    skView.showsFPS         = YES;
-    skView.showsNodeCount   = YES;
+//    skView.showsFPS         = YES;
+//    skView.showsNodeCount   = YES;
     
     // Create and configure the scene.
     SKScene * scene = [StartScreenScene sceneWithSize:skView.bounds.size];
@@ -110,8 +155,9 @@
     
     // Present the scene.
     [skView presentScene:scene];
-    
 
+    // Show me those ads!
+    [self configureBannerAds];
 }
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
@@ -143,6 +189,8 @@
 }
 - (void)createControls {
     _loadingLabel           = [[UILabel alloc] init];
+    
+    _adBannerView           = [[ADBannerView alloc] initWithAdType:ADAdTypeBanner];
 }
 - (void)setupControls {
     _loadingLabel.text      = @"Loading...";
@@ -150,6 +198,7 @@
     [_loadingLabel setTextColor:[UIColor blackColor]];
     [_loadingLabel setFont:[UIFont fontWithName:kSIFontFuturaMedium size:[MainViewController fontSizeButton]]];
     [_loadingLabel setTranslatesAutoresizingMaskIntoConstraints:NO];
+    
 }
 - (void)layoutControls {
     [self.view addSubview:_loadingLabel];
@@ -173,10 +222,13 @@
     
 }
 - (void)registerForNotifications {
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(hudWillHide:)     name:kSINotificationHudHide object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(hudWillShow:)     name:kSINotificationHudShow object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(launchBugReport:) name:kSINotificationSettingsLaunchBugReport object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(menuDidLoad)      name:kSINotificationMenuLoaded object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(hudWillHide:)             name:kSINotificationHudHide                     object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(hudWillShow:)             name:kSINotificationHudShow                     object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(launchBugReport:)         name:kSINotificationSettingsLaunchBugReport     object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(menuDidLoad)              name:kSINotificationMenuLoaded                  object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(presentInterstital)       name:kSINotificationInterstitialAdShallLaunch   object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(launchPopupForContinue:)  name:kSINotificationGameContinueUsePopup        object:nil];
+    
 }
 - (void)unregisterForNotifications {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
@@ -304,10 +356,12 @@
     labelButton.verticalAlignmentMode           = HLLabelNodeVerticalAlignFont;
     return labelButton;
 }
-+ (HLLabelButtonNode *)SIHLInterfaceLabelButton:(CGSize)size backgroundColor:(SKColor *)backgroundColor fontColor:(UIColor *)fontColor fontSize:(CGFloat)fontSize {
-    HLLabelButtonNode *labelButton              = [[HLLabelButtonNode alloc] initWithColor:backgroundColor size:size];
-    labelButton.fontName                        = kSIFontFuturaMedium;
++ (HLLabelButtonNode *)SIHLInterfaceLabelButton:(CGSize)size backgroundColor:(UIColor *)backgroundColor fontColor:(SKColor *)fontColor fontSize:(CGFloat)fontSize {
+    HLLabelButtonNode *labelButton              = [[HLLabelButtonNode alloc] initWithColor:[SKColor orangeColor] size:size];
+    labelButton.fontName                        = kSIFontUltra;
     labelButton.cornerRadius                    = 12.0f;
+    labelButton.borderWidth                     = 8.0f;
+    labelButton.borderColor                     = [SKColor blackColor];
     labelButton.fontSize                        = fontSize;
     labelButton.fontColor                       = fontColor;
     labelButton.verticalAlignmentMode           = HLLabelNodeVerticalAlignFont;
@@ -318,23 +372,33 @@
     label.text          = text;
     return label;
 }
-+ (SKLabelNode *)SI_sharedLabelParagraph1:(NSString *)text {
-    SKLabelNode *label  = [MainViewController SIInterfaceLabelFontSize:[MainViewController fontSizeParagraph1]];
++ (SKLabelNode *)SI_sharedLabelHeader_x2:(NSString *)text {
+    SKLabelNode *label  = [MainViewController SIInterfaceLabelFontSize:[MainViewController fontSizeHeader_x2]];
     label.text          = text;
     return label;
 }
-+ (SKLabelNode *)SI_sharedLabelParagraph2:(NSString *)text {
-    SKLabelNode *label  = [MainViewController SIInterfaceLabelFontSize:[MainViewController fontSizeParagraph2]];
++ (SKLabelNode *)SI_sharedLabelHeader_x3:(NSString *)text {
+    SKLabelNode *label  = [MainViewController SIInterfaceLabelFontSize:[MainViewController fontSizeHeader_x3]];
     label.text          = text;
     return label;
 }
-+ (SKLabelNode *)SI_sharedLabelParagraph3:(NSString *)text {
-    SKLabelNode *label  = [MainViewController SIInterfaceLabelFontSize:[MainViewController fontSizeParagraph3]];
++ (SKLabelNode *)SI_sharedLabelParagraph:(NSString *)text {
+    SKLabelNode *label  = [MainViewController SIInterfaceLabelFontSize:[MainViewController fontSizeParagraph]];
     label.text          = text;
     return label;
 }
-+ (SKLabelNode *)SI_sharedLabelParagraph4:(NSString *)text {
-    SKLabelNode *label  = [MainViewController SIInterfaceLabelFontSize:[MainViewController fontSizeParagraph4]];
++ (SKLabelNode *)SI_sharedLabelParagraph_x2:(NSString *)text {
+    SKLabelNode *label  = [MainViewController SIInterfaceLabelFontSize:[MainViewController fontSizeParagraph_x2]];
+    label.text          = text;
+    return label;
+}
++ (SKLabelNode *)SI_sharedLabelParagraph_x3:(NSString *)text {
+    SKLabelNode *label  = [MainViewController SIInterfaceLabelFontSize:[MainViewController fontSizeParagraph_x3]];
+    label.text          = text;
+    return label;
+}
++ (SKLabelNode *)SI_sharedLabelParagraph_x4:(NSString *)text {
+    SKLabelNode *label  = [MainViewController SIInterfaceLabelFontSize:[MainViewController fontSizeParagraph_x4]];
     label.text          = text;
     return label;
 }
@@ -384,5 +448,141 @@
     }
     
     [self dismissViewControllerAnimated:YES completion:NULL];
+}
+#pragma mark - iAd Methods
+-(BOOL)premiumUser {
+    return [[NSUserDefaults standardUserDefaults] boolForKey:kSINSUserDefaultPremiumUser];
+}
+- (void)configureBannerAds {
+    if (!self.premiumUser) {
+//        self.canDisplayBannerAds        = YES;
+        _adBannerView.delegate          = self;
+    }
+}
+- (void)bannerAdShow {
+    _adBannerView.hidden                = NO;
+}
+- (void)bannerAdHide {
+    _adBannerView.hidden                = YES;
+}
+- (void)cycleInterstitial {
+    _interstitialAd                     = [[ADInterstitialAd alloc] init];
+    _interstitialAd.delegate            = self;
+}
+- (void)closeAd {
+
+    [self.placeHolderView removeFromSuperview];
+    [self.closeButton removeFromSuperview];
+    
+    self.interstitialAd = nil;
+    [self cycleInterstitial];
+    
+    [self bannerAdShow];
+    
+    NSNotification *notification = [[NSNotification alloc] initWithName:kSINotificationInterstitialAdFinish object:nil userInfo:nil];
+    [[NSNotificationCenter defaultCenter] postNotification:notification];
+
+    
+}
+- (void)presentInterstital {
+    if (_interstitialAd.loaded) {
+        [self bannerAdHide];
+        self.placeHolderView    = [[UIView alloc] initWithFrame:self.view.frame];
+        [self.view addSubview:self.placeHolderView];
+        
+        self.closeButton        = [[UIButton alloc] initWithFrame:CGRectMake(25, 25, self.view.frame.size.width / 6.0f, self.view.frame.size.width / 6.0f)];
+        [self.closeButton setBackgroundImage:[UIImage imageNamed:kSIImageButtonCross] forState:UIControlStateNormal];
+        [self.closeButton addTarget:self action:@selector(closeAd) forControlEvents:UIControlEventTouchUpInside];
+        [self.view addSubview:self.closeButton];
+        
+        [_interstitialAd presentInView:self.placeHolderView];
+    } else {
+        if (self.placeHolderView) {
+            [self closeAd];
+        }
+    }
+}
+#pragma mark ADInterstitialViewDelegate methods
+
+// When this method is invoked, the application should remove the view from the screen and tear it down.
+// The content will be unloaded shortly after this method is called and no new content will be loaded in that view.
+// This may occur either when the user dismisses the interstitial view via the dismiss button or
+// if the content in the view has expired.
+- (void)interstitialAdDidUnload:(ADInterstitialAd *)interstitialAd
+{
+    if (self.placeHolderView) {
+        [self closeAd];
+    }
+}
+
+// This method will be invoked when an error has occurred attempting to get advertisement content.
+// The ADError enum lists the possible error codes.
+- (void)interstitialAd:(ADInterstitialAd *)interstitialAd didFailWithError:(NSError *)error
+{
+    [self closeAd];
+}
+
+- (void)launchPopupForContinue:(NSNotification *)notification {
+    NSDictionary *userInfo = notification.userInfo;
+    NSNumber *canAfford = [userInfo objectForKey:kSINSDictionaryKeyCanAfford];
+    NSNumber *cost      = [userInfo objectForKey:kSINSDictionaryKeyCanAffordCost];
+    
+    MSSAlertViewController *alert = [MSSAlertViewController alertWithAttributedTitle: [[NSAttributedString alloc] initWithString:@"Continue!"
+                                                                                                                       attributes:@{NSForegroundColorAttributeName: [UIColor blackColor],
+                                                                                                                                    NSFontAttributeName:[UIFont fontWithName:kSIFontFuturaMedium size:[MainViewController fontSizeText_x2]]}]
+                                                                   attributedMessage:[[NSAttributedString alloc] initWithString:@"Pick an option to continue where you left off!"
+                                                                                                                     attributes:@{NSForegroundColorAttributeName: [UIColor blackColor],
+                                                                                                                                  NSFontAttributeName:[UIFont fontWithName:kSIFontFuturaMedium size:[MainViewController fontSizeText]]}]];
+    
+    
+    if ([canAfford boolValue]) {
+        [alert addButtonWithAttributedTitle:[[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@ IT Coins",cost]
+                                                                            attributes:@{NSForegroundColorAttributeName: [UIColor blackColor],
+                                                                                         NSFontAttributeName:[UIFont fontWithName:kSIFontFuturaMedium size:[MainViewController fontSizeText]]}]
+                                 tapHandler:^{
+                                     NSNotification *notification = [[NSNotification alloc] initWithName:kSINotificationGameContinueUseCoins object:nil userInfo:nil];
+                                     [[NSNotificationCenter defaultCenter] postNotification:notification];
+                                 }];
+
+        
+    } else {
+        [alert addButtonWithAttributedTitle:[[NSAttributedString alloc] initWithString:@"Buy More Coins"
+                                                                            attributes:@{NSForegroundColorAttributeName: [UIColor blackColor],
+                                                                                         NSFontAttributeName:[UIFont fontWithName:kSIFontFuturaMedium size:[MainViewController fontSizeText]]}]
+                                 tapHandler:^{
+                                     NSNotification *notification = [[NSNotification alloc] initWithName:kSINotificationGameContinueUseLaunchStore object:nil userInfo:nil];
+                                     [[NSNotificationCenter defaultCenter] postNotification:notification];
+                                 }];
+    }
+    
+    
+    [alert addButtonWithAttributedTitle:[[NSAttributedString alloc] initWithString:@"Watch Ad"
+                                                                        attributes:@{NSForegroundColorAttributeName: [UIColor blackColor],
+                                                                                     NSFontAttributeName:[UIFont fontWithName:kSIFontFuturaMedium size:[MainViewController fontSizeText]]}]
+                             tapHandler:^{
+                                 [self presentInterstital];
+                             }];
+
+
+    [alert addButtonWithAttributedTitle:[[NSAttributedString alloc] initWithString:@"Cancel"
+                                                                        attributes:@{NSForegroundColorAttributeName: [UIColor blackColor],
+                                                                                     NSFontAttributeName:[UIFont fontWithName:kSIFontFuturaMedium size:[MainViewController fontSizeText]]}]
+                             tapHandler:^{
+                                 NSNotification *notification = [[NSNotification alloc] initWithName:kSINotificationGameContinueUseCancel object:nil userInfo:nil];
+                                 [[NSNotificationCenter defaultCenter] postNotification:notification];
+                             }];
+    
+    [self presentViewController:alert animated:YES completion:nil];
+}
+#pragma mark - ADBannerViewDelegate
+-(void)bannerView:(ADBannerView *)banner didFailToReceiveAdWithError:(NSError *)error {
+    NSLog(@"Error [loading bannder ad]: %@",error.localizedDescription);
+    [self bannerAdHide];
+}
+-(void)bannerViewDidLoadAd:(ADBannerView *)banner {
+    [self bannerAdShow];
+}
+-(BOOL)bannerViewActionShouldBegin:(ADBannerView *)banner willLeaveApplication:(BOOL)willLeave {
+    return willLeave;
 }
 @end
