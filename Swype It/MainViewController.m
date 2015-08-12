@@ -455,7 +455,7 @@
 }
 - (void)configureBannerAds {
     if (!self.premiumUser) {
-//        self.canDisplayBannerAds        = YES;
+        self.canDisplayBannerAds        = NO;
         _adBannerView.delegate          = self;
     }
 }
@@ -519,7 +519,11 @@
 // The ADError enum lists the possible error codes.
 - (void)interstitialAd:(ADInterstitialAd *)interstitialAd didFailWithError:(NSError *)error
 {
-    [self closeAd];
+    NSLog(@"Error [interstitialAd] (CODE: %d) : %@",(int)error.code,error.localizedDescription);
+    if (error.code != ADErrorServerFailure) {
+        [self closeAd];
+    }
+    
 }
 
 - (void)launchPopupForContinue:(NSNotification *)notification {

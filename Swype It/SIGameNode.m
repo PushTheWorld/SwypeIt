@@ -100,15 +100,6 @@ enum {
 - (BOOL)addToGesture:(UIGestureRecognizer *)gestureRecognizer firstTouch:(UITouch *)touch isInside:(BOOL *)isInside {
     BOOL handleGesture = NO;
     if (HLGestureTarget_areEquivalentGestureRecognizers(gestureRecognizer, [self swypeGesture])) {
-//        UISwipeGestureRecognizer *swype     = (UISwipeGestureRecognizer *)gestureRecognizer;
-//        if (swype.direction == (UISwipeGestureRecognizerDirectionRight | UISwipeGestureRecognizerDirectionLeft | UISwipeGestureRecognizerDirectionDown | UISwipeGestureRecognizerDirectionUp)) {
-//            *isInside       = YES;
-//            handleGesture   = YES;
-//        }
-//        if (handleGesture) {
-//            [gestureRecognizer addTarget:self action:@selector(handleSwipe:)];
-//        }
-//        return handleGesture;
         [gestureRecognizer addTarget:self action:@selector(handleSwipe:)];
         *isInside = YES;
         return YES;
@@ -161,6 +152,10 @@ enum {
     }
     
     if (gestureRecognizer.state == UIGestureRecognizerStateEnded) {
+        [self.delegate gestureEnded:SIMoveTap];
+    }
+    
+    if (gestureRecognizer.state == UIGestureRecognizerStateBegan) {
         [self.delegate gestureEnded:SIMoveTap];
     }
 }

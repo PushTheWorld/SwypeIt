@@ -165,6 +165,9 @@ NSString *const kSINodeButtonStore                                  = @"store";
 NSString *const kSINodeButtonTwoHand                                = @"twoHand";
 NSString *const kSINodeButtonTimeFreeze                             = @"timeFreeze";
 NSString *const kSINodeFallingMonkey                                = @"fallingMonkey";
+NSString *const kSINodeGameMoveCommand                              = @"moveCommand";
+NSString *const kSINodeGameProgressBarMove                          = @"progressBarMove";
+NSString *const kSINodeGameScoreTotal                               = @"scoreTotal";
 
 #pragma mark - Fonts
 NSString *const kSIFontGameScore                                    = @"LongIslandContour";

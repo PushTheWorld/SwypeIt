@@ -317,6 +317,9 @@ extern NSString *const kSINodeButtonReplay;
 extern NSString *const kSINodeButtonSettings;
 extern NSString *const kSINodeButtonStore;
 extern NSString *const kSINodeFallingMonkey;
+extern NSString *const kSINodeGameMoveCommand;
+extern NSString *const kSINodeGameProgressBarMove;
+extern NSString *const kSINodeGameScoreTotal;
 
 
 #pragma mark - Fonts
