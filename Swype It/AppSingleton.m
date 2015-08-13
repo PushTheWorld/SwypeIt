@@ -101,6 +101,7 @@
     self.currentGame.totalScore                 = 0.0f;
     self.currentGame.isPaused                   = NO;
     self.moveStartTimeInMiliSeconds             = 0;
+    self.compositeTimeInMiliSeconds             = 0;
     self.currentGame.moveScorePercentRemaining  = 1.0f;
     
     if (self.currentGame.gameMode == SIGameModeOneHand) {
@@ -241,7 +242,12 @@
 //    NSLog(@"Points till free coin before: %0.2f",pointsTillFreeCoin);
     pointsTillFreeCoin                          = pointsTillFreeCoin + score;
     self.currentGame.freeCoinInPoints           = pointsTillFreeCoin;
-    if (pointsTillFreeCoin > POINTS_NEEDED_FOR_FREE_COIN) {
+    if (pointsTillFreeCoin > POINTS_NEEDED_FOR_FREE_COIN + MAX_MOVE_SCORE) {
+        /*This is a critical error*/
+//        [NSException raise:@"PointOverFlow" format:@"pointsTillFreeCoin is too high"];
+        pointsTillFreeCoin = POINTS_NEEDED_FOR_FREE_COIN / 2;
+        NSLog(@"Critical Error: Points needed wayyy to high... Resting to half of points needed.");
+    } else if (pointsTillFreeCoin > POINTS_NEEDED_FOR_FREE_COIN) {
         if (_fXIsAllowed) {
             [[SoundManager sharedManager] playSound:kSISoundFXChaChing];
         }

@@ -72,7 +72,6 @@
 		096ABDF71B6B6ABB005B2F12 /* swypeItSound6.caf in Resources */ = {isa = PBXBuildFile; fileRef = 096ABDEE1B6B6ABB005B2F12 /* swypeItSound6.caf */; };
 		096ABDF81B6B6ABB005B2F12 /* swypeItSound7.caf in Resources */ = {isa = PBXBuildFile; fileRef = 096ABDEF1B6B6ABB005B2F12 /* swypeItSound7.caf */; };
 		097375461B57A97500BE1BCA /* BaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 097375451B57A97500BE1BCA /* BaseViewController.m */; };
-		0979E6501B768168002FC2F2 /* HLPopupNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 0979E64F1B768168002FC2F2 /* HLPopupNode.m */; };
 		0979E6531B76AA30002FC2F2 /* MSSAlertViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0979E6521B76AA30002FC2F2 /* MSSAlertViewController.m */; };
 		0979E6581B77A614002FC2F2 /* LongIsland-Shadow.otf in Resources */ = {isa = PBXBuildFile; fileRef = 0979E6571B77A614002FC2F2 /* LongIsland-Shadow.otf */; };
 		0979E65A1B77A74E002FC2F2 /* LongIslandContour.otf in Resources */ = {isa = PBXBuildFile; fileRef = 0979E6591B77A74E002FC2F2 /* LongIslandContour.otf */; };
@@ -87,6 +86,7 @@
 		098B3B501B379C87000D4702 /* iAd.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 098B3B4F1B379C87000D4702 /* iAd.framework */; };
 		098B3B521B379C8D000D4702 /* GameKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 098B3B511B379C8D000D4702 /* GameKit.framework */; };
 		098B3B541B379C93000D4702 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 098B3B531B379C93000D4702 /* AudioToolbox.framework */; };
+		099302FC1B7CB50600D2CCE4 /* SIPopupNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 099302FB1B7CB50600D2CCE4 /* SIPopupNode.m */; };
 		099A621B1B5C62A0009BF339 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 099A621A1B5C62A0009BF339 /* CoreGraphics.framework */; };
 		099A621D1B5C62A6009BF339 /* SpriteKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 099A621C1B5C62A6009BF339 /* SpriteKit.framework */; };
 		099A62231B5C635F009BF339 /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 099A62221B5C635F009BF339 /* MainViewController.m */; };
@@ -226,8 +226,6 @@
 		096ABDEF1B6B6ABB005B2F12 /* swypeItSound7.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = swypeItSound7.caf; sourceTree = "<group>"; };
 		097375441B57A97500BE1BCA /* BaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseViewController.h; sourceTree = "<group>"; };
 		097375451B57A97500BE1BCA /* BaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseViewController.m; sourceTree = "<group>"; };
-		0979E64E1B768168002FC2F2 /* HLPopupNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HLPopupNode.h; sourceTree = "<group>"; };
-		0979E64F1B768168002FC2F2 /* HLPopupNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HLPopupNode.m; sourceTree = "<group>"; };
 		0979E6511B76AA30002FC2F2 /* MSSAlertViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSSAlertViewController.h; sourceTree = "<group>"; };
 		0979E6521B76AA30002FC2F2 /* MSSAlertViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSSAlertViewController.m; sourceTree = "<group>"; };
 		0979E6571B77A614002FC2F2 /* LongIsland-Shadow.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "LongIsland-Shadow.otf"; sourceTree = "<group>"; };
@@ -247,6 +245,8 @@
 		098B3B4F1B379C87000D4702 /* iAd.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = iAd.framework; path = System/Library/Frameworks/iAd.framework; sourceTree = SDKROOT; };
 		098B3B511B379C8D000D4702 /* GameKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameKit.framework; path = System/Library/Frameworks/GameKit.framework; sourceTree = SDKROOT; };
 		098B3B531B379C93000D4702 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
+		099302FA1B7CB50600D2CCE4 /* SIPopupNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SIPopupNode.h; sourceTree = "<group>"; };
+		099302FB1B7CB50600D2CCE4 /* SIPopupNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SIPopupNode.m; sourceTree = "<group>"; };
 		099A621A1B5C62A0009BF339 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		099A621C1B5C62A6009BF339 /* SpriteKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SpriteKit.framework; path = System/Library/Frameworks/SpriteKit.framework; sourceTree = SDKROOT; };
 		099A62211B5C635F009BF339 /* MainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainViewController.h; sourceTree = "<group>"; };
@@ -353,8 +353,6 @@
 				0917D4C81B6DD8240046B5FF /* HLMessageNode.m */,
 				0917D4C91B6DD8240046B5FF /* HLOutlineLayoutManager.h */,
 				0917D4CA1B6DD8240046B5FF /* HLOutlineLayoutManager.m */,
-				0979E64E1B768168002FC2F2 /* HLPopupNode.h */,
-				0979E64F1B768168002FC2F2 /* HLPopupNode.m */,
 				0917D4CB1B6DD8240046B5FF /* HLRingLayoutManager.h */,
 				0917D4CC1B6DD8240046B5FF /* HLRingLayoutManager.m */,
 				0917D4CD1B6DD8240046B5FF /* HLRingNode.h */,
@@ -528,10 +526,12 @@
 				099A62351B5C917A009BF339 /* CustomProgressBar.m */,
 				092720EA1B6388740005A6B6 /* ProgressBar.h */,
 				092720EB1B6388740005A6B6 /* ProgressBar.m */,
-				0988CC921B70C82300BF429D /* SIStoreButtonNode.h */,
-				0988CC931B70C82300BF429D /* SIStoreButtonNode.m */,
 				09A57AB91B788BEF003B6F08 /* SIGameNode.h */,
 				09A57ABA1B788BEF003B6F08 /* SIGameNode.m */,
+				099302FA1B7CB50600D2CCE4 /* SIPopupNode.h */,
+				099302FB1B7CB50600D2CCE4 /* SIPopupNode.m */,
+				0988CC921B70C82300BF429D /* SIStoreButtonNode.h */,
+				0988CC931B70C82300BF429D /* SIStoreButtonNode.m */,
 			);
 			name = CustomUIClasses;
 			sourceTree = "<group>";
@@ -910,12 +910,12 @@
 				0917D4F21B6DD8240046B5FF /* HLOutlineLayoutManager.m in Sources */,
 				098B3B431B378B89000D4702 /* AppSingleton.m in Sources */,
 				0979E6531B76AA30002FC2F2 /* MSSAlertViewController.m in Sources */,
-				0979E6501B768168002FC2F2 /* HLPopupNode.m in Sources */,
 				099A62361B5C917A009BF339 /* CustomProgressBar.m in Sources */,
 				0917D4EE1B6DD8240046B5FF /* HLLayoutManager.m in Sources */,
 				092720EC1B6388740005A6B6 /* ProgressBar.m in Sources */,
 				091470F71B68F1A2006B0CC1 /* SettingsScene.m in Sources */,
 				0917D4FD1B6DD8240046B5FF /* SKNode+HLLayoutManager.m in Sources */,
+				099302FC1B7CB50600D2CCE4 /* SIPopupNode.m in Sources */,
 				092720DF1B5EF1C30005A6B6 /* StoreScene.m in Sources */,
 				0917D4F51B6DD8240046B5FF /* HLScene.m in Sources */,
 				0917D4F61B6DD8240046B5FF /* HLScrollNode.m in Sources */,

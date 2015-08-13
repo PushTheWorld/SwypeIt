@@ -49,13 +49,14 @@
     if (self = [super initWithSize:size]) {
         /**Do any setup before self.view is loaded*/
         self.backgroundColor                = [SKColor sandColor];
-        [self initSetup:size];
+        
     }
     return self;
 }
 - (void)didMoveToView:(nonnull SKView *)view {
     [super didMoveToView:view];
     /**Do any setup post self.view creation*/
+    [self initSetup:view.frame.size];
     [self viewSetup:view];
 }
 - (void)willMoveFromView:(nonnull SKView *)view {

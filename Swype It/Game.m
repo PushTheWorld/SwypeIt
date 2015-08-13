@@ -675,6 +675,14 @@
 
     [view presentScene:scene transition:transistion];
 }
++ (SKTexture *)textureBackgroundColor:(SKColor *)backgroundColor size:(CGSize)size {
+    CAShapeLayer *shapeLayer    = [CAShapeLayer layer];
+    shapeLayer.frame            = CGRectMake(0, 0, size.width, size.height);
+    shapeLayer.fillColor        = backgroundColor.CGColor;
+    
+    return [Game textureFromLayer:shapeLayer];
+}
+
 + (SKTexture *)textureBackgroundColor:(SKColor *)backgroundColor size:(CGSize)size cornerRadius:(CGFloat)cornerRadius borderWidth:(CGFloat)borderWidth borderColor:(UIColor *)borderColor {
     UIBezierPath *maskPath      = [UIBezierPath bezierPathWithRoundedRect:CGRectMake(0, 0, size.width, size.height) cornerRadius:cornerRadius];
     

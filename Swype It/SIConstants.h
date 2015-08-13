@@ -239,6 +239,10 @@ extern NSString *const kSIImageButtonPlay;
 extern NSString *const kSIImageButtonRapidFire;
 extern NSString *const kSIImageButtonReplay;
 extern NSString *const kSIImageButtonSettings;
+extern NSString *const kSIImageButtonSoundOffBackground;
+extern NSString *const kSIImageButtonSoundOffFX;
+extern NSString *const kSIImageButtonSoundOnBackground;
+extern NSString *const kSIImageButtonSoundOnFX;
 extern NSString *const kSIImageButtonStore;
 extern NSString *const kSIImageButtonTimeFreeze;
 extern NSString *const kSIImageFallingMonkeys;
@@ -246,8 +250,8 @@ extern NSString *const kSIImageIAPSmall;
 extern NSString *const kSIImageIAPMedium;
 extern NSString *const kSIImageIAPLarge;
 extern NSString *const kSIImageIAPExtraLarge;
-extern NSString *const kSIImageProgressBarFill;
-extern NSString *const kSIImageProgressBarPowerUpFill;
+extern NSString *const kSIImageProgressBarFillMove;
+extern NSString *const kSIImageProgressBarFillPowerUp;
 extern NSString *const kSIImageShapePowerupCost;
 
 #pragma mark - Texture Atlas

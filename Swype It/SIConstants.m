@@ -86,6 +86,10 @@ NSString *const kSIImageButtonPlay                                  = @"playButt
 NSString *const kSIImageButtonRapidFire                             = @"rapidFire";
 NSString *const kSIImageButtonReplay                                = @"replayButton";
 NSString *const kSIImageButtonSettings                              = @"settingsButtonRevB";
+NSString *const kSIImageButtonSoundOffBackground                    = @"soundBackgroundOff";
+NSString *const kSIImageButtonSoundOffFX                            = @"soundFXOff";
+NSString *const kSIImageButtonSoundOnBackground                     = @"soundBackgroundOn";
+NSString *const kSIImageButtonSoundOnFX                             = @"soundFXOn";
 NSString *const kSIImageButtonStore                                 = @"storeButton";
 NSString *const kSIImageButtonTimeFreeze                            = @"timeFreeze";
 NSString *const kSIImageFallingMonkeys                              = @"monkeyFreeVector";
@@ -93,8 +97,8 @@ NSString *const kSIImageIAPSmall                                    = @"tempPile
 NSString *const kSIImageIAPMedium                                   = @"tempBucket";
 NSString *const kSIImageIAPLarge                                    = @"tempBag";
 NSString *const kSIImageIAPExtraLarge                               = @"tempChest";
-NSString *const kSIImageProgressBarFill                             = @"progressBarFill";
-NSString *const kSIImageProgressBarPowerUpFill                      = @"progressBarPowerUpFill";
+NSString *const kSIImageProgressBarFillMove                         = @"progressBarFillMove";
+NSString *const kSIImageProgressBarFillPowerUp                      = @"progressBarFillPowerUp";
 NSString *const kSIImageShapePowerupCost                            = @"powerupCost";
 
 
