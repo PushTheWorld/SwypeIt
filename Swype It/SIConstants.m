@@ -65,7 +65,6 @@ NSString *const kSINotificationSettingsLaunchBugReport              = @"com.push
 NSString *const kSINotificationScoreUpdate                          = @"com.pushtheworldllc.swipeit.scoreUpdate";
 NSString *const kSINotificationShowAlert                            = @"com.pushtheworldllc.swipeit.showAlert";
 
-
 #pragma mark - Score Constants
 NSString *const kSIScoreTotalScore                                  = @"totalScore";
 NSString *const kSIScoreNextMove                                    = @"nextMove";
@@ -76,6 +75,7 @@ NSString *const kSIImageButtonCoinSmall                             = @"coinSmal
 NSString *const kSIImageButtonContinue                              = @"continueButton";
 NSString *const kSIImageButtonContinueGrayed                        = @"continueGrayedButton";
 NSString *const kSIImageButtonCross                                 = @"cross";
+NSString *const kSIImageButtonDismiss                               = @"dismissButton";
 NSString *const kSIImageButtonDone                                  = @"doneButton";
 NSString *const kSIImageButtonFallingMonkey                         = @"monkey";
 NSString *const kSIImageButtonGameModeOneHand                       = @"oneHandRevB";
@@ -100,8 +100,6 @@ NSString *const kSIImageIAPExtraLarge                               = @"tempChes
 NSString *const kSIImageProgressBarFillMove                         = @"progressBarFillMove";
 NSString *const kSIImageProgressBarFillPowerUp                      = @"progressBarFillPowerUp";
 NSString *const kSIImageShapePowerupCost                            = @"powerupCost";
-
-
 
 #pragma mark - Texture Atlas
 NSString *const kSIAtlasButtons                                     = @"buttons";
@@ -172,6 +170,7 @@ NSString *const kSINodeFallingMonkey                                = @"fallingM
 NSString *const kSINodeGameMoveCommand                              = @"moveCommand";
 NSString *const kSINodeGameProgressBarMove                          = @"progressBarMove";
 NSString *const kSINodeGameScoreTotal                               = @"scoreTotal";
+NSString *const kSINodePopUpContent                                 = @"content";
 
 #pragma mark - Fonts
 NSString *const kSIFontGameScore                                    = @"LongIslandContour";

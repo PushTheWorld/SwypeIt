@@ -12,6 +12,7 @@
 #import "EndGameScene.h"
 #import "MainViewController.h"
 #import "StartScreenScene.h"
+#import "SITestScene.h"
 // Framework Import
 #import <iAd/iAd.h>
 #import <Instabug/Instabug.h>
@@ -150,7 +151,8 @@
 //    skView.showsNodeCount   = YES;
     
     // Create and configure the scene.
-    SKScene * scene = [StartScreenScene sceneWithSize:skView.bounds.size];
+    SKScene * scene = [SITestScene sceneWithSize:skView.bounds.size];
+//    SKScene * scene = [StartScreenScene sceneWithSize:skView.bounds.size];
     scene.scaleMode = SKSceneScaleModeAspectFill;
     
     // Present the scene.

@@ -229,6 +229,7 @@ extern NSString *const kSIImageButtonCoinSmall;
 extern NSString *const kSIImageButtonContinue;
 extern NSString *const kSIImageButtonContinueGrayed;
 extern NSString *const kSIImageButtonCross;
+extern NSString *const kSIImageButtonDismiss;
 extern NSString *const kSIImageButtonDone;
 extern NSString *const kSIImageButtonFallingMonkey;
 extern NSString *const kSIImageButtonGameModeOneHand;
@@ -324,7 +325,7 @@ extern NSString *const kSINodeFallingMonkey;
 extern NSString *const kSINodeGameMoveCommand;
 extern NSString *const kSINodeGameProgressBarMove;
 extern NSString *const kSINodeGameScoreTotal;
-
+extern NSString *const kSINodePopUpContent;
 
 #pragma mark - Fonts
 extern NSString *const kSIFontGameScore;

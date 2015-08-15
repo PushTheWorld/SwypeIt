@@ -10,12 +10,12 @@
 // Local Controller Import
 // Framework Import
 // Drop-In Class Imports (CocoaPods/GitHub/Guru)
-#import "HLComponentNode.h"
-#import "HLGestureTarget.h"
+#import "HLSpriteKit.h"
 // Category Import
 // Support/Data Class Imports
 #import "Game.h"
 // Other Imports
+@class SIPopupNode;
 @protocol SIPopUpNodeDelegate <NSObject>
 @optional
 
@@ -38,41 +38,149 @@
  */
 @property (nonatomic, weak) id <SIPopUpNodeDelegate> delegate;
 
-/// @name Creating a Game Node [A node that has pinch, swipe, and tap gesture recognizers]
+/// @name Creating a pop up
 
 /**
- Initializes an `SIGameNode` in either SIGameModeOneHand or SIGameModeTwoHand
- Default color is red
+ The initalizer method
  */
-- (instancetype)initWithSize:(CGSize)size gameMode:(SIGameMode)gameMode;
+- (instancetype)initWithSceneSize:(CGSize)size;
 
 /**
- The size of the node.
+ The convience initalizer method
  */
-
-@property (nonatomic, assign) CGSize size;
+- (instancetype)initWithSceneSize:(CGSize)size
+                         xPadding:(CGFloat)xPadding
+                         yPadding:(CGFloat)yPadding
+                  backgroundColor:(SKColor *)backgroundColor
+                     cornerRadius:(CGFloat)cornerRadius
+                      borderWidth:(CGFloat)borderWidth
+                      borderColor:(SKColor *)borderColor;
 
 /**
- The anchor point for the position of the `SIGameNode` within its parent.
- Default value `(0.5, 0.5)`.
+ The size of the background node.
  */
-@property (nonatomic, assign) CGPoint anchorPoint;
+@property (nonatomic, assign) CGSize backgroundSize;
+
+/**
+ The spacing between the top of the background node and the bottom
+ */
 
 /**
  The backgroundColor of the spriteNode
- Default value `redColor`.
+ Default value `grayColor`.
  */
 @property (nonatomic, strong) SKColor *backgroundColor;
 
-/// @name Configuring Node Geometry
+/**
+ The corner radius of the button.
+ 
+ Default value is `0.0`.
+ 
+ Note: property will only work for label buttons that don’t have a texture.
+ */
+@property (nonatomic, assign) CGFloat cornerRadius;
 
 /**
- Effects layout according to all object properties.
+ The boarder width of the button.
  
- In general, this method must be called after modifying any geometry-related (layout-affecting)
- object property.  Requiring an explicit call allows the caller to set multiple properties at
- the same time efficiently.
+ Default value is `0.0`.
+ Default color is [SKColor blackColor]
  */
-- (void)layoutToolsAnimation;
+@property (nonatomic, assign) CGFloat borderWidth;
+
+/**
+ The color of the border for the button.
+ 
+ Default value is [SKColor blackColor]
+ */
+@property (nonatomic, strong) SKColor *borderColor;
+
+/**
+ The title of the popup
+ */
+@property (nonatomic, strong) NSString *titleText;
+
+/**
+ The font used by the title label.
+ */
+@property (nonatomic, copy) NSString *titleFontName;
+
+/**
+ The font size used by the title label.
+ 
+ The default value is determined by `[SKLabelNode fontSize]` (currently `32` points).
+ */
+@property (nonatomic, assign) CGFloat titleFontSize;
+
+/// @name Configuring Appearance
+
+/**
+ The font color used by the title label.
+ 
+ The defualt value is determined by `[SKLabelNode fontColor]` (currently white).
+ */
+@property (nonatomic, strong) SKColor *titleFontColor;
+
+/**
+ The padding between the top of the _titleLabel and the top of the _background node.
+ 
+ The default value is 16.
+ */
+@property (nonatomic, assign) CGFloat titleLabelTopPading;
+
+/**
+ The padding on the left and right edges.
+ 
+ The default value is 16.
+ */
+@property (nonatomic, assign) CGFloat xPadding;
+
+/**
+ The padding on the top and bottom edges.
+ 
+ The default value is 16.
+ */
+@property (nonatomic, assign) CGFloat yPadding;
+
+/**
+ The content that is displayed by the popup
+ */
+@property (nonatomic, strong) SKNode *contentNode;
+
+/**
+ The postion of the content node
+ 
+ See `dissmissButtonPosition` for reference.
+ Default value `(0.5, 0.5)`.
+ */
+@property (nonatomic, assign) CGPoint contentPostion;
+
+/**
+ The size of the dismiss button.
+ 
+ Default size (diameter) 1/8th width.
+ */
+@property (nonatomic, assign) CGSize dismissButtonSize;
+
+/**
+ The position of the dismiss button within the popup.
+ 
+ Scaled to work like anchor point (0.0-1.0,0.0-1.0)
+ 
+ (0,1)---------(1,1)
+ |                 |
+ |                 |
+ |                 |
+ |                 |
+ |    (0.5,0.5)    |
+ |                 |
+ |                 |
+ |                 |
+ |                 |
+ (0,0)---------(1,0)
+ 
+ Default value `(1, 1)`.
+ */
+@property (nonatomic, assign) CGPoint dismissButtonPosition;
 
 @end

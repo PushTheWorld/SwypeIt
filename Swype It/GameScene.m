@@ -20,6 +20,7 @@
 #import "GameScene.h"
 #import "MainViewController.h"
 #import "SIGameNode.h"
+#import "SIPopupNode.h"
 #import "TCProgressBarNode.h"
 // Framework Import
 #import <CoreMotion/CoreMotion.h>
@@ -34,7 +35,7 @@
 #import "Game.h"
 // Other Imports
 
-@interface GameScene () <HLToolbarNodeDelegate, SIGameNodeDelegate, HLRingNodeDelegate> {
+@interface GameScene () <HLToolbarNodeDelegate, SIGameNodeDelegate, HLRingNodeDelegate, SIPopUpNodeDelegate> {
     
 }
 #pragma mark - Private Properties
@@ -48,12 +49,7 @@
 @property (strong, nonatomic) HLLabelButtonNode *itCoinsButtonLabel;
 @property (strong, nonatomic) SKLabelNode       *moveCommandLabel;
 @property (strong, nonatomic) SKLabelNode       *totalScoreLabel;
-//@property (strong, nonatomic) SKSpriteNode      *pauseNode;
-//@property (strong, nonatomic) SKSpriteNode      *playNode;
 @property (strong, nonatomic) SKSpriteNode      *pauseScreenNode;
-//@property (strong, nonatomic) SKSpriteNode      *rapidFireNode;
-//@property (strong, nonatomic) SKSpriteNode      *fallingMonkeysNode;
-//@property (strong, nonatomic) SKSpriteNode      *timeFreezeNode;
 @property (strong, nonatomic) UIFont            *powerUpButtonFont;
 @property (strong, nonatomic) UIFont            *nextMoveCommandFont;
 @property (strong, nonatomic) UIFont            *moveCommandFont;
@@ -756,6 +752,8 @@ typedef NS_ENUM(NSInteger, SIGameSceneRingNode) {
     }
 //    gestures = _sharedGestureRecognizers;
     [[NSNotificationCenter defaultCenter] removeObserver:self];
+    
+    
     
     EndGameScene *endScene      = [EndGameScene sceneWithSize:self.frame.size];
     [Game transisitionToSKScene:endScene toSKView:self.view DoorsOpen:NO pausesIncomingScene:NO pausesOutgoingScene:NO duration:1.0];
