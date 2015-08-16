@@ -11,3 +11,5 @@ pod 'Instabug'
 pod 'iRate'
 
 pod 'iVersion'
+
+pod 'FXBlurView'

@@ -100,7 +100,7 @@
     _menuNode.delegate                      = self;
     _menuNode.itemAnimation                 = HLMenuNodeAnimationSlideLeft;
     _menuNode.itemAnimationDuration         = _buttonAnimationDuration;
-    _menuNode.itemButtonPrototype           = [MainViewController SI_sharedMenuButtonPrototypeBasic:[MainViewController buttonSize:size] fontSize:[MainViewController fontSizeButton]];
+    _menuNode.itemButtonPrototype           = [MainViewController SI_sharedMenuButtonPrototypeBasic:[MainViewController buttonSize:size]];
     _menuNode.backItemButtonPrototype       = [MainViewController SI_sharedMenuButtonPrototypeBack:[MainViewController buttonSize:size]];
     _menuNode.itemSeparatorSize             = _buttonSpacing;
     _menuNode.anchorPoint                   = CGPointMake(0.5, 0);

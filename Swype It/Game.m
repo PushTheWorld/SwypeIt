@@ -633,7 +633,7 @@
 }
 + (UIImage *)getBluredScreenshot:(SKView *)view {
     UIGraphicsBeginImageContextWithOptions(view.bounds.size, NO, 1);
-    [view drawViewHierarchyInRect:view.frame afterScreenUpdates:YES];
+    [view drawViewHierarchyInRect:view.frame afterScreenUpdates:NO];
     UIImage *ss = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
     
@@ -653,6 +653,7 @@
     CGImageRelease(cgimg);
     return image;
 }
+
 #pragma mark - Public Methods
 - (NSNumber *)getNextLevelScore {
     return [NSNumber numberWithFloat:[Game nextLevelForScore:self.totalScore]];

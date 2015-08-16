@@ -31,7 +31,7 @@
 
 @end
 
-@implementation TCProgressBarNode
+@implementation TCProgressBarNode 
 
 #pragma mark - Properties
 
@@ -40,6 +40,10 @@
     if (_progress != progress)
     {
         _progress = MIN(MAX(progress, 0.0), 1.0);
+        
+        if (_colorDoesChange) {
+            _fillSpriteNode.color   = [UIColor colorWithHue:_progress saturation:1.0 brightness:1.0 alpha:1.0];
+        }
         
         [self progressDidChange];
     }
@@ -73,11 +77,12 @@
     if (self)
     {
         _size = size;
-        _backgroundColor = backgroundColor;
-        _fillColor = fillColor;
-        _borderColor = borderColor;
-        _cornerRadius = cornerRadius;
-        _borderWidth = borderWidth;
+        _backgroundColor    = backgroundColor;
+        _fillColor          = fillColor;
+        _borderColor        = borderColor;
+        _cornerRadius       = cornerRadius;
+        _borderWidth        = borderWidth;
+        _colorDoesChange    = NO;
         
         [self progressBarNodeCommonInit];
     }
@@ -130,7 +135,9 @@
         [self initializeBackgroundTexture];
     }
     
-    _backgroundSpriteNode = [SKSpriteNode spriteNodeWithTexture:_backgroundTexture];
+    _backgroundSpriteNode                           = [SKSpriteNode spriteNodeWithTexture:_backgroundTexture];
+    _backgroundSpriteNode.userInteractionEnabled    = YES;
+
     
     [self addChild:_backgroundSpriteNode];
 }
@@ -141,6 +148,7 @@
     
     backgroundLayer.lineWidth = 0.0f;
     backgroundLayer.fillColor = _backgroundColor.CGColor;
+
     
     _backgroundTexture = [self textureFromLayer:backgroundLayer];
 }
@@ -153,6 +161,8 @@
     
     // mask to background texture
     _fillCropNode.maskNode = [SKSpriteNode spriteNodeWithTexture:_backgroundTexture];
+    _fillCropNode.userInteractionEnabled   = YES;
+
     
     [self addChild:_fillCropNode];
 }
@@ -172,6 +182,8 @@
     
     _fillSpriteNode.anchorPoint = CGPointMake(0.0f, 0.5f);
     _fillSpriteNode.position = CGPointMake(-round(_size.width / 2.0), 0.0);
+    _fillSpriteNode.userInteractionEnabled   = YES;
+
     
     [_fillCropNode addChild:_fillSpriteNode];
 }
@@ -187,7 +199,8 @@
         [self initializeOverlayTexture];
     }
     
-    _overlaySpriteNode = [SKSpriteNode spriteNodeWithTexture:_overlayTexture];
+    _overlaySpriteNode                          = [SKSpriteNode spriteNodeWithTexture:_overlayTexture];
+    _overlaySpriteNode.userInteractionEnabled   = YES;
     
     [self addChild:_overlaySpriteNode];
 }

@@ -16,6 +16,9 @@
 /** Configurable title label, displayed centered in the progress bar by default */
 @property (nonatomic, strong, readonly) SKLabelNode *titleLabelNode;
 
+/** Uses hue special*/
+@property (nonatomic, assign) BOOL colorDoesChange;
+
 /** Initialize a plain progress bar with the given colors and sizes. */
 - (instancetype)initWithSize:(CGSize)size
              backgroundColor:(UIColor *)backgroundColor

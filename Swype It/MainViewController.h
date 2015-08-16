@@ -30,8 +30,8 @@
 + (CGSize)              buttonSize:(CGSize)size;
 
 + (HLLabelButtonNode *) SI_sharedMenuButtonPrototypeBack:(CGSize)size;
-+ (HLLabelButtonNode *) SI_sharedMenuButtonPrototypeBasic:(CGSize)size fontSize:(CGFloat)fontSize;
-+ (HLLabelButtonNode *) SI_sharedMenuButtonPrototypeBasic:(CGSize)size fontSize:(CGFloat)fontSize backgroundColor:(UIColor *)backgroundColor fontColor:(UIColor *)fontColor;
++ (HLLabelButtonNode *) SI_sharedMenuButtonPrototypeBasic:(CGSize)size;
++ (HLLabelButtonNode *) SI_sharedMenuButtonPrototypeBasic:(CGSize)size backgroundColor:(UIColor *)backgroundColor fontColor:(UIColor *)fontColor;
 + (HLLabelButtonNode *) SI_sharedMenuButtonPrototypePopUp:(CGSize)size;
 
 + (SIPopupNode *)       SISharedPopUpNodeTitle:(NSString *)title SceneSize:(CGSize)sceneSize;

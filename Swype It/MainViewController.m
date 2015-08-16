@@ -335,59 +335,56 @@
         self.loadingLabel.alpha = 0.0f;
     }];
 }
-+ (HLLabelButtonNode *)SI_sharedMenuButtonPrototypeBasic:(CGSize)size fontSize:(CGFloat)fontSize {
-    static HLLabelButtonNode *buttonPrototype = nil;
-    if (!buttonPrototype) {
-        buttonPrototype                         = [[MainViewController SIHLInterfaceLabelButton:size fontSize:fontSize] copy];
-        buttonPrototype.verticalAlignmentMode   = HLLabelNodeVerticalAlignFontAscenderBias;
-    }
++ (HLLabelButtonNode *)SI_sharedMenuButtonPrototypeBasic:(CGSize)size {
+    HLLabelButtonNode *buttonPrototype;
+    buttonPrototype                         = [[MainViewController SIHLInterfaceLabelButton:size] copy];
+    buttonPrototype.verticalAlignmentMode   = HLLabelNodeVerticalAlignFontAscenderBias;
+    
     return buttonPrototype;
 }
-+ (HLLabelButtonNode *)SI_sharedMenuButtonPrototypeBasic:(CGSize)size fontSize:(CGFloat)fontSize backgroundColor:(SKColor *)backgroundColor fontColor:(UIColor *)fontColor {
-    static HLLabelButtonNode *buttonPrototype = nil;
-    if (!buttonPrototype) {
-        buttonPrototype                         = [[MainViewController SIHLInterfaceLabelButton:size backgroundColor:fontColor fontColor:fontColor fontSize:fontSize] copy];
-        buttonPrototype.verticalAlignmentMode   = HLLabelNodeVerticalAlignFontAscenderBias;
-    }
++ (HLLabelButtonNode *)SI_sharedMenuButtonPrototypeBasic:(CGSize)size backgroundColor:(SKColor *)backgroundColor fontColor:(UIColor *)fontColor {
+    HLLabelButtonNode *buttonPrototype;
+    buttonPrototype                         = [[MainViewController SIHLInterfaceLabelButton:size backgroundColor:fontColor fontColor:fontColor] copy];
+    buttonPrototype.verticalAlignmentMode   = HLLabelNodeVerticalAlignFontAscenderBias;
+    
     return buttonPrototype;
 }
 + (HLLabelButtonNode *)SI_sharedMenuButtonPrototypeBack:(CGSize)size {
-    static HLLabelButtonNode *buttonPrototype = nil;
-    if (!buttonPrototype) {
-        buttonPrototype                         = [[MainViewController SI_sharedMenuButtonPrototypeBasic:size fontSize:[MainViewController fontSizeButton]] copy];
-        buttonPrototype.color                   = [UIColor blueColor];
-        buttonPrototype.colorBlendFactor        = 1.0f;
-    }
+    HLLabelButtonNode *buttonPrototype;
+    buttonPrototype                         =  [[MainViewController SIHLInterfaceLabelButton:size] copy];;
+    buttonPrototype.color                   = [UIColor blueColor];
+    buttonPrototype.colorBlendFactor        = 1.0f;
+
     return buttonPrototype;
 }
 + (HLLabelButtonNode *)SI_sharedMenuButtonPrototypePopUp:(CGSize)size {
-    static HLLabelButtonNode *buttonPrototype = nil;
-    if (!buttonPrototype) {
-        buttonPrototype                         = [[MainViewController SI_sharedMenuButtonPrototypeBasic:size fontSize:[MainViewController fontSizeButton]] copy];
-        buttonPrototype.color                   = [UIColor whiteColor];
-        buttonPrototype.fontColor               = [SKColor blackColor];
-        buttonPrototype.colorBlendFactor        = 1.0f;
-    }
+    HLLabelButtonNode *buttonPrototype;
+    buttonPrototype                         = [[MainViewController SIHLInterfaceLabelButton:size] copy];
+    buttonPrototype.verticalAlignmentMode   = HLLabelNodeVerticalAlignFontAscenderBias;
+    buttonPrototype.color                   = [UIColor whiteColor];
+    buttonPrototype.fontColor               = [SKColor blackColor];
+    buttonPrototype.colorBlendFactor        = 1.0f;
+
     return buttonPrototype;
 }
-+ (HLLabelButtonNode *)SIHLInterfaceLabelButton:(CGSize)size fontSize:(CGFloat)fontSize {
++ (HLLabelButtonNode *)SIHLInterfaceLabelButton:(CGSize)size {
     HLLabelButtonNode *labelButton              = [[HLLabelButtonNode alloc] initWithColor:[UIColor mainColor] size:size];
     labelButton.cornerRadius                    = 12.0f;
     labelButton.fontName                        = kSIFontUltra; // kSIFontFuturaMedium;
-    labelButton.fontSize                        = fontSize;
+    labelButton.fontSize                        = size.height * 0.33f;
     labelButton.borderWidth                     = 8.0f;
     labelButton.borderColor                     = [SKColor blackColor];
     labelButton.fontColor                       = [UIColor whiteColor];
     labelButton.verticalAlignmentMode           = HLLabelNodeVerticalAlignFont;
     return labelButton;
 }
-+ (HLLabelButtonNode *)SIHLInterfaceLabelButton:(CGSize)size backgroundColor:(UIColor *)backgroundColor fontColor:(SKColor *)fontColor fontSize:(CGFloat)fontSize {
++ (HLLabelButtonNode *)SIHLInterfaceLabelButton:(CGSize)size backgroundColor:(UIColor *)backgroundColor fontColor:(SKColor *)fontColor {
     HLLabelButtonNode *labelButton              = [[HLLabelButtonNode alloc] initWithColor:[SKColor orangeColor] size:size];
     labelButton.fontName                        = kSIFontUltra;
     labelButton.cornerRadius                    = 12.0f;
     labelButton.borderWidth                     = 8.0f;
     labelButton.borderColor                     = [SKColor blackColor];
-    labelButton.fontSize                        = fontSize;
+    labelButton.fontSize                        = size.height * 0.33f;
     labelButton.fontColor                       = fontColor;
     labelButton.verticalAlignmentMode           = HLLabelNodeVerticalAlignFont;
     return labelButton;

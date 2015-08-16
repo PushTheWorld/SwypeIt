@@ -95,14 +95,15 @@
 }
 #pragma mark - Game Functions
 - (void)startGame {
-    self.currentGame.freeCoinsEarned            = 0;
-    self.levelSpeedDivider                      = 1.0f;
-    self.timeFreezeMultiplyer                   = 1.0f;
-    self.currentGame.totalScore                 = 0.0f;
-    self.currentGame.isPaused                   = NO;
-    self.moveStartTimeInMiliSeconds             = 0;
-    self.compositeTimeInMiliSeconds             = 0;
-    self.currentGame.moveScorePercentRemaining  = 1.0f;
+    self.currentGame.freeCoinsEarned                = 0;
+    self.levelSpeedDivider                          = 1.0f;
+    self.timeFreezeMultiplyer                       = 1.0f;
+    self.currentGame.totalScore                     = 0.0f;
+    self.currentGame.isPaused                       = NO;
+    self.moveStartTimeInMiliSeconds                 = 0;
+    self.compositeTimeInMiliSeconds                 = 0;
+    self.currentGame.moveScorePercentRemaining      = 1.0f;
+    self.currentGame.currentNumberOfTimesContinued  = SIContinueLifeCost1;
     
     if (self.currentGame.gameMode == SIGameModeOneHand) {
         [self.manager startAccelerometerUpdates];
@@ -148,6 +149,7 @@
 //    [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(powerUpDidEnd) object:nil];
 }
 - (void)stopGame {
+    [self pause];
     /*Send Notification that Game has ENDED*/
     NSNotification *notification    = [[NSNotification alloc] initWithName:kSINotificationGameEnded object:nil userInfo:nil];
     [[NSNotificationCenter defaultCenter] postNotification:notification];
@@ -167,7 +169,7 @@
         [[SoundManager sharedManager] playSound:kSISoundFXGameOver];
     }
     
-    [self pause];
+
 
 }
 - (void)moveEnterForType:(SIMove)move {
