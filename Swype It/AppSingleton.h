@@ -33,6 +33,11 @@
 
 
 #pragma mark - Public Instance Methods
+/**
+ Method to determine if the user can continue...
+ */
+- (BOOL)canAffordContinue;
+
 - (void)endGame; /*Should only be used for force quit*/
 - (void)initAppSingletonWithGameMode:(SIGameMode)gameMode;
 - (void)moveEnterForType:(SIMove)move;

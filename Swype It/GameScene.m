@@ -35,7 +35,7 @@
 #import "Game.h"
 // Other Imports
 
-@interface GameScene () <HLToolbarNodeDelegate, SIGameNodeDelegate, HLRingNodeDelegate, SIPopUpNodeDelegate> {
+@interface GameScene () <HLToolbarNodeDelegate, SIGameNodeDelegate, HLRingNodeDelegate, SIPopUpNodeDelegate, HLMenuNodeDelegate> {
     
 }
 #pragma mark - Private Properties
@@ -108,6 +108,8 @@ typedef NS_ENUM(NSInteger, SIGameSceneRingNode) {
     int                                      _gameMode;
 
     NSInteger                                _restCount;
+    
+    NSString                                *_costMenuItemText;
     
     HLLabelButtonNode                       *_pauseButtonNode;
     HLLabelButtonNode                       *_playButtonNode;
@@ -751,12 +753,19 @@ typedef NS_ENUM(NSInteger, SIGameSceneRingNode) {
         [self powerUpDeactivated];
     }
 //    gestures = _sharedGestureRecognizers;
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
     
     
+    SIPopupNode *popUpNode  = [MainViewController SISharedPopUpNodeTitle:@"Continue?" SceneSize:self.size];
     
-    EndGameScene *endScene      = [EndGameScene sceneWithSize:self.frame.size];
-    [Game transisitionToSKScene:endScene toSKView:self.view DoorsOpen:NO pausesIncomingScene:NO pausesOutgoingScene:NO duration:1.0];
+    HLMenuNode *menuNode    = [self menuCreate:popUpNode.backgroundSize];
+    popUpNode.menuNode      = menuNode;
+    [self registerDescendant:menuNode withOptions:[NSSet setWithObject:HLSceneChildGestureTarget]];
+    
+    popUpNode.delegate                  = self;
+    popUpNode.userInteractionEnabled    = YES;
+    [popUpNode hlSetGestureTarget:popUpNode];
+    [self registerDescendant:popUpNode withOptions:[NSSet setWithObject:HLSceneChildGestureTarget]];
+    [self presentModalNode:popUpNode animation:HLScenePresentationAnimationFade];
 
 }
 - (void)adDidFinish {
@@ -1254,5 +1263,77 @@ typedef NS_ENUM(NSInteger, SIGameSceneRingNode) {
             NSLog(@"Ring Node item tapped out of bounds index error :/");
             break;
     }
+}
+
+#pragma mark - SIPopUpNode Methods
+- (HLMenuNode *)menuCreate:(CGSize)size {
+    HLMenuNode *menuNode                = [[HLMenuNode alloc] init];
+    menuNode.delegate                   = self;
+    menuNode.itemAnimation              = HLMenuNodeAnimationSlideLeft;
+    menuNode.itemAnimationDuration      = 0.25;
+    menuNode.itemButtonPrototype        = [MainViewController SI_sharedMenuButtonPrototypePopUp:[MainViewController buttonSize:size]];
+    menuNode.backItemButtonPrototype    = [MainViewController SI_sharedMenuButtonPrototypeBack:[MainViewController buttonSize:size]];
+    menuNode.itemSeparatorSize          = 20;
+    
+    HLMenu *menu                        = [[HLMenu alloc] init];
+    
+    /*Add the regular buttons*/
+    if ([[AppSingleton singleton] canAffordContinue]) {
+        _costMenuItemText   = [NSString stringWithFormat:@"Use %ld Coins!",(long)[AppSingleton singleton].currentGame.currentNumberOfTimesContinued];
+        [menu addItem:[HLMenuItem menuItemWithText:_costMenuItemText]];
+    } else {
+        [menu addItem:[HLMenuItem menuItemWithText:kSIMenuTextPopUpBuyCoins]];
+    }
+    
+    [menu addItem:[HLMenuItem menuItemWithText:kSIMenuTextPopUpWatchAd]];
+    
+    /*Add the Back Button... Need to change the prototype*/
+    HLMenuItem *endGameItem             = [HLMenuItem menuItemWithText:kSIMenuTextPopUpEndGame];
+    endGameItem.buttonPrototype         = [MainViewController SI_sharedMenuButtonPrototypeBack:[MainViewController buttonSize:size]];
+    [menu addItem:endGameItem];
+    
+    
+    [menuNode setMenu:menu animation:HLMenuNodeAnimationNone];
+    
+    menuNode.position                   = CGPointMake(0.0f, 0.0f);
+    
+    return menuNode;
+}
+#pragma mark - HLMenuNodeDelegate
+- (void)menuNode:(HLMenuNode *)menuNode didTapMenuItem:(HLMenuItem *)menuItem itemIndex:(NSUInteger)itemIndex {
+//    NSLog(@"Tapped Menu Item [%@] at index %u",menuItem.text,(unsigned)itemIndex);
+    if ([menuItem.text isEqualToString:kSIMenuTextPopUpBuyCoins]) {
+        NSNotification *notification = [[NSNotification alloc] initWithName:kSINotificationGameContinueUseLaunchStore object:nil userInfo:nil];
+        [[NSNotificationCenter defaultCenter] postNotification:notification];
+        
+    } else if ([menuItem.text isEqualToString:_costMenuItemText]) {
+        [[MKStoreKit sharedKit] consumeCredits:[NSNumber numberWithInteger:[AppSingleton singleton].currentGame.currentNumberOfTimesContinued] identifiedByConsumableIdentifier:kSIIAPConsumableIDCoins];
+        [self dismissModalNodeAnimation:HLScenePresentationAnimationFade];
+        [self resumePaidContinue];
+        
+    } else if ([menuItem.text isEqualToString:kSIMenuTextPopUpWatchAd]) {
+        NSNotification *notification = [[NSNotification alloc] initWithName:kSINotificationInterstitialAdShallLaunch object:nil userInfo:nil];
+        [[NSNotificationCenter defaultCenter] postNotification:notification];
+        [self dismissModalNodeAnimation:HLScenePresentationAnimationFade];
+        [self resumePaidContinue];
+        
+    } else if ([menuItem.text isEqualToString:kSIMenuTextPopUpEndGame]) {
+//        [self dismissModalNodeAnimation:HLScenePresentationAnimationFade];
+        [self launchEndGameScene];
+    }
+}
+- (void)dismissPopUp:(SIPopupNode *)popUpNode {
+//    [self dismissModalNodeAnimation:HLScenePresentationAnimationFade];
+    [self launchEndGameScene];
+}
+- (void)launchEndGameScene {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    EndGameScene *endScene      = [EndGameScene sceneWithSize:self.frame.size];
+    [Game transisitionToSKScene:endScene toSKView:self.view DoorsOpen:NO pausesIncomingScene:NO pausesOutgoingScene:NO duration:0.25];
+}
+- (void)resumePaidContinue {
+    [AppSingleton singleton].willResume                                 = YES;
+    [AppSingleton singleton].currentGame.currentNumberOfTimesContinued  = [Game lifeCostForCurrentContinueLevel:[AppSingleton singleton].currentGame.currentNumberOfTimesContinued];
+    [self checkIfGameShallStartOrResume];
 }
 @end

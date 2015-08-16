@@ -20,6 +20,7 @@ enum {
     
     CGSize           _sceneSize;
     
+    HLMenuNode      *_menuNode;
     SKSpriteNode    *_backgroundNode;
     SKSpriteNode    *_dismissButton;
     SKLabelNode     *_titleNode;
@@ -38,15 +39,64 @@ enum {
         
         [self popUpNodeInitCommon:size];
         
-        _xPadding                   = 32.0f;
-        _yPadding                   = 32.0f;
-        _backgroundNode.color       = [SKColor redColor];
+        [self layout];
+    }
+    return self;
+}
+
+- (instancetype)initWithSceneSize:(CGSize)size titleLabelNode:(SKLabelNode *)titleLabelNode {
+    self = [super init];
+    if (self) {
+        _floatThreshold             = 0.01;
+        
+        _backgroundNode             = [SKSpriteNode spriteNodeWithColor:[SKColor grayColor] size:CGSizeMake(size.width - VERTICAL_SPACING_16, size.width - VERTICAL_SPACING_16)];
+        _backgroundNode.anchorPoint = CGPointMake(0.5f, 0.5f);
+        _backgroundNode.zPosition   = SIPopUpNodeZPositionLayerBackground * self.zPositionScale / SIPopUpNodeZPositionLayerCount;
+        [self addChild:_backgroundNode];
+        
+        [self popUpNodeInitCommon:size withTitleLabel:titleLabelNode];
+        
+        [self layout];
+    }
+    return self;
+}
+
+- (instancetype)initWithSceneSize:(CGSize)size
+                        popUpSize:(CGSize)popUpSize
+                            title:(NSString *)titleText
+                   titleFontColor:(SKColor *)titleFontColor
+                    titleFontSize:(CGFloat)titleFontSize
+                    titleYPadding:(CGFloat)titleYPadding
+                  backgroundColor:(SKColor *)backgroundColor
+                     cornerRadius:(CGFloat)cornerRadius
+                      borderWidth:(CGFloat)borderWidth
+                      borderColor:(SKColor *)borderColor {
+    self = [self initWithSceneSize:size];
+    if (self) {
+        
+        _xPadding               = size.width - popUpSize.width;
+        _yPadding               = size.height - popUpSize.height;
+        _cornerRadius           = cornerRadius;
+        _borderWidth            = borderWidth;
+        _borderColor            = borderColor;
+        
+        _titleNode.text         = titleText;
+        _titleNode.fontColor    = titleFontColor;
+        _titleNode.fontSize     = titleFontSize;
+        _titleLabelTopPading    = titleYPadding;
+        
+        if (backgroundColor) {
+            _backgroundNode.color = backgroundColor;
+        }
         
         [self layout];
     }
     return self;
 }
 - (instancetype)initWithSceneSize:(CGSize)size
+                            title:(NSString *)titleText
+                   titleFontColor:(SKColor *)titleFontColor
+                    titleFontSize:(CGFloat)titleFontSize
                          xPadding:(CGFloat)xPadding
                          yPadding:(CGFloat)yPadding
                   backgroundColor:(SKColor *)backgroundColor
@@ -55,16 +105,25 @@ enum {
                       borderColor:(SKColor *)borderColor {
     self = [self initWithSceneSize:size];
     if (self) {
-        _xPadding           = xPadding;
-        _yPadding           = yPadding;
-        _cornerRadius       = cornerRadius;
-        _borderWidth        = borderWidth;
-        _borderColor        = borderColor;
+        _xPadding               = xPadding;
+        _yPadding               = yPadding;
+        _cornerRadius           = cornerRadius;
+        _borderWidth            = borderWidth;
+        _borderColor            = borderColor;
+        
+        _titleNode.text         = titleText;
+        _titleNode.fontColor    = titleFontColor;
+        _titleNode.fontSize     = titleFontSize;
+        
+        if (backgroundColor) {
+            _backgroundNode.color = backgroundColor;
+        }
         
         [self layout];
     }
     return self;
 }
+
 - (void)popUpNodeInitCommon:(CGSize)size {
     _sceneSize                      = size;
 //    _backgroundColor                = [SKColor grayColor];
@@ -84,6 +143,38 @@ enum {
     _dismissButton.zPosition        = SIPopUpNodeZPositionLayerContent * self.zPositionScale / SIPopUpNodeZPositionLayerCount;
     [_backgroundNode addChild:_dismissButton];
     
+    [self layout];
+}
+
+- (void)popUpNodeInitCommon:(CGSize)size withTitleLabel:(SKLabelNode *)titleLabelNode {
+    _sceneSize                      = size;
+    //    _backgroundColor                = [SKColor grayColor];
+    _cornerRadius                   = 0.0f;
+    _borderColor                    = nil;
+    _borderWidth                    = 0.0f;
+    _xPadding                       = VERTICAL_SPACING_16;
+    _yPadding                       = VERTICAL_SPACING_16;
+    _titleLabelTopPading            = VERTICAL_SPACING_16;
+    _contentPostion                 = CGPointMake(0.5f, 0.5f);
+    
+    _titleNode                      = titleLabelNode;
+    _titleNode.zPosition            = SIPopUpNodeZPositionLayerContent * self.zPositionScale / SIPopUpNodeZPositionLayerCount;
+    [_backgroundNode addChild:_titleNode];
+    
+    _dismissButton                  = [SKSpriteNode spriteNodeWithTexture:[[SIConstants buttonAtlas] textureNamed:kSIImageButtonDismiss] size:CGSizeMake(size.width / 10.0f, size.width / 10.0f)];
+    _dismissButton.zPosition        = SIPopUpNodeZPositionLayerContent * self.zPositionScale / SIPopUpNodeZPositionLayerCount;
+    [_backgroundNode addChild:_dismissButton];
+    
+    [self layout];
+}
+
+- (CGSize)backgroundSize {
+    return _backgroundNode.size;
+}
+
+- (void)setBackgroundSize:(CGSize)backgroundSize {
+    _xPadding               = _sceneSize.width - backgroundSize.width;
+    _yPadding               = _sceneSize.height - backgroundSize.height;
     [self layout];
 }
 
@@ -184,15 +275,16 @@ enum {
     _dismissButton.position = CGPointMake(newX, newY);
 }
 
-- (void)setContentNode:(SKNode *)contentNode {
-    SKNode *oldContentNode      = [_backgroundNode childNodeWithName:kSINodePopUpContent];
-    if (oldContentNode) {
-        [oldContentNode removeFromParent];
+- (void)setMenuNode:(HLMenuNode *)menuNode {
+    if (_menuNode) {
+        [_menuNode removeFromParent];
     }
-    if (contentNode) {
-        contentNode.name        = kSINodePopUpContent;
-        contentNode.zPosition   = SIPopUpNodeZPositionLayerContent * self.zPositionScale / SIPopUpNodeZPositionLayerCount;
-        [_backgroundNode addChild:contentNode];
+    if (menuNode) {
+        _menuNode               = menuNode;
+        _menuNode.name          = kSINodePopUpContent;
+        _menuNode.zPosition     = SIPopUpNodeZPositionLayerContent * self.zPositionScale / SIPopUpNodeZPositionLayerCount;
+        [_backgroundNode addChild:_menuNode];
+        [_menuNode hlSetGestureTarget:_menuNode];
     }
 }
 
@@ -216,38 +308,30 @@ enum {
 }
 
 - (void)layout {
-    
-    CGPoint anchorPoint             = _backgroundNode.anchorPoint;
-    
 
     if (_backgroundNode) {
-//        self.position               = CGPointMake(_sceneSize.width / 2.0f, _sceneSize.height / 2.0f);
+        _backgroundNode.size            = CGSizeMake(_sceneSize.width - _xPadding, _sceneSize.height - _yPadding);
+    }
+    
+    if (_titleNode.text && _backgroundNode) {
+        _titleNode.position             = CGPointMake(0.0f, (_backgroundNode.size.height / 2.0f) - _titleNode.frame.size.height - _titleLabelTopPading);
+    }
+    if (_dismissButton && _backgroundNode) {
+        CGPoint dismissButtonPosition   = CGPointMake((_backgroundNode.size.width / 2.0f), (_backgroundNode.size.height / 2.0f));
         
-        _backgroundNode.size        = CGSizeMake(_sceneSize.width - _xPadding, _sceneSize.height - _yPadding);
+        // note: We must bring in the dismiss button if it is layed out over the screen, this will allow us to use a popup that has a small padding
+        while ((dismissButtonPosition.x + (_dismissButton.frame.size.width / 2.0f)) > (_sceneSize.width / 2.0f)) {
+            dismissButtonPosition.x--;
+        }
         
-//        _backgroundNode.position    = CGPointMake(-anchorPoint.x * (_backgroundNode.size.width / 2.0f) + VERTICAL_SPACING_8, -anchorPoint.y * (_backgroundNode.size.height / 2.0f) + VERTICAL_SPACING_8);
+        while ((dismissButtonPosition.y + (_dismissButton.frame.size.height / 2.0f)) > (_sceneSize.height / 2.0f)) {
+            dismissButtonPosition.y--;
+        }
+        
+        _dismissButton.position         = dismissButtonPosition;
     }
     
-    if (_titleNode.text) {
-        _titleNode.position         = CGPointMake(self.frame.size.height / 2.0f, self.frame.size.height - _titleNode.frame.size.height - _titleLabelTopPading);
-    }
-    if (_dismissButton) {
-        _dismissButton.position     = CGPointMake((_sceneSize.width / 2.0f) - _dismissButton.frame.size.height / 2.0f, (_sceneSize.height / 2.0f) - _dismissButton.frame.size.height / 2.0f);
-    }
-    
-    if (_cornerRadius > _floatThreshold) {
-        _backgroundNode.texture     = [Game textureBackgroundColor:_backgroundNode.color size:_backgroundNode.size];
-    }
-    
-    if (_borderWidth > _floatThreshold) {
-        _backgroundNode.texture     = [Game textureBackgroundColor:_backgroundNode.color size:_backgroundNode.size];
-    }
-    
-    if (_borderColor) {
-        _backgroundNode.texture     = [Game textureBackgroundColor:_backgroundNode.color size:_backgroundNode.size];
-    }
-    //617-347-8210
-
+    _backgroundNode.texture             = [Game textureBackgroundColor:_backgroundNode.color size:_backgroundNode.size cornerRadius:_cornerRadius borderWidth:_borderWidth borderColor:_borderColor];
 }
 
 #pragma mark - HLGestureTarget
@@ -273,6 +357,20 @@ enum {
             return YES;
         }
     }
+    
+//    if (_menuNode) {
+//        NSUInteger numberOfMenuItems    = _menuNode.menu.itemCount;
+//        
+//        for (NSUInteger i = 0; i < numberOfMenuItems; i++) {
+//            HLMenuItem *menuItem        = [_menuNode.menu itemAtIndex:i];
+//            if ([menuItem.buttonPrototype containsPoint:location]) {
+//                *isInside       = YES;
+//                NSLog(@"Holy shit button with text `%@` tapped",menuItem.text);
+//                return YES;
+//            }
+//        }
+//    }
+
 
     return NO;
 }

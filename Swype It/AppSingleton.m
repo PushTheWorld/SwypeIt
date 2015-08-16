@@ -408,4 +408,13 @@
             break;
     }
 }
+
+- (BOOL)canAffordContinue {
+    int continueCost = [Game lifeCostForCurrentContinueLevel:self.currentGame.currentNumberOfTimesContinued];
+    int numberOfItCoins = [[[MKStoreKit sharedKit] availableCreditsForConsumable:kSIIAPConsumableIDCoins] intValue];
+    if (continueCost <= numberOfItCoins) {
+        return YES;
+    }
+    return NO;
+}
 @end

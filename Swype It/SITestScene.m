@@ -103,19 +103,12 @@
     /**Preform all your alloc/init's here*/
     _titleLabel = [MainViewController SI_sharedLabelHeader:kSIMenuTextStartScreenSettings];
     
-    /*Menu Node*/
-    _menuNode   = [[HLMenuNode alloc] init];
 }
 - (void)setupControlsWithSize:(CGSize)size {
     /**Configrue the labels, nodes and what ever else you can*/
     
     /*Menu Node*/
-    _menuNode.delegate                              = self;
-    _menuNode.itemAnimation                         = HLMenuNodeAnimationSlideLeft;
-    _menuNode.itemAnimationDuration                 = self.buttonAnimationDuration;
-    _menuNode.itemButtonPrototype                   = [MainViewController SI_sharedMenuButtonPrototypeBasic:[MainViewController buttonSize:size] fontSize:[MainViewController fontSizeButton]];
-    _menuNode.backItemButtonPrototype               = [MainViewController SI_sharedMenuButtonPrototypeBack:[MainViewController buttonSize:size]];
-    _menuNode.itemSeparatorSize                     = self.buttonSpacing;
+
 }
 - (void)layoutControlsWithSize:(CGSize)size {
     /**Layout those controls*/
@@ -126,10 +119,7 @@
     
     
     /*Menu Node*/
-    _menuNode.position  = CGPointMake(size.width / 2.0f, size.height / 2.0f);
-    [self addChild:_menuNode];
-    [_menuNode hlSetGestureTarget:_menuNode];
-    [self registerDescendant:_menuNode withOptions:[NSSet setWithObject:HLSceneChildGestureTarget]];
+
     [self menuCreate:size];
 }
 
@@ -144,15 +134,13 @@
     CGSize sceneSize = self.size;
     
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-//        SIPopupNode *popUpNode      = [[SIPopupNode alloc] initWithSceneSize:self.frame.size
-//                                                                    xPadding:16.0f
-//                                                                    yPadding:16.0f
-//                                                             backgroundColor:[SKColor blueColor]
-//                                                                cornerRadius:0.0f
-//                                                                 borderWidth:0.0f
-//                                                                 borderColor:[SKColor blackColor]];
-        SIPopupNode *popUpNode      = [[SIPopupNode alloc] initWithSceneSize:self.frame.size];
-        popUpNode.delegate          = self;
+        SIPopupNode *popUpNode  = [MainViewController SISharedPopUpNodeTitle:@"Continue?" SceneSize:sceneSize];
+        
+        HLMenuNode *menuNode    = [self menuCreate:popUpNode.backgroundSize];
+        popUpNode.menuNode      = menuNode;
+        [self registerDescendant:menuNode withOptions:[NSSet setWithObject:HLSceneChildGestureTarget]];
+        
+        popUpNode.delegate                  = self;
         popUpNode.userInteractionEnabled    = YES;
         [popUpNode hlSetGestureTarget:popUpNode];
         [self registerDescendant:popUpNode withOptions:[NSSet setWithObject:HLSceneChildGestureTarget]];
@@ -161,46 +149,46 @@
 
 
 }
-- (void)menuCreate:(CGSize)size {
-    HLMenu *menu = [[HLMenu alloc] init];
+- (HLMenuNode *)menuCreate:(CGSize)size {
+    HLMenuNode *menuNode                = [[HLMenuNode alloc] init];
+    menuNode.delegate                   = self;
+    menuNode.itemAnimation              = HLMenuNodeAnimationSlideLeft;
+    menuNode.itemAnimationDuration      = self.buttonAnimationDuration;
+    menuNode.itemButtonPrototype        = [MainViewController SI_sharedMenuButtonPrototypePopUp:[MainViewController buttonSize:size]];
+    menuNode.backItemButtonPrototype    = [MainViewController SI_sharedMenuButtonPrototypeBack:[MainViewController buttonSize:size]];
+    menuNode.itemSeparatorSize          = 20;
+    
+    HLMenu *menu                        = [[HLMenu alloc] init];
     
     /*Add the regular buttons*/
-    [menu addItem:[HLMenuItem menuItemWithText:kSIMenuTextSettingsResetHighScore]];
-    
-    _buttonSoundBackgroundText = [[NSUserDefaults standardUserDefaults] boolForKey:kSINSUserDefaultSoundIsAllowedBackground] ? kSIMenuTextSettingsToggleSoundOffBackground : kSIMenuTextSettingsToggleSoundOnBackground;
-    [menu addItem:[HLMenuItem menuItemWithText:_buttonSoundBackgroundText]];
-    
-    _buttonSoundFXText = [[NSUserDefaults standardUserDefaults] boolForKey:kSINSUserDefaultSoundIsAllowedFX] ? kSIMenuTextSettingsToggleSoundOffFX : kSIMenuTextSettingsToggleSoundOnFX;
-    [menu addItem:[HLMenuItem menuItemWithText:_buttonSoundFXText]];
-    
-    [menu addItem:[HLMenuItem menuItemWithText:kSIMenuTextSettingsBugReport]];
-    
+    [menu addItem:[HLMenuItem menuItemWithText:kSIMenuTextPopUpBuyCoins]];
+
+    [menu addItem:[HLMenuItem menuItemWithText:kSIMenuTextPopUpWatchAd]];
+
     /*Add the Back Button... Need to change the prototype*/
-    HLMenuItem *resumeItem = [HLMenuItem menuItemWithText:kSIMenuTextBack];
-    resumeItem.buttonPrototype = [MainViewController SI_sharedMenuButtonPrototypeBack:[MainViewController buttonSize:size]];
-    [menu addItem:resumeItem];
+    HLMenuItem *endGameItem             = [HLMenuItem menuItemWithText:kSIMenuTextPopUpEndGame];
+    endGameItem.buttonPrototype         = [MainViewController SI_sharedMenuButtonPrototypeBack:[MainViewController buttonSize:size]];
+    [menu addItem:endGameItem];
+
     
-    [_menuNode setMenu:menu animation:HLMenuNodeAnimationNone];
+    [menuNode setMenu:menu animation:HLMenuNodeAnimationNone];
+    
+    menuNode.position                   = CGPointMake(0.0f, 0.0f);
+    
+    return menuNode;
 }
 #pragma mark - HLMenuNodeDelegate
 - (void)menuNode:(HLMenuNode *)menuNode didTapMenuItem:(HLMenuItem *)menuItem itemIndex:(NSUInteger)itemIndex {
     NSLog(@"Tapped Menu Item [%@] at index %u",menuItem.text,(unsigned)itemIndex);
-    if ([menuItem.text isEqualToString:kSIMenuTextBack]) {
-//        [self goBack];
-    } else if ([menuItem.text isEqualToString:kSIMenuTextSettingsBugReport]) {
-//        NSNotification *notification        = [[NSNotification alloc] initWithName:kSINotificationSettingsLaunchBugReport object:nil userInfo:nil];
-//        [[NSNotificationCenter defaultCenter] postNotification:notification];
+    if ([menuItem.text isEqualToString:kSIMenuTextPopUpBuyCoins]) {
+        NSLog(@"Launch Store!");
+    } else if ([menuItem.text isEqualToString:kSIMenuTextPopUpWatchAd]) {
+        NSLog(@"Watch an ad");
     } else if ([menuItem.text isEqualToString:kSIMenuTextSettingsResetHighScore]) {
-//        [self resetHighScore];
-    } else if ([menuItem.text isEqualToString:_buttonSoundBackgroundText]) {
-//        [self changeBackgroundSoundIsAllowed:menuItem];
-    } else if ([menuItem.text isEqualToString:_buttonSoundFXText]) {
-//        [self changeFXSoundIsAllowed:menuItem];
+        NSLog(@"Launch End Scene");
     }
 }
--(BOOL)menuNode:(HLMenuNode *)menuNode shouldTapMenuItem:(HLMenuItem *)menuItem itemIndex:(NSUInteger)itemIndex {
-    return _shouldRespondToTap;
-}
+
 #pragma mark - Private Methods
 
 - (void)dismissPopUp:(SIPopupNode *)popUpNode {

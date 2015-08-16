@@ -10,6 +10,8 @@
 #import <SpriteKit/SpriteKit.h>
 // Dropin Classes
 #import "HLSpriteKit.h"
+#import "SIPopupNode.h"
+
 
 
 @interface MainViewController : UIViewController
@@ -30,6 +32,9 @@
 + (HLLabelButtonNode *) SI_sharedMenuButtonPrototypeBack:(CGSize)size;
 + (HLLabelButtonNode *) SI_sharedMenuButtonPrototypeBasic:(CGSize)size fontSize:(CGFloat)fontSize;
 + (HLLabelButtonNode *) SI_sharedMenuButtonPrototypeBasic:(CGSize)size fontSize:(CGFloat)fontSize backgroundColor:(UIColor *)backgroundColor fontColor:(UIColor *)fontColor;
++ (HLLabelButtonNode *) SI_sharedMenuButtonPrototypePopUp:(CGSize)size;
+
++ (SIPopupNode *)       SISharedPopUpNodeTitle:(NSString *)title SceneSize:(CGSize)sceneSize;
 
 + (SKLabelNode *)       SI_sharedLabelHeader:(NSString *)text;
 + (SKLabelNode *)       SI_sharedLabelHeader_x2:(NSString *)text;
@@ -41,6 +46,7 @@
 
 - (void)bannerAdHide;
 - (void)bannerAdShow;
+- (void)presentInterstital;
 
 @property (nonatomic, assign) BOOL  premiumUser;
 

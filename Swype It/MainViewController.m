@@ -108,6 +108,19 @@
 + (CGFloat)fontSizeParagraph_x4 {
     return [MainViewController fontSizeHeader] + 12.0f;
 }
++ (CGFloat)fontSizePopUp {
+    if (IS_IPHONE_4) {
+        return 26.0f;
+    } else if (IS_IPHONE_5) {
+        return 30.0f;
+    } else if (IS_IPHONE_6) {
+        return 32.0f;
+    } else if (IS_IPHONE_6_PLUS) {
+        return 36.0f;
+    } else {
+        return 42.0f;
+    }
+}
 + (CGFloat)fontSizeText {
     if (IS_IPHONE_4) {
         return 12.0f;
@@ -151,8 +164,8 @@
 //    skView.showsNodeCount   = YES;
     
     // Create and configure the scene.
-    SKScene * scene = [SITestScene sceneWithSize:skView.bounds.size];
-//    SKScene * scene = [StartScreenScene sceneWithSize:skView.bounds.size];
+//    SKScene * scene = [SITestScene sceneWithSize:skView.bounds.size];
+    SKScene * scene = [StartScreenScene sceneWithSize:skView.bounds.size];
     scene.scaleMode = SKSceneScaleModeAspectFill;
     
     // Present the scene.
@@ -347,6 +360,16 @@
     }
     return buttonPrototype;
 }
++ (HLLabelButtonNode *)SI_sharedMenuButtonPrototypePopUp:(CGSize)size {
+    static HLLabelButtonNode *buttonPrototype = nil;
+    if (!buttonPrototype) {
+        buttonPrototype                         = [[MainViewController SI_sharedMenuButtonPrototypeBasic:size fontSize:[MainViewController fontSizeButton]] copy];
+        buttonPrototype.color                   = [UIColor whiteColor];
+        buttonPrototype.fontColor               = [SKColor blackColor];
+        buttonPrototype.colorBlendFactor        = 1.0f;
+    }
+    return buttonPrototype;
+}
 + (HLLabelButtonNode *)SIHLInterfaceLabelButton:(CGSize)size fontSize:(CGFloat)fontSize {
     HLLabelButtonNode *labelButton              = [[HLLabelButtonNode alloc] initWithColor:[UIColor mainColor] size:size];
     labelButton.cornerRadius                    = 12.0f;
@@ -412,6 +435,32 @@
     label.verticalAlignmentMode                 = SKLabelVerticalAlignmentModeCenter;
     return label;
 }
++ (SIPopupNode *)SISharedPopUpNodeTitle:(NSString *)title SceneSize:(CGSize)sceneSize {
+    SKLabelNode *titleNode      = [MainViewController SI_sharedLabelParagraph:title];
+    titleNode.fontColor         = [SKColor whiteColor];
+    titleNode.fontSize          = [MainViewController fontSizePopUp];
+    
+    SIPopupNode *popUpNode      = [[SIPopupNode alloc] initWithSceneSize:sceneSize titleLabelNode:titleNode];
+    popUpNode.backgroundSize    = CGSizeMake(sceneSize.width - 100.0f, sceneSize.height - 200.0f);
+    popUpNode.backgroundColor   = [SKColor mainColor];
+    popUpNode.cornerRadius      = 8.0f;
+    
+//    SIPopupNode *popUpNode = [[SIPopupNode alloc] initWithSceneSize:sceneSize
+//                                                          popUpSize:CGSizeMake(sceneSize.width - 100.0f, sceneSize.height - 200.0f)
+//                                                              title:titleNode.text
+//                                                     titleFontColor:titleNode.fontColor
+//                                                      titleFontSize:titleNode.fontSize
+//                                                      titleYPadding:VERTICAL_SPACING_16 * 2
+//                                                    backgroundColor:[SKColor mainColor]
+//                                                       cornerRadius:8.0f
+//                                                        borderWidth:8.0f
+//                                                        borderColor:[SKColor simplstMainColor]];
+    
+    
+    
+    return popUpNode;
+}
+
 #pragma mark - MFMailComposeViewContorllerDelegate
 - (void)launchBugReport:(NSNotification *)notification {
     [Instabug setEmailIsRequired:NO];

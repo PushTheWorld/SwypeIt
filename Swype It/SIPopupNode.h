@@ -46,9 +46,31 @@
 - (instancetype)initWithSceneSize:(CGSize)size;
 
 /**
- The convience initalizer method
+ The initalizer method for duck typing label
+ */
+- (instancetype)initWithSceneSize:(CGSize)size titleLabelNode:(SKLabelNode *)titleLabelNode;
+
+/**
+ The convience initalizer method that takes a size for the pop up size
  */
 - (instancetype)initWithSceneSize:(CGSize)size
+                        popUpSize:(CGSize)popUpSize
+                            title:(NSString *)titleText
+                   titleFontColor:(SKColor *)titleFontColor
+                    titleFontSize:(CGFloat)titleFontSize
+                    titleYPadding:(CGFloat)titleYPadding
+                  backgroundColor:(SKColor *)backgroundColor
+                     cornerRadius:(CGFloat)cornerRadius
+                      borderWidth:(CGFloat)borderWidth
+                      borderColor:(SKColor *)borderColor;
+    
+/**
+ The convience initalizer method that takes x & y padding for pop up size
+ */
+- (instancetype)initWithSceneSize:(CGSize)size
+                            title:(NSString *)titleText
+                   titleFontColor:(SKColor *)titleFontColor
+                    titleFontSize:(CGFloat)titleFontSize
                          xPadding:(CGFloat)xPadding
                          yPadding:(CGFloat)yPadding
                   backgroundColor:(SKColor *)backgroundColor
@@ -145,7 +167,7 @@
 /**
  The content that is displayed by the popup
  */
-@property (nonatomic, strong) SKNode *contentNode;
+@property (nonatomic, strong) HLMenuNode *menuNode;
 
 /**
  The postion of the content node

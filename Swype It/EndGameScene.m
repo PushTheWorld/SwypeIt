@@ -190,21 +190,10 @@
     
     [self.menuNode setMenu:menu animation:HLMenuNodeAnimationNone];
 }
-- (void)showCanNotAfford {
-    HLMenuNode *menuNode                    = [[HLMenuNode alloc] init];
-    
-    menuNode.position                       = CGPointMake(self.frame.size.width, self.frame.size.height);
-    menuNode.delegate                       = self;
-    menuNode.itemSeparatorSize              = _buttonSpacing;
-    [menuNode.menu addItem:[HLMenu menuWithText:@"Buy More Coins" items:@[] ]];
-    [menuNode.menu addItem:[HLMenu menuWithText:@"Cancel" items:@[] ]];
-    
-    [self presentModalNode:menuNode animation:HLScenePresentationAnimationFade];
-}
+
 #pragma mark - HLMenuNodeDelegate
 - (void)menuNode:(HLMenuNode *)menuNode didTapMenuItem:(HLMenuItem *)menuItem itemIndex:(NSUInteger)itemIndex {
     NSLog(@"Tapped Menu Item [%@] at index %u",menuItem.text,(unsigned)itemIndex);
-    _shouldRespondToTap = NO;
     if ([menuItem.text isEqualToString:kSIMenuTextEndGameContinue]) {
         /*Continue Game Button*/
         NSDictionary *userInfo          = @{kSINSDictionaryKeyCanAfford     : @(_userCanAffordContinue),
@@ -246,9 +235,7 @@
 
     }
 }
--(BOOL)menuNode:(HLMenuNode *)menuNode shouldTapMenuItem:(HLMenuItem *)menuItem itemIndex:(NSUInteger)itemIndex {
-    return _shouldRespondToTap;
-}
+
 - (BOOL)userCanContinue {
     int continueCost = [Game lifeCostForCurrentContinueLevel:[AppSingleton singleton].currentGame.currentNumberOfTimesContinued];
     int numberOfItCoins = [[[MKStoreKit sharedKit] availableCreditsForConsumable:kSIIAPConsumableIDCoins] intValue];
