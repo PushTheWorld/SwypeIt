@@ -225,7 +225,6 @@ extern NSString *const kSIScoreNextMove;
 
 #pragma mark - Images
 extern NSString *const kSIImageBackgroundDiamondPlate;
-extern NSString *const kSIImageButtonCoinSmall;
 extern NSString *const kSIImageButtonContinue;
 extern NSString *const kSIImageButtonContinueGrayed;
 extern NSString *const kSIImageButtonCross;
@@ -246,6 +245,8 @@ extern NSString *const kSIImageButtonSoundOnBackground;
 extern NSString *const kSIImageButtonSoundOnFX;
 extern NSString *const kSIImageButtonStore;
 extern NSString *const kSIImageButtonTimeFreeze;
+extern NSString *const kSIImageCoinSmallBack;
+extern NSString *const kSIImageCoinSmallFront;
 extern NSString *const kSIImageFallingMonkeys;
 extern NSString *const kSIImageIAPSmall;
 extern NSString *const kSIImageIAPMedium;

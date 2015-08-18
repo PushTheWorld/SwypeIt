@@ -724,5 +724,18 @@
     return texture;
 }
 
++ (SKTexture *)textureForSIPowerUp:(SIPowerUp)powerUp {
+    switch (powerUp) {
+        case SIPowerUpFallingMonkeys:
+            return [[SIConstants buttonAtlas] textureNamed:kSIImageFallingMonkeys];
+        case SIPowerUpRapidFire:
+            return [[SIConstants imagesAtlas] textureNamed:kSIImageButtonRapidFire];
+        case SIPowerUpTimeFreeze:
+            return [[SIConstants imagesAtlas] textureNamed:kSIImageButtonTimeFreeze];
+        default:
+            return nil;
+    }
+}
+
 
 @end

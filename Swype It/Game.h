@@ -57,6 +57,7 @@
 + (SIPowerUpDuration)   durationForPowerUp:(SIPowerUp)powerUp;
 + (SKTexture *)         textureBackgroundColor:(SKColor *)backgroundColor size:(CGSize)size;
 + (SKTexture *)         textureBackgroundColor:(SKColor *)backgroundColor size:(CGSize)size cornerRadius:(CGFloat)cornerRadius borderWidth:(CGFloat)borderWidth borderColor:(UIColor *)borderColor;
++ (SKTexture *)         textureForSIPowerUp:(SIPowerUp)powerUp;
 + (UIColor *)           backgroundColorForScore:(float)score forRandomNumber:(NSInteger)randomNumber;
 + (UIImage *)           getBluredScreenshot:(SKView *)view;
 + (void)                incrementGamesPlayed;

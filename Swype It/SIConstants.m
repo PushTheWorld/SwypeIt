@@ -71,7 +71,6 @@ NSString *const kSIScoreNextMove                                    = @"nextMove
 
 #pragma mark - Images
 NSString *const kSIImageBackgroundDiamondPlate                      = @"diamondPlate";
-NSString *const kSIImageButtonCoinSmall                             = @"coinSmall";
 NSString *const kSIImageButtonContinue                              = @"continueButton";
 NSString *const kSIImageButtonContinueGrayed                        = @"continueGrayedButton";
 NSString *const kSIImageButtonCross                                 = @"cross";
@@ -83,7 +82,7 @@ NSString *const kSIImageButtonGameModeTwoHand                       = @"twoHandR
 NSString *const kSIImageButtonMenu                                  = @"menuButton";
 NSString *const kSIImageButtonPause                                 = @"pauseButtonRevB";
 NSString *const kSIImageButtonPlay                                  = @"playButtonRevB";
-NSString *const kSIImageButtonRapidFire                             = @"rapidFire";
+NSString *const kSIImageButtonRapidFire                             = @"rapidFireRevB";
 NSString *const kSIImageButtonReplay                                = @"replayButton";
 NSString *const kSIImageButtonSettings                              = @"settingsButtonRevB";
 NSString *const kSIImageButtonSoundOffBackground                    = @"soundBackgroundOff";
@@ -91,7 +90,9 @@ NSString *const kSIImageButtonSoundOffFX                            = @"soundFXO
 NSString *const kSIImageButtonSoundOnBackground                     = @"soundBackgroundOn";
 NSString *const kSIImageButtonSoundOnFX                             = @"soundFXOn";
 NSString *const kSIImageButtonStore                                 = @"storeButton";
-NSString *const kSIImageButtonTimeFreeze                            = @"timeFreeze";
+NSString *const kSIImageButtonTimeFreeze                            = @"clock";
+NSString *const kSIImageCoinSmallBack                               = @"coinSmallBack";
+NSString *const kSIImageCoinSmallFront                              = @"coinSmallFront";
 NSString *const kSIImageFallingMonkeys                              = @"monkeyFreeVector";
 NSString *const kSIImageIAPSmall                                    = @"tempPile";
 NSString *const kSIImageIAPMedium                                   = @"tempBucket";

@@ -16,7 +16,6 @@
 #import "Game.h"
 // Other Imports
 @protocol SIGameNodeDelegate <NSObject>
-@optional
 
 /// @name Managing Interaction
 
@@ -26,6 +25,7 @@
  */
 //- (BOOL)gestureDidBegin:(SIMove)move;
 - (void)gestureEnded:(SIMove)move;
+- (void)monkeyTapped:(SKNode *)node;
 
 @end
 
