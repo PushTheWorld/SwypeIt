@@ -115,15 +115,16 @@ enum {
             handleGesture   = YES;
         }
         if (handleGesture) {
-            if ([AppSingleton singleton].currentGame.currentPowerUp == SIPowerUpFallingMonkeys) {
-                CGPoint location    = [touch locationInNode:self];
-                NSArray *nodes      = [self nodesAtPoint:location];
-                for (SKNode *node in nodes) {
-                    if ([node.name isEqualToString:kSINodeFallingMonkey]) {
-                        [self.delegate monkeyTapped:node];
-                    }
-                }
-            }
+//            if ([AppSingleton singleton].currentGame.currentPowerUp == SIPowerUpFallingMonkeys) {
+//                CGPoint location    = [touch locationInNode:self];
+//                NSArray *nodes      = [self nodesAtPoint:location];
+//                for (SKNode *node in nodes) {
+//                    if ([node.name isEqualToString:kSINodeFallingMonkey]) {
+//                        [self.delegate monkeyTapped:node];
+//
+//                    }
+//                }
+//            }
             [gestureRecognizer addTarget:self action:@selector(handleTap:)];
         }
         return handleGesture;

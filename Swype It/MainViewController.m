@@ -568,7 +568,7 @@
 - (void)interstitialAd:(ADInterstitialAd *)interstitialAd didFailWithError:(NSError *)error
 {
     NSLog(@"Error [interstitialAd] (CODE: %d) : %@",(int)error.code,error.localizedDescription);
-    if (error.code != ADErrorServerFailure) {
+    if (error.code != ADErrorServerFailure && error.code != 7) {
         [self closeAd];
     }
     

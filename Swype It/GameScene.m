@@ -163,6 +163,12 @@ typedef NS_ENUM(NSInteger, SIGameSceneRingNode) {
     _gameMode                           = gameMode;
     _isButtonTouched                    = NO;
     
+    if (_gameMode == SIGameModeOneHand) {
+        /*Setup Shake recognizer*/
+        _restCount                              = 0;
+        _isShakeActive                          = NO;
+        [self startAccelerometerForShake];
+    }
     self.physicsWorld.contactDelegate   = self;
 }
 
@@ -407,12 +413,12 @@ typedef NS_ENUM(NSInteger, SIGameSceneRingNode) {
     /*Total Score Label*/
     _totalScoreLabel.position                                   = CGPointMake((size.width / 2.0f),
                                                                               size.height - (_totalScoreLabel.frame.size.height) - VERTICAL_SPACING_8 - _coinStuffBackgroundHeight);
-    [self addChild:_totalScoreLabel];
+    [_backgroundNode addChild:_totalScoreLabel];
 
     /*Move Command Label*/
     _moveCommandLabel.position                                  = CGPointMake((size.width / 2.0f),
                                                                               size.height / 2.0f);
-    [self addChild:_moveCommandLabel];
+    [_backgroundNode addChild:_moveCommandLabel];
     
     _pauseButtonNode.anchorPoint                                = CGPointMake(0.0f, 0.0f);
     _pauseButtonNode.name                                       = kSINodeButtonPause;
@@ -628,12 +634,12 @@ typedef NS_ENUM(NSInteger, SIGameSceneRingNode) {
 }
 - (void)gameStarted {
     _moveCommandLabel.fontColor                 = [SKColor whiteColor];
-    if ([AppSingleton singleton].currentGame.gameMode == SIGameModeOneHand) {
-        /*Setup Shake recognizer*/
-        _restCount                              = 0;
-        _isShakeActive                          = NO;
-        [self startAccelerometerForShake];
-    }
+//    if ([AppSingleton singleton].currentGame.gameMode == SIGameModeOneHand) {
+//        /*Setup Shake recognizer*/
+//        _restCount                              = 0;
+//        _isShakeActive                          = NO;
+//        [self startAccelerometerForShake];
+//    }
 }
 - (void)gameEnded {
     if ([AppSingleton singleton].currentGame.currentPowerUp != SIPowerUpNone) {
@@ -977,6 +983,15 @@ typedef NS_ENUM(NSInteger, SIGameSceneRingNode) {
     SKSpriteNode *monkey                        = [GameScene newMonkey];
     
     monkey.position                             = CGPointMake(xLocation, yLocation);
+    
+    HLTapGestureTarget *tapGestureTarget       = [[HLTapGestureTarget alloc] init];
+    tapGestureTarget.handleGestureBlock        = ^(UIGestureRecognizer *gestureRecognizer) {
+        
+        NSLog(@"Monkey tapped.....");
+    };
+    [monkey hlSetGestureTarget:tapGestureTarget];
+    [self registerDescendant:monkey withOptions:[NSSet setWithObject:HLSceneChildGestureTarget]];
+    
 
     self.physicsWorld.gravity                   = CGVectorMake(0, -_monkeySpeed);
     
