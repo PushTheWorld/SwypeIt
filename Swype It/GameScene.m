@@ -68,6 +68,7 @@ static const uint32_t sideEdgeCategory      = 0x1 << 3; // 000000000000000000000
 
 enum {
     SIGameNodeZPositionLayerBackground = 0,
+    SIGameModeZPositionLayerBackgroundDetail,
     SIGameNodeZPositionLayerGameDetail,
     SIGameNodeZPositionLayerFallingMonkey,
     SIGameNodeZPositionLayerBar,
@@ -126,6 +127,7 @@ typedef NS_ENUM(NSInteger, SIGameSceneRingNode) {
     HLToolbarNode                           *_powerUpToolBar;
     SIGameNode                              *_backgroundNode;
     SKSpriteNode                            *_coin;
+    SKSpriteNode                            *_backgroundDetailNode;
     
 }
 + (CGSize)fallingMonkeySize {
@@ -143,6 +145,24 @@ typedef NS_ENUM(NSInteger, SIGameSceneRingNode) {
         
     } else {
         return CGSizeMake(200.0, 200.0);
+        
+    }
+}
++ (CGSize)palmTreeSize {
+    if (IS_IPHONE_4) {
+        return CGSizeMake(400.0f, 500.0f);
+        
+    } else if (IS_IPHONE_5) {
+        return CGSizeMake(400.0f, 500.0f);
+        
+    } else if (IS_IPHONE_6) {
+        return CGSizeMake(400.0f, 500.0f);
+        
+    } else if (IS_IPHONE_6_PLUS) {
+        return CGSizeMake(400.0f, 500.0f);
+        
+    } else {
+        return CGSizeMake(400.0f, 500.0f);
         
     }
 }

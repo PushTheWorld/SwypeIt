@@ -71,6 +71,10 @@ NSString *const kSIScoreNextMove                                    = @"nextMove
 
 #pragma mark - Images
 NSString *const kSIImageBackgroundDiamondPlate                      = @"diamondPlate";
+NSString *const kSIImageBackgroundPalmTreeBendLargeLeft             = @"palmTreeNormal";
+NSString *const kSIImageBackgroundPalmTreeBendLargeRight            = @"palmTreeFlipped";
+NSString *const kSIImageBackgroundPalmTreeBendSmallLeft             = @"palmTreeLeftBend";
+NSString *const kSIImageBackgroundPalmTreeBendSmallRight            = @"palmTreeRightBend";
 NSString *const kSIImageButtonContinue                              = @"continueButton";
 NSString *const kSIImageButtonContinueGrayed                        = @"continueGrayedButton";
 NSString *const kSIImageButtonCross                                 = @"cross";
@@ -103,6 +107,7 @@ NSString *const kSIImageProgressBarFillPowerUp                      = @"progress
 NSString *const kSIImageShapePowerupCost                            = @"powerupCost";
 
 #pragma mark - Texture Atlas
+NSString *const kSIAtlasBackground                                  = @"background";
 NSString *const kSIAtlasButtons                                     = @"buttons";
 NSString *const kSIAtlasImages                                      = @"images";
 NSString *const kSIAtlasShapes                                      = @"shapes";
@@ -217,6 +222,9 @@ NSString *const kSISoundFXInitalize                                 = @"swypeItF
 
 @implementation SIConstants 
 
++ (SKTextureAtlas *)backgroundAtlas {
+    return [SKTextureAtlas atlasNamed:kSIAtlasBackground];
+}
 + (SKTextureAtlas *)buttonAtlas {
     return [SKTextureAtlas atlasNamed:kSIAtlasButtons];
 }

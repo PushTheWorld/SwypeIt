@@ -225,6 +225,10 @@ extern NSString *const kSIScoreNextMove;
 
 #pragma mark - Images
 extern NSString *const kSIImageBackgroundDiamondPlate;
+extern NSString *const kSIImageBackgroundPalmTreeBendLargeLeft;
+extern NSString *const kSIImageBackgroundPalmTreeBendLargeRight;
+extern NSString *const kSIImageBackgroundPalmTreeBendSmallLeft;
+extern NSString *const kSIImageBackgroundPalmTreeBendSmallRight;
 extern NSString *const kSIImageButtonContinue;
 extern NSString *const kSIImageButtonContinueGrayed;
 extern NSString *const kSIImageButtonCross;
@@ -257,6 +261,7 @@ extern NSString *const kSIImageProgressBarFillPowerUp;
 extern NSString *const kSIImageShapePowerupCost;
 
 #pragma mark - Texture Atlas
+extern NSString *const kSIAtlasBackground;
 extern NSString *const kSIAtlasButtons;
 extern NSString *const kSIAtlasImages;
 extern NSString *const kSIAtlasShapes;
@@ -372,6 +377,7 @@ extern NSString *const kSISoundFXInitalize;
 
 @interface SIConstants : NSObject
 
++ (SKTextureAtlas *)backgroundAtlas;
 + (SKTextureAtlas *)buttonAtlas;
 + (SKTextureAtlas *)imagesAtlas;
 + (SKTextureAtlas *)shapesAtlas;

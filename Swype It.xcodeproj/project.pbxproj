@@ -103,6 +103,8 @@
 		09CAF9A91B646BE100466606 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 09CAF9A81B646BE100466606 /* MBProgressHUD.m */; };
 		09CAF9AC1B646F4C00466606 /* buttons.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 09CAF9AB1B646F4C00466606 /* buttons.atlas */; };
 		09CB158E1B7E85DC00F9A956 /* SITestScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 09CB158D1B7E85DC00F9A956 /* SITestScene.m */; };
+		09D5ED4C1B8B1AB900E84179 /* background.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 09D5ED4B1B8B1AB900E84179 /* background.atlas */; };
+		09D5ED4F1B8B205B00E84179 /* SISegmentControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 09D5ED4E1B8B205B00E84179 /* SISegmentControl.m */; };
 		09DB638A1B564DA700387C13 /* IAPTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 09DB63891B564DA700387C13 /* IAPTableViewController.m */; };
 		09DB638E1B564DCA00387C13 /* IAPTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 09DB638D1B564DCA00387C13 /* IAPTableViewCell.m */; };
 		09DB63981B564F0900387C13 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 09DB63971B564F0900387C13 /* StoreKit.framework */; };
@@ -271,6 +273,9 @@
 		09CAF9AB1B646F4C00466606 /* buttons.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = buttons.atlas; sourceTree = "<group>"; };
 		09CB158C1B7E85DC00F9A956 /* SITestScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SITestScene.h; sourceTree = "<group>"; };
 		09CB158D1B7E85DC00F9A956 /* SITestScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SITestScene.m; sourceTree = "<group>"; };
+		09D5ED4B1B8B1AB900E84179 /* background.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = background.atlas; sourceTree = "<group>"; };
+		09D5ED4D1B8B205B00E84179 /* SISegmentControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SISegmentControl.h; sourceTree = "<group>"; };
+		09D5ED4E1B8B205B00E84179 /* SISegmentControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SISegmentControl.m; sourceTree = "<group>"; };
 		09DB63881B564DA700387C13 /* IAPTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IAPTableViewController.h; sourceTree = "<group>"; };
 		09DB63891B564DA700387C13 /* IAPTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IAPTableViewController.m; sourceTree = "<group>"; };
 		09DB638C1B564DCA00387C13 /* IAPTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IAPTableViewCell.h; sourceTree = "<group>"; };
@@ -493,6 +498,7 @@
 			isa = PBXGroup;
 			children = (
 				0979E65B1B77C0F2002FC2F2 /* diamondPlate3.png */,
+				09D5ED4B1B8B1AB900E84179 /* background.atlas */,
 				0988CC9A1B720F3B00BF429D /* images.atlas */,
 				09CAF9AB1B646F4C00466606 /* buttons.atlas */,
 				091FED531B37283E0071F8DC /* Images.xcassets */,
@@ -540,6 +546,8 @@
 				0914D7A91B81C22400911DD8 /* SIPowerUpToolbarNode.m */,
 				0988CC921B70C82300BF429D /* SIStoreButtonNode.h */,
 				0988CC931B70C82300BF429D /* SIStoreButtonNode.m */,
+				09D5ED4D1B8B205B00E84179 /* SISegmentControl.h */,
+				09D5ED4E1B8B205B00E84179 /* SISegmentControl.m */,
 			);
 			name = CustomUIClasses;
 			sourceTree = "<group>";
@@ -806,6 +814,7 @@
 				096ABDF71B6B6ABB005B2F12 /* swypeItSound6.caf in Resources */,
 				09DB639E1B56525100387C13 /* MKStoreKitConfigs.plist in Resources */,
 				096ABDF41B6B6ABB005B2F12 /* swypeItSound3.caf in Resources */,
+				09D5ED4C1B8B1AB900E84179 /* background.atlas in Resources */,
 				099A62331B5C8B12009BF339 /* Main.storyboard in Resources */,
 				096ABDF51B6B6ABB005B2F12 /* swypeItSound4.caf in Resources */,
 				09CAF9AC1B646F4C00466606 /* buttons.atlas in Resources */,
@@ -918,6 +927,7 @@
 				09DB638A1B564DA700387C13 /* IAPTableViewController.m in Sources */,
 				0917D4FA1B6DD8240046B5FF /* HLToolbarNode.m in Sources */,
 				09CAF9A91B646BE100466606 /* MBProgressHUD.m in Sources */,
+				09D5ED4F1B8B205B00E84179 /* SISegmentControl.m in Sources */,
 				091FED761B3733AF0071F8DC /* SIConstants.m in Sources */,
 				0917D4F21B6DD8240046B5FF /* HLOutlineLayoutManager.m in Sources */,
 				098B3B431B378B89000D4702 /* AppSingleton.m in Sources */,

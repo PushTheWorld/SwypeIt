@@ -12,6 +12,7 @@
 #import "GameScene.h"
 #import "MainViewController.h"
 #import "SettingsScene.h"
+#import "SISegmentControl.h"
 #import "StartScreenScene.h"
 #import "StoreScene.h"
 // Framework Import
@@ -26,18 +27,19 @@
 
 @interface StartScreenScene () <HLMenuNodeDelegate>
 
-#pragma mark - Private Properties
-@property (strong, nonatomic) HLMenuNode    *menuNode;
-@property (strong, nonatomic) SKLabelNode   *gameTitleLabel;
-@property (strong, nonatomic) SKLabelNode   *welcomeLabel;
 
 @end
 @implementation StartScreenScene {
-    BOOL        _shouldRespondToTap;
+    BOOL                 _shouldRespondToTap;
     
-    CGFloat     _buttonAnimationDuration;
-    CGFloat     _buttonSpacing;
-//    CGSize      _buttonSize;
+    CGFloat              _buttonAnimationDuration;
+    CGFloat              _buttonSpacing;
+    
+    HLMenuNode          *_menuNode;
+    
+    SISegmentControl    *_segmentControl;
+    
+    SKLabelNode         *_gameTitleLabelNode;
 }
 
 #pragma mark - Scene Life Cycle
@@ -80,18 +82,18 @@
 #pragma mark Scene Setup
 - (void)createConstantsWithSize:(CGSize)size {
     /**Configure any constants*/
-//    _buttonSize                             = CGSizeMake(size.width / 1.25, (size.width / 1.25f) * 0.25);
     _buttonSpacing                          = [MainViewController buttonSize:size].height * 0.25;
     _buttonAnimationDuration                = 0.25f;
 }
 - (void)createControlsWithSize:(CGSize)size {
     /**Preform all your alloc/init's here*/
-    _welcomeLabel                           = [MainViewController SI_sharedLabelHeader_x3:@"Welcome"];
+    _gameTitleLabelNode                     = [MainViewController SI_sharedLabelParagraph:@"Swype It"];
     
-    _gameTitleLabel                         = [MainViewController SI_sharedLabelParagraph:@"Swype It 2.0 Beta"];
-    
+    /*Segment Control*/
+    _segmentControl                         = [[SISegmentControl alloc] initWithSize:[MainViewController buttonSize:size] titles:@[@"Original",@"One Hand"]];
+
     /*Menu Node*/
-    _menuNode                           = [[HLMenuNode alloc] init];
+    _menuNode                               = [[HLMenuNode alloc] init];
 }
 - (void)setupControlsWithSize:(CGSize)size {
     /**Configrue the labels, nodes and what ever else you can*/
@@ -109,11 +111,12 @@
 }
 - (void)layoutControlsWithSize:(CGSize)size {
     /**Layout those controls*/
-    _welcomeLabel.position                  = CGPointMake(CGRectGetMidX(self.frame),size.height - _welcomeLabel.frame.size.height - VERTICAL_SPACING_16);
-    [self addChild:_welcomeLabel];
-
-    _gameTitleLabel.position                = CGPointMake(CGRectGetMidX(self.frame),_welcomeLabel.frame.origin.y - _gameTitleLabel.frame.size.height - VERTICAL_SPACING_16);
-    [self addChild:_gameTitleLabel];
+    _gameTitleLabelNode.position            = CGPointMake(CGRectGetMidX(self.frame),size.height - _gameTitleLabelNode.frame.size.height - VERTICAL_SPACING_16);
+    [self addChild:_gameTitleLabelNode];
+    
+    /*Segment Control*/
+    _segmentControl.position                = CGPointMake(CGRectGetMinX(self.frame), _gameTitleLabelNode.frame.origin.y - _gameTitleLabelNode.frame.size.height - VERTICAL_SPACING_8);
+    [self addChild:_segmentControl];
     
     /*Menu Node*/
     _menuNode.position                      = CGPointMake(size.width / 2.0f,
@@ -136,7 +139,7 @@
     
     [menu addItem:[HLMenuItem menuItemWithText:kSIMenuTextStartScreenSettings]];
     
-    [self.menuNode setMenu:menu animation:HLMenuNodeAnimationNone];
+    [_menuNode setMenu:menu animation:HLMenuNodeAnimationNone];
 }
 - (void)menuNode:(HLMenuNode *)menuNode didTapMenuItem:(HLMenuItem *)menuItem itemIndex:(NSUInteger)itemIndex {
     _shouldRespondToTap             = NO;

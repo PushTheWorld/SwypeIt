@@ -684,6 +684,21 @@
     return [Game textureFromLayer:shapeLayer];
 }
 
++ (SKTexture *)textureLeftSegmentButtonColor:(SKColor *)backgroundColor size:(CGSize)size cornerRadius:(CGFloat)cornerRadius borderWidth:(CGFloat)borderWidth borderColor:(UIColor *)borderColor {
+    UIBezierPath *maskPath      = [UIBezierPath bezierPathWithRoundedRect:CGRectMake(0, 0, size.width, size.height) cornerRadius:cornerRadius];
+    
+    CAShapeLayer *shapeLayer    = [CAShapeLayer layer];
+    shapeLayer.frame            = CGRectMake(0, 0, size.width, size.height);
+    shapeLayer.path             = maskPath.CGPath;
+    shapeLayer.fillColor        = backgroundColor.CGColor;
+    shapeLayer.strokeColor      = borderColor.CGColor;
+    shapeLayer.lineWidth        = borderWidth;
+    shapeLayer.cornerRadius     = cornerRadius;
+    shapeLayer.masksToBounds    = YES;
+    
+    return [Game textureFromLayer:shapeLayer];
+}
+
 + (SKTexture *)textureBackgroundColor:(SKColor *)backgroundColor size:(CGSize)size cornerRadius:(CGFloat)cornerRadius borderWidth:(CGFloat)borderWidth borderColor:(UIColor *)borderColor {
     UIBezierPath *maskPath      = [UIBezierPath bezierPathWithRoundedRect:CGRectMake(0, 0, size.width, size.height) cornerRadius:cornerRadius];
     
