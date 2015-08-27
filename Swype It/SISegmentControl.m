@@ -16,6 +16,11 @@
 // Support/Data Class Imports
 #import "Game.h"
 // Other Imports
+enum {
+    SISegmentContorlZPositionLayerBackground = 0,
+    SISegmentControlZPositionLayerButtons,
+    SISegmentContorlZPositionLayerCount
+};
 
 @implementation SISegmentControl  {
     
@@ -28,7 +33,9 @@
     
     NSMutableArray                  *_segments;
     
+    NSUInteger                       _initSelectedSegment;
     NSUInteger                       _numberOfSegments;
+    NSUInteger                       _selectedSegment;
     
     SKColor                         *_backgroundColor;
     SKColor                         *_borderColor;
@@ -46,17 +53,72 @@
         
         _titles                     = titles;
         
-        _cornerRadius               = 4.0f;
-        _borderWidth                = 4.0f;
+        _cornerRadius               = 8.0f;
+        _borderWidth                = 0.0f;
         
         _backgroundColor            = [SKColor blackColor];
         _borderColor                = [SKColor lightGrayColor];
         _segmentColorSelected       = [SKColor greenColor];
         _segmentColorUnselected     = [SKColor grayColor];
         
+        _initSelectedSegment        = 0;
+        
+        _selectedSegment            = [titles count];
+        
         [self initSetup:size];
     }
     return self;
+}
+
+- (void)setAnchorPoint:(CGPoint)anchorPoint {
+    if (_backgroundNode) {
+        self.anchorPoint            = _backgroundNode.anchorPoint;
+        _backgroundNode.anchorPoint = self.anchorPoint;
+
+    } else {
+        self.anchorPoint            = CGPointMake(0.5, 0.5);
+        _backgroundNode.anchorPoint = self.anchorPoint;
+    }
+}
+
+- (CGPoint)anchorPoint {
+    return _backgroundNode.anchorPoint;
+}
+
+- (NSUInteger)selectedSegment {
+    return _selectedSegment;
+}
+
+- (void)setSelectedSegment:(NSUInteger)selectedSegment {
+    if (!_segments) {
+//        _selectedSegment = selectedSegment;
+        return;
+    }
+//    NSLog(@"Current _selectedSegment = %u... new segment = %u",(unsigned)_selectedSegment,(unsigned)selectedSegment);
+    if (selectedSegment < _numberOfSegments) {
+        if (selectedSegment != _selectedSegment) {
+            if (_selectedSegment == _numberOfSegments) { /*This is the first case*/
+                _selectedSegment = _initSelectedSegment;
+            }
+            HLLabelButtonNode *newNode          = _segments[selectedSegment];
+            HLLabelButtonNode *oldNode          = _segments[_selectedSegment];
+            
+            /*This is supposed to change the color of the node...*/
+            [self setColorForNode:oldNode color:_segmentColorUnselected];
+            [self setColorForNode:newNode color:_segmentColorSelected];
+//            oldNode.color                       = _segmentColorUnselected;
+//            newNode.color                       = _segmentColorSelected;
+            
+            _selectedSegment                    = selectedSegment;
+            
+            [self.delegate segmentControl:self didTapNodeItem:newNode itemIndex:selectedSegment];
+        }
+    }
+}
+
+- (void)setColorForNode:(HLLabelButtonNode *)node color:(SKColor *)color {
+    node.color              = color;
+    node.colorBlendFactor   = 1.0f;
 }
 
 #pragma mark - Node Setup
@@ -77,38 +139,48 @@
 
 - (void)createControlsWithSize:(CGSize)size {
     /**Preform all your alloc/init's here*/
-    _backgroundNode                             = [SKSpriteNode spriteNodeWithColor:_backgroundColor size:_size];
-    
-    _selectedSegment                            = 0;
-    
+    _backgroundNode                             = [SKSpriteNode spriteNodeWithColor:[SKColor clearColor] size:_size];
+    [self addChild:_backgroundNode];
+
     [self createSegments];
+    
+    [self setSelectedSegment:_initSelectedSegment];
 }
 
 - (void)createSegments {
     if (_numberOfSegments == 1) {
 
     } else {
+        _segments                       = [NSMutableArray array];
+        CGFloat currentXPositionSegment = -1.0f * (_numberOfSegments - 1) * _segmentSize.width;
         for (int i = 0; i < _numberOfSegments; i++) {
             HLLabelButtonNode *segmentNode;
             
-            if (i == 0) {
-                segmentNode                         = [[HLLabelButtonNode alloc] initWithTexture:[self textureForSprite:segmentNode isSelected:YES]];
-            } else {
-                segmentNode                         = [[HLLabelButtonNode alloc] initWithTexture:[self textureForSprite:segmentNode isSelected:YES]];
-
-            }
+            segmentNode                         = [[HLLabelButtonNode alloc] initWithTexture:[self textureForSprite:segmentNode indexOfNode:(NSUInteger)i]]; // isSelected:NO]];
             
             segmentNode.text                    = _titles[i];
             
-            segmentNode.anchorPoint             = CGPointMake(0.0f, 0.0f);
+            segmentNode.anchorPoint             = CGPointMake(0.0f, 0.5f);
             
-            segmentNode.position                = CGPointMake(0.0f, i * _segmentSize.width);
+            segmentNode.fontSize                = 24.0f;
+            
+            segmentNode.fontName                = kSIFontFuturaMedium;
+            
+            segmentNode.position                = CGPointMake(currentXPositionSegment, 0.0f);
+            
+            segmentNode.color                   = _segmentColorUnselected;
+            segmentNode.colorBlendFactor        = 1.0f;
+            
+            currentXPositionSegment             = currentXPositionSegment + _segmentSize.width;
+            
+            segmentNode.userInteractionEnabled  = YES;
             
             [_backgroundNode addChild:segmentNode];
             
-            [segmentNode hlSetGestureTarget:[HLTapGestureTarget tapGestureTargetWithHandleGestureBlock:^(UIGestureRecognizer *gestureRecognizer) {
-                [self setSelectedSegment:[_segments indexOfObject:segmentNode]];
-            }]];
+//            [segmentNode hlSetGestureTarget:[HLTapGestureTarget tapGestureTargetWithHandleGestureBlock:^(UIGestureRecognizer *gestureRecognizer) {
+//                NSLog(@"Segment (%d) tapped",(int)[_segments indexOfObject:segmentNode]);
+//                [self setSelectedSegment:[_segments indexOfObject:segmentNode]];
+//            }]];
             
             [_segments addObject:segmentNode];
             
@@ -116,56 +188,85 @@
     }
 }
 
-- (void)setSelectedSegment:(NSUInteger)selectedSegment {
-    if (!_segments) {
-        return;
-    }
-    if (selectedSegment < _numberOfSegments - 1) {
-        if (selectedSegment != _selectedSegment) {
-            HLLabelButtonNode *newNode          = _segments[selectedSegment];
-            HLLabelButtonNode *oldNode          = _segments[_selectedSegment];
-            
-            oldNode.color                       = _segmentColorUnselected;
-            newNode.color                       = _segmentColorSelected;
-            
-            _selectedSegment                    = selectedSegment;
-            
+#pragma mark - HLGestureTarget
+- (NSArray *)addsToGestureRecognizers
+{
+    return @[ [[UITapGestureRecognizer alloc] init] ];
+}
+
+- (BOOL)addToGesture:(UIGestureRecognizer *)gestureRecognizer firstTouch:(UITouch *)touch isInside:(BOOL *)isInside
+{
+    CGPoint location = [touch locationInNode:self];
+    
+    *isInside = NO;
+    for (SKNode *buttonNode in _backgroundNode.children) {
+        if ([buttonNode containsPoint:location]) {
+            *isInside = YES;
+            if ([gestureRecognizer isKindOfClass:[UITapGestureRecognizer class]]) {
+                // note: Require only one tap and one touch, same as our gesture recognizer
+                // returned from addsToGestureRecognizers?  I think it's okay to be non-strict.
+                [gestureRecognizer addTarget:self action:@selector(handleTap:)];
+                return YES;
+            }
+            break;
         }
+    }
+    return NO;
+}
+
+- (void)handleTap:(UIGestureRecognizer *)gestureRecognizer
+{
+    // note: Clearly, could retain state from addToGesture if it improved performance
+    // significantly.
+    CGPoint viewLocation = [gestureRecognizer locationInView:self.scene.view];
+    CGPoint sceneLocation = [self.scene convertPointFromView:viewLocation];
+    CGPoint menuLocation = [self convertPoint:sceneLocation fromNode:self.scene];
+    
+    NSUInteger i = 0;
+    for (SKNode *buttonNode in _backgroundNode.children) {
+        if ([buttonNode containsPoint:menuLocation]) {
+//            NSLog(@"Segment (%d) tapped",(int)i);
+            [self setSelectedSegment:i];
+            return;
+        }
+        ++i;
     }
 }
 
-- (SKTexture *)textureForSprite:(HLLabelButtonNode *)segmentNode isSelected:(BOOL)isSelected {
+
+#pragma mark - Texture Features
+- (SKTexture *)textureForSprite:(HLLabelButtonNode *)segmentNode indexOfNode:(NSUInteger)indexOfNode { // isSelected:(BOOL)isSelected {
     SKTexture *texture;
         
-    SKColor *buttonColor;
-    if (isSelected) {
-        buttonColor     = _segmentColorSelected;
-    } else {
-        buttonColor     = _segmentColorUnselected;
-    }
+//    SKColor *buttonColor;
+//    if (isSelected) {
+//        buttonColor     = _segmentColorSelected;
+//    } else {
+//        buttonColor     = _segmentColorUnselected;
+//    }
     
-    NSUInteger indexOfSegmentNode = [_segments indexOfObject:segmentNode];
+//    NSUInteger indexOfSegmentNode = [_segments indexOfObject:segmentNode];
     
     if (_numberOfSegments == 1) {
-        texture         = [SISegmentControl textureBackgroundColor:buttonColor
+        texture         = [SISegmentControl textureBackgroundColor:_segmentColorUnselected
                                                               size:_segmentSize
                                                       cornerRadius:_cornerRadius
                                                        borderWidth:_borderWidth
                                                        borderColor:_borderColor];
-    } else if (indexOfSegmentNode == 0) {
-        texture         = [SISegmentControl textureLeftSegmentButtonColor:buttonColor
+    } else if (indexOfNode == 0) {
+        texture         = [SISegmentControl textureLeftSegmentButtonColor:_segmentColorUnselected
                                                                      size:_segmentSize
                                                              cornerRadius:_cornerRadius
                                                               borderWidth:_borderWidth
                                                               borderColor:_borderColor];
-    } else if (indexOfSegmentNode == _numberOfSegments - 1) {
-        texture         = [SISegmentControl textureRightSegmentButtonColor:buttonColor
+    } else if (indexOfNode == _numberOfSegments - 1) {
+        texture         = [SISegmentControl textureRightSegmentButtonColor:_segmentColorUnselected
                                                                          size:_segmentSize
                                                                  cornerRadius:_cornerRadius
                                                                   borderWidth:_borderWidth
                                                                   borderColor:_borderColor];
     } else {
-        texture         = [SISegmentControl textureBackgroundColor:buttonColor
+        texture         = [SISegmentControl textureBackgroundColor:_segmentColorUnselected
                                                               size:_segmentSize
                                                       cornerRadius:_cornerRadius
                                                        borderWidth:_borderWidth
@@ -184,7 +285,7 @@
     shapeLayer.fillColor        = backgroundColor.CGColor;
     shapeLayer.strokeColor      = borderColor.CGColor;
     shapeLayer.lineWidth        = borderWidth;
-    shapeLayer.cornerRadius     = cornerRadius;
+//    shapeLayer.cornerRadius     = cornerRadius;
     shapeLayer.masksToBounds    = YES;
     
     return [SISegmentControl textureFromLayer:shapeLayer];
@@ -199,7 +300,7 @@
     shapeLayer.fillColor        = backgroundColor.CGColor;
     shapeLayer.strokeColor      = borderColor.CGColor;
     shapeLayer.lineWidth        = borderWidth;
-    shapeLayer.cornerRadius     = cornerRadius;
+//    shapeLayer.cornerRadius     = cornerRadius;
     shapeLayer.masksToBounds    = YES;
     
     return [SISegmentControl textureFromLayer:shapeLayer];
@@ -242,5 +343,7 @@
     
     return texture;
 }
+
+
 
 @end

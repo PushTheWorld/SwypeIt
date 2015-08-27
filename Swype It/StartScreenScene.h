@@ -8,6 +8,6 @@
 #import "HLSpriteKit.h"
 #import <SpriteKit/SpriteKit.h>
 
-@interface StartScreenScene : HLScene
+@interface StartScreenScene : HLScene //<UIGestureRecognizerDelegate>
 
 @end
