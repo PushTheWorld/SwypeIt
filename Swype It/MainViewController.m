@@ -135,10 +135,10 @@
     }
 }
 + (CGFloat)fontSizeText_x2 {
-    return [MainViewController fontSizeHeader] + 2.0f;
+    return [MainViewController fontSizeText] + 2.0f;
 }
 + (CGFloat)fontSizeText_x3 {
-    return [MainViewController fontSizeHeader] + 4.0f;
+    return [MainViewController fontSizeText] + 4.0f;
 }
 
 

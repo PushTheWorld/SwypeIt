@@ -7,6 +7,7 @@
 //  Purpose: This is a quick segment control...
 //
 // Local Controller Import
+#import "MainViewController.h"
 #import "SISegmentControl.h"
 // Framework Import
 // Drop-In Class Imports (CocoaPods/GitHub/Guru)
@@ -54,12 +55,12 @@ enum {
         _titles                     = titles;
         
         _cornerRadius               = 8.0f;
-        _borderWidth                = 0.0f;
+        _borderWidth                = 8.0f;
         
-        _backgroundColor            = [SKColor blackColor];
-        _borderColor                = [SKColor lightGrayColor];
-        _segmentColorSelected       = [SKColor greenColor];
-        _segmentColorUnselected     = [SKColor grayColor];
+        _backgroundColor            = [SKColor clearColor];
+        _borderColor                = [SKColor blackColor];
+        _segmentColorSelected       = [SKColor mainColor];
+        _segmentColorUnselected     = [SKColor whiteColor];
         
         _initSelectedSegment        = 0;
         
@@ -104,8 +105,8 @@ enum {
             HLLabelButtonNode *oldNode          = _segments[_selectedSegment];
             
             /*This is supposed to change the color of the node...*/
-            [self setColorForNode:oldNode color:_segmentColorUnselected];
-            [self setColorForNode:newNode color:_segmentColorSelected];
+            [self setColorForNode:oldNode color:_segmentColorUnselected fontColor:[SKColor blackColor]];
+            [self setColorForNode:newNode color:_segmentColorSelected fontColor:[SKColor whiteColor]];
 //            oldNode.color                       = _segmentColorUnselected;
 //            newNode.color                       = _segmentColorSelected;
             
@@ -116,9 +117,10 @@ enum {
     }
 }
 
-- (void)setColorForNode:(HLLabelButtonNode *)node color:(SKColor *)color {
+- (void)setColorForNode:(HLLabelButtonNode *)node color:(SKColor *)color fontColor:(SKColor *)fontColor {
     node.color              = color;
     node.colorBlendFactor   = 1.0f;
+    node.fontColor          = fontColor;
 }
 
 #pragma mark - Node Setup
@@ -139,7 +141,8 @@ enum {
 
 - (void)createControlsWithSize:(CGSize)size {
     /**Preform all your alloc/init's here*/
-    _backgroundNode                             = [SKSpriteNode spriteNodeWithColor:[SKColor clearColor] size:_size];
+    _backgroundNode                             = [SKSpriteNode spriteNodeWithTexture:[SISegmentControl textureBackgroundColor:[SKColor clearColor] size:_size cornerRadius:_cornerRadius borderWidth:_borderWidth borderColor:_borderColor]];
+//    [SKSpriteNode spriteNodeWithColor:[SKColor clearColor] size:_size];
     [self addChild:_backgroundNode];
 
     [self createSegments];
@@ -162,9 +165,11 @@ enum {
             
             segmentNode.anchorPoint             = CGPointMake(0.0f, 0.5f);
             
-            segmentNode.fontSize                = 24.0f;
+            segmentNode.fontSize                = [MainViewController fontSizeText_x3];
             
-            segmentNode.fontName                = kSIFontFuturaMedium;
+            segmentNode.fontName                = kSIFontUltra;
+            
+            segmentNode.fontColor               = [SKColor blackColor];
             
             segmentNode.position                = CGPointMake(currentXPositionSegment, 0.0f);
             
@@ -237,39 +242,30 @@ enum {
 #pragma mark - Texture Features
 - (SKTexture *)textureForSprite:(HLLabelButtonNode *)segmentNode indexOfNode:(NSUInteger)indexOfNode { // isSelected:(BOOL)isSelected {
     SKTexture *texture;
-        
-//    SKColor *buttonColor;
-//    if (isSelected) {
-//        buttonColor     = _segmentColorSelected;
-//    } else {
-//        buttonColor     = _segmentColorUnselected;
-//    }
-    
-//    NSUInteger indexOfSegmentNode = [_segments indexOfObject:segmentNode];
     
     if (_numberOfSegments == 1) {
         texture         = [SISegmentControl textureBackgroundColor:_segmentColorUnselected
                                                               size:_segmentSize
                                                       cornerRadius:_cornerRadius
-                                                       borderWidth:_borderWidth
+                                                       borderWidth:0.0f
                                                        borderColor:_borderColor];
     } else if (indexOfNode == 0) {
         texture         = [SISegmentControl textureLeftSegmentButtonColor:_segmentColorUnselected
                                                                      size:_segmentSize
                                                              cornerRadius:_cornerRadius
-                                                              borderWidth:_borderWidth
+                                                              borderWidth:0.0f
                                                               borderColor:_borderColor];
     } else if (indexOfNode == _numberOfSegments - 1) {
         texture         = [SISegmentControl textureRightSegmentButtonColor:_segmentColorUnselected
                                                                          size:_segmentSize
                                                                  cornerRadius:_cornerRadius
-                                                                  borderWidth:_borderWidth
+                                                                  borderWidth:0.0f
                                                                   borderColor:_borderColor];
     } else {
         texture         = [SISegmentControl textureBackgroundColor:_segmentColorUnselected
                                                               size:_segmentSize
                                                       cornerRadius:_cornerRadius
-                                                       borderWidth:_borderWidth
+                                                       borderWidth:0.0f
                                                        borderColor:_borderColor];
     }
     
