@@ -5,7 +5,7 @@
 //  Created by Andrew Keller on 8/13/15.
 //  Copyright © 2015 Push The World LLC. All rights reserved.
 //
-
+#import "SKNode+HLGestureTarget.h"
 #import "SIPopupNode.h"
 enum {
     SIPopUpNodeZPositionLayerBackground = 0,
@@ -20,7 +20,8 @@ enum {
     
     CGSize           _sceneSize;
     
-    HLMenuNode      *_menuNode;
+//    HLComponentNode *_contentNode;
+    SKNode          *_detailNode;
     SKSpriteNode    *_backgroundNode;
     SKSpriteNode    *_dismissButton;
     SKLabelNode     *_titleNode;
@@ -275,18 +276,18 @@ enum {
     _dismissButton.position = CGPointMake(newX, newY);
 }
 
-- (void)setMenuNode:(HLMenuNode *)menuNode {
-    if (_menuNode) {
-        [_menuNode removeFromParent];
-    }
-    if (menuNode) {
-        _menuNode               = menuNode;
-        _menuNode.name          = kSINodePopUpContent;
-        _menuNode.zPosition     = SIPopUpNodeZPositionLayerContent * self.zPositionScale / SIPopUpNodeZPositionLayerCount;
-        [_backgroundNode addChild:_menuNode];
-        [_menuNode hlSetGestureTarget:_menuNode];
-    }
-}
+//- (void)setMenuNode:(HLMenuNode *)menuNode {
+//    if (_contentNode) {
+//        [_contentNode removeFromParent];
+//    }
+//    if (menuNode) {
+//        _contentNode               = menuNode;
+//        _contentNode.name          = kSINodePopUpContent;
+//        _contentNode.zPosition     = SIPopUpNodeZPositionLayerContent * self.zPositionScale / SIPopUpNodeZPositionLayerCount;
+//        [_backgroundNode addChild:_contentNode];
+//        [_contentNode hlSetGestureTarget:_contentNode];
+//    }
+//}
 
 - (void)setXPadding:(CGFloat)xPadding {
     _xPadding = xPadding;
@@ -301,6 +302,22 @@ enum {
 - (SKNode *)contentNode {
     return [_backgroundNode childNodeWithName:kSINodePopUpContent];
 }
+- (void)setContentNode:(SKNode *)contentNode {
+    if (_detailNode) {
+        [_detailNode removeFromParent];
+    }
+    if (contentNode) {
+        _detailNode             = contentNode;
+        _detailNode.name        = kSINodePopUpContent;
+        _detailNode.zPosition   = SIPopUpNodeZPositionLayerContent * self.zPositionScale / SIPopUpNodeZPositionLayerCount;
+        [_backgroundNode addChild:_detailNode];
+        id <HLGestureTarget> target = [_detailNode hlGestureTarget];
+        if (target) {
+            [_detailNode hlSetGestureTarget:_detailNode];
+        }
+    }
+}
+
 
 - (void)setContentPostion:(CGPoint)contentPostion {
     _contentPostion             = contentPostion;

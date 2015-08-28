@@ -137,7 +137,7 @@
         SIPopupNode *popUpNode  = [MainViewController SISharedPopUpNodeTitle:@"Continue?" SceneSize:sceneSize];
         
         HLMenuNode *menuNode    = [self menuCreate:popUpNode.backgroundSize];
-        popUpNode.menuNode      = menuNode;
+        popUpNode.contentNode      = menuNode;
         [self registerDescendant:menuNode withOptions:[NSSet setWithObject:HLSceneChildGestureTarget]];
         
         popUpNode.delegate                  = self;

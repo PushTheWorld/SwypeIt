@@ -669,7 +669,7 @@ typedef NS_ENUM(NSInteger, SIGameSceneRingNode) {
     SIPopupNode *popUpNode                      = [MainViewController SISharedPopUpNodeTitle:@"Continue?" SceneSize:self.size];
     
     HLMenuNode *menuNode                        = [self menuCreate:popUpNode.backgroundSize];
-    popUpNode.menuNode                          = menuNode;
+    popUpNode.contentNode                          = menuNode;
     [self registerDescendant:menuNode withOptions:[NSSet setWithObject:HLSceneChildGestureTarget]];
     
     popUpNode.delegate                          = self;
@@ -1006,8 +1006,14 @@ typedef NS_ENUM(NSInteger, SIGameSceneRingNode) {
     
     HLTapGestureTarget *tapGestureTarget       = [[HLTapGestureTarget alloc] init];
     tapGestureTarget.handleGestureBlock        = ^(UIGestureRecognizer *gestureRecognizer) {
+        CGPoint viewLocation = [gestureRecognizer locationInView:self.scene.view];
+        CGPoint sceneLocation = [self.scene convertPointFromView:viewLocation];
+        CGPoint monkeyLocation = [self convertPoint:sceneLocation fromNode:self.scene];
+
+        SKNode *monkey = [self nodeAtPoint:monkeyLocation];
+        [monkey removeFromParent];
         
-        NSLog(@"Monkey tapped.....");
+        NSLog(@"Monkey removed.....");
     };
     [monkey hlSetGestureTarget:tapGestureTarget];
     [self registerDescendant:monkey withOptions:[NSSet setWithObject:HLSceneChildGestureTarget]];

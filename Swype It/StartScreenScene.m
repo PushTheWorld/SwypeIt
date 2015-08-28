@@ -34,7 +34,7 @@ enum {
     SIStartScreenZPositionLayerCount
 };
 
-@interface StartScreenScene () <HLToolbarNodeDelegate, SISegmentControlDelegate>
+@interface StartScreenScene () <HLToolbarNodeDelegate, SISegmentControlDelegate, SIPopUpNodeDelegate, HLMenuNodeDelegate>
 
 
 @end
@@ -119,13 +119,13 @@ enum {
     
     _monkeyFace                             = [SKSpriteNode spriteNodeWithTexture:[[SIConstants buttonAtlas] textureNamed:kSIImageButtonFallingMonkey]];
     
-    _gameTypeInstructionLabelNode           = [MainViewController SI_sharedLabelParagraph:@"Select Game Mode!"];
+    _gameTypeInstructionLabelNode           = [MainViewController SI_sharedLabelParagraph:@"Game Mode:"];
     
     /*Store Button Label*/
-    _storeButtonNode                        = [[HLLabelButtonNode alloc] initWithColor:[SKColor mainColor] size:[MainViewController buttonSize:size]];
+    _storeButtonNode                        = [[HLLabelButtonNode alloc] initWithColor:[SKColor simplstMainColor] size:[MainViewController buttonSize:size]];
 
     /*Segment Control*/
-    _segmentControl                         = [[SISegmentControl alloc] initWithSize:[MainViewController buttonSize:size] titles:@[@"Original",@"One Hand"]];
+    _segmentControl                         = [[SISegmentControl alloc] initWithSize:[MainViewController buttonSize:size] titles:@[@"Classic",@"One Hand"]];
 }
 - (void)setupControlsWithSize:(CGSize)size {
     /**Configrue the labels, nodes and what ever else you can*/
@@ -134,10 +134,11 @@ enum {
     _backgroundNode.zPosition               = SIStartScreenZPositionLayerBackground / SIStartScreenZPositionLayerCount;
     
     _gameTitleLabelNode.zPosition           = SIStartScreenZPositionLayerText / SIStartScreenZPositionLayerCount;
+    _gameTitleLabelNode.fontName            = kSIFontFuturaMedium;
     
     _tapToPlayLabelNode.zPosition           = SIStartScreenZPositionLayerText / SIStartScreenZPositionLayerCount;
     _tapToPlayLabelNode.fontColor           = [SKColor grayColor];
-    _tapToPlayLabelNode.userInteractionEnabled = YES;
+    _tapToPlayLabelNode.fontName            = kSIFontFuturaMedium;
     
     _monkeyFace.zPosition                   = SIStartScreenZPositionLayerTextChild / SIStartScreenZPositionLayerCount;
     _monkeyFace.anchorPoint                 = CGPointMake(0.5f, 0.5f);
@@ -145,13 +146,14 @@ enum {
     _monkeyFace.size                        = _monkeySize;
     
     _gameTypeInstructionLabelNode.zPosition = SIStartScreenZPositionLayerText / SIStartScreenZPositionLayerCount;
+    _gameTypeInstructionLabelNode.fontName  = kSIFontFuturaMedium;
     
     _segmentControl.zPosition               = SIStartScreenZPositionLayerButtons / SIStartScreenZPositionLayerCount;
     _segmentControl.delegate                = self;
     
     /*Store Button Label*/
     _storeButtonNode.text                   = kSIMenuTextStartScreenStore;
-    _storeButtonNode.fontName               = kSIFontUltra;
+    _storeButtonNode.fontName               = kSIFontFuturaMedium;
     _storeButtonNode.fontSize               = [MainViewController buttonSize:size].height / 2.0f;
     _storeButtonNode.fontColor              = [SKColor whiteColor];
     _storeButtonNode.borderColor            = [SKColor blackColor];
@@ -179,25 +181,25 @@ enum {
     _gameTitleLabelNode.position            = CGPointMake(0.0f,(size.height / 2.0f) - (_gameTitleLabelNode.fontSize / 2.0f) - VERTICAL_SPACING_8);
     [_backgroundNode addChild:_gameTitleLabelNode];
     
-    _tapToPlayLabelNode.position             = CGPointMake(0.0f, _gameTitleLabelNode.frame.origin.y - (_tapToPlayLabelNode.fontSize / 2.0f) - VERTICAL_SPACING_8);
+    _tapToPlayLabelNode.position            = CGPointMake(0.0f, _gameTitleLabelNode.frame.origin.y - (_tapToPlayLabelNode.fontSize / 2.0f) - VERTICAL_SPACING_8);
     [_backgroundNode addChild:_tapToPlayLabelNode];
     
-    CGFloat maxMonkeyScaleSize = 1.1f;
-    CGFloat maxMonkeyHeight = _monkeySize.height * maxMonkeyScaleSize;
-    _monkeyFace.position                    = CGPointMake(0.0f, _tapToPlayLabelNode.position.y - (maxMonkeyHeight / 2.0f));
+    CGFloat maxMonkeyScaleSize              = 1.1f;
+    CGFloat maxMonkeyHeight                 = _monkeySize.height * maxMonkeyScaleSize;
+    _monkeyFace.position                    = CGPointMake(0.0f, _tapToPlayLabelNode.position.y - (maxMonkeyHeight / 1.5f));
     [_backgroundNode addChild:_monkeyFace];
-    SKAction *increaseSize  = [SKAction scaleTo:maxMonkeyScaleSize duration:1.2f];
-    SKAction *decreaseSize  = [SKAction scaleTo:1.0f duration:1.2f];
-    SKAction *seq = [SKAction sequence:@[increaseSize,decreaseSize]];
+    SKAction *increaseSize                  = [SKAction scaleTo:maxMonkeyScaleSize duration:1.2f];
+    SKAction *decreaseSize                  = [SKAction scaleTo:1.0f duration:1.2f];
+    SKAction *seq                           = [SKAction sequence:@[increaseSize,decreaseSize]];
     [_monkeyFace runAction:[SKAction repeatActionForever:seq]];
     
     
-    _gameTypeInstructionLabelNode.position  = CGPointMake(0.0f, 0.0f); //CGPointMake(size.width / 2.0f, _segmentControl.frame.origin.y + [MainViewController buttonSize:size].height);
+    _gameTypeInstructionLabelNode.position  = CGPointMake(0.0f, -_gameTypeInstructionLabelNode.fontSize); //CGPointMake(size.width / 2.0f, _segmentControl.frame.origin.y + [MainViewController buttonSize:size].height);
     [_backgroundNode addChild:_gameTypeInstructionLabelNode];
 
     
     /*Segment Control*/
-    _segmentControl.position                = CGPointMake(0.0f,-([MainViewController buttonSize:size].height / 2.0f) - (_gameTypeInstructionLabelNode.fontSize / 2.0f));
+    _segmentControl.position                = CGPointMake(0.0f,_gameTypeInstructionLabelNode.frame.origin.y - ([MainViewController buttonSize:size].height / 2.0f) - (_gameTypeInstructionLabelNode.fontSize / 2.0f));
     [_backgroundNode addChild:_segmentControl];
     [_segmentControl hlSetGestureTarget:_segmentControl];
     [self registerDescendant:_segmentControl withOptions:[NSSet setWithObject:HLSceneChildGestureTarget]];
@@ -226,6 +228,10 @@ enum {
 
 #pragma mark - Toolbar Delegates
 - (void)toolbarNode:(HLToolbarNode *)toolbarNode didTapTool:(NSString *)toolTag {
+    if ([self modalNodePresented]) {
+        [self dismissModalNodeAnimation:HLScenePresentationAnimationFade];
+        return;
+    }
     if ([toolTag isEqualToString:kSINodeButtonLeaderBoard]) {
         NSLog(@"Leaderboard Toolbar Button Tapped");
         
@@ -238,6 +244,7 @@ enum {
         
     } else if ([toolTag isEqualToString:kSINodeButtonInstructions]) {
         NSLog(@"Instructions Toolbar Button Tapped");
+        [self launchHelp];
     }
 }
 
@@ -284,8 +291,61 @@ enum {
     return toolbarNode;
 }
 
+#pragma mark - SIPopUpDelegate Methods
+- (void)dismissPopUp:(SIPopupNode *)popUpNode {
+    [self dismissModalNodeAnimation:HLScenePresentationAnimationFade];
+}
+
+#pragma mark - SIPopUpNode Helper Methods
+- (void)launchHelp {
+    SIPopupNode *popUpNode                      = [MainViewController SISharedPopUpNodeTitle:@"About" SceneSize:self.size];
+    popUpNode.zPosition                         = SIStartScreenZPositionLayerToolbar;
+    
+    SKLabelNode *aboutLabelNode                 = [SKLabelNode labelNodeWithFontNamed:kSIFontFuturaMedium];
+    aboutLabelNode.text                         = @"Taco";
+    aboutLabelNode.fontSize                     = [MainViewController fontSizeParagraph];
+    aboutLabelNode.fontColor                    = [SKColor blackColor];
+    
+    popUpNode.contentNode                       = aboutLabelNode;
+//    [self registerDescendant:menuNode withOptions:[NSSet setWithObject:HLSceneChildGestureTarget]];
+    
+    popUpNode.delegate                          = self;
+    popUpNode.userInteractionEnabled            = YES;
+    [popUpNode hlSetGestureTarget:popUpNode];
+    [self registerDescendant:popUpNode withOptions:[NSSet setWithObject:HLSceneChildGestureTarget]];
+    [self presentModalNode:popUpNode animation:HLScenePresentationAnimationFade];
+}
+
+- (HLMenuNode *)menuCreate:(CGSize)size {
+    HLMenuNode *menuNode                = [[HLMenuNode alloc] init];
+    menuNode.delegate                   = self;
+    menuNode.itemAnimation              = HLMenuNodeAnimationSlideLeft;
+    menuNode.itemAnimationDuration      = 0.25;
+    menuNode.itemButtonPrototype        = [MainViewController SI_sharedMenuButtonPrototypePopUp:[MainViewController buttonSize:size]];
+    menuNode.backItemButtonPrototype    = [MainViewController SI_sharedMenuButtonPrototypeBack:[MainViewController buttonSize:size]];
+    menuNode.itemSeparatorSize          = 20;
+    
+    HLMenu *menu                        = [[HLMenu alloc] init];
+    
+    /*Add the Back Button... Need to change the prototype*/
+    HLMenuItem *endGameItem             = [HLMenuItem menuItemWithText:kSIMenuTextBack];
+    endGameItem.buttonPrototype         = [MainViewController SI_sharedMenuButtonPrototypeBack:[MainViewController buttonSize:size]];
+    [menu addItem:endGameItem];
+    
+    
+    [menuNode setMenu:menu animation:HLMenuNodeAnimationNone];
+    
+    menuNode.position                   = CGPointMake(0.0f, 0.0f);
+    
+    return menuNode;
+}
+
 #pragma mark - Private Methods
 - (void)launchGameSceneForGameMode:(SIGameMode)gameMode {
+    if ([self modalNodePresented]) {
+        [self dismissModalNodeAnimation:HLScenePresentationAnimationFade];
+        return;
+    }
     [[AppSingleton singleton] initAppSingletonWithGameMode:gameMode];
     GameScene *firstScene = [[GameScene alloc] initWithSize:self.size gameMode:gameMode];
     [Game transisitionToSKScene:firstScene toSKView:self.view DoorsOpen:YES pausesIncomingScene:NO pausesOutgoingScene:NO duration:SCENE_TRANSISTION_DURATION];

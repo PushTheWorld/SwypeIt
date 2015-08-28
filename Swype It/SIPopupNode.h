@@ -167,7 +167,7 @@
 /**
  The content that is displayed by the popup
  */
-@property (nonatomic, strong) HLMenuNode *menuNode;
+@property (nonatomic, strong) SKNode *contentNode;
 
 /**
  The postion of the content node

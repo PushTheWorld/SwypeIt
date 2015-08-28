@@ -24,9 +24,11 @@ enum {
 };
 
 @implementation SISegmentControl  {
-    
-    CGFloat                          _borderWidth;
-    CGFloat                          _cornerRadius;
+
+    CGFloat                          _backgroundBorderWidth;
+    CGFloat                          _backgroundCornerRadius;
+    CGFloat                          _segmentBorderWidth;
+    CGFloat                          _segmentCornerRadius;
     
     CGSize                           _segmentSize;
     
@@ -53,9 +55,12 @@ enum {
         _size                       = size;
         
         _titles                     = titles;
+
+        _backgroundBorderWidth      = 8.0f;
+        _backgroundCornerRadius     = 8.0f;
         
-        _cornerRadius               = 8.0f;
-        _borderWidth                = 8.0f;
+        _segmentBorderWidth         = 0.0f;
+        _segmentCornerRadius        = 4.0f;
         
         _backgroundColor            = [SKColor clearColor];
         _borderColor                = [SKColor blackColor];
@@ -135,13 +140,13 @@ enum {
     _numberOfSegments                           = [_titles count];
     
     _segmentSize                                = CGSizeMake((_size.width / _numberOfSegments) - VERTICAL_SPACING_4,
-                                                             _size.height - VERTICAL_SPACING_4);
+                                                             _size.height - VERTICAL_SPACING_8);
     
 }
 
 - (void)createControlsWithSize:(CGSize)size {
     /**Preform all your alloc/init's here*/
-    _backgroundNode                             = [SKSpriteNode spriteNodeWithTexture:[SISegmentControl textureBackgroundColor:[SKColor clearColor] size:_size cornerRadius:_cornerRadius borderWidth:_borderWidth borderColor:_borderColor]];
+    _backgroundNode                             = [SKSpriteNode spriteNodeWithTexture:[SISegmentControl textureBackgroundColor:[SKColor clearColor] size:_size cornerRadius:_backgroundCornerRadius borderWidth:_backgroundBorderWidth borderColor:_borderColor]];
 //    [SKSpriteNode spriteNodeWithColor:[SKColor clearColor] size:_size];
     [self addChild:_backgroundNode];
 
@@ -165,9 +170,9 @@ enum {
             
             segmentNode.anchorPoint             = CGPointMake(0.0f, 0.5f);
             
-            segmentNode.fontSize                = [MainViewController fontSizeText_x3];
+            segmentNode.fontSize                = [MainViewController fontSizeParagraph];
             
-            segmentNode.fontName                = kSIFontUltra;
+            segmentNode.fontName                = kSIFontFuturaMedium;
             
             segmentNode.fontColor               = [SKColor blackColor];
             
@@ -246,26 +251,26 @@ enum {
     if (_numberOfSegments == 1) {
         texture         = [SISegmentControl textureBackgroundColor:_segmentColorUnselected
                                                               size:_segmentSize
-                                                      cornerRadius:_cornerRadius
-                                                       borderWidth:0.0f
+                                                      cornerRadius:_segmentCornerRadius
+                                                       borderWidth:_segmentBorderWidth
                                                        borderColor:_borderColor];
     } else if (indexOfNode == 0) {
         texture         = [SISegmentControl textureLeftSegmentButtonColor:_segmentColorUnselected
                                                                      size:_segmentSize
-                                                             cornerRadius:_cornerRadius
-                                                              borderWidth:0.0f
+                                                             cornerRadius:_segmentCornerRadius
+                                                              borderWidth:_segmentBorderWidth
                                                               borderColor:_borderColor];
     } else if (indexOfNode == _numberOfSegments - 1) {
         texture         = [SISegmentControl textureRightSegmentButtonColor:_segmentColorUnselected
-                                                                         size:_segmentSize
-                                                                 cornerRadius:_cornerRadius
-                                                                  borderWidth:0.0f
-                                                                  borderColor:_borderColor];
+                                                                      size:_segmentSize
+                                                              cornerRadius:_segmentCornerRadius
+                                                               borderWidth:_segmentBorderWidth
+                                                               borderColor:_borderColor];
     } else {
         texture         = [SISegmentControl textureBackgroundColor:_segmentColorUnselected
                                                               size:_segmentSize
-                                                      cornerRadius:_cornerRadius
-                                                       borderWidth:0.0f
+                                                      cornerRadius:_segmentCornerRadius
+                                                       borderWidth:_segmentBorderWidth
                                                        borderColor:_borderColor];
     }
     

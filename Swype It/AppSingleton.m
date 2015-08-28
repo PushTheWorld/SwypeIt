@@ -47,6 +47,8 @@
 @implementation AppSingleton {
     BOOL _fXIsAllowed;
     BOOL _backgroundSoundIsAllowed;
+    
+    CGFloat epsilonLimit;
 }
 
 #pragma mark - Singleton Method
@@ -62,6 +64,8 @@
     if (self.currentGame == nil) {
         self.currentGame                            = [[Game alloc] init];
     }
+    epsilonLimit                                    = 0.01f;
+    
     self.willResume                                 = NO;
     self.previousLevel                              = [Game currentLevelStringForScore:0.0f];
     self.timerInterval                              = TIMER_INTERVAL;
@@ -186,7 +190,12 @@
     
     if (self.isPaused == NO) {
         NSLog(@"Move score: %0.2f and Total score: %0.2f",self.currentGame.moveScore,self.currentGame.totalScore);
-        self.currentGame.totalScore                 = self.currentGame.totalScore + self.currentGame.moveScore; /*Add moveScore to total score*/
+        if (self.currentGame.totalScore < epsilonLimit) {
+            CGFloat randomNumber = arc4random_uniform(10);
+            self.currentGame.totalScore = (randomNumber / 10) * MAX_MOVE_SCORE;
+        } else {
+            self.currentGame.totalScore                 = self.currentGame.totalScore + self.currentGame.moveScore; /*Add moveScore to total score*/
+        }
         
         [self setAndCheckDefaults:self.currentGame.moveScore];
         
