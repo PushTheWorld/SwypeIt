@@ -44,6 +44,7 @@
 - (UIColor *)newBackgroundColor;
 - (void)setAndCheckDefaults:(float)score;
 - (void)startGame;
+- (void)stopGame;
 - (void)pause;
 - (void)play;
 - (void)powerUpDidLoad:(SIPowerUp)powerUp;

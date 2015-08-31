@@ -167,7 +167,7 @@
 /**
  The content that is displayed by the popup
  */
-@property (nonatomic, strong) SKNode *contentNode;
+@property (nonatomic, strong) SKNode *popupContentNode;
 
 /**
  The postion of the content node

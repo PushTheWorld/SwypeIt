@@ -38,6 +38,8 @@
 		0917D4FD1B6DD8240046B5FF /* SKNode+HLLayoutManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0917D4E11B6DD8240046B5FF /* SKNode+HLLayoutManager.m */; };
 		0917D4FE1B6DD8240046B5FF /* SKSpriteNode+HLSpriteNodeAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 0917D4E31B6DD8240046B5FF /* SKSpriteNode+HLSpriteNodeAdditions.m */; };
 		0917D4FF1B6DD8240046B5FF /* UIImage+HLImageAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 0917D4E51B6DD8240046B5FF /* UIImage+HLImageAdditions.m */; };
+		0919ABE21B91FC83009ACFF1 /* sparkRevA.sks in Resources */ = {isa = PBXBuildFile; fileRef = 0919ABE01B91FC83009ACFF1 /* sparkRevA.sks */; };
+		0919ABE31B91FC83009ACFF1 /* spark.png in Resources */ = {isa = PBXBuildFile; fileRef = 0919ABE11B91FC83009ACFF1 /* spark.png */; };
 		091FED491B37283E0071F8DC /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 091FED481B37283E0071F8DC /* main.m */; };
 		091FED4C1B37283E0071F8DC /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 091FED4B1B37283E0071F8DC /* AppDelegate.m */; };
 		091FED541B37283E0071F8DC /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 091FED531B37283E0071F8DC /* Images.xcassets */; };
@@ -185,6 +187,8 @@
 		0917D4E31B6DD8240046B5FF /* SKSpriteNode+HLSpriteNodeAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "SKSpriteNode+HLSpriteNodeAdditions.m"; sourceTree = "<group>"; };
 		0917D4E41B6DD8240046B5FF /* UIImage+HLImageAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+HLImageAdditions.h"; sourceTree = "<group>"; };
 		0917D4E51B6DD8240046B5FF /* UIImage+HLImageAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+HLImageAdditions.m"; sourceTree = "<group>"; };
+		0919ABE01B91FC83009ACFF1 /* sparkRevA.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = sparkRevA.sks; sourceTree = "<group>"; };
+		0919ABE11B91FC83009ACFF1 /* spark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = spark.png; sourceTree = "<group>"; };
 		091FED431B37283E0071F8DC /* Swype It.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Swype It.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		091FED471B37283E0071F8DC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		091FED481B37283E0071F8DC /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -216,6 +220,7 @@
 		092B470F1B52273A00AFE43C /* libOCMock.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libOCMock.a; path = usr/lib/libOCMock.a; sourceTree = "<group>"; };
 		092DBE6C1B6F022E00328A6B /* shapes.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = shapes.atlas; sourceTree = "<group>"; };
 		09343DA91B44BB1C00D1C707 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		0938FD501B92124E00ACD99C /* libSSBitmapFont.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSSBitmapFont.a; path = ../Downloads/libSSBitmapFont/libSSBitmapFont.a; sourceTree = "<group>"; };
 		096ABDC91B6AF83A005B2F12 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		096ABDCB1B6AF843005B2F12 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 		096ABDCE1B6AF856005B2F12 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
@@ -594,6 +599,8 @@
 				0979E6591B77A74E002FC2F2 /* LongIslandContour.otf */,
 				0979E6571B77A614002FC2F2 /* LongIsland-Shadow.otf */,
 				0988CC951B7203CA00BF429D /* Ultra.ttf */,
+				0919ABE01B91FC83009ACFF1 /* sparkRevA.sks */,
+				0919ABE11B91FC83009ACFF1 /* spark.png */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -689,6 +696,7 @@
 		0F880A65ACF3CFF0D72120E8 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				0938FD501B92124E00ACD99C /* libSSBitmapFont.a */,
 				096ABDD21B6AF879005B2F12 /* libc++.tbd */,
 				096ABDD01B6AF864005B2F12 /* UIKit.framework */,
 				096ABDCE1B6AF856005B2F12 /* SystemConfiguration.framework */,
@@ -812,11 +820,13 @@
 				096ABDF21B6B6ABB005B2F12 /* swypeItSound1.caf in Resources */,
 				092DBE6D1B6F022E00328A6B /* shapes.atlas in Resources */,
 				096ABDF71B6B6ABB005B2F12 /* swypeItSound6.caf in Resources */,
+				0919ABE21B91FC83009ACFF1 /* sparkRevA.sks in Resources */,
 				09DB639E1B56525100387C13 /* MKStoreKitConfigs.plist in Resources */,
 				096ABDF41B6B6ABB005B2F12 /* swypeItSound3.caf in Resources */,
 				09D5ED4C1B8B1AB900E84179 /* background.atlas in Resources */,
 				099A62331B5C8B12009BF339 /* Main.storyboard in Resources */,
 				096ABDF51B6B6ABB005B2F12 /* swypeItSound4.caf in Resources */,
+				0919ABE31B91FC83009ACFF1 /* spark.png in Resources */,
 				09CAF9AC1B646F4C00466606 /* buttons.atlas in Resources */,
 				0979E6581B77A614002FC2F2 /* LongIsland-Shadow.otf in Resources */,
 				092113B11B6B787B005F7D8B /* swypeItFXInitalize.caf in Resources */,
@@ -1068,7 +1078,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 515AAE4709C37B6475D12AF4 /* Pods.debug.xcconfig */;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon.dev;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				BUNDLE_ID_SUFFIX = .dev;
 				CODE_SIGN_IDENTITY = "iPhone Developer: Andrew Keller (4QBKTXP3K7)";
@@ -1081,9 +1091,9 @@
 				INFOPLIST_FILE = "Swype It/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.pushtheworldllc.swipeit.dev;
+				PRODUCT_BUNDLE_IDENTIFIER = com.pushtheworldllc.swipeit;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "194b6b8c-e956-4f0e-b9fe-a80abbcf8d31";
+				PROVISIONING_PROFILE = "c7ba4f47-45d8-409b-8c87-927ad2b71ff8";
 			};
 			name = Debug;
 		};
@@ -1091,7 +1101,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 250606D5461711E9FC89BC0E /* Pods.release.xcconfig */;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon.dev;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				BUNDLE_ID_SUFFIX = "";
 				CODE_SIGN_IDENTITY = "iPhone Developer: Andrew Keller (4QBKTXP3K7)";
@@ -1104,9 +1114,9 @@
 				INFOPLIST_FILE = "Swype It/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.pushtheworldllc.swipeit.dev;
+				PRODUCT_BUNDLE_IDENTIFIER = com.pushtheworldllc.swipeit;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "194b6b8c-e956-4f0e-b9fe-a80abbcf8d31";
+				PROVISIONING_PROFILE = "c7ba4f47-45d8-409b-8c87-927ad2b71ff8";
 			};
 			name = Release;
 		};
@@ -1226,7 +1236,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 250606D5461711E9FC89BC0E /* Pods.release.xcconfig */;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon.dev;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				BUNDLE_ID_SUFFIX = .beta;
 				CODE_SIGN_IDENTITY = "iPhone Developer: Andrew Keller (4QBKTXP3K7)";
@@ -1239,9 +1249,9 @@
 				INFOPLIST_FILE = "Swype It/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.pushtheworldllc.swipeit.dev;
+				PRODUCT_BUNDLE_IDENTIFIER = com.pushtheworldllc.swipeit;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "194b6b8c-e956-4f0e-b9fe-a80abbcf8d31";
+				PROVISIONING_PROFILE = "c7ba4f47-45d8-409b-8c87-927ad2b71ff8";
 			};
 			name = Beta;
 		};

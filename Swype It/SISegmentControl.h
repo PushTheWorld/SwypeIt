@@ -49,7 +49,7 @@
  
  Sets or returns the selected.
  */
-- (NSUInteger)selectedSegment;
+@property (nonatomic, assign) NSUInteger selectedSegment;
 
 /**
  The anchorPoint of the node

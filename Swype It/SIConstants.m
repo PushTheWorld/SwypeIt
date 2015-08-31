@@ -24,7 +24,7 @@ NSString *const kSINSUserDefaultLifetimeHighScore                   = @"lifetime
 NSString *const kSINSUserDefaultLifetimeGamesPlayed                 = @"lifetimeGamesPlayed";
 NSString *const kSINSUserDefaultLifetimePointsEarned                = @"lifetimePointsEarned";
 NSString *const kSINSUserDefaultGameMode                            = @"gameMode";
-NSString *const kSINSUserDefaultPremiumUser                         = @"userIsPremium";
+NSString *const kSINSUserDefaultPremiumUser                         = @"proUser";
 NSString *const kSINSUserDefaultPointsTowardsFreeCoin               = @"pointsTowardsFreeCoin";
 NSString *const kSINSUserDefaultPowerUpReadyFallingMonkeys          = @"powerUpReadyTimeFallingMonkeys";
 NSString *const kSINSUserDefaultPowerUpReadyRapidFire               = @"powerUpReadyRapidFire";
@@ -40,6 +40,14 @@ NSString *const kSIPowerUpTimeFreeze                                = @"Time Fre
 NSString *const kSIPowerUpRapidFire                                 = @"Rapid Fire";
 
 #pragma mark - NSNotification
+NSString *const kSINotificationAdActionShouldBegin                  = @"com.pushtheworldllc.swipeit.adActionShouldBegin";
+NSString *const kSINotificationAdActionDidFinish                    = @"com.pushtheworldllc.swipeit.adActionDidFinish";
+NSString *const kSINotificationAdBannerDidLoad                      = @"com.pushtheworldllc.swipeit.adBannerDidLoad";
+NSString *const kSINotificationAdBannerDidUnload                    = @"com.pushtheworldllc.swipeit.adBannerDidUnload";
+NSString *const kSINotificationAdBannerHide                         = @"com.pushtheworldllc.swipeit.adBannerHide";
+NSString *const kSINotificationAdBannerShow                         = @"com.pushtheworldllc.swipeit.adBannerShow";
+NSString *const kSINotificationAdFreePurchasedFailed                = @"com.pushtheworldllc.swipeit.adFreePurchasedFailed";
+NSString *const kSINotificationAdFreePurchasedSucceded              = @"com.pushtheworldllc.swipeit.adFreePurchasedSucceded";
 NSString *const kSINotificationInterstitialAdFinish                 = @"com.pushtheworldllc.swipeit.interstitiialAdDidFinish";
 NSString *const kSINotificationInterstitialAdShallLaunch            = @"com.pushtheworldllc.swipeit.interstitiialAdShallLaunch";
 NSString *const kSINotificationFreeCoinEarned                       = @"com.pushtheworldllc.swipeit.freeCoinEarned";
@@ -64,6 +72,7 @@ NSString *const kSINotificationPowerUpDeactivated                   = @"com.push
 NSString *const kSINotificationSettingsLaunchBugReport              = @"com.pushtheworldllc.swipeit.settingsLaunchBugReport";
 NSString *const kSINotificationScoreUpdate                          = @"com.pushtheworldllc.swipeit.scoreUpdate";
 NSString *const kSINotificationShowAlert                            = @"com.pushtheworldllc.swipeit.showAlert";
+NSString *const kSINotificationShowLeaderBoard                      = @"com.pushtheworldllc.swipeit.showLeaderBoard";
 
 #pragma mark - Score Constants
 NSString *const kSIScoreTotalScore                                  = @"totalScore";
@@ -80,6 +89,7 @@ NSString *const kSIImageButtonContinueGrayed                        = @"continue
 NSString *const kSIImageButtonCross                                 = @"cross";
 NSString *const kSIImageButtonDismiss                               = @"dismissButton";
 NSString *const kSIImageButtonDone                                  = @"doneButton";
+NSString *const kSIImageButtonEndGame                               = @"endGame";
 NSString *const kSIImageButtonFallingMonkey                         = @"monkeyFace";
 NSString *const kSIImageButtonGameModeOneHand                       = @"oneHandRevB";
 NSString *const kSIImageButtonGameModeTwoHand                       = @"twoHandRevB";
@@ -136,6 +146,7 @@ NSString *const kSINSDictionaryKeyPowerUp                           = @"powerUp"
 NSString *const kSINSDictionaryKeyPackProduct                       = @"packProduct";
 
 #pragma mark - In App Purchase Product ID
+NSString *const kSIIAPProductIDAdFree                               = @"swypeItInAppPurchases";
 NSString *const kSIIAPProductIDCoinPackSmall                        = @"com.pushtheworldllc.swipeit.dev.swypeItSmallPack";
 NSString *const kSIIAPProductIDCoinPackMedium                       = @"com.pushtheworldllc.swipeit.dev.swypeItMediumPack";
 NSString *const kSIIAPProductIDCoinPackLarge                        = @"com.pushtheworldllc.swipeit.dev.swypeItLargePack";
@@ -227,8 +238,20 @@ NSString *const kSISoundFXChaChing                                  = @"swypeItF
 NSString *const kSISoundFXGameOver                                  = @"swypeItGameOver";
 NSString *const kSISoundFXInitalize                                 = @"swypeItFXInitalize.caf";
 
-@implementation SIConstants 
+#pragma mark - EmitterNodes
+NSString *const kSIEmitterFileTypeSKS                               = @"sks";
+NSString *const kSIEmitterSpark                                     = @"sparkRevA";
 
+#pragma mark - Game Center Leaderboard IDs
+NSString *const kSIGameCenterLeaderBoardIDHandOne                   = @"oneHandGHS";
+NSString *const kSIGameCenterLeaderBoardIDHandTwo                   = @"GHS";
+
+
+#pragma mark - Useful things
+@implementation SIConstants 
++ (NSString *)pathForSparkEmitter {
+    return [[NSBundle mainBundle] pathForResource:kSIEmitterSpark ofType:kSIEmitterFileTypeSKS];
+}
 + (SKTextureAtlas *)backgroundAtlas {
     return [SKTextureAtlas atlasNamed:kSIAtlasBackground];
 }

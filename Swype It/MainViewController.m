@@ -14,6 +14,7 @@
 #import "StartScreenScene.h"
 #import "SITestScene.h"
 // Framework Import
+#import <GameKit/GameKit.h>
 #import <iAd/iAd.h>
 #import <Instabug/Instabug.h>
 #import <MessageUI/MessageUI.h>
@@ -27,19 +28,18 @@
 #import "Game.h"
 // Other Imports
 
-@interface MainViewController () <MFMailComposeViewControllerDelegate, ADBannerViewDelegate, ADInterstitialAdDelegate>
+@interface MainViewController () <MFMailComposeViewControllerDelegate, ADBannerViewDelegate, ADInterstitialAdDelegate, GKGameCenterControllerDelegate>
 
 @property (strong, nonatomic) ADBannerView      *adBannerView;
 @property (strong, nonatomic) ADInterstitialAd  *interstitialAd;
 @property (strong, nonatomic) MBProgressHUD     *hud;
 @property (strong, nonatomic) UIButton          *closeButton;
-@property (strong, nonatomic) UILabel           *loadingLabel;
 @property (strong, nonatomic) UIView            *placeHolderView;
 
 @end
 
 @implementation MainViewController {
-    
+    CGFloat _screenHeight;
 }
 + (CGFloat)fontSizeButton {
     if (IS_IPHONE_4) {
@@ -166,13 +166,15 @@
     // Create and configure the scene.
 //    SKScene * scene = [SITestScene sceneWithSize:skView.bounds.size];
     SKScene * scene = [StartScreenScene sceneWithSize:skView.bounds.size];
-    scene.scaleMode = SKSceneScaleModeAspectFill;
+    scene.scaleMode = SKSceneScaleModeAspectFit;
     
     // Present the scene.
     [skView presentScene:scene];
 
     // Show me those ads!
     [self configureBannerAds];
+    
+    [self authenticateLocalPlayer];
 }
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
@@ -183,6 +185,11 @@
 }
 - (void)viewWillDisappear:(BOOL)animated {
     [self unregisterForNotifications];
+    
+    _adBannerView.delegate  = nil;
+    [_adBannerView removeFromSuperview];
+    
+    [super viewWillDisappear:animated];
 }
 
 -(BOOL)prefersStatusBarHidden {
@@ -193,6 +200,13 @@
 {
     return YES;
 }
+- (void)removeAds {
+    BOOL isPremiumUser = [[NSUserDefaults standardUserDefaults] boolForKey:kSINSUserDefaultPremiumUser];
+    if (isPremiumUser) {
+        self.canDisplayBannerAds = NO;
+        NSLog(@"Banner Ads Hidden.");
+    }
+}
 - (void)setupUserInterface {
     [self createConstants];
     [self createControls];
@@ -200,50 +214,35 @@
     [self layoutControls];
 }
 - (void)createConstants {
-
+    _screenHeight               = [UIScreen mainScreen].bounds.size.height;
 }
 - (void)createControls {
-    _loadingLabel           = [[UILabel alloc] init];
-    
-    _adBannerView           = [[ADBannerView alloc] initWithAdType:ADAdTypeBanner];
+    _adBannerView               = [[ADBannerView alloc] initWithAdType:ADAdTypeBanner];
 }
 - (void)setupControls {
-    _loadingLabel.text      = @"Loading...";
-    _loadingLabel.alpha     = 0.0f;
-    [_loadingLabel setTextColor:[UIColor blackColor]];
-    [_loadingLabel setFont:[UIFont fontWithName:kSIFontFuturaMedium size:[MainViewController fontSizeButton]]];
-    [_loadingLabel setTranslatesAutoresizingMaskIntoConstraints:NO];
+    CGFloat bannerViewHeight    = _adBannerView.bounds.size.height;
+    _adBannerView.delegate      = self;
+    _adBannerView.frame         = CGRectMake(0.0f, _screenHeight + bannerViewHeight, 0.0f, 0.0f);
+    _adBannerView.hidden        = YES;
+    _adBannerView.alpha         = 0.0f;
+    
     
 }
 - (void)layoutControls {
-    [self.view addSubview:_loadingLabel];
-    
-    [self.view addConstraint:    [NSLayoutConstraint
-                                  constraintWithItem : _loadingLabel
-                                  attribute          : NSLayoutAttributeCenterX
-                                  relatedBy          : NSLayoutRelationEqual
-                                  toItem             : self.view
-                                  attribute          : NSLayoutAttributeCenterX
-                                  multiplier         : 1.0f
-                                  constant           : 0.0f]];
-    [self.view addConstraint:    [NSLayoutConstraint
-                                  constraintWithItem : _loadingLabel
-                                  attribute          : NSLayoutAttributeCenterY
-                                  relatedBy          : NSLayoutRelationEqual
-                                  toItem             : self.view
-                                  attribute          : NSLayoutAttributeCenterY
-                                  multiplier         : 1.0f
-                                  constant           : 0.0f]];
-    
+    [self.view addSubview:_adBannerView];
 }
 - (void)registerForNotifications {
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(hudWillHide:)             name:kSINotificationHudHide                     object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(hudWillShow:)             name:kSINotificationHudShow                     object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(launchBugReport:)         name:kSINotificationSettingsLaunchBugReport     object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(menuDidLoad)              name:kSINotificationMenuLoaded                  object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(presentInterstital)       name:kSINotificationInterstitialAdShallLaunch   object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(launchPopupForContinue:)  name:kSINotificationGameContinueUsePopup        object:nil];
-    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(hudWillHide:)                 name:kSINotificationHudHide                     object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(hudWillShow:)                 name:kSINotificationHudShow                     object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(launchBugReport:)             name:kSINotificationSettingsLaunchBugReport     object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(menuDidLoad)                  name:kSINotificationMenuLoaded                  object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(presentInterstital)           name:kSINotificationInterstitialAdShallLaunch   object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(launchPopupForContinue:)      name:kSINotificationGameContinueUsePopup        object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(removeAds)                    name:kSINotificationAdFreePurchasedSucceded     object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showGameCenterLeaderBoard)    name:kSINotificationShowLeaderBoard             object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(bannerAdHide)                 name:kSINotificationAdBannerHide                object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(bannerAdShow)                 name:kSINotificationAdBannerShow                object:nil];
+
 }
 - (void)unregisterForNotifications {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
@@ -331,9 +330,7 @@
 
 }
 - (void)menuDidLoad {
-    [UIView animateWithDuration:0.5f animations:^{
-        self.loadingLabel.alpha = 0.0f;
-    }];
+
 }
 + (HLLabelButtonNode *)SI_sharedMenuButtonPrototypeBasic:(CGSize)size {
     HLLabelButtonNode *buttonPrototype;
@@ -502,16 +499,25 @@
     return [[NSUserDefaults standardUserDefaults] boolForKey:kSINSUserDefaultPremiumUser];
 }
 - (void)configureBannerAds {
-    if (!self.premiumUser) {
-        self.canDisplayBannerAds        = NO;
-        _adBannerView.delegate          = self;
+    BOOL isPremiumUser = [[NSUserDefaults standardUserDefaults] boolForKey:kSINSUserDefaultPremiumUser];
+    
+    NSLog(@"User is premium: %@",isPremiumUser ? @"YES" : @"NO");
+    
+    /*Need to create on first run*/
+    if ([[NSUserDefaults standardUserDefaults] objectForKey:kSINSUserDefaultPremiumUser] == nil) {
+        [[NSUserDefaults standardUserDefaults] setBool:NO forKey:kSINSUserDefaultPremiumUser];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+        isPremiumUser = NO;
     }
-}
-- (void)bannerAdShow {
-    _adBannerView.hidden                = NO;
-}
-- (void)bannerAdHide {
-    _adBannerView.hidden                = YES;
+
+    
+    if (!isPremiumUser) {
+        self.canDisplayBannerAds = YES;
+        self.adBannerView.delegate  = self;
+        self.adBannerView.hidden    = YES; /*hide till loaded!*/
+    } else {
+        self.canDisplayBannerAds    = NO;
+    }
 }
 - (void)cycleInterstitial {
     _interstitialAd                     = [[ADInterstitialAd alloc] init];
@@ -629,12 +635,100 @@
 #pragma mark - ADBannerViewDelegate
 -(void)bannerView:(ADBannerView *)banner didFailToReceiveAdWithError:(NSError *)error {
     NSLog(@"Error [loading bannder ad]: %@",error.localizedDescription);
-    [self bannerAdHide];
+//    [self bannerAdHide];
+    [UIView beginAnimations:nil context:nil];
+    [UIView setAnimationDuration:1.0f];
+    _adBannerView.alpha                 = 0.0f;
+    [UIView commitAnimations];
 }
 -(void)bannerViewDidLoadAd:(ADBannerView *)banner {
-    [self bannerAdShow];
+    NSLog(@"Banner Hidden?: %@",_adBannerView.hidden ? @"YES" : @"NO");
+    [UIView beginAnimations:nil context:nil];
+    [UIView setAnimationDuration:1.0f];
+    _adBannerView.alpha                 = 1.0f;
+    [UIView commitAnimations];
 }
--(BOOL)bannerViewActionShouldBegin:(ADBannerView *)banner willLeaveApplication:(BOOL)willLeave {
+- (BOOL)bannerViewActionShouldBegin:(ADBannerView *)banner willLeaveApplication:(BOOL)willLeave {
+    if (willLeave) {
+        [[NSNotificationCenter defaultCenter] postNotificationName:kSINotificationAdActionShouldBegin object:nil];
+    }
     return willLeave;
+}
+- (void)bannerViewActionDidFinish:(ADBannerView *)banner {
+    [[NSNotificationCenter defaultCenter] postNotificationName:kSINotificationAdActionDidFinish object:nil];
+}
+- (void)bannerAdShow {
+    _adBannerView.hidden                = NO;
+    CGFloat bv                          = _adBannerView.bounds.size.height;
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:kSINotificationAdBannerDidLoad object:nil];
+
+    [UIView beginAnimations:nil context:nil];
+    [UIView setAnimationDuration:1.0f];
+    _adBannerView.frame                 = CGRectMake(0.0f, _screenHeight - bv, 0.0f, 0.0f);
+    [UIView commitAnimations];
+}
+
+- (void)bannerAdHide {
+    _adBannerView.hidden                = YES;
+    CGFloat bv                          = _adBannerView.bounds.size.height;
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:kSINotificationAdBannerDidUnload object:nil];
+
+    [UIView beginAnimations:nil context:nil];
+    [UIView setAnimationDuration:1.0f];
+    _adBannerView.frame = CGRectMake(0.0f, _screenHeight + bv, 0.0f, 0.0f);
+    [UIView commitAnimations];
+}
++ (CGFloat)bannerViewHeight {
+    if ([MainViewController isPremiumUser]) {
+        return 0.0f;
+    }
+    ADBannerView *tempAdBannerView = [[ADBannerView alloc] initWithAdType:ADAdTypeBanner];
+    return tempAdBannerView.bounds.size.height;
+}
++ (BOOL)isPremiumUser {
+    return [[NSUserDefaults standardUserDefaults] boolForKey:kSINSUserDefaultPremiumUser];
+}
+
+#pragma mark - Game Center Methods
+- (void)authenticateLocalPlayer {
+    GKLocalPlayer *localPlayer = [[GKLocalPlayer alloc] init];
+    localPlayer.authenticateHandler = ^(UIViewController *viewController, NSError *error) {
+        if (viewController != nil) {
+            [self presentViewController:viewController animated:YES completion:nil];
+        } else {
+            if ([GKLocalPlayer localPlayer].authenticated) {
+                NSLog(@"Player Authenticated with Game Center");
+            } else {
+                NSLog(@"Player Failed to Authenticate with Game Center");
+
+            }
+        }
+    };
+    
+
+}
+- (void)gameCenterViewControllerDidFinish:(nonnull GKGameCenterViewController *)gameCenterViewController {
+    [gameCenterViewController dismissViewControllerAnimated:YES completion:nil];
+}
+- (void)showGameCenterLeaderBoard {
+    GKGameCenterViewController *gameCenterVC    = [[GKGameCenterViewController alloc] init];
+    gameCenterVC.delegate                       = self;
+    gameCenterVC.viewState                      = GKGameCenterViewControllerStateLeaderboards;
+
+    NSNumber *gameMode = [[NSUserDefaults standardUserDefaults] objectForKey:kSINSUserDefaultGameMode];
+    if (gameMode) {
+        if ([gameMode integerValue] == 0) { /*One hand mode*/
+            gameCenterVC.leaderboardIdentifier = kSIGameCenterLeaderBoardIDHandOne;
+        } else {
+            gameCenterVC.leaderboardIdentifier = kSIGameCenterLeaderBoardIDHandTwo;
+        }
+    } else {
+        [[NSUserDefaults standardUserDefaults] setInteger:SIGameModeTwoHand forKey:kSINSUserDefaultGameMode];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+    }
+    
+    [self presentViewController:gameCenterVC animated:YES completion:nil];
 }
 @end

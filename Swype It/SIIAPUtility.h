@@ -22,6 +22,9 @@
 
 @interface SIIAPUtility : NSObject
 
+//#pragma mark - Singleton
+//+ (instancetype)singleton;
+
 /**Retuns nil if the product cannot be found*/
 + (NSDecimalNumber *)   productPriceForSIIAPPack:(SIIAPPack)siiapPack;
 + (NSString *)          imageNameForSIIAPPack:(SIIAPPack)siiapPack;

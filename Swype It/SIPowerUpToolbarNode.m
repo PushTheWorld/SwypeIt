@@ -83,6 +83,7 @@ enum {
     _iconNode                       = [SKSpriteNode spriteNodeWithTexture:[Game textureForSIPowerUp:_siPowerUp] size:_iconNodeSize];
     _iconNode.anchorPoint           = CGPointMake(0.5f, 0.0f);
     
+    
     _costLabelNode                  = [SKLabelNode labelNodeWithFontNamed:kSIFontUltra];
     [_costLabelNode setHorizontalAlignmentMode:SKLabelHorizontalAlignmentModeRight];
     [_costLabelNode setVerticalAlignmentMode:SKLabelVerticalAlignmentModeCenter];

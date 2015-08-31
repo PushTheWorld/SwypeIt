@@ -54,6 +54,7 @@
     [super didMoveToView:view];
     /**Do any setup post self.view creation*/
     [self viewSetup:view];
+    [[NSNotificationCenter defaultCenter] postNotificationName:kSINotificationAdBannerHide object:nil];
 }
 - (void)willMoveFromView:(nonnull SKView *)view {
     /**Do any breakdown prior to the view being unloaded*/

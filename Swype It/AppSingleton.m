@@ -192,7 +192,9 @@
         NSLog(@"Move score: %0.2f and Total score: %0.2f",self.currentGame.moveScore,self.currentGame.totalScore);
         if (self.currentGame.totalScore < epsilonLimit) {
             CGFloat randomNumber = arc4random_uniform(10);
-            self.currentGame.totalScore = (randomNumber / 10) * MAX_MOVE_SCORE;
+            self.currentGame.moveScore = (randomNumber / 10) * MAX_MOVE_SCORE;
+            userInfo = [NSDictionary dictionaryWithObject:@(self.currentGame.moveScore) forKey:kSINSDictionaryKeyMoveScore];
+            self.currentGame.totalScore = self.currentGame.moveScore;
         } else {
             self.currentGame.totalScore                 = self.currentGame.totalScore + self.currentGame.moveScore; /*Add moveScore to total score*/
         }

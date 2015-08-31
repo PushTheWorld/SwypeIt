@@ -12,8 +12,8 @@
 #define SHAKE_THRESHOLD                 0.5
 #define LAUNCH_DX_VECTOR_MAX            25
 #define LAUNCH_DX_VECTOR_MIX            10
-#define LAUNCH_DY_MULTIPLIER            50
-#define MONKEY_SPEED_INCREASE           0.1
+#define LAUNCH_DY_MULTIPLIER            120
+#define MONKEY_SPEED_INCREASE           0.08
 // Local Controller Import
 #import "AppSingleton.h"
 #import "EndGameScene.h"
@@ -70,6 +70,8 @@ enum {
     SIGameNodeZPositionLayerBackground = 0,
     SIGameModeZPositionLayerBackgroundDetail,
     SIGameNodeZPositionLayerGameDetail,
+    SIGameNodeZPositionLayerMoveScoreEmitter,
+    SIGameNodeZPositionLayerMoveScore,
     SIGameNodeZPositionLayerFallingMonkey,
     SIGameNodeZPositionLayerBar,
     SIGameNodeZPositionLayerBarDetail,
@@ -82,6 +84,7 @@ typedef NS_ENUM(NSInteger, SIGameSceneRingNode) {
     SIGameSceneRingNodePlay = 0,
     SIGameSceneRingNodeSoundFX,
     SIGameSceneRingNodeSoundBackground,
+    SIGameSceneRingNodeEndGame,
     SIGameSceneRingNodeCount
 };
 
@@ -180,8 +183,8 @@ typedef NS_ENUM(NSInteger, SIGameSceneRingNode) {
     return self;
 }
 - (void)setupDefaults:(CGSize)size gameMode:(SIGameMode)gameMode {
-    _gameMode                           = gameMode;
-    _isButtonTouched                    = NO;
+    _gameMode                                   = gameMode;
+    _isButtonTouched                            = NO;
     
     if (_gameMode == SIGameModeOneHand) {
         /*Setup Shake recognizer*/
@@ -189,16 +192,22 @@ typedef NS_ENUM(NSInteger, SIGameSceneRingNode) {
         _isShakeActive                          = NO;
         [self startAccelerometerForShake];
     }
-    self.physicsWorld.contactDelegate   = self;
+    self.physicsWorld.contactDelegate           = self;
 }
 
 - (void)didMoveToView:(nonnull SKView *)view {
     [self setupUserInterfaceWithSize:view.frame.size];
     [_powerUpToolBar layoutToolsAnimation:HLToolbarNodeAnimationNone];
 
-    self.gestureTargetHitTestMode                       = HLSceneGestureTargetHitTestModeDeepestThenParent;
+    self.gestureTargetHitTestMode               = HLSceneGestureTargetHitTestModeDeepestThenParent;
+    
+    BOOL isPremiumUser = [[NSUserDefaults standardUserDefaults] boolForKey:kSINSUserDefaultPremiumUser];
+    if (!isPremiumUser) {
+        [[NSNotificationCenter defaultCenter] postNotificationName:kSINotificationAdBannerShow object:nil];
+    }
 }
 - (void)willMoveFromView:(nonnull SKView *)view {
+    [[NSNotificationCenter defaultCenter] postNotificationName:kSINotificationAdBannerHide object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     [super willMoveFromView:view];
 }
@@ -240,8 +249,10 @@ typedef NS_ENUM(NSInteger, SIGameSceneRingNode) {
     _coinSize                           = CGSizeMake(_progressBarSizeFreeCoin.height, _progressBarSizeFreeCoin.height);
     _coinStuffBackgroundHeight          = VERTICAL_SPACING_4 + _progressBarSizeFreeCoin.height + VERTICAL_SPACING_4;
     _powerUpToolBarBackgroundHeight     = VERTICAL_SPACING_4 + _buttonSize.height + VERTICAL_SPACING_4;
+    _moveFactor                         = VERTICAL_SPACING_4 + _powerUpToolBarBackgroundHeight + VERTICAL_SPACING_4 + (_progressBarSizePowerUp.height / 2.0f);
+
     _backgroundSize                     = size;
-    _moveFactor                         = VERTICAL_SPACING_4 + _progressBarSizePowerUp.height + VERTICAL_SPACING_4;
+
     
     /*Init Fonts*/
     _powerUpButtonFont                  = [UIFont fontWithName:kSIFontFuturaMedium size:_fontSize - 4.0f];
@@ -440,10 +451,10 @@ typedef NS_ENUM(NSInteger, SIGameSceneRingNode) {
                                                                               size.height / 2.0f);
     [_backgroundNode addChild:_moveCommandLabel];
     
-    _pauseButtonNode.anchorPoint                                = CGPointMake(0.0f, 0.0f);
+    _pauseButtonNode.anchorPoint                                = CGPointMake(0.0f, 1.0f);
     _pauseButtonNode.name                                       = kSINodeButtonPause;
     _pauseButtonPoint                                           = CGPointMake(VERTICAL_SPACING_8,
-                                                                              _powerUpToolBarBackgroundHeight);
+                                                                              size.height - _coinStuffBackgroundHeight - VERTICAL_SPACING_8);
     _pauseButtonNode.position                                   = _pauseButtonPoint;
     [_backgroundNode addChild:_pauseButtonNode];
     
@@ -466,7 +477,7 @@ typedef NS_ENUM(NSInteger, SIGameSceneRingNode) {
     
     /*Power Up Progress Bar Sprite*/
     _progressBarPowerUp.position                                = CGPointMake(CGRectGetMidX(self.frame),
-                                                                              _pauseButtonNode.frame.origin.y - (_progressBarSizePowerUp.height / 2.0f));
+                                                                              0.0f);
     [_backgroundNode addChild:_progressBarPowerUp];
     
     
@@ -508,7 +519,10 @@ typedef NS_ENUM(NSInteger, SIGameSceneRingNode) {
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(levelDidChange)           name:kSINotificationLevelDidChange          object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(freeCoinEarned)           name:kSINotificationFreeCoinEarned          object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(newHighScore)             name:kSINotificationNewHighScore            object:nil];
-    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(pause)                    name:kSINotificationAdActionShouldBegin     object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(gameResume)               name:kSINotificationAdActionDidFinish       object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(bannerAdDidLoad)          name:kSINotificationAdBannerDidLoad         object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(bannerAdDidUnload)        name:kSINotificationAdBannerDidUnload       object:nil];
 }
 
 
@@ -564,6 +578,7 @@ typedef NS_ENUM(NSInteger, SIGameSceneRingNode) {
     toolbarNode.anchorPoint                     = CGPointMake(0.0f, 0.0f);
     toolbarNode.size                            = CGSizeMake(size.width, _buttonSize.height);
     toolbarNode.squareColor                     = [SKColor clearColor];
+//    toolbarNode.highlightColor                  = [SKColor colorWithRed:180.0f/255.0f green:180.0f/255.0f blue:180.0f/255.0f alpha:1.0];
     
     NSMutableArray *toolNodes                   = [NSMutableArray array];
     NSMutableArray *toolTags                    = [NSMutableArray array];
@@ -669,7 +684,8 @@ typedef NS_ENUM(NSInteger, SIGameSceneRingNode) {
     SIPopupNode *popUpNode                      = [MainViewController SISharedPopUpNodeTitle:@"Continue?" SceneSize:self.size];
     
     HLMenuNode *menuNode                        = [self menuCreate:popUpNode.backgroundSize];
-    popUpNode.contentNode                          = menuNode;
+    popUpNode.popupContentNode                  = menuNode;
+    [menuNode hlSetGestureTarget:menuNode];
     [self registerDescendant:menuNode withOptions:[NSSet setWithObject:HLSceneChildGestureTarget]];
     
     popUpNode.delegate                          = self;
@@ -756,11 +772,15 @@ typedef NS_ENUM(NSInteger, SIGameSceneRingNode) {
     HLItemContentFrontHighlightNode *soundFXNode        = [[HLItemContentFrontHighlightNode alloc] initWithContentNode:[SKSpriteNode spriteNodeWithTexture:[[SIConstants buttonAtlas] textureNamed:kSIImageButtonSoundOnFX] size:_buttonSize]
                                                                                             frontHighlightNode:[SKSpriteNode spriteNodeWithTexture:[[SIConstants buttonAtlas] textureNamed:kSIImageButtonCross] size:_buttonSize]];
 
-    /*Second Button - Sound Background*/
+    /*Third Button - Sound Background*/
     HLItemContentFrontHighlightNode *soundBkgrndNode    = [[HLItemContentFrontHighlightNode alloc] initWithContentNode:[SKSpriteNode spriteNodeWithTexture:[[SIConstants buttonAtlas] textureNamed:kSIImageButtonSoundOnBackground] size:_buttonSize]
                                                                                             frontHighlightNode:[SKSpriteNode spriteNodeWithTexture:[[SIConstants buttonAtlas] textureNamed:kSIImageButtonCross] size:_buttonSize]];
+    
+    /*First Button - Play*/
+    HLItemNode *endGameButton                           = [[HLItemNode alloc] init];
+    [endGameButton setContent:[SKSpriteNode spriteNodeWithTexture:[[SIConstants imagesAtlas] textureNamed:kSIImageButtonEndGame] size:_buttonSize]];
 
-    NSArray *arrayOfRingItems                           = @[playButtonNode, soundFXNode, soundBkgrndNode];
+    NSArray *arrayOfRingItems                           = @[playButtonNode, soundFXNode, soundBkgrndNode,endGameButton];
     _ringNode                                           = [[HLRingNode alloc] initWithItemCount:(int)[arrayOfRingItems count]];
     _ringNode.delegate                                  = self;
     _ringNode.zPosition                                 = SIGameNodeZPositionLayerPauseMenu / SIGameNodeZPositionLayerCount;
@@ -780,6 +800,7 @@ typedef NS_ENUM(NSInteger, SIGameSceneRingNode) {
         _isHighScoreShowing                     = YES;
         SKLabelNode *newHighScore               = [[SKLabelNode alloc] initWithFontNamed:kSIFontFuturaMedium];
         newHighScore.text                       = @"High Score!";
+        newHighScore.userInteractionEnabled     = YES;
         newHighScore.fontSize                   = 40;
         newHighScore.fontColor                  = [SKColor whiteColor];
         newHighScore.position                   = CGPointMake(self.frame.size.width / 2.0f, _moveCommandLabel.frame.origin.y + _moveCommandLabel.frame.size.height + VERTICAL_SPACING_16);
@@ -789,7 +810,7 @@ typedef NS_ENUM(NSInteger, SIGameSceneRingNode) {
         SKAction *scaleSequence                 = [SKAction sequence:@[increaseSize, decreaseSize]];
         [newHighScore runAction:[SKAction repeatActionForever:scaleSequence]];
         
-        [self addChild:newHighScore];
+        [_backgroundNode addChild:newHighScore];
     }
 }
 
@@ -797,20 +818,28 @@ typedef NS_ENUM(NSInteger, SIGameSceneRingNode) {
 - (void)presentMoveScore:(NSNumber *)score {
     SKLabelNode *moveLabel                      = [SKLabelNode labelNodeWithFontNamed:kSIFontFuturaMedium];
     moveLabel.text                              = [NSString stringWithFormat:@"%0.2f",[score floatValue]];
+    moveLabel.fontName                          = kSIFontGameScore;
+    moveLabel.fontSize                          = [MainViewController fontSizeHeader];
     moveLabel.position                          = CGPointMake(self.frame.size.width / 2.0f, (self.frame.size.height / 2.0f) - _moveCommandLabel.frame.size.height);
     moveLabel.physicsBody                       = [SKPhysicsBody bodyWithRectangleOfSize:CGSizeMake(moveLabel.frame.size.width, moveLabel.frame.size.height)];
     moveLabel.physicsBody.categoryBitMask       = uiControlCategory;
     moveLabel.physicsBody.contactTestBitMask    = bottomEdgeCategory;
     moveLabel.physicsBody.collisionBitMask      = 0;
     moveLabel.physicsBody.linearDamping         = 0.0f;
+    moveLabel.zPosition                         = SIGameNodeZPositionLayerMoveScore / SIGameNodeZPositionLayerCount;
+    moveLabel.userInteractionEnabled            = YES;
     
     SKAction *animateIn                         = [SKAction fadeInWithDuration:0.5];
     
     [moveLabel runAction:animateIn];
     
     // add the sprite node to the scene
-    [self addChild:moveLabel];
+    [_backgroundNode addChild:moveLabel];
     
+    SKEmitterNode *sparkEmitter                 = [NSKeyedUnarchiver unarchiveObjectWithFile:[SIConstants pathForSparkEmitter]];
+    sparkEmitter.position                       = CGPointMake(0.0f, 0.0f);
+    sparkEmitter.zPosition                      = SIGameNodeZPositionLayerMoveScoreEmitter / SIGameNodeZPositionLayerCount;
+    [moveLabel addChild:sparkEmitter];
     
     CGFloat randomDx                            = arc4random_uniform(LAUNCH_DX_VECTOR_MAX);
     while (randomDx < LAUNCH_DX_VECTOR_MIX) {
@@ -888,7 +917,7 @@ typedef NS_ENUM(NSInteger, SIGameSceneRingNode) {
 
     SKAction *moveAction = [SKAction moveByX:0.0f y:_moveFactor duration:0.3f];
     [_progressBarPowerUp runAction:moveAction];
-    [_pauseButtonNode runAction:moveAction];
+//    [_pauseButtonNode runAction:moveAction];
 
     /*Generic Start Power Up*/
     [self startPowerUpAllWithDuration:SIPowerUpDurationTimeFreeze withNode:nil];
@@ -900,7 +929,7 @@ typedef NS_ENUM(NSInteger, SIGameSceneRingNode) {
 
     SKAction *moveAction = [SKAction moveByX:0.0f y:-1.0f * _moveFactor duration:0.3f];
     [_progressBarPowerUp runAction:moveAction];
-    [_pauseButtonNode runAction:moveAction];
+//    [_pauseButtonNode runAction:moveAction];
     
     /*Generica End Power Up*/
     [self endPowerUpAll];
@@ -915,7 +944,7 @@ typedef NS_ENUM(NSInteger, SIGameSceneRingNode) {
 
     SKAction *moveAction = [SKAction moveByX:0.0f y:_moveFactor duration:0.3f];
     [_progressBarPowerUp runAction:moveAction];
-    [_pauseButtonNode runAction:moveAction];
+//    [_pauseButtonNode runAction:moveAction];
     
     /*Generic Start Power Up*/
     [self startPowerUpAllWithDuration:SIPowerUpDurationRapidFire withNode:nil];
@@ -926,7 +955,7 @@ typedef NS_ENUM(NSInteger, SIGameSceneRingNode) {
 
     SKAction *moveAction = [SKAction moveByX:0.0f y:-1.0f * _moveFactor duration:0.3f];
     [_progressBarPowerUp runAction:moveAction];
-    [_pauseButtonNode runAction:moveAction];
+//    [_pauseButtonNode runAction:moveAction];
     
     /*Generica End Power Up*/
     [self endPowerUpAll];
@@ -1011,9 +1040,7 @@ typedef NS_ENUM(NSInteger, SIGameSceneRingNode) {
         CGPoint monkeyLocation = [self convertPoint:sceneLocation fromNode:self.scene];
 
         SKNode *monkey = [self nodeAtPoint:monkeyLocation];
-        [monkey removeFromParent];
-        
-        NSLog(@"Monkey removed.....");
+        [self monkeyWasTapped:monkey];
     };
     [monkey hlSetGestureTarget:tapGestureTarget];
     [self registerDescendant:monkey withOptions:[NSSet setWithObject:HLSceneChildGestureTarget]];
@@ -1135,6 +1162,29 @@ typedef NS_ENUM(NSInteger, SIGameSceneRingNode) {
 //            _progressBarPowerUp.titleLabelNode.text = @"Free Coin"; //[NSString stringWithFormat:@"%0.2f",[AppSingleton singleton].currentGame.powerUpPercentRemaining * MAX_MOVE_SCORE];
         }
     }
+    
+    [self checkCanAffordPowerupToolbarNodes];
+}
+- (void)checkCanAffordPowerupToolbarNodes {
+    NSNumber *numberOfItCoins = [[MKStoreKit sharedKit] availableCreditsForConsumable:kSIIAPConsumableIDCoins];
+    
+    if ([numberOfItCoins integerValue] < SIPowerUpCostTimeFreeze) {
+        [_powerUpToolBar setEnabled:NO forTool:kSINodeButtonTimeFreeze];
+    } else {
+        [_powerUpToolBar setEnabled:YES forTool:kSINodeButtonTimeFreeze];
+    }
+    
+    if ([numberOfItCoins integerValue] < SIPowerUpCostRapidFire) {
+        [_powerUpToolBar setEnabled:NO forTool:kSINodeButtonRapidFire];
+    } else {
+        [_powerUpToolBar setEnabled:YES forTool:kSINodeButtonRapidFire];
+    }
+    
+    if ([numberOfItCoins integerValue] < SIPowerUpCostFallingMonkeys) {
+        [_powerUpToolBar setEnabled:NO forTool:kSINodeButtonFallingMonkey];
+    } else {
+        [_powerUpToolBar setEnabled:YES forTool:kSINodeButtonFallingMonkey];
+    }
 }
 #pragma mark - HLToolBarNodeDelegate
 -(void)toolbarNode:(HLToolbarNode *)toolbarNode didTapTool:(NSString *)toolTag {
@@ -1192,6 +1242,8 @@ typedef NS_ENUM(NSInteger, SIGameSceneRingNode) {
             [ringNode setHighlight:_isSoundOnFX forItem:itemIndex];
             _isSoundOnFX = !_isSoundOnFX;
             break;
+        case SIGameSceneRingNodeEndGame:
+            [self launchEndGameScene];
         default:
             NSLog(@"Ring Node item tapped out of bounds index error :/");
             break;
@@ -1268,5 +1320,21 @@ typedef NS_ENUM(NSInteger, SIGameSceneRingNode) {
     [AppSingleton singleton].willResume                                 = YES;
     [AppSingleton singleton].currentGame.currentNumberOfTimesContinued  = [Game lifeCostForCurrentContinueLevel:[AppSingleton singleton].currentGame.currentNumberOfTimesContinued];
     [self checkIfGameShallStartOrResume];
+}
+
+#pragma mark - Banner Ad Methods
+- (void)bannerAdDidLoad {
+    SKAction *move = [SKAction moveByX:0.0f y:[MainViewController bannerViewHeight] duration:1.0f];
+    [_powerUpToolBarBackgroundNode runAction:move];
+//    [_powerUpToolBar        runAction:move];
+    [_progressBarPowerUp    runAction:move];
+}
+
+- (void)bannerAdDidUnload {
+    SKAction *move = [SKAction moveByX:0.0f y:-[MainViewController bannerViewHeight] duration:1.0f];
+//    [_powerUpToolBar        runAction:move];
+    [_powerUpToolBarBackgroundNode runAction:move];
+
+    [_progressBarPowerUp    runAction:move];
 }
 @end

@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import <SpriteKit/SpriteKit.h>
 // Dropin Classes
+#import "BaseViewController.h"
 #import "HLSpriteKit.h"
 #import "SIPopupNode.h"
 
@@ -43,11 +44,27 @@
 + (SKLabelNode *)       SI_sharedLabelParagraph_x2:(NSString *)text;
 + (SKLabelNode *)       SI_sharedLabelParagraph_x3:(NSString *)text;
 + (SKLabelNode *)       SI_sharedLabelParagraph_x4:(NSString *)text;
++ (SKLabelNode *)       SIInterfaceLabelFontSize:(CGFloat)fontSize;
 
+/**
+ Hids the banner ad
+ */
 - (void)bannerAdHide;
+/**
+ Shows the banner ad
+ */
 - (void)bannerAdShow;
+/**
+ Present the interstital ad
+ */
 - (void)presentInterstital;
-
-@property (nonatomic, assign) BOOL  premiumUser;
+/**
+ Gets the height of the ad banner view
+ */
++ (CGFloat)bannerViewHeight;
+/**
+ Returns if user is premium
+ */
++ (BOOL)isPremiumUser;
 
 @end

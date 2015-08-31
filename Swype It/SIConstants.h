@@ -195,6 +195,14 @@ extern NSString *const kSIPowerUpTimeFreeze;
 extern NSString *const kSIPowerUpRapidFire;
 
 #pragma mark - NSNotification
+extern NSString *const kSINotificationAdActionShouldBegin;
+extern NSString *const kSINotificationAdActionDidFinish;
+extern NSString *const kSINotificationAdBannerDidLoad;
+extern NSString *const kSINotificationAdBannerDidUnload;
+extern NSString *const kSINotificationAdBannerHide;
+extern NSString *const kSINotificationAdBannerShow;
+extern NSString *const kSINotificationAdFreePurchasedFailed;
+extern NSString *const kSINotificationAdFreePurchasedSucceded;
 extern NSString *const kSINotificationInterstitialAdFinish;
 extern NSString *const kSINotificationInterstitialAdShallLaunch;
 extern NSString *const kSINotificationFreeCoinEarned;
@@ -218,6 +226,7 @@ extern NSString *const kSINotificationPowerUpDeactivated;
 extern NSString *const kSINotificationScoreUpdate;
 extern NSString *const kSINotificationSettingsLaunchBugReport;
 extern NSString *const kSINotificationPackPurchaseRequest;
+extern NSString *const kSINotificationShowLeaderBoard;
 
 #pragma mark - Score Constants
 extern NSString *const kSIScoreTotalScore;
@@ -234,6 +243,7 @@ extern NSString *const kSIImageButtonContinueGrayed;
 extern NSString *const kSIImageButtonCross;
 extern NSString *const kSIImageButtonDismiss;
 extern NSString *const kSIImageButtonDone;
+extern NSString *const kSIImageButtonEndGame;
 extern NSString *const kSIImageButtonFallingMonkey;
 extern NSString *const kSIImageButtonGameModeOneHand;
 extern NSString *const kSIImageButtonGameModeTwoHand;
@@ -290,6 +300,7 @@ extern NSString *const kSINSDictionaryKeyPowerUp;
 extern NSString *const kSINSDictionaryKeyPackProduct;
 
 #pragma mark - In App Purchase Product ID
+extern NSString *const kSIIAPProductIDAdFree;
 extern NSString *const kSIIAPProductIDCoinPackSmall;
 extern NSString *const kSIIAPProductIDCoinPackMedium;
 extern NSString *const kSIIAPProductIDCoinPackLarge;
@@ -382,8 +393,17 @@ extern NSString *const kSISoundFXChaChing;
 extern NSString *const kSISoundFXGameOver;
 extern NSString *const kSISoundFXInitalize;
 
-@interface SIConstants : NSObject
+#pragma mark - EmitterNodes
+extern NSString *const kSIEmitterFileTypeSKS;
+extern NSString *const kSIEmitterSpark;
 
+#pragma mark - Game Center Leaderboard IDs
+extern NSString *const kSIGameCenterLeaderBoardIDHandOne;
+extern NSString *const kSIGameCenterLeaderBoardIDHandTwo;
+
+#pragma mark - Useful things
+@interface SIConstants : NSObject
++ (NSString *)pathForSparkEmitter;
 + (SKTextureAtlas *)backgroundAtlas;
 + (SKTextureAtlas *)buttonAtlas;
 + (SKTextureAtlas *)imagesAtlas;
