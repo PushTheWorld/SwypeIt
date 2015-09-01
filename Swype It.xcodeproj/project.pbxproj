@@ -59,6 +59,12 @@
 		092B47101B52273A00AFE43C /* libOCMock.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 092B470F1B52273A00AFE43C /* libOCMock.a */; };
 		092DBE6D1B6F022E00328A6B /* shapes.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 092DBE6C1B6F022E00328A6B /* shapes.atlas */; };
 		09343DAA1B44BB1C00D1C707 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 09343DA91B44BB1C00D1C707 /* QuartzCore.framework */; };
+		094F229C1B95911D00968FB5 /* ultraStroked.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 094F22981B95911D00968FB5 /* ultraStroked.atlas */; };
+		094F229D1B95911D00968FB5 /* ultraStroked.xml in Resources */ = {isa = PBXBuildFile; fileRef = 094F22991B95911D00968FB5 /* ultraStroked.xml */; };
+		094F229E1B95911D00968FB5 /* ultraStroked@2x.xml in Resources */ = {isa = PBXBuildFile; fileRef = 094F229A1B95911D00968FB5 /* ultraStroked@2x.xml */; };
+		094F229F1B95911D00968FB5 /* ultraStroked@3x.xml in Resources */ = {isa = PBXBuildFile; fileRef = 094F229B1B95911D00968FB5 /* ultraStroked@3x.xml */; };
+		094F22A51B95916E00968FB5 /* BMGlyphFont.m in Sources */ = {isa = PBXBuildFile; fileRef = 094F22A21B95916E00968FB5 /* BMGlyphFont.m */; };
+		094F22A61B95916E00968FB5 /* BMGlyphLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 094F22A41B95916E00968FB5 /* BMGlyphLabel.m */; };
 		096ABDCA1B6AF83A005B2F12 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 096ABDC91B6AF83A005B2F12 /* MessageUI.framework */; };
 		096ABDCC1B6AF843005B2F12 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 096ABDCB1B6AF843005B2F12 /* OpenGLES.framework */; };
 		096ABDCD1B6AF84C005B2F12 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 09343DA91B44BB1C00D1C707 /* QuartzCore.framework */; };
@@ -221,6 +227,14 @@
 		092DBE6C1B6F022E00328A6B /* shapes.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = shapes.atlas; sourceTree = "<group>"; };
 		09343DA91B44BB1C00D1C707 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		0938FD501B92124E00ACD99C /* libSSBitmapFont.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSSBitmapFont.a; path = ../Downloads/libSSBitmapFont/libSSBitmapFont.a; sourceTree = "<group>"; };
+		094F22981B95911D00968FB5 /* ultraStroked.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = ultraStroked.atlas; sourceTree = "<group>"; };
+		094F22991B95911D00968FB5 /* ultraStroked.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = ultraStroked.xml; sourceTree = "<group>"; };
+		094F229A1B95911D00968FB5 /* ultraStroked@2x.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "ultraStroked@2x.xml"; sourceTree = "<group>"; };
+		094F229B1B95911D00968FB5 /* ultraStroked@3x.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "ultraStroked@3x.xml"; sourceTree = "<group>"; };
+		094F22A11B95916E00968FB5 /* BMGlyphFont.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BMGlyphFont.h; sourceTree = "<group>"; };
+		094F22A21B95916E00968FB5 /* BMGlyphFont.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BMGlyphFont.m; sourceTree = "<group>"; };
+		094F22A31B95916E00968FB5 /* BMGlyphLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BMGlyphLabel.h; sourceTree = "<group>"; };
+		094F22A41B95916E00968FB5 /* BMGlyphLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BMGlyphLabel.m; sourceTree = "<group>"; };
 		096ABDC91B6AF83A005B2F12 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		096ABDCB1B6AF843005B2F12 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 		096ABDCE1B6AF856005B2F12 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
@@ -549,10 +563,10 @@
 				099302FB1B7CB50600D2CCE4 /* SIPopupNode.m */,
 				0914D7A81B81C22400911DD8 /* SIPowerUpToolbarNode.h */,
 				0914D7A91B81C22400911DD8 /* SIPowerUpToolbarNode.m */,
-				0988CC921B70C82300BF429D /* SIStoreButtonNode.h */,
-				0988CC931B70C82300BF429D /* SIStoreButtonNode.m */,
 				09D5ED4D1B8B205B00E84179 /* SISegmentControl.h */,
 				09D5ED4E1B8B205B00E84179 /* SISegmentControl.m */,
+				0988CC921B70C82300BF429D /* SIStoreButtonNode.h */,
+				0988CC931B70C82300BF429D /* SIStoreButtonNode.m */,
 			);
 			name = CustomUIClasses;
 			sourceTree = "<group>";
@@ -564,6 +578,17 @@
 				092720EE1B63A62D0005A6B6 /* TCProgressBarNode.m */,
 			);
 			name = TCProgressBarNode;
+			sourceTree = "<group>";
+		};
+		094F22A01B95916E00968FB5 /* BMGlyphLabel */ = {
+			isa = PBXGroup;
+			children = (
+				094F22A11B95916E00968FB5 /* BMGlyphFont.h */,
+				094F22A21B95916E00968FB5 /* BMGlyphFont.m */,
+				094F22A31B95916E00968FB5 /* BMGlyphLabel.h */,
+				094F22A41B95916E00968FB5 /* BMGlyphLabel.m */,
+			);
+			path = BMGlyphLabel;
 			sourceTree = "<group>";
 		};
 		096ABDF91B6B6AC4005B2F12 /* Sounds */ = {
@@ -596,6 +621,10 @@
 		0988CC971B7203CE00BF429D /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				094F22981B95911D00968FB5 /* ultraStroked.atlas */,
+				094F22991B95911D00968FB5 /* ultraStroked.xml */,
+				094F229A1B95911D00968FB5 /* ultraStroked@2x.xml */,
+				094F229B1B95911D00968FB5 /* ultraStroked@3x.xml */,
 				0979E6591B77A74E002FC2F2 /* LongIslandContour.otf */,
 				0979E6571B77A614002FC2F2 /* LongIsland-Shadow.otf */,
 				0988CC951B7203CA00BF429D /* Ultra.ttf */,
@@ -617,6 +646,7 @@
 		098B3B4B1B378EC8000D4702 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				094F22A01B95916E00968FB5 /* BMGlyphLabel */,
 				098B3B4C1B378ED1000D4702 /* FXReachability */,
 				0917D4AF1B6DD8240046B5FF /* HLSpriteKit */,
 				09CAF9AA1B646BE600466606 /* MBProgressHud */,
@@ -814,6 +844,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				096ABDF61B6B6ABB005B2F12 /* swypeItSound5.caf in Resources */,
+				094F229F1B95911D00968FB5 /* ultraStroked@3x.xml in Resources */,
 				0979E65A1B77A74E002FC2F2 /* LongIslandContour.otf in Resources */,
 				092113B01B6B787B005F7D8B /* swypeItFXChaChing.caf in Resources */,
 				0979E65C1B77C0F2002FC2F2 /* diamondPlate3.png in Resources */,
@@ -826,12 +857,15 @@
 				09D5ED4C1B8B1AB900E84179 /* background.atlas in Resources */,
 				099A62331B5C8B12009BF339 /* Main.storyboard in Resources */,
 				096ABDF51B6B6ABB005B2F12 /* swypeItSound4.caf in Resources */,
+				094F229D1B95911D00968FB5 /* ultraStroked.xml in Resources */,
 				0919ABE31B91FC83009ACFF1 /* spark.png in Resources */,
 				09CAF9AC1B646F4C00466606 /* buttons.atlas in Resources */,
 				0979E6581B77A614002FC2F2 /* LongIsland-Shadow.otf in Resources */,
 				092113B11B6B787B005F7D8B /* swypeItFXInitalize.caf in Resources */,
 				091FED541B37283E0071F8DC /* Images.xcassets in Resources */,
+				094F229E1B95911D00968FB5 /* ultraStroked@2x.xml in Resources */,
 				096ABDF31B6B6ABB005B2F12 /* swypeItSound2.caf in Resources */,
+				094F229C1B95911D00968FB5 /* ultraStroked.atlas in Resources */,
 				0988CC9B1B720F3B00BF429D /* images.atlas in Resources */,
 				096ABDF11B6B6ABB005B2F12 /* swypeItGameOver.caf in Resources */,
 				0988CC961B7203CA00BF429D /* Ultra.ttf in Resources */,
@@ -901,6 +935,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				092720E51B60D3CB0005A6B6 /* SIIAPUtility.m in Sources */,
+				094F22A51B95916E00968FB5 /* BMGlyphFont.m in Sources */,
 				0917D4F41B6DD8240046B5FF /* HLRingNode.m in Sources */,
 				099A622E1B5C6C2A009BF339 /* GameScene.m in Sources */,
 				0917D4EB1B6DD8240046B5FF /* HLItemNode.m in Sources */,
@@ -917,6 +952,7 @@
 				099A62231B5C635F009BF339 /* MainViewController.m in Sources */,
 				099A622A1B5C6B3B009BF339 /* StartScreenScene.m in Sources */,
 				098B3B4A1B378EC0000D4702 /* FXReachability.m in Sources */,
+				094F22A61B95916E00968FB5 /* BMGlyphLabel.m in Sources */,
 				09DB639C1B5651C100387C13 /* MKStoreKit.m in Sources */,
 				0917D4E61B6DD8240046B5FF /* HLComponentNode.m in Sources */,
 				0988CC941B70C82300BF429D /* SIStoreButtonNode.m in Sources */,

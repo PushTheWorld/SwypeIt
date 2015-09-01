@@ -5,80 +5,82 @@
 #import <Foundation/Foundation.h>
 #import <SpriteKit/SpriteKit.h>
 
-#define IDIOM                       UI_USER_INTERFACE_IDIOM()
-#define IPAD                        UIUserInterfaceIdiomPad
+#define IDIOM                               UI_USER_INTERFACE_IDIOM()
+#define IPAD                                UIUserInterfaceIdiomPad
 
-#define LEVEL1                      100
-#define LEVEL2                      250
-#define LEVEL3                      500
-#define LEVEL4                      750
-#define LEVEL5                      1000
-#define LEVEL6                      1300
-#define LEVEL7                      1600
-#define LEVEL8                      2000
-#define LEVEL9                      2400
-#define LEVEL10                     2800
-#define LEVEL11                     3300
-#define LEVEL12                     3800
-#define LEVEL13                     4400
-#define LEVEL14                     5000
-#define LEVEL15                     5700
-#define LEVEL16                     6400
-#define LEVEL17                     7200
-#define LEVEL18                     8000
-#define LEVEL19                     8900
-#define LEVEL20                     10000
-#define LEVEL21                     11000
-#define LEVEL22                     12000
+#define LEVEL1                              100
+#define LEVEL2                              250
+#define LEVEL3                              500
+#define LEVEL4                              750
+#define LEVEL5                              1000
+#define LEVEL6                              1300
+#define LEVEL7                              1600
+#define LEVEL8                              2000
+#define LEVEL9                              2400
+#define LEVEL10                             2800
+#define LEVEL11                             3300
+#define LEVEL12                             3800
+#define LEVEL13                             4400
+#define LEVEL14                             5000
+#define LEVEL15                             5700
+#define LEVEL16                             6400
+#define LEVEL17                             7200
+#define LEVEL18                             8000
+#define LEVEL19                             8900
+#define LEVEL20                             10000
+#define LEVEL21                             11000
+#define LEVEL22                             12000
 
-#define SOUNDLEVEL1                 100
-#define SOUNDLEVEL2                 200
-#define SOUNDLEVEL3                 300
-#define SOUNDLEVEL4                 400
-#define SOUNDLEVEL5                 500
-#define SOUNDLEVEL6                 600
-#define SOUNDLEVEL7                 700
+#define SOUNDLEVEL1                         100
+#define SOUNDLEVEL2                         200
+#define SOUNDLEVEL3                         300
+#define SOUNDLEVEL4                         400
+#define SOUNDLEVEL5                         500
+#define SOUNDLEVEL6                         600
+#define SOUNDLEVEL7                         700
 
-#define VERTICAL_SPACING_4          4
-#define VERTICAL_SPACING_8          8
-#define VERTICAL_SPACING_16         16
+#define VERTICAL_SPACING_4                  4
+#define VERTICAL_SPACING_8                  8
+#define VERTICAL_SPACING_16                 16
 
-#define IS_IPHONE_4                 (MAX([UIScreen mainScreen].bounds.size.height, [UIScreen mainScreen].bounds.size.width) == 480.0)
-#define IS_IPHONE_5                 (MAX([UIScreen mainScreen].bounds.size.height, [UIScreen mainScreen].bounds.size.width) == 568.0)
-#define IS_IPHONE_6                 (MAX([UIScreen mainScreen].bounds.size.height, [UIScreen mainScreen].bounds.size.width) == 667.0)
-#define IS_IPHONE_6_PLUS            (MAX([UIScreen mainScreen].bounds.size.height, [UIScreen mainScreen].bounds.size.width) == 736.0)
+#define IS_IPHONE_4                         (MAX([UIScreen mainScreen].bounds.size.height, [UIScreen mainScreen].bounds.size.width) == 480.0)
+#define IS_IPHONE_5                         (MAX([UIScreen mainScreen].bounds.size.height, [UIScreen mainScreen].bounds.size.width) == 568.0)
+#define IS_IPHONE_6                         (MAX([UIScreen mainScreen].bounds.size.height, [UIScreen mainScreen].bounds.size.width) == 667.0)
+#define IS_IPHONE_6_PLUS                    (MAX([UIScreen mainScreen].bounds.size.height, [UIScreen mainScreen].bounds.size.width) == 736.0)
 
-#define SCREEN_WIDTH                MIN([UIScreen mainScreen].bounds.size.height, [UIScreen mainScreen].bounds.size.width)
-#define SCREEN_HEIGHT               MAX([UIScreen mainScreen].bounds.size.height, [UIScreen mainScreen].bounds.size.width)
+#define SCREEN_WIDTH                        MIN([UIScreen mainScreen].bounds.size.height, [UIScreen mainScreen].bounds.size.width)
+#define SCREEN_HEIGHT                       MAX([UIScreen mainScreen].bounds.size.height, [UIScreen mainScreen].bounds.size.width)
 
-#define MILI_SECS_IN_SEC            1000
+#define MILI_SECS_IN_SEC                    1000
 
 #pragma mark - Game Constants
-#define POINTS_NEEDED_FOR_FREE_COIN 500
-#define mSlope                      -7/240
-#define SCORE_EXP_POWER_WEIGHT      -0.001205
-#define MAX_MOVE_SCORE              10.78457
-#define SPEED_TRANSISTION_SCORE     8629.55
-#define TIMER_INTERVAL              1/30
-#define SPEED_LOG_INTERCEPT         4.418243235
-#define SPEED_LOG_MULTIPLIER        -0.383625766
-#define SPEED_POWER_EXPONENT        -0.22291709
-#define SPEED_POWER_MULTIPLIER      7.07850289
-#define LEVEL_SPEED_DIV_MULT        -0.384
-#define LEVEL_SPEED_INTERCEPT       4.4182
-#define VALUE_OF_MONKEY             25
+#define POINTS_NEEDED_FOR_FREE_COIN         500
+#define mSlope                              -7/240
+#define SCORE_EXP_POWER_WEIGHT              -0.001205
+#define MAX_MOVE_SCORE                      10.78457
+#define SPEED_TRANSISTION_SCORE             8629.55
+#define TIMER_INTERVAL                      1/30
+#define SPEED_LOG_INTERCEPT                 4.418243235
+#define SPEED_LOG_MULTIPLIER                -0.383625766
+#define SPEED_POWER_EXPONENT                -0.22291709
+#define SPEED_POWER_MULTIPLIER              7.07850289
+#define LEVEL_SPEED_DIV_MULT                -0.384
+#define LEVEL_SPEED_INTERCEPT               4.4182
+#define VALUE_OF_MONKEY                     25
 
-#define NUMBER_OF_MOVES             3
-#define NUMBER_OF_BACKGROUNDS       3
-#define NUMBER_OF_MONKEYS_INIT      15
-#define NUMBER_OF_IAP_PACKS         4
+#define NUMBER_OF_MOVES                     3
+#define NUMBER_OF_BACKGROUNDS               3
+#define NUMBER_OF_MONKEYS_INIT              15
+#define NUMBER_OF_IAP_PACKS                 4
 
-#define IAP_PACK_PRICE_SMALL        00.99
-#define IAP_PACK_PRICE_MEDIUM       04.99
-#define IAP_PACK_PRICE_LARGE        09.99
-#define IAP_PACK_PRICE_EXTRA_LARGE  24.99
+#define IAP_PACK_PRICE_SMALL                00.99
+#define IAP_PACK_PRICE_MEDIUM               04.99
+#define IAP_PACK_PRICE_LARGE                09.99
+#define IAP_PACK_PRICE_EXTRA_LARGE          24.99
 
-#define SCENE_TRANSISTION_DURATION  0.5
+#define SCENE_TRANSISTION_DURATION          0.5
+#define MOVE_COMMAND_LAUNCH_DURATION        0.25
+
 
 typedef NS_ENUM(NSInteger, SIGameMode) {
     SIGameModeOneHand,
@@ -120,6 +122,17 @@ typedef NS_ENUM(NSInteger, SIIAPPack) {
     SIIAPPackMedium,
     SIIAPPackLarge,
     SIIAPPackExtraLarge
+};
+typedef NS_ENUM(NSInteger, SIMoveCommandAction) {
+    SIMoveCommandActionTap,
+    SIMoveCommandActionShake,
+    SIMoveCommandActionPinchNegative,
+    SIMoveCommandActionPinchPositive,
+    SIMoveCommandActionSwypeUp,
+    SIMoveCommandActionSwypeDown,
+    SIMoveCommandActionSwypeLeft,
+    SIMoveCommandActionSwypeRight,
+    SIMoveCommandActionSwypeNone
 };
 typedef NS_ENUM(NSInteger, SIContinueLifeCost) {
     SIContinueLifeCost0     = 0,
@@ -352,6 +365,7 @@ extern NSString *const kSINodeGameScoreTotal;
 extern NSString *const kSINodePopUpContent;
 
 #pragma mark - Fonts
+extern NSString *const kSIFontUltraStroked;
 extern NSString *const kSIFontGameScore;
 extern NSString *const kSIFontFuturaMedium;
 extern NSString *const kSIFontUltra;

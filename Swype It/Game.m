@@ -751,6 +751,50 @@
             return nil;
     }
 }
++ (SKAction *)actionForSIMoveCommandAction:(SIMoveCommandAction)siMoveCommandAction {
+    
+    SKAction *fadeOut               = [SKAction fadeOutWithDuration:MOVE_COMMAND_LAUNCH_DURATION];
+    
+    SKAction *leftShakeComponent    = [SKAction moveByX:50.0f y:0.0f duration:MOVE_COMMAND_LAUNCH_DURATION / 4.0f];
+    SKAction *rightShakeComponent   = [SKAction moveByX:-100.0f y:0.0f duration:MOVE_COMMAND_LAUNCH_DURATION / 4.0f];
+    SKAction *shakeRepeat           = [SKAction repeatAction:[SKAction sequence:@[leftShakeComponent, rightShakeComponent]] count:2];
+    
+    SKAction *tapIn1                = [SKAction scaleTo:0.9f duration:MOVE_COMMAND_LAUNCH_DURATION / 4.0f];
+    SKAction *tapOut1               = [SKAction scaleTo:1.1f duration:MOVE_COMMAND_LAUNCH_DURATION / 4.0f];
+    SKAction *tapIn2                = [SKAction scaleTo:0.7f duration:MOVE_COMMAND_LAUNCH_DURATION / 4.0f];
+    SKAction *tapOut2               = [SKAction scaleTo:1.3f duration:MOVE_COMMAND_LAUNCH_DURATION / 4.0f];
+    SKAction *tapAction             = [SKAction sequence:@[tapIn1,tapOut1,tapIn2,tapOut2]];
+    
+    SKAction *swypeUp               = [SKAction moveToY:SCREEN_HEIGHT + 100.0f duration:MOVE_COMMAND_LAUNCH_DURATION];
+    SKAction *swypeDown             = [SKAction moveToY:-100.0f duration:MOVE_COMMAND_LAUNCH_DURATION];
+    SKAction *swypeLeft             = [SKAction moveToX:-100.0f duration:MOVE_COMMAND_LAUNCH_DURATION];
+    SKAction *swypeRight            = [SKAction moveToX:SCREEN_WIDTH + 100.0f duration:MOVE_COMMAND_LAUNCH_DURATION];
+    
+    SKAction *pinchShrink           = [SKAction scaleTo:0.0f duration:MOVE_COMMAND_LAUNCH_DURATION];
+    SKAction *pinchRotateCW         = [SKAction rotateByAngle:M_PI duration:MOVE_COMMAND_LAUNCH_DURATION];
+    SKAction *pinchRotateCCW        = [SKAction rotateByAngle:-M_PI duration:MOVE_COMMAND_LAUNCH_DURATION];
+    
+    switch (siMoveCommandAction) {
+        case SIMoveCommandActionPinchNegative:
+            return [SKAction group:@[pinchShrink,fadeOut,pinchRotateCCW]];
+        case SIMoveCommandActionPinchPositive:
+            return [SKAction group:@[pinchShrink,fadeOut,pinchRotateCW]];
+        case SIMoveCommandActionShake:
+            return [SKAction group:@[shakeRepeat,fadeOut]];
+        case SIMoveCommandActionTap:
+            return [SKAction group:@[tapAction,fadeOut]];
+        case SIMoveCommandActionSwypeUp:
+            return [SKAction group:@[swypeUp,fadeOut]];
+        case SIMoveCommandActionSwypeDown:
+            return [SKAction group:@[swypeDown,fadeOut]];
+        case SIMoveCommandActionSwypeLeft:
+            return [SKAction group:@[swypeLeft,fadeOut]];
+        case SIMoveCommandActionSwypeRight:
+            return [SKAction group:@[swypeRight,fadeOut]];
+        default:
+            return fadeOut;
+    }
+}
 
 
 @end

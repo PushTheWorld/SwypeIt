@@ -200,6 +200,7 @@ NSString *const kSINodePopUpContent                                 = @"content"
 NSString *const kSIFontGameScore                                    = @"LongIslandContour";
 NSString *const kSIFontFuturaMedium                                 = @"Futura-Medium";
 NSString *const kSIFontUltra                                        = @"Ultra";
+NSString *const kSIFontUltraStroked                                 = @"ultraStroked";
 
 #pragma mark - Menu Button Texts
 NSString *const kSIMenuTextBack                                     = @"Back";

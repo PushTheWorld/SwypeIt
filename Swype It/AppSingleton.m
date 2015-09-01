@@ -189,10 +189,10 @@
     [self captureTime];     /*Capture the time for the next move*/
     
     if (self.isPaused == NO) {
-        NSLog(@"Move score: %0.2f and Total score: %0.2f",self.currentGame.moveScore,self.currentGame.totalScore);
+//        NSLog(@"Move score: %0.2f and Total score: %0.2f",self.currentGame.moveScore,self.currentGame.totalScore);
         if (self.currentGame.totalScore < epsilonLimit) {
-            CGFloat randomNumber = arc4random_uniform(10);
-            self.currentGame.moveScore = (randomNumber / 10) * MAX_MOVE_SCORE;
+            CGFloat randomNumber = arc4random_uniform(10) / 10;
+            self.currentGame.moveScore = MAX_MOVE_SCORE - randomNumber;
             userInfo = [NSDictionary dictionaryWithObject:@(self.currentGame.moveScore) forKey:kSINSDictionaryKeyMoveScore];
             self.currentGame.totalScore = self.currentGame.moveScore;
         } else {

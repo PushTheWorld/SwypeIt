@@ -160,8 +160,8 @@
     
     // Configure the view.
     SKView * skView         = (SKView *)self.view;
-//    skView.showsFPS         = YES;
-//    skView.showsNodeCount   = YES;
+    skView.showsFPS         = YES;
+    skView.showsNodeCount   = YES;
     
     // Create and configure the scene.
 //    SKScene * scene = [SITestScene sceneWithSize:skView.bounds.size];
@@ -512,7 +512,7 @@
 
     
     if (!isPremiumUser) {
-        self.canDisplayBannerAds = YES;
+        self.canDisplayBannerAds    = NO;
         self.adBannerView.delegate  = self;
         self.adBannerView.hidden    = YES; /*hide till loaded!*/
     } else {
@@ -714,7 +714,7 @@
 }
 - (void)showGameCenterLeaderBoard {
     GKGameCenterViewController *gameCenterVC    = [[GKGameCenterViewController alloc] init];
-    gameCenterVC.delegate                       = self;
+    gameCenterVC.gameCenterDelegate             = self;
     gameCenterVC.viewState                      = GKGameCenterViewControllerStateLeaderboards;
 
     NSNumber *gameMode = [[NSUserDefaults standardUserDefaults] objectForKey:kSINSUserDefaultGameMode];

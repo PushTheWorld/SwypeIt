@@ -24,7 +24,7 @@
  
  */
 //- (BOOL)gestureDidBegin:(SIMove)move;
-- (void)gestureEnded:(SIMove)move;
+- (void)gestureEnded:(SIMove)move siMoveCommandAction:(SIMoveCommandAction)siMoveCommandAction;
 - (void)monkeyTapped:(SKNode *)node;
 
 @end

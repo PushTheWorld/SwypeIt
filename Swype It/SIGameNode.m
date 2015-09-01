@@ -26,6 +26,8 @@ enum {
 };
 
 @implementation SIGameNode {
+    CGFloat                      _pinchDirection;
+    
     SIGameMode                   _gameMode;
     
     SKSpriteNode                *_backgroundNode;
@@ -39,6 +41,7 @@ enum {
     self = [super init];
     if (self) {
         _gameMode                   = gameMode;
+        _pinchDirection             = 0.0f;
         
         _backgroundNode             = [SKSpriteNode spriteNodeWithColor:[SKColor colorWithWhite:0.0f alpha:1.0f] size:size];
         _backgroundNode.anchorPoint = CGPointMake(0.5f, 0.5f);
@@ -90,18 +93,39 @@ enum {
     switch (_gameMode) {
         case SIGameModeOneHand:
             return @[[[UITapGestureRecognizer       alloc] init],
-                     [self swypeGesture]];
+                     [SIGameNode swypeGesture]];
         default: /*SIGameModeTwoHand*/
             return @[[[UITapGestureRecognizer       alloc] init],
                      [[UIPinchGestureRecognizer     alloc] init],
-                     [self swypeGesture]];
+                     [SIGameNode swypeGestureUp],
+                     [SIGameNode swypeGestureDown],
+                     [SIGameNode swypeGestureLeft],
+                     [SIGameNode swypeGestureRight]];
     }
 }
 
 - (BOOL)addToGesture:(UIGestureRecognizer *)gestureRecognizer firstTouch:(UITouch *)touch isInside:(BOOL *)isInside {
     BOOL handleGesture = NO;
-    if (HLGestureTarget_areEquivalentGestureRecognizers(gestureRecognizer, [self swypeGesture])) {
-        [gestureRecognizer addTarget:self action:@selector(handleSwipe:)];
+//    if (HLGestureTarget_areEquivalentGestureRecognizers(gestureRecognizer, [SIGameNode swypeGesture])) {
+//        [gestureRecognizer addTarget:self action:@selector(handleSwype:)];
+//        *isInside = YES;
+//        return YES;
+//        
+//    }
+    if (HLGestureTarget_areEquivalentGestureRecognizers(gestureRecognizer, [SIGameNode swypeGestureUp])) {
+        [gestureRecognizer addTarget:self action:@selector(handleSwypeUp:)];
+        *isInside = YES;
+        return YES;
+    } else if (HLGestureTarget_areEquivalentGestureRecognizers(gestureRecognizer, [SIGameNode swypeGestureDown])) {
+        [gestureRecognizer addTarget:self action:@selector(handleSwypeDown:)];
+        *isInside = YES;
+        return YES;
+    } else if (HLGestureTarget_areEquivalentGestureRecognizers(gestureRecognizer, [SIGameNode swypeGestureLeft])) {
+        [gestureRecognizer addTarget:self action:@selector(handleSwypeLeft:)];
+        *isInside = YES;
+        return YES;
+    } else if (HLGestureTarget_areEquivalentGestureRecognizers(gestureRecognizer, [SIGameNode swypeGestureRight])) {
+        [gestureRecognizer addTarget:self action:@selector(handleSwypeRight:)];
         *isInside = YES;
         return YES;
     } else if (HLGestureTarget_areEquivalentGestureRecognizers(gestureRecognizer, [[UIPinchGestureRecognizer alloc] init])) {
@@ -137,23 +161,67 @@ enum {
     if (!_backgroundNode) {
         return;
     }
+    if (gestureRecognizer.state != UIGestureRecognizerStateRecognized) {
+        if ([gestureRecognizer numberOfTouches] > 1) {
+            CGPoint firstPoint      = [gestureRecognizer locationOfTouch:0 inView:gestureRecognizer.view];
+            CGPoint secondPoint     = [gestureRecognizer locationOfTouch:1 inView:gestureRecognizer.view];
+            _pinchDirection         = atan2(secondPoint.y - firstPoint.y, secondPoint.x - firstPoint.x);
+            
+//            NSLog(@"Angle of pinch: %0.2f",_pinchDirection);
+        }
+    }
     
     if (gestureRecognizer.state == UIGestureRecognizerStateEnded) {
-        [self.delegate gestureEnded:SIMovePinch];
+        if (_pinchDirection < 0.0f) {
+            [self.delegate gestureEnded:SIMovePinch siMoveCommandAction:SIMoveCommandActionPinchNegative];
+        } else {
+            [self.delegate gestureEnded:SIMovePinch siMoveCommandAction:SIMoveCommandActionPinchPositive];
+        }
     }
 }
 
-- (void)handleSwipe:(UISwipeGestureRecognizer *)gestureRecognizer {
+- (void)handleSwype:(UISwipeGestureRecognizer *)gestureRecognizer {
     if (!_backgroundNode) {
         return;
     }
-    
     if (gestureRecognizer.state == UIGestureRecognizerStateEnded) {
-        [self.delegate gestureEnded:SIMoveSwype];
+        [self.delegate gestureEnded:SIMoveSwype siMoveCommandAction:SIMoveCommandActionSwypeNone];
     }
-    
-    if (gestureRecognizer.state == UIGestureRecognizerStateBegan) {
-        [self.delegate gestureEnded:SIMoveSwype];
+}
+
+- (void)handleSwypeUp:(UISwipeGestureRecognizer *)gestureRecognizer {
+    if (!_backgroundNode) {
+        return;
+    }
+    if (gestureRecognizer.state == UIGestureRecognizerStateEnded) {
+        [self.delegate gestureEnded:SIMoveSwype siMoveCommandAction:SIMoveCommandActionSwypeUp];
+    }
+}
+
+- (void)handleSwypeDown:(UISwipeGestureRecognizer *)gestureRecognizer {
+    if (!_backgroundNode) {
+        return;
+    }
+    if (gestureRecognizer.state == UIGestureRecognizerStateEnded) {
+        [self.delegate gestureEnded:SIMoveSwype siMoveCommandAction:SIMoveCommandActionSwypeDown];
+    }
+}
+
+- (void)handleSwypeLeft:(UISwipeGestureRecognizer *)gestureRecognizer {
+    if (!_backgroundNode) {
+        return;
+    }
+    if (gestureRecognizer.state == UIGestureRecognizerStateEnded) {
+        [self.delegate gestureEnded:SIMoveSwype siMoveCommandAction:SIMoveCommandActionSwypeLeft];
+    }
+}
+
+- (void)handleSwypeRight:(UISwipeGestureRecognizer *)gestureRecognizer {
+    if (!_backgroundNode) {
+        return;
+    }
+    if (gestureRecognizer.state == UIGestureRecognizerStateEnded) {
+        [self.delegate gestureEnded:SIMoveSwype siMoveCommandAction:SIMoveCommandActionSwypeRight];
     }
 }
 
@@ -161,13 +229,9 @@ enum {
     if (!_backgroundNode) {
         return;
     }
-    
+
     if (gestureRecognizer.state == UIGestureRecognizerStateEnded) {
-        [self.delegate gestureEnded:SIMoveTap];
-    }
-    
-    if (gestureRecognizer.state == UIGestureRecognizerStateBegan) {
-        [self.delegate gestureEnded:SIMoveTap];
+        [self.delegate gestureEnded:SIMoveTap siMoveCommandAction:SIMoveCommandActionTap];
     }
 }
 
@@ -176,13 +240,46 @@ enum {
     /*Do layout stuff...*/
     
 }
-
-- (UISwipeGestureRecognizer *)swypeGesture {
-    UISwipeGestureRecognizer *swipe = [[UISwipeGestureRecognizer alloc] init];
-    swipe.direction                 = UISwipeGestureRecognizerDirectionRight | UISwipeGestureRecognizerDirectionLeft | UISwipeGestureRecognizerDirectionDown | UISwipeGestureRecognizerDirectionUp;
++ (UISwipeGestureRecognizer *)swypeGesture {
+    static UISwipeGestureRecognizer *swipe = nil;
+    if (!swipe) {
+        swipe = [[UISwipeGestureRecognizer alloc] init];
+        swipe.direction = UISwipeGestureRecognizerDirectionUp | UISwipeGestureRecognizerDirectionDown | UISwipeGestureRecognizerDirectionLeft | UISwipeGestureRecognizerDirectionRight;
+    }
     return swipe;
 }
-
++ (UISwipeGestureRecognizer *)swypeGestureUp {
+    static UISwipeGestureRecognizer *swipeUp = nil;
+    if (!swipeUp) {
+        swipeUp = [[UISwipeGestureRecognizer alloc] init];
+        swipeUp.direction = UISwipeGestureRecognizerDirectionUp;
+    }
+    return swipeUp;
+}
++ (UISwipeGestureRecognizer *)swypeGestureDown {
+    static UISwipeGestureRecognizer *swipeDown = nil;
+    if (!swipeDown) {
+        swipeDown = [[UISwipeGestureRecognizer alloc] init];
+        swipeDown.direction = UISwipeGestureRecognizerDirectionDown;
+    }
+    return swipeDown;
+}
++ (UISwipeGestureRecognizer *)swypeGestureLeft {
+    static UISwipeGestureRecognizer *swipeLeft = nil;
+    if (!swipeLeft) {
+        swipeLeft = [[UISwipeGestureRecognizer alloc] init];
+        swipeLeft.direction = UISwipeGestureRecognizerDirectionLeft;
+    }
+    return swipeLeft;
+}
++ (UISwipeGestureRecognizer *)swypeGestureRight {
+    static UISwipeGestureRecognizer *swipeRight = nil;
+    if (!swipeRight) {
+        swipeRight = [[UISwipeGestureRecognizer alloc] init];
+        swipeRight.direction = UISwipeGestureRecognizerDirectionRight;
+    }
+    return swipeRight;
+}
 
 
 

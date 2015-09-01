@@ -55,6 +55,7 @@
 + (SIMove)              getRandomMoveForGameMode:(SIGameMode)gameMode isRapidFireActiviated:(BOOL)isRapidFireActivated;
 + (SIPowerUpCost)       costForPowerUp:(SIPowerUp)powerUp;
 + (SIPowerUpDuration)   durationForPowerUp:(SIPowerUp)powerUp;
++ (SKAction *)          actionForSIMoveCommandAction:(SIMoveCommandAction)siMoveCommandAction;
 + (SKTexture *)         textureBackgroundColor:(SKColor *)backgroundColor size:(CGSize)size;
 + (SKTexture *)         textureBackgroundColor:(SKColor *)backgroundColor size:(CGSize)size cornerRadius:(CGFloat)cornerRadius borderWidth:(CGFloat)borderWidth borderColor:(UIColor *)borderColor;
 + (SKTexture *)         textureForSIPowerUp:(SIPowerUp)powerUp;
