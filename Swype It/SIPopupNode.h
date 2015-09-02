@@ -48,7 +48,7 @@
 /**
  The initalizer method for duck typing label
  */
-- (instancetype)initWithSceneSize:(CGSize)size titleLabelNode:(SKLabelNode *)titleLabelNode;
+- (instancetype)initWithSceneSize:(CGSize)size titleNode:(SKNode *)titleNode;
 
 /**
  The convience initalizer method that takes a size for the pop up size
@@ -149,6 +149,21 @@
  The default value is 16.
  */
 @property (nonatomic, assign) CGFloat titleLabelTopPading;
+
+/**
+ This allows the title to "ride" on top of the popup content node. This allows the
+ height to move dynimcally with the size of the content...
+ 
+ The default value is NO.
+ */
+@property (nonatomic, assign) BOOL titleAutomaticYPosition;
+
+/**
+ This allows for you to insert your own custom node for a title, meaning it could be an image
+ or really just about anything you could image. If the titleNode is nil then I will use the 
+ titleLabelNode that is private to the class. This can be set at runtime of course...
+ */
+@property (nonatomic, strong) SKNode *titleContentNode;
 
 /**
  The padding on the left and right edges.

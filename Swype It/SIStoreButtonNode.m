@@ -118,10 +118,10 @@ enum {
                                                               cornerRadius:[SIStoreButtonNode cornerRadius]
                                                                borderWidth:8.0
                                                                borderColor:[UIColor blackColor]];
-    _backgroundNode.zPosition               = SIStoreButtonNodeZPositionLayerBackground;
+    _backgroundNode.zPosition               = (float)SIStoreButtonNodeZPositionLayerBackground / (float)SIStoreButtonNodeZPositionLayerBackground;
     _backgroundNode.anchorPoint             = CGPointMake(1, 0.5);
     
-    _imageNode.zPosition                    = SIStoreButtonNodeZPositionLayerLabel;
+    _imageNode.zPosition                    = (float)SIStoreButtonNodeZPositionLayerLabel / (float)SIStoreButtonNodeZPositionLayerBackground;
     _imageNode.anchorPoint                  = CGPointMake(0.5, 0.5);
     
     _valueLabelNode.text                    = [NSString stringWithFormat:@"%d IT Coins",[Game numberOfCoinsForSIIAPPack:_pack]];
@@ -129,21 +129,21 @@ enum {
     _valueLabelNode.fontColor               = [SKColor goldColor];
     _valueLabelNode.verticalAlignmentMode   = SKLabelVerticalAlignmentModeCenter;
     _valueLabelNode.horizontalAlignmentMode = SKLabelHorizontalAlignmentModeCenter;
-    _valueLabelNode.zPosition               = SIStoreButtonNodeZPositionLayerLabel;
+    _valueLabelNode.zPosition               = (float)SIStoreButtonNodeZPositionLayerLabel / (float)SIStoreButtonNodeZPositionLayerBackground;
     
     _titleLabelNode.text                    = [Game buttonTextForSIIAPPack:_pack];
     _titleLabelNode.fontSize                = [SIStoreButtonNode fontSizeLarge];
     _titleLabelNode.fontColor               = [SKColor whiteColor];
     _titleLabelNode.verticalAlignmentMode   = SKLabelVerticalAlignmentModeCenter;
     _titleLabelNode.horizontalAlignmentMode = SKLabelHorizontalAlignmentModeCenter;
-    _titleLabelNode.zPosition               = SIStoreButtonNodeZPositionLayerLabel;
+    _titleLabelNode.zPosition               = (float)SIStoreButtonNodeZPositionLayerLabel / (float)SIStoreButtonNodeZPositionLayerBackground;
 
     _priceLabelNode.text                    = [_priceFormatter stringFromNumber:[SIIAPUtility productPriceForSIIAPPack:_pack]];
     _priceLabelNode.fontSize                = [SIStoreButtonNode fontSizeSmall];
     _priceLabelNode.fontColor               = [SKColor goldColor];
     _priceLabelNode.verticalAlignmentMode   = SKLabelVerticalAlignmentModeCenter;
     _priceLabelNode.horizontalAlignmentMode = SKLabelHorizontalAlignmentModeCenter;
-    _priceLabelNode.zPosition               = SIStoreButtonNodeZPositionLayerLabel;
+    _priceLabelNode.zPosition               = (float)SIStoreButtonNodeZPositionLayerLabel / (float)SIStoreButtonNodeZPositionLayerBackground;
 
 }
 - (void)layoutControlsWithSize:(CGSize)size {

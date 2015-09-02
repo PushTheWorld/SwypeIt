@@ -20,6 +20,7 @@
 #import <MessageUI/MessageUI.h>
 #import "MSSAlertViewController.h"
 // Drop-In Class Imports (CocoaPods/GitHub/Guru)
+#import "FXReachability.h"
 #import "MBProgressHud.h"
 #import "SoundManager.h"
 // Category Import
@@ -100,13 +101,13 @@
     }
 }
 + (CGFloat)fontSizeParagraph_x2 {
-    return [MainViewController fontSizeHeader] + 4.0f;
+    return [MainViewController fontSizeParagraph] + 4.0f;
 }
 + (CGFloat)fontSizeParagraph_x3 {
-    return [MainViewController fontSizeHeader] + 8.0f;
+    return [MainViewController fontSizeParagraph] + 8.0f;
 }
 + (CGFloat)fontSizeParagraph_x4 {
-    return [MainViewController fontSizeHeader] + 12.0f;
+    return [MainViewController fontSizeParagraph] + 12.0f;
 }
 + (CGFloat)fontSizePopUp {
     if (IS_IPHONE_4) {
@@ -434,7 +435,8 @@
     titleNode.fontColor         = [SKColor whiteColor];
     titleNode.fontSize          = [MainViewController fontSizePopUp];
     
-    SIPopupNode *popUpNode      = [[SIPopupNode alloc] initWithSceneSize:sceneSize titleLabelNode:titleNode];
+    SIPopupNode *popUpNode      = [[SIPopupNode alloc] initWithSceneSize:sceneSize];
+    popUpNode.titleContentNode  = titleNode;
     popUpNode.backgroundSize    = CGSizeMake(sceneSize.width - 100.0f, sceneSize.height - 200.0f);
     popUpNode.backgroundColor   = [SKColor mainColor];
     popUpNode.cornerRadius      = 8.0f;
@@ -652,7 +654,7 @@
     if (willLeave) {
         [[NSNotificationCenter defaultCenter] postNotificationName:kSINotificationAdActionShouldBegin object:nil];
     }
-    return willLeave;
+    return YES;
 }
 - (void)bannerViewActionDidFinish:(ADBannerView *)banner {
     [[NSNotificationCenter defaultCenter] postNotificationName:kSINotificationAdActionDidFinish object:nil];
@@ -730,5 +732,30 @@
     }
     
     [self presentViewController:gameCenterVC animated:YES completion:nil];
+}
+#pragma mark - Daily Prize Methods
++ (NSDate *)getDateFromInternet {
+    NSDate *currentDate = nil;
+    
+    if ([FXReachability isReachable]) {
+        NSURL * scriptUrl = [NSURL URLWithString: @"http://s132342840.onlinehome.us/swypeIt/date.php"];
+        NSData * data = [NSData dataWithContentsOfURL: scriptUrl];
+        
+        if (data) {
+            NSString * tempString = [NSString stringWithUTF8String: [data bytes]];
+            NSDateFormatter *df = [[NSDateFormatter alloc] init];
+            [df setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+            NSDate *currentDate = [df dateFromString:tempString];
+//            NSDate * currDate = [NSDate dateWithTimeIntervalSince1970: [tempString doubleValue]];
+//            NSLog (@ "String returned from the site is:%@ and date is:%@", tempString, [currDate description]);
+            return currentDate;
+        } else {
+            NSLog(@"Could not resolve webpage....");
+        }
+    } else {
+        NSLog(@"Not connected to internet");
+    }
+    
+    return currentDate;
 }
 @end

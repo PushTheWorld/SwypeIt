@@ -13,6 +13,7 @@
 #import <Fabric/Fabric.h>
 #import <Instabug/Instabug.h>
 // Drop-In Class Imports (CocoaPods/GitHub/Guru)
+#import "FXReachability.h"
 #import "MKStoreKit.h"
 // Category Import
 #import "UIColor+Additions.h"
@@ -37,6 +38,10 @@ static BOOL isRunningTests(void) __attribute__((const));
     
     /*Start Instabug*/
     [Instabug startWithToken:@"dd30ee11bb2fde9bf61f850ba2d73b30" captureSource:IBGCaptureSourceUIKit invocationEvent:IBGInvocationEventTwoFingersSwipeLeft];
+    
+    /*FXReachability*/
+    [FXReachability sharedInstance].host = @"google.com";
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateStatus) name:FXReachabilityStatusDidChangeNotification object:nil];
     
     /*Init window*/
 //    self.window                             = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
@@ -97,6 +102,9 @@ static BOOL isRunningTests(void) __attribute__((const));
         [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithInt:0] forKey:kSINSUserDefaultLifetimeHighScore];
         [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithInt:0] forKey:kSINSUserDefaultPointsTowardsFreeCoin];
         [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithInt:0] forKey:kSINSUserDefaultLifetimePointsEarned];
+        [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithInt:0] forKey:kSINSUserDefaultNumberConsecutiveAppLaunches];
+        [[NSUserDefaults standardUserDefaults] setObject:[NSDate date]              forKey:kSINSUserDefaultLastLaunchDate];
+        [[NSUserDefaults standardUserDefaults] setObject:[NSDate date]              forKey:kSINSUserDefaultLastPrizeAwardedDate];
         [[NSUserDefaults standardUserDefaults] synchronize];
     }
 }
@@ -116,6 +124,32 @@ static BOOL isRunningTests(void) {
     NSDictionary* environment = [[NSProcessInfo processInfo] environment];
     NSString* injectBundle = environment[@"XCInjectBundle"];
     return [[injectBundle pathExtension] isEqualToString:@"octest"];
+}
+#pragma mark - FXReachability Methods
+- (void)updateStatus {
+    NSLog(@"Internet Status:\n\n%@\n\n",[self statusText]);
+}
+- (NSString *)statusText
+{
+    switch ([FXReachability sharedInstance].status)
+    {
+        case FXReachabilityStatusUnknown:
+        {
+            return @"Status Unknown";
+        }
+        case FXReachabilityStatusNotReachable:
+        {
+            return @"Not reachable";
+        }
+        case FXReachabilityStatusReachableViaWWAN:
+        {
+            return @"Reachable via WWAN";
+        }
+        case FXReachabilityStatusReachableViaWiFi:
+        {
+            return @"Reachable via WiFi";
+        }
+    }
 }
 
 @end

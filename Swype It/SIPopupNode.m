@@ -21,46 +21,51 @@ enum {
     CGSize           _sceneSize;
     
 //    HLComponentNode *_contentNode;
+    SKNode          *_titleNode;
     SKNode          *_contentNode;
     SKSpriteNode    *_backgroundNode;
     SKSpriteNode    *_dismissButton;
-    SKLabelNode     *_titleNode;
+    SKLabelNode     *_titleLabelNode;
+}
+
+
+- (nonnull instancetype)init {
+    self = [super init];
+    if (self) {
+        _cornerRadius               = 0.0f;
+        _borderColor                = nil;
+        _borderWidth                = 0.0f;
+        _xPadding                   = VERTICAL_SPACING_16;
+        _yPadding                   = VERTICAL_SPACING_16;
+        _titleLabelTopPading        = VERTICAL_SPACING_16;
+        _titleAutomaticYPosition    = NO;
+        _contentPostion             = CGPointMake(0.5f, 0.5f);
+    }
+    return self;
 }
 
 
 - (instancetype)initWithSceneSize:(CGSize)size {
     self = [super init];
     if (self) {
-        _floatThreshold             = 0.01;
+        _sceneSize                  = size;
         
-        _backgroundNode             = [SKSpriteNode spriteNodeWithColor:[SKColor grayColor] size:CGSizeMake(size.width - VERTICAL_SPACING_16, size.width - VERTICAL_SPACING_16)];
-        _backgroundNode.anchorPoint = CGPointMake(0.5f, 0.5f);
-        _backgroundNode.zPosition   = SIPopUpNodeZPositionLayerBackground * self.zPositionScale / SIPopUpNodeZPositionLayerCount;
-        [self addChild:_backgroundNode];
-        
-        [self popUpNodeInitCommon:size];
-        
-        [self layoutXY];
+        [self createPoupNodeInitCommon:size];
     }
     return self;
 }
 
-- (instancetype)initWithSceneSize:(CGSize)size titleLabelNode:(SKLabelNode *)titleLabelNode {
+- (instancetype)initWithSceneSize:(CGSize)size titleNode:(SKNode *)titleNode {
     self = [super init];
     if (self) {
-        _floatThreshold             = 0.01;
+        _sceneSize                  = size;
+        _titleNode                  = titleNode;
         
-        _backgroundNode             = [SKSpriteNode spriteNodeWithColor:[SKColor grayColor] size:CGSizeMake(size.width - VERTICAL_SPACING_16, size.width - VERTICAL_SPACING_16)];
-        _backgroundNode.anchorPoint = CGPointMake(0.5f, 0.5f);
-        _backgroundNode.zPosition   = 0.6f;//SIPopUpNodeZPositionLayerBackground * self.zPositionScale / SIPopUpNodeZPositionLayerCount;
-        [self addChild:_backgroundNode];
-        
-        [self popUpNodeInitCommon:size withTitleLabel:titleLabelNode];
-        
-        [self layoutXY];
+        [self createPoupNodeInitCommon:size];
     }
     return self;
 }
+
 
 - (instancetype)initWithSceneSize:(CGSize)size
                         popUpSize:(CGSize)popUpSize
@@ -72,25 +77,26 @@ enum {
                      cornerRadius:(CGFloat)cornerRadius
                       borderWidth:(CGFloat)borderWidth
                       borderColor:(SKColor *)borderColor {
-    self = [self initWithSceneSize:size];
+    self = [self init];
     if (self) {
+        _sceneSize                  = size;
+        _xPadding                   = size.width - popUpSize.width;
+        _yPadding                   = size.height - popUpSize.height;
+        _cornerRadius               = cornerRadius;
+        _borderWidth                = borderWidth;
+        _borderColor                = borderColor;
         
-        _xPadding               = size.width - popUpSize.width;
-        _yPadding               = size.height - popUpSize.height;
-        _cornerRadius           = cornerRadius;
-        _borderWidth            = borderWidth;
-        _borderColor            = borderColor;
-        
-        _titleNode.text         = titleText;
-        _titleNode.fontColor    = titleFontColor;
-        _titleNode.fontSize     = titleFontSize;
-        _titleLabelTopPading    = titleYPadding;
+        _titleText                  = titleText;
+        _titleFontColor             = titleFontColor;
+        _titleFontSize              = titleFontSize;
+
+        _titleLabelTopPading        = titleYPadding;
         
         if (backgroundColor) {
-            _backgroundNode.color = backgroundColor;
+            _backgroundNode.color   = backgroundColor;
         }
         
-        [self layoutXY];
+        [self createPoupNodeInitCommon:size];
     }
     return self;
 }
@@ -104,92 +110,59 @@ enum {
                      cornerRadius:(CGFloat)cornerRadius
                       borderWidth:(CGFloat)borderWidth
                       borderColor:(SKColor *)borderColor {
-    self = [self initWithSceneSize:size];
+    self = [self init];
     if (self) {
-        _xPadding               = xPadding;
-        _yPadding               = yPadding;
-        _cornerRadius           = cornerRadius;
-        _borderWidth            = borderWidth;
-        _borderColor            = borderColor;
+        _xPadding                   = xPadding;
+        _yPadding                   = yPadding;
+        _cornerRadius               = cornerRadius;
+        _borderWidth                = borderWidth;
+        _borderColor                = borderColor;
         
-        _titleNode.text         = titleText;
-        _titleNode.fontColor    = titleFontColor;
-        _titleNode.fontSize     = titleFontSize;
+        _titleText                  = titleText;
+        _titleFontColor             = titleFontColor;
+        _titleFontSize              = titleFontSize;
+
         
         if (backgroundColor) {
-            _backgroundNode.color = backgroundColor;
+            _backgroundNode.color   = backgroundColor;
         }
         
-        [self layoutXY];
+        [self createPoupNodeInitCommon:size];
     }
     return self;
 }
 
-- (void)popUpNodeInitCommon:(CGSize)size {
-    _sceneSize                      = size;
-//    _backgroundColor                = [SKColor grayColor];
-    _cornerRadius                   = 0.0f;
-    _borderColor                    = nil;
-    _borderWidth                    = 0.0f;
-    _xPadding                       = VERTICAL_SPACING_16;
-    _yPadding                       = VERTICAL_SPACING_16;
-    _titleLabelTopPading            = VERTICAL_SPACING_16;
-    _contentPostion                 = CGPointMake(0.5f, 0.5f);
+- (void)createPoupNodeInitCommon:(CGSize)size {
     
-    _titleNode                      = [SKLabelNode labelNodeWithFontNamed:kSIFontUltra];
-    _titleNode.zPosition            = 0.7f;//SIPopUpNodeZPositionLayerContent * self.zPositionScale / SIPopUpNodeZPositionLayerCount;
-    [_backgroundNode addChild:_titleNode];
+    _backgroundNode                 = [SKSpriteNode spriteNodeWithColor:[SKColor grayColor] size:CGSizeMake(size.width - VERTICAL_SPACING_16, size.height - VERTICAL_SPACING_16)];
+    _backgroundNode.anchorPoint     = CGPointMake(0.5f, 0.5f);
+    _backgroundNode.zPosition       = SIPopUpNodeZPositionLayerBackground * self.zPositionScale / SIPopUpNodeZPositionLayerCount;
+    [self addChild:_backgroundNode];
+    
+    _titleLabelNode                 = [SKLabelNode labelNodeWithFontNamed:kSIFontUltra];
+    _titleLabelNode.zPosition       = SIPopUpNodeZPositionLayerContent * self.zPositionScale / SIPopUpNodeZPositionLayerCount;
+    [_backgroundNode addChild:_titleLabelNode];
     
     _dismissButton                  = [SKSpriteNode spriteNodeWithTexture:[[SIConstants buttonAtlas] textureNamed:kSIImageButtonDismiss] size:CGSizeMake(size.width / 10.0f, size.width / 10.0f)];
-    _dismissButton.zPosition        = 0.7f;//SIPopUpNodeZPositionLayerContent * self.zPositionScale / SIPopUpNodeZPositionLayerCount;
+    _dismissButton.zPosition        = SIPopUpNodeZPositionLayerContent * self.zPositionScale / SIPopUpNodeZPositionLayerCount;
     [_backgroundNode addChild:_dismissButton];
     
     [self layoutXY];
 }
 
-- (void)popUpNodeInitCommon:(CGSize)size withTitleLabel:(SKLabelNode *)titleLabelNode {
-    _sceneSize                      = size;
-    //    _backgroundColor                = [SKColor grayColor];
-    _cornerRadius                   = 0.0f;
-    _borderColor                    = nil;
-    _borderWidth                    = 0.0f;
-    _xPadding                       = VERTICAL_SPACING_16;
-    _yPadding                       = VERTICAL_SPACING_16;
-    _titleLabelTopPading            = VERTICAL_SPACING_16;
-    _contentPostion                 = CGPointMake(0.5f, 0.5f);
-    
-    _titleNode                      = titleLabelNode;
-    _titleNode.zPosition            = 0.7f;//SIPopUpNodeZPositionLayerContent * self.zPositionScale / SIPopUpNodeZPositionLayerCount;
-    [_backgroundNode addChild:_titleNode];
-    
-    _dismissButton                  = [SKSpriteNode spriteNodeWithTexture:[[SIConstants buttonAtlas] textureNamed:kSIImageButtonDismiss] size:CGSizeMake(size.width / 10.0f, size.width / 10.0f)];
-    _dismissButton.zPosition        = 0.7f;//SIPopUpNodeZPositionLayerContent * self.zPositionScale / SIPopUpNodeZPositionLayerCount;
-    [_backgroundNode addChild:_dismissButton];
-    
-    [self layoutXY];
-}
 
 - (CGSize)backgroundSize {
     return _backgroundNode.size;
 }
 
 - (void)setBackgroundSize:(CGSize)backgroundSize {
-    _xPadding               = _sceneSize.width - backgroundSize.width;
-    _yPadding               = _sceneSize.height - backgroundSize.height;
+    _xPadding                       = _sceneSize.width - backgroundSize.width;
+    _yPadding                       = _sceneSize.height - backgroundSize.height;
     [self layoutXY];
-}
-
-- (void)setTitleText:(NSString *)text {
-    _titleNode.text = text;
-    [self layoutXY];
-}
-
-- (NSString *)titleText {
-    return _titleNode.text;
 }
 
 - (void)setSize:(CGSize)size {
-    _backgroundNode.size = size;
+    _backgroundNode.size            = size;
     [self layoutXY];
 }
 
@@ -198,37 +171,31 @@ enum {
 }
 
 - (void)setAnchorPoint:(CGPoint)anchorPoint {
-    self.anchorPoint = anchorPoint;
+    self.anchorPoint                = anchorPoint;
 }
 
 - (CGPoint)anchorPoint {
     return self.anchorPoint;
 }
 
-- (NSString *)titleFontName {
-    return _titleNode.fontName;
+- (void)setTitleText:(NSString *)titleText {
+    _titleText                      = titleText;
+    [self layoutXY];
 }
 
 - (void)setTitleFontName:(NSString *)titleFontName {
-    _titleNode.fontName = titleFontName;
+    _titleFontName                  = titleFontName;
     [self layoutXY];
-}
-
-- (CGFloat)titleFontSize {
-    return _titleNode.fontSize;
 }
 
 - (void)setTitleFontSize:(CGFloat)titleFontSize {
-    _titleNode.fontSize = titleFontSize;
+    _titleFontSize                  = titleFontSize;
     [self layoutXY];
 }
 
-- (SKColor *)titleFontColor {
-    return _titleNode.fontColor;
-}
-
 - (void)setTitleFontColor:(SKColor *)titleFontColor {
-    _titleNode.fontColor = titleFontColor;
+    _titleFontColor                 = titleFontColor;
+    [self layoutXY];
 }
 
 - (SKColor *)backgroundColor {
@@ -236,25 +203,25 @@ enum {
 }
 
 - (void)setBackgroundColor:(UIColor *)backgroundColor {
-    _backgroundNode.color   = backgroundColor;
+    _backgroundNode.color               = backgroundColor;
 }
 
 - (void)setCornerRadius:(CGFloat)cornerRadius {
-    _cornerRadius = cornerRadius;
+    _cornerRadius                       = cornerRadius;
     [self layoutXY];
 }
 
 - (void)setBorderWidth:(CGFloat)borderWidth {
     _borderWidth = borderWidth;
     if (_borderColor == nil) {
-        _borderColor = [SKColor blackColor];
+        _borderColor                    = [SKColor blackColor];
     }
     [self layoutXY];
 }
 
 - (void)setBorderColor:(SKColor *)borderColor
 {
-    _borderColor = borderColor;
+    _borderColor                        = borderColor;
     [self layoutXY];
 }
 - (CGSize)dismissButtonSize {
@@ -262,7 +229,7 @@ enum {
 }
 
 - (void)setDismissButtonSize:(CGSize)dismissButtonSize {
-    _dismissButton.size = dismissButtonSize;
+    _dismissButton.size                 = dismissButtonSize;
 }
 
 - (CGPoint)dismissButtonPosition {
@@ -270,33 +237,42 @@ enum {
 }
 
 - (void)setDismissButtonPosition:(CGPoint)dismissButtonPosition {
-    CGFloat newX = self.size.width * dismissButtonPosition.x;
-    CGFloat newY = self.size.height * dismissButtonPosition.y;
+    CGFloat newX                        = self.size.width * dismissButtonPosition.x;
+    CGFloat newY                        = self.size.height * dismissButtonPosition.y;
 
-    _dismissButton.position = CGPointMake(newX, newY);
+    _dismissButton.position             = CGPointMake(newX, newY);
 }
 
-//- (void)setMenuNode:(HLMenuNode *)menuNode {
-//    if (_contentNode) {
-//        [_contentNode removeFromParent];
-//    }
-//    if (menuNode) {
-//        _contentNode               = menuNode;
-//        _contentNode.name          = kSINodePopUpContent;
-//        _contentNode.zPosition     = SIPopUpNodeZPositionLayerContent * self.zPositionScale / SIPopUpNodeZPositionLayerCount;
-//        [_backgroundNode addChild:_contentNode];
-//        [_contentNode hlSetGestureTarget:_contentNode];
-//    }
-//}
-
 - (void)setXPadding:(CGFloat)xPadding {
-    _xPadding = xPadding;
+    _xPadding                           = xPadding;
     [self layoutXY];
 }
 
 - (void)setYPadding:(CGFloat)yPadding {
-    _yPadding = yPadding;
+    _yPadding                           = yPadding;
     [self layoutXY];
+}
+
+- (void)setTitleAutomaticYPosition:(BOOL)titleAutomaticYPosition {
+    _titleAutomaticYPosition            = titleAutomaticYPosition;
+    [self layoutXY];
+}
+- (void)setTitleContentNode:(SKNode *)titleContentNode {
+    if (_titleLabelNode) {
+        [_titleLabelNode removeFromParent];
+    }
+    
+    if (_titleNode) {
+        [_titleNode removeFromParent];
+    }
+    
+    if (titleContentNode) {
+        _titleNode                      = titleContentNode;
+        _titleNode.name                 = kSINodePopupTitle;
+        [_backgroundNode addChild:_titleNode];
+    }
+    [self layoutXY];
+
 }
 
 - (void)setPopupContentNode:(SKNode *)popupContentNode {
@@ -305,46 +281,40 @@ enum {
     }
     if (popupContentNode) {
         _contentNode        = popupContentNode;
-        _contentNode.name   = kSINodePopUpContent;
+        _contentNode.name               = kSINodePopupContent;
         [_backgroundNode addChild:_contentNode];
     }
+    [self layoutXY];
 }
 
-//- (SKNode *)contentNode {
-//    return [_backgroundNode childNodeWithName:kSINodePopUpContent];
-//}
-//- (void)setContentNode:(SKNode *)contentNode {
-//    if (_detailNode) {
-//        [_detailNode removeFromParent];
-//    }
-//    if (contentNode) {
-//        _detailNode             = contentNode;
-//        _detailNode.name        = kSINodePopUpContent;
-//        _detailNode.zPosition   = SIPopUpNodeZPositionLayerContent * self.zPositionScale / SIPopUpNodeZPositionLayerCount;
-//        [_backgroundNode addChild:_detailNode];
-//        id <HLGestureTarget> target = [_detailNode hlGestureTarget];
-//        if (target) {
-//            [_detailNode hlSetGestureTarget:_detailNode];
-//        }
-//    }
-//}
-
-
 - (void)setContentPostion:(CGPoint)contentPostion {
-    _contentPostion             = contentPostion;
+    _contentPostion                     = contentPostion;
     [self layoutXY];
 }
 
 - (void)layoutXY {
 
-    if (_backgroundNode) {
-        _backgroundNode.size            = CGSizeMake(_sceneSize.width - _xPadding, _sceneSize.height - _yPadding);
+    if (!_backgroundNode) {
+        return;
     }
-    
-    if (_titleNode.text && _backgroundNode) {
-        _titleNode.position             = CGPointMake(0.0f, (_backgroundNode.size.height / 2.0f) - _titleNode.frame.size.height - _titleLabelTopPading);
+    _backgroundNode.size                = CGSizeMake(_sceneSize.width - _xPadding, _sceneSize.height - _yPadding);
+
+    if (_titleNode) {
+        /*If someone supplied their own node*/
+        _titleNode.position             = CGPointMake(0.0f, self.backgroundSize.height / 2.0f - _titleLabelTopPading - _titleNode.frame.size.height / 2.0f);
+        
+    } else {
+        /*Use titleLabelNode*/
+        _titleLabelNode.position        = CGPointMake(0.0f, self.backgroundSize.height / 2.0f - _titleLabelTopPading);
+
+        if (_titleAutomaticYPosition) { //this moves the top label
+            _titleLabelNode.position    = CGPointMake(0.0f, (_backgroundNode.size.height / 2.0f) - _titleLabelNode.frame.size.height - _titleLabelTopPading);
+        }
+
     }
-    if (_dismissButton && _backgroundNode) {
+
+
+    if (_dismissButton) {
         CGPoint dismissButtonPosition   = CGPointMake((_backgroundNode.size.width / 2.0f), (_backgroundNode.size.height / 2.0f));
         
         // note: We must bring in the dismiss button if it is layed out over the screen, this will allow us to use a popup that has a small padding

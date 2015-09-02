@@ -106,12 +106,6 @@ enum {
 
 - (BOOL)addToGesture:(UIGestureRecognizer *)gestureRecognizer firstTouch:(UITouch *)touch isInside:(BOOL *)isInside {
     BOOL handleGesture = NO;
-//    if (HLGestureTarget_areEquivalentGestureRecognizers(gestureRecognizer, [SIGameNode swypeGesture])) {
-//        [gestureRecognizer addTarget:self action:@selector(handleSwype:)];
-//        *isInside = YES;
-//        return YES;
-//        
-//    }
     if (HLGestureTarget_areEquivalentGestureRecognizers(gestureRecognizer, [SIGameNode swypeGestureUp])) {
         [gestureRecognizer addTarget:self action:@selector(handleSwypeUp:)];
         *isInside = YES;

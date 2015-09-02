@@ -118,6 +118,7 @@
 		09DB63981B564F0900387C13 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 09DB63971B564F0900387C13 /* StoreKit.framework */; };
 		09DB639C1B5651C100387C13 /* MKStoreKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 09DB639B1B5651C100387C13 /* MKStoreKit.m */; };
 		09DB639E1B56525100387C13 /* MKStoreKitConfigs.plist in Resources */ = {isa = PBXBuildFile; fileRef = 09DB639D1B56525100387C13 /* MKStoreKitConfigs.plist */; };
+		09E3527F1B96E78D00B53F7A /* SIAdBannerNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 09E3527E1B96E78D00B53F7A /* SIAdBannerNode.m */; };
 		F91BB9396F4CAAE0BC65B477 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 769385628457ECC646BCC3FE /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -303,6 +304,9 @@
 		09DB639A1B5651C100387C13 /* MKStoreKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKStoreKit.h; sourceTree = "<group>"; };
 		09DB639B1B5651C100387C13 /* MKStoreKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKStoreKit.m; sourceTree = "<group>"; };
 		09DB639D1B56525100387C13 /* MKStoreKitConfigs.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = MKStoreKitConfigs.plist; sourceTree = "<group>"; };
+		09E3527D1B96E78D00B53F7A /* SIAdBannerNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SIAdBannerNode.h; sourceTree = "<group>"; };
+		09E3527E1B96E78D00B53F7A /* SIAdBannerNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SIAdBannerNode.m; sourceTree = "<group>"; };
+		09E352801B9786DC00B53F7A /* coinNoise.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = coinNoise.caf; sourceTree = "<group>"; };
 		250606D5461711E9FC89BC0E /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		515AAE4709C37B6475D12AF4 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		769385628457ECC646BCC3FE /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -557,6 +561,8 @@
 				099A62351B5C917A009BF339 /* CustomProgressBar.m */,
 				092720EA1B6388740005A6B6 /* ProgressBar.h */,
 				092720EB1B6388740005A6B6 /* ProgressBar.m */,
+				09E3527D1B96E78D00B53F7A /* SIAdBannerNode.h */,
+				09E3527E1B96E78D00B53F7A /* SIAdBannerNode.m */,
 				09A57AB91B788BEF003B6F08 /* SIGameNode.h */,
 				09A57ABA1B788BEF003B6F08 /* SIGameNode.m */,
 				099302FA1B7CB50600D2CCE4 /* SIPopupNode.h */,
@@ -594,6 +600,7 @@
 		096ABDF91B6B6AC4005B2F12 /* Sounds */ = {
 			isa = PBXGroup;
 			children = (
+				09E352801B9786DC00B53F7A /* coinNoise.caf */,
 				096ABDE71B6B6ABB005B2F12 /* menuSound.caf */,
 				092113AE1B6B787B005F7D8B /* swypeItFXChaChing.caf */,
 				092113AF1B6B787B005F7D8B /* swypeItFXInitalize.caf */,
@@ -958,6 +965,7 @@
 				0988CC941B70C82300BF429D /* SIStoreButtonNode.m in Sources */,
 				098B3B471B378C27000D4702 /* Game.m in Sources */,
 				0917D4F11B6DD8240046B5FF /* HLMessageNode.m in Sources */,
+				09E3527F1B96E78D00B53F7A /* SIAdBannerNode.m in Sources */,
 				097375461B57A97500BE1BCA /* BaseViewController.m in Sources */,
 				0917D4F81B6DD8240046B5FF /* HLTextureStore.m in Sources */,
 				0917D4FE1B6DD8240046B5FF /* SKSpriteNode+HLSpriteNodeAdditions.m in Sources */,

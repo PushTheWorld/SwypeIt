@@ -13,11 +13,13 @@
 #import "MainViewController.h"
 #import "MKStoreKit.h"
 #import "SettingsScene.h"
+#import "SIAdBannerNode.h"
 #import "SISegmentControl.h"
 #import "StartScreenScene.h"
 #import "StoreScene.h"
 // Framework Import
 // Drop-In Class Imports (CocoaPods/GitHub/Guru)
+#import "FXReachability.h"
 #import "HLSpriteKit.h"
 #import "SoundManager.h"
 // Category Import
@@ -37,30 +39,36 @@ enum {
     SIStartScreenZPositionLayerCount
 };
 
-@interface StartScreenScene () <HLToolbarNodeDelegate, SISegmentControlDelegate, SIPopUpNodeDelegate>
+@interface StartScreenScene () <HLToolbarNodeDelegate, SISegmentControlDelegate, SIPopUpNodeDelegate, SIAdBannerNodeDelegate>
 
 
 @end
 @implementation StartScreenScene {
-    BOOL                 _shouldRespondToTap;
+    BOOL                                     _shouldRespondToTap;
+    BOOL                                     _willAwardPrize;
     
-    CGFloat              _buttonAnimationDuration;
-    CGFloat              _buttonSpacing;
+    CGFloat                                  _buttonAnimationDuration;
+    CGFloat                                  _buttonSpacing;
     
-    CGSize               _monkeySize;
+    CGSize                                   _adBannerNodeSize;
+    CGSize                                   _backgroundNodeSize;
+    CGSize                                   _monkeySize;
+    CGSize                                   _storeButtonNodeSize;
     
-    SKSpriteNode        *_backgroundNode;
-    SKSpriteNode        *_monkeyFace;
+    SKSpriteNode                            *_backgroundNode;
+    SKSpriteNode                            *_monkeyFace;
     
-    HLLabelButtonNode   *_storeButtonNode;
+    HLLabelButtonNode                       *_storeButtonNode;
     
-    HLToolbarNode       *_toolbarNode;
+    HLToolbarNode                           *_toolbarNode;
     
-    SISegmentControl    *_segmentControl;
+    SIAdBannerNode                          *_adBannerNode;
     
-    SKLabelNode         *_gameTitleLabelNode;
-    SKLabelNode         *_gameTypeInstructionLabelNode;
-    SKLabelNode         *_tapToPlayLabelNode;
+    SISegmentControl                        *_segmentControl;
+    
+    SKLabelNode                             *_gameTitleLabelNode;
+    SKLabelNode                             *_gameTypeInstructionLabelNode;
+    SKLabelNode                             *_tapToPlayLabelNode;
 }
 
 #pragma mark - Scene Life Cycle
@@ -84,9 +92,16 @@ enum {
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(addFreePuchasedSucceded)  name:kSINotificationAdFreePurchasedSucceded object:nil];
     
-    [[NSNotificationCenter defaultCenter] postNotificationName:kSINotificationAdBannerHide object:nil];
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [[NSNotificationCenter defaultCenter] postNotificationName:kSINotificationAdBannerShow object:nil];
+
+    });
 
     [self registerForNotifications];
+    
+    _willAwardPrize = NO;
+    
+    [self checkForDailyPrize];
     
 //    [self hlSetGestureTarget:self.scene];
 //    [self registerDescendant:self.scene withOptions:[NSSet setWithObject:HLSceneChildGestureTarget]];
@@ -107,8 +122,8 @@ enum {
 }
 - (void)viewSetup:(SKView *)view {
     /**Preform setup post-view load*/
-    self.backgroundColor    = [SKColor orangeColor];
-    _shouldRespondToTap     = YES;
+    self.backgroundColor                    = [SKColor orangeColor];
+    _shouldRespondToTap                     = YES;
 //    [self needSharedGestureRecognizers:@[ [[UITapGestureRecognizer alloc] init] ]];
     
 }
@@ -117,21 +132,35 @@ enum {
     /**Configure any constants*/
     _buttonSpacing                          = [MainViewController buttonSize:size].height * 0.25;
     _buttonAnimationDuration                = 0.25f;
+    
+    if ([MainViewController isPremiumUser]) {
+        _adBannerNodeSize                   = CGSizeZero;
+    } else {
+        _adBannerNodeSize                   = CGSizeMake(size.width, [MainViewController bannerViewHeight]);
+    }
+    _backgroundNodeSize                     = CGSizeMake(size.width, size.height - _adBannerNodeSize.height);
+    
+    _storeButtonNodeSize                    = CGSizeMake([MainViewController buttonSize:size].width / 2.0f, [MainViewController buttonSize:size].height);
+
 }
 - (void)createControlsWithSize:(CGSize)size {
     /**Preform all your alloc/init's here*/
-    _backgroundNode                         = [SKSpriteNode spriteNodeWithColor:[SKColor sandColor] size:size];
+    /*Background nodes*/
+    _backgroundNode                         = [SKSpriteNode spriteNodeWithColor:[SKColor sandColor] size:_backgroundNodeSize];
     
+    _adBannerNode                           = [[SIAdBannerNode alloc] initWithSize:_adBannerNodeSize];
+    
+    /*Labels*/
     _gameTitleLabelNode                     = [MainViewController SI_sharedLabelHeader_x3:@"SWYPE IT"];
     
-    _tapToPlayLabelNode                     = [MainViewController SI_sharedLabelParagraph:@"Tap To Start"];
+    _tapToPlayLabelNode                     = [MainViewController SI_sharedLabelParagraph_x2:@"Tap To Start"];
     
     _monkeyFace                             = [SKSpriteNode spriteNodeWithTexture:[[SIConstants buttonAtlas] textureNamed:kSIImageButtonFallingMonkey]];
     
-    _gameTypeInstructionLabelNode           = [MainViewController SI_sharedLabelParagraph:@"Choose Game Mode:"];
+    _gameTypeInstructionLabelNode           = [MainViewController SI_sharedLabelParagraph_x2:@"Choose Game Mode:"];
     
     /*Store Button Label*/
-    _storeButtonNode                        = [[HLLabelButtonNode alloc] initWithColor:[SKColor simplstMainColor] size:[MainViewController buttonSize:size]];
+    _storeButtonNode                        = [[HLLabelButtonNode alloc] initWithColor:[SKColor redColor] size:_storeButtonNodeSize];
 
     /*Segment Control*/
     _segmentControl                         = [[SISegmentControl alloc] initWithSize:[MainViewController buttonSize:size] titles:@[@"Classic",@"One Hand"]];
@@ -139,8 +168,11 @@ enum {
 - (void)setupControlsWithSize:(CGSize)size {
     /**Configrue the labels, nodes and what ever else you can*/
     /*Background*/
-    _backgroundNode.anchorPoint             = CGPointMake(0.5f, 0.5f);
+    _backgroundNode.anchorPoint             = CGPointMake(0.0f, 0.0f);
     _backgroundNode.zPosition               = SIStartScreenZPositionLayerBackground / SIStartScreenZPositionLayerCount;
+    
+    _adBannerNode.zPosition                 = SIStartScreenZPositionLayerBackground / SIStartScreenZPositionLayerCount;
+    _adBannerNode.delegate                  = self;
     
     _gameTitleLabelNode.zPosition           = SIStartScreenZPositionLayerText / SIStartScreenZPositionLayerCount;
     _gameTitleLabelNode.fontName            = kSIFontFuturaMedium;
@@ -191,7 +223,15 @@ enum {
 }
 - (void)layoutControlsWithSize:(CGSize)size {
     /**Layout those controls*/
-    _backgroundNode.position                = CGPointMake(size.width / 2.0f, size.height / 2.0f);
+    
+    /*Ad banner place holder*/
+    _adBannerNode.position                  = CGPointMake(0.0f, 0.0f);
+    [self addChild:_adBannerNode];
+    [_adBannerNode hlSetGestureTarget:_adBannerNode];
+    [self registerDescendant:_adBannerNode withOptions:[NSSet setWithObject:HLSceneChildGestureTarget]];
+    
+    /*Background Node...*/
+    _backgroundNode.position                = CGPointMake(0.0f, 0.0f + _adBannerNodeSize.height);
     [self addChild:_backgroundNode];
     HLTapGestureTarget *tapGestureTarget    = [[HLTapGestureTarget alloc] init];
     tapGestureTarget.handleGestureBlock     = ^(UIGestureRecognizer *gestureRecognizer){
@@ -200,52 +240,50 @@ enum {
     [_backgroundNode hlSetGestureTarget:tapGestureTarget];
     [self registerDescendant:_backgroundNode withOptions:[NSSet setWithObject:HLSceneChildGestureTarget]];
     
-    _gameTitleLabelNode.position            = CGPointMake(0.0f,(size.height / 2.0f) - (_gameTitleLabelNode.fontSize / 2.0f) - VERTICAL_SPACING_8);
+    _gameTitleLabelNode.position            = CGPointMake((size.width / 2.0f),size.height - (_gameTitleLabelNode.fontSize * 1.5));
     [_backgroundNode addChild:_gameTitleLabelNode];
     
-    _tapToPlayLabelNode.position            = CGPointMake(0.0f, _gameTitleLabelNode.frame.origin.y - (_tapToPlayLabelNode.fontSize / 2.0f) - VERTICAL_SPACING_8);
+    _tapToPlayLabelNode.position            = CGPointMake((size.width / 2.0f), _gameTitleLabelNode.frame.origin.y - (_tapToPlayLabelNode.fontSize / 2.0f) - VERTICAL_SPACING_8);
     [_backgroundNode addChild:_tapToPlayLabelNode];
     
+    /*Store Button Label*/
+    _storeButtonNode.position               = CGPointMake(size.width / 2.0f,
+                                                          size.height - VERTICAL_SPACING_8 - _gameTitleLabelNode.fontSize - VERTICAL_SPACING_8 - _tapToPlayLabelNode.fontSize - [MainViewController buttonSize:size].height);
+    [self addChild:_storeButtonNode];
+    [_storeButtonNode hlSetGestureTarget:[HLTapGestureTarget tapGestureTargetWithHandleGestureBlock:^(UIGestureRecognizer *gestureRecognizer) {
+        StoreScene *storeScene = [[StoreScene alloc] initWithSize:self.size willAwardPrize:_willAwardPrize];//[StoreScene sceneWithSize:self.size];
+        storeScene.wasLaunchedFromMainMenu = YES;
+        [Game transisitionToSKScene:storeScene toSKView:self.view DoorsOpen:YES pausesIncomingScene:YES pausesOutgoingScene:YES duration:SCENE_TRANSISTION_DURATION];
+        
+    }]];
+    [self registerDescendant:_storeButtonNode withOptions:[NSSet setWithObject:HLSceneChildGestureTarget]];
+    
     CGFloat maxMonkeyScaleSize              = 1.1f;
-    CGFloat maxMonkeyHeight                 = _monkeySize.height * maxMonkeyScaleSize;
-    _monkeyFace.position                    = CGPointMake(0.0f, _tapToPlayLabelNode.position.y - (maxMonkeyHeight / 1.5f));
+//    CGFloat maxMonkeyHeight                 = _monkeySize.height * maxMonkeyScaleSize;
+    _monkeyFace.position                    = CGPointMake((size.width / 2.0f), (size.height / 2.0f)); //CGPointMake(0.0f, _tapToPlayLabelNode.position.y - (maxMonkeyHeight / 1.5f));
     [_backgroundNode addChild:_monkeyFace];
     SKAction *increaseSize                  = [SKAction scaleTo:maxMonkeyScaleSize duration:1.2f];
     SKAction *decreaseSize                  = [SKAction scaleTo:1.0f duration:1.2f];
     SKAction *seq                           = [SKAction sequence:@[increaseSize,decreaseSize]];
     [_monkeyFace runAction:[SKAction repeatActionForever:seq]];
     
-    
-    _gameTypeInstructionLabelNode.position  = CGPointMake(0.0f, -_gameTypeInstructionLabelNode.fontSize); //CGPointMake(size.width / 2.0f, _segmentControl.frame.origin.y + [MainViewController buttonSize:size].height);
-    [_backgroundNode addChild:_gameTypeInstructionLabelNode];
+    /*Menu Node*/
+    _toolbarNode.position                   = CGPointMake(0.0f,
+                                                          _adBannerNodeSize.height + VERTICAL_SPACING_8);
+    [self addChild:_toolbarNode];
+    [_toolbarNode hlSetGestureTarget:_toolbarNode];
+    [self registerDescendant:_toolbarNode withOptions:[NSSet setWithObject:HLSceneChildGestureTarget]];
 
     
     /*Segment Control*/
-    _segmentControl.position                = CGPointMake(0.0f,_gameTypeInstructionLabelNode.frame.origin.y - ([MainViewController buttonSize:size].height / 2.0f) - (_gameTypeInstructionLabelNode.fontSize / 2.0f));
+    _segmentControl.position                = CGPointMake((size.width / 2.0f),VERTICAL_SPACING_8 + [MainViewController buttonSize:size].height + VERTICAL_SPACING_8 + ([MainViewController buttonSize:size].height / 2.0f));
     [_backgroundNode addChild:_segmentControl];
     [_segmentControl hlSetGestureTarget:_segmentControl];
     [self registerDescendant:_segmentControl withOptions:[NSSet setWithObject:HLSceneChildGestureTarget]];
 
+    _gameTypeInstructionLabelNode.position  = CGPointMake((size.width / 2.0f), _segmentControl.frame.origin.y + ([MainViewController buttonSize:size].height / 2.0f) + VERTICAL_SPACING_4 + (_gameTypeInstructionLabelNode.fontSize / 2.0f)); 
+    [_backgroundNode addChild:_gameTypeInstructionLabelNode];
 
-    
-    /*Store Button Label*/
-    _storeButtonNode.position               = CGPointMake(size.width / 2.0f,
-                                                          VERTICAL_SPACING_8 + [MainViewController buttonSize:size].height + VERTICAL_SPACING_8);
-    [self addChild:_storeButtonNode];
-    [_storeButtonNode hlSetGestureTarget:[HLTapGestureTarget tapGestureTargetWithHandleGestureBlock:^(UIGestureRecognizer *gestureRecognizer) {
-        StoreScene *storeScene = [StoreScene sceneWithSize:self.size];
-        storeScene.wasLaunchedFromMainMenu = YES;
-        [Game transisitionToSKScene:storeScene toSKView:self.view DoorsOpen:YES pausesIncomingScene:YES pausesOutgoingScene:YES duration:SCENE_TRANSISTION_DURATION];
-
-    }]];
-    [self registerDescendant:_storeButtonNode withOptions:[NSSet setWithObject:HLSceneChildGestureTarget]];
-    
-    /*Menu Node*/
-    _toolbarNode.position                   = CGPointMake(0.0f,
-                                                          VERTICAL_SPACING_8);
-    [self addChild:_toolbarNode];
-    [_toolbarNode hlSetGestureTarget:_toolbarNode];
-    [self registerDescendant:_toolbarNode withOptions:[NSSet setWithObject:HLSceneChildGestureTarget]];
 }
 
 #pragma mark - Toolbar Delegates
@@ -522,4 +560,108 @@ enum {
                                                       
                                                   }];
 }
+#pragma mark - SIAdBannerDelegate
+- (void)adBannerWasTapped {
+    NSLog(@"Ad Banner was tapped and delegate fired");
+}
+#pragma mark - Daily Prize Methods
+/**
+ Compares a time from the internet to determine if should give a daily prize
+ */
+- (void)checkForDailyPrize {
+    NSDate *currentDate = [MainViewController getDateFromInternet];
+    if (!currentDate) {
+        return;
+    }
+    
+    NSDate *lastPrizeGivenDate = [[NSUserDefaults standardUserDefaults] objectForKey:kSINSUserDefaultLastPrizeAwardedDate];
+    if (!lastPrizeGivenDate) {
+        NSLog(@"Set date for first time...");
+        [[NSUserDefaults standardUserDefaults] setObject:currentDate forKey:kSINSUserDefaultLastPrizeAwardedDate];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+    } else {
+        NSTimeInterval timeSinceLastLaunch = [currentDate timeIntervalSince1970] - [lastPrizeGivenDate timeIntervalSince1970];
+        if (timeSinceLastLaunch > 60 * 2 && timeSinceLastLaunch < 2 * 60 * 2) { //(timeSinceLastLaunch > SECONDS_IN_DAY && timeSinceLastLaunch < 2 * SECONDS_IN_DAY) { /*Consecutive launch!!! > 24 < 48*/
+            NSLog(@"Consecutive Launch!");
+            _willAwardPrize = YES;
+            [self willGivePrize];
+            
+        } else if (timeSinceLastLaunch > 2 * 60 * 2) {  //(timeSinceLastLaunch > 2 * SECONDS_IN_DAY) { /*Non consecutive launch.... two days have passed..*/
+            [[NSUserDefaults standardUserDefaults] setInteger:1 forKey:kSINSUserDefaultNumberConsecutiveAppLaunches];
+            _willAwardPrize = YES;
+            [self willGivePrize];
+            
+        } else {
+            NSLog(@"Already launched %0.0f minutes ago",timeSinceLastLaunch / 60);
+        }
+    }
+}
+/**
+ Configures the view to give a prize!
+ */
+- (void)willGivePrize {
+    CGSize newNodeSize                  = CGSizeMake(_storeButtonNodeSize.height / 2.0f, _storeButtonNodeSize.height / 2.0f);
+    
+    SKLabelNode *label                  = [SKLabelNode labelNodeWithFontNamed:kSIFontFuturaMedium];
+    label.fontSize                      = newNodeSize.height - VERTICAL_SPACING_8 - VERTICAL_SPACING_8;
+    label.text                          = @"FREE PRIZE!";
+    label.fontColor                     = [SKColor whiteColor];
+    label.verticalAlignmentMode         = SKLabelVerticalAlignmentModeTop;
+    label.horizontalAlignmentMode       = SKLabelHorizontalAlignmentModeCenter;
+    
+    /*Make the gift node*/
+    SKSpriteNode *giftNode              = [SKSpriteNode spriteNodeWithTexture:[[SIConstants imagesAtlas] textureNamed:kSIImageGift]];
+    giftNode.size                       = newNodeSize;
+    giftNode.anchorPoint                = CGPointMake(0.5f, 0.5f);
+    
+    /*Make the coin nodes*/
+    SKSpriteNode *coinNode1             = [SKSpriteNode spriteNodeWithTexture:[[SIConstants imagesAtlas] textureNamed:kSIImageCoinLargeFront]];
+    coinNode1.size                      = newNodeSize;
+    coinNode1.anchorPoint               = CGPointMake(0.5f, 0.5f);
+    
+    SKSpriteNode *coinNode2             = [SKSpriteNode spriteNodeWithTexture:[[SIConstants imagesAtlas] textureNamed:kSIImageCoinLargeBack]];
+    coinNode2.size                      = newNodeSize;
+    coinNode2.anchorPoint               = CGPointMake(0.5f, 0.5f);
+    
+    /*remove the text from store node...*/
+    _storeButtonNode.text               = nil;
+    
+    /*Add the gift node to the store button node*/
+    CGFloat yNodeHeight                 = (newNodeSize.height/2.0f) + VERTICAL_SPACING_8;
+    giftNode.position                   = CGPointMake(0.0f, yNodeHeight);
+    [_storeButtonNode addChild:giftNode];
+    
+    coinNode1.position                  = CGPointMake(newNodeSize.width + VERTICAL_SPACING_4, yNodeHeight);
+    [_storeButtonNode addChild:coinNode1];
+    
+    coinNode2.position                  = CGPointMake(-1.0f * (newNodeSize.width + VERTICAL_SPACING_4), yNodeHeight);
+    [_storeButtonNode addChild:coinNode2];
+    
+    label.position                      = CGPointMake(0.0f, _storeButtonNodeSize.height - VERTICAL_SPACING_8);
+    [_storeButtonNode addChild:label];
+    
+    /*Animate the gift node*/
+    CGFloat halfRotateTime              = 0.2f;
+    SKAction *wait                      = [SKAction waitForDuration:2.0f];
+    SKAction *rotate1                   = [SKAction rotateByAngle:-0.5f duration:halfRotateTime];
+    SKAction *rotate2                   = [SKAction rotateByAngle:1.0f duration:halfRotateTime * 2];
+    SKAction *rotate3                   = [SKAction rotateByAngle:-1.0f duration:halfRotateTime * 2];
+    SKAction *rotate4                   = [SKAction rotateByAngle:1.0f duration:halfRotateTime * 2];
+    SKAction *rotate5                   = [SKAction rotateByAngle:-0.5f duration:halfRotateTime];
+    SKAction *sequence1                 = [SKAction sequence:@[rotate1, rotate2, rotate3, rotate4, rotate5, wait]];
+    [giftNode runAction:[SKAction repeatActionForever:sequence1]];
+    
+//    CGFloat coinSpinTime                = 2.0f;
+//    
+//    SKAction *spin1                     = [SKAction rotateByAngle:M_PI * 2 duration:coinSpinTime];
+//    SKAction *sequence2                 = [SKAction sequence:@[spin1]];
+//    [coinNode1 runAction:[SKAction repeatActionForever:sequence2]];
+//
+//    SKAction *spin2                     = [SKAction rotateByAngle:-M_PI * 2 duration:coinSpinTime];
+//    SKAction *sequence3                 = [SKAction sequence:@[spin2]];
+//    [coinNode2 runAction:[SKAction repeatActionForever:sequence3]];
+    
+}
+
+
 @end

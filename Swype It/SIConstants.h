@@ -81,6 +81,18 @@
 #define SCENE_TRANSISTION_DURATION          0.5
 #define MOVE_COMMAND_LAUNCH_DURATION        0.25
 
+#define SECONDS_IN_DAY                      60 * 60 * 24
+
+#define ACCELEROMETER_UPDATE_INTERVAL       0.05
+#define REST_COUNT_THRESHOLD                2
+#define SHAKE_THRESHOLD                     0.5
+#define LAUNCH_DX_VECTOR_MAX                25
+#define LAUNCH_DX_VECTOR_MIX                10
+#define LAUNCH_DY_MULTIPLIER                120
+#define MONKEY_SPEED_INCREASE               0.08
+
+#define FREE_COINS_PER_DAY                  5
+
 
 typedef NS_ENUM(NSInteger, SIGameMode) {
     SIGameModeOneHand,
@@ -187,7 +199,10 @@ extern NSString *const kSIGameModeTwoHand;
 extern NSString *const kSIGameModeOneHand;
 
 #pragma mark - NSUserDefaults
+extern NSString *const kSINSUserDefaultNumberConsecutiveAppLaunches;
 extern NSString *const kSINSUserDefaultFirstLaunch;
+extern NSString *const kSINSUserDefaultLastLaunchDate;
+extern NSString *const kSINSUserDefaultLastPrizeAwardedDate;
 extern NSString *const kSINSUserDefaultLifetimeHighScore;
 extern NSString *const kSINSUserDefaultLifetimeGamesPlayed;
 extern NSString *const kSINSUserDefaultLifetimePointsEarned;
@@ -275,9 +290,12 @@ extern NSString *const kSIImageButtonSoundOnBackground;
 extern NSString *const kSIImageButtonSoundOnFX;
 extern NSString *const kSIImageButtonStore;
 extern NSString *const kSIImageButtonTimeFreeze;
+extern NSString *const kSIImageCoinLargeBack;
+extern NSString *const kSIImageCoinLargeFront;
 extern NSString *const kSIImageCoinSmallBack;
 extern NSString *const kSIImageCoinSmallFront;
 extern NSString *const kSIImageFallingMonkeys;
+extern NSString *const kSIImageGift;
 extern NSString *const kSIImageIAPSmall;
 extern NSString *const kSIImageIAPMedium;
 extern NSString *const kSIImageIAPLarge;
@@ -362,7 +380,8 @@ extern NSString *const kSINodeFallingMonkey;
 extern NSString *const kSINodeGameMoveCommand;
 extern NSString *const kSINodeGameProgressBarMove;
 extern NSString *const kSINodeGameScoreTotal;
-extern NSString *const kSINodePopUpContent;
+extern NSString *const kSINodePopupContent;
+extern NSString *const kSINodePopupTitle;
 
 #pragma mark - Fonts
 extern NSString *const kSIFontUltraStroked;
@@ -403,6 +422,7 @@ extern NSString *const kSISoundBackgroundFour;
 extern NSString *const kSISoundBackgroundFive;
 extern NSString *const kSISoundBackgroundSix;
 extern NSString *const kSISoundBackgroundSeven;
+extern NSString *const kSISoundFXCoinNoise;
 extern NSString *const kSISoundFXChaChing;
 extern NSString *const kSISoundFXGameOver;
 extern NSString *const kSISoundFXInitalize;
@@ -417,6 +437,8 @@ extern NSString *const kSIGameCenterLeaderBoardIDHandTwo;
 
 #pragma mark - Useful things
 @interface SIConstants : NSObject
++ (BOOL)isBackgroundSoundAllowed;
++ (BOOL)isFXAllowed;
 + (NSString *)pathForSparkEmitter;
 + (SKTextureAtlas *)backgroundAtlas;
 + (SKTextureAtlas *)buttonAtlas;

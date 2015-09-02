@@ -19,7 +19,10 @@ NSString *const kSIGameModeTwoHand                                  = @"gameMode
 NSString *const kSIGameModeOneHand                                  = @"gameModeOneHand";
 
 #pragma mark - NSUserDefaults
+NSString *const kSINSUserDefaultNumberConsecutiveAppLaunches        = @"numberConsecutiveAppLaunches";
 NSString *const kSINSUserDefaultFirstLaunch                         = @"firstLaunch";
+NSString *const kSINSUserDefaultLastLaunchDate                      = @"lastLaunchDate";
+NSString *const kSINSUserDefaultLastPrizeAwardedDate                = @"lastPrizeAwardedDate";
 NSString *const kSINSUserDefaultLifetimeHighScore                   = @"lifetimeHighScore";
 NSString *const kSINSUserDefaultLifetimeGamesPlayed                 = @"lifetimeGamesPlayed";
 NSString *const kSINSUserDefaultLifetimePointsEarned                = @"lifetimePointsEarned";
@@ -108,9 +111,12 @@ NSString *const kSIImageButtonSoundOnBackground                     = @"soundBac
 NSString *const kSIImageButtonSoundOnFX                             = @"soundFXOn";
 NSString *const kSIImageButtonStore                                 = @"storeButton";
 NSString *const kSIImageButtonTimeFreeze                            = @"clock";
+NSString *const kSIImageCoinLargeBack                               = @"coinLargeBack";
+NSString *const kSIImageCoinLargeFront                              = @"coinLargeFront";
 NSString *const kSIImageCoinSmallBack                               = @"coinSmallBack";
 NSString *const kSIImageCoinSmallFront                              = @"coinSmallFront";
 NSString *const kSIImageFallingMonkeys                              = @"monkeyFace";
+NSString *const kSIImageGift                                        = @"gift";
 NSString *const kSIImageIAPSmall                                    = @"coinPile";
 NSString *const kSIImageIAPMedium                                   = @"coinBucket";
 NSString *const kSIImageIAPLarge                                    = @"coinBag";
@@ -194,7 +200,8 @@ NSString *const kSINodeFallingMonkey                                = @"fallingM
 NSString *const kSINodeGameMoveCommand                              = @"moveCommand";
 NSString *const kSINodeGameProgressBarMove                          = @"progressBarMove";
 NSString *const kSINodeGameScoreTotal                               = @"scoreTotal";
-NSString *const kSINodePopUpContent                                 = @"content";
+NSString *const kSINodePopupContent                                 = @"content";
+NSString *const kSINodePopupTitle                                   = @"title";
 
 #pragma mark - Fonts
 NSString *const kSIFontGameScore                                    = @"LongIslandContour";
@@ -235,6 +242,7 @@ NSString *const kSISoundBackgroundFour                              = @"swypeItS
 NSString *const kSISoundBackgroundFive                              = @"swypeItSound5";
 NSString *const kSISoundBackgroundSix                               = @"swypeItSound6";
 NSString *const kSISoundBackgroundSeven                             = @"swypeItSound7";
+NSString *const kSISoundFXCoinNoise                                 = @"coinNoise";
 NSString *const kSISoundFXChaChing                                  = @"swypeItFXChaChing";
 NSString *const kSISoundFXGameOver                                  = @"swypeItGameOver";
 NSString *const kSISoundFXInitalize                                 = @"swypeItFXInitalize.caf";
@@ -265,5 +273,12 @@ NSString *const kSIGameCenterLeaderBoardIDHandTwo                   = @"GHS";
 + (SKTextureAtlas *)shapesAtlas {
     return [SKTextureAtlas atlasNamed:kSIAtlasShapes];
 }
++ (BOOL)isFXAllowed {
+    return [[NSUserDefaults standardUserDefaults] boolForKey:kSINSUserDefaultSoundIsAllowedFX];
+}
++ (BOOL)isBackgroundSoundAllowed {
+    return [[NSUserDefaults standardUserDefaults] boolForKey:kSINSUserDefaultSoundIsAllowedBackground];
+}
+
 @end
 

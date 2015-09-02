@@ -23,7 +23,6 @@
  The delegate invoked on interaction
  
  */
-//- (BOOL)gestureDidBegin:(SIMove)move;
 - (void)gestureEnded:(SIMove)move siMoveCommandAction:(SIMoveCommandAction)siMoveCommandAction;
 - (void)monkeyTapped:(SKNode *)node;
 
@@ -31,7 +30,7 @@
 
 @interface SIGameNode : HLComponentNode <HLGestureTarget>
 
-/// @name Optional Delegate Method
+/// @name Required Delegate Method
 
 /**
  Delegate methods

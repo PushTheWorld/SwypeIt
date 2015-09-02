@@ -17,7 +17,7 @@
 // Other Imports
 
 #define COIN_TO_ICON_RATIO 0.75
-#define TEXT_TO_COIN_RATIO 0.66
+#define TEXT_TO_COIN_RATIO 1.0
 
 enum {
     SINodeZPositionLayerIconShadow = 0,
@@ -69,10 +69,12 @@ enum {
 - (void)createConstantsWithSize:(CGSize)size {
     /**Configure any constants*/
     _powerUpCost                    = [Game costForPowerUp:_siPowerUp];
-
-    _textHeight                     = (size.height * (1 - COIN_TO_ICON_RATIO)) * TEXT_TO_COIN_RATIO;
     
-    _coinNodeSize                   = CGSizeMake(size.height * (1- COIN_TO_ICON_RATIO), size.height * (1- COIN_TO_ICON_RATIO));
+    CGFloat shrinkerConstant        = 0.75f;
+
+    _textHeight                     = (size.height * (1 - COIN_TO_ICON_RATIO)) * TEXT_TO_COIN_RATIO * shrinkerConstant;
+    
+    _coinNodeSize                   = CGSizeMake(size.height * (1 - COIN_TO_ICON_RATIO) * shrinkerConstant, size.height * (1 - COIN_TO_ICON_RATIO) * shrinkerConstant);
     
     _iconNodeSize                   = CGSizeMake(size.height * COIN_TO_ICON_RATIO, size.height * COIN_TO_ICON_RATIO);
 }
@@ -90,7 +92,7 @@ enum {
 - (void)setupControlsWithSize:(CGSize)size {
     /**Configrue the labels, nodes and what ever else you can*/
     
-    _coinNode.anchorPoint           = CGPointMake(0.0f, 1.0f);
+    _coinNode.anchorPoint           = CGPointMake(0.0f, 0.0f);
     
     _iconNode.anchorPoint           = CGPointMake(0.5f, 0.5f);
 
@@ -99,29 +101,27 @@ enum {
     _costLabelNode.fontColor        = [SKColor whiteColor];
 //    [_costLabelNode setHorizontalAlignmentMode:SKLabelHorizontalAlignmentModeRight];
 //    [_costLabelNode setVerticalAlignmentMode:SKLabelVerticalAlignmentModeCenter];
-    [_costLabelNode setHorizontalAlignmentMode:SKLabelHorizontalAlignmentModeLeft];
+    [_costLabelNode setHorizontalAlignmentMode:SKLabelHorizontalAlignmentModeRight];
     [_costLabelNode setVerticalAlignmentMode:SKLabelVerticalAlignmentModeBottom];
 
 }
 - (void)layoutControlsWithSize:(CGSize)size {
     /**Layout those controls*/
-    _costLabelNode.position         = CGPointMake(-1.0f * (size.width / 2.0f), -VERTICAL_SPACING_8); //CGPointMake(0.0f,(size.height / 2.0f) - (_coinNodeSize.height / 2.0f));
+    _costLabelNode.position         = CGPointMake(0.0f, -1.0f * (size.height / 2.0f) + VERTICAL_SPACING_4); //CGPointMake(0.0f,(size.height / 2.0f) - (_coinNodeSize.height / 2.0f));
     [_backgroundNode addChild:_costLabelNode];
     
-    _coinNode.position              = CGPointMake(-1.0f * (size.width / 2.0f), VERTICAL_SPACING_8);
+    _coinNode.position              = CGPointMake(0.0f, -1.0f * (size.height / 2.0f) + VERTICAL_SPACING_4);
     [_backgroundNode addChild:_coinNode];
     
-    _iconNode.position              = CGPointMake(0.25f * size.width, 0.0f);
-    _iconNode.zPosition             = (CGFloat)SINodeZPositionLayerIcon / (CGFloat)SINodeZPositionLayerCount;
-//    [_backgroundNode addChild:_iconNode];
-    
     /*Add shadow node*/
-    SKNode *shadow                  = [_iconNode shadowWithColor:[SKColor blackColor] blur:1.0f];
-    shadow.position                 = CGPointMake(0.0f, 0.0f);//CGPointMake(_iconNodeSize.width * 0.05f, _iconNodeSize.height * -0.05f);
+    SKNode *shadow                  = [_iconNode shadowWithColor:[SKColor blackColor] blur:0.4f];
+    shadow.position                 = CGPointMake(0.0f, VERTICAL_SPACING_4);// CGPointMake(_iconNodeSize.width * 0.05f, _iconNodeSize.height * -0.05f);
     shadow.zPosition                = (CGFloat)SINodeZPositionLayerIconShadow / (CGFloat)SINodeZPositionLayerCount;
     [_backgroundNode addChild:shadow];
     
-    
+    _iconNode.position              = CGPointMake(-1.0f, 1.0f);
+    _iconNode.zPosition             = (CGFloat)SINodeZPositionLayerIcon / (CGFloat)SINodeZPositionLayerCount;
+    [shadow addChild:_iconNode];
 }
 
 @end

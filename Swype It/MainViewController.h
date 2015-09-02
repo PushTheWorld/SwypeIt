@@ -35,6 +35,8 @@
 + (HLLabelButtonNode *) SI_sharedMenuButtonPrototypeBasic:(CGSize)size backgroundColor:(UIColor *)backgroundColor fontColor:(UIColor *)fontColor;
 + (HLLabelButtonNode *) SI_sharedMenuButtonPrototypePopUp:(CGSize)size;
 
++ (NSDate *)            getDateFromInternet;
+
 + (SIPopupNode *)       SISharedPopUpNodeTitle:(NSString *)title SceneSize:(CGSize)sceneSize;
 
 + (SKLabelNode *)       SI_sharedLabelHeader:(NSString *)text;

@@ -7,6 +7,8 @@
 
 @interface StoreScene : HLScene
 
+- (instancetype)initWithSize:(CGSize)size willAwardPrize:(BOOL)willAwardPrize;
+
 @property (assign, nonatomic) BOOL     isInTestMode;
 @property (assign, nonatomic) BOOL     wasLaunchedFromMainMenu;
 

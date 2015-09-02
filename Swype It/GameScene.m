@@ -7,13 +7,7 @@
 //  Purpose: This is the main game scene
 //
 // Defines
-#define ACCELEROMETER_UPDATE_INTERVAL   0.05
-#define REST_COUNT_THRESHOLD            2
-#define SHAKE_THRESHOLD                 0.5
-#define LAUNCH_DX_VECTOR_MAX            25
-#define LAUNCH_DX_VECTOR_MIX            10
-#define LAUNCH_DY_MULTIPLIER            120
-#define MONKEY_SPEED_INCREASE           0.08
+
 // Local Controller Import
 #import "AppSingleton.h"
 #import "EndGameScene.h"
@@ -50,7 +44,6 @@
 @property (strong, nonatomic) TCProgressBarNode *progressBarFreeCoin;
 @property (strong, nonatomic) TCProgressBarNode *progressBarMove;
 @property (strong, nonatomic) TCProgressBarNode *progressBarPowerUp;
-@property (strong, nonatomic) HLLabelButtonNode *itCoinsButtonLabel;
 @property (strong, nonatomic) SKLabelNode       *moveCommandLabel;
 @property (strong, nonatomic) SKLabelNode       *totalScoreLabel;
 @property (strong, nonatomic) SKSpriteNode      *pauseScreenNode;
@@ -107,6 +100,7 @@ typedef NS_ENUM(NSInteger, SIGameSceneRingNode) {
     CGFloat                                  _progressBarCornerRadius;
     CGFloat                                  _toolbarHorizontalSpacing;
 
+    CGSize                                   _adBannderSize;
     CGSize                                   _backgroundSize;
     CGSize                                   _buttonSize;
     CGSize                                   _coinSize;
@@ -126,7 +120,6 @@ typedef NS_ENUM(NSInteger, SIGameSceneRingNode) {
     
     HLRingNode                              *_ringNode;
     
-    HLTiledNode                             *_coinStuffBackgroundNode;
     
     HLToolbarNode                           *_powerUpToolBar;
 
@@ -138,9 +131,13 @@ typedef NS_ENUM(NSInteger, SIGameSceneRingNode) {
     
     SIGameNode                              *_backgroundNode;
     
-    SIMoveCommandAction                        _moveScoreAction;
+    SIMoveCommandAction                      _moveScoreAction;
     
+    SKLabelNode                             *_itCoinsButtonLabel;
+    
+    SKSpriteNode                            *_adBackgroundNode;
     SKSpriteNode                            *_coin;
+    SKSpriteNode                            *_coinStuffBackgroundNode;
     SKSpriteNode                            *_backgroundDetailNode;
     SKSpriteNode                            *_powerUpToolBarBackgroundNode;
     
@@ -263,10 +260,16 @@ typedef NS_ENUM(NSInteger, SIGameSceneRingNode) {
     _powerUpToolBarBackgroundHeight     = VERTICAL_SPACING_4 + _buttonSize.height + VERTICAL_SPACING_4;
     _moveFactor                         = VERTICAL_SPACING_4 + _powerUpToolBarBackgroundHeight + VERTICAL_SPACING_4 + (_progressBarSizePowerUp.height / 2.0f);
 
-    _backgroundSize                     = size;
+    if ([MainViewController isPremiumUser]) {
+        _adBannderSize                  = CGSizeZero;
+        _backgroundSize                 = size;
+    } else {
+        _adBannderSize                  = CGSizeMake(size.width, [MainViewController bannerViewHeight]);
+        _backgroundSize                 = CGSizeMake(size.width, size.height - _adBannderSize.height);
+    }
 
     _toolbarHorizontalSpacing           = 10.0f;
-    CGFloat toolBarNodeWidth            = SCREEN_WIDTH - (4.0f * _toolbarHorizontalSpacing);
+    CGFloat toolBarNodeWidth            = (SCREEN_WIDTH - (4.0f * _toolbarHorizontalSpacing)) / 3.0f;
     _toolbarNodeSize                    = CGSizeMake(toolBarNodeWidth, toolBarNodeWidth);
     
     /*Init Fonts*/
@@ -284,6 +287,9 @@ typedef NS_ENUM(NSInteger, SIGameSceneRingNode) {
     /**Background*/
     _backgroundNode                     = [[SIGameNode alloc] initWithSize:_backgroundSize gameMode:_gameMode];
     
+    /*The Banner Ad*/
+    _adBackgroundNode                   = [SKSpriteNode spriteNodeWithColor:[SKColor redColor] size:_adBannderSize];
+    
     /**Labels*/
     /*Total Score Label*/
     _totalScoreLabel                    = [SKLabelNode labelNodeWithFontNamed:kSIFontGameScore];
@@ -292,9 +298,9 @@ typedef NS_ENUM(NSInteger, SIGameSceneRingNode) {
     _moveCommandLabel                   = [SKLabelNode labelNodeWithFontNamed:kSIFontFuturaMedium];
     
     /*It Coins Label*/
-    _itCoinsButtonLabel                 = [[HLLabelButtonNode alloc] initWithColor:[SKColor clearColor]
-                                                                              size:CGSizeMake(_progressBarSizeFreeCoin.width - VERTICAL_SPACING_4 - _coinSize.width - VERTICAL_SPACING_4,
-                                                                                              _progressBarSizeFreeCoin.height)];
+    _itCoinsButtonLabel                 = [SKLabelNode labelNodeWithFontNamed:kSIFontUltra];// [[HLLabelButtonNode alloc] initWithColor:[SKColor clearColor]
+//                                                                              size:CGSizeMake(_progressBarSizeFreeCoin.width - VERTICAL_SPACING_4 - _coinSize.width - VERTICAL_SPACING_4,
+//                                                                                              _progressBarSizeFreeCoin.height)];
     
     /**Progress Bars*/
     /*Free Coin Progress Bar Sprite*/
@@ -324,7 +330,7 @@ typedef NS_ENUM(NSInteger, SIGameSceneRingNode) {
                                            borderWidth:1.0f
                                            cornerRadius:4.0f];
 
-    _coinStuffBackgroundNode            = [HLTiledNode tiledNodeWithTexture:[SKTexture textureWithImageNamed:@"diamondPlate3"] size:CGSizeMake(size.width, _coinStuffBackgroundHeight)];
+    _coinStuffBackgroundNode            = [SKSpriteNode spriteNodeWithColor:[SKColor clearColor] size:CGSizeMake(size.width, _coinStuffBackgroundHeight)];// [HLTiledNode tiledNodeWithTexture:[SKTexture textureWithImageNamed:@"diamondPlate3"] size:CGSizeMake(size.width, _coinStuffBackgroundHeight)];
 
     /**Toolbar*/
     _powerUpToolBar                     = [self addPowerUpToolbarNode:size];
@@ -350,6 +356,11 @@ typedef NS_ENUM(NSInteger, SIGameSceneRingNode) {
     _backgroundNode.backgroundColor                             = [[AppSingleton singleton] newBackgroundColor];
     _backgroundNode.delegate                                    = self;
     [_backgroundNode hlSetGestureTarget:_backgroundNode];
+    
+    /*Background for ad banner*/
+    _adBackgroundNode.anchorPoint                               = CGPointMake(0.0f, 0.0f);
+    _adBackgroundNode.physicsBody.categoryBitMask               = uiControlCategory;
+    _adBackgroundNode.zPosition                                 = SIGameNodeZPositionLayerBackground / SIGameNodeZPositionLayerCount;
     
     /**Labels*/
     /*Total Score Label*/
@@ -424,17 +435,13 @@ typedef NS_ENUM(NSInteger, SIGameSceneRingNode) {
     
     /*It Coins Label*/
     _itCoinsButtonLabel.text                                    = [NSString stringWithFormat:@"x%d",[[[MKStoreKit sharedKit] availableCreditsForConsumable:kSIIAPConsumableIDCoins] intValue]];
-    _itCoinsButtonLabel.fontColor                               = [SKColor blackColor];
-    _itCoinsButtonLabel.fontSize                                = _coinSize.height * 0.66;
-    _itCoinsButtonLabel.fontName                                = kSIFontUltra;
-    _itCoinsButtonLabel.verticalAlignmentMode                   = HLLabelNodeVerticalAlignFont;
-    _itCoinsButtonLabel.automaticWidth                          = YES;
-    _itCoinsButtonLabel.labelPadX                               = 4.0f;
+    _itCoinsButtonLabel.fontColor                               = [SKColor whiteColor];
+    _itCoinsButtonLabel.fontSize                                = _coinSize.height;// * 0.66;
     _itCoinsButtonLabel.zPosition                               = SIGameNodeZPositionLayerBarDetail / SIGameNodeZPositionLayerCount;
     _itCoinsButtonLabel.physicsBody.categoryBitMask             = uiControlCategory;
-    _itCoinsButtonLabel.cornerRadius                            = 4.0f;
-    _itCoinsButtonLabel.color                                   = [SKColor whiteColor];
-
+    [_itCoinsButtonLabel setHorizontalAlignmentMode:SKLabelHorizontalAlignmentModeLeft];
+    [_itCoinsButtonLabel setVerticalAlignmentMode:SKLabelVerticalAlignmentModeBottom];
+    
     _blurView.dynamic                                           = NO;
     _blurView.contentMode                                       = UIViewContentModeCenter;
 
@@ -443,17 +450,21 @@ typedef NS_ENUM(NSInteger, SIGameSceneRingNode) {
         [_progressBarMove               runAction:initFadeOut];
         [_pauseButtonNode               runAction:initFadeOut];
         [_totalScoreLabel               runAction:initFadeOut];
-        [_powerUpToolBarBackgroundNode  runAction:initFadeOut];
-        [_coinStuffBackgroundNode       runAction:initFadeOut];
+        [_powerUpToolBar                runAction:initFadeOut];
+//        [_coinStuffBackgroundNode       runAction:initFadeOut];
         [_progressBarPowerUp            runAction:initFadeOut];
     } else {
         [_progressBarPowerUp    runAction:initFadeOut];
     }
 }
 - (void)layoutControlsWithSize:(CGSize)size {
-    _backgroundNode.position                                    = CGPointMake(0.0f, 0.0f); //_powerUpToolBarBackgroundHeight);
+
+    _backgroundNode.position                                    = CGPointMake(0.0f, [MainViewController bannerViewHeight]);
     [self addChild:_backgroundNode];
     [self registerDescendant:_backgroundNode withOptions:[NSSet setWithObject:HLSceneChildGestureTarget]];
+    
+    _adBackgroundNode.position                                  = CGPointMake(0.0f, 0.0f);
+    [self addChild:_adBackgroundNode];
     
     /**Labels*/
     /*Total Score Label*/
@@ -504,8 +515,8 @@ typedef NS_ENUM(NSInteger, SIGameSceneRingNode) {
     [self addChild:_powerUpToolBarBackgroundNode];
     
     /**Power Up Toolbar*/
-    _powerUpToolBar.position                                    = CGPointMake(0.0f, VERTICAL_SPACING_4);
-    [_powerUpToolBarBackgroundNode addChild:_powerUpToolBar];
+    _powerUpToolBar.position                                    = CGPointMake(0.0f, 0.0f);
+    [self addChild:_powerUpToolBar];
     [_powerUpToolBar hlSetGestureTarget:_powerUpToolBar];
     [self registerDescendant:_powerUpToolBar withOptions:[NSSet setWithObject:HLSceneChildGestureTarget]];
     
@@ -515,9 +526,8 @@ typedef NS_ENUM(NSInteger, SIGameSceneRingNode) {
     [_coinStuffBackgroundNode addChild:_coin];
     
     /*IT Coins Label*/
-    _itCoinsButtonLabel.anchorPoint                             = CGPointMake(0.0f, 1.0f);
     _itCoinsButtonLabel.position                                = CGPointMake(VERTICAL_SPACING_4 + _coinSize.width + VERTICAL_SPACING_4,
-                                                                              -1.0f * VERTICAL_SPACING_4);
+                                                                              -1.0f * VERTICAL_SPACING_4 - _coinSize.height);
     [_coinStuffBackgroundNode addChild:_itCoinsButtonLabel];
     
     /*Move Progress Bar Sprite*/
@@ -549,8 +559,8 @@ typedef NS_ENUM(NSInteger, SIGameSceneRingNode) {
         SKAction *fadeIn = [SKAction fadeInWithDuration:0.5f];
         [_progressBarMove               runAction:fadeIn];
         [_totalScoreLabel               runAction:fadeIn];
-        [_powerUpToolBarBackgroundNode  runAction:fadeIn];
-        [_coinStuffBackgroundNode       runAction:fadeIn];
+        [_powerUpToolBar                runAction:fadeIn];
+//        [_coinStuffBackgroundNode       runAction:fadeIn];
         [_pauseButtonNode               runAction:fadeIn];
 //        [_progressBarPowerUp            runAction:fadeIn];
         
@@ -1054,8 +1064,8 @@ typedef NS_ENUM(NSInteger, SIGameSceneRingNode) {
     [_progressBarMove               runAction:fadeOut];
     [_moveCommandLabel              runAction:fadeOut];
     [_pauseButtonNode               runAction:fadeOut];
-    [_powerUpToolBarBackgroundNode  runAction:fadeOut];
     [_powerUpToolBar                runAction:fadeOut];
+//    [_powerUpToolBar                runAction:fadeOut];
     
     /*Pause Game*/
     [[AppSingleton singleton] pause];
@@ -1083,7 +1093,7 @@ typedef NS_ENUM(NSInteger, SIGameSceneRingNode) {
     [_progressBarMove               runAction:fadeIn];
     [_moveCommandLabel              runAction:fadeIn];
     [_pauseButtonNode               runAction:fadeIn];
-    [_powerUpToolBarBackgroundNode  runAction:fadeIn];
+//    [_powerUpToolBarBackgroundNode  runAction:fadeIn];
     [_powerUpToolBar                runAction:fadeIn];
 
     SKAction *resumeGameBlock = [SKAction runBlock:^{
@@ -1407,16 +1417,16 @@ typedef NS_ENUM(NSInteger, SIGameSceneRingNode) {
 #pragma mark - Banner Ad Methods
 - (void)bannerAdDidLoad {
     SKAction *move = [SKAction moveByX:0.0f y:[MainViewController bannerViewHeight] duration:1.0f];
-    [_powerUpToolBarBackgroundNode runAction:move];
-//    [_powerUpToolBar        runAction:move];
-    [_progressBarPowerUp    runAction:move];
+//    [_powerUpToolBarBackgroundNode runAction:move];
+    [_powerUpToolBar        runAction:move];
+//    [_progressBarPowerUp    runAction:move];
 }
 
 - (void)bannerAdDidUnload {
     SKAction *move = [SKAction moveByX:0.0f y:-[MainViewController bannerViewHeight] duration:1.0f];
-//    [_powerUpToolBar        runAction:move];
-    [_powerUpToolBarBackgroundNode runAction:move];
+    [_powerUpToolBar        runAction:move];
+//    [_powerUpToolBarBackgroundNode runAction:move];
 
-    [_progressBarPowerUp    runAction:move];
+//    [_progressBarPowerUp    runAction:move];
 }
 @end
