@@ -167,9 +167,9 @@ enum {
     
     if (gestureRecognizer.state == UIGestureRecognizerStateEnded) {
         if (_pinchDirection < 0.0f) {
-            [self.delegate gestureEnded:SIMovePinch siMoveCommandAction:SIMoveCommandActionPinchNegative];
+            [self.delegate gestureEnded:SIMovePinch siMoveCommandAction:SIMoveCommandActionPinchNegative gestureRecgonizer:gestureRecognizer];
         } else {
-            [self.delegate gestureEnded:SIMovePinch siMoveCommandAction:SIMoveCommandActionPinchPositive];
+            [self.delegate gestureEnded:SIMovePinch siMoveCommandAction:SIMoveCommandActionPinchPositive gestureRecgonizer:gestureRecognizer];
         }
     }
 }
@@ -179,7 +179,7 @@ enum {
         return;
     }
     if (gestureRecognizer.state == UIGestureRecognizerStateEnded) {
-        [self.delegate gestureEnded:SIMoveSwype siMoveCommandAction:SIMoveCommandActionSwypeNone];
+        [self.delegate gestureEnded:SIMoveSwype siMoveCommandAction:SIMoveCommandActionSwypeNone gestureRecgonizer:gestureRecognizer];
     }
 }
 
@@ -188,7 +188,7 @@ enum {
         return;
     }
     if (gestureRecognizer.state == UIGestureRecognizerStateEnded) {
-        [self.delegate gestureEnded:SIMoveSwype siMoveCommandAction:SIMoveCommandActionSwypeUp];
+        [self.delegate gestureEnded:SIMoveSwype siMoveCommandAction:SIMoveCommandActionSwypeUp gestureRecgonizer:gestureRecognizer];
     }
 }
 
@@ -197,7 +197,7 @@ enum {
         return;
     }
     if (gestureRecognizer.state == UIGestureRecognizerStateEnded) {
-        [self.delegate gestureEnded:SIMoveSwype siMoveCommandAction:SIMoveCommandActionSwypeDown];
+        [self.delegate gestureEnded:SIMoveSwype siMoveCommandAction:SIMoveCommandActionSwypeDown gestureRecgonizer:gestureRecognizer];
     }
 }
 
@@ -206,7 +206,7 @@ enum {
         return;
     }
     if (gestureRecognizer.state == UIGestureRecognizerStateEnded) {
-        [self.delegate gestureEnded:SIMoveSwype siMoveCommandAction:SIMoveCommandActionSwypeLeft];
+        [self.delegate gestureEnded:SIMoveSwype siMoveCommandAction:SIMoveCommandActionSwypeLeft gestureRecgonizer:gestureRecognizer];
     }
 }
 
@@ -215,7 +215,7 @@ enum {
         return;
     }
     if (gestureRecognizer.state == UIGestureRecognizerStateEnded) {
-        [self.delegate gestureEnded:SIMoveSwype siMoveCommandAction:SIMoveCommandActionSwypeRight];
+        [self.delegate gestureEnded:SIMoveSwype siMoveCommandAction:SIMoveCommandActionSwypeRight gestureRecgonizer:gestureRecognizer];
     }
 }
 
@@ -225,7 +225,7 @@ enum {
     }
 
     if (gestureRecognizer.state == UIGestureRecognizerStateEnded) {
-        [self.delegate gestureEnded:SIMoveTap siMoveCommandAction:SIMoveCommandActionTap];
+        [self.delegate gestureEnded:SIMoveTap siMoveCommandAction:SIMoveCommandActionTap gestureRecgonizer:gestureRecognizer];
     }
 }
 

@@ -429,6 +429,7 @@ extern NSString *const kSISoundFXInitalize;
 
 #pragma mark - EmitterNodes
 extern NSString *const kSIEmitterFileTypeSKS;
+extern NSString *const kSIEmitterExplosionTouch;
 extern NSString *const kSIEmitterSpark;
 
 #pragma mark - Game Center Leaderboard IDs
@@ -440,6 +441,7 @@ extern NSString *const kSIGameCenterLeaderBoardIDHandTwo;
 + (BOOL)isBackgroundSoundAllowed;
 + (BOOL)isFXAllowed;
 + (NSString *)pathForSparkEmitter;
++ (NSString *)pathForTouchExplosionEmitter;
 + (SKTextureAtlas *)backgroundAtlas;
 + (SKTextureAtlas *)buttonAtlas;
 + (SKTextureAtlas *)imagesAtlas;

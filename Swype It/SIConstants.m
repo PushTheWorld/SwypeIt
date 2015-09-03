@@ -249,6 +249,7 @@ NSString *const kSISoundFXInitalize                                 = @"swypeItF
 
 #pragma mark - EmitterNodes
 NSString *const kSIEmitterFileTypeSKS                               = @"sks";
+NSString *const kSIEmitterExplosionTouch                            = @"explosionTouch";
 NSString *const kSIEmitterSpark                                     = @"sparkRevA";
 
 #pragma mark - Game Center Leaderboard IDs
@@ -260,6 +261,9 @@ NSString *const kSIGameCenterLeaderBoardIDHandTwo                   = @"GHS";
 @implementation SIConstants 
 + (NSString *)pathForSparkEmitter {
     return [[NSBundle mainBundle] pathForResource:kSIEmitterSpark ofType:kSIEmitterFileTypeSKS];
+}
++ (NSString *)pathForTouchExplosionEmitter {
+    return [[NSBundle mainBundle] pathForResource:kSIEmitterExplosionTouch ofType:kSIEmitterFileTypeSKS];
 }
 + (SKTextureAtlas *)backgroundAtlas {
     return [SKTextureAtlas atlasNamed:kSIAtlasBackground];

@@ -104,7 +104,7 @@ typedef NS_ENUM(NSInteger, SIGameSceneRingNode) {
     CGSize                                   _backgroundSize;
     CGSize                                   _buttonSize;
     CGSize                                   _coinSize;
-    CGSize                                   _progressBarSize;
+    CGSize                                   _progressBarSizeMove;
     CGSize                                   _progressBarSizeFreeCoin;
     CGSize                                   _progressBarSizePowerUp;
     CGSize                                   _toolbarNodeSize;
@@ -250,7 +250,7 @@ typedef NS_ENUM(NSInteger, SIGameSceneRingNode) {
     }
     _buttonSize                         = CGSizeMake(size.width/5.0, size.width/5.0f);
 
-    _progressBarSize                    = CGSizeMake(size.width / 2.0f, (size.width / 2.0f) * 0.2);
+    _progressBarSizeMove                = CGSizeMake(size.width / 2.0f, (size.width / 2.0f) * 0.2);
     _progressBarSizeFreeCoin            = CGSizeMake(size.width / 2.0f, (size.width / 2.0f) * 0.2);
     _progressBarSizePowerUp             = CGSizeMake(size.width - VERTICAL_SPACING_16, (size.width / 2.0f) * 0.3);
     _progressBarCornerRadius            = 12.0f;
@@ -258,7 +258,6 @@ typedef NS_ENUM(NSInteger, SIGameSceneRingNode) {
     _coinSize                           = CGSizeMake(_progressBarSizeFreeCoin.height, _progressBarSizeFreeCoin.height);
     _coinStuffBackgroundHeight          = VERTICAL_SPACING_4 + _progressBarSizeFreeCoin.height + VERTICAL_SPACING_4;
     _powerUpToolBarBackgroundHeight     = VERTICAL_SPACING_4 + _buttonSize.height + VERTICAL_SPACING_4;
-    _moveFactor                         = VERTICAL_SPACING_4 + _powerUpToolBarBackgroundHeight + VERTICAL_SPACING_4 + (_progressBarSizePowerUp.height / 2.0f);
 
     if ([MainViewController isPremiumUser]) {
         _adBannderSize                  = CGSizeZero;
@@ -267,7 +266,9 @@ typedef NS_ENUM(NSInteger, SIGameSceneRingNode) {
         _adBannderSize                  = CGSizeMake(size.width, [MainViewController bannerViewHeight]);
         _backgroundSize                 = CGSizeMake(size.width, size.height - _adBannderSize.height);
     }
+    _moveFactor                         = _backgroundSize.width + (_progressBarSizePowerUp.width / 2.0f) + VERTICAL_SPACING_8;
 
+    
     _toolbarHorizontalSpacing           = 10.0f;
     CGFloat toolBarNodeWidth            = (SCREEN_WIDTH - (4.0f * _toolbarHorizontalSpacing)) / 3.0f;
     _toolbarNodeSize                    = CGSizeMake(toolBarNodeWidth, toolBarNodeWidth);
@@ -313,7 +314,7 @@ typedef NS_ENUM(NSInteger, SIGameSceneRingNode) {
                                            cornerRadius:4.0f];
     /*Move Progress Bar Sprite*/
     _progressBarMove                    = [[TCProgressBarNode alloc]
-                                           initWithSize:_progressBarSize
+                                           initWithSize:_progressBarSizeMove
                                            backgroundColor:[UIColor grayColor]
                                            fillColor:[UIColor redColor]
                                            borderColor:[UIColor blackColor]
@@ -344,7 +345,6 @@ typedef NS_ENUM(NSInteger, SIGameSceneRingNode) {
     _pauseButtonNode                    = [[HLLabelButtonNode alloc] initWithTexture:[[SIConstants buttonAtlas] textureNamed:kSIImageButtonPause]];
     
     _blurView                           = [[FXBlurView alloc] init];
-
 }
 - (void)setupControlsWithSize:(CGSize)size {
 //    self.scaleMode                          = SKSceneScaleModeAspectFill;
@@ -379,6 +379,8 @@ typedef NS_ENUM(NSInteger, SIGameSceneRingNode) {
     _moveCommandLabel.zPosition                                 = SIGameNodeZPositionLayerGameDetail / SIGameNodeZPositionLayerCount;
     _moveCommandLabel.userInteractionEnabled                    = YES;
     _moveCommandLabel.name                                      = kSINodeGameMoveCommand;
+    _moveCommandLabel.verticalAlignmentMode                     = SKLabelVerticalAlignmentModeCenter;
+    _moveCommandLabel.horizontalAlignmentMode                   = SKLabelHorizontalAlignmentModeCenter;
     
     /*Move Progress Bar Sprite*/
     _progressBarMove.progress                                   = 1.0f;
@@ -447,7 +449,7 @@ typedef NS_ENUM(NSInteger, SIGameSceneRingNode) {
 
     SKAction *initFadeOut = [SKAction fadeOutWithDuration:0.0f];
     if ([AppSingleton singleton].willResume == NO) {
-        [_progressBarMove               runAction:initFadeOut];
+//        [_progressBarMove               runAction:initFadeOut];
         [_pauseButtonNode               runAction:initFadeOut];
         [_totalScoreLabel               runAction:initFadeOut];
         [_powerUpToolBar                runAction:initFadeOut];
@@ -469,22 +471,18 @@ typedef NS_ENUM(NSInteger, SIGameSceneRingNode) {
     /**Labels*/
     /*Total Score Label*/
     _totalScoreLabel.position                                   = CGPointMake((size.width / 2.0f),
-                                                                              size.height - (_totalScoreLabel.frame.size.height) - VERTICAL_SPACING_8 - _coinStuffBackgroundHeight);
+                                                                              _backgroundSize.height - _totalScoreLabel.fontSize - VERTICAL_SPACING_8 - _coinStuffBackgroundHeight);
     [_backgroundNode addChild:_totalScoreLabel];
-
-    /*Move Command Label*/
-    _moveCommandLabel.position                                  = CGPointMake((size.width / 2.0f),
-                                                                              size.height / 2.0f);
-    [_backgroundNode addChild:_moveCommandLabel];
     
+    /**Pause Node*/
     _pauseButtonNode.anchorPoint                                = CGPointMake(0.0f, 1.0f);
     _pauseButtonNode.name                                       = kSINodeButtonPause;
     _pauseButtonPoint                                           = CGPointMake(VERTICAL_SPACING_8,
-                                                                              size.height - _coinStuffBackgroundHeight - VERTICAL_SPACING_8);
+                                                                              _backgroundSize.height - _coinStuffBackgroundNode.frame.size.height - VERTICAL_SPACING_8);
     _pauseButtonNode.position                                   = _pauseButtonPoint;
     [_backgroundNode addChild:_pauseButtonNode];
     
-//    [_pauseButtonNode hlSetGestureTarget:_backgroundNode];
+    //    [_pauseButtonNode hlSetGestureTarget:_backgroundNode];
     
     HLTapGestureTarget *pauseGestureTarget                      = [[HLTapGestureTarget alloc] init];
     pauseGestureTarget.handleGestureBlock                       = ^(UIGestureRecognizer *gestureRecognizer) {
@@ -494,16 +492,21 @@ typedef NS_ENUM(NSInteger, SIGameSceneRingNode) {
     };
     [_pauseButtonNode hlSetGestureTarget:pauseGestureTarget];
     [self registerDescendant:_pauseButtonNode withOptions:[NSSet setWithObject:HLSceneChildGestureTarget]];
+
+    /**Move command stuff*/
+    /*Move Command Label*/
+    _moveCommandLabel.position                                  = CGPointMake(_backgroundSize.width / 2.0f, (_backgroundSize.height/ 2.0f));
+    [_backgroundNode addChild:_moveCommandLabel];
     
-    /**Progress Bars*/
-    /*Move Progress Bar Sprite*/
-    _progressBarMove.position                                   = CGPointMake(CGRectGetMidX(self.frame),
-                                                                              (size.height / 2.0f) - _moveCommandLabel.frame.size.height);
+    /*Move Progress Bar Sprite*/ //Progress bar anchor point is 0.5,0.5
+    _progressBarMove.position                                   = CGPointMake(_backgroundSize.width / 2.0f,
+                                                                              (_backgroundSize.height / 2.0f) - _progressBarSizeMove.height - VERTICAL_SPACING_8);
     [_backgroundNode addChild:_progressBarMove];
     
-    /*Power Up Progress Bar Sprite*/
-    _progressBarPowerUp.position                                = CGPointMake(CGRectGetMidX(self.frame),
-                                                                              0.0f);
+    /**POWER UP PROGRESS BAR*/
+    /*Power Up Progress Bar Sprite*/ //Progress bar anchor point is 0.5,0.5
+    _progressBarPowerUp.position                                = CGPointMake(-1.0f * _backgroundSize.width,
+                                                                              (_backgroundSize.height / 2.0f) + _progressBarSizePowerUp.height);
     [_backgroundNode addChild:_progressBarPowerUp];
     
     
@@ -626,15 +629,18 @@ typedef NS_ENUM(NSInteger, SIGameSceneRingNode) {
     return toolbarNode;
 }
 #pragma mark - SIGameNode delegate
-- (void)gestureEnded:(SIMove)move siMoveCommandAction:(SIMoveCommandAction)siMoveCommandAction {
+- (void)gestureEnded:(SIMove)move siMoveCommandAction:(SIMoveCommandAction)siMoveCommandAction gestureRecgonizer:(UIGestureRecognizer *)gestureRecognizer {
     [self checkIfGameShallStartOrResume];
     if ([AppSingleton singleton].currentGame.isPaused == NO) {
         /*Set the move action*/
+        [self explosionFromGestureRecognizer:gestureRecognizer];
+        
         _moveScoreAction                            = siMoveCommandAction;
         
         /*Tell the singleton about the move that was just entered...*/
         /*  we do not know if it is the correct move... don't launch the command yet*/
         [[AppSingleton singleton] moveEnterForType:move];
+        
     }
 }
 - (void)monkeyTapped:(SKNode *)node {
@@ -647,6 +653,27 @@ typedef NS_ENUM(NSInteger, SIGameSceneRingNode) {
     _totalScoreLabel.text                           = [NSString stringWithFormat:@"%0.2f",[AppSingleton singleton].currentGame.totalScore];
     
     self.view.backgroundColor                       = [[AppSingleton singleton] newBackgroundColor];
+}
+- (void)explosionFromGestureRecognizer:(UIGestureRecognizer *)gestureRecognizer {
+    
+    CGPoint explosionPoint = CGPointZero;
+    
+    if ([gestureRecognizer numberOfTouches] > 1) {
+        CGPoint firstPoint      = [gestureRecognizer locationOfTouch:0 inView:gestureRecognizer.view];
+        CGPoint secondPoint     = [gestureRecognizer locationOfTouch:1 inView:gestureRecognizer.view];
+        
+        explosionPoint          = CGPointMake((firstPoint.x + secondPoint.x) / 2.0f, (firstPoint.y + secondPoint.y) / 2.0f);
+    } else {
+        explosionPoint          = [gestureRecognizer locationOfTouch:0 inView:gestureRecognizer.view];
+    }
+    
+    explosionPoint              = CGPointMake(explosionPoint.x, self.view.scene.frame.size.height - explosionPoint.y);
+    
+    SKEmitterNode *sparkEmitter                 = [NSKeyedUnarchiver unarchiveObjectWithFile:[SIConstants pathForTouchExplosionEmitter]];
+    sparkEmitter.position                       = explosionPoint;
+    sparkEmitter.zPosition                      = SIGameNodeZPositionLayerMoveScoreEmitter / SIGameNodeZPositionLayerCount;
+    [self addChild:sparkEmitter];
+
 }
 #pragma mark - Gesture Recognizer Methods
 - (void)shakeRegistered {
@@ -856,7 +883,7 @@ typedef NS_ENUM(NSInteger, SIGameSceneRingNode) {
 - (SKLabelNode *)launchMoveCommand {
     SKLabelNode *newMoveCommandLabel                = [GameScene moveCommandLabelNode];
     newMoveCommandLabel.text                        = [Game stringForMove:[AppSingleton singleton].currentGame.currentMove];
-    newMoveCommandLabel.position                    = CGPointMake(self.view.frame.size.width / 2.0f,self.view.frame.size.height / 2.0f);
+    newMoveCommandLabel.position                    = CGPointMake(_backgroundSize.width / 2.0f, (_backgroundSize.height/ 2.0f));
     [_backgroundNode addChild:newMoveCommandLabel];
     
     SKAction *fadeActionSequenceForNewLabel         = [SKAction sequence:@[[SKAction fadeOutWithDuration:0.0f],
@@ -877,6 +904,8 @@ typedef NS_ENUM(NSInteger, SIGameSceneRingNode) {
     label.zPosition                     = SIGameNodeZPositionLayerGameDetail / SIGameNodeZPositionLayerCount;
     label.userInteractionEnabled        = YES;
     label.name                          = kSINodeGameMoveCommand;
+    label.horizontalAlignmentMode       = SKLabelHorizontalAlignmentModeCenter;
+    label.verticalAlignmentMode         = SKLabelVerticalAlignmentModeCenter;
     return label;
 }
 - (void)presentMoveScore:(NSNumber *)score {
@@ -992,30 +1021,32 @@ typedef NS_ENUM(NSInteger, SIGameSceneRingNode) {
     [AppSingleton singleton].currentGame.currentPowerUp = SIPowerUpNone;
     
 }
+- (void)movePowerUpProgressOnScreen:(BOOL)willMoveOnScreen {
+    if (willMoveOnScreen) {
+        [_progressBarPowerUp runAction:[SKAction fadeInWithDuration:0.3]];
+        
+        SKAction *moveAction = [SKAction moveByX:_moveFactor y:0.0f duration:0.3f];
+        [_progressBarPowerUp runAction:moveAction];
+
+    } else {
+        [_progressBarPowerUp runAction:[SKAction fadeOutWithDuration:0.3]];
+        
+        SKAction *moveAction = [SKAction moveByX:-1.0f * _moveFactor y:0.0f duration:0.3f];
+        [_progressBarPowerUp runAction:moveAction];
+
+    }
+}
 #pragma mark - Time Freeze
 - (void)startPowerUpTimeFreeze {
     /*Do any UI Set U[ for Time Freeze*/
-//    SKAction *fadeIn = [SKAction fadeInWithDuration:0.3];
-    [_progressBarPowerUp runAction:[SKAction fadeInWithDuration:0.3]];
-
-    SKAction *moveAction = [SKAction moveByX:0.0f y:_moveFactor duration:0.3f];
-    [_progressBarPowerUp runAction:moveAction];
-//    [_pauseButtonNode runAction:moveAction];
-
+    [self movePowerUpProgressOnScreen:YES];
     /*Generic Start Power Up*/
     [self startPowerUpAllWithDuration:SIPowerUpDurationTimeFreeze withNode:nil];
 }
 - (void)endPowerUpTimeFreeze {
     /*Do any UI break down for Time Freeze*/
-//    SKAction *fadeOut = [SKAction fadeOutWithDuration:0.3];
-    [_progressBarPowerUp runAction:[SKAction fadeOutWithDuration:0.3]];
+    [self movePowerUpProgressOnScreen:NO];
 
-    SKAction *moveAction = [SKAction moveByX:0.0f y:-1.0f * _moveFactor duration:0.3f];
-    [_progressBarPowerUp runAction:moveAction];
-//    [_pauseButtonNode runAction:moveAction];
-    
-//    [_powerUpToolBar setEnabled:YES forTool:kSINodeButtonTimeFreeze];
-    
     /*Generica End Power Up*/
     [self endPowerUpAll];
 }
@@ -1023,30 +1054,15 @@ typedef NS_ENUM(NSInteger, SIGameSceneRingNode) {
 #pragma mark - Rapid Fire
 - (void)startPowerUpRapidFire {
     /*Do any UI Setup for Rapid Fire*/
-//    SKAction *fadeIn = [SKAction fadeInWithDuration:0.3];
-//    [_progressBarPowerUp runAction:fadeIn];
-    [_progressBarPowerUp runAction:[SKAction fadeInWithDuration:0.3]];
+    [self movePowerUpProgressOnScreen:YES];
 
-    SKAction *moveAction = [SKAction moveByX:0.0f y:_moveFactor duration:0.3f];
-    [_progressBarPowerUp runAction:moveAction];
-//    [_pauseButtonNode runAction:moveAction];
-    
-//    [_powerUpToolBar setEnabled:NO forTool:kSINodeButtonRapidFire];
-
-    
     /*Generic Start Power Up*/
     [self startPowerUpAllWithDuration:SIPowerUpDurationRapidFire withNode:nil];
 }
 - (void)endPowerUpRapidFire {
     /*Do any UI break down for Rapid Fire*/
-    [_progressBarPowerUp runAction:[SKAction fadeOutWithDuration:0.3]];
+    [self movePowerUpProgressOnScreen:NO];
 
-    SKAction *moveAction = [SKAction moveByX:0.0f y:-1.0f * _moveFactor duration:0.3f];
-    [_progressBarPowerUp runAction:moveAction];
-//    [_pauseButtonNode runAction:moveAction];
-    
-//    [_powerUpToolBar setEnabled:YES forTool:kSINodeButtonRapidFire];
-    
     /*Generica End Power Up*/
     [self endPowerUpAll];
 }
@@ -1173,15 +1189,9 @@ typedef NS_ENUM(NSInteger, SIGameSceneRingNode) {
     /*Remove that monkey*/
     [monkey removeFromParent];
     
-//    NSLog(@"Before Monkey tapped total score is: %0.2f",[AppSingleton singleton].currentGame.totalScore);
-    
     [AppSingleton singleton].currentGame.totalScore = [AppSingleton singleton].currentGame.totalScore + VALUE_OF_MONKEY;
-    
-//    NSLog(@"After adding VALUE_OF_MONKEY score to tapped Monkey the total score is: %0.2f",[AppSingleton singleton].currentGame.totalScore);
 
     [[AppSingleton singleton] setAndCheckDefaults:VALUE_OF_MONKEY];
-    
-//    NSLog(@"After setAndCheckDefaults total score is: %0.2f",[AppSingleton singleton].currentGame.totalScore);
     
     _totalScoreLabel.text                       = [NSString stringWithFormat:@"%0.2f",[AppSingleton singleton].currentGame.totalScore];
     

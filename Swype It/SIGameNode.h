@@ -23,7 +23,7 @@
  The delegate invoked on interaction
  
  */
-- (void)gestureEnded:(SIMove)move siMoveCommandAction:(SIMoveCommandAction)siMoveCommandAction;
+- (void)gestureEnded:(SIMove)move siMoveCommandAction:(SIMoveCommandAction)siMoveCommandAction gestureRecgonizer:(UIGestureRecognizer *)gestureRecognizer;
 - (void)monkeyTapped:(SKNode *)node;
 
 @end
