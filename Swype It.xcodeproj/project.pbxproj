@@ -88,7 +88,7 @@
 		0988CC941B70C82300BF429D /* SIStoreButtonNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 0988CC931B70C82300BF429D /* SIStoreButtonNode.m */; };
 		0988CC961B7203CA00BF429D /* Ultra.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0988CC951B7203CA00BF429D /* Ultra.ttf */; };
 		0988CC9B1B720F3B00BF429D /* images.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 0988CC9A1B720F3B00BF429D /* images.atlas */; };
-		098B3B431B378B89000D4702 /* AppSingleton.m in Sources */ = {isa = PBXBuildFile; fileRef = 098B3B421B378B89000D4702 /* AppSingleton.m */; };
+		098B3B431B378B89000D4702 /* SIGameSingleton.m in Sources */ = {isa = PBXBuildFile; fileRef = 098B3B421B378B89000D4702 /* SIGameSingleton.m */; };
 		098B3B471B378C27000D4702 /* Game.m in Sources */ = {isa = PBXBuildFile; fileRef = 098B3B461B378C27000D4702 /* Game.m */; };
 		098B3B4A1B378EC0000D4702 /* FXReachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 098B3B491B378EC0000D4702 /* FXReachability.m */; };
 		098B3B4E1B379C82000D4702 /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 098B3B4D1B379C82000D4702 /* CoreMotion.framework */; };
@@ -104,6 +104,7 @@
 		099A62311B5C8750009BF339 /* EndGameScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 099A62301B5C8750009BF339 /* EndGameScene.m */; };
 		099A62331B5C8B12009BF339 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 099A62321B5C8B12009BF339 /* Main.storyboard */; };
 		099A62361B5C917A009BF339 /* CustomProgressBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 099A62351B5C917A009BF339 /* CustomProgressBar.m */; };
+		09A4889B1B99D92B0075F41C /* PowerUp.m in Sources */ = {isa = PBXBuildFile; fileRef = 09A4889A1B99D92B0075F41C /* PowerUp.m */; };
 		09A57ABB1B788BEF003B6F08 /* SIGameNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 09A57ABA1B788BEF003B6F08 /* SIGameNode.m */; };
 		09A904061B6616C300C48A9B /* SIConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 091FED751B3733AF0071F8DC /* SIConstants.m */; };
 		09A904071B6616DA00C48A9B /* Game.m in Sources */ = {isa = PBXBuildFile; fileRef = 098B3B461B378C27000D4702 /* Game.m */; };
@@ -262,8 +263,8 @@
 		0988CC931B70C82300BF429D /* SIStoreButtonNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SIStoreButtonNode.m; sourceTree = "<group>"; };
 		0988CC951B7203CA00BF429D /* Ultra.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Ultra.ttf; sourceTree = "<group>"; };
 		0988CC9A1B720F3B00BF429D /* images.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = images.atlas; sourceTree = "<group>"; };
-		098B3B411B378B89000D4702 /* AppSingleton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppSingleton.h; sourceTree = "<group>"; };
-		098B3B421B378B89000D4702 /* AppSingleton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = AppSingleton.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		098B3B411B378B89000D4702 /* SIGameSingleton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SIGameSingleton.h; sourceTree = "<group>"; };
+		098B3B421B378B89000D4702 /* SIGameSingleton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = SIGameSingleton.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		098B3B451B378C27000D4702 /* Game.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Game.h; sourceTree = "<group>"; };
 		098B3B461B378C27000D4702 /* Game.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = Game.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		098B3B481B378EC0000D4702 /* FXReachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FXReachability.h; sourceTree = "<group>"; };
@@ -287,6 +288,8 @@
 		099A62321B5C8B12009BF339 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		099A62341B5C917A009BF339 /* CustomProgressBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomProgressBar.h; sourceTree = "<group>"; };
 		099A62351B5C917A009BF339 /* CustomProgressBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomProgressBar.m; sourceTree = "<group>"; };
+		09A488991B99D92B0075F41C /* PowerUp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PowerUp.h; sourceTree = "<group>"; };
+		09A4889A1B99D92B0075F41C /* PowerUp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PowerUp.m; sourceTree = "<group>"; };
 		09A57AB91B788BEF003B6F08 /* SIGameNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SIGameNode.h; sourceTree = "<group>"; };
 		09A57ABA1B788BEF003B6F08 /* SIGameNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SIGameNode.m; sourceTree = "<group>"; };
 		09B1E3591B97A33B00EDF051 /* explosionTouch.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = explosionTouch.sks; sourceTree = "<group>"; };
@@ -537,6 +540,8 @@
 			children = (
 				098B3B451B378C27000D4702 /* Game.h */,
 				098B3B461B378C27000D4702 /* Game.m */,
+				09A488991B99D92B0075F41C /* PowerUp.h */,
+				09A4889A1B99D92B0075F41C /* PowerUp.m */,
 				091FED741B3733AF0071F8DC /* SIConstants.h */,
 				091FED751B3733AF0071F8DC /* SIConstants.m */,
 			);
@@ -647,8 +652,8 @@
 		098B3B441B378B8F000D4702 /* 000 - AppSingleton */ = {
 			isa = PBXGroup;
 			children = (
-				098B3B411B378B89000D4702 /* AppSingleton.h */,
-				098B3B421B378B89000D4702 /* AppSingleton.m */,
+				098B3B411B378B89000D4702 /* SIGameSingleton.h */,
+				098B3B421B378B89000D4702 /* SIGameSingleton.m */,
 			);
 			name = "000 - AppSingleton";
 			sourceTree = "<group>";
@@ -684,12 +689,12 @@
 				099A622D1B5C6C2A009BF339 /* GameScene.m */,
 				091470F51B68F1A2006B0CC1 /* SettingsScene.h */,
 				091470F61B68F1A2006B0CC1 /* SettingsScene.m */,
+				09CB158C1B7E85DC00F9A956 /* SITestScene.h */,
+				09CB158D1B7E85DC00F9A956 /* SITestScene.m */,
 				099A62281B5C6B3B009BF339 /* StartScreenScene.h */,
 				099A62291B5C6B3B009BF339 /* StartScreenScene.m */,
 				092720DD1B5EF1C30005A6B6 /* StoreScene.h */,
 				092720DE1B5EF1C30005A6B6 /* StoreScene.m */,
-				09CB158C1B7E85DC00F9A956 /* SITestScene.h */,
-				09CB158D1B7E85DC00F9A956 /* SITestScene.m */,
 			);
 			name = Scenes;
 			sourceTree = "<group>";
@@ -963,6 +968,7 @@
 				099A62231B5C635F009BF339 /* MainViewController.m in Sources */,
 				099A622A1B5C6B3B009BF339 /* StartScreenScene.m in Sources */,
 				098B3B4A1B378EC0000D4702 /* FXReachability.m in Sources */,
+				09A4889B1B99D92B0075F41C /* PowerUp.m in Sources */,
 				094F22A61B95916E00968FB5 /* BMGlyphLabel.m in Sources */,
 				09DB639C1B5651C100387C13 /* MKStoreKit.m in Sources */,
 				0917D4E61B6DD8240046B5FF /* HLComponentNode.m in Sources */,
@@ -988,7 +994,7 @@
 				09D5ED4F1B8B205B00E84179 /* SISegmentControl.m in Sources */,
 				091FED761B3733AF0071F8DC /* SIConstants.m in Sources */,
 				0917D4F21B6DD8240046B5FF /* HLOutlineLayoutManager.m in Sources */,
-				098B3B431B378B89000D4702 /* AppSingleton.m in Sources */,
+				098B3B431B378B89000D4702 /* SIGameSingleton.m in Sources */,
 				0979E6531B76AA30002FC2F2 /* MSSAlertViewController.m in Sources */,
 				099A62361B5C917A009BF339 /* CustomProgressBar.m in Sources */,
 				0917D4EE1B6DD8240046B5FF /* HLLayoutManager.m in Sources */,

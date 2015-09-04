@@ -54,7 +54,7 @@ enum {
     CGSize                                   _backgroundNodeSize;
     CGSize                                   _monkeySize;
     CGSize                                   _storeButtonNodeSize;
-    
+        
     SKSpriteNode                            *_backgroundNode;
     SKSpriteNode                            *_monkeyFace;
     
@@ -101,7 +101,7 @@ enum {
     
     _willAwardPrize = NO;
     
-    [self checkForDailyPrize];
+    _storeButtonNode.text = [self checkForDailyPrize] ? @"" : @"Buy Coins";
     
 //    [self hlSetGestureTarget:self.scene];
 //    [self registerDescendant:self.scene withOptions:[NSSet setWithObject:HLSceneChildGestureTarget]];
@@ -206,7 +206,6 @@ enum {
     }
     
     /*Store Button Label*/
-    _storeButtonNode.text                   = kSIMenuTextStartScreenStore;
     _storeButtonNode.fontName               = kSIFontFuturaMedium;
     _storeButtonNode.fontSize               = [MainViewController buttonSize:size].height / 2.0f;
     _storeButtonNode.fontColor              = [SKColor whiteColor];
@@ -253,7 +252,8 @@ enum {
     [_storeButtonNode hlSetGestureTarget:[HLTapGestureTarget tapGestureTargetWithHandleGestureBlock:^(UIGestureRecognizer *gestureRecognizer) {
         StoreScene *storeScene = [[StoreScene alloc] initWithSize:self.size willAwardPrize:_willAwardPrize];//[StoreScene sceneWithSize:self.size];
         storeScene.wasLaunchedFromMainMenu = YES;
-        [Game transisitionToSKScene:storeScene toSKView:self.view DoorsOpen:YES pausesIncomingScene:YES pausesOutgoingScene:YES duration:SCENE_TRANSISTION_DURATION];
+        [Game transisitionToSKScene:storeScene toSKView:self.view duration:SCENE_TRANSISTION_DURATION];
+//        [Game transisitionToSKScene:storeScene toSKView:self.view DoorsOpen:YES pausesIncomingScene:YES pausesOutgoingScene:YES duration:SCENE_TRANSISTION_DURATION];
         
     }]];
     [self registerDescendant:_storeButtonNode withOptions:[NSSet setWithObject:HLSceneChildGestureTarget]];
@@ -568,31 +568,35 @@ enum {
 /**
  Compares a time from the internet to determine if should give a daily prize
  */
-- (void)checkForDailyPrize {
+- (BOOL)checkForDailyPrize {
     NSDate *currentDate = [MainViewController getDateFromInternet];
     if (!currentDate) {
-        return;
+        return NO;
     }
     
     NSDate *lastPrizeGivenDate = [[NSUserDefaults standardUserDefaults] objectForKey:kSINSUserDefaultLastPrizeAwardedDate];
     if (!lastPrizeGivenDate) {
-        NSLog(@"Set date for first time...");
+//        NSLog(@"Set date for first time...");
         [[NSUserDefaults standardUserDefaults] setObject:currentDate forKey:kSINSUserDefaultLastPrizeAwardedDate];
         [[NSUserDefaults standardUserDefaults] synchronize];
+        [self willGivePrize];
+        return YES;
     } else {
         NSTimeInterval timeSinceLastLaunch = [currentDate timeIntervalSince1970] - [lastPrizeGivenDate timeIntervalSince1970];
         if (timeSinceLastLaunch > 60 * 2 && timeSinceLastLaunch < 2 * 60 * 2) { //(timeSinceLastLaunch > SECONDS_IN_DAY && timeSinceLastLaunch < 2 * SECONDS_IN_DAY) { /*Consecutive launch!!! > 24 < 48*/
-            NSLog(@"Consecutive Launch!");
+//            NSLog(@"Consecutive Launch!");
             _willAwardPrize = YES;
             [self willGivePrize];
+            return YES;
             
         } else if (timeSinceLastLaunch > 2 * 60 * 2) {  //(timeSinceLastLaunch > 2 * SECONDS_IN_DAY) { /*Non consecutive launch.... two days have passed..*/
             [[NSUserDefaults standardUserDefaults] setInteger:1 forKey:kSINSUserDefaultNumberConsecutiveAppLaunches];
             _willAwardPrize = YES;
             [self willGivePrize];
-            
+            return YES;
         } else {
-            NSLog(@"Already launched %0.0f minutes ago",timeSinceLastLaunch / 60);
+//            NSLog(@"Already launched %0.0f minutes ago",timeSinceLastLaunch / 60);
+            return NO;
         }
     }
 }

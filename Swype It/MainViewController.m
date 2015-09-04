@@ -8,11 +8,17 @@
 //  Purpose: This is the main game view controller... has HUD
 //
 // Local Controller Import
-#import "AppSingleton.h"
+#import "SIGameSingleton.h"
+#import "SIPowerUpToolbarNode.h"
 #import "EndGameScene.h"
 #import "MainViewController.h"
-#import "StartScreenScene.h"
 #import "SITestScene.h"
+// Scene Import
+#import "EndGameScene.h"
+#import "GameScene.h"
+#import "SettingsScene.h"
+#import "StartScreenScene.h"
+#import "StoreScene.h"
 // Framework Import
 #import <GameKit/GameKit.h>
 #import <iAd/iAd.h>
@@ -29,7 +35,7 @@
 #import "Game.h"
 // Other Imports
 
-@interface MainViewController () <MFMailComposeViewControllerDelegate, ADBannerViewDelegate, ADInterstitialAdDelegate, GKGameCenterControllerDelegate>
+@interface MainViewController () <MFMailComposeViewControllerDelegate, ADBannerViewDelegate, ADInterstitialAdDelegate, GKGameCenterControllerDelegate, SIGameSingletonDelegate, GameSceneDelegate>
 
 @property (strong, nonatomic) ADBannerView      *adBannerView;
 @property (strong, nonatomic) ADInterstitialAd  *interstitialAd;
@@ -40,7 +46,28 @@
 @end
 
 @implementation MainViewController {
-    CGFloat _screenHeight;
+    __weak SKScene      *_currentScene;
+
+    CGFloat              _screenHeight;
+    
+    EndGameScene        *_sceneEndGame;
+    
+    GameScene           *_sceneGame;
+    
+    HLToolbarNode       *_gameSceneToolbarPowerUp;
+    
+    SettingsScene       *_sceneSettings;
+    
+    SKTexture           *_monkeyFaceTexture;
+
+    StartScreenScene    *_sceneStart;
+    
+    StoreScene          *_sceneStore;
+
+    SKScene             *_loadingScene;
+    
+
+    
 }
 + (CGFloat)fontSizeButton {
     if (IS_IPHONE_4) {
@@ -57,15 +84,28 @@
 }
 + (CGSize)buttonSize:(CGSize)size {
     if (IS_IPHONE_4) {
-        return CGSizeMake(size.width / 1.5, size.width / 1.5 * 0.25);
+        return CGSizeMake(size.width / 1.5f, size.width / 1.5f * 0.25f);
     } else if (IS_IPHONE_5) {
-        return CGSizeMake(size.width / 1.4, size.width / 1.4 * 0.25);
+        return CGSizeMake(size.width / 1.4f, size.width / 1.4f * 0.25f);
     } else if (IS_IPHONE_6) {
-        return CGSizeMake(size.width / 1.3, size.width / 1.3 * 0.25);
+        return CGSizeMake(size.width / 1.3f, size.width / 1.3f * 0.25f);
     } else if (IS_IPHONE_6_PLUS) {
-        return CGSizeMake(size.width / 1.2, size.width / 1.2 * 0.25);
+        return CGSizeMake(size.width / 1.2f, size.width / 1.2f * 0.25f);
     } else {
-        return CGSizeMake(size.width / 1.1, size.width / 1.1 * 0.25);
+        return CGSizeMake(size.width / 1.3f, size.width / 8.0f);
+    }
+}
++ (CGFloat)fontSizeMoveCommand {
+    if (IS_IPHONE_4) {
+        return 40.0f;
+    } else if (IS_IPHONE_5) {
+        return 50.0f;
+    } else if (IS_IPHONE_6) {
+        return 60.0f;
+    } else if (IS_IPHONE_6_PLUS) {
+        return 70.0f;
+    } else {
+        return 100.0f;
     }
 }
 + (CGFloat)fontSizeHeader {
@@ -147,6 +187,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    [self preloadGameScene];
+    
     /*Start Sounds*/
     [SoundManager sharedManager].allowsBackgroundMusic  = YES;
     [SoundManager sharedManager].soundFadeDuration      = 1.0f;
@@ -176,6 +218,8 @@
     [self configureBannerAds];
     
     [self authenticateLocalPlayer];
+    
+    
 }
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
@@ -208,6 +252,12 @@
         NSLog(@"Banner Ads Hidden.");
     }
 }
+- (void)preloadGameScene {
+    [SIGameSingleton singleton];
+    _sceneGame = [[GameScene alloc] initWithSize:self.view.frame.size];
+
+}
+
 - (void)setupUserInterface {
     [self createConstants];
     [self createControls];
@@ -216,6 +266,8 @@
 }
 - (void)createConstants {
     _screenHeight               = [UIScreen mainScreen].bounds.size.height;
+    _monkeyFaceTexture          = [[SIConstants buttonAtlas] textureNamed:kSIImageFallingMonkeys];
+
 }
 - (void)createControls {
     _adBannerView               = [[ADBannerView alloc] initWithAdType:ADAdTypeBanner];
@@ -440,21 +492,17 @@
     popUpNode.backgroundSize    = CGSizeMake(sceneSize.width - 100.0f, sceneSize.height - 200.0f);
     popUpNode.backgroundColor   = [SKColor mainColor];
     popUpNode.cornerRadius      = 8.0f;
-    
-//    SIPopupNode *popUpNode = [[SIPopupNode alloc] initWithSceneSize:sceneSize
-//                                                          popUpSize:CGSizeMake(sceneSize.width - 100.0f, sceneSize.height - 200.0f)
-//                                                              title:titleNode.text
-//                                                     titleFontColor:titleNode.fontColor
-//                                                      titleFontSize:titleNode.fontSize
-//                                                      titleYPadding:VERTICAL_SPACING_16 * 2
-//                                                    backgroundColor:[SKColor mainColor]
-//                                                       cornerRadius:8.0f
-//                                                        borderWidth:8.0f
-//                                                        borderColor:[SKColor simplstMainColor]];
-    
-    
-    
+
     return popUpNode;
+}
+
+#pragma mark - Public Properties
++ (SKTexture *)sharedMonkeyFace {
+    static SKTexture *monkeyFace = nil;
+    if (!monkeyFace) {
+        monkeyFace = monkeyFaceTexture();
+    }
+    return monkeyFace;
 }
 
 #pragma mark - MFMailComposeViewContorllerDelegate
@@ -757,5 +805,71 @@
     }
     
     return currentDate;
+}
+#pragma mark - SIGameSceneDelegate Functions
+- (void)sceneDidRecieveMoveCommand:(SIMove)moveCommand {
+    [[SIGameSingleton singleton] singletonDidEnterMove:moveCommand];
+}
+
+- (BOOL)gameIsPaused {
+    return [SIGameSingleton singleton].currentGame.isPaused;
+}
+
+- (BOOL)gameIsStarted {
+    return [SIGameSingleton singleton].currentGame.isStarted;
+}
+#pragma mark - SIGameSingletonDelegate
+- (void)contorllerWillPlayFXSoundNamed:(NSString *)soundName {
+    if ([SIConstants isFXAllowed]) {
+        [[SoundManager sharedManager] playSound:soundName];
+    }
+}
+/**
+ This is called when the model is ready to start the power
+    up being sent in... all controller needs to do is tell 
+    the scene (view) to load in what ever it needs to for this
+    powerup
+ */
+- (void)sceneWillActivatePowerUp:(SIPowerUp)powerUp {
+    
+}
+
+/**
+ This is called when the model is deactivating the power up
+    All the controller needs to do is tell the scene (view)
+    to break down this powerup
+ */
+- (void)sceneWillDeactivatePowerUp:(SIPowerUp)powerUp {
+    
+}
+
+/**
+ If you want to make the view to something when a free coin 
+    is earned this is where you would do it...
+ */
+- (void)sceneWillShowFreeCoinEarned {
+    
+}
+
+/**
+ This is called when the user has reached a new high score...
+    Pretty exicting stuff to say the least.......
+ */
+- (void)sceneWillShowIsHighScore {
+    
+}
+/**
+ Prompt user for payment
+ */
+- (BOOL)sceneWillShowContinue {
+    return NO;
+}
+/**
+ This is called when we know that the model is ready with everything 
+ needed for a new move... as in we can launch the score, we can change the 
+ background color we can load a new move...
+ */
+- (void)sceneWillLoadNewMove {
+    
 }
 @end

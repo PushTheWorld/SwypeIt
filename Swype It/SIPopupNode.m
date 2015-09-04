@@ -46,7 +46,7 @@ enum {
 
 
 - (instancetype)initWithSceneSize:(CGSize)size {
-    self = [super init];
+    self = [self init];
     if (self) {
         _sceneSize                  = size;
         
@@ -121,7 +121,7 @@ enum {
         _titleText                  = titleText;
         _titleFontColor             = titleFontColor;
         _titleFontSize              = titleFontSize;
-
+        
         
         if (backgroundColor) {
             _backgroundNode.color   = backgroundColor;
@@ -195,6 +195,11 @@ enum {
 
 - (void)setTitleFontColor:(SKColor *)titleFontColor {
     _titleFontColor                 = titleFontColor;
+    [self layoutXY];
+}
+
+- (void)setTitleLabelTopPading:(CGFloat)titleLabelTopPading {
+    _titleLabelTopPading = titleLabelTopPading;
     [self layoutXY];
 }
 
@@ -361,8 +366,11 @@ enum {
         }
     }
     if ([_contentNode containsPoint:location]) {
-        *isInside       = YES;
-        return YES;
+        if ([gestureRecognizer isKindOfClass:[UITapGestureRecognizer class]]) {
+            NSLog(@"Content Node Tapped");
+            *isInside       = YES;
+            return YES;        }
+
     }
     
     return NO;

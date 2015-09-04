@@ -135,5 +135,13 @@
             return nil;
     }
 }
++ (BOOL)canAffordContinue:(int)continueCost {
+    int numberOfItCoins = [[[MKStoreKit sharedKit] availableCreditsForConsumable:kSIIAPConsumableIDCoins] intValue];
+    if (continueCost <= numberOfItCoins) {
+        return YES;
+    }
+    return NO;
+}
+
 
 @end

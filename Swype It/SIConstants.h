@@ -78,7 +78,7 @@
 #define IAP_PACK_PRICE_LARGE                09.99
 #define IAP_PACK_PRICE_EXTRA_LARGE          24.99
 
-#define SCENE_TRANSISTION_DURATION          0.5
+#define SCENE_TRANSISTION_DURATION          1.0
 #define MOVE_COMMAND_LAUNCH_DURATION        0.25
 
 #define SECONDS_IN_DAY                      60 * 60 * 24
@@ -93,6 +93,21 @@
 
 #define FREE_COINS_PER_DAY                  5
 
+#define EPSILON_NUMBER                      0.01
+
+/**
+ Creates a monkey face to be reused all over the app
+ */
+FOUNDATION_EXPORT SKTexture *monkeyFaceTexture();
+
+typedef NS_ENUM(NSInteger, SIMainViewControllerScene) {
+    SIMainControllerSceneNone,
+    SIMainControllerSceneEndGame,
+    SIMainControllerSceneGame,
+    SIMainControllerSceneSettings,
+    SIMainControllerSceneStart,
+    SIMainControllerSceneStore,
+};
 
 typedef NS_ENUM(NSInteger, SIGameMode) {
     SIGameModeOneHand,
@@ -102,7 +117,8 @@ typedef NS_ENUM(NSInteger, SIMove) {
     SIMoveTap,
     SIMoveSwype,
     SIMovePinch,
-    SIMoveShake
+    SIMoveShake,
+    SIMoveFallingMonkey
 };
 typedef NS_ENUM(NSInteger, SIPowerUp) {
     SIPowerUpNone,

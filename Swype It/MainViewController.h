@@ -20,6 +20,7 @@
 + (CGFloat)             fontSizeHeader;
 + (CGFloat)             fontSizeHeader_x2;
 + (CGFloat)             fontSizeHeader_x3;
++ (CGFloat)             fontSizeMoveCommand;
 + (CGFloat)             fontSizeParagraph;
 + (CGFloat)             fontSizeParagraph_x2;
 + (CGFloat)             fontSizeParagraph_x3;
@@ -38,6 +39,8 @@
 + (NSDate *)            getDateFromInternet;
 
 + (SIPopupNode *)       SISharedPopUpNodeTitle:(NSString *)title SceneSize:(CGSize)sceneSize;
+
++ (SKTexture *)         sharedMonkeyFace;
 
 + (SKLabelNode *)       SI_sharedLabelHeader:(NSString *)text;
 + (SKLabelNode *)       SI_sharedLabelHeader_x2:(NSString *)text;
@@ -68,5 +71,7 @@
  Returns if user is premium
  */
 + (BOOL)isPremiumUser;
+
+
 
 @end

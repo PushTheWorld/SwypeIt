@@ -5,6 +5,10 @@
 //
 #import "SIConstants.h"
 
+SKTexture *monkeyFaceTexture() {
+    return [[SIConstants buttonAtlas] textureNamed:kSIImageFallingMonkeys];
+}
+
 #pragma mark - Images
 NSString *const kSIImageTitleLabel                                  = @"textLabelTitle";
 

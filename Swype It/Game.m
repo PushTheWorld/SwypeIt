@@ -29,6 +29,8 @@
     self = [super init];
     if (self != nil) {
         // Do setup here for new game
+        self.gameMode = SIGameModeTwoHand;
+        _powerUpArray = [NSMutableArray array];
     }
     return self;
 }
@@ -400,10 +402,7 @@
     }
 }
 
-+ (SIMove)getRandomMoveForGameMode:(SIGameMode)gameMode isRapidFireActiviated:(BOOL)isRapidFireActivated {
-    if (isRapidFireActivated) {
-        return SIMoveTap;
-    }
++ (SIMove)getRandomMoveForGameMode:(SIGameMode)gameMode {
     NSInteger randomNumber = arc4random_uniform(NUMBER_OF_MOVES);
     switch (randomNumber) {
         case 0:
@@ -418,30 +417,7 @@
             }
     }
 }
-/*AUTO TESTED*/
-+ (SIPowerUpCost)costForPowerUp:(SIPowerUp)powerUp {
-    switch (powerUp) {
-        case SIPowerUpTimeFreeze:
-            return SIPowerUpCostTimeFreeze;
-        case SIPowerUpRapidFire:
-            return SIPowerUpCostRapidFire;
-        case SIPowerUpFallingMonkeys:
-            return SIPowerUpCostFallingMonkeys;
-        default: /*Power Up None*/
-            return SIPowerUpCostNone;
-    }
-}
-/*AUTO TESTED*/
-+ (SIPowerUpDuration)durationForPowerUp:(SIPowerUp)powerUp {
-    switch (powerUp) {
-        case SIPowerUpTimeFreeze:
-            return SIPowerUpDurationTimeFreeze;
-        case SIPowerUpRapidFire:
-            return SIPowerUpDurationRapidFire;
-        default: /*None*/
-            return SIPowerUpDurationNone;
-    }
-}
+
 /*AUTO TESTED*/
 + (SIIAPPack)siiapPackForNameNodeNode:(NSString *)nodeName {
     if ([nodeName isEqualToString:kSINodeNodeBag]) {
@@ -661,7 +637,13 @@
 - (NSString *)getCurrentLevelString {
     return [Game currentLevelStringForScore:self.totalScore];
 }
-
++ (void)transisitionToSKScene:(SKScene *)scene toSKView:(SKView *)view duration:(CGFloat)duration {
+    SKTransition *transistion;
+    
+    transistion = [SKTransition fadeWithColor:[SKColor blackColor] duration:duration];
+    
+    [view presentScene:scene transition:transistion];
+}
 + (void)transisitionToSKScene:(SKScene *)scene toSKView:(SKView *)view DoorsOpen:(BOOL)doorsOpen pausesIncomingScene:(BOOL)pausesIncomingScene pausesOutgoingScene:(BOOL)pausesOutgoingScene duration:(CGFloat)duration {
     SKTransition *transistion;
     
@@ -796,6 +778,114 @@
     }
 }
 
++ (SIBackgroundSound)checkBackgroundSound:(SIBackgroundSound)currentBackgroundSound forTotalScore:(float)totalScore withCallback:(void (^)(BOOL updatedBackgroundSound, SIBackgroundSound backgroundSound))callback {
+    SIBackgroundSound newBackgroundSound = [Game backgroundSoundForScore:totalScore];
+    if (newBackgroundSound != currentBackgroundSound) {
+        if (callback) {
+            callback(YES, newBackgroundSound);
+        }
+        return newBackgroundSound;
+    } else {
+        if (callback) {
+            callback(NO, currentBackgroundSound);
+        }
+        return currentBackgroundSound;
+    }
+}
 
+/**
+ High score is separated from lifetime points to allow for the user to reset their 'Device High Score'
+ */
++ (BOOL)isDevieHighScore:(float)totalScore {
+    NSNumber *deviceHighScore                 = [[NSUserDefaults standardUserDefaults] objectForKey:kSINSUserDefaultLifetimeHighScore];
+    if (deviceHighScore == nil) {
+        [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithFloat:totalScore] forKey:kSINSUserDefaultLifetimeHighScore];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+        return YES;
+    } else {
+        if (totalScore > [deviceHighScore floatValue]) {
+            [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithFloat:totalScore] forKey:kSINSUserDefaultLifetimeHighScore];
+            [[NSUserDefaults standardUserDefaults] synchronize];
+            return YES;
+        }
+    }
+    return NO;
+}
+
+/**
+ Total points ever played
+ this cannot be reset by the user
+ */
++ (void)updateLifetimePointsScore:(float)totalScore {
+    NSNumber *lifeTimePointsEarned              = [[NSUserDefaults standardUserDefaults] objectForKey:kSINSUserDefaultLifetimePointsEarned];
+    if (lifeTimePointsEarned == nil) {
+        [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithFloat:totalScore] forKey:kSINSUserDefaultLifetimePointsEarned];
+    } else {
+        lifeTimePointsEarned                    = [NSNumber numberWithFloat: [lifeTimePointsEarned floatValue] + totalScore];
+        [[NSUserDefaults standardUserDefaults] setObject:lifeTimePointsEarned forKey:kSINSUserDefaultLifetimePointsEarned];
+    }
+}
+
++ (float)updatePointsTillFreeCoinMoveScore:(float)moveScore withCallback:(void (^)(BOOL willAwardFreeCoin))callback {
+    NSNumber *pointsTillFreeCoinNumber  = [[NSUserDefaults standardUserDefaults] objectForKey:kSINSUserDefaultPointsTowardsFreeCoin];
+    
+    if (pointsTillFreeCoinNumber == nil) {
+        pointsTillFreeCoinNumber        = [NSNumber numberWithFloat:0.0f];
+    }
+    /*Store as float for easibility*/
+    float pointsTillFreeCoin            = [pointsTillFreeCoinNumber floatValue];
+    
+    /*There was a bug early on where there was a potential for the move score to be
+     very very high, like in the thousands... this is solved but in the thought
+     to always protect from an extremely high number being stored in the nsuserdefaults
+     we are going to leave in a protection statement to prevent this from ever happening
+     */
+    if (moveScore > MAX_MOVE_SCORE) {
+        moveScore = MAX_MOVE_SCORE;
+    }
+    
+    /*Add the move score*/
+    pointsTillFreeCoin                  = pointsTillFreeCoin + moveScore;
+    
+    if (pointsTillFreeCoin > POINTS_NEEDED_FOR_FREE_COIN) {
+        pointsTillFreeCoin              = pointsTillFreeCoin - POINTS_NEEDED_FOR_FREE_COIN;
+        
+        if (callback) {
+            callback(YES);
+        }
+    } else {
+        if (callback) {
+            callback(NO);
+        }
+    }
+    
+    /*Update the nsuserdefaults with new points till score*/
+    [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithFloat:pointsTillFreeCoin] forKey:kSINSUserDefaultPointsTowardsFreeCoin];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+    
+    return pointsTillFreeCoin;
+}
+
+/**
+ Configures game properties for new game
+ */
++ (void)setStartGameProperties:(Game *)game {
+    game.moveScorePercentRemaining      = 1.0f;
+    game.currentBackgroundSound         = SIBackgroundSoundMenu;
+    game.currentLevel                   = [Game currentLevelStringForScore:0.0f];
+    game.currentMove                    = SIMoveSwype;
+    game.currentNumberOfTimesContinued  = SIContinueLifeCost1;
+    game.totalScore                     = 0.0f;
+    game.freeCoinsEarned                = 0;
+    game.currentBackgroundColorNumber   = arc4random_uniform(NUMBER_OF_MOVES);
+    game.currentBackgroundColor         = [Game backgroundColorForScore:0.0f forRandomNumber:game.currentBackgroundColorNumber];
+    
+    /*Booleans*/
+    game.isHighScore                    = NO;
+    game.isPaused                       = NO;
+    game.isStarted                      = YES;
+    
+    [game.powerUpArray removeAllObjects];
+}
 
 @end

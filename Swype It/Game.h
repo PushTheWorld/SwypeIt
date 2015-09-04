@@ -29,13 +29,16 @@
 @property (assign, nonatomic) SIContinueLifeCost currentNumberOfTimesContinued;
 @property (assign, nonatomic) SIGameMode         gameMode;
 @property (assign, nonatomic) SIMove             currentMove;
-@property (assign, nonatomic) SIPowerUp          currentPowerUp;
 
+@property (strong, nonatomic) NSMutableArray    *powerUpArray;
 @property (strong, nonatomic) NSString          *currentLevel;
+@property (strong, nonatomic) UIColor           *currentBackgroundColor;
 
 #pragma mark - Public Class Methods
++ (BOOL)                isDevieHighScore:(float)totalScore;
 + (float)               scoreForMoveDuration:(float)durationOfLastMove withLevelSpeedDivider:(float)levelSpeedDivider;
 + (float)               levelSpeedForScore:(float)score;
++ (float)               updatePointsTillFreeCoinMoveScore:(float)moveScore withCallback:(void (^)(BOOL willAwardFreeCoin))callback;
 + (int)                 nextLevelForScore:(float)score;
 + (int)                 numberOfCoinsForSIIAPPack:(SIIAPPack)siiapPack;
 + (NSString *)          buttonNodeNameLabelDescriptionForSIIAPPack:(SIIAPPack)siiapPack;
@@ -49,12 +52,11 @@
 + (NSString *)          stringForPowerUp:(SIPowerUp)powerUp;
 + (NSString *)          userMessageForScore:(float)score isHighScore:(BOOL)isHighScore highScore:(float)highScore;
 + (SIBackgroundSound)   backgroundSoundForScore:(float)score;
++ (SIBackgroundSound)   checkBackgroundSound:(SIBackgroundSound)currentBackgroundSound forTotalScore:(float)totalScore withCallback:(void (^)(BOOL updatedBackgroundSound, SIBackgroundSound backgroundSound))callback;
 + (SIContinueLifeCost)  lifeCostForCurrentContinueLevel:(SIContinueLifeCost)siContinuedLifeCost;
 + (SIIAPPack)           siiapPackForNameNodeLabel:(NSString *)nodeName;
 + (SIIAPPack)           siiapPackForNameNodeNode:(NSString *)nodeName;
-+ (SIMove)              getRandomMoveForGameMode:(SIGameMode)gameMode isRapidFireActiviated:(BOOL)isRapidFireActivated;
-+ (SIPowerUpCost)       costForPowerUp:(SIPowerUp)powerUp;
-+ (SIPowerUpDuration)   durationForPowerUp:(SIPowerUp)powerUp;
++ (SIMove)              getRandomMoveForGameMode:(SIGameMode)gameMode;
 + (SKAction *)          actionForSIMoveCommandAction:(SIMoveCommandAction)siMoveCommandAction;
 + (SKTexture *)         textureBackgroundColor:(SKColor *)backgroundColor size:(CGSize)size;
 + (SKTexture *)         textureBackgroundColor:(SKColor *)backgroundColor size:(CGSize)size cornerRadius:(CGFloat)cornerRadius borderWidth:(CGFloat)borderWidth borderColor:(UIColor *)borderColor;
@@ -62,8 +64,14 @@
 + (UIColor *)           backgroundColorForScore:(float)score forRandomNumber:(NSInteger)randomNumber;
 + (UIImage *)           getBluredScreenshot:(SKView *)view;
 + (void)                incrementGamesPlayed;
++ (void)                transisitionToSKScene:(SKScene *)scene toSKView:(SKView *)view duration:(CGFloat)duration;
 + (void)                transisitionToSKScene:(SKScene *)scene toSKView:(SKView *)view DoorsOpen:(BOOL)doorsOpen pausesIncomingScene:(BOOL)pausesIncomingScene pausesOutgoingScene:(BOOL)pausesOutgoingScene duration:(CGFloat)duration;
++ (void)                updateLifetimePointsScore:(float)totalScore;
 
+/**
+ Configures game properties for new game
+ */
++ (void)setStartGameProperties:(Game *)game;
 
 #pragma mark - Public Methods
 - (NSString *)getCurrentLevelString;

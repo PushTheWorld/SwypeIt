@@ -93,7 +93,10 @@ enum {
     switch (_gameMode) {
         case SIGameModeOneHand:
             return @[[[UITapGestureRecognizer       alloc] init],
-                     [SIGameNode swypeGesture]];
+                     [SIGameNode swypeGestureUp],
+                     [SIGameNode swypeGestureDown],
+                     [SIGameNode swypeGestureLeft],
+                     [SIGameNode swypeGestureRight]];
         default: /*SIGameModeTwoHand*/
             return @[[[UITapGestureRecognizer       alloc] init],
                      [[UIPinchGestureRecognizer     alloc] init],
