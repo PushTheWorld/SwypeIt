@@ -17,6 +17,7 @@
 @property (assign, nonatomic) BOOL               isStarted;
 @property (assign, nonatomic) BOOL               isHighScore;
 @property (assign, nonatomic) int                freeCoinsEarned;
+@property (assign, nonatomic) int                currentNumberOfTimesContinued;
 @property (assign, nonatomic) float              moveScore;
 @property (assign, nonatomic) float              freeCoinPercentRemaining;
 @property (assign, nonatomic) float              freeCoinInPoints;
@@ -26,7 +27,7 @@
 @property (assign, nonatomic) NSInteger          currentPointsRemainingThisRound;
 @property (assign, nonatomic) NSInteger          currentBackgroundColorNumber;
 @property (assign, nonatomic) SIBackgroundSound  currentBackgroundSound;
-@property (assign, nonatomic) SIContinueLifeCost currentNumberOfTimesContinued;
+@property (assign, nonatomic) SIContinueLifeCost currentContinueLifeCost;
 @property (assign, nonatomic) SIGameMode         gameMode;
 @property (assign, nonatomic) SIMove             currentMove;
 

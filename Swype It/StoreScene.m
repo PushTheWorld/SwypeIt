@@ -406,7 +406,7 @@ enum {
 
 #pragma mark - SIPopupNode methods
 - (void)createPopup:(CGSize)size {
-    _popupNode                                  = [MainViewController SISharedPopUpNodeTitle:@"DAILY FREE PRIZE!" SceneSize:size];
+    _popupNode                                  = [MainViewController SIPopUpNodeTitle:@"DAILY FREE PRIZE!" SceneSize:size];
     _popupNode.zPosition                        = (float)SIStoreSceneZPositionPopupBackground / (float)SIStoreSceneZPositionPopupCount;
     _popupNode.delegate                         = self;
     

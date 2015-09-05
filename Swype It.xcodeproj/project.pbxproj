@@ -105,6 +105,8 @@
 		099A62331B5C8B12009BF339 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 099A62321B5C8B12009BF339 /* Main.storyboard */; };
 		099A62361B5C917A009BF339 /* CustomProgressBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 099A62351B5C917A009BF339 /* CustomProgressBar.m */; };
 		09A4889B1B99D92B0075F41C /* PowerUp.m in Sources */ = {isa = PBXBuildFile; fileRef = 09A4889A1B99D92B0075F41C /* PowerUp.m */; };
+		09A4889E1B9A43490075F41C /* DSMultilineLabelNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 09A4889D1B9A43490075F41C /* DSMultilineLabelNode.m */; };
+		09A488A21B9A77FE0075F41C /* SILoadingScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 09A488A11B9A77FE0075F41C /* SILoadingScene.m */; };
 		09A57ABB1B788BEF003B6F08 /* SIGameNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 09A57ABA1B788BEF003B6F08 /* SIGameNode.m */; };
 		09A904061B6616C300C48A9B /* SIConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 091FED751B3733AF0071F8DC /* SIConstants.m */; };
 		09A904071B6616DA00C48A9B /* Game.m in Sources */ = {isa = PBXBuildFile; fileRef = 098B3B461B378C27000D4702 /* Game.m */; };
@@ -290,6 +292,10 @@
 		099A62351B5C917A009BF339 /* CustomProgressBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomProgressBar.m; sourceTree = "<group>"; };
 		09A488991B99D92B0075F41C /* PowerUp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PowerUp.h; sourceTree = "<group>"; };
 		09A4889A1B99D92B0075F41C /* PowerUp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PowerUp.m; sourceTree = "<group>"; };
+		09A4889C1B9A43490075F41C /* DSMultilineLabelNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DSMultilineLabelNode.h; sourceTree = "<group>"; };
+		09A4889D1B9A43490075F41C /* DSMultilineLabelNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DSMultilineLabelNode.m; sourceTree = "<group>"; };
+		09A488A01B9A77FE0075F41C /* SILoadingScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SILoadingScene.h; sourceTree = "<group>"; };
+		09A488A11B9A77FE0075F41C /* SILoadingScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SILoadingScene.m; sourceTree = "<group>"; };
 		09A57AB91B788BEF003B6F08 /* SIGameNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SIGameNode.h; sourceTree = "<group>"; };
 		09A57ABA1B788BEF003B6F08 /* SIGameNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SIGameNode.m; sourceTree = "<group>"; };
 		09B1E3591B97A33B00EDF051 /* explosionTouch.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = explosionTouch.sks; sourceTree = "<group>"; };
@@ -661,6 +667,7 @@
 		098B3B4B1B378EC8000D4702 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				09A4889F1B9A434F0075F41C /* DSMultilineLabelNode */,
 				094F22A01B95916E00968FB5 /* BMGlyphLabel */,
 				098B3B4C1B378ED1000D4702 /* FXReachability */,
 				0917D4AF1B6DD8240046B5FF /* HLSpriteKit */,
@@ -695,8 +702,19 @@
 				099A62291B5C6B3B009BF339 /* StartScreenScene.m */,
 				092720DD1B5EF1C30005A6B6 /* StoreScene.h */,
 				092720DE1B5EF1C30005A6B6 /* StoreScene.m */,
+				09A488A01B9A77FE0075F41C /* SILoadingScene.h */,
+				09A488A11B9A77FE0075F41C /* SILoadingScene.m */,
 			);
 			name = Scenes;
+			sourceTree = "<group>";
+		};
+		09A4889F1B9A434F0075F41C /* DSMultilineLabelNode */ = {
+			isa = PBXGroup;
+			children = (
+				09A4889C1B9A43490075F41C /* DSMultilineLabelNode.h */,
+				09A4889D1B9A43490075F41C /* DSMultilineLabelNode.m */,
+			);
+			name = DSMultilineLabelNode;
 			sourceTree = "<group>";
 		};
 		09CAF9AA1B646BE600466606 /* MBProgressHud */ = {
@@ -961,6 +979,7 @@
 				0917D4F71B6DD8240046B5FF /* HLTableLayoutManager.m in Sources */,
 				0917D4E91B6DD8240046B5FF /* HLGridNode.m in Sources */,
 				0914D7AA1B81C22400911DD8 /* SIPowerUpToolbarNode.m in Sources */,
+				09A488A21B9A77FE0075F41C /* SILoadingScene.m in Sources */,
 				0917D4E71B6DD8240046B5FF /* HLEmitterStore.m in Sources */,
 				09CB158E1B7E85DC00F9A956 /* SITestScene.m in Sources */,
 				0917D4F91B6DD8240046B5FF /* HLTiledNode.m in Sources */,
@@ -990,6 +1009,7 @@
 				0917D4EC1B6DD8240046B5FF /* HLItemsNode.m in Sources */,
 				09DB638A1B564DA700387C13 /* IAPTableViewController.m in Sources */,
 				0917D4FA1B6DD8240046B5FF /* HLToolbarNode.m in Sources */,
+				09A4889E1B9A43490075F41C /* DSMultilineLabelNode.m in Sources */,
 				09CAF9A91B646BE100466606 /* MBProgressHUD.m in Sources */,
 				09D5ED4F1B8B205B00E84179 /* SISegmentControl.m in Sources */,
 				091FED761B3733AF0071F8DC /* SIConstants.m in Sources */,

@@ -16,40 +16,41 @@
 
 
 @interface MainViewController : UIViewController
-+ (CGFloat)             fontSizeButton;
-+ (CGFloat)             fontSizeHeader;
-+ (CGFloat)             fontSizeHeader_x2;
-+ (CGFloat)             fontSizeHeader_x3;
-+ (CGFloat)             fontSizeMoveCommand;
-+ (CGFloat)             fontSizeParagraph;
-+ (CGFloat)             fontSizeParagraph_x2;
-+ (CGFloat)             fontSizeParagraph_x3;
-+ (CGFloat)             fontSizeParagraph_x4;
-+ (CGFloat)             fontSizeText;
-+ (CGFloat)             fontSizeText_x2;
-+ (CGFloat)             fontSizeText_x3;
++ (CGFloat)             SIFontSizeButton;
++ (CGFloat)             SIFontSizeHeader;
++ (CGFloat)             SIFontSizeHeader_x2;
++ (CGFloat)             SIFontSizeHeader_x3;
++ (CGFloat)             SIFontSizeMoveCommand;
++ (CGFloat)             SIFontSizeParagraph;
++ (CGFloat)             SIFontSizeParagraph_x2;
++ (CGFloat)             SIFontSizeParagraph_x3;
++ (CGFloat)             SIFontSizeParagraph_x4;
++ (CGFloat)             SIFontSizeText;
++ (CGFloat)             SIFontSizeText_x2;
++ (CGFloat)             SIFontSizeText_x3;
 
 + (CGSize)              buttonSize:(CGSize)size;
 
-+ (HLLabelButtonNode *) SI_sharedMenuButtonPrototypeBack:(CGSize)size;
-+ (HLLabelButtonNode *) SI_sharedMenuButtonPrototypeBasic:(CGSize)size;
-+ (HLLabelButtonNode *) SI_sharedMenuButtonPrototypeBasic:(CGSize)size backgroundColor:(UIColor *)backgroundColor fontColor:(UIColor *)fontColor;
-+ (HLLabelButtonNode *) SI_sharedMenuButtonPrototypePopUp:(CGSize)size;
++ (HLLabelButtonNode *) SIMenuButtonPrototypeBack:(CGSize)size;
++ (HLLabelButtonNode *) SIMenuButtonPrototypeBasic:(CGSize)size;
++ (HLLabelButtonNode *) SIMenuButtonPrototypeBasic:(CGSize)size backgroundColor:(UIColor *)backgroundColor fontColor:(UIColor *)fontColor;
++ (HLLabelButtonNode *) SIMenuButtonPrototypePopUp:(CGSize)size;
 
 + (NSDate *)            getDateFromInternet;
 
-+ (SIPopupNode *)       SISharedPopUpNodeTitle:(NSString *)title SceneSize:(CGSize)sceneSize;
++ (SIPopupNode *)       SIPopUpNodeTitle:(NSString *)title SceneSize:(CGSize)sceneSize;
 
-+ (SKTexture *)         sharedMonkeyFace;
++ (SKTexture *)         SIMonkeyFaceTexture;
 
-+ (SKLabelNode *)       SI_sharedLabelHeader:(NSString *)text;
-+ (SKLabelNode *)       SI_sharedLabelHeader_x2:(NSString *)text;
-+ (SKLabelNode *)       SI_sharedLabelHeader_x3:(NSString *)text;
-+ (SKLabelNode *)       SI_sharedLabelParagraph:(NSString *)text;
-+ (SKLabelNode *)       SI_sharedLabelParagraph_x2:(NSString *)text;
-+ (SKLabelNode *)       SI_sharedLabelParagraph_x3:(NSString *)text;
-+ (SKLabelNode *)       SI_sharedLabelParagraph_x4:(NSString *)text;
-+ (SKLabelNode *)       SIInterfaceLabelFontSize:(CGFloat)fontSize;
++ (SKLabelNode *)       SILabelHeader:(NSString *)text;
++ (SKLabelNode *)       SILabelHeader_x2:(NSString *)text;
++ (SKLabelNode *)       SILabelHeader_x3:(NSString *)text;
++ (SKLabelNode *)       SILabelParagraph:(NSString *)text;
++ (SKLabelNode *)       SILabelParagraph_x2:(NSString *)text;
++ (SKLabelNode *)       SILabelParagraph_x3:(NSString *)text;
++ (SKLabelNode *)       SILabelParagraph_x4:(NSString *)text;
++ (SKLabelNode *)       SILabelInterfaceFontSize:(CGFloat)fontSize;
++ (SKLabelNode *)       SILabelSceneGameMoveCommand;
 
 /**
  Hids the banner ad

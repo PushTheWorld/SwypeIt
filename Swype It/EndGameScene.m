@@ -197,13 +197,13 @@
     if ([menuItem.text isEqualToString:kSIMenuTextEndGameContinue]) {
         /*Continue Game Button*/
         NSDictionary *userInfo          = @{kSINSDictionaryKeyCanAfford     : @(_userCanAffordContinue),
-                                            kSINSDictionaryKeyCanAffordCost : @([AppSingleton singleton].currentGame.currentNumberOfTimesContinued)};
+                                            kSINSDictionaryKeyCanAffordCost : @([AppSingleton singleton].currentGame.currentContinueLifeCost)};
         NSNotification *notification = [[NSNotification alloc] initWithName:kSINotificationGameContinueUsePopup object:nil userInfo:userInfo];
         [[NSNotificationCenter defaultCenter] postNotification:notification];
 //        if (_userCanAffordContinue) {
-//            [[MKStoreKit sharedKit] consumeCredits:[NSNumber numberWithInteger:[AppSingleton singleton].currentGame.currentNumberOfTimesContinued] identifiedByConsumableIdentifier:kSIIAPConsumableIDCoins];
+//            [[MKStoreKit sharedKit] consumeCredits:[NSNumber numberWithInteger:[AppSingleton singleton].currentGame.currentContinueLifeCost] identifiedByConsumableIdentifier:kSIIAPConsumableIDCoins];
 //            [AppSingleton singleton].willResume                                 = YES;
-//            [AppSingleton singleton].currentGame.currentNumberOfTimesContinued  = [Game lifeCostForCurrentContinueLevel:[AppSingleton singleton].currentGame.currentNumberOfTimesContinued];
+//            [AppSingleton singleton].currentGame.currentContinueLifeCost  = [Game lifeCostForCurrentContinueLevel:[AppSingleton singleton].currentGame.currentContinueLifeCost];
 //            GameScene *gameScene                                                = [[GameScene alloc] initWithSize:self.size gameMode:[AppSingleton singleton].currentGame.gameMode];
 //            [Game transisitionToSKScene:gameScene toSKView:self.view DoorsOpen:NO pausesIncomingScene:YES pausesOutgoingScene:NO duration:SCENE_TRANSISTION_DURATION];
 //        } else { /*User cannot afford the to contiue*/
@@ -237,7 +237,7 @@
 }
 
 - (BOOL)userCanContinue {
-    int continueCost = [Game lifeCostForCurrentContinueLevel:[AppSingleton singleton].currentGame.currentNumberOfTimesContinued];
+    int continueCost = [Game lifeCostForCurrentContinueLevel:[AppSingleton singleton].currentGame.currentContinueLifeCost];
     int numberOfItCoins = [[[MKStoreKit sharedKit] availableCreditsForConsumable:kSIIAPConsumableIDCoins] intValue];
     if (continueCost <= numberOfItCoins) {
         return YES;
@@ -247,9 +247,9 @@
 #pragma mark - Contiue Game Methods
 
 - (void)continueCoins {
-    [[MKStoreKit sharedKit] consumeCredits:[NSNumber numberWithInteger:[AppSingleton singleton].currentGame.currentNumberOfTimesContinued] identifiedByConsumableIdentifier:kSIIAPConsumableIDCoins];
+    [[MKStoreKit sharedKit] consumeCredits:[NSNumber numberWithInteger:[AppSingleton singleton].currentGame.currentContinueLifeCost] identifiedByConsumableIdentifier:kSIIAPConsumableIDCoins];
     [AppSingleton singleton].willResume                                 = YES;
-    [AppSingleton singleton].currentGame.currentNumberOfTimesContinued  = [Game lifeCostForCurrentContinueLevel:[AppSingleton singleton].currentGame.currentNumberOfTimesContinued];
+    [AppSingleton singleton].currentGame.currentContinueLifeCost  = [Game lifeCostForCurrentContinueLevel:[AppSingleton singleton].currentGame.currentContinueLifeCost];
     GameScene *gameScene                                                = [[GameScene alloc] initWithSize:self.size gameMode:[AppSingleton singleton].currentGame.gameMode];
     [Game transisitionToSKScene:gameScene toSKView:self.view DoorsOpen:NO pausesIncomingScene:YES pausesOutgoingScene:NO duration:SCENE_TRANSISTION_DURATION];
 }
@@ -261,7 +261,7 @@
 
 - (void)adDidFinish {
     [AppSingleton singleton].willResume                                 = YES;
-    [AppSingleton singleton].currentGame.currentNumberOfTimesContinued  = [Game lifeCostForCurrentContinueLevel:[AppSingleton singleton].currentGame.currentNumberOfTimesContinued];
+    [AppSingleton singleton].currentGame.currentContinueLifeCost  = [Game lifeCostForCurrentContinueLevel:[AppSingleton singleton].currentGame.currentContinueLifeCost];
     GameScene *gameScene                                                = [[GameScene alloc] initWithSize:self.size gameMode:[AppSingleton singleton].currentGame.gameMode];
     [Game transisitionToSKScene:gameScene toSKView:self.view DoorsOpen:NO pausesIncomingScene:YES pausesOutgoingScene:NO duration:SCENE_TRANSISTION_DURATION];
 }

@@ -26,8 +26,10 @@
 #import <MessageUI/MessageUI.h>
 #import "MSSAlertViewController.h"
 // Drop-In Class Imports (CocoaPods/GitHub/Guru)
+#import "DSMultilineLabelNode.h"
 #import "FXReachability.h"
 #import "MBProgressHud.h"
+#import "MKStoreKit.h"
 #import "SoundManager.h"
 // Category Import
 #import "UIColor+Additions.h"
@@ -35,28 +37,39 @@
 #import "Game.h"
 // Other Imports
 
-@interface MainViewController () <MFMailComposeViewControllerDelegate, ADBannerViewDelegate, ADInterstitialAdDelegate, GKGameCenterControllerDelegate, SIGameSingletonDelegate, GameSceneDelegate>
+@interface MainViewController () <ADBannerViewDelegate, ADInterstitialAdDelegate, GKGameCenterControllerDelegate, SIGameSingletonDelegate, GameSceneDelegate>
 
-@property (strong, nonatomic) ADBannerView      *adBannerView;
-@property (strong, nonatomic) ADInterstitialAd  *interstitialAd;
-@property (strong, nonatomic) MBProgressHUD     *hud;
 @property (strong, nonatomic) UIButton          *closeButton;
-@property (strong, nonatomic) UIView            *placeHolderView;
-
 @end
 
 @implementation MainViewController {
     __weak SKScene      *_currentScene;
+    
+    ADBannerView        *_adBannerView;
+    
+    ADInterstitialAd    *_interstitialAd;
+    
+    BOOL                 _interstitialAdPresentationIsLive;
 
     CGFloat              _screenHeight;
+    
+    int                  _numberOfAdsToWatch;
     
     EndGameScene        *_sceneEndGame;
     
     GameScene           *_sceneGame;
     
-    HLToolbarNode       *_gameSceneToolbarPowerUp;
+    HLMenuNode          *_sceneGamePopupContinueMenuNode;
+    
+    HLRingNode          *_sceneGameRingNodePause;
+    
+    HLToolbarNode       *_sceneGameToolbarPowerUp;
+    
+    MBProgressHUD       *_hud;
     
     SettingsScene       *_sceneSettings;
+    
+    SIPopupNode         *_sceneGamePopupContinue;
     
     SKTexture           *_monkeyFaceTexture;
 
@@ -66,10 +79,12 @@
 
     SKScene             *_loadingScene;
     
+    UIView              *_placeHolderView;
+    
 
     
 }
-+ (CGFloat)fontSizeButton {
++ (CGFloat)SIFontSizeButton {
     if (IS_IPHONE_4) {
         return 22.0f;
     } else if (IS_IPHONE_5) {
@@ -82,7 +97,7 @@
         return 36.0f;
     }
 }
-+ (CGSize)buttonSize:(CGSize)size {
++ (CGSize)SIFuttonSize:(CGSize)size {
     if (IS_IPHONE_4) {
         return CGSizeMake(size.width / 1.5f, size.width / 1.5f * 0.25f);
     } else if (IS_IPHONE_5) {
@@ -95,7 +110,7 @@
         return CGSizeMake(size.width / 1.3f, size.width / 8.0f);
     }
 }
-+ (CGFloat)fontSizeMoveCommand {
++ (CGFloat)SIFontSizeMoveCommand {
     if (IS_IPHONE_4) {
         return 40.0f;
     } else if (IS_IPHONE_5) {
@@ -108,7 +123,7 @@
         return 100.0f;
     }
 }
-+ (CGFloat)fontSizeHeader {
++ (CGFloat)SIFontSizeHeader {
     if (IS_IPHONE_4) {
         return 36.0f;
     } else if (IS_IPHONE_5) {
@@ -121,13 +136,13 @@
         return 52.0f;
     }
 }
-+ (CGFloat)fontSizeHeader_x2 {
-    return [MainViewController fontSizeHeader] + 4.0f;
++ (CGFloat)SIFontSizeHeader_x2 {
+    return [MainViewController SIFontSizeHeader] + 4.0f;
 }
-+ (CGFloat)fontSizeHeader_x3 {
-    return [MainViewController fontSizeHeader] + 8.0f;
++ (CGFloat)SIFontSizeHeader_x3 {
+    return [MainViewController SIFontSizeHeader] + 8.0f;
 }
-+ (CGFloat)fontSizeParagraph {
++ (CGFloat)SIFontSizeParagraph {
     if (IS_IPHONE_4) {
         return 20.0f;
     } else if (IS_IPHONE_5) {
@@ -140,16 +155,16 @@
         return 36.0f;
     }
 }
-+ (CGFloat)fontSizeParagraph_x2 {
-    return [MainViewController fontSizeParagraph] + 4.0f;
++ (CGFloat)SIFontSizeParagraph_x2 {
+    return [MainViewController SIFontSizeParagraph] + 4.0f;
 }
-+ (CGFloat)fontSizeParagraph_x3 {
-    return [MainViewController fontSizeParagraph] + 8.0f;
++ (CGFloat)SIFontSizeParagraph_x3 {
+    return [MainViewController SIFontSizeParagraph] + 8.0f;
 }
-+ (CGFloat)fontSizeParagraph_x4 {
-    return [MainViewController fontSizeParagraph] + 12.0f;
++ (CGFloat)SIFontSizeParagraph_x4 {
+    return [MainViewController SIFontSizeParagraph] + 12.0f;
 }
-+ (CGFloat)fontSizePopUp {
++ (CGFloat)SIFontSizePopUp {
     if (IS_IPHONE_4) {
         return 26.0f;
     } else if (IS_IPHONE_5) {
@@ -162,7 +177,7 @@
         return 42.0f;
     }
 }
-+ (CGFloat)fontSizeText {
++ (CGFloat)SIFontSizeText {
     if (IS_IPHONE_4) {
         return 12.0f;
     } else if (IS_IPHONE_5) {
@@ -175,19 +190,31 @@
         return 16.0f;
     }
 }
-+ (CGFloat)fontSizeText_x2 {
-    return [MainViewController fontSizeText] + 2.0f;
++ (CGFloat)SIFontSizeText_x2 {
+    return [MainViewController SIFontSizeText] + 2.0f;
 }
-+ (CGFloat)fontSizeText_x3 {
-    return [MainViewController fontSizeText] + 4.0f;
++ (CGFloat)SIFontSizeText_x3 {
+    return [MainViewController SIFontSizeText] + 4.0f;
 }
-
++ (CGFloat)xPaddingPopupContinue {
+    if (IS_IPHONE_4) {
+        return 24.0f;
+    } else if (IS_IPHONE_5) {
+        return 28.0f;
+    } else if (IS_IPHONE_6) {
+        return 48.0f;
+    } else if (IS_IPHONE_6_PLUS) {
+        return 80.0f;
+    } else {
+        return 150.0f;
+    }
+}
 
 #pragma mark - UI Life Cycle Methods
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [self preloadGameScene];
+    _interstitialAdPresentationIsLive = NO;
     
     /*Start Sounds*/
     [SoundManager sharedManager].allowsBackgroundMusic  = YES;
@@ -197,7 +224,7 @@
     
     [self registerForNotifications];
     
-    [self cycleInterstitial];
+    [self interstitialAdCycle];
     
     [self setupUserInterface];
     
@@ -252,11 +279,7 @@
         NSLog(@"Banner Ads Hidden.");
     }
 }
-- (void)preloadGameScene {
-    [SIGameSingleton singleton];
-    _sceneGame = [[GameScene alloc] initWithSize:self.view.frame.size];
 
-}
 
 - (void)setupUserInterface {
     [self createConstants];
@@ -339,7 +362,7 @@
     hud.dimBackground                           = willDimBackground;
     hud.labelText                               = infoString;
     hud.mode                                    = MBProgressHUDModeIndeterminate;
-    self.hud                                    = hud;
+    _hud                                    = hud;
 }
 - (void)hudWillHide:(NSNotification *)notification {
     BOOL willAnimate;
@@ -372,34 +395,34 @@
     }
     
     if (willShowCheckMark) {
-        self.hud.customView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"hud-checkmark"]];
+        _hud.customView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"hud-checkmark"]];
     }
-    self.hud.detailsLabelText                   = titleString;
-    self.hud.labelText                          = infoString;
-    self.hud.mode                               = MBProgressHUDModeCustomView;
+    _hud.detailsLabelText                   = titleString;
+    _hud.labelText                          = infoString;
+    _hud.mode                               = MBProgressHUDModeCustomView;
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)([holdDuration floatValue] * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        [self.hud hide:willAnimate];
+        [_hud hide:willAnimate];
     });
 
 }
 - (void)menuDidLoad {
 
 }
-+ (HLLabelButtonNode *)SI_sharedMenuButtonPrototypeBasic:(CGSize)size {
++ (HLLabelButtonNode *)SIMenuButtonPrototypeBasic:(CGSize)size {
     HLLabelButtonNode *buttonPrototype;
     buttonPrototype                         = [[MainViewController SIHLInterfaceLabelButton:size] copy];
     buttonPrototype.verticalAlignmentMode   = HLLabelNodeVerticalAlignFontAscenderBias;
     
     return buttonPrototype;
 }
-+ (HLLabelButtonNode *)SI_sharedMenuButtonPrototypeBasic:(CGSize)size backgroundColor:(SKColor *)backgroundColor fontColor:(UIColor *)fontColor {
++ (HLLabelButtonNode *)SIMenuButtonPrototypeBasic:(CGSize)size backgroundColor:(SKColor *)backgroundColor fontColor:(UIColor *)fontColor {
     HLLabelButtonNode *buttonPrototype;
     buttonPrototype                         = [[MainViewController SIHLInterfaceLabelButton:size backgroundColor:fontColor fontColor:fontColor] copy];
     buttonPrototype.verticalAlignmentMode   = HLLabelNodeVerticalAlignFontAscenderBias;
     
     return buttonPrototype;
 }
-+ (HLLabelButtonNode *)SI_sharedMenuButtonPrototypeBack:(CGSize)size {
++ (HLLabelButtonNode *)SIMenuButtonPrototypeBack:(CGSize)size {
     HLLabelButtonNode *buttonPrototype;
     buttonPrototype                         =  [[MainViewController SIHLInterfaceLabelButton:size] copy];;
     buttonPrototype.color                   = [UIColor blueColor];
@@ -407,7 +430,7 @@
 
     return buttonPrototype;
 }
-+ (HLLabelButtonNode *)SI_sharedMenuButtonPrototypePopUp:(CGSize)size {
++ (HLLabelButtonNode *)SIMenuButtonPrototypePopUp:(CGSize)size {
     HLLabelButtonNode *buttonPrototype;
     buttonPrototype                         = [[MainViewController SIHLInterfaceLabelButton:size] copy];
     buttonPrototype.verticalAlignmentMode   = HLLabelNodeVerticalAlignFontAscenderBias;
@@ -439,42 +462,42 @@
     labelButton.verticalAlignmentMode           = HLLabelNodeVerticalAlignFont;
     return labelButton;
 }
-+ (SKLabelNode *)SI_sharedLabelHeader:(NSString *)text {
-    SKLabelNode *label  = [MainViewController SIInterfaceLabelFontSize:[MainViewController fontSizeHeader]];
++ (SKLabelNode *)SILabelHeader:(NSString *)text {
+    SKLabelNode *label  = [MainViewController SILabelInterfaceFontSize:[MainViewController SIFontSizeHeader]];
     label.text          = text;
     return label;
 }
-+ (SKLabelNode *)SI_sharedLabelHeader_x2:(NSString *)text {
-    SKLabelNode *label  = [MainViewController SIInterfaceLabelFontSize:[MainViewController fontSizeHeader_x2]];
++ (SKLabelNode *)SILabelHeader_x2:(NSString *)text {
+    SKLabelNode *label  = [MainViewController SILabelInterfaceFontSize:[MainViewController SIFontSizeHeader_x2]];
     label.text          = text;
     return label;
 }
-+ (SKLabelNode *)SI_sharedLabelHeader_x3:(NSString *)text {
-    SKLabelNode *label  = [MainViewController SIInterfaceLabelFontSize:[MainViewController fontSizeHeader_x3]];
++ (SKLabelNode *)SILabelHeader_x3:(NSString *)text {
+    SKLabelNode *label  = [MainViewController SILabelInterfaceFontSize:[MainViewController SIFontSizeHeader_x3]];
     label.text          = text;
     return label;
 }
-+ (SKLabelNode *)SI_sharedLabelParagraph:(NSString *)text {
-    SKLabelNode *label  = [MainViewController SIInterfaceLabelFontSize:[MainViewController fontSizeParagraph]];
++ (SKLabelNode *)SILabelParagraph:(NSString *)text {
+    SKLabelNode *label  = [MainViewController SILabelInterfaceFontSize:[MainViewController SIFontSizeParagraph]];
     label.text          = text;
     return label;
 }
-+ (SKLabelNode *)SI_sharedLabelParagraph_x2:(NSString *)text {
-    SKLabelNode *label  = [MainViewController SIInterfaceLabelFontSize:[MainViewController fontSizeParagraph_x2]];
++ (SKLabelNode *)SILabelParagraph_x2:(NSString *)text {
+    SKLabelNode *label  = [MainViewController SILabelInterfaceFontSize:[MainViewController SIFontSizeParagraph_x2]];
     label.text          = text;
     return label;
 }
-+ (SKLabelNode *)SI_sharedLabelParagraph_x3:(NSString *)text {
-    SKLabelNode *label  = [MainViewController SIInterfaceLabelFontSize:[MainViewController fontSizeParagraph_x3]];
++ (SKLabelNode *)SILabelParagraph_x3:(NSString *)text {
+    SKLabelNode *label  = [MainViewController SILabelInterfaceFontSize:[MainViewController SIFontSizeParagraph_x3]];
     label.text          = text;
     return label;
 }
-+ (SKLabelNode *)SI_sharedLabelParagraph_x4:(NSString *)text {
-    SKLabelNode *label  = [MainViewController SIInterfaceLabelFontSize:[MainViewController fontSizeParagraph_x4]];
++ (SKLabelNode *)SILabelParagraph_x4:(NSString *)text {
+    SKLabelNode *label  = [MainViewController SILabelInterfaceFontSize:[MainViewController SIFontSizeParagraph_x4]];
     label.text          = text;
     return label;
 }
-+ (SKLabelNode *)SIInterfaceLabelFontSize:(CGFloat)fontSize {
++ (SKLabelNode *)SILabelInterfaceFontSize:(CGFloat)fontSize {
     SKLabelNode *label                          = [SKLabelNode labelNodeWithFontNamed:kSIFontUltra];
     label.fontColor                             = [SKColor blackColor];
     label.fontSize                              = fontSize;
@@ -482,10 +505,10 @@
     label.verticalAlignmentMode                 = SKLabelVerticalAlignmentModeCenter;
     return label;
 }
-+ (SIPopupNode *)SISharedPopUpNodeTitle:(NSString *)title SceneSize:(CGSize)sceneSize {
-    SKLabelNode *titleNode      = [MainViewController SI_sharedLabelParagraph:title];
++ (SIPopupNode *)SIPopUpNodeTitle:(NSString *)title SceneSize:(CGSize)sceneSize {
+    SKLabelNode *titleNode      = [MainViewController SILabelParagraph:title];
     titleNode.fontColor         = [SKColor whiteColor];
-    titleNode.fontSize          = [MainViewController fontSizePopUp];
+    titleNode.fontSize          = [MainViewController SIFontSizePopUp];
     
     SIPopupNode *popUpNode      = [[SIPopupNode alloc] initWithSceneSize:sceneSize];
     popUpNode.titleContentNode  = titleNode;
@@ -505,6 +528,82 @@
     return monkeyFace;
 }
 
++ (SKLabelNode *)SILabelSceneGameMoveCommand {
+    static SKLabelNode *moveLabel = nil;
+    if (!moveLabel) {
+        moveLabel = moveCommandLabelNode();
+    }
+    return moveLabel;
+}
++ (HLRingNode *)SIRingNodeSceneGamePause {
+    static HLRingNode *ringNode = nil;
+    if (!ringNode) {
+        ringNode = sceneGamePauseRingNode();
+    }
+    return ringNode;
+}
+- (HLScene *)loadGameScene {
+    [SIGameSingleton singleton];
+    
+    HLScene *sceneGame              = [[GameScene alloc] initWithSize:self.view.frame.size];
+
+    _sceneGamePopupContinue         = [MainViewController SIPopupSceneGameContinue];
+    
+    _sceneGamePopupContinueMenuNode = [MainViewController SIMenuNodeSceneGamePopup:_sceneGamePopupContinue];
+    
+    _sceneGameRingNodePause         = [MainViewController SIRingNodeSceneGamePause];
+    
+    return sceneGame;
+}
++ (SIPopupNode *)SIPopupSceneGameContinue {
+    
+    DSMultilineLabelNode *titleNode                 = [DSMultilineLabelNode labelNodeWithFontNamed:kSIFontUltra];
+    titleNode.fontColor                         = [SKColor whiteColor];
+    titleNode.fontSize              = [MainViewController SIFontSizePopUp];
+    
+    
+    SIPopupNode *popupNode          = [[SIPopupNode alloc] initWithSceneSize:[MainViewController sceneSize]];
+    popupNode.titleContentNode      = titleNode;
+    popupNode.backgroundSize        = CGSizeMake([MainViewController sceneSize].width - [MainViewController xPaddingPopupContinue], [MainViewController sceneSize].width - [MainViewController xPaddingPopupContinue]);
+    popupNode.backgroundColor       = [SKColor mainColor];
+    popupNode.cornerRadius                  = 8.0f;
+    popupNode.userInteractionEnabled               = YES;
+    
+    return popupNode;
+}
++ (HLMenuNode *)SIMenuNodeSceneGamePopup:(SIPopupNode *)popupNode {
+    HLMenuNode *menuNode                = [[HLMenuNode alloc] init];
+    menuNode.itemAnimation              = HLMenuNodeAnimationSlideLeft;
+    menuNode.itemAnimationDuration      = 0.25;
+    menuNode.itemButtonPrototype        = [MainViewController SIMenuButtonPrototypePopUp:[MainViewController buttonSize:popupNode.backgroundSize]];
+    menuNode.backItemButtonPrototype    = [MainViewController SIMenuButtonPrototypeBack:[MainViewController buttonSize:popupNode.backgroundSize]];
+    menuNode.itemSeparatorSize          = 20;
+    
+    HLMenu *menu                        = [[HLMenu alloc] init];
+
+    [menu addItem:[HLMenuItem menuItemWithText:kSIMenuTextPopUpBuyCoins]];
+
+    
+    [menu addItem:[HLMenuItem menuItemWithText:kSIMenuTextPopUpWatchAd]];
+    
+    /*Add the Back Button... Need to change the prototype*/
+    HLMenuItem *endGameItem             = [HLMenuItem menuItemWithText:kSIMenuTextPopUpEndGame];
+    endGameItem.buttonPrototype         = [MainViewController SIMenuButtonPrototypeBack:[MainViewController buttonSize:popupNode.backgroundSize]];
+    [menu addItem:endGameItem];
+    
+    [menuNode setMenu:menu animation:HLMenuNodeAnimationNone];
+    
+    menuNode.position                   = CGPointMake(0.0f, 0.0f);
+    
+    if (popupNode) {
+        popupNode.popupContentNode      = menuNode;
+    }
+    
+    return menuNode;
+}
+
+- (void)createPopup {
+}
 #pragma mark - MFMailComposeViewContorllerDelegate
 - (void)launchBugReport:(NSNotification *)notification {
     [Instabug setEmailIsRequired:NO];
@@ -563,46 +662,54 @@
     
     if (!isPremiumUser) {
         self.canDisplayBannerAds    = NO;
-        self.adBannerView.delegate  = self;
-        self.adBannerView.hidden    = YES; /*hide till loaded!*/
+        _adBannerView.delegate  = self;
+        _adBannerView.hidden    = YES; /*hide till loaded!*/
     } else {
         self.canDisplayBannerAds    = NO;
     }
 }
-- (void)cycleInterstitial {
+- (void)interstitialAdCycle {
     _interstitialAd                     = [[ADInterstitialAd alloc] init];
     _interstitialAd.delegate            = self;
 }
-- (void)closeAd {
+- (void)interstitialAdClose {
 
-    [self.placeHolderView removeFromSuperview];
-    [self.closeButton removeFromSuperview];
+    [_placeHolderView removeFromSuperview];
+    [_closeButton removeFromSuperview];
     
-    self.interstitialAd = nil;
-    [self cycleInterstitial];
+    _interstitialAd = nil;
+    [self interstitialAdCycle];
     
-    [self bannerAdShow];
+    _numberOfAdsToWatch =   _numberOfAdsToWatch - 1;
     
-    NSNotification *notification = [[NSNotification alloc] initWithName:kSINotificationInterstitialAdFinish object:nil userInfo:nil];
-    [[NSNotificationCenter defaultCenter] postNotification:notification];
+    if (_interstitialAdPresentationIsLive) {
+        if (_numberOfAdsToWatch <= 0) {
+            _interstitialAdPresentationIsLive = NO;
+            [[SIGameSingleton singleton] singletonWillResumeAndContinue:YES];
+        } else {
+            [self presentInterstital];
+        }
 
-    
+    }
 }
-- (void)presentInterstital {
+
+/**
+ Called to present a full screen .. full screen ads!
+ */
+- (void)interstitialAdPresent {
     if (_interstitialAd.loaded) {
-        [self bannerAdHide];
-        self.placeHolderView    = [[UIView alloc] initWithFrame:self.view.frame];
-        [self.view addSubview:self.placeHolderView];
+        _placeHolderView    = [[UIView alloc] initWithFrame:self.view.frame];
+        [self.view addSubview:_placeHolderView];
         
-        self.closeButton        = [[UIButton alloc] initWithFrame:CGRectMake(25, 25, self.view.frame.size.width / 6.0f, self.view.frame.size.width / 6.0f)];
-        [self.closeButton setBackgroundImage:[UIImage imageNamed:kSIImageButtonCross] forState:UIControlStateNormal];
-        [self.closeButton addTarget:self action:@selector(closeAd) forControlEvents:UIControlEventTouchUpInside];
-        [self.view addSubview:self.closeButton];
+        _closeButton        = [[UIButton alloc] initWithFrame:CGRectMake(25, 25, self.view.frame.size.width / 6.0f, self.view.frame.size.width / 6.0f)];
+        [_closeButton setBackgroundImage:[UIImage imageNamed:kSIImageButtonCross] forState:UIControlStateNormal];
+        [_closeButton addTarget:self action:@selector(interstitialAdClose) forControlEvents:UIControlEventTouchUpInside];
+        [self.view addSubview:_closeButton];
         
-        [_interstitialAd presentInView:self.placeHolderView];
+        [_interstitialAd presentInView:_placeHolderView];
     } else {
-        if (self.placeHolderView) {
-            [self closeAd];
+        if (_placeHolderView) {
+            [self interstitialAdClose];
         }
     }
 }
@@ -614,8 +721,8 @@
 // if the content in the view has expired.
 - (void)interstitialAdDidUnload:(ADInterstitialAd *)interstitialAd
 {
-    if (self.placeHolderView) {
-        [self closeAd];
+    if (_placeHolderView) {
+        [self interstitialAdClose];
     }
 }
 
@@ -625,67 +732,66 @@
 {
     NSLog(@"Error [interstitialAd] (CODE: %d) : %@",(int)error.code,error.localizedDescription);
     if (error.code != ADErrorServerFailure && error.code != 7) {
-        [self closeAd];
+        [self interstitialAdClose];
     }
     
 }
 
-- (void)launchPopupForContinue:(NSNotification *)notification {
-    NSDictionary *userInfo = notification.userInfo;
-    NSNumber *canAfford = [userInfo objectForKey:kSINSDictionaryKeyCanAfford];
-    NSNumber *cost      = [userInfo objectForKey:kSINSDictionaryKeyCanAffordCost];
-    
-    MSSAlertViewController *alert = [MSSAlertViewController alertWithAttributedTitle: [[NSAttributedString alloc] initWithString:@"Continue!"
-                                                                                                                       attributes:@{NSForegroundColorAttributeName: [UIColor blackColor],
-                                                                                                                                    NSFontAttributeName:[UIFont fontWithName:kSIFontFuturaMedium size:[MainViewController fontSizeText_x2]]}]
-                                                                   attributedMessage:[[NSAttributedString alloc] initWithString:@"Pick an option to continue where you left off!"
-                                                                                                                     attributes:@{NSForegroundColorAttributeName: [UIColor blackColor],
-                                                                                                                                  NSFontAttributeName:[UIFont fontWithName:kSIFontFuturaMedium size:[MainViewController fontSizeText]]}]];
-    
-    
-    if ([canAfford boolValue]) {
-        [alert addButtonWithAttributedTitle:[[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@ IT Coins",cost]
-                                                                            attributes:@{NSForegroundColorAttributeName: [UIColor blackColor],
-                                                                                         NSFontAttributeName:[UIFont fontWithName:kSIFontFuturaMedium size:[MainViewController fontSizeText]]}]
-                                 tapHandler:^{
-                                     NSNotification *notification = [[NSNotification alloc] initWithName:kSINotificationGameContinueUseCoins object:nil userInfo:nil];
-                                     [[NSNotificationCenter defaultCenter] postNotification:notification];
-                                 }];
-
-        
-    } else {
-        [alert addButtonWithAttributedTitle:[[NSAttributedString alloc] initWithString:@"Buy More Coins"
-                                                                            attributes:@{NSForegroundColorAttributeName: [UIColor blackColor],
-                                                                                         NSFontAttributeName:[UIFont fontWithName:kSIFontFuturaMedium size:[MainViewController fontSizeText]]}]
-                                 tapHandler:^{
-                                     NSNotification *notification = [[NSNotification alloc] initWithName:kSINotificationGameContinueUseLaunchStore object:nil userInfo:nil];
-                                     [[NSNotificationCenter defaultCenter] postNotification:notification];
-                                 }];
-    }
-    
-    
-    [alert addButtonWithAttributedTitle:[[NSAttributedString alloc] initWithString:@"Watch Ad"
-                                                                        attributes:@{NSForegroundColorAttributeName: [UIColor blackColor],
-                                                                                     NSFontAttributeName:[UIFont fontWithName:kSIFontFuturaMedium size:[MainViewController fontSizeText]]}]
-                             tapHandler:^{
-                                 [self presentInterstital];
-                             }];
-
-
-    [alert addButtonWithAttributedTitle:[[NSAttributedString alloc] initWithString:@"Cancel"
-                                                                        attributes:@{NSForegroundColorAttributeName: [UIColor blackColor],
-                                                                                     NSFontAttributeName:[UIFont fontWithName:kSIFontFuturaMedium size:[MainViewController fontSizeText]]}]
-                             tapHandler:^{
-                                 NSNotification *notification = [[NSNotification alloc] initWithName:kSINotificationGameContinueUseCancel object:nil userInfo:nil];
-                                 [[NSNotificationCenter defaultCenter] postNotification:notification];
-                             }];
-    
-    [self presentViewController:alert animated:YES completion:nil];
-}
+//- (void)launchPopupForContinue:(NSNotification *)notification {
+//    NSDictionary *userInfo = notification.userInfo;
+//    NSNumber *canAfford = [userInfo objectForKey:kSINSDictionaryKeyCanAfford];
+//    NSNumber *cost      = [userInfo objectForKey:kSINSDictionaryKeyCanAffordCost];
+//    
+//    MSSAlertViewController *alert = [MSSAlertViewController alertWithAttributedTitle: [[NSAttributedString alloc] initWithString:@"Continue!"
+//                                                                                                                       attributes:@{NSForegroundColorAttributeName: [UIColor blackColor],
+//                                                                                                                                    NSFontAttributeName:[UIFont fontWithName:kSIFontFuturaMedium size:[MainViewController SIFontSizeText_x2]]}]
+//                                                                   attributedMessage:[[NSAttributedString alloc] initWithString:@"Pick an option to continue where you left off!"
+//                                                                                                                     attributes:@{NSForegroundColorAttributeName: [UIColor blackColor],
+//                                                                                                                                  NSFontAttributeName:[UIFont fontWithName:kSIFontFuturaMedium size:[MainViewController SIFontSizeText]]}]];
+//    
+//    
+//    if ([canAfford boolValue]) {
+//        [alert addButtonWithAttributedTitle:[[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@ IT Coins",cost]
+//                                                                            attributes:@{NSForegroundColorAttributeName: [UIColor blackColor],
+//                                                                                         NSFontAttributeName:[UIFont fontWithName:kSIFontFuturaMedium size:[MainViewController SIFontSizeText]]}]
+//                                 tapHandler:^{
+//                                     NSNotification *notification = [[NSNotification alloc] initWithName:kSINotificationGameContinueUseCoins object:nil userInfo:nil];
+//                                     [[NSNotificationCenter defaultCenter] postNotification:notification];
+//                                 }];
+//
+//        
+//    } else {
+//        [alert addButtonWithAttributedTitle:[[NSAttributedString alloc] initWithString:@"Buy More Coins"
+//                                                                            attributes:@{NSForegroundColorAttributeName: [UIColor blackColor],
+//                                                                                         NSFontAttributeName:[UIFont fontWithName:kSIFontFuturaMedium size:[MainViewController SIFontSizeText]]}]
+//                                 tapHandler:^{
+//                                     NSNotification *notification = [[NSNotification alloc] initWithName:kSINotificationGameContinueUseLaunchStore object:nil userInfo:nil];
+//                                     [[NSNotificationCenter defaultCenter] postNotification:notification];
+//                                 }];
+//    }
+//    
+//    
+//    [alert addButtonWithAttributedTitle:[[NSAttributedString alloc] initWithString:@"Watch Ad"
+//                                                                        attributes:@{NSForegroundColorAttributeName: [UIColor blackColor],
+//                                                                                     NSFontAttributeName:[UIFont fontWithName:kSIFontFuturaMedium size:[MainViewController SIFontSizeText]]}]
+//                             tapHandler:^{
+//                                 [self presentInterstital];
+//                             }];
+//
+//
+//    [alert addButtonWithAttributedTitle:[[NSAttributedString alloc] initWithString:@"Cancel"
+//                                                                        attributes:@{NSForegroundColorAttributeName: [UIColor blackColor],
+//                                                                                     NSFontAttributeName:[UIFont fontWithName:kSIFontFuturaMedium size:[MainViewController SIFontSizeText]]}]
+//                             tapHandler:^{
+//                                 NSNotification *notification = [[NSNotification alloc] initWithName:kSINotificationGameContinueUseCancel object:nil userInfo:nil];
+//                                 [[NSNotificationCenter defaultCenter] postNotification:notification];
+//                             }];
+//    
+//    [self presentViewController:alert animated:YES completion:nil];
+//}
 #pragma mark - ADBannerViewDelegate
 -(void)bannerView:(ADBannerView *)banner didFailToReceiveAdWithError:(NSError *)error {
     NSLog(@"Error [loading bannder ad]: %@",error.localizedDescription);
-//    [self bannerAdHide];
     [UIView beginAnimations:nil context:nil];
     [UIView setAnimationDuration:1.0f];
     _adBannerView.alpha                 = 0.0f;
@@ -740,6 +846,10 @@
 + (BOOL)isPremiumUser {
     return [[NSUserDefaults standardUserDefaults] boolForKey:kSINSUserDefaultPremiumUser];
 }
++ (CGSize)sceneSize {
+    return CGSizeMake(SCREEN_WIDTH, SCREEN_HEIGHT - [MainViewController bannerViewHeight]);
+}
+
 
 #pragma mark - Game Center Methods
 - (void)authenticateLocalPlayer {
@@ -807,6 +917,43 @@
     return currentDate;
 }
 #pragma mark - SIGameSceneDelegate Functions
+- (void)sceneDidRecieveRingNode:(HLRingNode *)ringNode Tap:(SISceneGameRingNode)gameSceneRingNode {
+    switch (gameSceneRingNode) {
+        case SISceneGameRingNodeEndGame:
+            [[SIGameSingleton singleton] singletonDidEnd];
+            break;
+        case SISceneGameRingNodePlay:
+            [[SIGameSingleton singleton] singletonWillResumeAndContinue:NO];
+            break;
+        case SISceneGameRingNodeSoundBackground:
+            if ([SIConstants isBackgroundSoundAllowed]) {
+                /*Turn Background Sound Off*/
+                [[SoundManager sharedManager] stopMusic];
+            } else {
+                /*Turn Sound Background On*/
+                [[SoundManager sharedManager] playMusic:kSISoundBackgroundMenu looping:YES fadeIn:YES];
+            }
+            [ringNode setHighlight:[SIConstants isBackgroundSoundAllowed] forItem:(int)gameSceneRingNode];
+            [[NSUserDefaults standardUserDefaults] setBool:![SIConstants isBackgroundSoundAllowed] forKey:kSINSUserDefaultSoundIsAllowedBackground];
+            [[NSUserDefaults standardUserDefaults] synchronize];
+            break;
+        case SISceneGameRingNodeSoundFX:
+            /*Change Sound FX State*/
+            if ([SIConstants isFXAllowed]) {
+                /*Turn FX Sound Off*/
+                [[SoundManager sharedManager] stopAllSounds];
+            }
+            [ringNode setHighlight:[SIConstants isFXAllowed] forItem:(int)gameSceneRingNode];
+            [[NSUserDefaults standardUserDefaults] setBool:![SIConstants isFXAllowed] forKey:kSINSUserDefaultSoundIsAllowedFX];
+            [[NSUserDefaults standardUserDefaults] synchronize];
+            break;
+        default:
+            NSLog(@"Ring Node item tapped out of bounds index error :/");
+            break;
+    }
+}
+    break;
+}
 - (void)sceneDidRecieveMoveCommand:(SIMove)moveCommand {
     [[SIGameSingleton singleton] singletonDidEnterMove:moveCommand];
 }
@@ -817,6 +964,48 @@
 
 - (BOOL)gameIsStarted {
     return [SIGameSingleton singleton].currentGame.isStarted;
+}
+- (void)scenePauseButtonTapped {
+    [[SIGameSingleton singleton] singletonWillPause];
+    [_sceneGame sceneBlurDisplayRingNode:_sceneGameRingNodePause];
+}
+- (void)sceneWillDismissPopupContinueWithPayMethod:(SIPowerUpPayMethod)powerUpPayMethod {
+    switch (powerUpPayMethod) {
+        case SIPowerUpPayMethodCoins:
+            if ([SIIAPUtility canAffordContinue:[SIGameSingleton singleton].currentGame.currentContinueLifeCost]) {
+                [[MKStoreKit sharedKit] consumeCredits:[NSNumber numberWithInt:[SIGameSingleton singleton].currentGame.currentContinueLifeCost] identifiedByConsumableIdentifier:kSIIAPConsumableIDCoins];
+            } else {
+                [[SIGameSingleton singleton] singletonWillResumeAndContinue:YES];
+            }
+            break;
+        case SIPowerUpPayMethodAds:
+            _interstitialAdPresentationIsLive = YES;
+            [self interstitialAdPresent];
+            break;
+        default: //SIPowerUpPayMethodNo
+            [[SIGameSingleton singleton] singletonDidEnd];
+            break;
+    }
+    if ([menuItem.text isEqualToString:_coinMenuItemText]) {
+        NSNotification *notification = [[NSNotification alloc] initWithName:kSINotificationGameContinueUseLaunchStore object:nil userInfo:nil];
+        [[NSNotificationCenter defaultCenter] postNotification:notification];
+        
+    } else if ([menuItem.text isEqualToString:_costMenuItemText]) {
+        [[MKStoreKit sharedKit] consumeCredits:[NSNumber numberWithInteger:[AppSingleton singleton].currentGame.currentContinueLifeCost] identifiedByConsumableIdentifier:kSIIAPConsumableIDCoins];
+        [self dismissModalNodeAnimation:HLScenePresentationAnimationFade];
+        [self resumePaidContinue];
+        
+    } else if ([menuItem.text isEqualToString:kSIMenuTextPopUpWatchAd]) {
+        NSNotification *notification = [[NSNotification alloc] initWithName:kSINotificationInterstitialAdShallLaunch object:nil userInfo:nil];
+        [[NSNotificationCenter defaultCenter] postNotification:notification];
+        [self dismissModalNodeAnimation:HLScenePresentationAnimationFade];
+        [self resumePaidContinue];
+        
+    } else if ([menuItem.text isEqualToString:kSIMenuTextPopUpEndGame]) {
+        //        [self dismissModalNodeAnimation:HLScenePresentationAnimationFade];
+        [self launchEndGameScene];
+    }
+
 }
 #pragma mark - SIGameSingletonDelegate
 - (void)contorllerWillPlayFXSoundNamed:(NSString *)soundName {
@@ -861,8 +1050,23 @@
 /**
  Prompt user for payment
  */
-- (BOOL)sceneWillShowContinue {
-    return NO;
+- (void)sceneWillShowContinue {
+    if (!_sceneGamePopupContinue) {
+        _sceneGamePopupContinue = [MainViewController SIPopupSceneGameContinue];
+    }
+    if (!_sceneGamePopupContinueMenuNode) {
+        _sceneGamePopupContinueMenuNode = [MainViewController SIMenuNodeSceneGamePopup:_sceneGamePopupContinue];
+    }
+    
+    if ([SIIAPUtility canAffordContinue:[SIGameSingleton singleton].currentGame.currentContinueLifeCost]) {
+        [[[_sceneGamePopupContinueMenuNode menu] itemAtIndex:SISceneGamePopupContinueMenuItemCoin] setText:[NSString stringWithFormat:@"Use %ld Coins!",(long)[SIGameSingleton singleton].currentGame.currentContinueLifeCost]];
+    }
+    
+    [[[_sceneGamePopupContinueMenuNode menu] itemAtIndex:SISceneGamePopupContinueMenuItemAd] setText:[NSString stringWithFormat:@"Watch %ld Ads!",(int)[SIGameSingleton singleton].currentGame.currentNumberOfTimesContinued]];
+    
+    [_sceneGamePopupContinueMenuNode redisplayMenuAnimation:HLMenuNodeAnimationNone];
+    
+    [_sceneGame sceneModallyPresentPopup:_sceneGamePopupContinue withMenuNode:_sceneGamePopupContinueMenuNode];
 }
 /**
  This is called when we know that the model is ready with everything 

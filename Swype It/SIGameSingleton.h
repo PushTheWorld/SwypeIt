@@ -28,7 +28,7 @@
  Called when the user should be prompted to continue
     the game
  */
-- (BOOL)sceneWillShowContinue;
+- (void)sceneWillShowContinue;
 
 /**
  Called when there is a high score
@@ -127,6 +127,21 @@
     1. Called when the user taps the pause button
  */
 - (void)singletonWillPause;
+
+/**
+ willContinue if you want a new move to be loaded
+ Called in several scenarios
+ 
+ 1. User paid for to continue the game when they died...
+ 
+ 2. User tapped pause and now wants to play...
+ */
+- (void)singletonWillResumeAndContinue:(BOOL)willContinue;
+
+/**
+ Called to really end the game, invalidates timers and such...
+ */
+- (void)singletonDidEnd;
 
 @end
 

@@ -113,11 +113,13 @@
     
     /*Alert the controller that the modal is ready to end the game*/
     if ([_delegate respondsToSelector:@selector(sceneWillShowContinue)]) {
-        if ([_delegate sceneWillShowContinue]) {
-            [self singletonWillContinue];
-        } else {
-            [self singletonDidEnd];
-        }
+        [_delegate sceneWillShowContinue];
+        // TODO: add this to the controller...
+//        if ( ) {
+//            [self singletonWillContinue];
+//        } else {
+//            [self singletonDidEnd];
+//        }
     }
 }
 
@@ -140,7 +142,7 @@
  
     2. User tapped pause and now wants to play...
  */
-- (void)singletonWillResume {
+- (void)singletonWillResumeAndContinue:(BOOL)willContinue {
     _currentGame.isPaused           = NO;
     
     /*Update the moveStartTime to account for the pause duration*/
@@ -148,6 +150,10 @@
     
     for (PowerUp *powerUp in _currentGame.powerUpArray) {
         powerUp.startTimeMS         = (_compositeTimeInMiliSeconds - _pauseStartTimeInMiliSeconds) + powerUp.startTimeMS;
+    }
+    
+    if (willContinue) {
+        [self singletonWillContinue];
     }
 }
 
@@ -447,7 +453,7 @@
 //}
 
 //- (BOOL)canAffordContinue {
-//    int continueCost = [Game lifeCostForCurrentContinueLevel:self.currentGame.currentNumberOfTimesContinued];
+//    int continueCost = [Game lifeCostForCurrentContinueLevel:self.currentGame.currentContinueLifeCost];
 //    int numberOfItCoins = [[[MKStoreKit sharedKit] availableCreditsForConsumable:kSIIAPConsumableIDCoins] intValue];
 //    if (continueCost <= numberOfItCoins) {
 //        return YES;

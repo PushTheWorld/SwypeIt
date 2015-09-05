@@ -9,6 +9,47 @@ SKTexture *monkeyFaceTexture() {
     return [[SIConstants buttonAtlas] textureNamed:kSIImageFallingMonkeys];
 }
 
+SKLabelNode *moveCommandLabelNode() {
+    SKLabelNode *label;
+    label                               = [SKLabelNode labelNodeWithFontNamed:kSIFontFuturaMedium];
+    label.fontColor                     = [SKColor whiteColor];
+    label.userInteractionEnabled        = YES;
+    label.name                          = kSINodeGameMoveCommand;
+    label.horizontalAlignmentMode       = SKLabelHorizontalAlignmentModeCenter;
+    label.verticalAlignmentMode         = SKLabelVerticalAlignmentModeCenter;
+    return label;
+}
+
+HLRingNode *sceneGamePauseRingNode() {
+    HLRingNode *ringNode;
+    
+    /*First Button - Play*/
+    HLItemNode *playButtonNode                          = [[HLItemNode alloc] init];
+    [playButtonNode setContent:[SKSpriteNode spriteNodeWithTexture:[[SIConstants buttonAtlas] textureNamed:kSIImageButtonPlay] size:[SIConstants powerUpToolbarButtonSize]]];
+    
+    /*Second Button - SoundFX*/
+    HLItemContentFrontHighlightNode *soundFXNode        = [[HLItemContentFrontHighlightNode alloc] initWithContentNode:[SKSpriteNode spriteNodeWithTexture:[[SIConstants buttonAtlas] textureNamed:kSIImageButtonSoundOnFX] size:[SIConstants powerUpToolbarButtonSize]]
+                                                                                                    frontHighlightNode:[SKSpriteNode spriteNodeWithTexture:[[SIConstants buttonAtlas] textureNamed:kSIImageButtonCross] size:[SIConstants powerUpToolbarButtonSize]]];
+    
+    /*Third Button - Sound Background*/
+    HLItemContentFrontHighlightNode *soundBkgrndNode    = [[HLItemContentFrontHighlightNode alloc] initWithContentNode:[SKSpriteNode spriteNodeWithTexture:[[SIConstants buttonAtlas] textureNamed:kSIImageButtonSoundOnBackground] size:[SIConstants powerUpToolbarButtonSize]]
+                                                                                                    frontHighlightNode:[SKSpriteNode spriteNodeWithTexture:[[SIConstants buttonAtlas] textureNamed:kSIImageButtonCross] size:[SIConstants powerUpToolbarButtonSize]]];
+    
+    /*First Button - Play*/
+    HLItemNode *endGameButton                           = [[HLItemNode alloc] init];
+    [endGameButton setContent:[SKSpriteNode spriteNodeWithTexture:[[SIConstants imagesAtlas] textureNamed:kSIImageButtonEndGame] size:[SIConstants powerUpToolbarButtonSize]]];
+    
+
+    NSArray *arrayOfRingItems                           = @[playButtonNode, soundFXNode, soundBkgrndNode,endGameButton];
+    ringNode                                            = [[HLRingNode alloc] initWithItemCount:(int)[arrayOfRingItems count]];
+    [ringNode setContent:arrayOfRingItems];
+    [ringNode setLayoutWithRadius:[SIConstants powerUpToolbarButtonSize].width initialTheta:M_PI];
+
+    
+    return ringNode;
+}
+
+
 #pragma mark - Images
 NSString *const kSIImageTitleLabel                                  = @"textLabelTitle";
 
@@ -262,7 +303,10 @@ NSString *const kSIGameCenterLeaderBoardIDHandTwo                   = @"GHS";
 
 
 #pragma mark - Useful things
-@implementation SIConstants 
+@implementation SIConstants
++ (CGSize)powerUpToolbarButtonSize {
+    return CGSizeMake(SCREEN_WIDTH/8.0, SCREEN_WIDTH/8.0f);
+}
 + (NSString *)pathForSparkEmitter {
     return [[NSBundle mainBundle] pathForResource:kSIEmitterSpark ofType:kSIEmitterFileTypeSKS];
 }
@@ -287,6 +331,7 @@ NSString *const kSIGameCenterLeaderBoardIDHandTwo                   = @"GHS";
 + (BOOL)isBackgroundSoundAllowed {
     return [[NSUserDefaults standardUserDefaults] boolForKey:kSINSUserDefaultSoundIsAllowedBackground];
 }
+
 
 @end
 

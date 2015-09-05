@@ -4,6 +4,7 @@
 //  Copyright (c) 2015 Push The World LLC. All rights reserved.
 #import <Foundation/Foundation.h>
 #import <SpriteKit/SpriteKit.h>
+#import "HLSpriteKit.h"
 
 #define IDIOM                               UI_USER_INTERFACE_IDIOM()
 #define IPAD                                UIUserInterfaceIdiomPad
@@ -99,6 +100,16 @@
  Creates a monkey face to be reused all over the app
  */
 FOUNDATION_EXPORT SKTexture *monkeyFaceTexture();
+/**
+ The move command label that is used on the gmae
+ */
+FOUNDATION_EXPORT SKLabelNode *moveCommandLabelNode();
+/**
+ The ring node for the pause menu
+ */
+FOUNDATION_EXPORT HLRingNode *sceneGamePauseRingNode();
+
+
 
 typedef NS_ENUM(NSInteger, SIMainViewControllerScene) {
     SIMainControllerSceneNone,
@@ -200,6 +211,25 @@ typedef NS_ENUM(NSInteger, SIBackgroundSound) {
     SIBackgroundSoundFive,
     SIBackgroundSoundSix,
     SIBackgroundSoundSeven
+};
+
+typedef NS_ENUM(NSInteger, SISceneGameRingNode) {
+    SISceneGameRingNodePlay = 0,
+    SISceneGameRingNodeSoundFX,
+    SISceneGameRingNodeSoundBackground,
+    SISceneGameRingNodeEndGame
+};
+
+typedef NS_ENUM(NSInteger, SISceneGamePopupContinueMenuItem) {
+    SISceneGamePopupContinueMenuItemCoin = 0,
+    SISceneGamePopupContinueMenuItemAd,
+    SISceneGamePopupContinueMenuItemNo
+};
+
+typedef NS_ENUM(NSInteger, SIPowerUpPayMethod) {
+    SIPowerUpPayMethodCoins,
+    SIPowerUpPayMethodAds,
+    SIPowerUpPayMethodNo
 };
 #pragma mark - Images
 extern NSString *const kSIImageTitleLabel;
@@ -456,6 +486,10 @@ extern NSString *const kSIGameCenterLeaderBoardIDHandTwo;
 @interface SIConstants : NSObject
 + (BOOL)isBackgroundSoundAllowed;
 + (BOOL)isFXAllowed;
+/**
+ This is the height of the power up toolbar nodes
+ */
++ (CGSize)powerUpToolbarButtonSize;
 + (NSString *)pathForSparkEmitter;
 + (NSString *)pathForTouchExplosionEmitter;
 + (SKTextureAtlas *)backgroundAtlas;

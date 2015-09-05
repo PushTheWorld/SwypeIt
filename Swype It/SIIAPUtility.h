@@ -25,8 +25,14 @@
 //#pragma mark - Singleton
 //+ (instancetype)singleton;
 
-/**Retuns nil if the product cannot be found*/
+/**
+ Input the currentNumberOfTimesContiued and get back
+    whether or not the person can afford it...
+ */
 + (BOOL)canAffordContinue:(int)continueCost;
+/**
+ Retuns nil if the product cannot be found
+ */
 + (NSDecimalNumber *)   productPriceForSIIAPPack:(SIIAPPack)siiapPack;
 + (NSString *)          imageNameForSIIAPPack:(SIIAPPack)siiapPack;
 + (void)                productForSIIAPPack:(SIIAPPack)siiapPack inPackArray:(NSArray *)productArray withBlock:(void (^)(BOOL succeeded, SKProduct *product))completionBlock;
