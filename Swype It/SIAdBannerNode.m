@@ -140,8 +140,9 @@ enum {
     return NO;
 }
 - (void)adTapped {
-//    NSLog(@"SIAdBannerNode Tapped");
-    [self.delegate adBannerWasTapped];
+    if ([_delegate respondsToSelector:@selector(adBannerWasTapped)]) {
+        [_delegate adBannerWasTapped];
+    }
 }
 
 

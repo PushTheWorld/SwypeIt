@@ -99,15 +99,15 @@
 /**
  Creates a monkey face to be reused all over the app
  */
-FOUNDATION_EXPORT SKTexture *monkeyFaceTexture();
+FOUNDATION_EXPORT SKTexture                 *monkeyFaceTexture();
 /**
  The move command label that is used on the gmae
  */
-FOUNDATION_EXPORT SKLabelNode *moveCommandLabelNode();
+FOUNDATION_EXPORT SKLabelNode               *moveCommandLabelNode();
 /**
  The ring node for the pause menu
  */
-FOUNDATION_EXPORT HLRingNode *sceneGamePauseRingNode();
+FOUNDATION_EXPORT HLRingNode                *sceneGamePauseRingNode();
 
 
 
@@ -124,18 +124,18 @@ typedef NS_ENUM(NSInteger, SIGameMode) {
     SIGameModeOneHand,
     SIGameModeTwoHand
 };
-typedef NS_ENUM(NSInteger, SIMove) {
-    SIMoveTap,
-    SIMoveSwype,
-    SIMovePinch,
-    SIMoveShake,
-    SIMoveFallingMonkey
+typedef NS_ENUM(NSInteger, SIMoveCommand) {
+    SIMoveCommandTap,
+    SIMoveCommandSwype,
+    SIMoveCommandPinch,
+    SIMoveCommandShake,
+    SIMoveCommandFallingMonkey
 };
-typedef NS_ENUM(NSInteger, SIPowerUp) {
-    SIPowerUpNone,
-    SIPowerUpFallingMonkeys,
-    SIPowerUpTimeFreeze,
-    SIPowerUpRapidFire
+typedef NS_ENUM(NSInteger, SIPowerUpType) {
+    SIPowerUpTypeNone,
+    SIPowerUpTypeFallingMonkeys,
+    SIPowerUpTypeTimeFreeze,
+    SIPowerUpTypeRapidFire
 };
 typedef NS_ENUM(NSInteger, SIPowerUpCost) {
     SIPowerUpCostNone               = 0,
@@ -226,11 +226,6 @@ typedef NS_ENUM(NSInteger, SISceneGamePopupContinueMenuItem) {
     SISceneGamePopupContinueMenuItemNo
 };
 
-typedef NS_ENUM(NSInteger, SIPowerUpPayMethod) {
-    SIPowerUpPayMethodCoins,
-    SIPowerUpPayMethodAds,
-    SIPowerUpPayMethodNo
-};
 #pragma mark - Images
 extern NSString *const kSIImageTitleLabel;
 
@@ -263,10 +258,10 @@ extern NSString *const kSINSUserDefaultSoundIsAllowedBackground;
 extern NSString *const kSINSUserDefaultSoundIsAllowedFX;
 
 #pragma mark - Power Ups
-extern NSString *const kSIPowerUpFallingMonkeys;
-extern NSString *const kSIPowerUpNone;
-extern NSString *const kSIPowerUpTimeFreeze;
-extern NSString *const kSIPowerUpRapidFire;
+extern NSString *const kSIPowerUpTypeFallingMonkeys;
+extern NSString *const kSIPowerUpTypeNone;
+extern NSString *const kSIPowerUpTypeTimeFreeze;
+extern NSString *const kSIPowerUpTypeRapidFire;
 
 #pragma mark - NSNotification
 extern NSString *const kSINotificationAdActionShouldBegin;
@@ -394,6 +389,7 @@ extern NSString *const kSIIAPPackNameExtraLarge;
 
 
 #pragma mark - Node Names
+extern NSString *const kSINodeAdBannerNode;
 extern NSString *const kSINodeLabelDescriptionChest;
 extern NSString *const kSINodeLabelDescriptionBag;
 extern NSString *const kSINodeLabelDescriptionBucket;

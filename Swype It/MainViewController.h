@@ -29,7 +29,8 @@
 + (CGFloat)             SIFontSizeText_x2;
 + (CGFloat)             SIFontSizeText_x3;
 
-+ (CGSize)              buttonSize:(CGSize)size;
++ (CGSize)              SIButtonSize:(CGSize)size;
++ (CGSize)              SIFallingMonkeySize;
 
 + (HLLabelButtonNode *) SIMenuButtonPrototypeBack:(CGSize)size;
 + (HLLabelButtonNode *) SIMenuButtonPrototypeBasic:(CGSize)size;
@@ -72,6 +73,14 @@
  Returns if user is premium
  */
 + (BOOL)isPremiumUser;
+/**
+ Asks the singleton if the game is paused
+ */
++ (BOOL)gameIsPaused;
+/**
+ Asks the singleton if the game has started
+ */
++ (BOOL)gameIsStarted;
 
 
 

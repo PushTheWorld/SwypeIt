@@ -104,9 +104,15 @@
 		099A62311B5C8750009BF339 /* EndGameScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 099A62301B5C8750009BF339 /* EndGameScene.m */; };
 		099A62331B5C8B12009BF339 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 099A62321B5C8B12009BF339 /* Main.storyboard */; };
 		099A62361B5C917A009BF339 /* CustomProgressBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 099A62351B5C917A009BF339 /* CustomProgressBar.m */; };
-		09A4889B1B99D92B0075F41C /* PowerUp.m in Sources */ = {isa = PBXBuildFile; fileRef = 09A4889A1B99D92B0075F41C /* PowerUp.m */; };
+		09A4889B1B99D92B0075F41C /* SIPowerUp.m in Sources */ = {isa = PBXBuildFile; fileRef = 09A4889A1B99D92B0075F41C /* SIPowerUp.m */; };
 		09A4889E1B9A43490075F41C /* DSMultilineLabelNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 09A4889D1B9A43490075F41C /* DSMultilineLabelNode.m */; };
 		09A488A21B9A77FE0075F41C /* SILoadingScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 09A488A11B9A77FE0075F41C /* SILoadingScene.m */; };
+		09A488A51B9A7F490075F41C /* SIFallingMonkeyScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 09A488A41B9A7F490075F41C /* SIFallingMonkeyScene.m */; };
+		09A488A71B9B49950075F41C /* SIAdBannerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 09A488A61B9B49950075F41C /* SIAdBannerTests.m */; };
+		09A488A91B9B4B5C0075F41C /* GameSceneTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 09A488A81B9B4B5C0075F41C /* GameSceneTests.m */; };
+		09A488AB1B9B61660075F41C /* SIPowerUpTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 09A488AA1B9B61660075F41C /* SIPowerUpTests.m */; };
+		09A488AE1B9B65DB0075F41C /* SISceneGameProgressBarUpdate.m in Sources */ = {isa = PBXBuildFile; fileRef = 09A488AD1B9B65DB0075F41C /* SISceneGameProgressBarUpdate.m */; };
+		09A488B11B9B7B860075F41C /* SIMove.m in Sources */ = {isa = PBXBuildFile; fileRef = 09A488B01B9B7B860075F41C /* SIMove.m */; };
 		09A57ABB1B788BEF003B6F08 /* SIGameNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 09A57ABA1B788BEF003B6F08 /* SIGameNode.m */; };
 		09A904061B6616C300C48A9B /* SIConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 091FED751B3733AF0071F8DC /* SIConstants.m */; };
 		09A904071B6616DA00C48A9B /* Game.m in Sources */ = {isa = PBXBuildFile; fileRef = 098B3B461B378C27000D4702 /* Game.m */; };
@@ -290,12 +296,21 @@
 		099A62321B5C8B12009BF339 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		099A62341B5C917A009BF339 /* CustomProgressBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomProgressBar.h; sourceTree = "<group>"; };
 		099A62351B5C917A009BF339 /* CustomProgressBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomProgressBar.m; sourceTree = "<group>"; };
-		09A488991B99D92B0075F41C /* PowerUp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PowerUp.h; sourceTree = "<group>"; };
-		09A4889A1B99D92B0075F41C /* PowerUp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PowerUp.m; sourceTree = "<group>"; };
+		09A488991B99D92B0075F41C /* SIPowerUp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SIPowerUp.h; sourceTree = "<group>"; };
+		09A4889A1B99D92B0075F41C /* SIPowerUp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SIPowerUp.m; sourceTree = "<group>"; };
 		09A4889C1B9A43490075F41C /* DSMultilineLabelNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DSMultilineLabelNode.h; sourceTree = "<group>"; };
 		09A4889D1B9A43490075F41C /* DSMultilineLabelNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DSMultilineLabelNode.m; sourceTree = "<group>"; };
 		09A488A01B9A77FE0075F41C /* SILoadingScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SILoadingScene.h; sourceTree = "<group>"; };
 		09A488A11B9A77FE0075F41C /* SILoadingScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SILoadingScene.m; sourceTree = "<group>"; };
+		09A488A31B9A7F490075F41C /* SIFallingMonkeyScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SIFallingMonkeyScene.h; sourceTree = "<group>"; };
+		09A488A41B9A7F490075F41C /* SIFallingMonkeyScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SIFallingMonkeyScene.m; sourceTree = "<group>"; };
+		09A488A61B9B49950075F41C /* SIAdBannerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SIAdBannerTests.m; sourceTree = "<group>"; };
+		09A488A81B9B4B5C0075F41C /* GameSceneTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameSceneTests.m; sourceTree = "<group>"; };
+		09A488AA1B9B61660075F41C /* SIPowerUpTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SIPowerUpTests.m; sourceTree = "<group>"; };
+		09A488AC1B9B65DB0075F41C /* SISceneGameProgressBarUpdate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SISceneGameProgressBarUpdate.h; sourceTree = "<group>"; };
+		09A488AD1B9B65DB0075F41C /* SISceneGameProgressBarUpdate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SISceneGameProgressBarUpdate.m; sourceTree = "<group>"; };
+		09A488AF1B9B7B860075F41C /* SIMove.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SIMove.h; sourceTree = "<group>"; };
+		09A488B01B9B7B860075F41C /* SIMove.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SIMove.m; sourceTree = "<group>"; };
 		09A57AB91B788BEF003B6F08 /* SIGameNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SIGameNode.h; sourceTree = "<group>"; };
 		09A57ABA1B788BEF003B6F08 /* SIGameNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SIGameNode.m; sourceTree = "<group>"; };
 		09B1E3591B97A33B00EDF051 /* explosionTouch.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = explosionTouch.sks; sourceTree = "<group>"; };
@@ -487,6 +502,9 @@
 		091FED5F1B37283E0071F8DC /* Swype ItTests */ = {
 			isa = PBXGroup;
 			children = (
+				09A488AA1B9B61660075F41C /* SIPowerUpTests.m */,
+				09A488A81B9B4B5C0075F41C /* GameSceneTests.m */,
+				09A488A61B9B49950075F41C /* SIAdBannerTests.m */,
 				092720E61B60F2790005A6B6 /* SIIAPUtilityTests.m */,
 				092B470D1B521B7900AFE43C /* GameTests.m */,
 				091FED621B37283E0071F8DC /* Swype_ItTests.m */,
@@ -546,10 +564,14 @@
 			children = (
 				098B3B451B378C27000D4702 /* Game.h */,
 				098B3B461B378C27000D4702 /* Game.m */,
-				09A488991B99D92B0075F41C /* PowerUp.h */,
-				09A4889A1B99D92B0075F41C /* PowerUp.m */,
+				09A488991B99D92B0075F41C /* SIPowerUp.h */,
+				09A4889A1B99D92B0075F41C /* SIPowerUp.m */,
 				091FED741B3733AF0071F8DC /* SIConstants.h */,
 				091FED751B3733AF0071F8DC /* SIConstants.m */,
+				09A488AC1B9B65DB0075F41C /* SISceneGameProgressBarUpdate.h */,
+				09A488AD1B9B65DB0075F41C /* SISceneGameProgressBarUpdate.m */,
+				09A488AF1B9B7B860075F41C /* SIMove.h */,
+				09A488B01B9B7B860075F41C /* SIMove.m */,
 			);
 			name = DataFiles;
 			sourceTree = "<group>";
@@ -696,14 +718,16 @@
 				099A622D1B5C6C2A009BF339 /* GameScene.m */,
 				091470F51B68F1A2006B0CC1 /* SettingsScene.h */,
 				091470F61B68F1A2006B0CC1 /* SettingsScene.m */,
+				09A488A31B9A7F490075F41C /* SIFallingMonkeyScene.h */,
+				09A488A41B9A7F490075F41C /* SIFallingMonkeyScene.m */,
+				09A488A01B9A77FE0075F41C /* SILoadingScene.h */,
+				09A488A11B9A77FE0075F41C /* SILoadingScene.m */,
 				09CB158C1B7E85DC00F9A956 /* SITestScene.h */,
 				09CB158D1B7E85DC00F9A956 /* SITestScene.m */,
 				099A62281B5C6B3B009BF339 /* StartScreenScene.h */,
 				099A62291B5C6B3B009BF339 /* StartScreenScene.m */,
 				092720DD1B5EF1C30005A6B6 /* StoreScene.h */,
 				092720DE1B5EF1C30005A6B6 /* StoreScene.m */,
-				09A488A01B9A77FE0075F41C /* SILoadingScene.h */,
-				09A488A11B9A77FE0075F41C /* SILoadingScene.m */,
 			);
 			name = Scenes;
 			sourceTree = "<group>";
@@ -968,6 +992,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				09A488B11B9B7B860075F41C /* SIMove.m in Sources */,
 				092720E51B60D3CB0005A6B6 /* SIIAPUtility.m in Sources */,
 				094F22A51B95916E00968FB5 /* BMGlyphFont.m in Sources */,
 				0917D4F41B6DD8240046B5FF /* HLRingNode.m in Sources */,
@@ -978,6 +1003,7 @@
 				0917D4F31B6DD8240046B5FF /* HLRingLayoutManager.m in Sources */,
 				0917D4F71B6DD8240046B5FF /* HLTableLayoutManager.m in Sources */,
 				0917D4E91B6DD8240046B5FF /* HLGridNode.m in Sources */,
+				09A488AE1B9B65DB0075F41C /* SISceneGameProgressBarUpdate.m in Sources */,
 				0914D7AA1B81C22400911DD8 /* SIPowerUpToolbarNode.m in Sources */,
 				09A488A21B9A77FE0075F41C /* SILoadingScene.m in Sources */,
 				0917D4E71B6DD8240046B5FF /* HLEmitterStore.m in Sources */,
@@ -987,7 +1013,7 @@
 				099A62231B5C635F009BF339 /* MainViewController.m in Sources */,
 				099A622A1B5C6B3B009BF339 /* StartScreenScene.m in Sources */,
 				098B3B4A1B378EC0000D4702 /* FXReachability.m in Sources */,
-				09A4889B1B99D92B0075F41C /* PowerUp.m in Sources */,
+				09A4889B1B99D92B0075F41C /* SIPowerUp.m in Sources */,
 				094F22A61B95916E00968FB5 /* BMGlyphLabel.m in Sources */,
 				09DB639C1B5651C100387C13 /* MKStoreKit.m in Sources */,
 				0917D4E61B6DD8240046B5FF /* HLComponentNode.m in Sources */,
@@ -1015,6 +1041,7 @@
 				091FED761B3733AF0071F8DC /* SIConstants.m in Sources */,
 				0917D4F21B6DD8240046B5FF /* HLOutlineLayoutManager.m in Sources */,
 				098B3B431B378B89000D4702 /* SIGameSingleton.m in Sources */,
+				09A488A51B9A7F490075F41C /* SIFallingMonkeyScene.m in Sources */,
 				0979E6531B76AA30002FC2F2 /* MSSAlertViewController.m in Sources */,
 				099A62361B5C917A009BF339 /* CustomProgressBar.m in Sources */,
 				0917D4EE1B6DD8240046B5FF /* HLLayoutManager.m in Sources */,
@@ -1038,10 +1065,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				09A904071B6616DA00C48A9B /* Game.m in Sources */,
+				09A488A71B9B49950075F41C /* SIAdBannerTests.m in Sources */,
 				09A904081B6616DE00C48A9B /* SIIAPUtility.m in Sources */,
+				09A488AB1B9B61660075F41C /* SIPowerUpTests.m in Sources */,
 				091FED631B37283E0071F8DC /* Swype_ItTests.m in Sources */,
 				09A904061B6616C300C48A9B /* SIConstants.m in Sources */,
 				092720E71B60F2790005A6B6 /* SIIAPUtilityTests.m in Sources */,
+				09A488A91B9B4B5C0075F41C /* GameSceneTests.m in Sources */,
 				092B470E1B521B7900AFE43C /* GameTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

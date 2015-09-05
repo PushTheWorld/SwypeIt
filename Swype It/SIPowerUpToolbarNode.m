@@ -14,6 +14,7 @@
 // Category Import
 #import "UIColor+Additions.h"
 // Support/Data Class Imports
+#import "SIPowerUp.h"
 // Other Imports
 
 #define COIN_TO_ICON_RATIO 0.75
@@ -32,7 +33,7 @@ enum {
     CGSize                           _coinNodeSize;
     CGSize                           _iconNodeSize;
     
-    SIPowerUp                        _siPowerUp;
+    SIPowerUpType                    _siPowerUp;
     
     SIPowerUpCost                    _powerUpCost;
     
@@ -43,7 +44,7 @@ enum {
     
 }
 
-- (instancetype)initWithSIPowerUp:(SIPowerUp)siPowerUp size:(CGSize)size {
+- (instancetype)initWithSIPowerUp:(SIPowerUpType)siPowerUp size:(CGSize)size {
     self = [super init];
     if (self) {
         _siPowerUp                  = siPowerUp;
@@ -68,7 +69,7 @@ enum {
 #pragma mark Node Setup
 - (void)createConstantsWithSize:(CGSize)size {
     /**Configure any constants*/
-    _powerUpCost                    = [Game costForPowerUp:_siPowerUp];
+    _powerUpCost                    = [SIPowerUp costForPowerUp:_siPowerUp];
     
     CGFloat shrinkerConstant        = 0.75f;
 

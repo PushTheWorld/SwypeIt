@@ -8,7 +8,6 @@
 //  Purpose: Thie is the startign screen for the swype it game
 //
 // Local Controller Import
-#import "AppSingleton.h"
 #import "GameScene.h"
 #import "MainViewController.h"
 #import "MKStoreKit.h"
@@ -151,13 +150,13 @@ enum {
     _adBannerNode                           = [[SIAdBannerNode alloc] initWithSize:_adBannerNodeSize];
     
     /*Labels*/
-    _gameTitleLabelNode                     = [MainViewController SI_sharedLabelHeader_x3:@"SWYPE IT"];
+    _gameTitleLabelNode                     = [MainViewController SILabelHeader_x3:@"SWYPE IT"];
     
-    _tapToPlayLabelNode                     = [MainViewController SI_sharedLabelParagraph_x2:@"Tap To Start"];
+    _tapToPlayLabelNode                     = [MainViewController SILabelParagraph_x2:@"Tap To Start"];
     
     _monkeyFace                             = [SKSpriteNode spriteNodeWithTexture:[[SIConstants buttonAtlas] textureNamed:kSIImageButtonFallingMonkey]];
     
-    _gameTypeInstructionLabelNode           = [MainViewController SI_sharedLabelParagraph_x2:@"Choose Game Mode:"];
+    _gameTypeInstructionLabelNode           = [MainViewController SILabelParagraph_x2:@"Choose Game Mode:"];
     
     /*Store Button Label*/
     _storeButtonNode                        = [[HLLabelButtonNode alloc] initWithColor:[SKColor redColor] size:_storeButtonNodeSize];
@@ -171,7 +170,7 @@ enum {
     _backgroundNode.anchorPoint             = CGPointMake(0.0f, 0.0f);
     _backgroundNode.zPosition               = SIStartScreenZPositionLayerBackground / SIStartScreenZPositionLayerCount;
     
-    _adBannerNode.zPosition                 = SIStartScreenZPositionLayerBackground / SIStartScreenZPositionLayerCount;
+    _adBannerNode.zPosition                 = (float)SIStartScreenZPositionLayerBackground / SIStartScreenZPositionLayerCount;
     _adBannerNode.delegate                  = self;
     
     _gameTitleLabelNode.zPosition           = SIStartScreenZPositionLayerText / SIStartScreenZPositionLayerCount;
@@ -364,16 +363,16 @@ enum {
 
 #pragma mark - SIPopUpNode Helper Methods
 - (void)launchHelp {
-    SIPopupNode *popUpNode                      = [MainViewController SISharedPopUpNodeTitle:@"Help" SceneSize:self.size];
+    SIPopupNode *popUpNode                      = [MainViewController SIPopUpNodeTitle:@"Help" SceneSize:self.size];
     popUpNode.zPosition                         = SIStartScreenZPositionLayerPopup / SIStartScreenZPositionLayerCount;
     popUpNode.titleFontName                     = kSIFontFuturaMedium;
     
-    SKLabelNode *line1 = [MainViewController SIInterfaceLabelFontSize:[MainViewController fontSizeParagraph]];
+    SKLabelNode *line1 = [MainViewController SILabelInterfaceFontSize:[MainViewController SIFontSizeParagraph]];
     line1.text  = @"Tap to start";
     
     SKLabelNode *aboutLabelNode                 = [SKLabelNode labelNodeWithFontNamed:kSIFontFuturaMedium];
     aboutLabelNode.text                         = @"Tap To Start";
-    aboutLabelNode.fontSize                     = [MainViewController fontSizeParagraph];
+    aboutLabelNode.fontSize                     = [MainViewController SIFontSizeParagraph];
     aboutLabelNode.fontColor                    = [SKColor blackColor];
     aboutLabelNode.zPosition                    = SIStartScreenZPositionLayerPopupContent / SIStartScreenZPositionLayerCount;
     
@@ -429,7 +428,7 @@ enum {
     SKLabelNode *line12                 = [self popupLabel:@"Opening Swype It every day earns you"];
     SKLabelNode *line13                 = [self popupLabel:@"more and more free coins!!!"];
     SKLabelNode *line14                 = [self popupLabel:@"SWYPE ON!"];
-    line14.fontSize                     = [MainViewController fontSizeText_x3];
+    line14.fontSize                     = [MainViewController SIFontSizeText_x3];
     line14.horizontalAlignmentMode      = SKLabelHorizontalAlignmentModeCenter;
     
     CGFloat positionOffset              = line2.fontSize + VERTICAL_SPACING_4;
@@ -468,7 +467,7 @@ enum {
 }
 
 - (SKLabelNode *)popupLabel:(NSString *)text {
-    SKLabelNode *labelNode              = [MainViewController SIInterfaceLabelFontSize:[MainViewController fontSizeText]];
+    SKLabelNode *labelNode              = [MainViewController SILabelInterfaceFontSize:[MainViewController SIFontSizeText]];
     labelNode.text                      = text;
     labelNode.fontColor                 = [SKColor whiteColor];
     labelNode.fontName                  = kSIFontFuturaMedium;

@@ -285,7 +285,7 @@ enum {
         [_contentNode removeFromParent];
     }
     if (popupContentNode) {
-        _contentNode        = popupContentNode;
+        _contentNode                    = popupContentNode;
         _contentNode.name               = kSINodePopupContent;
         [_backgroundNode addChild:_contentNode];
     }

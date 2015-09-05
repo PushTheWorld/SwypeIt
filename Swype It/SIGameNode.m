@@ -9,7 +9,6 @@
 //  Purpose: This is....
 //
 // Local Controller Import
-#import "AppSingleton.h"
 #import "MainViewController.h"
 #import "SIGameNode.h"
 // Framework Import
@@ -136,7 +135,7 @@ enum {
             handleGesture   = YES;
         }
         if (handleGesture) {
-//            if ([AppSingleton singleton].currentGame.currentPowerUp == SIPowerUpFallingMonkeys) {
+//            if ([AppSingleton singleton].currentGame.currentPowerUp == SIPowerUpTypeFallingMonkeys) {
 //                CGPoint location    = [touch locationInNode:self];
 //                NSArray *nodes      = [self nodesAtPoint:location];
 //                for (SKNode *node in nodes) {
@@ -170,10 +169,21 @@ enum {
     
     if (gestureRecognizer.state == UIGestureRecognizerStateEnded) {
         if (_pinchDirection < 0.0f) {
-            [self.delegate gestureEnded:SIMovePinch siMoveCommandAction:SIMoveCommandActionPinchNegative gestureRecgonizer:gestureRecognizer];
+            [self makeAndSendMove:SIMoveCommandPinch moveCommandAction:SIMoveCommandActionPinchNegative gestureRecognizer:gestureRecognizer];
         } else {
-            [self.delegate gestureEnded:SIMovePinch siMoveCommandAction:SIMoveCommandActionPinchPositive gestureRecgonizer:gestureRecognizer];
+            [self makeAndSendMove:SIMoveCommandPinch moveCommandAction:SIMoveCommandActionPinchPositive gestureRecognizer:gestureRecognizer];
         }
+    }
+}
+
+- (void)makeAndSendMove:(SIMoveCommand)moveCommand moveCommandAction:(SIMoveCommandAction)moveCommandAction gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer {
+    SIMove *move = [[SIMove alloc] init];
+    move.moveCommand        = moveCommand;
+    move.moveCommandAction  = moveCommandAction;
+    move.gestureRecognizer  = gestureRecognizer;
+    
+    if ([_delegate respondsToSelector:@selector(gestureEnded:)]) {
+        [_delegate gestureEnded:move];
     }
 }
 
@@ -182,7 +192,7 @@ enum {
         return;
     }
     if (gestureRecognizer.state == UIGestureRecognizerStateEnded) {
-        [self.delegate gestureEnded:SIMoveSwype siMoveCommandAction:SIMoveCommandActionSwypeNone gestureRecgonizer:gestureRecognizer];
+        [self makeAndSendMove:SIMoveCommandSwype moveCommandAction:SIMoveCommandActionSwypeNone gestureRecognizer:gestureRecognizer];
     }
 }
 
@@ -191,7 +201,7 @@ enum {
         return;
     }
     if (gestureRecognizer.state == UIGestureRecognizerStateEnded) {
-        [self.delegate gestureEnded:SIMoveSwype siMoveCommandAction:SIMoveCommandActionSwypeUp gestureRecgonizer:gestureRecognizer];
+        [self makeAndSendMove:SIMoveCommandSwype moveCommandAction:SIMoveCommandActionSwypeUp gestureRecognizer:gestureRecognizer];
     }
 }
 
@@ -200,7 +210,7 @@ enum {
         return;
     }
     if (gestureRecognizer.state == UIGestureRecognizerStateEnded) {
-        [self.delegate gestureEnded:SIMoveSwype siMoveCommandAction:SIMoveCommandActionSwypeDown gestureRecgonizer:gestureRecognizer];
+        [self makeAndSendMove:SIMoveCommandSwype moveCommandAction:SIMoveCommandActionSwypeDown gestureRecognizer:gestureRecognizer];
     }
 }
 
@@ -209,7 +219,7 @@ enum {
         return;
     }
     if (gestureRecognizer.state == UIGestureRecognizerStateEnded) {
-        [self.delegate gestureEnded:SIMoveSwype siMoveCommandAction:SIMoveCommandActionSwypeLeft gestureRecgonizer:gestureRecognizer];
+        [self makeAndSendMove:SIMoveCommandSwype moveCommandAction:SIMoveCommandActionSwypeLeft gestureRecognizer:gestureRecognizer];
     }
 }
 
@@ -218,7 +228,7 @@ enum {
         return;
     }
     if (gestureRecognizer.state == UIGestureRecognizerStateEnded) {
-        [self.delegate gestureEnded:SIMoveSwype siMoveCommandAction:SIMoveCommandActionSwypeRight gestureRecgonizer:gestureRecognizer];
+        [self makeAndSendMove:SIMoveCommandSwype moveCommandAction:SIMoveCommandActionSwypeRight gestureRecognizer:gestureRecognizer];
     }
 }
 
@@ -228,7 +238,7 @@ enum {
     }
 
     if (gestureRecognizer.state == UIGestureRecognizerStateEnded) {
-        [self.delegate gestureEnded:SIMoveTap siMoveCommandAction:SIMoveCommandActionTap gestureRecgonizer:gestureRecognizer];
+        [self makeAndSendMove:SIMoveCommandTap moveCommandAction:SIMoveCommandActionTap gestureRecognizer:gestureRecognizer];
     }
 }
 

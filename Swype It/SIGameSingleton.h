@@ -12,8 +12,9 @@
 // Drop-In Class Imports (CocoaPods/GitHub/Guru)
 // Category Import
 // Support/Data Class Imports
-#import "PowerUp.h"
+#import "SIPowerUp.h"
 #import "SIIAPUtility.h"
+#import "SIMove.h"
 // Other Imports
 
 @class SIGameSingleton;
@@ -49,12 +50,12 @@
 /**
  Called when the model is ready for the powerup to start
  */
-- (void)sceneWillActivatePowerUp:(SIPowerUp)powerUp;
+- (void)sceneWillActivatePowerUp:(SIPowerUpType)powerUp;
 
 /**
  Called when the powerup is deactived
  */
-- (void)sceneWillDeactivatePowerUp:(SIPowerUp)powerUp;
+- (void)sceneWillDeactivatePowerUp:(SIPowerUpType)powerUp;
 
 @end
 
@@ -113,7 +114,7 @@
  If correct -> calls singletonGameWillShowNewMove
  If incorrect -> calls singletonGameWillEnd
  */
-- (void)singletonDidEnterMove:(SIMove)move;
+- (void)singletonDidEnterMove:(SIMove *)move;
 
 /**
  Called when the user enters the first move

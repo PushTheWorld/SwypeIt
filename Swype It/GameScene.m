@@ -13,6 +13,7 @@
 #import "FXBlurView.h"
 #import "GameScene.h"
 #import "MainViewController.h"
+#import "SIAdBannerNode.h"
 #import "SIGameNode.h"
 #import "TCProgressBarNode.h"
 // Framework Import
@@ -27,6 +28,8 @@
 #import "SKNode+HLGestureTarget.h"
 #import "UIColor+Additions.h"
 // Support/Data Class Imports
+#import "SISceneGameProgressBarUpdate.h"
+#import "SIPowerUp.h"
 // Other Imports
 
 @interface GameScene () <HLToolbarNodeDelegate, SIGameNodeDelegate, HLRingNodeDelegate, SIPopUpNodeDelegate, HLMenuNodeDelegate> {
@@ -131,6 +134,8 @@ typedef NS_ENUM(NSInteger, SIGameSceneRingNode) {
     NSString                                *_adMenuItemText;
     NSString                                *_coinMenuItemText;
     
+    SIAdBannerNode                          *_adBannerNode;
+    
     SIGameNode                              *_backgroundNode;
     
     SIMoveCommandAction                      _moveScoreAction;
@@ -229,7 +234,6 @@ typedef NS_ENUM(NSInteger, SIGameSceneRingNode) {
     [self registerForNotifications];
     [self addBottomEdge:size];
     [self addSideEdges:size];
-    [self createPopup];
 }
 - (void)sceneInitialization:(CGSize)size {
     [self createConstantsWithSize:size];
@@ -386,7 +390,7 @@ typedef NS_ENUM(NSInteger, SIGameSceneRingNode) {
     _totalScoreLabel.name                                       = kSINodeGameScoreTotal;
     
     /*Move Command Label*/
-    _moveCommandLabel.text                                      = [Game stringForMove:SIMoveSwype];
+    _moveCommandLabel.text                                      = [Game stringForMove:SIMoveCommandSwype];
     _moveCommandLabel.fontColor                                 = [SKColor whiteColor];
     _moveCommandLabel.fontSize                                  = [MainViewController SIFontSizeMoveCommand];
     _moveCommandLabel.physicsBody.categoryBitMask               = uiControlCategory;
@@ -502,10 +506,8 @@ typedef NS_ENUM(NSInteger, SIGameSceneRingNode) {
     
     HLTapGestureTarget *pauseGestureTarget                      = [[HLTapGestureTarget alloc] init];
     pauseGestureTarget.handleGestureBlock                       = ^(UIGestureRecognizer *gestureRecognizer) {
-        if (![self amIsGamePaused]) {
-            if ([_sceneDelegate respondsToSelector:@selector(scenePauseButtonTapped)]) {
-                [_sceneDelegate scenePauseButtonTapped];
-            }
+        if ([_sceneDelegate respondsToSelector:@selector(sceneGamePauseButtonTapped)]) {
+            [_sceneDelegate sceneGamePauseButtonTapped];
         }
     };
     [_pauseButtonNode hlSetGestureTarget:pauseGestureTarget];
@@ -571,96 +573,95 @@ typedef NS_ENUM(NSInteger, SIGameSceneRingNode) {
 //    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(bannerAdDidUnload)        name:kSINotificationAdBannerDidUnload       object:nil];
 }
 
-- (void)addBottomEdge:(CGSize)size {
-    SKNode *bottomEdge                          = [SKNode node];
-    bottomEdge.physicsBody                      = [SKPhysicsBody bodyWithEdgeFromPoint:CGPointMake(0, 1) toPoint:CGPointMake(size.width, 1)];
-    bottomEdge.physicsBody.categoryBitMask      = bottomEdgeCategory;
-    bottomEdge.physicsBody.collisionBitMask     = 0;
-    [self addChild:bottomEdge];
-}
-- (void)addSideEdges:(CGSize) size {
-    SKNode *leftEdge                            = [SKNode node];
-    leftEdge.physicsBody                        = [SKPhysicsBody bodyWithEdgeFromPoint:CGPointMake(-1.0f * ([GameScene fallingMonkeySize].width / 2.0f), 0)
-                                                                               toPoint:CGPointMake(-1.0f * ([GameScene fallingMonkeySize].width / 2.0f), size.height)];
-    leftEdge.physicsBody.categoryBitMask        = sideEdgeCategory;
-    leftEdge.physicsBody.collisionBitMask       = sideEdgeCategory;
-    [self addChild:leftEdge];
-    
-    SKNode *rightEdge                           = [SKNode node];
-    rightEdge.physicsBody                       = [SKPhysicsBody bodyWithEdgeFromPoint:CGPointMake(size.width + ([GameScene fallingMonkeySize].width / 2.0f), 0)
-                                                                                toPoint:CGPointMake(size.width + ([GameScene fallingMonkeySize].width / 2.0f), size.height)];
-    rightEdge.physicsBody.categoryBitMask       = sideEdgeCategory;
-    rightEdge.physicsBody.collisionBitMask      = sideEdgeCategory;
-    [self addChild:rightEdge];
-}
-- (HLToolbarNode *)addPowerUpToolbarNode:(CGSize)size {
-    HLToolbarNode *toolbarNode                  = [[HLToolbarNode alloc] init];
-    toolbarNode.automaticHeight                 = NO;
-    toolbarNode.automaticWidth                  = NO;
-    toolbarNode.backgroundBorderSize            = 0.0f;
-    toolbarNode.squareSeparatorSize             = _toolbarHorizontalSpacing;
-    toolbarNode.backgroundColor                 = [UIColor clearColor];
-    toolbarNode.anchorPoint                     = CGPointMake(0.0f, 0.0f);
-    toolbarNode.size                            = CGSizeMake(size.width, _toolbarNodeSize.height + VERTICAL_SPACING_8);
-    toolbarNode.squareColor                     = [SKColor clearColor];
-//    toolbarNode.highlightColor                  = [SKColor colorWithRed:180.0f/255.0f green:180.0f/255.0f blue:180.0f/255.0f alpha:1.0];
-    
-    NSMutableArray *toolNodes                   = [NSMutableArray array];
-    NSMutableArray *toolTags                    = [NSMutableArray array];
-    
-    SIPowerUpToolbarNode *timeFreezeNode        = [[SIPowerUpToolbarNode alloc] initWithSIPowerUp:SIPowerUpTimeFreeze size:_toolbarNodeSize];
-    [toolNodes  addObject:timeFreezeNode];
-    [toolTags   addObject:kSINodeButtonTimeFreeze];
+//- (void)addBottomEdge:(CGSize)size {
+//    SKNode *bottomEdge                          = [SKNode node];
+//    bottomEdge.physicsBody                      = [SKPhysicsBody bodyWithEdgeFromPoint:CGPointMake(0, 1) toPoint:CGPointMake(size.width, 1)];
+//    bottomEdge.physicsBody.categoryBitMask      = bottomEdgeCategory;
+//    bottomEdge.physicsBody.collisionBitMask     = 0;
+//    [self addChild:bottomEdge];
+//}
+//- (void)addSideEdges:(CGSize) size {
+//    SKNode *leftEdge                            = [SKNode node];
+//    leftEdge.physicsBody                        = [SKPhysicsBody bodyWithEdgeFromPoint:CGPointMake(-1.0f * ([GameScene fallingMonkeySize].width / 2.0f), 0)
+//                                                                               toPoint:CGPointMake(-1.0f * ([GameScene fallingMonkeySize].width / 2.0f), size.height)];
+//    leftEdge.physicsBody.categoryBitMask        = sideEdgeCategory;
+//    leftEdge.physicsBody.collisionBitMask       = sideEdgeCategory;
+//    [self addChild:leftEdge];
+//    
+//    SKNode *rightEdge                           = [SKNode node];
+//    rightEdge.physicsBody                       = [SKPhysicsBody bodyWithEdgeFromPoint:CGPointMake(size.width + ([GameScene fallingMonkeySize].width / 2.0f), 0)
+//                                                                                toPoint:CGPointMake(size.width + ([GameScene fallingMonkeySize].width / 2.0f), size.height)];
+//    rightEdge.physicsBody.categoryBitMask       = sideEdgeCategory;
+//    rightEdge.physicsBody.collisionBitMask      = sideEdgeCategory;
+//    [self addChild:rightEdge];
+//}
+//- (HLToolbarNode *)addPowerUpToolbarNode:(CGSize)size {
+//    HLToolbarNode *toolbarNode                  = [[HLToolbarNode alloc] init];
+//    toolbarNode.automaticHeight                 = NO;
+//    toolbarNode.automaticWidth                  = NO;
+//    toolbarNode.backgroundBorderSize            = 0.0f;
+//    toolbarNode.squareSeparatorSize             = _toolbarHorizontalSpacing;
+//    toolbarNode.backgroundColor                 = [UIColor clearColor];
+//    toolbarNode.anchorPoint                     = CGPointMake(0.0f, 0.0f);
+//    toolbarNode.size                            = CGSizeMake(size.width, _toolbarNodeSize.height + VERTICAL_SPACING_8);
+//    toolbarNode.squareColor                     = [SKColor clearColor];
+////    toolbarNode.highlightColor                  = [SKColor colorWithRed:180.0f/255.0f green:180.0f/255.0f blue:180.0f/255.0f alpha:1.0];
+//    
+//    NSMutableArray *toolNodes                   = [NSMutableArray array];
+//    NSMutableArray *toolTags                    = [NSMutableArray array];
+//    
+//    SIPowerUpToolbarNode *timeFreezeNode        = [[SIPowerUpToolbarNode alloc] initWithSIPowerUp:SIPowerUpTypeTimeFreeze size:_toolbarNodeSize];
+//    [toolNodes  addObject:timeFreezeNode];
+//    [toolTags   addObject:kSINodeButtonTimeFreeze];
+//
+//    SIPowerUpToolbarNode *rapidFireNode         = [[SIPowerUpToolbarNode alloc] initWithSIPowerUp:SIPowerUpTypeRapidFire size:_toolbarNodeSize];
+//    [toolNodes addObject:rapidFireNode];
+//    [toolTags addObject:kSINodeButtonRapidFire];
+//    
+//    SIPowerUpToolbarNode *fallingMonkeyNode     = [[SIPowerUpToolbarNode alloc] initWithSIPowerUp:SIPowerUpTypeFallingMonkeys size:_toolbarNodeSize];
+//    [toolNodes addObject:fallingMonkeyNode];
+//    [toolTags addObject:kSINodeButtonFallingMonkey];
+//    
+//    [toolbarNode setTools:toolNodes tags:toolTags animation:HLToolbarNodeAnimationSlideUp];
+//    
+//    [toolbarNode layoutToolsAnimation:HLToolbarNodeAnimationNone];
+//    return toolbarNode;
+//}
 
-    SIPowerUpToolbarNode *rapidFireNode         = [[SIPowerUpToolbarNode alloc] initWithSIPowerUp:SIPowerUpRapidFire size:_toolbarNodeSize];
-    [toolNodes addObject:rapidFireNode];
-    [toolTags addObject:kSINodeButtonRapidFire];
-    
-    SIPowerUpToolbarNode *fallingMonkeyNode     = [[SIPowerUpToolbarNode alloc] initWithSIPowerUp:SIPowerUpFallingMonkeys size:_toolbarNodeSize];
-    [toolNodes addObject:fallingMonkeyNode];
-    [toolTags addObject:kSINodeButtonFallingMonkey];
-    
-    [toolbarNode setTools:toolNodes tags:toolTags animation:HLToolbarNodeAnimationSlideUp];
-    
-    [toolbarNode layoutToolsAnimation:HLToolbarNodeAnimationNone];
-    return toolbarNode;
-}
-/**
- this is a private convience method so i don't have to type two if statements
- every god damn time i want to use a delegate
- */
-- (BOOL)amIsGamePaused {
-    if ([_sceneDelegate respondsToSelector:@selector(gameIsPaused)]) {
-        return [_sceneDelegate gameIsPaused];
-    } else {
-        return NO;
-    }
-}
+
 #pragma mark - SIGameNode delegate
-- (void)gestureEnded:(SIMove)move siMoveCommandAction:(SIMoveCommandAction)siMoveCommandAction gestureRecgonizer:(UIGestureRecognizer *)gestureRecognizer {
-//    [self checkIfGameShallStartOrResume];
-    if (![self amIsGamePaused]) {
-        /*Set the move action*/
-        [self explosionFromGestureRecognizer:gestureRecognizer];
-        
-        _moveScoreAction                            = siMoveCommandAction;
-        
-        /*Tell the singleton about the move that was just entered...*/
-        /*  we do not know if it is the correct move... don't launch the command yet*/
-        if ([_sceneDelegate respondsToSelector:@selector(sceneDidRecieveMoveCommand:)]) {
-            [_sceneDelegate sceneDidRecieveMoveCommand:move];
-        }
+- (void)gestureEnded:(SIMove *)move {
+    if ([_sceneDelegate respondsToSelector:@selector(sceneGameDidRecieveMove:)]) {
+        [_sceneDelegate sceneGameDidRecieveMove:move];
     }
+    
+//    if (![self amIsGamePaused]) {
+//        /*Set the move action*/
+//        [self explosionFromGestureRecognizer:gestureRecognizer];
+//        
+//        _moveScoreAction                            = siMoveCommandAction;
+//        
+//        /*Tell the singleton about the move that was just entered...*/
+//        /*  we do not know if it is the correct move... don't launch the command yet*/
+//
+//    }
 }
 - (void)shakeRegistered {
-//    [self checkIfGameShallStartOrResume];
-    if (![self amIsGamePaused]) {
-        _moveScoreAction                            = SIMoveCommandActionShake;
-        if ([_sceneDelegate respondsToSelector:@selector(sceneDidRecieveMoveCommand:)]) {
-            [_sceneDelegate sceneDidRecieveMoveCommand:SIMoveShake];
-        }
+    if ([_sceneDelegate respondsToSelector:@selector(sceneGameDidRecieveMove:)]) {
+        SIMove *move = [[SIMove alloc] init];
+        move.moveCommand = SIMoveCommandShake;
+        move.moveCommandAction = SIMoveCommandActionShake;
+        [_sceneDelegate sceneGameDidRecieveMove:move];
     }
 }
+//    [self checkIfGameShallStartOrResume];
+//    if (![self amIsGamePaused]) {
+//        _moveScoreAction                            = SIMoveCommandActionShake;
+//        if ([_sceneDelegate respondsToSelector:@selector(sceneGameDidRecieveMoveCommand:)]) {
+//            [_sceneDelegate sceneGameDidRecieveMoveCommand:SIMoveCommandShake];
+//        }
+//    }
+//}
 //- (void)checkIfGameShallStartOrResume {
 //    if ([AppSingleton singleton].currentGame.isStarted == NO) {
 //        [[AppSingleton singleton] startGame];
@@ -698,28 +699,27 @@ typedef NS_ENUM(NSInteger, SIGameSceneRingNode) {
 //    
 //    self.view.backgroundColor                       = [[AppSingleton singleton] newBackgroundColor];
 //}
-- (void)explosionFromGestureRecognizer:(UIGestureRecognizer *)gestureRecognizer {
-    
-    CGPoint explosionPoint = CGPointZero;
-    
-    if ([gestureRecognizer numberOfTouches] > 1) {
-        CGPoint firstPoint                          = [gestureRecognizer locationOfTouch:0 inView:gestureRecognizer.view];
-        CGPoint secondPoint                         = [gestureRecognizer locationOfTouch:1 inView:gestureRecognizer.view];
-        
-        explosionPoint                              = CGPointMake((firstPoint.x + secondPoint.x) / 2.0f, (firstPoint.y + secondPoint.y) / 2.0f);
-    } else {
-        explosionPoint                              = [gestureRecognizer locationOfTouch:0 inView:gestureRecognizer.view];
-    }
-    
-    explosionPoint                                  = CGPointMake(explosionPoint.x, self.view.scene.frame.size.height - explosionPoint.y);
-    
-    _launchMoveScorePoint                           = explosionPoint;
-    SKEmitterNode *sparkEmitter                     = [NSKeyedUnarchiver unarchiveObjectWithFile:[SIConstants pathForTouchExplosionEmitter]];
-    sparkEmitter.position                           = explosionPoint;
-    sparkEmitter.zPosition                          = SIGameNodeZPositionLayerMoveScoreEmitter / SIGameNodeZPositionLayerCount;
-    [self addChild:sparkEmitter];
 
+- (void)sceneWillPresentEmitter:(SKEmitterNode *)emitter {
+    
+    emitter.zPosition                          = (float)SIGameNodeZPositionLayerMoveScoreEmitter / (float)SIGameNodeZPositionLayerCount;
+
+    [self addChild:emitter];
 }
+
+
+
+//
+//- (void)explosionFromGestureRecognizer:(UIGestureRecognizer *)gestureRecognizer {
+//    
+//
+//    
+//    _launchMoveScorePoint                           = explosionPoint;
+//    SKEmitterNode *sparkEmitter                     = [NSKeyedUnarchiver unarchiveObjectWithFile:[SIConstants pathForTouchExplosionEmitter]];
+//    sparkEmitter.position                           = explosionPoint;
+//    [self addChild:sparkEmitter];
+//
+//}
 
 #pragma mark - Accelerometer Methods
 - (void)startAccelerometerForShake {
@@ -756,23 +756,41 @@ typedef NS_ENUM(NSInteger, SIGameSceneRingNode) {
 }
 
 #pragma mark - Scene Update Methods
+/**
+ Called Syncrousnly
+ */
+-(void)update:(NSTimeInterval)currentTime {
+    if ([_sceneDelegate respondsToSelector:@selector(sceneGameWillUpdateProgressBars)]) {
+        SISceneGameProgressBarUpdate *progressBarUpdate = [_sceneDelegate sceneGameWillUpdateProgressBars];
+        
+        _progressBarMove.titleLabelNode.text            = progressBarUpdate.textMove;
+        _progressBarMove.progress                       = progressBarUpdate.percentMove;
+        
+        _progressBarPowerUp.progress                    = progressBarUpdate.percentPowerUp;
+    }
+}
+/**
+ Asyncronously
+ */
 - (void)updateSceneWithBackgroundColor:(UIColor *)backgroundColor
                             totalScore:(float)totalScore
                              moveScore:(float)moveScore
             freeCoinProgressBarPercent:(float)freeCoinProgressBarPercent
                      moveCommandString:(NSString *)moveCommandString
-                           isHighScore:(BOOL)isHighScore {
+                           isHighScore:(BOOL)isHighScore
+                         touchLocation:(CGPoint)touchLocation {
+    
     /*Change the background color*/
-    _backgroundNode.backgroundColor = backgroundColor;
+    _backgroundNode.backgroundColor                     = backgroundColor;
     
     /*Handle that toal score label up at the top*/
-    _totalScoreLabel.text           = [NSString stringWithFormat:@"%0.2f",totalScore];
+    _totalScoreLabel.text                               = [NSString stringWithFormat:@"%0.2f",totalScore];
     
     /*Lets put a little explosion in the moveScore!!! yeah*/
-    [self presentMoveScore:[NSNumber numberWithFloat:moveScore]];
+    [self presentMoveScore:[NSNumber numberWithFloat:moveScore] atPoint:touchLocation];
     
     
-    _progressBarFreeCoin.progress   = freeCoinProgressBarPercent;
+    _progressBarFreeCoin.progress                       = freeCoinProgressBarPercent;
     
     [self moveCommandLabelWillUpdateWithNewCommand:moveCommandString];
     
@@ -803,7 +821,7 @@ typedef NS_ENUM(NSInteger, SIGameSceneRingNode) {
 //}
     
 //- (void)gameEnded {
-//    if ([AppSingleton singleton].currentGame.currentPowerUp != SIPowerUpNone) {
+//    if ([AppSingleton singleton].currentGame.currentPowerUp != SIPowerUpTypeNone) {
 //        [self powerUpDeactivated];
 //    }
 //    [self presentModalNode:_popUpNode animation:HLScenePresentationAnimationFade];
@@ -844,7 +862,7 @@ typedef NS_ENUM(NSInteger, SIGameSceneRingNode) {
 //}
 //- (void)scoreUpdate {
 ////    [self.progressBarMove setProgress:[AppSingleton singleton].currentGame.moveScorePercentRemaining];
-////    if ([AppSingleton singleton].currentGame.currentPowerUp != SIPowerUpNone) {
+////    if ([AppSingleton singleton].currentGame.currentPowerUp != SIPowerUpTypeNone) {
 ////        [self.progressBarPowerUp setProgress:[AppSingleton singleton].currentGame.powerUpPercentRemaining];
 ////    }
 //}
@@ -1032,7 +1050,7 @@ typedef NS_ENUM(NSInteger, SIGameSceneRingNode) {
 //    label.verticalAlignmentMode         = SKLabelVerticalAlignmentModeCenter;
 //    return label;
 }
-- (void)presentMoveScore:(NSNumber *)score {
+- (void)presentMoveScore:(NSNumber *)score atPoint:(CGPoint)launchPoint {
     
     BMGlyphLabel *moveLabel = [BMGlyphLabel labelWithText:[NSString stringWithFormat:@"%0.2f",[score floatValue]] font:_moveScoreBMGlyphFont];
 
@@ -1049,7 +1067,7 @@ typedef NS_ENUM(NSInteger, SIGameSceneRingNode) {
 //    [moveLabel setHorizontalAlignment:BMGlyphHorizontalAlignmentCentered];
     
     
-    moveLabelNode.position                          = _launchMoveScorePoint; //CGPointMake(self.frame.size.width / 2.0f, (self.frame.size.height / 2.0f) - _moveCommandLabel.frame.size.height);
+    moveLabelNode.position                          = launchPoint; //CGPointMake(self.frame.size.width / 2.0f, (self.frame.size.height / 2.0f) - _moveCommandLabel.frame.size.height);
     moveLabelNode.physicsBody                       = [SKPhysicsBody bodyWithRectangleOfSize:CGSizeMake(50.0f, 50.0f)];  //CGSizeMake(moveLabel.frame.size.width, moveLabel.frame.size.height)];
     moveLabelNode.physicsBody.categoryBitMask       = uiControlCategory;
     moveLabelNode.physicsBody.contactTestBitMask    = bottomEdgeCategory;
@@ -1106,10 +1124,10 @@ typedef NS_ENUM(NSInteger, SIGameSceneRingNode) {
 /*This is the forth step. Activated by the Singleton*/
 - (void)powerUpActivated {
     switch ([AppSingleton singleton].currentGame.currentPowerUp) {
-        case SIPowerUpTimeFreeze:
+        case SIPowerUpTypeTimeFreeze:
             [self startPowerUpTimeFreeze];
             break;
-        case SIPowerUpRapidFire:
+        case SIPowerUpTypeRapidFire:
             [self startPowerUpRapidFire];
             break;
         default:
@@ -1119,10 +1137,10 @@ typedef NS_ENUM(NSInteger, SIGameSceneRingNode) {
 }
 - (void)powerUpDeactivated {
     switch ([AppSingleton singleton].currentGame.currentPowerUp) {
-        case SIPowerUpTimeFreeze:
+        case SIPowerUpTypeTimeFreeze:
             [self endPowerUpTimeFreeze];
             break;
-        case SIPowerUpRapidFire:
+        case SIPowerUpTypeRapidFire:
             [self endPowerUpRapidFire];
             break;
         default:
@@ -1145,10 +1163,10 @@ typedef NS_ENUM(NSInteger, SIGameSceneRingNode) {
 }
 - (void)endPowerUpAll {
     [[AppSingleton singleton] powerUpDidEnd];
-    [AppSingleton singleton].currentGame.currentPowerUp = SIPowerUpNone;
+    [AppSingleton singleton].currentGame.currentPowerUp = SIPowerUpTypeNone;
     
 }
-- (void)movePowerUpProgressOnScreen:(BOOL)willMoveOnScreen {
+- (void)movePowerUpProgressBarOnScreen:(BOOL)willMoveOnScreen {
     if (willMoveOnScreen) {
         [_progressBarPowerUp runAction:[SKAction fadeInWithDuration:0.3]];
         
@@ -1168,14 +1186,14 @@ typedef NS_ENUM(NSInteger, SIGameSceneRingNode) {
     /*Do any UI Set U[ for Time Freeze*/
     [self movePowerUpProgressOnScreen:YES];
     /*Generic Start Power Up*/
-    [self startPowerUpAllWithDuration:SIPowerUpDurationTimeFreeze withNode:nil];
+//    [self startPowerUpAllWithDuration:SIPowerUpDurationTimeFreeze withNode:nil];
 }
 - (void)endPowerUpTimeFreeze {
     /*Do any UI break down for Time Freeze*/
     [self movePowerUpProgressOnScreen:NO];
 
     /*Generica End Power Up*/
-    [self endPowerUpAll];
+//    [self endPowerUpAll];
 }
 
 #pragma mark - Rapid Fire
@@ -1184,14 +1202,14 @@ typedef NS_ENUM(NSInteger, SIGameSceneRingNode) {
     [self movePowerUpProgressOnScreen:YES];
 
     /*Generic Start Power Up*/
-    [self startPowerUpAllWithDuration:SIPowerUpDurationRapidFire withNode:nil];
+//    [self startPowerUpAllWithDuration:SIPowerUpDurationRapidFire withNode:nil];
 }
 - (void)endPowerUpRapidFire {
     /*Do any UI break down for Rapid Fire*/
     [self movePowerUpProgressOnScreen:NO];
 
     /*Generica End Power Up*/
-    [self endPowerUpAll];
+//    [self endPowerUpAll];
 }
 
 #pragma mark - Falling Monkeys
@@ -1212,9 +1230,6 @@ typedef NS_ENUM(NSInteger, SIGameSceneRingNode) {
     [_pauseButtonNode               runAction:fadeOut];
     [_powerUpToolBar                runAction:fadeOut];
 //    [_powerUpToolBar                runAction:fadeOut];
-    
-    /*Pause Game*/
-    [[AppSingleton singleton] pause];
     
     /*Start Power Up*/
     [self launchMonkey];
@@ -1239,7 +1254,6 @@ typedef NS_ENUM(NSInteger, SIGameSceneRingNode) {
     [_progressBarMove               runAction:fadeIn];
     [_moveCommandLabel              runAction:fadeIn];
     [_pauseButtonNode               runAction:fadeIn];
-//    [_powerUpToolBarBackgroundNode  runAction:fadeIn];
     [_powerUpToolBar                runAction:fadeIn];
 
     SKAction *resumeGameBlock = [SKAction runBlock:^{
@@ -1251,7 +1265,7 @@ typedef NS_ENUM(NSInteger, SIGameSceneRingNode) {
 
 
     /*Generica End Power Up*/
-    [self endPowerUpAll]; //this will disable the powerup
+//    [self endPowerUpAll]; //this will disable the powerup
 }
 #pragma mark - Monkey Methods!
 - (void)launchMonkey {
@@ -1385,64 +1399,74 @@ typedef NS_ENUM(NSInteger, SIGameSceneRingNode) {
     
     [_itCoinsButtonLabel runAction:sequence];
 }
--(void)update:(NSTimeInterval)currentTime {
-    _totalScoreLabel.text                       = [NSString stringWithFormat:@"%0.2f",[AppSingleton singleton].currentGame.totalScore];
-    
-    _itCoinsButtonLabel.text                    = [NSString stringWithFormat:@"x%d",[[[MKStoreKit sharedKit] availableCreditsForConsumable:kSIIAPConsumableIDCoins] intValue]];
-    
-    
-    _progressBarFreeCoin.progress               = [AppSingleton singleton].currentGame.freeCoinPercentRemaining;
-    if (POINTS_NEEDED_FOR_FREE_COIN - [AppSingleton singleton].currentGame.freeCoinInPoints > 0.0f) {
-//        _progressBarFreeCoin.titleLabelNode.text    = @"Free Coin"; //[NSString stringWithFormat:@"IT Coin in %0.2f points",POINTS_NEEDED_FOR_FREE_COIN - [AppSingleton singleton].currentGame.freeCoinInPoints];
-    }
-    
-    if ([AppSingleton singleton].currentGame.isPaused == NO) {
-        _progressBarMove.titleLabelNode.text = [NSString stringWithFormat:@"%0.2f pts",[AppSingleton singleton].currentGame.moveScore];
-        [_progressBarMove setProgress:[AppSingleton singleton].currentGame.moveScorePercentRemaining];
-        if ([AppSingleton singleton].currentGame.currentPowerUp != SIPowerUpNone) {
-            [_progressBarPowerUp setProgress:[AppSingleton singleton].currentGame.powerUpPercentRemaining];
-//            _progressBarPowerUp.titleLabelNode.text = @"Free Coin"; //[NSString stringWithFormat:@"%0.2f",[AppSingleton singleton].currentGame.powerUpPercentRemaining * MAX_MOVE_SCORE];
-        }
-    }
 
-    [self checkCanAffordPowerupToolbarNodes];
-}
+//-(void)update:(NSTimeInterval)currentTime {
+//    
+//    
+//    
+//    _totalScoreLabel.text                       = [NSString stringWithFormat:@"%0.2f",[AppSingleton singleton].currentGame.totalScore];
+//    
+//    _itCoinsButtonLabel.text                    = [NSString stringWithFormat:@"x%d",[[[MKStoreKit sharedKit] availableCreditsForConsumable:kSIIAPConsumableIDCoins] intValue]];
+//    
+//    
+//    _progressBarFreeCoin.progress               = [AppSingleton singleton].currentGame.freeCoinPercentRemaining;
+//    if (POINTS_NEEDED_FOR_FREE_COIN - [AppSingleton singleton].currentGame.freeCoinInPoints > 0.0f) {
+////        _progressBarFreeCoin.titleLabelNode.text    = @"Free Coin"; //[NSString stringWithFormat:@"IT Coin in %0.2f points",POINTS_NEEDED_FOR_FREE_COIN - [AppSingleton singleton].currentGame.freeCoinInPoints];
+//    }
+//    
+//    if ([AppSingleton singleton].currentGame.isPaused == NO) {
+//        _progressBarMove.titleLabelNode.text = [NSString stringWithFormat:@"%0.2f pts",[AppSingleton singleton].currentGame.moveScore];
+//        [_progressBarMove setProgress:[AppSingleton singleton].currentGame.moveScorePercentRemaining];
+//        if ([AppSingleton singleton].currentGame.currentPowerUp != SIPowerUpTypeNone) {
+//            [_progressBarPowerUp setProgress:[AppSingleton singleton].currentGame.powerUpPercentRemaining];
+////            _progressBarPowerUp.titleLabelNode.text = @"Free Coin"; //[NSString stringWithFormat:@"%0.2f",[AppSingleton singleton].currentGame.powerUpPercentRemaining * MAX_MOVE_SCORE];
+//        }
+//    }
+//
+//    [self checkCanAffordPowerupToolbarNodes];
+//}
 - (void)checkCanAffordPowerupToolbarNodes {
     NSNumber *numberOfItCoins = [[MKStoreKit sharedKit] availableCreditsForConsumable:kSIIAPConsumableIDCoins];
     
-    if ([numberOfItCoins integerValue] < SIPowerUpCostTimeFreeze || [AppSingleton singleton].currentGame.currentPowerUp == SIPowerUpTimeFreeze) {
+    if ([numberOfItCoins integerValue] < SIPowerUpCostTimeFreeze || [AppSingleton singleton].currentGame.currentPowerUp == SIPowerUpTypeTimeFreeze) {
         [_powerUpToolBar setEnabled:NO forTool:kSINodeButtonTimeFreeze];
     } else {
         [_powerUpToolBar setEnabled:YES forTool:kSINodeButtonTimeFreeze];
     }
     
-    if ([numberOfItCoins integerValue] < SIPowerUpCostRapidFire  || [AppSingleton singleton].currentGame.currentPowerUp == SIPowerUpRapidFire) {
+    if ([numberOfItCoins integerValue] < SIPowerUpCostRapidFire  || [AppSingleton singleton].currentGame.currentPowerUp == SIPowerUpTypeRapidFire) {
         [_powerUpToolBar setEnabled:NO forTool:kSINodeButtonRapidFire];
     } else {
         [_powerUpToolBar setEnabled:YES forTool:kSINodeButtonRapidFire];
     }
     
-    if ([numberOfItCoins integerValue] < SIPowerUpCostFallingMonkeys  || [AppSingleton singleton].currentGame.currentPowerUp == SIPowerUpFallingMonkeys) {
+    if ([numberOfItCoins integerValue] < SIPowerUpCostFallingMonkeys  || [AppSingleton singleton].currentGame.currentPowerUp == SIPowerUpTypeFallingMonkeys) {
         [_powerUpToolBar setEnabled:NO forTool:kSINodeButtonFallingMonkey];
     } else {
         [_powerUpToolBar setEnabled:YES forTool:kSINodeButtonFallingMonkey];
     }
 }
 #pragma mark - HLToolBarNodeDelegate
--(void)toolbarNode:(HLToolbarNode *)toolbarNode didTapTool:(NSString *)toolTag {
-    if ([AppSingleton singleton].currentGame.isPaused == NO) {
-        if ([toolTag isEqualToString:kSINodeButtonTimeFreeze]) {
-            [self powerUpTapped:SIPowerUpTimeFreeze];
-            
-        } else if ([toolTag isEqualToString:kSINodeButtonRapidFire]) {
-            [self powerUpTapped:SIPowerUpRapidFire];
-            
-        } else if ([toolTag isEqualToString:kSINodeButtonFallingMonkey]) {
-            [self powerUpTapped:SIPowerUpFallingMonkeys];
-            
-        }
+- (void)toolbarNode:(HLToolbarNode *)toolbarNode didTapTool:(NSString *)toolTag {
+    if ([_sceneDelegate respondsToSelector:@selector(sceneToolbar:powerUpWasTapped:)]) {
+        [_sceneDelegate sceneToolbar:toolbarNode powerUpWasTapped:[PowerUp powerUpForString:toolTag]]
     }
 }
+//- (void)toolbarNode:(HLToolbarNode *)toolbarNode didTapTool:(NSString *)toolTag {
+//
+//    if ([MainViewController is]) {
+//        if ([toolTag isEqualToString:kSINodeButtonTimeFreeze]) {
+//            [self powerUpTapped:SIPowerUpTypeTimeFreeze];
+//            
+//        } else if ([toolTag isEqualToString:kSINodeButtonRapidFire]) {
+//            [self powerUpTapped:SIPowerUpTypeRapidFire];
+//            
+//        } else if ([toolTag isEqualToString:kSINodeButtonFallingMonkey]) {
+//            [self powerUpTapped:SIPowerUpTypeFallingMonkeys];
+//            
+//        }
+//    }
+//}
 //- (SKSpriteNode *)powerupCostNode:(SIPowerUp)siPowerUp {
 //    int powerupCost = [Game costForPowerUp:siPowerUp];
 //    SKSpriteNode *costNode = [SKSpriteNode spriteNodeWithTexture:[[SIConstants buttonAtlas] textureNamed:kSIImageButtonTimeFreeze] size:CGSizeMake(_buttonSize.width * 0.25, _buttonSize.height * 0.25)];
@@ -1456,44 +1480,46 @@ typedef NS_ENUM(NSInteger, SIGameSceneRingNode) {
     if ([_sceneDelegate respondsToSelector:@selector(sceneDidRecieveRingNode:Tap:)]) {
         [_sceneDelegate sceneDidRecieveRingNode:ringNode Tap:(SIGameSceneRingNode)itemIndex];
     }
-    switch (itemIndex) {
-        case SIGameSceneRingNodePlay:
-            /*Play Button*/
-            [self play];
-            [ringNode removeFromParent];
-            break;
-        case SIGameSceneRingNodeSoundBackground:
-            /*Change Sound Background State*/
-            if (_isSoundOnBackground) {
-                /*Turn Background Sound Off*/
-                [[SoundManager sharedManager] stopMusic];
-            } else {
-                /*Turn Sound Background On*/
-                [[SoundManager sharedManager] playMusic:kSISoundBackgroundMenu looping:YES fadeIn:YES];
-            }
-            [[NSUserDefaults standardUserDefaults] setBool:!_isSoundOnBackground forKey:kSINSUserDefaultSoundIsAllowedBackground];
-            [[NSUserDefaults standardUserDefaults] synchronize];
-            [ringNode setHighlight:_isSoundOnBackground forItem:itemIndex];
-            _isSoundOnBackground = !_isSoundOnBackground;
-            break;
-        case SIGameSceneRingNodeSoundFX:
-            /*Change Sound FX State*/
-            if (_isSoundOnFX) {
-                /*Turn FX Sound Off*/
-                [[SoundManager sharedManager] stopAllSounds];
-            }
-            [[NSUserDefaults standardUserDefaults] setBool:!_isSoundOnFX forKey:kSINSUserDefaultSoundIsAllowedFX];
-            [[NSUserDefaults standardUserDefaults] synchronize];
-            [ringNode setHighlight:_isSoundOnFX forItem:itemIndex];
-            _isSoundOnFX = !_isSoundOnFX;
-            break;
-        case SIGameSceneRingNodeEndGame:
-            [self launchEndGameScene];
-        default:
-            NSLog(@"Ring Node item tapped out of bounds index error :/");
-            break;
-    }
 }
+//- (void)ringNode:(HLRingNode *)ringNode didTapItem:(int)itemIndex {
+//    switch (itemIndex) {
+//        case SIGameSceneRingNodePlay:
+//            /*Play Button*/
+//            [self play];
+//            [ringNode removeFromParent];
+//            break;
+//        case SIGameSceneRingNodeSoundBackground:
+//            /*Change Sound Background State*/
+//            if (_isSoundOnBackground) {
+//                /*Turn Background Sound Off*/
+//                [[SoundManager sharedManager] stopMusic];
+//            } else {
+//                /*Turn Sound Background On*/
+//                [[SoundManager sharedManager] playMusic:kSISoundBackgroundMenu looping:YES fadeIn:YES];
+//            }
+//            [[NSUserDefaults standardUserDefaults] setBool:!_isSoundOnBackground forKey:kSINSUserDefaultSoundIsAllowedBackground];
+//            [[NSUserDefaults standardUserDefaults] synchronize];
+//            [ringNode setHighlight:_isSoundOnBackground forItem:itemIndex];
+//            _isSoundOnBackground = !_isSoundOnBackground;
+//            break;
+//        case SIGameSceneRingNodeSoundFX:
+//            /*Change Sound FX State*/
+//            if (_isSoundOnFX) {
+//                /*Turn FX Sound Off*/
+//                [[SoundManager sharedManager] stopAllSounds];
+//            }
+//            [[NSUserDefaults standardUserDefaults] setBool:!_isSoundOnFX forKey:kSINSUserDefaultSoundIsAllowedFX];
+//            [[NSUserDefaults standardUserDefaults] synchronize];
+//            [ringNode setHighlight:_isSoundOnFX forItem:itemIndex];
+//            _isSoundOnFX = !_isSoundOnFX;
+//            break;
+//        case SIGameSceneRingNodeEndGame:
+//            [self launchEndGameScene];
+//        default:
+//            NSLog(@"Ring Node item tapped out of bounds index error :/");
+//            break;
+//    }
+//}
 
 #pragma mark - SIPopUpNode Methods
 //- (HLMenuNode *)menuCreate:(CGSize)size {
@@ -1534,13 +1560,13 @@ typedef NS_ENUM(NSInteger, SIGameSceneRingNode) {
 //    NSLog(@"Tapped Menu Item [%@] at index %u",menuItem.text,(unsigned)itemIndex);
     if ([_sceneDelegate respondsToSelector:@selector(sceneWillDismissPopupContinueWithPayMethod:)]) {
         if ([menuItem.text isEqualToString:_coinMenuItemText]) {
-            [_sceneDelegate sceneWillDismissPopupContinueWithPayMethod:SIPowerUpPayMethodCoins];
+            [_sceneDelegate sceneWillDismissPopupContinueWithPayMethod:SISceneGamePopupContinueMenuItemCoin];
             
         }  else if ([menuItem.text isEqualToString:_adMenuItemText]) {
-            [_sceneDelegate sceneWillDismissPopupContinueWithPayMethod:SIPowerUpPayMethodAds];
+            [_sceneDelegate sceneWillDismissPopupContinueWithPayMethod:SISceneGamePopupContinueMenuItemAd];
             
         } else if ([menuItem.text isEqualToString:kSIMenuTextPopUpEndGame]) {
-            [_sceneDelegate sceneWillDismissPopupContinueWithPayMethod:SIPowerUpPayMethodNo];
+            [_sceneDelegate sceneWillDismissPopupContinueWithPayMethod:SISceneGamePopupContinueMenuItemNo];
         }
     }
 }
@@ -1565,35 +1591,35 @@ typedef NS_ENUM(NSInteger, SIGameSceneRingNode) {
 //        [self launchEndGameScene];
 //    }
 //}
-- (void)dismissPopUp:(SIPopupNode *)popUpNode {
-//    [self dismissModalNodeAnimation:HLScenePresentationAnimationFade];
-    [self launchEndGameScene];
-}
-- (void)launchEndGameScene {
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
-    EndGameScene *endScene      = [EndGameScene sceneWithSize:self.frame.size];
-    [Game transisitionToSKScene:endScene toSKView:self.view DoorsOpen:NO pausesIncomingScene:NO pausesOutgoingScene:NO duration:SCENE_TRANSISTION_DURATION];
-}
-- (void)resumePaidContinue {
-    [AppSingleton singleton].willResume                                 = YES;
-    [AppSingleton singleton].currentGame.currentContinueLifeCost  = [Game lifeCostForCurrentContinueLevel:[AppSingleton singleton].currentGame.currentContinueLifeCost];
-    
-    [self checkIfGameShallStartOrResume];
-}
-
-#pragma mark - Banner Ad Methods
-- (void)bannerAdDidLoad {
-    SKAction *move = [SKAction moveByX:0.0f y:[MainViewController bannerViewHeight] duration:1.0f];
-//    [_powerUpToolBarBackgroundNode runAction:move];
-    [_powerUpToolBar        runAction:move];
-//    [_progressBarPowerUp    runAction:move];
-}
-
-- (void)bannerAdDidUnload {
-    SKAction *move = [SKAction moveByX:0.0f y:-[MainViewController bannerViewHeight] duration:1.0f];
-    [_powerUpToolBar        runAction:move];
-//    [_powerUpToolBarBackgroundNode runAction:move];
-
-//    [_progressBarPowerUp    runAction:move];
-}
+//- (void)dismissPopUp:(SIPopupNode *)popUpNode {
+////    [self dismissModalNodeAnimation:HLScenePresentationAnimationFade];
+//    [self launchEndGameScene];
+//}
+//- (void)launchEndGameScene {
+//    [[NSNotificationCenter defaultCenter] removeObserver:self];
+//    EndGameScene *endScene      = [EndGameScene sceneWithSize:self.frame.size];
+//    [Game transisitionToSKScene:endScene toSKView:self.view DoorsOpen:NO pausesIncomingScene:NO pausesOutgoingScene:NO duration:SCENE_TRANSISTION_DURATION];
+//}
+//- (void)resumePaidContinue {
+//    [AppSingleton singleton].willResume                                 = YES;
+//    [AppSingleton singleton].currentGame.currentContinueLifeCost  = [Game lifeCostForCurrentContinueLevel:[AppSingleton singleton].currentGame.currentContinueLifeCost];
+//    
+//    [self checkIfGameShallStartOrResume];
+//}
+//
+//#pragma mark - Banner Ad Methods
+//- (void)bannerAdDidLoad {
+//    SKAction *move = [SKAction moveByX:0.0f y:[MainViewController bannerViewHeight] duration:1.0f];
+////    [_powerUpToolBarBackgroundNode runAction:move];
+//    [_powerUpToolBar        runAction:move];
+////    [_progressBarPowerUp    runAction:move];
+//}
+//
+//- (void)bannerAdDidUnload {
+//    SKAction *move = [SKAction moveByX:0.0f y:-[MainViewController bannerViewHeight] duration:1.0f];
+//    [_powerUpToolBar        runAction:move];
+////    [_powerUpToolBarBackgroundNode runAction:move];
+//
+////    [_progressBarPowerUp    runAction:move];
+//}
 @end

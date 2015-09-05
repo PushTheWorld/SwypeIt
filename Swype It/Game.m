@@ -238,35 +238,21 @@
     }
 }
 /*AUTO TESTED*/
-+ (NSString *)stringForMove:(SIMove)move {
++ (NSString *)stringForMove:(SIMoveCommand)move {
     switch (move) {
-        case SIMoveTap:
+        case SIMoveCommandTap:
             return kSIMoveCommandTap;
-        case SIMoveSwype:
+        case SIMoveCommandSwype:
             return kSIMoveCommandSwype;
-        case SIMovePinch:
+        case SIMoveCommandPinch:
             return kSIMoveCommandPinch;
-        case SIMoveShake:
+        case SIMoveCommandShake:
             return kSIMoveCommandShake;
         default:
             return nil;
     }
 }
-/*AUTO TESTED*/
-+ (NSString *)stringForPowerUp:(SIPowerUp)powerUp {
-    switch (powerUp) {
-        case SIPowerUpFallingMonkeys:
-            return kSIPowerUpFallingMonkeys;
-        case SIPowerUpTimeFreeze:
-            return kSIPowerUpTimeFreeze;
-        case SIPowerUpRapidFire:
-            return kSIPowerUpRapidFire;
-        case SIPowerUpNone:
-            return kSIPowerUpNone;
-        default:
-            return nil;
-    }
-}
+
 + (UIColor *)backgroundColorForScore:(float)score forRandomNumber:(NSInteger)randomNumber {
     if (score < LEVEL1) {
         switch (randomNumber) {
@@ -402,18 +388,18 @@
     }
 }
 
-+ (SIMove)getRandomMoveForGameMode:(SIGameMode)gameMode {
++ (SIMoveCommand)getRandomMoveForGameMode:(SIGameMode)gameMode {
     NSInteger randomNumber = arc4random_uniform(NUMBER_OF_MOVES);
     switch (randomNumber) {
         case 0:
-            return SIMoveTap;
+            return SIMoveCommandTap;
         case 1:
-            return SIMoveSwype;
+            return SIMoveCommandSwype;
         default:
             if (gameMode == SIGameModeOneHand) {
-                return SIMoveShake;
+                return SIMoveCommandShake;
             } else { /*GameModeTwoHane*/
-                return SIMovePinch;
+                return SIMoveCommandPinch;
             }
     }
 }
@@ -721,13 +707,13 @@
     return texture;
 }
 
-+ (SKTexture *)textureForSIPowerUp:(SIPowerUp)powerUp {
++ (SKTexture *)textureForSIPowerUp:(SIPowerUpType)powerUp {
     switch (powerUp) {
-        case SIPowerUpFallingMonkeys:
+        case SIPowerUpTypeFallingMonkeys:
             return [[SIConstants buttonAtlas] textureNamed:kSIImageFallingMonkeys];
-        case SIPowerUpRapidFire:
+        case SIPowerUpTypeRapidFire:
             return [[SIConstants imagesAtlas] textureNamed:kSIImageButtonRapidFire];
-        case SIPowerUpTimeFreeze:
+        case SIPowerUpTypeTimeFreeze:
             return [[SIConstants imagesAtlas] textureNamed:kSIImageButtonTimeFreeze];
         default:
             return nil;
@@ -873,7 +859,7 @@
     game.moveScorePercentRemaining      = 1.0f;
     game.currentBackgroundSound         = SIBackgroundSoundMenu;
     game.currentLevel                   = [Game currentLevelStringForScore:0.0f];
-    game.currentMove                    = SIMoveSwype;
+    game.currentMove.moveCommand        = SIMoveCommandSwype;
     game.currentContinueLifeCost        = SIContinueLifeCost1;
     game.currentNumberOfTimesContinued  = 0;
     game.totalScore                     = 0.0f;
@@ -888,5 +874,4 @@
     
     [game.powerUpArray removeAllObjects];
 }
-
 @end

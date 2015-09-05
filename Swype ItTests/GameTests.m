@@ -16,7 +16,6 @@
 // Drop-In Class Imports (CocoaPods/GitHub/Guru)
 // Category Import
 // Support/Data Class Imports
-#import "AppSingleton.h"
 #import "SIConstants.h"
 // Other Imports
 
@@ -195,79 +194,30 @@
     }
 }
 - (void)testStringForMove {
-    XCTAssertEqualObjects(kSIMoveCommandPinch, [Game stringForMove:SIMovePinch]);
+    XCTAssertEqualObjects(kSIMoveCommandPinch, [Game stringForMove:SIMoveCommandPinch]);
     
-    XCTAssertEqualObjects(kSIMoveCommandTap, [Game stringForMove:SIMoveTap]);
+    XCTAssertEqualObjects(kSIMoveCommandTap, [Game stringForMove:SIMoveCommandTap]);
     
-    XCTAssertEqualObjects(kSIMoveCommandSwype, [Game stringForMove:SIMoveSwype]);
+    XCTAssertEqualObjects(kSIMoveCommandSwype, [Game stringForMove:SIMoveCommandSwype]);
     
-    XCTAssertEqualObjects(kSIMoveCommandShake, [Game stringForMove:SIMoveShake]);
+    XCTAssertEqualObjects(kSIMoveCommandShake, [Game stringForMove:SIMoveCommandShake]);
 }
-- (void)testStringForPowerUp {
-    XCTAssertEqualObjects(kSIPowerUpNone, [Game stringForPowerUp:SIPowerUpNone]);
 
-    XCTAssertEqualObjects(kSIPowerUpFallingMonkeys, [Game stringForPowerUp:SIPowerUpFallingMonkeys]);
-
-    XCTAssertEqualObjects(kSIPowerUpTimeFreeze, [Game stringForPowerUp:SIPowerUpTimeFreeze]);
-
-    XCTAssertEqualObjects(kSIPowerUpRapidFire, [Game stringForPowerUp:SIPowerUpRapidFire]);
-}
-- (void)testDurationForPowerUp {
-    /*Power Up None*/
-    XCTAssertEqual(SIPowerUpDurationNone, [Game durationForPowerUp:SIPowerUpNone]);
-    
-    /*Power Up Time Freeze*/
-    XCTAssertEqual(SIPowerUpDurationTimeFreeze, [Game durationForPowerUp:SIPowerUpTimeFreeze]);
-    
-    /*Power Up Rapid Fire*/
-    XCTAssertEqual(SIPowerUpDurationRapidFire, [Game durationForPowerUp:SIPowerUpRapidFire]);
-}
-- (void)testCostForPowerUp {
-    /*Power Up None*/
-    XCTAssertEqual(SIPowerUpCostNone, [Game costForPowerUp:SIPowerUpNone]);
-    
-    /*Power Up Double Points*/
-    XCTAssertEqual(SIPowerUpCostFallingMonkeys, [Game costForPowerUp:SIPowerUpFallingMonkeys]);
-    
-    /*Power Up Time Freeze*/
-    XCTAssertEqual(SIPowerUpCostTimeFreeze, [Game costForPowerUp:SIPowerUpTimeFreeze]);
-    
-    /*Power Up Rapid Fire*/
-    XCTAssertEqual(SIPowerUpCostRapidFire, [Game costForPowerUp:SIPowerUpRapidFire]);
-}
-- (void)testTypeDefForPowerUpDuration {
-    /*Power Up None*/
-    XCTAssertEqual(0, SIPowerUpDurationNone);
-    /*Power Up Time Freeze*/
-    XCTAssertEqual(8, SIPowerUpDurationTimeFreeze);
-    /*Power Up Rapid Fire*/
-    XCTAssertEqual(3, SIPowerUpDurationRapidFire);
-}
-- (void)testTypeDefForPowerUpCost {
-    /*Power Up None*/
-    XCTAssertEqual(0, SIPowerUpCostNone);
-    /*Power Up Double Points*/
-    XCTAssertEqual(5, SIPowerUpCostFallingMonkeys);
-    /*Power Up Time Freeze*/
-    XCTAssertEqual(1, SIPowerUpCostTimeFreeze);
-    /*Power Up Rapid Fire*/
-    XCTAssertEqual(3, SIPowerUpCostRapidFire);
-}
 - (void)testGetRandomMoveForRapidFire {
     /*Check to make the Rapid Fire Returns Tap*/
-    SIMove move = [Game getRandomMoveForGameMode:SIGameModeOneHand isRapidFireActiviated:YES];
-    XCTAssertEqual(move, SIMoveTap);
+    SIMoveCommand move = [Game getRandomMoveForGameMode:SIGameModeOneHand];
+    XCTAssertEqual(move, SIMoveCommandTap);
 }
 - (void)testGetRandomMoveForOneHandGameMode {
     for (int i = 0; i < 50; i++) {
-        SIMove move = [Game getRandomMoveForGameMode:SIGameModeOneHand isRapidFireActiviated:NO];
-        XCTAssertNotEqual(move, SIMovePinch);
+        SIMoveCommand move = [Game getRandomMoveForGameMode:SIGameModeOneHand];
+        XCTAssertNotEqual(move, SIMoveCommandPinch);
     }
 }
 - (void)testGetRandomMoveForTwoHandGameMode {
     for (int i = 0; i < 50; i++) {
-        SIMove move = [Game getRandomMoveForGameMode:SIGameModeTwoHand isRapidFireActiviated:NO];
-        XCTAssertNotEqual(move, SIMoveShake);
+        SIMoveCommand move = [Game getRandomMoveForGameMode:SIGameModeTwoHand];
+        XCTAssertNotEqual(move, SIMoveCommandShake);
     }
 }
 - (void)testIAPButtonStringForSIIAPPack {

@@ -53,6 +53,8 @@
 
     CGFloat              _screenHeight;
     
+    CGSize               _sceneSize;
+    
     int                  _numberOfAdsToWatch;
     
     EndGameScene        *_sceneEndGame;
@@ -209,10 +211,30 @@
         return 150.0f;
     }
 }
++ (CGSize)SIFallingMonkeySize {
+    if (IS_IPHONE_4) {
+        return CGSizeMake(100.0, 100.0);
+        
+    } else if (IS_IPHONE_5) {
+        return CGSizeMake(130.0, 130.0);
+        
+    } else if (IS_IPHONE_6) {
+        return CGSizeMake(150.0, 150.0);
+        
+    } else if (IS_IPHONE_6_PLUS) {
+        return CGSizeMake(180.0, 180.0);
+        
+    } else {
+        return CGSizeMake(200.0, 200.0);
+        
+    }
+}
 
 #pragma mark - UI Life Cycle Methods
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    _sceneSize = self.view.frame.size;
     
     _interstitialAdPresentationIsLive = NO;
     
@@ -308,16 +330,16 @@
     [self.view addSubview:_adBannerView];
 }
 - (void)registerForNotifications {
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(hudWillHide:)                 name:kSINotificationHudHide                     object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(hudWillShow:)                 name:kSINotificationHudShow                     object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(launchBugReport:)             name:kSINotificationSettingsLaunchBugReport     object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(menuDidLoad)                  name:kSINotificationMenuLoaded                  object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(presentInterstital)           name:kSINotificationInterstitialAdShallLaunch   object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(launchPopupForContinue:)      name:kSINotificationGameContinueUsePopup        object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(removeAds)                    name:kSINotificationAdFreePurchasedSucceded     object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showGameCenterLeaderBoard)    name:kSINotificationShowLeaderBoard             object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(bannerAdHide)                 name:kSINotificationAdBannerHide                object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(bannerAdShow)                 name:kSINotificationAdBannerShow                object:nil];
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(hudWillHide:)                 name:kSINotificationHudHide                     object:nil];
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(hudWillShow:)                 name:kSINotificationHudShow                     object:nil];
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(launchBugReport:)             name:kSINotificationSettingsLaunchBugReport     object:nil];
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(menuDidLoad)                  name:kSINotificationMenuLoaded                  object:nil];
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(presentInterstital)           name:kSINotificationInterstitialAdShallLaunch   object:nil];
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(launchPopupForContinue:)      name:kSINotificationGameContinueUsePopup        object:nil];
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(removeAds)                    name:kSINotificationAdFreePurchasedSucceded     object:nil];
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showGameCenterLeaderBoard)    name:kSINotificationShowLeaderBoard             object:nil];
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(bannerAdHide)                 name:kSINotificationAdBannerHide                object:nil];
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(bannerAdShow)                 name:kSINotificationAdBannerShow                object:nil];
 
 }
 - (void)unregisterForNotifications {
@@ -520,12 +542,23 @@
 }
 
 #pragma mark - Public Properties
-+ (SKTexture *)sharedMonkeyFace {
++ (SKTexture *)SIMonkeyFaceTexture {
     static SKTexture *monkeyFace = nil;
     if (!monkeyFace) {
         monkeyFace = monkeyFaceTexture();
     }
     return monkeyFace;
+}
++ (SKSpriteNode *)SIFallingMonkeyNode {
+    static SKSpriteNode *monkey = nil;
+    if (!monkey) {
+        monkey                                      = [SKSpriteNode spriteNodeWithTexture:[MainViewController SIMonkeyFaceTexture]  size:[MainViewController SIFallingMonkeySize]];
+        monkey.name                                 = kSINodeFallingMonkey;
+        monkey.physicsBody                          = [SKPhysicsBody bodyWithCircleOfRadius:[MainViewController SIFallingMonkeySize].height / 2.0f];
+        monkey.physicsBody.linearDamping            = 0.0f;
+        monkey.userInteractionEnabled               = YES;
+    }
+    return monkey;
 }
 
 + (SKLabelNode *)SILabelSceneGameMoveCommand {
@@ -543,9 +576,11 @@
     return ringNode;
 }
 - (HLScene *)loadGameScene {
+    NSDate *startDate = [NSDate date];
+    
     [SIGameSingleton singleton];
     
-    HLScene *sceneGame              = [[GameScene alloc] initWithSize:self.view.frame.size];
+    HLScene *sceneGame              = [[GameScene alloc] initWithSize:_sceneSize];
 
     _sceneGamePopupContinue         = [MainViewController SIPopupSceneGameContinue];
     
@@ -553,8 +588,11 @@
     
     _sceneGameRingNodePause         = [MainViewController SIRingNodeSceneGamePause];
     
+    NSLog(@"Game Scene Initialized: loaded in %0.2f seconds", [[NSDate date] timeIntervalSinceDate:startDate]);
+    
     return sceneGame;
 }
+
 + (SIPopupNode *)SIPopupSceneGameContinue {
     
     DSMultilineLabelNode *titleNode                 = [DSMultilineLabelNode labelNodeWithFontNamed:kSIFontUltra];
@@ -575,8 +613,8 @@
     HLMenuNode *menuNode                = [[HLMenuNode alloc] init];
     menuNode.itemAnimation              = HLMenuNodeAnimationSlideLeft;
     menuNode.itemAnimationDuration      = 0.25;
-    menuNode.itemButtonPrototype        = [MainViewController SIMenuButtonPrototypePopUp:[MainViewController buttonSize:popupNode.backgroundSize]];
-    menuNode.backItemButtonPrototype    = [MainViewController SIMenuButtonPrototypeBack:[MainViewController buttonSize:popupNode.backgroundSize]];
+    menuNode.itemButtonPrototype        = [MainViewController SIMenuButtonPrototypePopUp:[MainViewController SIButtonSize:popupNode.backgroundSize]];
+    menuNode.backItemButtonPrototype    = [MainViewController SIMenuButtonPrototypeBack:[MainViewController SIButtonSize:popupNode.backgroundSize]];
     menuNode.itemSeparatorSize          = 20;
     
     HLMenu *menu                        = [[HLMenu alloc] init];
@@ -588,7 +626,7 @@
     
     /*Add the Back Button... Need to change the prototype*/
     HLMenuItem *endGameItem             = [HLMenuItem menuItemWithText:kSIMenuTextPopUpEndGame];
-    endGameItem.buttonPrototype         = [MainViewController SIMenuButtonPrototypeBack:[MainViewController buttonSize:popupNode.backgroundSize]];
+    endGameItem.buttonPrototype         = [MainViewController SIMenuButtonPrototypeBack:[MainViewController SIButtonSize:popupNode.backgroundSize]];
     [menu addItem:endGameItem];
     
     [menuNode setMenu:menu animation:HLMenuNodeAnimationNone];
@@ -952,33 +990,34 @@
             break;
     }
 }
-    break;
+- (void)sceneGameDidRecieveMove:(SIMove *)move {
+    [[SIGameSingleton singleton] singletonDidEnterMove:move];
 }
-- (void)sceneDidRecieveMoveCommand:(SIMove)moveCommand {
-    [[SIGameSingleton singleton] singletonDidEnterMove:moveCommand];
-}
+//- (void)sceneGameDidRecieveMoveCommand:(SIMoveCommand)moveCommand withMoveCommandAction:(SIMoveCommandAction)moveCommandAction withGestureRecognizer:(UIGestureRecognizer *)gestureRecognizer {
+//    [[SIGameSingleton singleton] singletonDidEnterMove:moveCommand];
+//}
 
-- (BOOL)gameIsPaused {
++ (BOOL)gameIsPaused {
     return [SIGameSingleton singleton].currentGame.isPaused;
 }
 
-- (BOOL)gameIsStarted {
++ (BOOL)gameIsStarted {
     return [SIGameSingleton singleton].currentGame.isStarted;
 }
 - (void)scenePauseButtonTapped {
     [[SIGameSingleton singleton] singletonWillPause];
     [_sceneGame sceneBlurDisplayRingNode:_sceneGameRingNodePause];
 }
-- (void)sceneWillDismissPopupContinueWithPayMethod:(SIPowerUpPayMethod)powerUpPayMethod {
-    switch (powerUpPayMethod) {
-        case SIPowerUpPayMethodCoins:
+- (void)sceneWillDismissPopupContinueWithPayMethod:(SISceneGamePopupContinueMenuItem)continuePayMethod {
+    switch (continuePayMethod) {
+        case SISceneGamePopupContinueMenuItemCoin:
             if ([SIIAPUtility canAffordContinue:[SIGameSingleton singleton].currentGame.currentContinueLifeCost]) {
                 [[MKStoreKit sharedKit] consumeCredits:[NSNumber numberWithInt:[SIGameSingleton singleton].currentGame.currentContinueLifeCost] identifiedByConsumableIdentifier:kSIIAPConsumableIDCoins];
             } else {
                 [[SIGameSingleton singleton] singletonWillResumeAndContinue:YES];
             }
             break;
-        case SIPowerUpPayMethodAds:
+        case SISceneGamePopupContinueMenuItemAd:
             _interstitialAdPresentationIsLive = YES;
             [self interstitialAdPresent];
             break;
@@ -986,25 +1025,7 @@
             [[SIGameSingleton singleton] singletonDidEnd];
             break;
     }
-    if ([menuItem.text isEqualToString:_coinMenuItemText]) {
-        NSNotification *notification = [[NSNotification alloc] initWithName:kSINotificationGameContinueUseLaunchStore object:nil userInfo:nil];
-        [[NSNotificationCenter defaultCenter] postNotification:notification];
-        
-    } else if ([menuItem.text isEqualToString:_costMenuItemText]) {
-        [[MKStoreKit sharedKit] consumeCredits:[NSNumber numberWithInteger:[AppSingleton singleton].currentGame.currentContinueLifeCost] identifiedByConsumableIdentifier:kSIIAPConsumableIDCoins];
-        [self dismissModalNodeAnimation:HLScenePresentationAnimationFade];
-        [self resumePaidContinue];
-        
-    } else if ([menuItem.text isEqualToString:kSIMenuTextPopUpWatchAd]) {
-        NSNotification *notification = [[NSNotification alloc] initWithName:kSINotificationInterstitialAdShallLaunch object:nil userInfo:nil];
-        [[NSNotificationCenter defaultCenter] postNotification:notification];
-        [self dismissModalNodeAnimation:HLScenePresentationAnimationFade];
-        [self resumePaidContinue];
-        
-    } else if ([menuItem.text isEqualToString:kSIMenuTextPopUpEndGame]) {
-        //        [self dismissModalNodeAnimation:HLScenePresentationAnimationFade];
-        [self launchEndGameScene];
-    }
+
 
 }
 #pragma mark - SIGameSingletonDelegate
@@ -1019,8 +1040,28 @@
     the scene (view) to load in what ever it needs to for this
     powerup
  */
-- (void)sceneWillActivatePowerUp:(SIPowerUp)powerUp {
-    
+- (void)sceneWillActivatePowerUp:(SIPowerUpType)powerUp {
+    switch (powerUp) {
+        case SIPowerUpTypeFallingMonkeys:
+            /*pause the singleton*/
+            [[SIGameSingleton singleton] singletonWillPause];
+            /*launch the other scene with no delay*/
+            
+            break;
+        case SIPowerUpTypeRapidFire:
+            /*Bring out progress bar*/
+            
+            /*Activate Fire Emmiters*/
+            break;
+        case SIPowerUpTypeTimeFreeze:
+            /*Bring out progress bar*/
+            
+            /*Avtivate snow*/
+            break;
+        default: //SIPowerUpTypeNone
+            NSLog(@"Error");
+            break;
+    }
 }
 
 /**
@@ -1028,8 +1069,28 @@
     All the controller needs to do is tell the scene (view)
     to break down this powerup
  */
-- (void)sceneWillDeactivatePowerUp:(SIPowerUp)powerUp {
-    
+- (void)sceneWillDeactivatePowerUp:(SIPowerUpType)powerUp {
+    switch (powerUp) {
+        case SIPowerUpTypeFallingMonkeys:
+            /*pause the singleton*/
+            [[SIGameSingleton singleton] singletonWillResumeAndContinue:YES];
+            /*launch the other scene with no delay*/
+            
+            break;
+        case SIPowerUpTypeRapidFire:
+            /*Hide Progress Barr*/
+            
+            /*Remove Fire Emmiter*/
+            break;
+        case SIPowerUpTypeTimeFreeze:
+            /*Hide Progress Barr*/
+            
+            /*Deactivate Snow Emitter*/
+            break;
+        default: //SIPowerUpTypeNone
+            NSLog(@"Error");
+            break;
+    }
 }
 
 /**
@@ -1051,18 +1112,13 @@
  Prompt user for payment
  */
 - (void)sceneWillShowContinue {
-    if (!_sceneGamePopupContinue) {
-        _sceneGamePopupContinue = [MainViewController SIPopupSceneGameContinue];
-    }
-    if (!_sceneGamePopupContinueMenuNode) {
-        _sceneGamePopupContinueMenuNode = [MainViewController SIMenuNodeSceneGamePopup:_sceneGamePopupContinue];
-    }
+    [self verifySceneGame];
     
     if ([SIIAPUtility canAffordContinue:[SIGameSingleton singleton].currentGame.currentContinueLifeCost]) {
         [[[_sceneGamePopupContinueMenuNode menu] itemAtIndex:SISceneGamePopupContinueMenuItemCoin] setText:[NSString stringWithFormat:@"Use %ld Coins!",(long)[SIGameSingleton singleton].currentGame.currentContinueLifeCost]];
     }
     
-    [[[_sceneGamePopupContinueMenuNode menu] itemAtIndex:SISceneGamePopupContinueMenuItemAd] setText:[NSString stringWithFormat:@"Watch %ld Ads!",(int)[SIGameSingleton singleton].currentGame.currentNumberOfTimesContinued]];
+    [[[_sceneGamePopupContinueMenuNode menu] itemAtIndex:SISceneGamePopupContinueMenuItemAd] setText:[NSString stringWithFormat:@"Watch %d Ads!",(int)[SIGameSingleton singleton].currentGame.currentNumberOfTimesContinued]];
     
     [_sceneGamePopupContinueMenuNode redisplayMenuAnimation:HLMenuNodeAnimationNone];
     
@@ -1074,6 +1130,24 @@
  background color we can load a new move...
  */
 - (void)sceneWillLoadNewMove {
-    
+    [_sceneGame updateSceneWithBackgroundColor:[SIGameSingleton singleton].currentGame.currentBackgroundColor
+                                    totalScore:[SIGameSingleton singleton].currentGame.totalScore
+                                     moveScore:[SIGameSingleton singleton].currentGame.moveScore
+                    freeCoinProgressBarPercent:[SIGameSingleton singleton].currentGame.moveScorePercentRemaining
+                             moveCommandString:[Game stringForMove:[SIGameSingleton singleton].currentGame.currentMove]
+                                   isHighScore:[SIGameSingleton singleton].currentGame.isHighScore
+                                 touchLocation:<#(CGPoint)#>]
+}
+
+- (void)verifySceneGame {
+    if (_sceneGame == nil) {
+        _sceneGame = [[GameScene alloc] initWithSize:_sceneSize];
+    }
+    if (_sceneGamePopupContinue == nil) {
+        _sceneGamePopupContinue = [MainViewController SIPopupSceneGameContinue];
+    }
+    if (_sceneGamePopupContinueMenuNode == nil) {
+        _sceneGamePopupContinueMenuNode = [MainViewController SIMenuNodeSceneGamePopup:_sceneGamePopupContinue];
+    }
 }
 @end

@@ -16,31 +16,23 @@
 // Category Import
 // Support/Data Class Imports
 #import "Game.h"
+#import "SIMove.h"
+#import "SISceneGameProgressBarUpdate.h"
 // Other Imports
 
-@class SIGameScene;
+@class GameScene;
 @protocol GameSceneDelegate <NSObject>
 
 /**
  Called when the scene recognizes a gesture
     Pinch, Tap, Swype of Shake
  */
-- (void)sceneDidRecieveMoveCommand:(SIMove)moveCommand;
-
-/**
- Asks the controller if the game is paused
- */
-- (BOOL)gameIsPaused;
-
-/**
- Asks the controller is the game has started
- */
-- (BOOL)gameIsStarted;
+- (void)sceneGameDidRecieveMove:(SIMove *)move;
 
 /**
  Fires when the pause button is pressed
  */
-- (void)scenePauseButtonTapped;
+- (void)sceneGamePauseButtonTapped;
 
 /**
  Fires after the continue meny node has been pressed...
@@ -48,14 +40,23 @@
     If ads   -> PayMethod - Ads
     If no    -> PayMethod - User is not going to pay for this shit...
  */
-- (void)sceneWillDismissPopupContinueWithPayMethod:(SIPowerUpPayMethod)powerUpPayMethod;
+- (void)sceneGameWillDismissPopupContinueWithPayMethod:(SISceneGamePopupContinueMenuItem)continuePayMethod;
 
 /**
  Called when the ring node is tapped and the result
     needs to be sent to the controller
  */
-- (void)sceneDidRecieveRingNode:(HLRingNode *)ringNode Tap:(SISceneGameRingNode)gameSceneRingNode;
+- (void)sceneGameDidRecieveRingNode:(HLRingNode *)ringNode Tap:(SISceneGameRingNode)gameSceneRingNode;
 
+/**
+ Powerup tool bar was tapped
+ */
+- (void)sceneGameToolbar:(HLToolbarNode *)toolbar powerUpWasTapped:(SIPowerUpType)powerUp;
+
+/**
+ This is called on every update... So it gets called a ton!
+ */
+- (SISceneGameProgressBarUpdate *)sceneGameWillUpdateProgressBars;
 
 
 
@@ -64,6 +65,9 @@
 
 @interface GameScene : HLScene <SKPhysicsContactDelegate>
 
+/**
+ The delegate for the scene
+ */
 @property (weak, nonatomic) id <GameSceneDelegate> sceneDelegate;
 
 /**
@@ -93,7 +97,8 @@
                              moveScore:(float)moveScore
             freeCoinProgressBarPercent:(float)freeCoinProgressBarPercent
                      moveCommandString:(NSString *)moveCommandString
-                           isHighScore:(BOOL)isHighScore;
+                           isHighScore:(BOOL)isHighScore
+                         touchLocation:(CGPoint)touchLocation;
 
 /**
  I guess you could use this for a pause menu... if that's something
@@ -105,10 +110,13 @@
  Present a node modally
  */
 - (void)sceneModallyPresentPopup:(SIPopupNode *)popupNode withMenuNode:(HLMenuNode *)menuNode;
+
 /**
- The game mode.. configured at runtime
+ Make and explosion at a point already set...
  */
-@property (nonatomic, assign) SIGameMode gameMode;
+- (void)sceneWillPresentEmitter:(SKEmitterNode *)emitter;
+
+
 
 
 @end

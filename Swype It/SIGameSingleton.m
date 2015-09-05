@@ -148,7 +148,7 @@
     /*Update the moveStartTime to account for the pause duration*/
     _moveStartTimeInMiliSeconds     = (_compositeTimeInMiliSeconds - _pauseStartTimeInMiliSeconds) + _moveStartTimeInMiliSeconds;
     
-    for (PowerUp *powerUp in _currentGame.powerUpArray) {
+    for (SIPowerUp *powerUp in _currentGame.powerUpArray) {
         powerUp.startTimeMS         = (_compositeTimeInMiliSeconds - _pauseStartTimeInMiliSeconds) + powerUp.startTimeMS;
     }
     
@@ -165,8 +165,8 @@
     If correct -> calls singletonGameWillShowNewMove
     If incorrect -> calls singletonGameWillEnd
  */
-- (void)singletonDidEnterMove:(SIMove)move {
-    if (move == self.currentGame.currentMove) {
+- (void)singletonDidEnterMove:(SIMove *)move {
+    if (move.moveCommand == _currentGame.currentMove.moveCommand) {
         /*
          If the game is not started we need to do a little extra, like
             start the timers and such
@@ -192,17 +192,17 @@
     /*Save the start of this new move*/
     _moveStartTimeInMiliSeconds         = _compositeTimeInMiliSeconds;
     
-    if ([PowerUp isPowerUpActive:SIPowerUpFallingMonkeys powerUpArray:_currentGame.powerUpArray]) {
+    if ([SIPowerUp isPowerUpActive:SIPowerUpTypeFallingMonkeys powerUpArray:_currentGame.powerUpArray]) {
         _currentGame.totalScore         = _currentGame.totalScore + VALUE_OF_MONKEY;
         
-        _currentGame.currentMove        = SIMoveFallingMonkey;
+        _currentGame.currentMove.moveCommand        = SIMoveCommandFallingMonkey;
     } else {
         /**NORMAL*/
         /*Update the total score*/
         _currentGame.totalScore         = _currentGame.totalScore + _currentGame.moveScore;
         
         /*Get a new move... (considers rapid fire power up)*/
-        _currentGame.currentMove        = [self updateMove];
+        _currentGame.currentMove.moveCommand        = [self updateMove];
 
     }
     
@@ -226,9 +226,9 @@
 }
 
 #pragma mark - Private Update Functions
-- (SIMove)updateMove {
-    if ([PowerUp isPowerUpActive:SIPowerUpRapidFire powerUpArray:_currentGame.powerUpArray]) {
-        return SIMoveTap;
+- (SIMoveCommand)updateMove {
+    if ([SIPowerUp isPowerUpActive:SIPowerUpTypeRapidFire powerUpArray:_currentGame.powerUpArray]) {
+        return SIMoveCommandTap;
     } else {
         return [Game getRandomMoveForGameMode:_currentGame.gameMode];
     }
@@ -328,7 +328,7 @@
         
         
         /*Get the powerup percent remaining*/
-        _currentGame.powerUpPercentRemaining    = [PowerUp powerUpPercentRemaining:_currentGame.powerUpArray compositeTime:_compositeTimeInMiliSeconds withCallback:^(PowerUp *powerUpToDeactivate) {
+        _currentGame.powerUpPercentRemaining    = [SIPowerUp powerUpPercentRemaining:_currentGame.powerUpArray compositeTime:_compositeTimeInMiliSeconds withCallback:^(SIPowerUp *powerUpToDeactivate) {
             if (powerUpToDeactivate) {
                 [self singletonWillDectivatePowerUp:powerUpToDeactivate];
             }
@@ -348,10 +348,10 @@
 /**
  This will be called by the controller when asking to start
  */
-- (void)singletonWillActivatePowerUp:(SIPowerUp)powerUp {
-    if ([PowerUp canStartPowerUp:powerUp powerUpArray:_currentGame.powerUpArray]) {
+- (void)singletonWillActivatePowerUp:(SIPowerUpType)powerUp {
+    if ([SIPowerUp canStartPowerUp:powerUp powerUpArray:_currentGame.powerUpArray]) {
         /*We the know the power up can start...*/
-        PowerUp *newPowerUp = [[PowerUp alloc] initWithPowerUp:powerUp atTime:_compositeTimeInMiliSeconds];
+        SIPowerUp *newPowerUp = [[SIPowerUp alloc] initWithPowerUp:powerUp atTime:_compositeTimeInMiliSeconds];
         [_currentGame.powerUpArray addObject:newPowerUp];
         if ([_delegate respondsToSelector:@selector(sceneWillActivatePowerUp:)]) {
             [_delegate sceneWillActivatePowerUp:newPowerUp.type];
@@ -363,15 +363,15 @@
  Called internally to apply any singleton changing settings
  the powerup might effect
  */
-- (void)singletonDidActivatePowerUp:(SIPowerUp)powerUp {
+- (void)singletonDidActivatePowerUp:(SIPowerUpType)powerUp {
     switch (powerUp) {
-        case SIPowerUpRapidFire:
+        case SIPowerUpTypeRapidFire:
             [self singletonWillContinue];
             break;
-        case SIPowerUpTimeFreeze:
+        case SIPowerUpTypeTimeFreeze:
             _timeFreezeMultiplyer   = 0.2f;
             break;
-        case SIPowerUpFallingMonkeys:
+        case SIPowerUpTypeFallingMonkeys:
             /*Do Falling Monkeys in Setup*/
             break;
         default:
@@ -382,7 +382,7 @@
  Called internally by the timer functions when a powerup's
     percent remaining value drops below the epsilon value
  */
-- (void)singletonWillDectivatePowerUp:(PowerUp *)powerUpClass {
+- (void)singletonWillDectivatePowerUp:(SIPowerUp *)powerUpClass {
     if ([_delegate respondsToSelector:@selector(sceneWillDeactivatePowerUp:)]) {
         [_delegate sceneWillDeactivatePowerUp:powerUpClass.type];
     }
@@ -393,12 +393,12 @@
     This is the class responible for removing the powerup from the 
     `powerUpArray`
  */
-- (void)singletonDidDectivatePowerUp:(PowerUp *)powerUpClass {
+- (void)singletonDidDectivatePowerUp:(SIPowerUp *)powerUpClass {
     switch (powerUpClass.type) {
-        case SIPowerUpTimeFreeze:
+        case SIPowerUpTypeTimeFreeze:
             _timeFreezeMultiplyer   = 1.0f;
             break;
-        case SIPowerUpFallingMonkeys:
+        case SIPowerUpTypeFallingMonkeys:
             /*Do Falling Monkeys Breakdown*/
             break;
         default:
@@ -409,7 +409,7 @@
 
 ///*This is the second step. This checks to see if we are currently using a powerup*/
 //- (void)powerUpDidLoad:(SIPowerUp)powerUp {
-//    if (self.currentGame.currentPowerUp == SIPowerUpNone) { /*Don't allow more then one power up at one time*/
+//    if (self.currentGame.currentPowerUp == SIPowerUpTypeNone) { /*Don't allow more then one power up at one time*/
 //        [self powerUpWillActivate:powerUp withPowerUpCost:[Game costForPowerUp:powerUp]];
 //    }
 //}
@@ -441,10 +441,10 @@
 /*Called After Powerup has ended on Singleton*/
 //- (void)powerUpDidEnd {
 //    switch (self.currentGame.currentPowerUp) {
-//        case SIPowerUpTimeFreeze:
+//        case SIPowerUpTypeTimeFreeze:
 //            _timeFreezeMultiplyer   = 1.0f;
 //            break;
-//        case SIPowerUpFallingMonkeys:
+//        case SIPowerUpTypeFallingMonkeys:
 //            /*Do Falling Monkeys Breakdown*/
 //            break;
 //        default:
@@ -536,7 +536,7 @@
 //        
 //        [self didLevelStringChange:self.previousLevel newLevelString:[Game currentLevelStringForScore:self.currentGame.totalScore]];
 //        
-//        BOOL isRapidFireActive                      = (self.currentGame.currentPowerUp == SIPowerUpRapidFire) ? YES : NO;
+//        BOOL isRapidFireActive                      = (self.currentGame.currentPowerUp == SIPowerUpTypeRapidFire) ? YES : NO;
 //        
 //        self.currentGame.currentMove                = [Game getRandomMoveForGameMode:self.currentGame.gameMode isRapidFireActiviated:isRapidFireActive]; /*Return Tap for if Rapid Fire*/
 //        

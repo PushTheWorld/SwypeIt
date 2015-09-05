@@ -1,4 +1,4 @@
-//  PowerUp.h
+//  SIPowerUp.h
 //  Swype It
 //
 //  Created by Andrew Keller on 9/4/15.
@@ -7,14 +7,14 @@
 #import <Foundation/Foundation.h>
 #import "Game.h"
 
-@interface PowerUp : NSObject
+@interface SIPowerUp : NSObject
 
 /**
  Used for clean up... indicated that the time expired
  */
 @property (nonatomic, assign) BOOL isExpired;
 
-@property (nonatomic, assign) SIPowerUp type;
+@property (nonatomic, assign) SIPowerUpType type;
 
 /**
  The duration of the powerup in seconds... this is the main one
@@ -37,21 +37,41 @@
 /**
  Your run at the mill initializer
  */
-- (instancetype)initWithPowerUp:(SIPowerUp)powerUp atTime:(float)powerUpStartTime;
+- (instancetype)initWithPowerUp:(SIPowerUpType)powerUp atTime:(float)powerUpStartTime;
 
 
-+ (BOOL)                canStartPowerUp:(SIPowerUp)powerUp powerUpArray:(NSArray *)powerUpArray;
-+ (BOOL)                isPowerUpActive:(SIPowerUp)powerUp powerUpArray:(NSArray *)powerUpArray;
++ (BOOL)                canStartPowerUp:(SIPowerUpType)powerUp powerUpArray:(NSArray *)powerUpArray;
++ (BOOL)                isPowerUpActive:(SIPowerUpType)powerUp powerUpArray:(NSArray *)powerUpArray;
 + (BOOL)                isPowerUpArrayEmpty:(NSArray *)powerUpArray;
 + (float)               maxDurationPercentOfPowerUpArray:(NSArray *)powerUpArray;
 + (float)               powerUpPercentRemaining:(NSArray *)powerUpArray compositeTime:(float)compositeTime withCallback:(void (^)(PowerUp *powerUpToDeactivate))callback;
-+ (SIPowerUpCost)       costForPowerUp:(SIPowerUp)powerUp;
-+ (SIPowerUpDuration)   durationForPowerUp:(SIPowerUp)powerUp;
+
+/**
+ Gets the SIPowerUp given a string...
+ 
+ Returns SIPowerUpTypeNone for unrecognized...
+ */
++ (SIPowerUpType)powerUpForString:(NSString *)powerUpString;
+
+/**
+ Simply gets the cost
+ */
++ (SIPowerUpCost)costForPowerUp:(SIPowerUpType)powerUp;
+
+/**
+ Gets the duration of the powerup
+ */
++ (SIPowerUpDuration)durationForPowerUp:(SIPowerUpType)powerUp;
+
+/**
+ Gets the string for the powerup
+ */
++ (NSString *)stringForPowerUp:(SIPowerUpType)powerUp;
 /**
  Consumes the cost a power up...
  
  DANGER: Accesses the MKStoreKit
  */
-+ (void)consumePowerUp:(SIPowerUp)powerUp;
++ (void)consumePowerUp:(SIPowerUpType)powerUp;
 
 @end

@@ -19,7 +19,7 @@
 /**
  The Ultimate convience method
  */
-- (instancetype)initWithSIPowerUp:(SIPowerUp)siPowerUp size:(CGSize)size;
+- (instancetype)initWithSIPowerUp:(SIPowerUpType)siPowerUp size:(CGSize)size;
 
 /**
  Required `size` property

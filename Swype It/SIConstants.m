@@ -50,6 +50,8 @@ HLRingNode *sceneGamePauseRingNode() {
 }
 
 
+
+
 #pragma mark - Images
 NSString *const kSIImageTitleLabel                                  = @"textLabelTitle";
 
@@ -82,10 +84,10 @@ NSString *const kSINSUserDefaultSoundIsAllowedBackground            = @"backgrou
 NSString *const kSINSUserDefaultSoundIsAllowedFX                    = @"fXSoundIsAllowed";
 
 #pragma mark - Power Ups
-NSString *const kSIPowerUpFallingMonkeys                            = @"Falling Monkeys";
-NSString *const kSIPowerUpNone                                      = @"None";
-NSString *const kSIPowerUpTimeFreeze                                = @"Time Freeze";
-NSString *const kSIPowerUpRapidFire                                 = @"Rapid Fire";
+NSString *const kSIPowerUpTypeFallingMonkeys                            = @"Falling Monkeys";
+NSString *const kSIPowerUpTypeNone                                      = @"None";
+NSString *const kSIPowerUpTypeTimeFreeze                                = @"Time Freeze";
+NSString *const kSIPowerUpTypeRapidFire                                 = @"Rapid Fire";
 
 #pragma mark - NSNotification
 NSString *const kSINotificationAdActionShouldBegin                  = @"com.pushtheworldllc.swipeit.adActionShouldBegin";
@@ -213,6 +215,7 @@ NSString *const kSIIAPPackNameLarge                                 = @"Bag";
 NSString *const kSIIAPPackNameExtraLarge                            = @"Chest";
 
 #pragma mark - Node Names
+NSString *const kSINodeAdBannerNode                                 = @"adBannerNode";
 NSString *const kSINodeLabelDescriptionChest                        = @"chestOfCoinsLabelDescription";
 NSString *const kSINodeLabelDescriptionBag                          = @"bagOfCoinsLabelDescription";
 NSString *const kSINodeLabelDescriptionBucket                       = @"bucketOfCoinsLabelDescription";
