@@ -117,7 +117,7 @@
 		09A488B81B9C7D0A0075F41C /* sceneMenu.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 09A488B71B9C7D0A0075F41C /* sceneMenu.atlas */; };
 		09A488BB1B9D7D850075F41C /* SIMenuContent.m in Sources */ = {isa = PBXBuildFile; fileRef = 09A488BA1B9D7D850075F41C /* SIMenuContent.m */; };
 		09A488BD1B9D877D0075F41C /* SIMenuContentTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 09A488BC1B9D877D0075F41C /* SIMenuContentTests.m */; };
-		09A488C01B9D8D770075F41C /* SIChallengeManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 09A488BF1B9D8D770075F41C /* SIChallengeManager.m */; };
+		09A488C01B9D8D770075F41C /* SIChallengeSingleton.m in Sources */ = {isa = PBXBuildFile; fileRef = 09A488BF1B9D8D770075F41C /* SIChallengeSingleton.m */; };
 		09A57ABB1B788BEF003B6F08 /* SIGameNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 09A57ABA1B788BEF003B6F08 /* SIGameNode.m */; };
 		09A904061B6616C300C48A9B /* SIConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 091FED751B3733AF0071F8DC /* SIConstants.m */; };
 		09A904071B6616DA00C48A9B /* SIGame.m in Sources */ = {isa = PBXBuildFile; fileRef = 098B3B461B378C27000D4702 /* SIGame.m */; };
@@ -126,6 +126,7 @@
 		09CAF9A91B646BE100466606 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 09CAF9A81B646BE100466606 /* MBProgressHUD.m */; };
 		09CAF9AC1B646F4C00466606 /* buttons.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 09CAF9AB1B646F4C00466606 /* buttons.atlas */; };
 		09CB158E1B7E85DC00F9A956 /* SITestScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 09CB158D1B7E85DC00F9A956 /* SITestScene.m */; };
+		09D256E91B9D8EFF00F6BD14 /* SIMenuContent.m in Sources */ = {isa = PBXBuildFile; fileRef = 09A488BA1B9D7D850075F41C /* SIMenuContent.m */; };
 		09D5ED4C1B8B1AB900E84179 /* background.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 09D5ED4B1B8B1AB900E84179 /* background.atlas */; };
 		09D5ED4F1B8B205B00E84179 /* SISegmentControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 09D5ED4E1B8B205B00E84179 /* SISegmentControl.m */; };
 		09DB638A1B564DA700387C13 /* IAPTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 09DB63891B564DA700387C13 /* IAPTableViewController.m */; };
@@ -322,8 +323,8 @@
 		09A488B91B9D7D850075F41C /* SIMenuContent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SIMenuContent.h; sourceTree = "<group>"; };
 		09A488BA1B9D7D850075F41C /* SIMenuContent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SIMenuContent.m; sourceTree = "<group>"; };
 		09A488BC1B9D877D0075F41C /* SIMenuContentTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SIMenuContentTests.m; sourceTree = "<group>"; };
-		09A488BE1B9D8D770075F41C /* SIChallengeManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SIChallengeManager.h; sourceTree = "<group>"; };
-		09A488BF1B9D8D770075F41C /* SIChallengeManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SIChallengeManager.m; sourceTree = "<group>"; };
+		09A488BE1B9D8D770075F41C /* SIChallengeSingleton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SIChallengeSingleton.h; sourceTree = "<group>"; };
+		09A488BF1B9D8D770075F41C /* SIChallengeSingleton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SIChallengeSingleton.m; sourceTree = "<group>"; };
 		09A57AB91B788BEF003B6F08 /* SIGameNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SIGameNode.h; sourceTree = "<group>"; };
 		09A57ABA1B788BEF003B6F08 /* SIGameNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SIGameNode.m; sourceTree = "<group>"; };
 		09B1E3591B97A33B00EDF051 /* explosionTouch.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = explosionTouch.sks; sourceTree = "<group>"; };
@@ -483,7 +484,7 @@
 			isa = PBXGroup;
 			children = (
 				091FED6C1B3729040071F8DC /* 000 - AppDelegate */,
-				098B3B441B378B8F000D4702 /* 000 - AppSingleton */,
+				098B3B441B378B8F000D4702 /* 000 - Singletons */,
 				091FED7A1B37362A0071F8DC /* Categories */,
 				091FED7E1B374C520071F8DC /* CustomUIClasses */,
 				091FED731B37339D0071F8DC /* DataFiles */,
@@ -577,8 +578,6 @@
 		091FED731B37339D0071F8DC /* DataFiles */ = {
 			isa = PBXGroup;
 			children = (
-				09A488BE1B9D8D770075F41C /* SIChallengeManager.h */,
-				09A488BF1B9D8D770075F41C /* SIChallengeManager.m */,
 				091FED741B3733AF0071F8DC /* SIConstants.h */,
 				091FED751B3733AF0071F8DC /* SIConstants.m */,
 				098B3B451B378C27000D4702 /* SIGame.h */,
@@ -696,13 +695,15 @@
 			name = Resources;
 			sourceTree = "<group>";
 		};
-		098B3B441B378B8F000D4702 /* 000 - AppSingleton */ = {
+		098B3B441B378B8F000D4702 /* 000 - Singletons */ = {
 			isa = PBXGroup;
 			children = (
+				09A488BE1B9D8D770075F41C /* SIChallengeSingleton.h */,
+				09A488BF1B9D8D770075F41C /* SIChallengeSingleton.m */,
 				098B3B411B378B89000D4702 /* SIGameSingleton.h */,
 				098B3B421B378B89000D4702 /* SIGameSingleton.m */,
 			);
-			name = "000 - AppSingleton";
+			name = "000 - Singletons";
 			sourceTree = "<group>";
 		};
 		098B3B4B1B378EC8000D4702 /* Classes */ = {
@@ -1059,7 +1060,7 @@
 				0917D4EC1B6DD8240046B5FF /* HLItemsNode.m in Sources */,
 				09DB638A1B564DA700387C13 /* IAPTableViewController.m in Sources */,
 				0917D4FA1B6DD8240046B5FF /* HLToolbarNode.m in Sources */,
-				09A488C01B9D8D770075F41C /* SIChallengeManager.m in Sources */,
+				09A488C01B9D8D770075F41C /* SIChallengeSingleton.m in Sources */,
 				09A4889E1B9A43490075F41C /* DSMultilineLabelNode.m in Sources */,
 				09CAF9A91B646BE100466606 /* MBProgressHUD.m in Sources */,
 				09D5ED4F1B8B205B00E84179 /* SISegmentControl.m in Sources */,
@@ -1094,6 +1095,7 @@
 				09A488A71B9B49950075F41C /* SIAdBannerTests.m in Sources */,
 				09A904081B6616DE00C48A9B /* SIIAPUtility.m in Sources */,
 				09A488AB1B9B61660075F41C /* SIPowerUpTests.m in Sources */,
+				09D256E91B9D8EFF00F6BD14 /* SIMenuContent.m in Sources */,
 				091FED631B37283E0071F8DC /* Swype_ItTests.m in Sources */,
 				09A904061B6616C300C48A9B /* SIConstants.m in Sources */,
 				092720E71B60F2790005A6B6 /* SIIAPUtilityTests.m in Sources */,

@@ -60,7 +60,7 @@
 @end
 
 
-@class Game;
+@class SIGame;
 @interface SIGameSingleton : NSObject {
     
 }
