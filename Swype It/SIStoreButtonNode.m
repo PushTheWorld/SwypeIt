@@ -113,7 +113,7 @@ enum {
 - (void)setupControlsWithSize:(CGSize)size {
     /**Configrue the labels, nodes and what ever else you can*/
     //mmmmmm custom textures
-    _backgroundNode.texture                 = [Game textureBackgroundColor:[UIColor mainColor]
+    _backgroundNode.texture                 = [SIGame textureBackgroundColor:[UIColor mainColor]
                                                                       size:size
                                                               cornerRadius:[SIStoreButtonNode cornerRadius]
                                                                borderWidth:8.0
@@ -124,14 +124,14 @@ enum {
     _imageNode.zPosition                    = (float)SIStoreButtonNodeZPositionLayerLabel / (float)SIStoreButtonNodeZPositionLayerBackground;
     _imageNode.anchorPoint                  = CGPointMake(0.5, 0.5);
     
-    _valueLabelNode.text                    = [NSString stringWithFormat:@"%d IT Coins",[Game numberOfCoinsForSIIAPPack:_pack]];
+    _valueLabelNode.text                    = [NSString stringWithFormat:@"%d IT Coins",[SIGame numberOfCoinsForSIIAPPack:_pack]];
     _valueLabelNode.fontSize                = [SIStoreButtonNode fontSizeSmall];
     _valueLabelNode.fontColor               = [SKColor goldColor];
     _valueLabelNode.verticalAlignmentMode   = SKLabelVerticalAlignmentModeCenter;
     _valueLabelNode.horizontalAlignmentMode = SKLabelHorizontalAlignmentModeCenter;
     _valueLabelNode.zPosition               = (float)SIStoreButtonNodeZPositionLayerLabel / (float)SIStoreButtonNodeZPositionLayerBackground;
     
-    _titleLabelNode.text                    = [Game buttonTextForSIIAPPack:_pack];
+    _titleLabelNode.text                    = [SIGame buttonTextForSIIAPPack:_pack];
     _titleLabelNode.fontSize                = [SIStoreButtonNode fontSizeLarge];
     _titleLabelNode.fontColor               = [SKColor whiteColor];
     _titleLabelNode.verticalAlignmentMode   = SKLabelVerticalAlignmentModeCenter;

@@ -8,7 +8,7 @@
 //  Purpose: This is for the settings menu
 //
 // Local Controller Import
-#import "MainViewController.h"
+#import "SIGameController.h"
 #import "SettingsScene.h"
 #import "StartScreenScene.h"
 // Framework Import
@@ -95,14 +95,14 @@
         
     }
 //    _buttonSize                     = CGSizeMake(size.width / buttonSizeDivder, (size.width / buttonSizeDivder) * 0.25);
-    _buttonSpacing                  = [MainViewController buttonSize:size].height * 0.25;
+    _buttonSpacing                  = [SIGameController buttonSize:size].height * 0.25;
     _buttonAnimationDuration        = 0.25f;
     
     _shouldRespondToTap             = YES;
 }
 - (void)createControlsWithSize:(CGSize)size {
     /**Preform all your alloc/init's here*/
-    _titleLabel = [MainViewController SI_sharedLabelHeader:kSIMenuTextStartScreenSettings];
+    _titleLabel = [SIGameController SI_sharedLabelHeader:kSIMenuTextStartScreenSettings];
     
     /*Menu Node*/
     _menuNode   = [[HLMenuNode alloc] init];
@@ -114,8 +114,8 @@
     _menuNode.delegate                              = self;
     _menuNode.itemAnimation                         = HLMenuNodeAnimationSlideLeft;
     _menuNode.itemAnimationDuration                 = self.buttonAnimationDuration;
-    _menuNode.itemButtonPrototype                   = [MainViewController SI_sharedMenuButtonPrototypeBasic:[MainViewController buttonSize:size]];
-    _menuNode.backItemButtonPrototype               = [MainViewController SI_sharedMenuButtonPrototypeBack:[MainViewController buttonSize:size]];
+    _menuNode.itemButtonPrototype                   = [SIGameController SI_sharedMenuButtonPrototypeBasic:[SIGameController buttonSize:size]];
+    _menuNode.backItemButtonPrototype               = [SIGameController SI_sharedMenuButtonPrototypeBack:[SIGameController buttonSize:size]];
     _menuNode.itemSeparatorSize                     = self.buttonSpacing;
 }
 - (void)layoutControlsWithSize:(CGSize)size {
@@ -153,7 +153,7 @@
     
     /*Add the Back Button... Need to change the prototype*/
     HLMenuItem *resumeItem = [HLMenuItem menuItemWithText:kSIMenuTextBack];
-    resumeItem.buttonPrototype = [MainViewController SI_sharedMenuButtonPrototypeBack:[MainViewController buttonSize:size]];
+    resumeItem.buttonPrototype = [SIGameController SI_sharedMenuButtonPrototypeBack:[SIGameController buttonSize:size]];
     [menu addItem:resumeItem];
     
     [_menuNode setMenu:menu animation:HLMenuNodeAnimationNone];
@@ -181,7 +181,7 @@
 - (void)goBack {
     _shouldRespondToTap = NO;
     StartScreenScene *startScene = [StartScreenScene sceneWithSize:self.frame.size];
-    [Game transisitionToSKScene:startScene toSKView:self.view DoorsOpen:NO pausesIncomingScene:YES pausesOutgoingScene:YES duration:SCENE_TRANSISTION_DURATION];
+    SIGame transisitionToSKScene:startScene toSKView:self.view DoorsOpen:NO pausesIncomingScene:YES pausesOutgoingScene:YES duration:SCENE_TRANSISTION_DURATION];
 }
 - (void)resetHighScore {
     NSDictionary *userInfo          = @{kSINSDictionaryKeyHudWillAnimate            : @YES,

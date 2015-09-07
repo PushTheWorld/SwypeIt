@@ -7,7 +7,7 @@
 //  Purpose: This is a quick segment control...
 //
 // Local Controller Import
-#import "MainViewController.h"
+#import "SIGameController.h"
 #import "SISegmentControl.h"
 // Framework Import
 // Drop-In Class Imports (CocoaPods/GitHub/Guru)
@@ -15,7 +15,7 @@
 //#import "SKNode+HLGestureTarget.h"
 #import "UIColor+Additions.h"
 // Support/Data Class Imports
-#import "Game.h"
+#import "SIGame.h"
 // Other Imports
 enum {
     SISegmentContorlZPositionLayerBackground = 0,
@@ -170,7 +170,7 @@ enum {
             
             segmentNode.anchorPoint             = CGPointMake(0.0f, 0.5f);
             
-            segmentNode.fontSize                = [MainViewController fontSizeParagraph];
+            segmentNode.fontSize                = [SIGameController fontSizeParagraph];
             
             segmentNode.fontName                = kSIFontFuturaMedium;
             

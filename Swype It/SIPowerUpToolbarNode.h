@@ -12,7 +12,7 @@
 #import "HLSpriteKit.h"
 // Category Import
 // Support/Data Class Imports
-#import "Game.h"
+#import "SIGame.h"
 // Other Imports
 @interface SIPowerUpToolbarNode : HLComponentNode
 

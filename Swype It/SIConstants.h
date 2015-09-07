@@ -110,8 +110,7 @@ FOUNDATION_EXPORT SKLabelNode               *moveCommandLabelNode();
 FOUNDATION_EXPORT HLRingNode                *sceneGamePauseRingNode();
 
 
-
-typedef NS_ENUM(NSInteger, SIMainViewControllerScene) {
+typedef NS_ENUM(NSInteger, SISIGameControllerScene) {
     SIMainControllerSceneNone,
     SIMainControllerSceneEndGame,
     SIMainControllerSceneGame,
@@ -220,12 +219,29 @@ typedef NS_ENUM(NSInteger, SISceneGameRingNode) {
     SISceneGameRingNodeEndGame
 };
 
+typedef NS_ENUM(NSInteger, SIGameFreePrize) {
+    SIGameFreePrizeNo = 0,
+    SIGameFreePrizeYesConsecutive,
+    SIGameFreePrizeYes
+};
+
 typedef NS_ENUM(NSInteger, SISceneGamePopupContinueMenuItem) {
     SISceneGamePopupContinueMenuItemCoin = 0,
     SISceneGamePopupContinueMenuItemAd,
     SISceneGamePopupContinueMenuItemNo
 };
 
+typedef NS_ENUM(NSInteger, SISceneStartToolBarNode) {
+    SISceneStartToolBarNodeNoAds = 0,
+    SISceneStartToolBarNodeLeaderboard,
+    SISceneStartToolBarNodeSettings,
+    SISceneStartToolBarNodeHelp
+};
+
+typedef NS_ENUM(NSInteger, SISceneMenuType) {
+    SISceneMenuTypeStart = 0,
+    SISceneMenuTypeEnd
+};
 #pragma mark - Images
 extern NSString *const kSIImageTitleLabel;
 
@@ -346,11 +362,23 @@ extern NSString *const kSIImageProgressBarFillPowerUp;
 extern NSString *const kSIImageShapePowerupCost;
 extern NSString *const kSIImageTapToPlayText;
 
+
 #pragma mark - Texture Atlas
 extern NSString *const kSIAtlasBackground;
 extern NSString *const kSIAtlasButtons;
 extern NSString *const kSIAtlasImages;
+extern NSString *const kSIAtlasMenu;
 extern NSString *const kSIAtlasShapes;
+
+#pragma mark - Images in Atlas
+extern NSString *const kSIAtlasMenuAdFree;
+extern NSString *const kSIAtlasMenuHelp;
+extern NSString *const kSIAtlasMenuLeaderboard;
+extern NSString *const kSIAtlasMenuPlayClassic;
+extern NSString *const kSIAtlasMenuPlayOneHand;
+extern NSString *const kSIAtlasMenuSettings;
+extern NSString *const kSIAtlasMenuSoundBackground;
+extern NSString *const kSIAtlasMenuSoundFX;
 
 #pragma mark - Button Labels
 extern NSString *const kSIButtonLabelStringOneHand;
@@ -486,12 +514,17 @@ extern NSString *const kSIGameCenterLeaderBoardIDHandTwo;
  This is the height of the power up toolbar nodes
  */
 + (CGSize)powerUpToolbarButtonSize;
++ (NSArray *)userMessageHighScore;
++ (NSArray *)userMessageHighScoreClose;
++ (NSArray *)userMessageHighScoreMedian;
++ (NSArray *)userMessageHighScoreBad;
 + (NSString *)pathForSparkEmitter;
 + (NSString *)pathForTouchExplosionEmitter;
 + (SKTextureAtlas *)backgroundAtlas;
 + (SKTextureAtlas *)buttonAtlas;
 + (SKTextureAtlas *)imagesAtlas;
 + (SKTextureAtlas *)shapesAtlas;
++ (SKTextureAtlas *)atlasStart;
 @end
 
 

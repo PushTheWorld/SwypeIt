@@ -7,14 +7,14 @@
 //  Purpose: This is....
 //
 // Local Controller Import
-#import "MainViewController.h"
+#import "SIGameController.h"
 #import "SIAdBannerNode.h"
 // Framework Import
 // Drop-In Class Imports (CocoaPods/GitHub/Guru)
 // Category Import
 #import "UIColor+Additions.h"
 // Support/Data Class Imports
-#import "Game.h"
+#import "SIGame.h"
 // Other Imports
 #import "SIFallingMonkeyScene.h"
 
@@ -176,11 +176,11 @@ enum {
     _edgeBottom.physicsBody                         = [SKPhysicsBody bodyWithEdgeFromPoint:CGPointMake(0.0f, 1.0f)
                                                                                    toPoint:CGPointMake(_backgroundNode.size.width, 1.0f)];
     
-    _edgeLeft.physicsBody                           = [SKPhysicsBody bodyWithEdgeFromPoint:CGPointMake(-1.0f * ([MainViewController SIFallingMonkeySize].width / 2.0f), 0.0f)
-                                                                                   toPoint:CGPointMake(-1.0f * ([MainViewController SIFallingMonkeySize].width / 2.0f), _backgroundNode.size.height)];
+    _edgeLeft.physicsBody                           = [SKPhysicsBody bodyWithEdgeFromPoint:CGPointMake(-1.0f * ([SIGameController SIFallingMonkeySize].width / 2.0f), 0.0f)
+                                                                                   toPoint:CGPointMake(-1.0f * ([SIGameController SIFallingMonkeySize].width / 2.0f), _backgroundNode.size.height)];
     
-    _edgeRight.physicsBody                          = [SKPhysicsBody bodyWithEdgeFromPoint:CGPointMake(_backgroundNode.size.width + ([MainViewController SIFallingMonkeySize].width / 2.0f), 0.0f)
-                                                                                   toPoint:CGPointMake(_backgroundNode.size.width + ([MainViewController SIFallingMonkeySize].width / 2.0f), _backgroundNode.size.height)];
+    _edgeRight.physicsBody                          = [SKPhysicsBody bodyWithEdgeFromPoint:CGPointMake(_backgroundNode.size.width + ([SIGameController SIFallingMonkeySize].width / 2.0f), 0.0f)
+                                                                                   toPoint:CGPointMake(_backgroundNode.size.width + ([SIGameController SIFallingMonkeySize].width / 2.0f), _backgroundNode.size.height)];
 }
 
 /**
@@ -241,16 +241,16 @@ enum {
 #pragma mark - Monkey Methods!
 - (void)launchMonkey {
     /*Get Random Number Max... based of width of screen and monkey*/
-    CGFloat validMax                                = self.frame.size.width - ([MainViewController SIFallingMonkeySize].width / 2.0f);
+    CGFloat validMax                                = self.frame.size.width - ([SIGameController SIFallingMonkeySize].width / 2.0f);
     CGFloat xLocation                               = arc4random_uniform(validMax); /*This will be the y axis launch point*/
-    while (xLocation < [MainViewController SIFallingMonkeySize].width / 2.0) {
+    while (xLocation < [SIGameController SIFallingMonkeySize].width / 2.0) {
         xLocation                               = arc4random_uniform(validMax);
     }
-    CGFloat yLocation                           = self.frame.size.height + [GameScene fallingMonkeySize].height;
+    CGFloat yLocation                           = self.frame.size.height + SIGameScene fallingMonkeySize].height;
     
     /*Make Monkey*/
     
-    SKSpriteNode *monkey                        = [MainViewController ];
+    SKSpriteNode *monkey                        = [SIGameController ];
     
     monkey.position                             = CGPointMake(xLocation, yLocation);
     
@@ -271,9 +271,9 @@ enum {
     
 }
 + (SKSpriteNode *)newMonkey {
-    SKSpriteNode *monkey                        = [SKSpriteNode spriteNodeWithTexture:[MainViewController sharedMonkeyFace]  size:[GameScene fallingMonkeySize]];
+    SKSpriteNode *monkey                        = [SKSpriteNode spriteNodeWithTexture:[SIGameController sharedMonkeyFace]  size:SIGameScene fallingMonkeySize]];
     monkey.name                                 = kSINodeFallingMonkey;
-    monkey.physicsBody                          = [SKPhysicsBody bodyWithRectangleOfSize:[GameScene fallingMonkeySize]];
+    monkey.physicsBody                          = [SKPhysicsBody bodyWithRectangleOfSize:SIGameScene fallingMonkeySize]];
     monkey.physicsBody.linearDamping            = 0.0f;
     monkey.physicsBody.categoryBitMask          = monkeyCategory;
     monkey.physicsBody.contactTestBitMask       = bottomEdgeCategory;

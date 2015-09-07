@@ -4,7 +4,7 @@
 //  Created by Andrew Keller on 9/4/15.
 //  Copyright © 2015 Push The World LLC. All rights reserved.
 //
-#import "MainViewController.h"
+#import "SIGameController.h"
 #import "SILoadingScene.h"
 #import "SIConstants.h"
 
@@ -45,7 +45,7 @@
 }
 - (void)setupControlsWithSize:(CGSize)size {
     /**Configrue the labels, nodes and what ever else you can*/
-    _loadingLabel.fontSize = [MainViewController SIFontSizeParagraph];
+    _loadingLabel.fontSize = [SIGameController SIFontSizeParagraph];
     _loadingLabel.fontColor = [SKColor whiteColor];
     _loadingLabel.verticalAlignmentMode = SKLabelVerticalAlignmentModeCenter;
     _loadingLabel.horizontalAlignmentMode = SKLabelHorizontalAlignmentModeCenter;
@@ -63,10 +63,10 @@
     
 }
 
-- (void)setLoadProgressPercent:(float)percent {
+- (void)sceneLoadingWillLoadProgressPercent:(float)percent {
     if (percent > 1.0) {
         _progressBarLoading.progress = 1.0f;
-
+        
     } else if (percent < 0.0f) {
         _progressBarLoading.progress = 0.0f;
     } else {

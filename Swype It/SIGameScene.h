@@ -12,16 +12,17 @@
 // Framework Import
 #import <SpriteKit/SpriteKit.h>
 // Drop-In Class Imports (CocoaPods/GitHub/Guru)
+#import "BMGlyphLabel.h"
 #import "HLSpriteKit.h"
 // Category Import
 // Support/Data Class Imports
-#import "Game.h"
+#import "SIGame.h"
 #import "SIMove.h"
 #import "SISceneGameProgressBarUpdate.h"
 // Other Imports
 
-@class GameScene;
-@protocol GameSceneDelegate <NSObject>
+@class SIGameScene;
+@protocol SIGameSceneDelegate <NSObject>
 
 /**
  Called when the scene recognizes a gesture
@@ -46,7 +47,7 @@
  Called when the ring node is tapped and the result
     needs to be sent to the controller
  */
-- (void)sceneGameDidRecieveRingNode:(HLRingNode *)ringNode Tap:(SISceneGameRingNode)gameSceneRingNode;
+- (void)sceneGameDidRecieveRingNode:(HLRingNode *)ringNode tap:(SISceneGameRingNode)gameSceneRingNode;
 
 /**
  Powerup tool bar was tapped
@@ -63,12 +64,12 @@
 
 @end
 
-@interface GameScene : HLScene <SKPhysicsContactDelegate>
+@interface SIGameScene : HLScene <SKPhysicsContactDelegate>
 
 /**
  The delegate for the scene
  */
-@property (weak, nonatomic) id <GameSceneDelegate> sceneDelegate;
+@property (weak, nonatomic) id <SIGameSceneDelegate> sceneDelegate;
 
 /**
  Initalizer Method for Scene...
@@ -94,11 +95,10 @@
  */
 - (void)updateSceneWithBackgroundColor:(UIColor *)backgroundColor
                             totalScore:(float)totalScore
-                             moveScore:(float)moveScore
+                                  move:(SIMove *)move
+                        moveScoreLabel:(BMGlyphLabel *)moveScoreLabel
             freeCoinProgressBarPercent:(float)freeCoinProgressBarPercent
-                     moveCommandString:(NSString *)moveCommandString
-                           isHighScore:(BOOL)isHighScore
-                         touchLocation:(CGPoint)touchLocation;
+                     moveCommandString:(NSString *)moveCommandString;
 
 /**
  I guess you could use this for a pause menu... if that's something
@@ -111,11 +111,20 @@
  */
 - (void)sceneModallyPresentPopup:(SIPopupNode *)popupNode withMenuNode:(HLMenuNode *)menuNode;
 
-/**
- Make and explosion at a point already set...
- */
-- (void)sceneWillPresentEmitter:(SKEmitterNode *)emitter;
+///**
+// Make and explosion at a point already set...
+// */
+//- (void)sceneWillPresentEmitter:(SKEmitterNode *)emitter;
 
+/**
+ Called when the scene shall show a new high score
+ */
+- (void)sceneWillShowHighScore;
+
+/**
+ Called when the scene shall notify the user they got a free coin
+ */
+- (void)sceneWillShowFreeCoinEarned;
 
 
 

@@ -3,73 +3,73 @@
     {
       "size" : "29x29",
       "idiom" : "iphone",
-      "filename" : "swipeIconDev29@2x-1.png",
+      "filename" : "swypeItIconRevC29@2x-1.png",
       "scale" : "2x"
     },
     {
       "size" : "29x29",
       "idiom" : "iphone",
-      "filename" : "swipeIconDev29@3x.png",
+      "filename" : "swypeItIconRevC29@3x.png",
       "scale" : "3x"
     },
     {
       "size" : "40x40",
       "idiom" : "iphone",
-      "filename" : "swipeIconDev40@2x-1.png",
+      "filename" : "swypeItIconRevC40@2x-1.png",
       "scale" : "2x"
     },
     {
       "size" : "40x40",
       "idiom" : "iphone",
-      "filename" : "swipeIconDev40@3x.png",
+      "filename" : "swypeItIconRevC40@3x.png",
       "scale" : "3x"
     },
     {
       "size" : "60x60",
       "idiom" : "iphone",
-      "filename" : "swipeIconDev60@2x.png",
+      "filename" : "swypeItIconRevC60@2x.png",
       "scale" : "2x"
     },
     {
       "size" : "60x60",
       "idiom" : "iphone",
-      "filename" : "swipeIconDev60@3x.png",
+      "filename" : "swypeItIconRevC60@3x.png",
       "scale" : "3x"
     },
     {
       "size" : "29x29",
       "idiom" : "ipad",
-      "filename" : "swipeIconDev29.png",
+      "filename" : "swypeItIconRevC29.png",
       "scale" : "1x"
     },
     {
       "size" : "29x29",
       "idiom" : "ipad",
-      "filename" : "swipeIconDev29@2x.png",
+      "filename" : "swypeItIconRevC29@2x.png",
       "scale" : "2x"
     },
     {
       "size" : "40x40",
       "idiom" : "ipad",
-      "filename" : "swipeIconDev40.png",
+      "filename" : "swypeItIconRevC40.png",
       "scale" : "1x"
     },
     {
       "size" : "40x40",
       "idiom" : "ipad",
-      "filename" : "swipeIconDev40@2x.png",
+      "filename" : "swypeItIconRevC40@2x.png",
       "scale" : "2x"
     },
     {
       "size" : "76x76",
       "idiom" : "ipad",
-      "filename" : "swipeIconDev76.png",
+      "filename" : "swypeItIconRevC76.png",
       "scale" : "1x"
     },
     {
       "size" : "76x76",
       "idiom" : "ipad",
-      "filename" : "swipeIconDev76@2x.png",
+      "filename" : "swypeItIconRevC76@2x.png",
       "scale" : "2x"
     }
   ],

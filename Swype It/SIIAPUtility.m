@@ -93,7 +93,7 @@
     BOOL productNotFound    = YES;
     for (SKProduct *product in productArray) {
         NSString *productID = product.productIdentifier;
-        if ([productID isEqualToString:[Game productIDForSIIAPPack:siiapPack]]) {
+        if ([productID isEqualToString:[SIGame productIDForSIIAPPack:siiapPack]]) {
             productNotFound = NO;
             if (completionBlock) {
                 completionBlock(YES,product);

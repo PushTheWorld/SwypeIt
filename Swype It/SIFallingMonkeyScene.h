@@ -7,7 +7,7 @@
 //
 
 #import "HLScene.h"
-@protocol GameSceneDelegate <NSObject>
+@protocol SIFallingMonkeySceneDelegate <NSObject>
 
 /**
  Called when the scene registers a monkey tap
@@ -26,7 +26,7 @@
 /**
  The delegate for the scene
  */
-@property (weak, nonatomic) id <GameSceneDelegate> sceneDelegate;
+@property (weak, nonatomic) id <SIFallingMonkeySceneDelegate> sceneDelegate;
 
 /**
  The initializer for the monkey scene

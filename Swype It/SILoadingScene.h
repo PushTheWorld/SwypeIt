@@ -12,6 +12,6 @@
 /**
  Sets the progress of the progress bar
  */
-- (void)setLoadProgressPercent:(float)percent;
+- (void)sceneLoadingWillLoadProgressPercent:(float)percent;
 
 @end

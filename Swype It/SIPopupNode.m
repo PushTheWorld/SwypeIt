@@ -334,7 +334,7 @@ enum {
         _dismissButton.position         = dismissButtonPosition;
     }
     
-    _backgroundNode.texture             = [Game textureBackgroundColor:_backgroundNode.color size:_backgroundNode.size cornerRadius:_cornerRadius borderWidth:_borderWidth borderColor:_borderColor];
+    _backgroundNode.texture             = SIGame textureBackgroundColor:_backgroundNode.color size:_backgroundNode.size cornerRadius:_cornerRadius borderWidth:_borderWidth borderColor:_borderColor];
 }
 
 - (void)layoutZ

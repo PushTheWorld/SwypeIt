@@ -9,10 +9,9 @@
 //  Purpose: This is testing
 //
 // Local Controller Import
-#import "MainViewController.h"
+#import "SIGameController.h"
 #import "SIPopupNode.h"
 #import "SITestScene.h"
-#import "StartScreenScene.h"
 // Framework Import
 //#import <Instabug/Instabug.h>
 // Drop-In Class Imports (CocoaPods/GitHub/Guru)
@@ -94,14 +93,14 @@
         
     }
     //    _buttonSize                     = CGSizeMake(size.width / buttonSizeDivder, (size.width / buttonSizeDivder) * 0.25);
-    _buttonSpacing                  = [MainViewController SIButtonSize:size].height * 0.25;
+    _buttonSpacing                  = [SIGameController SIButtonSize:size].height * 0.25;
     _buttonAnimationDuration        = 0.25f;
     
     _shouldRespondToTap             = YES;
 }
 - (void)createControlsWithSize:(CGSize)size {
     /**Preform all your alloc/init's here*/
-    _titleLabel = [MainViewController SILabelHeader:kSIMenuTextStartScreenSettings];
+    _titleLabel = [SIGameController SILabelHeader:kSIMenuTextStartScreenSettings];
     
 }
 - (void)setupControlsWithSize:(CGSize)size {
@@ -127,14 +126,14 @@
     /**Preform setup post-view load*/
     self.backgroundColor                    = [SKColor sandColor]; /*Maybe add a convience method*/
     
-    SKLabelNode *label                      = [MainViewController SILabelHeader:@"Test Scene"];
+    SKLabelNode *label                      = [SIGameController SILabelHeader:@"Test Scene"];
     label.position                          = CGPointMake(self.view.frame.size.width / 2.0f, self.view.frame.size.height / 2.0f);
     [self addChild:label];
     
     CGSize sceneSize                        = self.size;
     
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        SIPopupNode *popUpNode              = [MainViewController SIPopUpNodeTitle:@"Continue?" SceneSize:sceneSize];
+        SIPopupNode *popUpNode              = [SIGameController SIPopUpNodeTitle:@"Continue?" SceneSize:sceneSize];
         
         HLMenuNode *menuNode                = [self menuCreate:popUpNode.backgroundSize];
         popUpNode.popupContentNode          = menuNode;
@@ -154,8 +153,8 @@
     menuNode.delegate                       = self;
     menuNode.itemAnimation                  = HLMenuNodeAnimationSlideLeft;
     menuNode.itemAnimationDuration          = self.buttonAnimationDuration;
-    menuNode.itemButtonPrototype            = [MainViewController SIMenuButtonPrototypePopUp:[MainViewController SIButtonSize:size]];
-    menuNode.backItemButtonPrototype        = [MainViewController SIMenuButtonPrototypeBack:[MainViewController SIButtonSize:size]];
+    menuNode.itemButtonPrototype            = [SIGameController SIMenuButtonPrototypePopUp:[SIGameController SIButtonSize:size]];
+    menuNode.backItemButtonPrototype        = [SIGameController SIMenuButtonPrototypeBack:[SIGameController SIButtonSize:size]];
     menuNode.itemSeparatorSize              = 20;
     
     HLMenu *menu                            = [[HLMenu alloc] init];
@@ -167,7 +166,7 @@
 
     /*Add the Back Button... Need to change the prototype*/
     HLMenuItem *endGameItem                 = [HLMenuItem menuItemWithText:kSIMenuTextPopUpEndGame];
-    endGameItem.buttonPrototype             = [MainViewController SIMenuButtonPrototypeBack:[MainViewController SIButtonSize:size]];
+    endGameItem.buttonPrototype             = [SIGameController SIMenuButtonPrototypeBack:[SIGameController SIButtonSize:size]];
     [menu addItem:endGameItem];
 
     

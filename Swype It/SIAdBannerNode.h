@@ -13,7 +13,7 @@
 #import "HLGestureTarget.h"
 // Category Import
 // Support/Data Class Imports
-#import "Game.h"
+#import "SIGame.h"
 // Other Imports
 #pragma mark - Delegate Protocol
 @protocol SIAdBannerNodeDelegate <NSObject>

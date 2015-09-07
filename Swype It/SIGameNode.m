@@ -9,7 +9,7 @@
 //  Purpose: This is....
 //
 // Local Controller Import
-#import "MainViewController.h"
+#import "SIGameController.h"
 #import "SIGameNode.h"
 // Framework Import
 // Drop-In Class Imports (CocoaPods/GitHub/Guru)
@@ -132,22 +132,8 @@ enum {
         UITapGestureRecognizer *tapGestureRecognizer = (UITapGestureRecognizer *)gestureRecognizer;
         if (tapGestureRecognizer.numberOfTapsRequired == 1) {
             *isInside       = YES;
-            handleGesture   = YES;
+            return YES;
         }
-        if (handleGesture) {
-//            if ([AppSingleton singleton].currentGame.currentPowerUp == SIPowerUpTypeFallingMonkeys) {
-//                CGPoint location    = [touch locationInNode:self];
-//                NSArray *nodes      = [self nodesAtPoint:location];
-//                for (SKNode *node in nodes) {
-//                    if ([node.name isEqualToString:kSINodeFallingMonkey]) {
-//                        [self.delegate monkeyTapped:node];
-//
-//                    }
-//                }
-//            }
-            [gestureRecognizer addTarget:self action:@selector(handleTap:)];
-        }
-        return handleGesture;
     }
     *isInside = NO;
     return handleGesture;

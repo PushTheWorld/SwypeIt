@@ -7,7 +7,6 @@
 //  Purpose: This is node for ads... will integrate internet connectivity eventually
 //
 // Local Controller Import
-#import "AppSingleton.h"
 #import "SIAdBannerNode.h"
 // Framework Import
 // Drop-In Class Imports (CocoaPods/GitHub/Guru)

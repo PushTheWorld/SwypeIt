@@ -84,7 +84,7 @@ enum {
     _coinNode                       = [SKSpriteNode spriteNodeWithTexture:[[SIConstants imagesAtlas] textureNamed:kSIImageCoinSmallBack] size:_coinNodeSize];
 
     
-    _iconNode                       = [SKSpriteNode spriteNodeWithTexture:[Game textureForSIPowerUp:_siPowerUp] size:_iconNodeSize];
+    _iconNode                       = [SKSpriteNode spriteNodeWithTexture:[SIGame textureForSIPowerUp:_siPowerUp] size:_iconNodeSize];
     
     
     _costLabelNode                  = [SKLabelNode labelNodeWithFontNamed:kSIFontUltra];

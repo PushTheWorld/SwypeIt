@@ -13,7 +13,7 @@
 #import "HLGestureTarget.h"
 // Category Import
 // Support/Data Class Imports
-#import "Game.h"
+#import "SIGame.h"
 #import "SIMove.h"
 // Other Imports
 @protocol SIGameNodeDelegate <NSObject>
@@ -25,7 +25,7 @@
  
  */
 - (void)gestureEnded:(SIMove *)move;
-- (void)monkeyTapped:(SKNode *)node;
+//- (void)monkeyTapped:(SKNode *)node;
 
 @end
 

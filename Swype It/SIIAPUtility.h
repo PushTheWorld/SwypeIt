@@ -15,7 +15,7 @@
 // Category Import
 #import "UIColor+Additions.h"
 // Support/Data Class Imports
-#import "Game.h"
+#import "SIGame.h"
 // Other Imports
 
 #define NUMBER_OF_IAP_PACKS 4

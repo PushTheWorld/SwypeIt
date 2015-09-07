@@ -9,12 +9,12 @@
 //
 // Local Controller Import
 #import "GameScene.h"
-#import "MainViewController.h"
+#import "SIGameController.h"
 #import "MKStoreKit.h"
 #import "SettingsScene.h"
 #import "SIAdBannerNode.h"
 #import "SISegmentControl.h"
-#import "StartScreenScene.h"
+#import "StartScene.h"
 #import "StoreScene.h"
 // Framework Import
 // Drop-In Class Imports (CocoaPods/GitHub/Guru)
@@ -24,25 +24,25 @@
 // Category Import
 #import "UIColor+Additions.h"
 // Support/Data Class Imports
-#import "Game.h"
+#import "SIGame.h"
 // Other Imports
 enum {
-    SIStartScreenZPositionLayerBackground = 0,
-    SIStartScreenZPositionLayerText,
-    SIStartScreenZPositionLayerTextChild,
-    SIStartScreenZPositionLayerButtons,
-    SIStartScreenZPositionLayerToolbar,
-    SIStartScreenZPositionLayerToolbarButtons,
-    SIStartScreenZPositionLayerPopup,
-    SIStartScreenZPositionLayerPopupContent,
-    SIStartScreenZPositionLayerCount
+    SIStartZPositionLayerBackground = 0,
+    SIStartZPositionLayerText,
+    SIStartZPositionLayerTextChild,
+    SIStartZPositionLayerButtons,
+    SIStartZPositionLayerToolbar,
+    SIStartZPositionLayerToolbarButtons,
+    SIStartZPositionLayerPopup,
+    SIStartZPositionLayerPopupContent,
+    SIStartZPositionLayerCount
 };
 
-@interface StartScreenScene () <HLToolbarNodeDelegate, SISegmentControlDelegate, SIPopUpNodeDelegate, SIAdBannerNodeDelegate>
+@interface StartScene () <HLToolbarNodeDelegate, SISegmentControlDelegate, SIPopUpNodeDelegate, SIAdBannerNodeDelegate>
 
 
 @end
-@implementation StartScreenScene {
+@implementation StartScene {
     BOOL                                     _shouldRespondToTap;
     BOOL                                     _willAwardPrize;
     
@@ -75,13 +75,13 @@ enum {
     if (self = [super initWithSize:size]) {
         /**Do any setup before self.view is loaded*/
 //        [self initSetup:size];
+        [self initSetup:size];
     }
     return self;
 }
 - (void)didMoveToView:(nonnull SKView *)view {
     [super didMoveToView:view];
     /**Do any setup post self.view creation*/
-    [self initSetup:view.frame.size];
     [self viewSetup:view];
     if ([[NSUserDefaults standardUserDefaults] boolForKey:kSINSUserDefaultSoundIsAllowedBackground]) {
         [[SoundManager sharedManager] playMusic:kSISoundBackgroundMenu looping:YES fadeIn:YES];
@@ -129,17 +129,17 @@ enum {
 #pragma mark Scene Setup
 - (void)createConstantsWithSize:(CGSize)size {
     /**Configure any constants*/
-    _buttonSpacing                          = [MainViewController buttonSize:size].height * 0.25;
+    _buttonSpacing                          = [SIGameController SIButtonSize:size].height * 0.25;
     _buttonAnimationDuration                = 0.25f;
     
-    if ([MainViewController isPremiumUser]) {
+    if ([SIGameController isPremiumUser]) {
         _adBannerNodeSize                   = CGSizeZero;
     } else {
-        _adBannerNodeSize                   = CGSizeMake(size.width, [MainViewController bannerViewHeight]);
+        _adBannerNodeSize                   = CGSizeMake(size.width, [SIGameController bannerViewHeight]);
     }
     _backgroundNodeSize                     = CGSizeMake(size.width, size.height - _adBannerNodeSize.height);
     
-    _storeButtonNodeSize                    = CGSizeMake([MainViewController buttonSize:size].width / 2.0f, [MainViewController buttonSize:size].height);
+    _storeButtonNodeSize                    = CGSizeMake([SIGameController SIButtonSize:size].width / 2.0f, [SIGameController SIButtonSize:size].height);
 
 }
 - (void)createControlsWithSize:(CGSize)size {
@@ -150,46 +150,46 @@ enum {
     _adBannerNode                           = [[SIAdBannerNode alloc] initWithSize:_adBannerNodeSize];
     
     /*Labels*/
-    _gameTitleLabelNode                     = [MainViewController SILabelHeader_x3:@"SWYPE IT"];
+    _gameTitleLabelNode                     = [SIGameController SILabelHeader_x3:@"SWYPE IT"];
     
-    _tapToPlayLabelNode                     = [MainViewController SILabelParagraph_x2:@"Tap To Start"];
+    _tapToPlayLabelNode                     = [SIGameController SILabelParagraph_x2:@"Tap To Start"];
     
     _monkeyFace                             = [SKSpriteNode spriteNodeWithTexture:[[SIConstants buttonAtlas] textureNamed:kSIImageButtonFallingMonkey]];
     
-    _gameTypeInstructionLabelNode           = [MainViewController SILabelParagraph_x2:@"Choose Game Mode:"];
+    _gameTypeInstructionLabelNode           = [SIGameController SILabelParagraph_x2:@"Choose Game Mode:"];
     
     /*Store Button Label*/
     _storeButtonNode                        = [[HLLabelButtonNode alloc] initWithColor:[SKColor redColor] size:_storeButtonNodeSize];
 
     /*Segment Control*/
-    _segmentControl                         = [[SISegmentControl alloc] initWithSize:[MainViewController buttonSize:size] titles:@[@"Classic",@"One Hand"]];
+    _segmentControl                         = [[SISegmentControl alloc] initWithSize:[SIGameController SIButtonSize:size] titles:@[@"Classic",@"One Hand"]];
 }
 - (void)setupControlsWithSize:(CGSize)size {
     /**Configrue the labels, nodes and what ever else you can*/
     /*Background*/
     _backgroundNode.anchorPoint             = CGPointMake(0.0f, 0.0f);
-    _backgroundNode.zPosition               = SIStartScreenZPositionLayerBackground / SIStartScreenZPositionLayerCount;
+    _backgroundNode.zPosition               = (float)SIStartScreenZPositionLayerBackground / (float)SIStartScreenZPositionLayerCount;
     
-    _adBannerNode.zPosition                 = (float)SIStartScreenZPositionLayerBackground / SIStartScreenZPositionLayerCount;
+    _adBannerNode.zPosition                 = (float)SIStartScreenZPositionLayerBackground / (float)SIStartScreenZPositionLayerCount;
     _adBannerNode.delegate                  = self;
     
-    _gameTitleLabelNode.zPosition           = SIStartScreenZPositionLayerText / SIStartScreenZPositionLayerCount;
+    _gameTitleLabelNode.zPosition           = (float)SIStartScreenZPositionLayerText / (float)SIStartScreenZPositionLayerCount;
     _gameTitleLabelNode.fontName            = kSIFontFuturaMedium;
     
-    _tapToPlayLabelNode.zPosition           = SIStartScreenZPositionLayerText / SIStartScreenZPositionLayerCount;
+    _tapToPlayLabelNode.zPosition           = SIStartScreenZPositionLayerText / (float)SIStartScreenZPositionLayerCount;
     _tapToPlayLabelNode.fontColor           = [SKColor grayColor];
     _tapToPlayLabelNode.fontName            = kSIFontFuturaMedium;
     
-    _monkeyFace.zPosition                   = SIStartScreenZPositionLayerTextChild / SIStartScreenZPositionLayerCount;
+    _monkeyFace.zPosition                   = (float)SIStartScreenZPositionLayerTextChild / (float)SIStartScreenZPositionLayerCount;
     _monkeyFace.anchorPoint                 = CGPointMake(0.5f, 0.5f);
     _monkeySize                             = CGSizeMake(size.width / 2.0f, size.width / 2.0f);
     _monkeyFace.size                        = _monkeySize;
     
-    _gameTypeInstructionLabelNode.zPosition = SIStartScreenZPositionLayerText / SIStartScreenZPositionLayerCount;
+    _gameTypeInstructionLabelNode.zPosition = (float)SIStartScreenZPositionLayerText / (float)SIStartScreenZPositionLayerCount;
     _gameTypeInstructionLabelNode.fontName  = kSIFontFuturaMedium;
     _gameTypeInstructionLabelNode.fontColor = [SKColor grayColor];
     
-    _segmentControl.zPosition               = SIStartScreenZPositionLayerButtons / SIStartScreenZPositionLayerCount;
+    _segmentControl.zPosition               = (float)SIStartScreenZPositionLayerButtons / (float)SIStartScreenZPositionLayerCount;
     _segmentControl.delegate                = self;
     NSNumber *gameMode = [[NSUserDefaults standardUserDefaults] objectForKey:kSINSUserDefaultGameMode];
     if (gameMode) {
@@ -206,7 +206,7 @@ enum {
     
     /*Store Button Label*/
     _storeButtonNode.fontName               = kSIFontFuturaMedium;
-    _storeButtonNode.fontSize               = [MainViewController buttonSize:size].height / 2.0f;
+    _storeButtonNode.fontSize               = [SIGameController SIButtonSize:size].height / 2.0f;
     _storeButtonNode.fontColor              = [SKColor whiteColor];
     _storeButtonNode.borderColor            = [SKColor blackColor];
     _storeButtonNode.borderWidth            = 8.0f;
@@ -217,7 +217,7 @@ enum {
     /*Toolbar Node*/
     _toolbarNode                            = [self createToolbarNode:size];
     _toolbarNode.delegate                   = self;
-    _toolbarNode.zPosition                  = SIStartScreenZPositionLayerToolbar / SIStartScreenZPositionLayerCount;
+    _toolbarNode.zPosition                  = (float)SIStartScreenZPositionLayerToolbar / (float)SIStartScreenZPositionLayerCount;
 }
 - (void)layoutControlsWithSize:(CGSize)size {
     /**Layout those controls*/
@@ -246,13 +246,13 @@ enum {
     
     /*Store Button Label*/
     _storeButtonNode.position               = CGPointMake(size.width / 2.0f,
-                                                          size.height - VERTICAL_SPACING_8 - _gameTitleLabelNode.fontSize - VERTICAL_SPACING_8 - _tapToPlayLabelNode.fontSize - [MainViewController buttonSize:size].height);
+                                                          size.height - VERTICAL_SPACING_8 - _gameTitleLabelNode.fontSize - VERTICAL_SPACING_8 - _tapToPlayLabelNode.fontSize - [SIGameController SIButtonSize:size].height);
     [self addChild:_storeButtonNode];
     [_storeButtonNode hlSetGestureTarget:[HLTapGestureTarget tapGestureTargetWithHandleGestureBlock:^(UIGestureRecognizer *gestureRecognizer) {
         StoreScene *storeScene = [[StoreScene alloc] initWithSize:self.size willAwardPrize:_willAwardPrize];//[StoreScene sceneWithSize:self.size];
         storeScene.wasLaunchedFromMainMenu = YES;
-        [Game transisitionToSKScene:storeScene toSKView:self.view duration:SCENE_TRANSISTION_DURATION];
-//        [Game transisitionToSKScene:storeScene toSKView:self.view DoorsOpen:YES pausesIncomingScene:YES pausesOutgoingScene:YES duration:SCENE_TRANSISTION_DURATION];
+        SIGame transisitionToSKScene:storeScene toSKView:self.view duration:SCENE_TRANSISTION_DURATION];
+//        SIGame transisitionToSKScene:storeScene toSKView:self.view DoorsOpen:YES pausesIncomingScene:YES pausesOutgoingScene:YES duration:SCENE_TRANSISTION_DURATION];
         
     }]];
     [self registerDescendant:_storeButtonNode withOptions:[NSSet setWithObject:HLSceneChildGestureTarget]];
@@ -275,12 +275,12 @@ enum {
 
     
     /*Segment Control*/
-    _segmentControl.position                = CGPointMake((size.width / 2.0f),VERTICAL_SPACING_8 + [MainViewController buttonSize:size].height + VERTICAL_SPACING_8 + ([MainViewController buttonSize:size].height / 2.0f));
+    _segmentControl.position                = CGPointMake((size.width / 2.0f),VERTICAL_SPACING_8 + [SIGameController SIButtonSize:size].height + VERTICAL_SPACING_8 + ([SIGameController SIButtonSize:size].height / 2.0f));
     [_backgroundNode addChild:_segmentControl];
     [_segmentControl hlSetGestureTarget:_segmentControl];
     [self registerDescendant:_segmentControl withOptions:[NSSet setWithObject:HLSceneChildGestureTarget]];
 
-    _gameTypeInstructionLabelNode.position  = CGPointMake((size.width / 2.0f), _segmentControl.frame.origin.y + ([MainViewController buttonSize:size].height / 2.0f) + VERTICAL_SPACING_4 + (_gameTypeInstructionLabelNode.fontSize / 2.0f)); 
+    _gameTypeInstructionLabelNode.position  = CGPointMake((size.width / 2.0f), _segmentControl.frame.origin.y + ([SIGameController SIButtonSize:size].height / 2.0f) + VERTICAL_SPACING_4 + (_gameTypeInstructionLabelNode.fontSize / 2.0f));
     [_backgroundNode addChild:_gameTypeInstructionLabelNode];
 
 }
@@ -302,7 +302,7 @@ enum {
         
     } else if ([toolTag isEqualToString:kSINodeButtonSettings]) {
         SettingsScene *settingsScene    = [SettingsScene sceneWithSize:self.size];
-        [Game transisitionToSKScene:settingsScene toSKView:self.view DoorsOpen:YES pausesIncomingScene:YES pausesOutgoingScene:YES duration:SCENE_TRANSISTION_DURATION];
+        SIGame transisitionToSKScene:settingsScene toSKView:self.view DoorsOpen:YES pausesIncomingScene:YES pausesOutgoingScene:YES duration:SCENE_TRANSISTION_DURATION];
         
     } else if ([toolTag isEqualToString:kSINodeButtonInstructions]) {
         NSLog(@"Instructions Toolbar Button Tapped");
@@ -328,7 +328,7 @@ enum {
     toolbarNode.squareSeparatorSize             = 10.0f;
     toolbarNode.backgroundColor                 = [UIColor clearColor];
     toolbarNode.anchorPoint                     = CGPointMake(0.0f, 0.0f);
-    toolbarNode.size                            = CGSizeMake(size.width, [MainViewController buttonSize:size].height);
+    toolbarNode.size                            = CGSizeMake(size.width, [SIGameController SIButtonSize:size].height);
     toolbarNode.squareColor                     = [SKColor clearColor];
     
     
@@ -363,16 +363,16 @@ enum {
 
 #pragma mark - SIPopUpNode Helper Methods
 - (void)launchHelp {
-    SIPopupNode *popUpNode                      = [MainViewController SIPopUpNodeTitle:@"Help" SceneSize:self.size];
+    SIPopupNode *popUpNode                      = [SIGameController SIPopUpNodeTitle:@"Help" SceneSize:self.size];
     popUpNode.zPosition                         = SIStartScreenZPositionLayerPopup / SIStartScreenZPositionLayerCount;
     popUpNode.titleFontName                     = kSIFontFuturaMedium;
     
-    SKLabelNode *line1 = [MainViewController SILabelInterfaceFontSize:[MainViewController SIFontSizeParagraph]];
+    SKLabelNode *line1 = [SIGameController SILabelInterfaceFontSize:[SIGameController SIFontSizeParagraph]];
     line1.text  = @"Tap to start";
     
     SKLabelNode *aboutLabelNode                 = [SKLabelNode labelNodeWithFontNamed:kSIFontFuturaMedium];
     aboutLabelNode.text                         = @"Tap To Start";
-    aboutLabelNode.fontSize                     = [MainViewController SIFontSizeParagraph];
+    aboutLabelNode.fontSize                     = [SIGameController SIFontSizeParagraph];
     aboutLabelNode.fontColor                    = [SKColor blackColor];
     aboutLabelNode.zPosition                    = SIStartScreenZPositionLayerPopupContent / SIStartScreenZPositionLayerCount;
     
@@ -391,15 +391,15 @@ enum {
 //    menuNode.delegate                   = self;
 //    menuNode.itemAnimation              = HLMenuNodeAnimationSlideLeft;
 //    menuNode.itemAnimationDuration      = 0.25;
-//    menuNode.itemButtonPrototype        = [MainViewController SI_sharedMenuButtonPrototypePopUp:[MainViewController buttonSize:size]];
-//    menuNode.backItemButtonPrototype    = [MainViewController SI_sharedMenuButtonPrototypeBack:[MainViewController buttonSize:size]];
+//    menuNode.itemButtonPrototype        = [SIGameController SI_sharedMenuButtonPrototypePopUp:[SIGameController buttonSize:size]];
+//    menuNode.backItemButtonPrototype    = [SIGameController SI_sharedMenuButtonPrototypeBack:[SIGameController buttonSize:size]];
 //    menuNode.itemSeparatorSize          = 20;
 //    
 //    HLMenu *menu                        = [[HLMenu alloc] init];
 //    
 //    /*Add the Back Button... Need to change the prototype*/
 //    HLMenuItem *endGameItem             = [HLMenuItem menuItemWithText:kSIMenuTextBack];
-//    endGameItem.buttonPrototype         = [MainViewController SI_sharedMenuButtonPrototypeBack:[MainViewController buttonSize:size]];
+//    endGameItem.buttonPrototype         = [SIGameController SI_sharedMenuButtonPrototypeBack:[SIGameController buttonSize:size]];
 //    [menu addItem:endGameItem];
 //    
 //    
@@ -428,7 +428,7 @@ enum {
     SKLabelNode *line12                 = [self popupLabel:@"Opening Swype It every day earns you"];
     SKLabelNode *line13                 = [self popupLabel:@"more and more free coins!!!"];
     SKLabelNode *line14                 = [self popupLabel:@"SWYPE ON!"];
-    line14.fontSize                     = [MainViewController SIFontSizeText_x3];
+    line14.fontSize                     = [SIGameController SIFontSizeText_x3];
     line14.horizontalAlignmentMode      = SKLabelHorizontalAlignmentModeCenter;
     
     CGFloat positionOffset              = line2.fontSize + VERTICAL_SPACING_4;
@@ -467,7 +467,7 @@ enum {
 }
 
 - (SKLabelNode *)popupLabel:(NSString *)text {
-    SKLabelNode *labelNode              = [MainViewController SILabelInterfaceFontSize:[MainViewController SIFontSizeText]];
+    SKLabelNode *labelNode              = [SIGameController SILabelInterfaceFontSize:[SIGameController SIFontSizeText]];
     labelNode.text                      = text;
     labelNode.fontColor                 = [SKColor whiteColor];
     labelNode.fontName                  = kSIFontFuturaMedium;
@@ -482,8 +482,8 @@ enum {
         return;
     }
     [[AppSingleton singleton] initAppSingletonWithGameMode:gameMode];
-    GameScene *firstScene = [[GameScene alloc] initWithSize:self.size gameMode:gameMode];
-    [Game transisitionToSKScene:firstScene toSKView:self.view DoorsOpen:YES pausesIncomingScene:NO pausesOutgoingScene:NO duration:SCENE_TRANSISTION_DURATION];
+    GameScene *firstScene = [SIGameScene alloc] initWithSize:self.size gameMode:gameMode];
+    SIGame transisitionToSKScene:firstScene toSKView:self.view DoorsOpen:YES pausesIncomingScene:NO pausesOutgoingScene:NO duration:SCENE_TRANSISTION_DURATION];
 }
 
 - (void)startGame {
@@ -567,38 +567,38 @@ enum {
 /**
  Compares a time from the internet to determine if should give a daily prize
  */
-- (BOOL)checkForDailyPrize {
-    NSDate *currentDate = [MainViewController getDateFromInternet];
-    if (!currentDate) {
-        return NO;
-    }
-    
-    NSDate *lastPrizeGivenDate = [[NSUserDefaults standardUserDefaults] objectForKey:kSINSUserDefaultLastPrizeAwardedDate];
-    if (!lastPrizeGivenDate) {
-//        NSLog(@"Set date for first time...");
-        [[NSUserDefaults standardUserDefaults] setObject:currentDate forKey:kSINSUserDefaultLastPrizeAwardedDate];
-        [[NSUserDefaults standardUserDefaults] synchronize];
-        [self willGivePrize];
-        return YES;
-    } else {
-        NSTimeInterval timeSinceLastLaunch = [currentDate timeIntervalSince1970] - [lastPrizeGivenDate timeIntervalSince1970];
-        if (timeSinceLastLaunch > 60 * 2 && timeSinceLastLaunch < 2 * 60 * 2) { //(timeSinceLastLaunch > SECONDS_IN_DAY && timeSinceLastLaunch < 2 * SECONDS_IN_DAY) { /*Consecutive launch!!! > 24 < 48*/
-//            NSLog(@"Consecutive Launch!");
-            _willAwardPrize = YES;
-            [self willGivePrize];
-            return YES;
-            
-        } else if (timeSinceLastLaunch > 2 * 60 * 2) {  //(timeSinceLastLaunch > 2 * SECONDS_IN_DAY) { /*Non consecutive launch.... two days have passed..*/
-            [[NSUserDefaults standardUserDefaults] setInteger:1 forKey:kSINSUserDefaultNumberConsecutiveAppLaunches];
-            _willAwardPrize = YES;
-            [self willGivePrize];
-            return YES;
-        } else {
-//            NSLog(@"Already launched %0.0f minutes ago",timeSinceLastLaunch / 60);
-            return NO;
-        }
-    }
-}
+//- (BOOL)checkForDailyPrize {
+//    NSDate *currentDate = [SIGameController getDateFromInternet];
+//    if (!currentDate) {
+//        return NO;
+//    }
+//    
+//    NSDate *lastPrizeGivenDate = [[NSUserDefaults standardUserDefaults] objectForKey:kSINSUserDefaultLastPrizeAwardedDate];
+//    if (!lastPrizeGivenDate) {
+////        NSLog(@"Set date for first time...");
+//        [[NSUserDefaults standardUserDefaults] setObject:currentDate forKey:kSINSUserDefaultLastPrizeAwardedDate];
+//        [[NSUserDefaults standardUserDefaults] synchronize];
+//        [self willGivePrize];
+//        return YES;
+//    } else {
+//        NSTimeInterval timeSinceLastLaunch = [currentDate timeIntervalSince1970] - [lastPrizeGivenDate timeIntervalSince1970];
+//        if (timeSinceLastLaunch > 60 * 2 && timeSinceLastLaunch < 2 * 60 * 2) { //(timeSinceLastLaunch > SECONDS_IN_DAY && timeSinceLastLaunch < 2 * SECONDS_IN_DAY) { /*Consecutive launch!!! > 24 < 48*/
+////            NSLog(@"Consecutive Launch!");
+//            _willAwardPrize = YES;
+//            [self willGivePrize];
+//            return YES;
+//            
+//        } else if (timeSinceLastLaunch > 2 * 60 * 2) {  //(timeSinceLastLaunch > 2 * SECONDS_IN_DAY) { /*Non consecutive launch.... two days have passed..*/
+//            [[NSUserDefaults standardUserDefaults] setInteger:1 forKey:kSINSUserDefaultNumberConsecutiveAppLaunches];
+//            _willAwardPrize = YES;
+//            [self willGivePrize];
+//            return YES;
+//        } else {
+////            NSLog(@"Already launched %0.0f minutes ago",timeSinceLastLaunch / 60);
+//            return NO;
+//        }
+//    }
+//}
 /**
  Configures the view to give a prize!
  */

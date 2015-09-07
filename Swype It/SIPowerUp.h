@@ -5,7 +5,7 @@
 //  Copyright © 2015 Push The World LLC. All rights reserved.
 //
 #import <Foundation/Foundation.h>
-#import "Game.h"
+#import "SIGame.h"
 
 @interface SIPowerUp : NSObject
 
@@ -44,7 +44,7 @@
 + (BOOL)                isPowerUpActive:(SIPowerUpType)powerUp powerUpArray:(NSArray *)powerUpArray;
 + (BOOL)                isPowerUpArrayEmpty:(NSArray *)powerUpArray;
 + (float)               maxDurationPercentOfPowerUpArray:(NSArray *)powerUpArray;
-+ (float)               powerUpPercentRemaining:(NSArray *)powerUpArray compositeTime:(float)compositeTime withCallback:(void (^)(PowerUp *powerUpToDeactivate))callback;
++ (float)               powerUpPercentRemaining:(NSArray *)powerUpArray compositeTime:(float)compositeTime withCallback:(void (^)(SIPowerUp *powerUpToDeactivate))callback;
 
 /**
  Gets the SIPowerUp given a string...

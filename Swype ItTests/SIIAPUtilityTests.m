@@ -14,7 +14,6 @@
 // Drop-In Class Imports (CocoaPods/GitHub/Guru)
 // Category Import
 // Support/Data Class Imports
-#import "AppSingleton.h"
 #import "SIConstants.h"
 // Other Imports
 @interface SIIAPUtilityTests : XCTestCase

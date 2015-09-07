@@ -52,7 +52,7 @@
     if (self) {
         [self singletonSetup];
         
-        _currentGame                    = [[Game alloc] init];
+        _currentGame                    = [[SIGame alloc] init];
         
     }
     return self;
@@ -75,12 +75,12 @@
  */
 - (void)singletonWillStart {
     _willResume                                     = NO;
-    _previousLevel                                  = [Game currentLevelStringForScore:0.0f];
+    _previousLevel                                  = [SIGame currentLevelStringForScore:0.0f];
     _compositeTimeInMiliSeconds                     = 0.0f;
     _levelSpeedDivider                              = 1.0f;
     _moveStartTimeInMiliSeconds                     = 0.0f;
     _timeFreezeMultiplyer                           = 1.0f;
-    [Game setStartGameProperties:_currentGame];
+    [SIGame setStartGameProperties:_currentGame];
 }
 
 /**
@@ -91,10 +91,10 @@
     [self startTimer];
     
     if ([SIConstants isBackgroundSoundAllowed]) {
-        SIBackgroundSound soundForScore = [Game backgroundSoundForScore:self.currentGame.totalScore];
+        SIBackgroundSound soundForScore = [SIGame backgroundSoundForScore:self.currentGame.totalScore];
         if (soundForScore != self.currentGame.currentBackgroundSound) {
             self.currentGame.currentBackgroundSound = soundForScore;
-            [[SoundManager sharedManager] playMusic:[Game soundNameForSIBackgroundSound:soundForScore] looping:YES fadeIn:YES];
+            [[SoundManager sharedManager] playMusic:[SIGame soundNameForSIBackgroundSound:soundForScore] looping:YES fadeIn:YES];
         }
     }
     
@@ -127,7 +127,7 @@
  Called to really end the game, invalidates timers and such...
  */
 - (void)singletonDidEnd {
-    [Game updateLifetimePointsScore:_currentGame.totalScore];
+    [SIGame updateLifetimePointsScore:_currentGame.totalScore];
 }
 
 - (void)singletonWillPause {
@@ -230,22 +230,22 @@
     if ([SIPowerUp isPowerUpActive:SIPowerUpTypeRapidFire powerUpArray:_currentGame.powerUpArray]) {
         return SIMoveCommandTap;
     } else {
-        return [Game getRandomMoveForGameMode:_currentGame.gameMode];
+        return [SIGame getRandomMoveForGameMode:_currentGame.gameMode];
     }
 }
 
 - (void)updateBackgroundSound {
     if ([SIConstants isBackgroundSoundAllowed]) {
-        _currentGame.currentBackgroundSound = [Game checkBackgroundSound:_currentGame.currentBackgroundSound forTotalScore:_currentGame.totalScore withCallback:^(BOOL updatedBackgroundSound, SIBackgroundSound backgroundSoundNew) {
+        _currentGame.currentBackgroundSound = [SIGame checkBackgroundSound:_currentGame.currentBackgroundSound forTotalScore:_currentGame.totalScore withCallback:^(BOOL updatedBackgroundSound, SIBackgroundSound backgroundSoundNew) {
             if (updatedBackgroundSound) {
-                [[SoundManager sharedManager] playMusic:[Game soundNameForSIBackgroundSound:backgroundSoundNew] looping:YES fadeIn:YES];
+                [[SoundManager sharedManager] playMusic:[SIGame soundNameForSIBackgroundSound:backgroundSoundNew] looping:YES fadeIn:YES];
             }
         }];
     }
 }
 
 - (void)updateDeviceHighScore {
-    if ([Game isDevieHighScore:_currentGame.totalScore]) {
+    if ([SIGame isDevieHighScore:_currentGame.totalScore]) {
         if ([_delegate respondsToSelector:@selector(sceneWillShowIsHighScore)]) {
             [self.delegate sceneWillShowIsHighScore];
         }
@@ -253,7 +253,7 @@
 }
 
 - (void)updatePointsTillFreeCoin {
-    _currentGame.freeCoinInPoints   = [Game updatePointsTillFreeCoinMoveScore:_currentGame.moveScore withCallback:^(BOOL willAwardFreeCoin) {
+    _currentGame.freeCoinInPoints   = [SIGame updatePointsTillFreeCoinMoveScore:_currentGame.moveScore withCallback:^(BOOL willAwardFreeCoin) {
         if (willAwardFreeCoin) {
             [[MKStoreKit sharedKit] addFreeCredits:[NSNumber numberWithInt:1] identifiedByConsumableIdentifier:kSIIAPConsumableIDCoins];
             _currentGame.freeCoinsEarned = _currentGame.freeCoinsEarned + 1;
@@ -290,7 +290,7 @@
 
     }
     _currentGame.currentBackgroundColorNumber = randomNumber;
-    return [Game backgroundColorForScore:_currentGame.totalScore forRandomNumber:randomNumber];
+    return [SIGame backgroundColorForScore:_currentGame.totalScore forRandomNumber:randomNumber];
 }
 - (void)didLevelStringChange:(NSString *)oldLevelString newLevelString:(NSString *)newLevelString {
     if ([oldLevelString isEqualToString:newLevelString] == NO) {
@@ -317,10 +317,10 @@
         float durationOfLastMove                = (_compositeTimeInMiliSeconds - _moveStartTimeInMiliSeconds) * _timeFreezeMultiplyer;
         
         /*Calculate Level Speed Divider*/
-        _levelSpeedDivider                      = [Game levelSpeedForScore:self.currentGame.totalScore];
+        _levelSpeedDivider                      = [SIGame levelSpeedForScore:self.currentGame.totalScore];
         
         /*Get the new score for this time -- Always keep the time current*/
-        _currentGame.moveScore                  = [Game scoreForMoveDuration:durationOfLastMove withLevelSpeedDivider:_levelSpeedDivider];
+        _currentGame.moveScore                  = [SIGame scoreForMoveDuration:durationOfLastMove withLevelSpeedDivider:_levelSpeedDivider];
         
         /*Get the new percentage for score*/
         _currentGame.moveScorePercentRemaining  = _currentGame.moveScore / MAX_MOVE_SCORE;
@@ -410,7 +410,7 @@
 ///*This is the second step. This checks to see if we are currently using a powerup*/
 //- (void)powerUpDidLoad:(SIPowerUp)powerUp {
 //    if (self.currentGame.currentPowerUp == SIPowerUpTypeNone) { /*Don't allow more then one power up at one time*/
-//        [self powerUpWillActivate:powerUp withPowerUpCost:[Game costForPowerUp:powerUp]];
+//        [self powerUpWillActivate:powerUp withPowerUpCost:SIGame costForPowerUp:powerUp]];
 //    }
 //}
 ///*This is the third step in powerup acitivation. This checks to see if the User has enough coins*/
@@ -453,7 +453,7 @@
 //}
 
 //- (BOOL)canAffordContinue {
-//    int continueCost = [Game lifeCostForCurrentContinueLevel:self.currentGame.currentContinueLifeCost];
+//    int continueCost = SIGame lifeCostForCurrentContinueLevel:self.currentGame.currentContinueLifeCost];
 //    int numberOfItCoins = [[[MKStoreKit sharedKit] availableCreditsForConsumable:kSIIAPConsumableIDCoins] intValue];
 //    if (continueCost <= numberOfItCoins) {
 //        return YES;
@@ -534,18 +534,18 @@
 //        [self setAndCheckDefaults:self.currentGame.moveScore];
 //        
 //        
-//        [self didLevelStringChange:self.previousLevel newLevelString:[Game currentLevelStringForScore:self.currentGame.totalScore]];
+//        [self didLevelStringChange:self.previousLevel newLevelString:SIGame currentLevelStringForScore:self.currentGame.totalScore]];
 //        
 //        BOOL isRapidFireActive                      = (self.currentGame.currentPowerUp == SIPowerUpTypeRapidFire) ? YES : NO;
 //        
-//        self.currentGame.currentMove                = [Game getRandomMoveForGameMode:self.currentGame.gameMode isRapidFireActiviated:isRapidFireActive]; /*Return Tap for if Rapid Fire*/
+//        self.currentGame.currentMove                = SIGame getRandomMoveForGameMode:self.currentGame.gameMode isRapidFireActiviated:isRapidFireActive]; /*Return Tap for if Rapid Fire*/
 //        
 //        /*See if you should load new sound*/
 //        if ([SIConstants isBackgroundSoundAllowed]) {
-//            SIBackgroundSound soundForScore = [Game backgroundSoundForScore:self.currentGame.totalScore];
+//            SIBackgroundSound soundForScore = SIGame backgroundSoundForScore:self.currentGame.totalScore];
 //            if (soundForScore != self.currentGame.currentBackgroundSound) {
 //                self.currentGame.currentBackgroundSound = soundForScore;
-//                [[SoundManager sharedManager] playMusic:[Game soundNameForSIBackgroundSound:soundForScore] looping:YES fadeIn:YES];
+//                [[SoundManager sharedManager] playMusic:SIGame soundNameForSIBackgroundSound:soundForScore] looping:YES fadeIn:YES];
 //            }
 //        }
 //    }

@@ -1,5 +1,5 @@
 //
-//  MainViewController.h
+//  SIGameController.h
 //  Swype It
 //
 //  Created by Andrew Keller on 7/19/15.
@@ -15,7 +15,7 @@
 
 
 
-@interface MainViewController : UIViewController
+@interface SIGameController : UIViewController
 + (CGFloat)             SIFontSizeButton;
 + (CGFloat)             SIFontSizeHeader;
 + (CGFloat)             SIFontSizeHeader_x2;

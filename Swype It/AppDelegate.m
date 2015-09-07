@@ -7,7 +7,7 @@
 // Local Controller Import
 #import "AppDelegate.h"
 #import "BaseNavigationViewController.h"
-#import "MainViewController.h"
+#import "SIGameController.h"
 // Framework Import
 #import <Crashlytics/Crashlytics.h>
 #import <Fabric/Fabric.h>
@@ -47,7 +47,7 @@ static BOOL isRunningTests(void) __attribute__((const));
 //    self.window                             = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
 //    
 //    
-//    MainViewController       *vc1    = [[MainViewController alloc] init];
+//    SIGameController       *vc1    = [[SIGameController alloc] init];
 ////    BaseNavigationViewController    *nav    = [[BaseNavigationViewController alloc] initWithRootViewController:vc1];
 //    
 //    self.window.rootViewController          = vc1;

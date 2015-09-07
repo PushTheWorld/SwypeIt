@@ -8,7 +8,7 @@
 //
 // Local Controller Import
 #import "EndGameScene.h"
-#import "MainViewController.h"
+#import "SIGameController.h"
 #import "SIPopupNode.h"
 #import "SIStoreButtonNode.h"
 #import "StartScreenScene.h"
@@ -133,9 +133,9 @@ enum {
 }
 - (void)createControlsWithSize:(CGSize)size {
     /**Preform all your alloc/init's here*/
-    _titleLabel                     = [MainViewController SI_sharedLabelHeader_x3:@"Store"];
+    _titleLabel                     = [SIGameController SI_sharedLabelHeader_x3:@"Store"];
     
-    _itCoinsLabel                   = [MainViewController SI_sharedLabelParagraph:[NSString stringWithFormat:@"Bank: %d IT Coins",[[[MKStoreKit sharedKit] availableCreditsForConsumable:kSIIAPConsumableIDCoins] intValue]]];
+    _itCoinsLabel                   = [SIGameController SI_sharedLabelParagraph:[NSString stringWithFormat:@"Bank: %d IT Coins",[[[MKStoreKit sharedKit] availableCreditsForConsumable:kSIIAPConsumableIDCoins] intValue]]];
 
     /*Menu Node*/
     _menuNode                       = [[HLMenuNode alloc] init];
@@ -147,8 +147,8 @@ enum {
     _menuNode.delegate                              = self;
     _menuNode.itemAnimation                         = HLMenuNodeAnimationSlideLeft;
     _menuNode.itemAnimationDuration                 = _buttonAnimationDuration;
-    _menuNode.itemButtonPrototype                   = [[SIStoreButtonNode alloc] initWithSize:[MainViewController buttonSize:size] buttonName:[Game buttonNodeNameNodeForSIIAPPack:SIIAPPackSmall] SIIAPPack:SIIAPPackSmall];
-    _menuNode.backItemButtonPrototype               = [MainViewController SI_sharedMenuButtonPrototypeBack:[MainViewController buttonSize:size]];
+    _menuNode.itemButtonPrototype                   = [[SIStoreButtonNode alloc] initWithSize:[SIGameController buttonSize:size] buttonName:SIGame buttonNodeNameNodeForSIIAPPack:SIIAPPackSmall] SIIAPPack:SIIAPPackSmall];
+    _menuNode.backItemButtonPrototype               = [SIGameController SI_sharedMenuButtonPrototypeBack:[SIGameController buttonSize:size]];
     _menuNode.itemSeparatorSize                     = _buttonSpacing;
     _menuNode.anchorPoint                           = CGPointMake(0.5f, 0.0f);
     _menuNode.zPosition                             = (float)SIStoreSceneZPositionLayerButtons / (float)SIStoreSceneZPositionLayerCount;
@@ -233,17 +233,17 @@ enum {
     HLMenu *menu                = [[HLMenu alloc] init];
     
     /*Add the regular buttons*/
-    HLMenuItem *item1           = [HLMenuItem menuItemWithText:[Game buttonNodeNameNodeForSIIAPPack:SIIAPPackExtraLarge]];
-    item1.buttonPrototype       = [[SIStoreButtonNode alloc] initWithSize:[MainViewController buttonSize:size] buttonName:[Game buttonNodeNameNodeForSIIAPPack:SIIAPPackExtraLarge] SIIAPPack:SIIAPPackExtraLarge];
+    HLMenuItem *item1           = [HLMenuItem menuItemWithText:SIGame buttonNodeNameNodeForSIIAPPack:SIIAPPackExtraLarge]];
+    item1.buttonPrototype       = [[SIStoreButtonNode alloc] initWithSize:[SIGameController buttonSize:size] buttonName:SIGame buttonNodeNameNodeForSIIAPPack:SIIAPPackExtraLarge] SIIAPPack:SIIAPPackExtraLarge];
 
-    HLMenuItem *item2           = [HLMenuItem menuItemWithText:[Game buttonNodeNameNodeForSIIAPPack:SIIAPPackLarge]];
-    item2.buttonPrototype       = [[SIStoreButtonNode alloc] initWithSize:[MainViewController buttonSize:size] buttonName:[Game buttonNodeNameNodeForSIIAPPack:SIIAPPackLarge] SIIAPPack:SIIAPPackLarge];
+    HLMenuItem *item2           = [HLMenuItem menuItemWithText:SIGame buttonNodeNameNodeForSIIAPPack:SIIAPPackLarge]];
+    item2.buttonPrototype       = [[SIStoreButtonNode alloc] initWithSize:[SIGameController buttonSize:size] buttonName:SIGame buttonNodeNameNodeForSIIAPPack:SIIAPPackLarge] SIIAPPack:SIIAPPackLarge];
     
-    HLMenuItem *item3           = [HLMenuItem menuItemWithText:[Game buttonNodeNameNodeForSIIAPPack:SIIAPPackMedium]];
-    item3.buttonPrototype       = [[SIStoreButtonNode alloc] initWithSize:[MainViewController buttonSize:size] buttonName:[Game buttonNodeNameNodeForSIIAPPack:SIIAPPackMedium] SIIAPPack:SIIAPPackMedium];
+    HLMenuItem *item3           = [HLMenuItem menuItemWithText:SIGame buttonNodeNameNodeForSIIAPPack:SIIAPPackMedium]];
+    item3.buttonPrototype       = [[SIStoreButtonNode alloc] initWithSize:[SIGameController buttonSize:size] buttonName:SIGame buttonNodeNameNodeForSIIAPPack:SIIAPPackMedium] SIIAPPack:SIIAPPackMedium];
 
-    HLMenuItem *item4           = [HLMenuItem menuItemWithText:[Game buttonNodeNameNodeForSIIAPPack:SIIAPPackSmall]];
-    item4.buttonPrototype       = [[SIStoreButtonNode alloc] initWithSize:[MainViewController buttonSize:size] buttonName:[Game buttonNodeNameNodeForSIIAPPack:SIIAPPackSmall] SIIAPPack:SIIAPPackSmall];
+    HLMenuItem *item4           = [HLMenuItem menuItemWithText:SIGame buttonNodeNameNodeForSIIAPPack:SIIAPPackSmall]];
+    item4.buttonPrototype       = [[SIStoreButtonNode alloc] initWithSize:[SIGameController buttonSize:size] buttonName:SIGame buttonNodeNameNodeForSIIAPPack:SIIAPPackSmall] SIIAPPack:SIIAPPackSmall];
 
     [menu addItem:item4];
     [menu addItem:item3];
@@ -253,7 +253,7 @@ enum {
     
     /*Add the Back Button... Need to change the prototype*/
     HLMenuItem *resumeItem      = [HLMenuItem menuItemWithText:kSIMenuTextBack];
-    resumeItem.buttonPrototype  = [MainViewController SI_sharedMenuButtonPrototypeBack:[MainViewController buttonSize:size]];
+    resumeItem.buttonPrototype  = [SIGameController SI_sharedMenuButtonPrototypeBack:[SIGameController buttonSize:size]];
     [menu addItem:resumeItem];
     
     [_menuNode setMenu:menu animation:HLMenuNodeAnimationNone];
@@ -262,16 +262,16 @@ enum {
 #pragma mark - HLMenuNodeDelegate
 - (void)menuNode:(HLMenuNode *)menuNode willDisplayButton:(SKNode *)buttonNode forMenuItem:(HLMenuItem *)menuItem itemIndex:(NSUInteger)itemIndex {
     SIStoreButtonNode *button = (SIStoreButtonNode *)buttonNode;
-    button.size                 = [MainViewController buttonSize:self.frame.size];
+    button.size                 = [SIGameController buttonSize:self.frame.size];
 }
 - (void)menuNode:(HLMenuNode *)menuNode didTapMenuItem:(HLMenuItem *)menuItem itemIndex:(NSUInteger)itemIndex {
-    if ([menuItem.text isEqualToString:[Game buttonNodeNameNodeForSIIAPPack:SIIAPPackSmall]]) {
+    if ([menuItem.text isEqualToString:SIGame buttonNodeNameNodeForSIIAPPack:SIIAPPackSmall]]) {
         [self requestPurchaseForPack:SIIAPPackSmall];
-    } else if ([menuItem.text isEqualToString:[Game buttonNodeNameNodeForSIIAPPack:SIIAPPackMedium]]) {
+    } else if ([menuItem.text isEqualToString:SIGame buttonNodeNameNodeForSIIAPPack:SIIAPPackMedium]]) {
         [self requestPurchaseForPack:SIIAPPackMedium];
-    }  else if ([menuItem.text isEqualToString:[Game buttonNodeNameNodeForSIIAPPack:SIIAPPackLarge]]) {
+    }  else if ([menuItem.text isEqualToString:SIGame buttonNodeNameNodeForSIIAPPack:SIIAPPackLarge]]) {
         [self requestPurchaseForPack:SIIAPPackLarge];
-    }  else if ([menuItem.text isEqualToString:[Game buttonNodeNameNodeForSIIAPPack:SIIAPPackExtraLarge]]) {
+    }  else if ([menuItem.text isEqualToString:SIGame buttonNodeNameNodeForSIIAPPack:SIIAPPackExtraLarge]]) {
         [self requestPurchaseForPack:SIIAPPackExtraLarge];
     } else if ([menuItem.text isEqualToString:kSIMenuTextBack]) {
         [self goBack];
@@ -284,11 +284,11 @@ enum {
     _shouldRespondToTap = NO;
     if (self.wasLaunchedFromMainMenu) {
         StartScreenScene *startScene = [StartScreenScene sceneWithSize:self.size];
-        [Game transisitionToSKScene:startScene toSKView:self.view DoorsOpen:NO pausesIncomingScene:YES pausesOutgoingScene:YES duration:SCENE_TRANSISTION_DURATION];
+        SIGame transisitionToSKScene:startScene toSKView:self.view DoorsOpen:NO pausesIncomingScene:YES pausesOutgoingScene:YES duration:SCENE_TRANSISTION_DURATION];
         
     } else {
         EndGameScene *endScene = [EndGameScene sceneWithSize:self.size];
-        [Game transisitionToSKScene:endScene toSKView:self.view DoorsOpen:NO pausesIncomingScene:YES pausesOutgoingScene:YES duration:SCENE_TRANSISTION_DURATION];
+        SIGame transisitionToSKScene:endScene toSKView:self.view DoorsOpen:NO pausesIncomingScene:YES pausesOutgoingScene:YES duration:SCENE_TRANSISTION_DURATION];
     }
 }
 - (void)requestPurchaseForPack:(SIIAPPack)siiapPack {
@@ -323,7 +323,7 @@ enum {
     _titleLabel.text                             = @"Store";
     _titleLabel.position                         = CGPointMake(size.width / 2.0f, size.height - (VERTICAL_SPACING_16 + (_titleLabel.frame.size.height / 2.0f)));
     _titleLabel.fontColor                        = [SKColor blackColor];
-    _titleLabel.fontSize                         = [MainViewController fontSizeHeader];
+    _titleLabel.fontSize                         = [SIGameController fontSizeHeader];
     _titleLabel.horizontalAlignmentMode          = SKLabelHorizontalAlignmentModeCenter;
     [self addChild:_titleLabel];
     
@@ -331,7 +331,7 @@ enum {
     _itCoinsLabel.text                      = [NSString stringWithFormat:@"You have %d IT Coins",[[[MKStoreKit sharedKit] availableCreditsForConsumable:kSIIAPConsumableIDCoins] intValue]];
     _itCoinsLabel.position                  = CGPointMake(self.itCoinsLabel.frame.size.width / 2.0f + VERTICAL_SPACING_8, size.height - VERTICAL_SPACING_8 - _titleLabel.frame.size.height - VERTICAL_SPACING_8);
     _itCoinsLabel.fontColor                 = [SKColor blackColor];
-    _itCoinsLabel.fontSize                  = [MainViewController fontSizeParagraph];
+    _itCoinsLabel.fontSize                  = [SIGameController fontSizeParagraph];
     _itCoinsLabel.verticalAlignmentMode     = SKLabelVerticalAlignmentModeCenter;
     _itCoinsLabel.horizontalAlignmentMode   = SKLabelHorizontalAlignmentModeCenter;
     [self addChild:_itCoinsLabel];
@@ -406,7 +406,7 @@ enum {
 
 #pragma mark - SIPopupNode methods
 - (void)createPopup:(CGSize)size {
-    _popupNode                                  = [MainViewController SIPopUpNodeTitle:@"DAILY FREE PRIZE!" SceneSize:size];
+    _popupNode                                  = [SIGameController SIPopUpNodeTitle:@"DAILY FREE PRIZE!" SceneSize:size];
     _popupNode.zPosition                        = (float)SIStoreSceneZPositionPopupBackground / (float)SIStoreSceneZPositionPopupCount;
     _popupNode.delegate                         = self;
     
@@ -448,12 +448,6 @@ enum {
     [claimButton hlSetGestureTarget:[HLTapGestureTarget tapGestureTargetWithHandleGestureBlock:^(UIGestureRecognizer *gestureRecognizer) {
         [self launchCoins:[self getPrizeAmount] coinsLaunched:0];
         [claimButton removeFromParent];
-        /**
-         TODO REMOVE THIS IS FOR TESTING
-         */
-        
-//        [self launchCoins:5*30 coinsLaunched:0];
-
     }]];
     [self registerDescendant:claimButton withOptions:[NSSet setWithObject:HLSceneChildGestureTarget]];
     [mainNode addChild:claimButton];
@@ -516,7 +510,7 @@ enum {
         [[SoundManager sharedManager] playSound:kSISoundFXChaChing];
     }
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        NSDate *currentDate = [MainViewController getDateFromInternet];
+        NSDate *currentDate = [SIGameController getDateFromInternet];
         if (currentDate) {
             [[MKStoreKit sharedKit] addFreeCredits:[NSNumber numberWithInt:[self getPrizeAmount]] identifiedByConsumableIdentifier:kSIIAPConsumableIDCoins];
             

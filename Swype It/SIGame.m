@@ -7,7 +7,7 @@
 //
 
 // Local Controller Import
-#import "Game.h"
+#import "SIGame.h"
 // Framework Import
 #import <math.h>
 // Drop-In Class Imports (CocoaPods/GitHub/Guru)
@@ -17,13 +17,13 @@
 // Other Imports
 
 
-@interface Game () {
+@interface SIGame () {
     
 }
 
 @end
 
-@implementation Game
+@implementation SIGame
 
 - (instancetype)init {
     self = [super init];
@@ -102,7 +102,7 @@
     } else if (score < LEVEL20) {
         levelScore  = LEVEL20;
     } else {
-        levelScore  = [Game numberLevelForScore:score];
+        levelScore  = [SIGame numberLevelForScore:score];
     }
     return levelScore;
 }
@@ -218,7 +218,7 @@
     } else if (score < LEVEL20) {
         numberLevel = 20;
     }else {
-        numberLevel = ([Game numberLevelForScore:score]/1000) + 10;
+        numberLevel = ([SIGame numberLevelForScore:score]/1000) + 10;
     }
     
     return [NSString stringWithFormat:@"Level %d",numberLevel];
@@ -537,52 +537,6 @@
             return kSISoundBackgroundMenu;
     }
 }
-+ (NSString *)userMessageForScore:(float)score isHighScore:(BOOL)isHighScore highScore:(float)highScore {
-    if (isHighScore) {
-        NSUInteger randomNumber = arc4random_uniform(3);
-        switch (randomNumber) {
-            case 0:
-                return @"You did it!";
-            case 1:
-                return @"Can you beat that?";
-            default:
-                return @"Your Awesome! 👍";
-        }    }
-    
-    if (score / highScore > 0.8) { /*Give user a encourage to keep going... maybe spend money?*/
-        NSUInteger randomNumber = arc4random_uniform(5);
-        switch (randomNumber) {
-            case 0:
-                return @"Continue Now!";
-            case 1:
-                return @"So Close!!!";
-            case 2:
-                return @"Use IT Coins!";
-            case 3:
-                return @"Nooo! You had it!";
-            default:
-                return @"Use Monkeys!";
-        }
-    } else {
-        NSUInteger randomNumber = arc4random_uniform(7);
-        switch (randomNumber) {
-            case 0:
-                return @"🙅 NO HIGH SCORE!";
-            case 1:
-                return @"You Can Do Better";
-            case 2:
-                return @"You're The Best 😊";
-            case 3:
-                return @"Try Again";
-            case 4:
-                return @"Swype Faster";
-            case 5:
-                return @"You Are Awesome 😊";
-            default:
-                return @"😭 Game over 😭";
-        }
-    }
-}
 #pragma mark - Private Class Methods
 + (float)levelSpeedForScore:(float)score {
     if (score < MAX_MOVE_SCORE) {
@@ -618,38 +572,18 @@
 
 #pragma mark - Public Methods
 - (NSNumber *)getNextLevelScore {
-    return [NSNumber numberWithFloat:[Game nextLevelForScore:self.totalScore]];
+    return [NSNumber numberWithFloat:[SIGame nextLevelForScore:self.totalScore]];
 }
 - (NSString *)getCurrentLevelString {
-    return [Game currentLevelStringForScore:self.totalScore];
+    return [SIGame currentLevelStringForScore:self.totalScore];
 }
-+ (void)transisitionToSKScene:(SKScene *)scene toSKView:(SKView *)view duration:(CGFloat)duration {
-    SKTransition *transistion;
-    
-    transistion = [SKTransition fadeWithColor:[SKColor blackColor] duration:duration];
-    
-    [view presentScene:scene transition:transistion];
-}
-+ (void)transisitionToSKScene:(SKScene *)scene toSKView:(SKView *)view DoorsOpen:(BOOL)doorsOpen pausesIncomingScene:(BOOL)pausesIncomingScene pausesOutgoingScene:(BOOL)pausesOutgoingScene duration:(CGFloat)duration {
-    SKTransition *transistion;
-    
-    if (doorsOpen) {
-        transistion = [SKTransition doorsOpenHorizontalWithDuration:duration];
-    } else {
-        transistion = [SKTransition doorsCloseHorizontalWithDuration:duration];
-    }
 
-    transistion.pausesIncomingScene = pausesIncomingScene;
-    transistion.pausesOutgoingScene = pausesOutgoingScene;
-
-    [view presentScene:scene transition:transistion];
-}
 + (SKTexture *)textureBackgroundColor:(SKColor *)backgroundColor size:(CGSize)size {
     CAShapeLayer *shapeLayer    = [CAShapeLayer layer];
     shapeLayer.frame            = CGRectMake(0, 0, size.width, size.height);
     shapeLayer.fillColor        = backgroundColor.CGColor;
     
-    return [Game textureFromLayer:shapeLayer];
+    return [SIGame textureFromLayer:shapeLayer];
 }
 
 + (SKTexture *)textureLeftSegmentButtonColor:(SKColor *)backgroundColor size:(CGSize)size cornerRadius:(CGFloat)cornerRadius borderWidth:(CGFloat)borderWidth borderColor:(UIColor *)borderColor {
@@ -664,7 +598,7 @@
     shapeLayer.cornerRadius     = cornerRadius;
     shapeLayer.masksToBounds    = YES;
     
-    return [Game textureFromLayer:shapeLayer];
+    return [SIGame textureFromLayer:shapeLayer];
 }
 
 + (SKTexture *)textureBackgroundColor:(SKColor *)backgroundColor size:(CGSize)size cornerRadius:(CGFloat)cornerRadius borderWidth:(CGFloat)borderWidth borderColor:(UIColor *)borderColor {
@@ -679,7 +613,7 @@
     shapeLayer.cornerRadius     = cornerRadius;
     shapeLayer.masksToBounds    = YES;
     
-    return [Game textureFromLayer:shapeLayer];
+    return [SIGame textureFromLayer:shapeLayer];
 }
 
 // note: we are going from CALayer -> UIImage -> SKTexture here, so that we can create SKSpriteNodes instead of SKShapeNodes
@@ -765,7 +699,7 @@
 }
 
 + (SIBackgroundSound)checkBackgroundSound:(SIBackgroundSound)currentBackgroundSound forTotalScore:(float)totalScore withCallback:(void (^)(BOOL updatedBackgroundSound, SIBackgroundSound backgroundSound))callback {
-    SIBackgroundSound newBackgroundSound = [Game backgroundSoundForScore:totalScore];
+    SIBackgroundSound newBackgroundSound = [SIGame backgroundSoundForScore:totalScore];
     if (newBackgroundSound != currentBackgroundSound) {
         if (callback) {
             callback(YES, newBackgroundSound);
@@ -855,17 +789,17 @@
 /**
  Configures game properties for new game
  */
-+ (void)setStartGameProperties:(Game *)game {
++ (void)setStartGameProperties:(SIGame *)game {
     game.moveScorePercentRemaining      = 1.0f;
     game.currentBackgroundSound         = SIBackgroundSoundMenu;
-    game.currentLevel                   = [Game currentLevelStringForScore:0.0f];
+    game.currentLevel                   = [SIGame currentLevelStringForScore:0.0f];
     game.currentMove.moveCommand        = SIMoveCommandSwype;
     game.currentContinueLifeCost        = SIContinueLifeCost1;
     game.currentNumberOfTimesContinued  = 0;
     game.totalScore                     = 0.0f;
     game.freeCoinsEarned                = 0;
     game.currentBackgroundColorNumber   = arc4random_uniform(NUMBER_OF_MOVES);
-    game.currentBackgroundColor         = [Game backgroundColorForScore:0.0f forRandomNumber:game.currentBackgroundColorNumber];
+    game.currentBackgroundColor         = [SIGame backgroundColorForScore:0.0f forRandomNumber:game.currentBackgroundColorNumber];
     
     /*Booleans*/
     game.isHighScore                    = NO;
@@ -873,5 +807,33 @@
     game.isStarted                      = YES;
     
     [game.powerUpArray removeAllObjects];
+}
+/**
+ Determine prize to give based off when the last time a prize was given... either:
+    SIGameFreePrizeNo -> No prize to be given
+    SIGameFreePrizeYes -> Give prize, reset the days since last launch and such
+    SIGameFreePrizeYesConsecutive -> give prize, increment days since last launch..
+ */
++ (SIGameFreePrize)gamePrizeForCurrentDate:(NSDate *)currentDate lastPrizeGivenDate:(NSDate *)lastPrizeGivenDate {
+    
+    //I would rather have a soft fail then a hard fail if either are nil
+    if (!currentDate || !lastPrizeGivenDate) {
+        return SIGameFreePrizeNo;
+    }
+    
+    NSTimeInterval timeSinceLastPrize = [currentDate timeIntervalSince1970] - [lastPrizeGivenDate timeIntervalSince1970];
+    
+    //Still the same day
+    if (timeSinceLastPrize < SECONDS_IN_DAY) {
+        return SIGameFreePrizeNo;
+
+    //Prize given more than two days ago
+    } else if (timeSinceLastPrize > 2 * SECONDS_IN_DAY) {
+        return SIGameFreePrizeYes;
+        
+    //Prize for conseuctive launch
+    } else {
+        return SIGameFreePrizeYesConsecutive;
+    }
 }
 @end

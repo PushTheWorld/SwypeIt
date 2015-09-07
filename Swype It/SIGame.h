@@ -1,4 +1,4 @@
-//  Game.h
+//  SIGame.h
 //  Swype It
 //  Created by Andrew Keller on 6/26/15.
 //  Copyright (c) 2015 Push The World LLC. All rights reserved.
@@ -8,7 +8,7 @@
 #import "SIConstants.h"
 #import "SIMove.h"
 
-@interface Game : NSObject {
+@interface SIGame : NSObject {
     
 }
 #pragma mark - Public Objects
@@ -51,10 +51,16 @@
 + (NSString *)          productIDForSIIAPPack:(SIIAPPack)siiapPack;
 + (NSString *)          soundNameForSIBackgroundSound:(SIBackgroundSound)siBackgroundSound;
 + (NSString *)          stringForMove:(SIMoveCommand)move;
-+ (NSString *)          userMessageForScore:(float)score isHighScore:(BOOL)isHighScore highScore:(float)highScore;
 + (SIBackgroundSound)   backgroundSoundForScore:(float)score;
 + (SIBackgroundSound)   checkBackgroundSound:(SIBackgroundSound)currentBackgroundSound forTotalScore:(float)totalScore withCallback:(void (^)(BOOL updatedBackgroundSound, SIBackgroundSound backgroundSound))callback;
 + (SIContinueLifeCost)  lifeCostForCurrentContinueLevel:(SIContinueLifeCost)siContinuedLifeCost;
+/**
+ Determine prize to give based off when the last time a prize was given... either:
+ SIGameFreePrizeNo -> No prize to be given
+ SIGameFreePrizeYes -> Give prize, reset the days since last launch and such
+ SIGameFreePrizeYesConsecutive -> give prize, increment days since last launch..
+ */
++ (SIGameFreePrize)gamePrizeForCurrentDate:(NSDate *)currentDate lastPrizeGivenDate:(NSDate *)lastPrizeGivenDate;
 + (SIIAPPack)           siiapPackForNameNodeLabel:(NSString *)nodeName;
 + (SIIAPPack)           siiapPackForNameNodeNode:(NSString *)nodeName;
 + (SIMoveCommand)       getRandomMoveForGameMode:(SIGameMode)gameMode;
@@ -65,14 +71,12 @@
 + (UIColor *)           backgroundColorForScore:(float)score forRandomNumber:(NSInteger)randomNumber;
 + (UIImage *)           getBluredScreenshot:(SKView *)view;
 + (void)                incrementGamesPlayed;
-+ (void)                transisitionToSKScene:(SKScene *)scene toSKView:(SKView *)view duration:(CGFloat)duration;
-+ (void)                transisitionToSKScene:(SKScene *)scene toSKView:(SKView *)view DoorsOpen:(BOOL)doorsOpen pausesIncomingScene:(BOOL)pausesIncomingScene pausesOutgoingScene:(BOOL)pausesOutgoingScene duration:(CGFloat)duration;
 + (void)                updateLifetimePointsScore:(float)totalScore;
 
 /**
  Configures game properties for new game
  */
-+ (void)setStartGameProperties:(Game *)game;
++ (void)setStartGameProperties:(SIGame *)game;
 
 #pragma mark - Public Methods
 - (NSString *)getCurrentLevelString;

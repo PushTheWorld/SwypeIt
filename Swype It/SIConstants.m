@@ -51,7 +51,6 @@ HLRingNode *sceneGamePauseRingNode() {
 
 
 
-
 #pragma mark - Images
 NSString *const kSIImageTitleLabel                                  = @"textLabelTitle";
 
@@ -177,7 +176,19 @@ NSString *const kSIImageTapToPlayText                               = @"tapTpPla
 NSString *const kSIAtlasBackground                                  = @"background";
 NSString *const kSIAtlasButtons                                     = @"buttons";
 NSString *const kSIAtlasImages                                      = @"images";
+NSString *const kSIAtlasMenu                                        = @"sceneMenu";
 NSString *const kSIAtlasShapes                                      = @"shapes";
+
+#pragma mark - Images in Atlas 
+NSString *const kSIAtlasMenuAdFree                                  = @"adFreeRevB";
+NSString *const kSIAtlasMenuHelp                                    = @"helpRevB";
+NSString *const kSIAtlasMenuLeaderboard                             = @"leaderboardRevB";
+NSString *const kSIAtlasMenuPlayClassic                             = @"playClassic";
+NSString *const kSIAtlasMenuPlayOneHand                             = @"playOneHand";
+NSString *const kSIAtlasMenuSettings                                = @"settingsRevB";
+NSString *const kSIAtlasMenuSoundBackground                         = @"startBackgroundSound";
+NSString *const kSIAtlasMenuSoundFX                                 = @"startFXSound";
+
 
 #pragma mark - Button Labels
 NSString *const kSIButtonLabelStringOneHand                         = @"One Hand";
@@ -310,11 +321,40 @@ NSString *const kSIGameCenterLeaderBoardIDHandTwo                   = @"GHS";
 + (CGSize)powerUpToolbarButtonSize {
     return CGSizeMake(SCREEN_WIDTH/8.0, SCREEN_WIDTH/8.0f);
 }
++ (NSArray *)userMessageHighScore {
+    return @[@"You did it!",
+             @"Can you beat that?",
+             @"You're Awesome! 👍",
+             @"Siri is pumped!"];
+}
++ (NSArray *)userMessageHighScoreClose {
+    return @[@"Use Power Ups!",
+             @"Buy IT Coins!",
+             @"Nooo! You had it!",
+             @"So Close!!!"];
+}
++ (NSArray *)userMessageHighScoreMedian {
+    return @[@"🙅 NO HIGH SCORE!",
+             @"You Can Do Better",
+             @"You're The Best 😊",
+             @"Try Again",
+             @"Swype Faster",
+             @"You Are Awesome 😊",
+             @"😭 Game over 😭"];
+}
++ (NSArray *)userMessageHighScoreBad {
+    return @[@"Are you even trying?",
+             @"Um... try again",
+             @"Ohhhh no"];
+}
 + (NSString *)pathForSparkEmitter {
     return [[NSBundle mainBundle] pathForResource:kSIEmitterSpark ofType:kSIEmitterFileTypeSKS];
 }
 + (NSString *)pathForTouchExplosionEmitter {
     return [[NSBundle mainBundle] pathForResource:kSIEmitterExplosionTouch ofType:kSIEmitterFileTypeSKS];
+}
++ (SKTextureAtlas *)atlasStart {
+    return [SKTextureAtlas atlasNamed:kSIAtlasBackground];
 }
 + (SKTextureAtlas *)backgroundAtlas {
     return [SKTextureAtlas atlasNamed:kSIAtlasBackground];
@@ -334,6 +374,7 @@ NSString *const kSIGameCenterLeaderBoardIDHandTwo                   = @"GHS";
 + (BOOL)isBackgroundSoundAllowed {
     return [[NSUserDefaults standardUserDefaults] boolForKey:kSINSUserDefaultSoundIsAllowedBackground];
 }
+
 
 
 @end

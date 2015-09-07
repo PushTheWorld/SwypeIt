@@ -13,7 +13,7 @@
 // Drop-In Class Imports (CocoaPods/GitHub/Guru)
 // Category Import
 // Support/Data Class Imports
-#import "Game.h"
+#import "SIGame.h"
 // Other Imports
 
 @interface SIStoreButtonNode : SKNode
