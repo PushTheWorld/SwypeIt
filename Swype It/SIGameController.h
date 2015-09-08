@@ -16,6 +16,10 @@
 
 
 @interface SIGameController : UIViewController
+/**
+ Gets the height of the ad banner view
+ */
++ (CGFloat)             SIAdBannerViewHeight;
 + (CGFloat)             SIFontSizeButton;
 + (CGFloat)             SIFontSizeHeader;
 + (CGFloat)             SIFontSizeHeader_x2;
@@ -53,34 +57,30 @@
 + (SKLabelNode *)       SILabelInterfaceFontSize:(CGFloat)fontSize;
 + (SKLabelNode *)       SILabelSceneGameMoveCommand;
 
-/**
- Hids the banner ad
- */
-- (void)bannerAdHide;
-/**
- Shows the banner ad
- */
-- (void)bannerAdShow;
-/**
- Present the interstital ad
- */
-- (void)presentInterstital;
-/**
- Gets the height of the ad banner view
- */
-+ (CGFloat)bannerViewHeight;
-/**
- Returns if user is premium
- */
-+ (BOOL)isPremiumUser;
-/**
- Asks the singleton if the game is paused
- */
-+ (BOOL)gameIsPaused;
-/**
- Asks the singleton if the game has started
- */
-+ (BOOL)gameIsStarted;
+///**
+// Hids the banner ad
+// */
+//- (void)bannerAdHide;
+///**
+// Shows the banner ad
+// */
+//- (void)bannerAdShow;
+///**
+// Present the interstital ad
+// */
+//- (void)presentInterstital;
+///**
+// Returns if user is premium
+// */
+//+ (BOOL)isPremiumUser;
+///**
+// Asks the singleton if the game is paused
+// */
+//+ (BOOL)gameIsPaused;
+///**
+// Asks the singleton if the game has started
+// */
+//+ (BOOL)gameIsStarted;
 
 
 

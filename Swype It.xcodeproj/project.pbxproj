@@ -65,6 +65,7 @@
 		094F229F1B95911D00968FB5 /* ultraStroked@3x.xml in Resources */ = {isa = PBXBuildFile; fileRef = 094F229B1B95911D00968FB5 /* ultraStroked@3x.xml */; };
 		094F22A51B95916E00968FB5 /* BMGlyphFont.m in Sources */ = {isa = PBXBuildFile; fileRef = 094F22A21B95916E00968FB5 /* BMGlyphFont.m */; };
 		094F22A61B95916E00968FB5 /* BMGlyphLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 094F22A41B95916E00968FB5 /* BMGlyphLabel.m */; };
+		09549B221B9F08BA0058D2E9 /* SIAchievementDetail.m in Sources */ = {isa = PBXBuildFile; fileRef = 09549B211B9F08BA0058D2E9 /* SIAchievementDetail.m */; };
 		096ABDCA1B6AF83A005B2F12 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 096ABDC91B6AF83A005B2F12 /* MessageUI.framework */; };
 		096ABDCC1B6AF843005B2F12 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 096ABDCB1B6AF843005B2F12 /* OpenGLES.framework */; };
 		096ABDCD1B6AF84C005B2F12 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 09343DA91B44BB1C00D1C707 /* QuartzCore.framework */; };
@@ -117,7 +118,7 @@
 		09A488B81B9C7D0A0075F41C /* sceneMenu.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 09A488B71B9C7D0A0075F41C /* sceneMenu.atlas */; };
 		09A488BB1B9D7D850075F41C /* SIMenuContent.m in Sources */ = {isa = PBXBuildFile; fileRef = 09A488BA1B9D7D850075F41C /* SIMenuContent.m */; };
 		09A488BD1B9D877D0075F41C /* SIMenuContentTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 09A488BC1B9D877D0075F41C /* SIMenuContentTests.m */; };
-		09A488C01B9D8D770075F41C /* SIChallengeSingleton.m in Sources */ = {isa = PBXBuildFile; fileRef = 09A488BF1B9D8D770075F41C /* SIChallengeSingleton.m */; };
+		09A488C01B9D8D770075F41C /* SIAchievementSingleton.m in Sources */ = {isa = PBXBuildFile; fileRef = 09A488BF1B9D8D770075F41C /* SIAchievementSingleton.m */; };
 		09A57ABB1B788BEF003B6F08 /* SIGameNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 09A57ABA1B788BEF003B6F08 /* SIGameNode.m */; };
 		09A904061B6616C300C48A9B /* SIConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 091FED751B3733AF0071F8DC /* SIConstants.m */; };
 		09A904071B6616DA00C48A9B /* SIGame.m in Sources */ = {isa = PBXBuildFile; fileRef = 098B3B461B378C27000D4702 /* SIGame.m */; };
@@ -127,6 +128,9 @@
 		09CAF9AC1B646F4C00466606 /* buttons.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 09CAF9AB1B646F4C00466606 /* buttons.atlas */; };
 		09CB158E1B7E85DC00F9A956 /* SITestScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 09CB158D1B7E85DC00F9A956 /* SITestScene.m */; };
 		09D256E91B9D8EFF00F6BD14 /* SIMenuContent.m in Sources */ = {isa = PBXBuildFile; fileRef = 09A488BA1B9D7D850075F41C /* SIMenuContent.m */; };
+		09D256EC1B9D978900F6BD14 /* SIAchievement.m in Sources */ = {isa = PBXBuildFile; fileRef = 09D256EB1B9D978900F6BD14 /* SIAchievement.m */; };
+		09D256F11B9E631700F6BD14 /* SIAchievements.plist in Resources */ = {isa = PBXBuildFile; fileRef = 09D256F01B9E631700F6BD14 /* SIAchievements.plist */; };
+		09D256F21B9E631700F6BD14 /* SIAchievements.plist in Resources */ = {isa = PBXBuildFile; fileRef = 09D256F01B9E631700F6BD14 /* SIAchievements.plist */; };
 		09D5ED4C1B8B1AB900E84179 /* background.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 09D5ED4B1B8B1AB900E84179 /* background.atlas */; };
 		09D5ED4F1B8B205B00E84179 /* SISegmentControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 09D5ED4E1B8B205B00E84179 /* SISegmentControl.m */; };
 		09DB638A1B564DA700387C13 /* IAPTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 09DB63891B564DA700387C13 /* IAPTableViewController.m */; };
@@ -252,6 +256,8 @@
 		094F22A21B95916E00968FB5 /* BMGlyphFont.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BMGlyphFont.m; sourceTree = "<group>"; };
 		094F22A31B95916E00968FB5 /* BMGlyphLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BMGlyphLabel.h; sourceTree = "<group>"; };
 		094F22A41B95916E00968FB5 /* BMGlyphLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BMGlyphLabel.m; sourceTree = "<group>"; };
+		09549B201B9F08BA0058D2E9 /* SIAchievementDetail.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SIAchievementDetail.h; sourceTree = "<group>"; };
+		09549B211B9F08BA0058D2E9 /* SIAchievementDetail.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SIAchievementDetail.m; sourceTree = "<group>"; };
 		096ABDC91B6AF83A005B2F12 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		096ABDCB1B6AF843005B2F12 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 		096ABDCE1B6AF856005B2F12 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
@@ -323,8 +329,8 @@
 		09A488B91B9D7D850075F41C /* SIMenuContent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SIMenuContent.h; sourceTree = "<group>"; };
 		09A488BA1B9D7D850075F41C /* SIMenuContent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SIMenuContent.m; sourceTree = "<group>"; };
 		09A488BC1B9D877D0075F41C /* SIMenuContentTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SIMenuContentTests.m; sourceTree = "<group>"; };
-		09A488BE1B9D8D770075F41C /* SIChallengeSingleton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SIChallengeSingleton.h; sourceTree = "<group>"; };
-		09A488BF1B9D8D770075F41C /* SIChallengeSingleton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SIChallengeSingleton.m; sourceTree = "<group>"; };
+		09A488BE1B9D8D770075F41C /* SIAchievementSingleton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SIAchievementSingleton.h; sourceTree = "<group>"; };
+		09A488BF1B9D8D770075F41C /* SIAchievementSingleton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SIAchievementSingleton.m; sourceTree = "<group>"; };
 		09A57AB91B788BEF003B6F08 /* SIGameNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SIGameNode.h; sourceTree = "<group>"; };
 		09A57ABA1B788BEF003B6F08 /* SIGameNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SIGameNode.m; sourceTree = "<group>"; };
 		09B1E3591B97A33B00EDF051 /* explosionTouch.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = explosionTouch.sks; sourceTree = "<group>"; };
@@ -333,6 +339,9 @@
 		09CAF9AB1B646F4C00466606 /* buttons.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = buttons.atlas; sourceTree = "<group>"; };
 		09CB158C1B7E85DC00F9A956 /* SITestScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SITestScene.h; sourceTree = "<group>"; };
 		09CB158D1B7E85DC00F9A956 /* SITestScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SITestScene.m; sourceTree = "<group>"; };
+		09D256EA1B9D978900F6BD14 /* SIAchievement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SIAchievement.h; sourceTree = "<group>"; };
+		09D256EB1B9D978900F6BD14 /* SIAchievement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SIAchievement.m; sourceTree = "<group>"; };
+		09D256F01B9E631700F6BD14 /* SIAchievements.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = SIAchievements.plist; sourceTree = "<group>"; };
 		09D5ED4B1B8B1AB900E84179 /* background.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = background.atlas; sourceTree = "<group>"; };
 		09D5ED4D1B8B205B00E84179 /* SISegmentControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SISegmentControl.h; sourceTree = "<group>"; };
 		09D5ED4E1B8B205B00E84179 /* SISegmentControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SISegmentControl.m; sourceTree = "<group>"; };
@@ -578,6 +587,10 @@
 		091FED731B37339D0071F8DC /* DataFiles */ = {
 			isa = PBXGroup;
 			children = (
+				09D256EA1B9D978900F6BD14 /* SIAchievement.h */,
+				09D256EB1B9D978900F6BD14 /* SIAchievement.m */,
+				09549B201B9F08BA0058D2E9 /* SIAchievementDetail.h */,
+				09549B211B9F08BA0058D2E9 /* SIAchievementDetail.m */,
 				091FED741B3733AF0071F8DC /* SIConstants.h */,
 				091FED751B3733AF0071F8DC /* SIConstants.m */,
 				098B3B451B378C27000D4702 /* SIGame.h */,
@@ -691,6 +704,7 @@
 				0919ABE01B91FC83009ACFF1 /* sparkRevA.sks */,
 				0919ABE11B91FC83009ACFF1 /* spark.png */,
 				09B1E3591B97A33B00EDF051 /* explosionTouch.sks */,
+				09D256F01B9E631700F6BD14 /* SIAchievements.plist */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -698,8 +712,8 @@
 		098B3B441B378B8F000D4702 /* 000 - Singletons */ = {
 			isa = PBXGroup;
 			children = (
-				09A488BE1B9D8D770075F41C /* SIChallengeSingleton.h */,
-				09A488BF1B9D8D770075F41C /* SIChallengeSingleton.m */,
+				09A488BE1B9D8D770075F41C /* SIAchievementSingleton.h */,
+				09A488BF1B9D8D770075F41C /* SIAchievementSingleton.m */,
 				098B3B411B378B89000D4702 /* SIGameSingleton.h */,
 				098B3B421B378B89000D4702 /* SIGameSingleton.m */,
 			);
@@ -927,6 +941,7 @@
 				094F229F1B95911D00968FB5 /* ultraStroked@3x.xml in Resources */,
 				0979E65A1B77A74E002FC2F2 /* LongIslandContour.otf in Resources */,
 				092113B01B6B787B005F7D8B /* swypeItFXChaChing.caf in Resources */,
+				09D256F11B9E631700F6BD14 /* SIAchievements.plist in Resources */,
 				0979E65C1B77C0F2002FC2F2 /* diamondPlate3.png in Resources */,
 				096ABDF21B6B6ABB005B2F12 /* swypeItSound1.caf in Resources */,
 				092DBE6D1B6F022E00328A6B /* shapes.atlas in Resources */,
@@ -959,6 +974,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				09D256F21B9E631700F6BD14 /* SIAchievements.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1021,6 +1037,7 @@
 				0917D4F41B6DD8240046B5FF /* HLRingNode.m in Sources */,
 				099A622E1B5C6C2A009BF339 /* SIGameScene.m in Sources */,
 				0917D4EB1B6DD8240046B5FF /* HLItemNode.m in Sources */,
+				09549B221B9F08BA0058D2E9 /* SIAchievementDetail.m in Sources */,
 				091FED791B3736210071F8DC /* UIColor+Additions.m in Sources */,
 				091FED7D1B374C470071F8DC /* BaseNavigationViewController.m in Sources */,
 				0917D4F31B6DD8240046B5FF /* HLRingLayoutManager.m in Sources */,
@@ -1036,6 +1053,7 @@
 				099A62231B5C635F009BF339 /* SIGameController.m in Sources */,
 				099A622A1B5C6B3B009BF339 /* StartScene.m in Sources */,
 				098B3B4A1B378EC0000D4702 /* FXReachability.m in Sources */,
+				09D256EC1B9D978900F6BD14 /* SIAchievement.m in Sources */,
 				09A4889B1B99D92B0075F41C /* SIPowerUp.m in Sources */,
 				094F22A61B95916E00968FB5 /* BMGlyphLabel.m in Sources */,
 				09DB639C1B5651C100387C13 /* MKStoreKit.m in Sources */,
@@ -1060,7 +1078,7 @@
 				0917D4EC1B6DD8240046B5FF /* HLItemsNode.m in Sources */,
 				09DB638A1B564DA700387C13 /* IAPTableViewController.m in Sources */,
 				0917D4FA1B6DD8240046B5FF /* HLToolbarNode.m in Sources */,
-				09A488C01B9D8D770075F41C /* SIChallengeSingleton.m in Sources */,
+				09A488C01B9D8D770075F41C /* SIAchievementSingleton.m in Sources */,
 				09A4889E1B9A43490075F41C /* DSMultilineLabelNode.m in Sources */,
 				09CAF9A91B646BE100466606 /* MBProgressHUD.m in Sources */,
 				09D5ED4F1B8B205B00E84179 /* SISegmentControl.m in Sources */,

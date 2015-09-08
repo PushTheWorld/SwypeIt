@@ -83,10 +83,28 @@ NSString *const kSINSUserDefaultSoundIsAllowedBackground            = @"backgrou
 NSString *const kSINSUserDefaultSoundIsAllowedFX                    = @"fXSoundIsAllowed";
 
 #pragma mark - Power Ups
-NSString *const kSIPowerUpTypeFallingMonkeys                            = @"Falling Monkeys";
-NSString *const kSIPowerUpTypeNone                                      = @"None";
-NSString *const kSIPowerUpTypeTimeFreeze                                = @"Time Freeze";
-NSString *const kSIPowerUpTypeRapidFire                                 = @"Rapid Fire";
+NSString *const kSIPowerUpTypeFallingMonkeys                        = @"Falling Monkeys";
+NSString *const kSIPowerUpTypeNone                                  = @"None";
+NSString *const kSIPowerUpTypeTimeFreeze                            = @"Time Freeze";
+NSString *const kSIPowerUpTypeRapidFire                             = @"Rapid Fire";
+
+#pragma mark - Achievements
+NSString *const kSIAchievementIDChallengeBeginner1                  = @"challengeBeginner1";
+NSString *const kSIAchievementIDChallengeBeginner2                  = @"challengeBeginner2";
+NSString *const kSIAchievementIDChallengeBeginner3                  = @"challengeBeginner3";
+NSString *const kSIAchievementIDChallengeBeginnerAll                = @"challengeBeginnerAll";
+NSString *const kSIAchievementIDChallengeIntermediate1              = @"challengeIntermediate1";
+NSString *const kSIAchievementIDChallengeIntermediate2              = @"challengeIntermediate2";
+NSString *const kSIAchievementIDChallengeIntermediate3              = @"challengeIntermediate3";
+NSString *const kSIAchievementIDChallengeIntermediateAll            = @"challengeIntermediateAll";
+NSString *const kSIAchievementIDChallengePro1                       = @"challengePro1";
+NSString *const kSIAchievementIDChallengePro2                       = @"challengePro2";
+NSString *const kSIAchievementIDChallengePro3                       = @"challengePro3";
+NSString *const kSIAchievementIDChallengeProAll                     = @"challengeProAll";
+NSString *const kSIAchievementIDChallengeMaster1                    = @"challengeMaster1";
+NSString *const kSIAchievementIDChallengeMaster2                    = @"challengeMaster2";
+NSString *const kSIAchievementIDChallengeMaster3                    = @"challengeMaster3";
+NSString *const kSIAchievementIDChallengeMasterAll                  = @"challengeMasterAll";
 
 #pragma mark - NSNotification
 NSString *const kSINotificationAdActionShouldBegin                  = @"com.pushtheworldllc.swipeit.adActionShouldBegin";
@@ -208,6 +226,10 @@ NSString *const kSINSDictionaryKeyHudWillShowCheckmark              = @"HudWillD
 NSString *const kSINSDictionaryKeyMoveScore                         = @"moveScore";
 NSString *const kSINSDictionaryKeyPowerUp                           = @"powerUp";
 NSString *const kSINSDictionaryKeyPackProduct                       = @"packProduct";
+NSString *const kSINSDictionaryKeySIAchievementSubLevelOne            = @"subLevelOne";
+NSString *const kSINSDictionaryKeySIAchievementSubLevelTwo            = @"subLevelTwo";
+NSString *const kSINSDictionaryKeySIAchievementSubLevelThree          = @"subLevelThree";
+
 
 #pragma mark - In App Purchase Product ID
 NSString *const kSIIAPProductIDAdFree                               = @"swypeItInAppPurchases";

@@ -17,6 +17,8 @@
 // Support/Data Class Imports
 // Other Imports
 
+
+
 @implementation SIGameSingleton {
     BOOL                         _isPaused;
     
@@ -47,10 +49,11 @@
     });
     return singleton;
 }
+
 - (instancetype)init {
     self = [super init];
     if (self) {
-        [self singletonSetup];
+        [self singletonGameSetup];
         
         _currentGame                    = [[SIGame alloc] init];
         
@@ -61,7 +64,7 @@
 /**
  Initialize the controls for singlton
  */
-- (void)singletonSetup {
+- (void)singletonGameSetup {
     _timer                                          = [[NSTimer alloc] init];
     _timerInterval                                  = TIMER_INTERVAL;
 
@@ -73,7 +76,7 @@
  Restarts the game... calling this will
  make you loose all current game data
  */
-- (void)singletonWillStart {
+- (void)singletonGameWillStart {
     _willResume                                     = NO;
     _previousLevel                                  = [SIGame currentLevelStringForScore:0.0f];
     _compositeTimeInMiliSeconds                     = 0.0f;
@@ -86,7 +89,7 @@
 /**
  Called when the user enters the first move
  */
-- (void)singletonDidStart {
+- (void)singletonGameDidStart {
     /*Start The Timer*/
     [self startTimer];
     
@@ -99,7 +102,7 @@
     }
     
     /*Call this to get a new move and such...*/
-    [self singletonWillContinue];
+    [self singletonGameWillContinue];
 }
 
 /**
@@ -107,9 +110,9 @@
  This only really "pauses" the game state to allow 
  the user to intercept and pay for a continue...
  */
-- (void)singletonWillEnd {
+- (void)singletonGameWillEnd {
     /*Pause the game*/
-    [self singletonWillPause];
+    [self singletonGameWillPause];
     
     /*Alert the controller that the modal is ready to end the game*/
     if ([_delegate respondsToSelector:@selector(sceneWillShowContinue)]) {
@@ -126,11 +129,11 @@
 /**
  Called to really end the game, invalidates timers and such...
  */
-- (void)singletonDidEnd {
+- (void)singletonGameDidEnd {
     [SIGame updateLifetimePointsScore:_currentGame.totalScore];
 }
 
-- (void)singletonWillPause {
+- (void)singletonGameWillPause {
     _currentGame.isPaused           = YES;
     _pauseStartTimeInMiliSeconds    = _compositeTimeInMiliSeconds;
 }
@@ -142,7 +145,7 @@
  
     2. User tapped pause and now wants to play...
  */
-- (void)singletonWillResumeAndContinue:(BOOL)willContinue {
+- (void)singletonGameWillResumeAndContinue:(BOOL)willContinue {
     _currentGame.isPaused           = NO;
     
     /*Update the moveStartTime to account for the pause duration*/
@@ -153,7 +156,7 @@
     }
     
     if (willContinue) {
-        [self singletonWillContinue];
+        [self singletonGameWillContinue];
     }
 }
 
@@ -165,19 +168,36 @@
     If correct -> calls singletonGameWillShowNewMove
     If incorrect -> calls singletonGameWillEnd
  */
-- (void)singletonDidEnterMove:(SIMove *)move {
+- (void)singletonGameDidEnterMove:(SIMove *)move {
+    if (_currentGame.isPaused == YES) {
+        return;
+    }
+    
+    if (_currentGame.gameMode == SIGameModeTwoHand) {
+        if (move.moveCommand == SIMoveCommandShake) {
+            return;
+        }
+    //don't need else `if` because there are only two modes
+    //  it's implied....
+    } else { //if (_currentGame.gameMode == SIGameModeOneHand) {
+        if (move.moveCommand == SIMoveCommandPinch) {
+            return;
+        }
+    }
+    
+    /*Continue on... business as usual*/
     if (move.moveCommand == _currentGame.currentMove.moveCommand) {
         /*
          If the game is not started we need to do a little extra, like
             start the timers and such
          */
         if (self.currentGame.isStarted) {
-            [self singletonWillContinue];
+            [self singletonGameWillContinue];
         } else {
-            [self singletonDidStart];
+            [self singletonGameDidStart];
         }
     } else {
-        [self singletonWillEnd];
+        [self singletonGameWillEnd];
     }
 }
 
@@ -188,7 +208,7 @@
     3. A new move should be loaded
     4. View should update 
  */
-- (void)singletonWillContinue {
+- (void)singletonGameWillContinue {
     /*Save the start of this new move*/
     _moveStartTimeInMiliSeconds         = _compositeTimeInMiliSeconds;
     
@@ -208,7 +228,7 @@
     
     
     /*Get a new background color*/
-    _currentGame.currentBackgroundColor = [self singletonNewBackgroundColor];
+    _currentGame.currentBackgroundColor = [self singletonGameNewBackgroundColor];
     
     /*Update Background Sound*/
     [self updateBackgroundSound];
@@ -274,7 +294,7 @@
     _currentGame.freeCoinPercentRemaining   = _currentGame.freeCoinInPoints / (float)POINTS_NEEDED_FOR_FREE_COIN;
 }
 
-- (UIColor *)singletonNewBackgroundColor {
+- (UIColor *)singletonGameNewBackgroundColor {
     NSInteger randomNumber;
     if (self.currentGame.totalScore >= LEVEL12) {
         randomNumber = arc4random_uniform(NUMBER_OF_MOVES * 3);
@@ -330,7 +350,7 @@
         /*Get the powerup percent remaining*/
         _currentGame.powerUpPercentRemaining    = [SIPowerUp powerUpPercentRemaining:_currentGame.powerUpArray compositeTime:_compositeTimeInMiliSeconds withCallback:^(SIPowerUp *powerUpToDeactivate) {
             if (powerUpToDeactivate) {
-                [self singletonWillDectivatePowerUp:powerUpToDeactivate];
+                [self singletonGameWillDectivatePowerUp:powerUpToDeactivate];
             }
         }];
     }
@@ -348,7 +368,7 @@
 /**
  This will be called by the controller when asking to start
  */
-- (void)singletonWillActivatePowerUp:(SIPowerUpType)powerUp {
+- (void)singletonGameWillActivatePowerUp:(SIPowerUpType)powerUp {
     if ([SIPowerUp canStartPowerUp:powerUp powerUpArray:_currentGame.powerUpArray]) {
         /*We the know the power up can start...*/
         SIPowerUp *newPowerUp = [[SIPowerUp alloc] initWithPowerUp:powerUp atTime:_compositeTimeInMiliSeconds];
@@ -356,17 +376,17 @@
         if ([_delegate respondsToSelector:@selector(sceneWillActivatePowerUp:)]) {
             [_delegate sceneWillActivatePowerUp:newPowerUp.type];
         }
-        [self singletonDidActivatePowerUp:newPowerUp.type];
+        [self singletonGameDidActivatePowerUp:newPowerUp.type];
     }
 }
 /**
  Called internally to apply any singleton changing settings
  the powerup might effect
  */
-- (void)singletonDidActivatePowerUp:(SIPowerUpType)powerUp {
+- (void)singletonGameDidActivatePowerUp:(SIPowerUpType)powerUp {
     switch (powerUp) {
         case SIPowerUpTypeRapidFire:
-            [self singletonWillContinue];
+            [self singletonGameWillContinue];
             break;
         case SIPowerUpTypeTimeFreeze:
             _timeFreezeMultiplyer   = 0.2f;
@@ -382,18 +402,18 @@
  Called internally by the timer functions when a powerup's
     percent remaining value drops below the epsilon value
  */
-- (void)singletonWillDectivatePowerUp:(SIPowerUp *)powerUpClass {
+- (void)singletonGameWillDectivatePowerUp:(SIPowerUp *)powerUpClass {
     if ([_delegate respondsToSelector:@selector(sceneWillDeactivatePowerUp:)]) {
         [_delegate sceneWillDeactivatePowerUp:powerUpClass.type];
     }
-    [self singletonDidDectivatePowerUp:powerUpClass];
+    [self singletonGameDidDectivatePowerUp:powerUpClass];
 }
 /**
  Called internally to remove anything setup by the powerup
     This is the class responible for removing the powerup from the 
     `powerUpArray`
  */
-- (void)singletonDidDectivatePowerUp:(SIPowerUp *)powerUpClass {
+- (void)singletonGameDidDectivatePowerUp:(SIPowerUp *)powerUpClass {
     switch (powerUpClass.type) {
         case SIPowerUpTypeTimeFreeze:
             _timeFreezeMultiplyer   = 1.0f;

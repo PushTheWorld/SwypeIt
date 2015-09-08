@@ -423,6 +423,18 @@
     return sceneGame;
 }
 
+- (BOOL)verifySceneGame {
+    if (_sceneGame == nil) {
+        _sceneGame = [[SIGameScene alloc] initWithSize:_sceneSize];
+    }
+    if (_sceneGamePopupContinue == nil) {
+        _sceneGamePopupContinue = [SIGameController SIPopupSceneGameContinue];
+    }
+    if (_sceneGamePopupContinueMenuNode == nil) {
+        _sceneGamePopupContinueMenuNode = [SIGameController SIMenuNodeSceneGamePopup:_sceneGamePopupContinue];
+    }
+    return YES;
+}
 
 
 - (void)setupUserInterface {
@@ -840,7 +852,7 @@
     if (_interstitialAdPresentationIsLive) {
         if (_numberOfAdsToWatch <= 0) {
             _interstitialAdPresentationIsLive = NO;
-            [[SIGameSingleton singleton] singletonWillResumeAndContinue:YES];
+            [[SIGameSingleton singleton] singletonGameWillResumeAndContinue:YES];
         } else {
             [self presentInterstital];
         }
@@ -995,7 +1007,7 @@
     _adBannerView.frame = CGRectMake(0.0f, _screenHeight + bv, 0.0f, 0.0f);
     [UIView commitAnimations];
 }
-+ (CGFloat)bannerViewHeight {
++ (CGFloat)SIAdBannerViewHeight {
     if ([SIGameController isPremiumUser]) {
         return 0.0f;
     }
@@ -1006,7 +1018,7 @@
     return [[NSUserDefaults standardUserDefaults] boolForKey:kSINSUserDefaultPremiumUser];
 }
 + (CGSize)sceneSize {
-    return CGSizeMake(SCREEN_WIDTH, SCREEN_HEIGHT - [SIGameController bannerViewHeight]);
+    return CGSizeMake(SCREEN_WIDTH, SCREEN_HEIGHT - [SIGameController SIAdBannerViewHeight]);
 }
 
 
@@ -1082,10 +1094,10 @@
 - (void)sceneDidRecieveRingNode:(HLRingNode *)ringNode Tap:(SISceneGameRingNode)gameSceneRingNode {
     switch (gameSceneRingNode) {
         case SISceneGameRingNodeEndGame:
-            [[SIGameSingleton singleton] singletonDidEnd];
+            [[SIGameSingleton singleton] singletonGameDidEnd];
             break;
         case SISceneGameRingNodePlay:
-            [[SIGameSingleton singleton] singletonWillResumeAndContinue:NO];
+            [[SIGameSingleton singleton] singletonGameWillResumeAndContinue:NO];
             break;
         case SISceneGameRingNodeSoundBackground:
             if ([SIConstants isBackgroundSoundAllowed]) {
@@ -1115,21 +1127,11 @@
     }
 }
 - (void)sceneGameDidRecieveMove:(SIMove *)move {
-    [[SIGameSingleton singleton] singletonDidEnterMove:move];
-}
-//- (void)sceneGameDidRecieveMoveCommand:(SIMoveCommand)moveCommand withMoveCommandAction:(SIMoveCommandAction)moveCommandAction withGestureRecognizer:(UIGestureRecognizer *)gestureRecognizer {
-//    [[SIGameSingleton singleton] singletonDidEnterMove:moveCommand];
-//}
-
-+ (BOOL)gameIsPaused {
-    return [SIGameSingleton singleton].currentGame.isPaused;
+    [[SIGameSingleton singleton] singletonGameDidEnterMove:move];
 }
 
-+ (BOOL)gameIsStarted {
-    return [SIGameSingleton singleton].currentGame.isStarted;
-}
 - (void)scenePauseButtonTapped {
-    [[SIGameSingleton singleton] singletonWillPause];
+    [[SIGameSingleton singleton] singletonGameWillPause];
     [_sceneGame sceneBlurDisplayRingNode:_sceneGameRingNodePause];
 }
 - (void)sceneWillDismissPopupContinueWithPayMethod:(SISceneGamePopupContinueMenuItem)continuePayMethod {
@@ -1138,7 +1140,7 @@
             if ([SIIAPUtility canAffordContinue:[SIGameSingleton singleton].currentGame.currentContinueLifeCost]) {
                 [[MKStoreKit sharedKit] consumeCredits:[NSNumber numberWithInt:[SIGameSingleton singleton].currentGame.currentContinueLifeCost] identifiedByConsumableIdentifier:kSIIAPConsumableIDCoins];
             } else {
-                [[SIGameSingleton singleton] singletonWillResumeAndContinue:YES];
+                [[SIGameSingleton singleton] singletonGameWillResumeAndContinue:YES];
             }
             break;
         case SISceneGamePopupContinueMenuItemAd:
@@ -1146,7 +1148,7 @@
             [self interstitialAdPresent];
             break;
         default: //SIPowerUpPayMethodNo
-            [[SIGameSingleton singleton] singletonDidEnd];
+            [[SIGameSingleton singleton] singletonGameDidEnd];
             break;
     }
 
@@ -1168,7 +1170,7 @@
     switch (powerUp) {
         case SIPowerUpTypeFallingMonkeys:
             /*pause the singleton*/
-            [[SIGameSingleton singleton] singletonWillPause];
+            [[SIGameSingleton singleton] singletonGameWillPause];
             /*launch the other scene with no delay*/
             
             break;
@@ -1197,7 +1199,7 @@
     switch (powerUp) {
         case SIPowerUpTypeFallingMonkeys:
             /*pause the singleton*/
-            [[SIGameSingleton singleton] singletonWillResumeAndContinue:YES];
+            [[SIGameSingleton singleton] singletonGameWillResumeAndContinue:YES];
             /*launch the other scene with no delay*/
             
             break;
@@ -1222,7 +1224,7 @@
     is earned this is where you would do it...
  */
 - (void)sceneWillShowFreeCoinEarned {
-    
+    [_sceneGame sceneWillShowFreeCoinEarned];
 }
 
 /**
@@ -1266,17 +1268,7 @@
                              moveCommandString:[SIGame stringForMove:[SIGameSingleton singleton].currentGame.currentMove.moveCommand]];
 }
 
-- (void)verifySceneGame {
-    if (_sceneGame == nil) {
-        _sceneGame = [[SIGameScene alloc] initWithSize:_sceneSize];
-    }
-    if (_sceneGamePopupContinue == nil) {
-        _sceneGamePopupContinue = [SIGameController SIPopupSceneGameContinue];
-    }
-    if (_sceneGamePopupContinueMenuNode == nil) {
-        _sceneGamePopupContinueMenuNode = [SIGameController SIMenuNodeSceneGamePopup:_sceneGamePopupContinue];
-    }
-}
+
 #pragma mark - Transistion Methods
 - (void)transisitionToSKScene:(SKScene *)scene duration:(CGFloat)duration {
     SKTransition *transistion;

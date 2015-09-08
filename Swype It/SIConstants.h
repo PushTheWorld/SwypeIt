@@ -177,25 +177,49 @@ typedef NS_ENUM(NSInteger, SIContinueLifeCost) {
     SIContinueLifeCost1     = 5,
     SIContinueLifeCost2     = 10,
     SIContinueLifeCost3     = 20,
-    SIContinueLifeCost4     = 50,
-    SIContinueLifeCost5     = 100,
-    SIContinueLifeCost6     = 250,
-    SIContinueLifeCost7     = 500,
-    SIContinueLifeCost8     = 1000,
-    SIContinueLifeCost9     = 2500,
-    SIContinueLifeCost10    = 5000,
-    SIContinueLifeCost11    = 10000,
-    SIContinueLifeCost12    = 12500,
-    SIContinueLifeCost13    = 15000,
-    SIContinueLifeCost14    = 20000,
-    SIContinueLifeCost15    = 25000,
-    SIContinueLifeCost16    = 30000,
-    SIContinueLifeCost17    = 40000,
-    SIContinueLifeCost18    = 50000,
+    SIContinueLifeCost4     = 40,
+    SIContinueLifeCost5     = 60,
+    SIContinueLifeCost6     = 100,
+    SIContinueLifeCost7     = 200,
+    SIContinueLifeCost8     = 400,
+    SIContinueLifeCost9     = 600,
+    SIContinueLifeCost10    = 800,
+    SIContinueLifeCost11    = 1000,
+    SIContinueLifeCost12    = 1250,
+    SIContinueLifeCost13    = 1500,
+    SIContinueLifeCost14    = 2000,
+    SIContinueLifeCost15    = 2500,
+    SIContinueLifeCost16    = 3000,
+    SIContinueLifeCost17    = 4000,
+    SIContinueLifeCost18    = 5000,
     SIContinueLifeCost19    = 100000,
-    SIContinueLifeCost20    = 1000000
+    SIContinueLifeCost20    = 1000000,
+    SIContinueLifeCost21    = 10000000
 };
-
+typedef NS_ENUM(NSInteger, SIContinueAdCount) {
+    SIContinueAdCount0     = 0,
+    SIContinueAdCount1     = 1,
+    SIContinueAdCount2     = 2,
+    SIContinueAdCount3     = 4,
+    SIContinueAdCount4     = 6,
+    SIContinueAdCount5     = 8,
+    SIContinueAdCount6     = 10,
+    SIContinueAdCount7     = 14,
+    SIContinueAdCount8     = 18,
+    SIContinueAdCount9     = 26,
+    SIContinueAdCount10    = 42,
+    SIContinueAdCount11    = 84,
+    SIContinueAdCount12    = 128,
+    SIContinueAdCount13    = 256,
+    SIContinueAdCount14    = 512,
+    SIContinueAdCount15    = 1024,
+    SIContinueAdCount16    = 2048,
+    SIContinueAdCount17    = 4096,
+    SIContinueAdCount18    = 10000,
+    SIContinueAdCount19    = 100000,
+    SIContinueAdCount20    = 1000000,
+    SIContinueAdCount21    = 10000000
+};
 typedef NS_ENUM(NSInteger, SIProgressBar) {
     SIProgressBarMove,
     SIProgressBarPowerUp
@@ -240,8 +264,39 @@ typedef NS_ENUM(NSInteger, SISceneStartToolBarNode) {
 
 typedef NS_ENUM(NSInteger, SISceneMenuType) {
     SISceneMenuTypeStart = 0,
-    SISceneMenuTypeEnd
+    SISceneMenuTypeEnd,
+    SISceneMenuTypeChallenges
 };
+
+typedef NS_ENUM(NSInteger, SIAchievementSkillLevel) {
+    SIAchievementSkillLevelBeginner = 0,
+    SIAchievementSkillLevelIntermediate,
+    SIAchievementSkillLevelPro,
+    SIAchievementSkillLevelGuru
+};
+
+typedef NS_ENUM(NSInteger, SIAchievementType) {
+    SIAchievementTypeMove = 0,
+    SIAchievementTypeMoveSequence,
+    SIAchievementTypeScore,
+    SIAchievementTypeAll
+};
+
+typedef NS_ENUM(NSInteger, SIAchievementLevel) {
+    SIAchievementLevelOne = 0,
+    SIAchievementLevelTwo,
+    SIAchievementLevelThree,
+    SIAchievementLevelDone
+};
+
+typedef NS_ENUM(NSInteger, SIAchievementMoveSequence) {
+    SIAchievementMoveSequenceOne = 0,
+    SIAchievementMoveSequenceTwo,
+    SIAchievementMoveSequenceThree,
+    SIAchievementMoveSequenceFour,
+    SIAchievementMoveSequenceDone
+};
+
 #pragma mark - Images
 extern NSString *const kSIImageTitleLabel;
 
@@ -278,6 +333,24 @@ extern NSString *const kSIPowerUpTypeFallingMonkeys;
 extern NSString *const kSIPowerUpTypeNone;
 extern NSString *const kSIPowerUpTypeTimeFreeze;
 extern NSString *const kSIPowerUpTypeRapidFire;
+
+#pragma mark - Achievements
+extern NSString *const kSIAchievementIDChallengeBeginner1;
+extern NSString *const kSIAchievementIDChallengeBeginner2;
+extern NSString *const kSIAchievementIDChallengeBeginner3;
+extern NSString *const kSIAchievementIDChallengeBeginnerAll;
+extern NSString *const kSIAchievementIDChallengeIntermediate1;
+extern NSString *const kSIAchievementIDChallengeIntermediate2;
+extern NSString *const kSIAchievementIDChallengeIntermediate3;
+extern NSString *const kSIAchievementIDChallengeIntermediateAll;
+extern NSString *const kSIAchievementIDChallengePro1;
+extern NSString *const kSIAchievementIDChallengePro2;
+extern NSString *const kSIAchievementIDChallengePro3;
+extern NSString *const kSIAchievementIDChallengeProAll;
+extern NSString *const kSIAchievementIDChallengeMaster1;
+extern NSString *const kSIAchievementIDChallengeMaster2;
+extern NSString *const kSIAchievementIDChallengeMaster3;
+extern NSString *const kSIAchievementIDChallengeMasterAll;
 
 #pragma mark - NSNotification
 extern NSString *const kSINotificationAdActionShouldBegin;
@@ -398,6 +471,12 @@ extern NSString *const kSINSDictionaryKeyHudWillShowCheckmark;
 extern NSString *const kSINSDictionaryKeyMoveScore;
 extern NSString *const kSINSDictionaryKeyPowerUp;
 extern NSString *const kSINSDictionaryKeyPackProduct;
+extern NSString *const kSINSDictionaryKeySIAchievementSubLevelHelpMessage;
+extern NSString *const kSINSDictionaryKeySIAchievementSubLevelQuantity;
+extern NSString *const kSINSDictionaryKeySIAchievementSubLevelReward;
+extern NSString *const kSINSDictionaryKeySIAchievementSubLevelType;
+extern NSString *const kSINSDictionaryKeySIAchievementSubLevelComplete;
+
 
 #pragma mark - In App Purchase Product ID
 extern NSString *const kSIIAPProductIDAdFree;

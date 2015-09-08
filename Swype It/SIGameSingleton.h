@@ -17,7 +17,6 @@
 #import "SIMove.h"
 // Other Imports
 
-@class SIGameSingleton;
 @protocol SIGameSingletonDelegate <NSObject>
 /**
  Called when the model is ready for a new move to be 
@@ -108,18 +107,19 @@
 #pragma mark - Public Game Functions
 /**
  Trys the move entered on view to see if it was correct one
+ Must check to make sure pause is not YES
  
  Public function called by view.. takes SIMove as input
  
  If correct -> calls singletonGameWillShowNewMove
  If incorrect -> calls singletonGameWillEnd
  */
-- (void)singletonDidEnterMove:(SIMove *)move;
+- (void)singletonGameDidEnterMove:(SIMove *)move;
 
 /**
  Called when the user enters the first move
  */
-- (void)singletonDidStart;
+- (void)singletonGameDidStart;
 
 /**
  Pauses the game state...
@@ -127,7 +127,7 @@
  Use Case:
     1. Called when the user taps the pause button
  */
-- (void)singletonWillPause;
+- (void)singletonGameWillPause;
 
 /**
  willContinue if you want a new move to be loaded
@@ -137,12 +137,12 @@
  
  2. User tapped pause and now wants to play...
  */
-- (void)singletonWillResumeAndContinue:(BOOL)willContinue;
+- (void)singletonGameWillResumeAndContinue:(BOOL)willContinue;
 
 /**
  Called to really end the game, invalidates timers and such...
  */
-- (void)singletonDidEnd;
+- (void)singletonGameDidEnd;
 
 @end
 
