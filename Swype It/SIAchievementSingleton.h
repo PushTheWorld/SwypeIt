@@ -12,6 +12,7 @@
 // Drop-In Class Imports (CocoaPods/GitHub/Guru)
 // Category Import
 // Support/Data Class Imports
+#import "SIAchievement.h"
 #import "SIGame.h"
 // Other Imports
 
@@ -19,7 +20,12 @@
 /**
  Called when challenge was complete
  */
-- (void)WillLoadNewMove;
+- (void)singletonAchievementDidCompleteAchievement:(SIAchievement *)achievement;
+
+/**
+ Called when singleton is unable to pull from internet for sync
+ */
+- (void)singletonAchievementFailedToReachGameCenterWithError:(NSError *)error;
 
 @end
 
@@ -35,7 +41,7 @@
 /**
  Enters a move into the singlton
  */
-- (void)singletonChallengeEnterMove:(SIMove *)move; 
+- (void)singletonAchievementWillProcessMove:(SIMove *)move;
 
 #pragma mark - Singleton Method
 + (instancetype)singleton;
@@ -43,6 +49,6 @@
 #pragma mark - Public Methods
 
 #pragma mark - Public Class Methods
-+ (NSDictionary *)challengeLevelBeginnerSublevelOne;
+
 
 @end

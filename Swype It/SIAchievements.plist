@@ -4,11 +4,7 @@
 <dict>
 	<key>challengeBeginner1</key>
 	<dict>
-		<key>moveSequence</key>
-		<array/>
-		<key>completed</key>
-		<false/>
-		<key>helpString</key>
+		<key>help</key>
 		<string>Score over the amount of points listed below</string>
 		<key>prefix</key>
 		<string>Score over</string>
@@ -48,9 +44,7 @@
 			<string>swype</string>
 			<string>swype</string>
 		</array>
-		<key>completed</key>
-		<false/>
-		<key>helpString</key>
+		<key>help</key>
 		<string>Every time one of these sequences are performed you will get credit for it</string>
 		<key>prefix</key>
 		<string>Do</string>
@@ -85,11 +79,7 @@
 	</dict>
 	<key>challengeBeginner3</key>
 	<dict>
-		<key>moveSequence</key>
-		<array/>
-		<key>completed</key>
-		<false/>
-		<key>helpString</key>
+		<key>help</key>
 		<string>Perform enough of these moves to finish the challenge.</string>
 		<key>prefix</key>
 		<string>Perform </string>
@@ -97,12 +87,12 @@
 		<string>moves</string>
 		<key>type</key>
 		<string>move</string>
+		<key>move</key>
+		<string>swype</string>
 		<key>challengeLevels</key>
 		<dict>
 			<key>level1</key>
 			<dict>
-				<key>move</key>
-				<string>tap</string>
 				<key>amount</key>
 				<integer>50</integer>
 				<key>reward</key>
@@ -110,8 +100,6 @@
 			</dict>
 			<key>level2</key>
 			<dict>
-				<key>move</key>
-				<string>tap</string>
 				<key>amount</key>
 				<integer>75</integer>
 				<key>reward</key>
@@ -119,8 +107,6 @@
 			</dict>
 			<key>level3</key>
 			<dict>
-				<key>move</key>
-				<string>tap</string>
 				<key>amount</key>
 				<integer>100</integer>
 				<key>reward</key>
@@ -130,8 +116,8 @@
 	</dict>
 	<key>challengeBeginnerAll</key>
 	<dict>
-		<key>completed</key>
-		<false/>
+		<key>completionReward</key>
+		<integer>2</integer>
 		<key>type</key>
 		<string>all</string>
 		<key>title</key>

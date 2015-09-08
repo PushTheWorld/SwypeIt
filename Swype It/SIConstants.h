@@ -96,6 +96,8 @@
 
 #define EPSILON_NUMBER                      0.01
 
+#define ACHIEVEMENT_PERCENT_PER_LEVEL       33
+
 /**
  Creates a monkey face to be reused all over the app
  */
@@ -272,7 +274,7 @@ typedef NS_ENUM(NSInteger, SIAchievementSkillLevel) {
     SIAchievementSkillLevelBeginner = 0,
     SIAchievementSkillLevelIntermediate,
     SIAchievementSkillLevelPro,
-    SIAchievementSkillLevelGuru
+    SIAchievementSkillLevelMaster
 };
 
 typedef NS_ENUM(NSInteger, SIAchievementType) {
@@ -283,7 +285,8 @@ typedef NS_ENUM(NSInteger, SIAchievementType) {
 };
 
 typedef NS_ENUM(NSInteger, SIAchievementLevel) {
-    SIAchievementLevelOne = 0,
+    SIAchievementLevelNone = 0,
+    SIAchievementLevelOne,
     SIAchievementLevelTwo,
     SIAchievementLevelThree,
     SIAchievementLevelDone
@@ -296,6 +299,7 @@ typedef NS_ENUM(NSInteger, SIAchievementMoveSequence) {
     SIAchievementMoveSequenceFour,
     SIAchievementMoveSequenceDone
 };
+
 
 #pragma mark - Images
 extern NSString *const kSIImageTitleLabel;
@@ -351,6 +355,8 @@ extern NSString *const kSIAchievementIDChallengeMaster1;
 extern NSString *const kSIAchievementIDChallengeMaster2;
 extern NSString *const kSIAchievementIDChallengeMaster3;
 extern NSString *const kSIAchievementIDChallengeMasterAll;
+extern NSString *const kSIAchievementPlistPathForResource;
+extern NSString *const kSIAchievementPlistType;
 
 #pragma mark - NSNotification
 extern NSString *const kSINotificationAdActionShouldBegin;
@@ -471,11 +477,33 @@ extern NSString *const kSINSDictionaryKeyHudWillShowCheckmark;
 extern NSString *const kSINSDictionaryKeyMoveScore;
 extern NSString *const kSINSDictionaryKeyPowerUp;
 extern NSString *const kSINSDictionaryKeyPackProduct;
-extern NSString *const kSINSDictionaryKeySIAchievementSubLevelHelpMessage;
-extern NSString *const kSINSDictionaryKeySIAchievementSubLevelQuantity;
-extern NSString *const kSINSDictionaryKeySIAchievementSubLevelReward;
-extern NSString *const kSINSDictionaryKeySIAchievementSubLevelType;
-extern NSString *const kSINSDictionaryKeySIAchievementSubLevelComplete;
+extern NSString *const kSINSDictionaryKeySIAchievementPlistChallengeLevelsDictionary;
+extern NSString *const kSINSDictionaryKeySIAchievementPlistCompletedBool;
+extern NSString *const kSINSDictionaryKeySIAchievementPlistCompletionRewardInt;
+extern NSString *const kSINSDictionaryKeySIAchievementPlistHelpString;
+extern NSString *const kSINSDictionaryKeySIAchievementPlistMoveString;
+extern NSString *const kSINSDictionaryKeySIAchievementPlistMoveSequenceArray;
+extern NSString *const kSINSDictionaryKeySIAchievementPlistPostfixString;
+extern NSString *const kSINSDictionaryKeySIAchievementPlistPrefixString;
+extern NSString *const kSINSDictionaryKeySIAchievementPlistTitleString;
+extern NSString *const kSINSDictionaryKeySIAchievementPlistTypeString;
+
+
+#pragma mark - Plist 
+extern NSString *const kSIPlistChallengeLevelsLevel1;
+extern NSString *const kSIPlistChallengeLevelsLevel2;
+extern NSString *const kSIPlistChallengeLevelsLevel3;
+extern NSString *const kSIPlistChallengeLevelsLevelKeyAmount;
+extern NSString *const kSIPlistChallengeLevelsLevelKeyMove;
+extern NSString *const kSIPlistChallengeLevelsLevelKeyReward;
+extern NSString *const kSIPlistMoveCommandPinch;
+extern NSString *const kSIPlistMoveCommandShake;
+extern NSString *const kSIPlistMoveCommandSwype;
+extern NSString *const kSIPlistMoveCommandTap;
+extern NSString *const kSIPlistTypeAll;
+extern NSString *const kSIPlistTypeMove;
+extern NSString *const kSIPlistTypeMoveSequence;
+extern NSString *const kSIPlistTypeScore;
 
 
 #pragma mark - In App Purchase Product ID

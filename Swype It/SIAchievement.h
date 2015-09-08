@@ -19,10 +19,9 @@
 
 @interface SIAchievement : NSObject
 
-- (instancetype)initWithName:(NSString *)name;
-
 /**
- This combines the prefix the next quantity to reach and postfix
+ This combines the prefix the next quantity to reach and postfix.
+    NOTE: if this is an ALL, it just returns the title assigned to it
  */
 @property (strong, nonatomic) NSString *title;
 
@@ -39,7 +38,7 @@
     When the user has reached 10, 30 or 50 user gets
         at least a notification... maybe a reward
  */
-@property (strong, nonatomic) NSMutableDictionary *challengeLevel;
+@property (strong, nonatomic) NSMutableDictionary *challengeLevels;
 
 /**
  This is the current sequence being worked on
@@ -52,13 +51,10 @@
 @property (assign, nonatomic) SIAchievementLevel currentLevel;
 
 /**
- The amount to be given upon completion of the reward
+ This is the current move we are looking for
+    Move and MoveSequence use this
  */
-@property (assign, nonatomic) int completionReward;
+@property (assign, nonatomic) SIMoveCommand currentMove;
 
-/**
- Whether or not the skill has been mastered
- */
-@property (assign, nonatomic) BOOL completed;
 
 @end
