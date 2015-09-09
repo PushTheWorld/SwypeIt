@@ -9,7 +9,6 @@
 //
 // Local Controller Import
 #import "EndGameScene.h"
-#import "GameScene.h"
 #import "SIGameController.h"
 #import "StoreScene.h"
 // Framework Import
@@ -227,7 +226,7 @@
     } else if ([menuItem.text isEqualToString:kSIMenuTextEndGameMainMenu]) {
         /*Main Menu Button*/
         [[AppSingleton singleton] endGame];
-        SIGame incrementGamesPlayed];
+        [SIGame incrementGamesPlayed];
         StartScreenScene *startScene        = [StartScreenScene sceneWithSize:self.size];
         SIGame transisitionToSKScene:startScene toSKView:self.view DoorsOpen:NO pausesIncomingScene:YES pausesOutgoingScene:YES duration:SCENE_TRANSISTION_DURATION];
 

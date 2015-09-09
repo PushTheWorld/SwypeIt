@@ -22,39 +22,39 @@
  Called when the model is ready for a new move to be 
     loaded by the controller to the view
  */
-- (void)sceneWillLoadNewMove;
+- (void)controllerSingletonGameLoadNewMove;
 
 /**
  Called when the user should be prompted to continue
     the game
  */
-- (void)sceneWillShowContinue;
+- (void)controllerSingletonGameShowContinue;
 
 /**
  Called when there is a high score
  */
-- (void)sceneWillShowIsHighScore;
+- (void)controllerSingletonGameShowIsHighScore;
 
 /**
  Called when a free coin is earned
  Handle the sound for this in the controller?
  */
-- (void)sceneWillShowFreeCoinEarned;
+- (void)controllerSingletonGameShowFreeCoinEarned;
 
 /**
  Called by model to alert controller when sound is ready to be played...
  */
-- (void)contorllerWillPlayFXSoundNamed:(NSString *)soundName;
+- (void)controllerSingletonGamePlayFXSoundNamed:(NSString *)soundName;
 
 /**
  Called when the model is ready for the powerup to start
  */
-- (void)sceneWillActivatePowerUp:(SIPowerUpType)powerUp;
+- (void)controllerSingletonGameActivatePowerUp:(SIPowerUpType)powerUp;
 
 /**
  Called when the powerup is deactived
  */
-- (void)sceneWillDeactivatePowerUp:(SIPowerUpType)powerUp;
+- (void)controllerSingletonGameDeactivatePowerUp:(SIPowerUpType)powerUp;
 
 @end
 

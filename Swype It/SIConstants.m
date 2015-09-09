@@ -229,25 +229,27 @@ NSString *const kSINSDictionaryKeyHudWillShowCheckmark                          
 NSString *const kSINSDictionaryKeyMoveScore                                     = @"moveScore";
 NSString *const kSINSDictionaryKeyPowerUp                                       = @"powerUp";
 NSString *const kSINSDictionaryKeyPackProduct                                   = @"packProduct";
+NSString *const kSINSDictionaryKeySIAchievementPlistAmount                      = @"amount";
 NSString *const kSINSDictionaryKeySIAchievementPlistChallengeLevelsDictionary   = @"challengeLevels";
 NSString *const kSINSDictionaryKeySIAchievementPlistCompletedBool               = @"completed";
 NSString *const kSINSDictionaryKeySIAchievementPlistCompletionRewardInt         = @"completionReward";
 NSString *const kSINSDictionaryKeySIAchievementPlistHelpString                  = @"help";
+NSString *const kSINSDictionaryKeySIAchievementPlistLevel1                      = @"level1";
+NSString *const kSINSDictionaryKeySIAchievementPlistLevel2                      = @"level2";
+NSString *const kSINSDictionaryKeySIAchievementPlistLevel3                      = @"level3";
 NSString *const kSINSDictionaryKeySIAchievementPlistMoveString                  = @"move";
 NSString *const kSINSDictionaryKeySIAchievementPlistMoveSequenceArray           = @"moveSequence";
 NSString *const kSINSDictionaryKeySIAchievementPlistPostfixString               = @"postfix";
 NSString *const kSINSDictionaryKeySIAchievementPlistPrefixString                = @"prefix";
+NSString *const kSINSDictionaryKeySIAchievementPlistReward                      = @"reward";
 NSString *const kSINSDictionaryKeySIAchievementPlistTitleString                 = @"title";
 NSString *const kSINSDictionaryKeySIAchievementPlistTypeString                  = @"type";
 
+
 #pragma mark - Plist
-NSString *const kSIPlistChallengeLevelsLevel1                                   = @"level1";
-NSString *const kSIPlistChallengeLevelsLevel2                                   = @"level2";
-NSString *const kSIPlistChallengeLevelsLevel3                                   = @"level3";
-NSString *const kSIPlistChallengeLevelsLevelKeyAmount                           = @"amount";
-NSString *const kSIPlistChallengeLevelsLevelKeyReward                           = @"reward";
 NSString *const kSIPlistMoveCommandPinch                                        = @"pinch";
 NSString *const kSIPlistMoveCommandShake                                        = @"shake";
+NSString *const kSIPlistMoveCommandStop                                         = @"stop";
 NSString *const kSIPlistMoveCommandSwype                                        = @"swype";
 NSString *const kSIPlistMoveCommandTap                                          = @"tap";
 NSString *const kSIPlistTypeAll                                                 = @"all";

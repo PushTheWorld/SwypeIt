@@ -8,6 +8,7 @@
 //  Purpose: This is the main game view controller... has HUD
 //
 // Local Controller Import
+#import "SIAchievementSingleton.h"
 #import "SIGameSingleton.h"
 #import "SILoadingScene.h"
 #import "SIPowerUpToolbarNode.h"
@@ -30,6 +31,7 @@
 #import "BMGlyphLabel.h"
 #import "DSMultilineLabelNode.h"
 #import "FXReachability.h"
+#import "JCNotificationCenter.h"
 #import "MBProgressHud.h"
 #import "MKStoreKit.h"
 #import "SoundManager.h"
@@ -39,7 +41,7 @@
 #import "SIGame.h"
 // Other Imports
 
-@interface SIGameController () <ADBannerViewDelegate, ADInterstitialAdDelegate, GKGameCenterControllerDelegate, SIGameSingletonDelegate, SIGameSceneDelegate>
+@interface SIGameController () <ADBannerViewDelegate, ADInterstitialAdDelegate, GKGameCenterControllerDelegate, SIGameSingletonDelegate, SIGameSceneDelegate, SIAchievementSingletonDelegate>
 
 @property (strong, nonatomic) UIButton          *closeButton;
 @end
@@ -299,7 +301,6 @@
     [super viewDidAppear:animated];
 }
 - (void)viewWillDisappear:(BOOL)animated {
-    [self unregisterForNotifications];
     
     _adBannerView.delegate  = nil;
     [_adBannerView removeFromSuperview];
@@ -854,7 +855,7 @@
             _interstitialAdPresentationIsLive = NO;
             [[SIGameSingleton singleton] singletonGameWillResumeAndContinue:YES];
         } else {
-            [self presentInterstital];
+            [self interstitialAdPresent];
         }
 
     }
@@ -1091,7 +1092,7 @@
     return currentDate;
 }
 #pragma mark - SIGameSceneDelegate Functions
-- (void)sceneDidRecieveRingNode:(HLRingNode *)ringNode Tap:(SISceneGameRingNode)gameSceneRingNode {
+- (void)sceneGameDidRecieveRingNode:(HLRingNode *)ringNode Tap:(SISceneGameRingNode)gameSceneRingNode {
     switch (gameSceneRingNode) {
         case SISceneGameRingNodeEndGame:
             [[SIGameSingleton singleton] singletonGameDidEnd];
@@ -1126,15 +1127,19 @@
             break;
     }
 }
+/**
+ Called when the scene recognizes a gesture
+ Pinch, Tap, Swype of Shake
+ */
 - (void)sceneGameDidRecieveMove:(SIMove *)move {
     [[SIGameSingleton singleton] singletonGameDidEnterMove:move];
 }
 
-- (void)scenePauseButtonTapped {
+- (void)sceneGamePauseButtonTapped {
     [[SIGameSingleton singleton] singletonGameWillPause];
     [_sceneGame sceneBlurDisplayRingNode:_sceneGameRingNodePause];
 }
-- (void)sceneWillDismissPopupContinueWithPayMethod:(SISceneGamePopupContinueMenuItem)continuePayMethod {
+- (void)sceneGameWillDismissPopupContinueWithPayMethod:(SISceneGamePopupContinueMenuItem)continuePayMethod {
     switch (continuePayMethod) {
         case SISceneGamePopupContinueMenuItemCoin:
             if ([SIIAPUtility canAffordContinue:[SIGameSingleton singleton].currentGame.currentContinueLifeCost]) {
@@ -1155,18 +1160,73 @@
 
 }
 #pragma mark - SIGameSingletonDelegate
-- (void)contorllerWillPlayFXSoundNamed:(NSString *)soundName {
+
+
+/**
+ Called when the model is ready for a new move to be
+ loaded by the controller to the view
+ */
+- (void)controllerSingletonGameLoadNewMove {
+    BMGlyphLabel *moveLabel = [self moveScoreLabel:[SIGameSingleton singleton].currentGame.moveScore];
+    moveLabel.position = [SIGameSingleton singleton].currentGame.currentMove.touchPoint;
+    
+    
+    [_sceneGame updateSceneWithBackgroundColor:[SIGameSingleton singleton].currentGame.currentBackgroundColor
+                                    totalScore:[SIGameSingleton singleton].currentGame.totalScore
+                                          move:[SIGameSingleton singleton].currentGame.currentMove
+                                moveScoreLabel:moveLabel
+                    freeCoinProgressBarPercent:[SIGameSingleton singleton].currentGame.moveScorePercentRemaining
+                             moveCommandString:[SIGame stringForMove:[SIGameSingleton singleton].currentGame.currentMove.moveCommand]];
+
+}
+
+/**
+ Called when the user should be prompted to continue
+ the game
+ */
+- (void)controllerSingletonGameShowContinue {
+    [self verifySceneGame];
+    
+    if ([SIIAPUtility canAffordContinue:[SIGameSingleton singleton].currentGame.currentContinueLifeCost]) {
+        [[[_sceneGamePopupContinueMenuNode menu] itemAtIndex:SISceneGamePopupContinueMenuItemCoin] setText:[NSString stringWithFormat:@"Use %ld Coins!",(long)[SIGameSingleton singleton].currentGame.currentContinueLifeCost]];
+    }
+    
+    [[[_sceneGamePopupContinueMenuNode menu] itemAtIndex:SISceneGamePopupContinueMenuItemAd] setText:[NSString stringWithFormat:@"Watch %d Ads!",(int)[SIGameSingleton singleton].currentGame.currentNumberOfTimesContinued]];
+    
+    [_sceneGamePopupContinueMenuNode redisplayMenuAnimation:HLMenuNodeAnimationNone];
+    
+    [_sceneGame sceneModallyPresentPopup:_sceneGamePopupContinue withMenuNode:_sceneGamePopupContinueMenuNode];
+
+}
+
+/**
+ Called when there is a high score
+ */
+- (void)controllerSingletonGameShowIsHighScore {
+    [_sceneGame sceneWillShowHighScore];
+}
+
+/**
+ Called when a free coin is earned
+ Handle the sound for this in the controller?
+ */
+- (void)controllerSingletonGameShowFreeCoinEarned {
+    [_sceneGame sceneWillShowFreeCoinEarned];
+}
+
+/**
+ Called by model to alert controller when sound is ready to be played...
+ */
+- (void)controllerSingletonGamePlayFXSoundNamed:(NSString *)soundName {
     if ([SIConstants isFXAllowed]) {
         [[SoundManager sharedManager] playSound:soundName];
     }
 }
+
 /**
- This is called when the model is ready to start the power
-    up being sent in... all controller needs to do is tell 
-    the scene (view) to load in what ever it needs to for this
-    powerup
+ Called when the model is ready for the powerup to start
  */
-- (void)sceneWillActivatePowerUp:(SIPowerUpType)powerUp {
+- (void)controllerSingletonGameActivatePowerUp:(SIPowerUpType)powerUp {
     switch (powerUp) {
         case SIPowerUpTypeFallingMonkeys:
             /*pause the singleton*/
@@ -1191,11 +1251,9 @@
 }
 
 /**
- This is called when the model is deactivating the power up
-    All the controller needs to do is tell the scene (view)
-    to break down this powerup
+ Called when the powerup is deactived
  */
-- (void)sceneWillDeactivatePowerUp:(SIPowerUpType)powerUp {
+- (void)controllerSingletonGameDeactivatePowerUp:(SIPowerUpType)powerUp {
     switch (powerUp) {
         case SIPowerUpTypeFallingMonkeys:
             /*pause the singleton*/
@@ -1219,54 +1277,79 @@
     }
 }
 
+#pragma mark - SIAchievementSingleton
 /**
- If you want to make the view to something when a free coin 
-    is earned this is where you would do it...
+ Called when challenge was complete
  */
-- (void)sceneWillShowFreeCoinEarned {
-    [_sceneGame sceneWillShowFreeCoinEarned];
+- (void)controllerSingletonAchievementDidCompleteAchievement:(SIAchievement *)achievement {
+    [JCNotificationCenter enqueueNotificationWithTitle:@"Achievement Completed" message:achievement.title tapHandler:^{
+        NSLog(@"Tacos!!!!!");
+    }];
 }
 
 /**
- This is called when the user has reached a new high score...
-    Pretty exicting stuff to say the least.......
+ Called when singleton is unable to pull from internet for sync
  */
-- (void)sceneWillShowIsHighScore {
-    [_sceneGame sceneWillShowHighScore];
+- (void)controllerSingletonAchievementFailedToReachGameCenterWithError:(NSError *)error {
+    [JCNotificationCenter enqueueNotificationWithTitle:@"Dang!" message:@"Can't connect to game center" tapHandler:^{
+        NSLog(@"Tacos!!!!! hehe");
+    }];
 }
-/**
- Prompt user for payment
- */
-- (void)sceneWillShowContinue {
-    [self verifySceneGame];
-    
-    if ([SIIAPUtility canAffordContinue:[SIGameSingleton singleton].currentGame.currentContinueLifeCost]) {
-        [[[_sceneGamePopupContinueMenuNode menu] itemAtIndex:SISceneGamePopupContinueMenuItemCoin] setText:[NSString stringWithFormat:@"Use %ld Coins!",(long)[SIGameSingleton singleton].currentGame.currentContinueLifeCost]];
-    }
-    
-    [[[_sceneGamePopupContinueMenuNode menu] itemAtIndex:SISceneGamePopupContinueMenuItemAd] setText:[NSString stringWithFormat:@"Watch %d Ads!",(int)[SIGameSingleton singleton].currentGame.currentNumberOfTimesContinued]];
-    
-    [_sceneGamePopupContinueMenuNode redisplayMenuAnimation:HLMenuNodeAnimationNone];
-    
-    [_sceneGame sceneModallyPresentPopup:_sceneGamePopupContinue withMenuNode:_sceneGamePopupContinueMenuNode];
-}
-/**
- This is called when we know that the model is ready with everything 
- needed for a new move... as in we can launch the score, we can change the 
- background color we can load a new move...
- */
-- (void)sceneWillLoadNewMove {
-    BMGlyphLabel *moveLabel = [self moveScoreLabel:[SIGameSingleton singleton].currentGame.moveScore];
-    moveLabel.position = [SIGameSingleton singleton].currentGame.currentMove.touchPoint;
 
-    
-    [_sceneGame updateSceneWithBackgroundColor:[SIGameSingleton singleton].currentGame.currentBackgroundColor
-                                    totalScore:[SIGameSingleton singleton].currentGame.totalScore
-                                          move:[SIGameSingleton singleton].currentGame.currentMove
-                                moveScoreLabel:moveLabel
-                    freeCoinProgressBarPercent:[SIGameSingleton singleton].currentGame.moveScorePercentRemaining
-                             moveCommandString:[SIGame stringForMove:[SIGameSingleton singleton].currentGame.currentMove.moveCommand]];
+#pragma mark - SIGameSceneDelegate
+/**
+ Called when the scene recognizes a gesture
+ Pinch, Tap, Swype of Shake
+ */
+- (void)controllerSceneGameDidRecieveMove:(SIMove *)move {
+    [[SIGameSingleton singleton] singletonGameDidEnterMove:move];
 }
+
+/**
+ Fires when the pause button is pressed
+ */
+- (void)controllerSceneGamePauseButtonTapped {
+    [[SIGameSingleton singleton] singletonGameWillPause];
+}
+
+/**
+ Fires after the continue meny node has been pressed...
+ If coins -> PayMethod - Coin
+ If ads   -> PayMethod - Ads
+ If no    -> PayMethod - User is not going to pay for this shit...
+ */
+- (void)controllerSceneGameWillDismissPopupContinueWithPayMethod:(SISceneGamePopupContinueMenuItem)continuePayMethod {
+    
+}
+
+/**
+ Called when the ring node is tapped and the result
+ needs to be sent to the controller
+ */
+- (void)controllerSceneGameDidRecieveRingNode:(HLRingNode *)ringNode tap:(SISceneGameRingNode)gameSceneRingNode {
+    
+}
+
+/**
+ Powerup tool bar was tapped
+ */
+- (void)controllerSceneGameToolbar:(HLToolbarNode *)toolbar powerUpWasTapped:(SIPowerUpType)powerUp {
+    
+}
+
+/**
+ This is called on every update... So it gets called a ton!
+ */
+- (SISceneGameProgressBarUpdate *)controllerSceneGameWillUpdateProgressBars {
+    SISceneGameProgressBarUpdate *progressBarUpdate = [[SISceneGameProgressBarUpdate alloc] init];
+    
+    progressBarUpdate.percentMove                   = [SIGameSingleton singleton].currentGame.moveScorePercentRemaining;
+    progressBarUpdate.percentPowerUp                = [SIGameSingleton singleton].currentGame.powerUpPercentRemaining;
+    progressBarUpdate.pointsMove                    = [SIGameSingleton singleton].currentGame.currentPointsRemainingThisRound;
+    
+    return progressBarUpdate;
+}
+
 
 
 #pragma mark - Transistion Methods
@@ -1279,6 +1362,7 @@
     
     [skView presentScene:scene transition:transistion];
 }
+
 + (void)transisitionToSKScene:(SKScene *)scene toSKView:(SKView *)view DoorsOpen:(BOOL)doorsOpen pausesIncomingScene:(BOOL)pausesIncomingScene pausesOutgoingScene:(BOOL)pausesOutgoingScene duration:(CGFloat)duration {
     SKTransition *transistion;
     
@@ -1293,10 +1377,12 @@
     
     [view presentScene:scene transition:transistion];
 }
+
 #pragma mark - Class Methods
 - (void)showFPS:(BOOL)showFPS {
     SKView * skView         = (SKView *)self.view;
     skView.showsFPS         = showFPS;
     skView.showsNodeCount   = showFPS;
 }
+
 @end

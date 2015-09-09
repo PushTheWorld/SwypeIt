@@ -115,8 +115,8 @@
     [self singletonGameWillPause];
     
     /*Alert the controller that the modal is ready to end the game*/
-    if ([_delegate respondsToSelector:@selector(sceneWillShowContinue)]) {
-        [_delegate sceneWillShowContinue];
+    if ([_delegate respondsToSelector:@selector(controllerSingletonGameShowContinue)]) {
+        [_delegate controllerSingletonGameShowContinue];
         // TODO: add this to the controller...
 //        if ( ) {
 //            [self singletonWillContinue];
@@ -240,8 +240,8 @@
     [self updatePointsTillFreeCoin];
     
     /*Alert that the model is ready for a new move*/
-    if ([_delegate respondsToSelector:@selector(sceneWillLoadNewMove)]) {
-        [_delegate sceneWillLoadNewMove];
+    if ([_delegate respondsToSelector:@selector(controllerSingletonGameLoadNewMove)]) {
+        [_delegate controllerSingletonGameLoadNewMove];
     }
 }
 
@@ -266,8 +266,8 @@
 
 - (void)updateDeviceHighScore {
     if ([SIGame isDevieHighScore:_currentGame.totalScore]) {
-        if ([_delegate respondsToSelector:@selector(sceneWillShowIsHighScore)]) {
-            [self.delegate sceneWillShowIsHighScore];
+        if ([_delegate respondsToSelector:@selector(controllerSingletonGameShowIsHighScore)]) {
+            [self.delegate controllerSingletonGameShowIsHighScore];
         }
     }
 }
@@ -279,13 +279,13 @@
             _currentGame.freeCoinsEarned = _currentGame.freeCoinsEarned + 1;
             
             /*Play sound for free coin*/
-            if ([_delegate respondsToSelector:@selector(contorllerWillPlayFXSoundNamed:)]) {
-                [_delegate contorllerWillPlayFXSoundNamed:kSISoundFXChaChing];
+            if ([_delegate respondsToSelector:@selector(controllerSingletonGamePlayFXSoundNamed:)]) {
+                [_delegate controllerSingletonGamePlayFXSoundNamed:kSISoundFXChaChing];
             }
             
             /*Alert the controller that a free coin has been earned*/
-            if ([_delegate respondsToSelector:@selector(sceneWillShowFreeCoinEarned)]) {
-                [self.delegate sceneWillShowFreeCoinEarned];
+            if ([_delegate respondsToSelector:@selector(controllerSingletonGameShowFreeCoinEarned)]) {
+                [self.delegate controllerSingletonGameShowFreeCoinEarned];
             }
         }
     }];
@@ -373,8 +373,8 @@
         /*We the know the power up can start...*/
         SIPowerUp *newPowerUp = [[SIPowerUp alloc] initWithPowerUp:powerUp atTime:_compositeTimeInMiliSeconds];
         [_currentGame.powerUpArray addObject:newPowerUp];
-        if ([_delegate respondsToSelector:@selector(sceneWillActivatePowerUp:)]) {
-            [_delegate sceneWillActivatePowerUp:newPowerUp.type];
+        if ([_delegate respondsToSelector:@selector(controllerSingletonGameActivatePowerUp:)]) {
+            [_delegate controllerSingletonGameActivatePowerUp:newPowerUp.type];
         }
         [self singletonGameDidActivatePowerUp:newPowerUp.type];
     }
@@ -403,8 +403,8 @@
     percent remaining value drops below the epsilon value
  */
 - (void)singletonGameWillDectivatePowerUp:(SIPowerUp *)powerUpClass {
-    if ([_delegate respondsToSelector:@selector(sceneWillDeactivatePowerUp:)]) {
-        [_delegate sceneWillDeactivatePowerUp:powerUpClass.type];
+    if ([_delegate respondsToSelector:@selector(controllerSingletonGameDeactivatePowerUp:)]) {
+        [_delegate controllerSingletonGameDeactivatePowerUp:powerUpClass.type];
     }
     [self singletonGameDidDectivatePowerUp:powerUpClass];
 }

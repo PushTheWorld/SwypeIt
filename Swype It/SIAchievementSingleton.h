@@ -20,12 +20,12 @@
 /**
  Called when challenge was complete
  */
-- (void)singletonAchievementDidCompleteAchievement:(SIAchievement *)achievement;
+- (void)controllerSingletonAchievementDidCompleteAchievement:(SIAchievement *)achievement;
 
 /**
  Called when singleton is unable to pull from internet for sync
  */
-- (void)singletonAchievementFailedToReachGameCenterWithError:(NSError *)error;
+- (void)controllerSingletonAchievementFailedToReachGameCenterWithError:(NSError *)error;
 
 @end
 
@@ -38,15 +38,14 @@
  */
 @property (nonatomic, weak) id <SIAchievementSingletonDelegate> delegate;
 
-/**
- Enters a move into the singlton
- */
-- (void)singletonAchievementWillProcessMove:(SIMove *)move;
-
 #pragma mark - Singleton Method
 + (instancetype)singleton;
 
 #pragma mark - Public Methods
+/**
+ Enters a move into the singlton
+ */
+- (void)singletonAchievementWillProcessMove:(SIMove *)move;
 
 #pragma mark - Public Class Methods
 

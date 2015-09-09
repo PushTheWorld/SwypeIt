@@ -25,6 +25,7 @@
 // Support/Data Class Imports
 // Other Imports
 
+
 @implementation SIAchievementSingleton {
     NSArray                     *_remoteGKAchievementArray;
     
@@ -33,8 +34,6 @@
     SIAchievementSkillLevel      _currentAchievementSkillLevel;
     
     NSArray                     *_currentAchievementKeys;
-    
-    
 }
 
 #pragma mark - Singleton
@@ -120,10 +119,176 @@
 
 #pragma mark - Public Methods
 - (void)singletonAchievementWillProcessMove:(SIMove *)move {
-    
+    for (NSString *achievementKey in _currentAchievementKeys) {
+        SIAchievement *achievement = [_localMutableAchievementDictionary objectForKey:achievementKey];
+        if (achievement.details.completed == NO) {
+            /*Mark achievement done if it's on the done level and not marked completed...*/
+            if (achievement.currentLevel == SIAchievementLevelDone) {
+                achievement.details.completed = YES;
+                if ([_delegate respondsToSelector:@selector(singletonAchievementDidCompleteAchievement:)]) {
+                    [_delegate singletonAchievementDidCompleteAchievement:achievement];
+                }
+            } else {
+                [self processAchievementTypeMoveForMove:move forAchievement:achievement];
+                [self processAchievementTypeMoveSequenceForMove:move forAchievement:achievement];
+                [self processAchievementTypeScoreForMove:move forAchievement:achievement];
+                [_localMutableAchievementDictionary setObject:achievement forKey:achievementKey];
+                [SIAchievementSingleton storeSIAchievement:achievement toMemoryWithKey:achievementKey];
+            }
+        }
+    }
 }
 
+
+/**
+ Called to process the move sequence achievement
+ */
+- (void)processAchievementTypeMoveSequenceForMove:(SIMove *)move forAchievement:(SIAchievement *)achievement {
+    // GTFO if not a moveSequence
+    if (achievement.details.type != SIAchievementTypeMoveSequence) {
+        return;
+    }
+    
+    // Get the move command for this achievement where ever it is
+    SIMoveCommand currentMoveCommand = [SIAchievementSingleton moveCommandForString:(NSString *)achievement.details.moveSequenceArray[achievement.currentIndexOfMoveSequenceCommand]];
+    if (currentMoveCommand == move.moveCommand) {
+        achievement.currentIndexOfMoveSequenceCommand = achievement.currentIndexOfMoveSequenceCommand + 1;
+        if ([SIAchievementSingleton moveCommandForString:(NSString *)achievement.details.moveSequenceArray[achievement.currentIndexOfMoveSequenceCommand]] == SIMoveCommandStop) {
+            achievement.currentAmount = achievement.currentAmount + 1;
+            /*Check if this increase pushed you over into a new level*/
+            [self checkIfNewLevelAndNotifyUserForAchievement:achievement];
+        }
+    }
+}
+
+- (void)processAchievementTypeMoveForMove:(SIMove *)move forAchievement:(SIAchievement *)achievement {
+    // GTFO if not a move type
+    if (achievement.details.type != SIAchievementTypeMove) {
+        return;
+    }
+    
+    if (achievement.currentMoveCommand == move.moveCommand) {
+        achievement.currentAmount = achievement.currentAmount + 1;
+        /*Check if this increase pushed you over into a new level*/
+        [self checkIfNewLevelAndNotifyUserForAchievement:achievement];
+    }
+}
+
+- (void)processAchievementTypeScoreForMove:(SIMove *)move forAchievement:(SIAchievement *)achievement {
+    // GTFO if not a move type
+    if (achievement.details.type != SIAchievementTypeScore) {
+        return;
+    }
+    
+    achievement.currentAmount = achievement.currentAmount + (int)floorf(move.totalScore);
+    /*Check if this increase pushed you over into a new level*/
+    [self checkIfNewLevelAndNotifyUserForAchievement:achievement];
+
+}
+
+- (void)checkIfNewLevelAndNotifyUserForAchievement:(SIAchievement *)achievement {
+    if ([SIAchievementSingleton isNewLevelAndUpdateForAchievement:achievement]) {
+        if (achievement.currentLevel == SIAchievementLevelDone) {
+            if ([_delegate respondsToSelector:@selector(singletonAchievementDidCompleteAchievement:)]) {
+                [_delegate singletonAchievementDidCompleteAchievement:achievement];
+            }
+            [self isSkillLevelCompletedAndNotifyUserForCurrentAchievements];
+        }
+    }
+}
+
+- (void)isSkillLevelCompletedAndNotifyUserForCurrentAchievements {
+    BOOL allCompleted = YES;
+    
+    for (NSString *achievementKey in _currentAchievementKeys) {
+        if (![SIAchievementSingleton isAchievementKeyAll:achievementKey]) {
+            SIAchievement *achievement = [_localMutableAchievementDictionary objectForKey:achievementKey];
+            if (achievement.details.completed == NO) {
+                allCompleted = NO;
+            }
+        }
+    }
+    if (allCompleted) {
+        SIAchievement *all = [_localMutableAchievementDictionary objectForKey:_currentAchievementKeys[SIAchievementArrayIndexForAchievementTypeAll]];
+        all.details.completed = YES;
+        if ([_delegate respondsToSelector:@selector(singletonAchievementDidCompleteAchievement:)]) {
+            [_delegate singletonAchievementDidCompleteAchievement:all];
+        }
+    }
+
+}
+
+
 #pragma mark - Private Class Methods
+
++ (BOOL)isNewLevelAndUpdateForAchievement:(SIAchievement *)achievement {
+
+    SIAchievementLevel newLevel = [SIAchievementSingleton getAchievementLevelForAchievement:achievement];
+    
+    if (newLevel > achievement.currentLevel) {
+        achievement.currentLevel = newLevel;
+        return YES;
+    }
+    
+    return NO;
+}
+
+/**
+ Get the current SIAchievementLevel for an achievement
+ */
++ (SIAchievementLevel)getAchievementLevelForAchievement:(SIAchievement *)achievement {
+    if (achievement.currentAmount < [SIAchievementSingleton amountForAchievementLevel:SIAchievementLevelOne forAchievement:achievement]) {
+        return SIAchievementLevelOne;
+    } else if (achievement.currentAmount < [SIAchievementSingleton amountForAchievementLevel:SIAchievementLevelTwo forAchievement:achievement]) {
+        return SIAchievementLevelTwo;
+    } else if (achievement.currentAmount < [SIAchievementSingleton amountForAchievementLevel:SIAchievementLevelThree forAchievement:achievement]) {
+        return SIAchievementLevelThree;
+    } else {
+        return SIAchievementLevelDone;
+    }
+}
+
+/**
+ Get the reward at a given level for an achievement
+ */
++ (int)rewardForAchievementLevel:(SIAchievementLevel)achievementLevel forAchievement:(SIAchievement *)achievement {
+    return [(NSNumber *)[[SIAchievementSingleton levelDictionaryForAchievement:achievement atLevel:achievementLevel] objectForKey:kSINSDictionaryKeySIAchievementPlistReward] intValue];
+}
+
+/**
+ Get the amount at a given level for an achievement
+ */
++ (int)amountForAchievementLevel:(SIAchievementLevel)achievementLevel forAchievement:(SIAchievement *)achievement {
+    return [(NSNumber *)[[SIAchievementSingleton levelDictionaryForAchievement:achievement atLevel:achievementLevel] objectForKey:kSINSDictionaryKeySIAchievementPlistAmount] intValue];
+}
+
+/**
+ Input an achievement and a desired level...
+    The soft fail on dictionaryKeyForSIAchievementLevel: will prevent catastrophic failure on the input
+        of SIAchievementLevelDone or SIAchievementLevelNew are entered
+ */
++ (NSDictionary *)levelDictionaryForAchievement:(SIAchievement *)achievement atLevel:(SIAchievementLevel)achievementLevel {
+    return [achievement.currentLevels objectForKey:[SIAchievementSingleton dictionaryKeyForSIAchievementLevel:achievementLevel]];
+}
+
+/**
+ Simply input achievement level and get the dictionary key for it!
+    Soft fail with always returning level3 key when SIAchievementLevelDone or
+    SIAchievementLevelNew are entered, this is planned and deliberate
+ */
++ (NSString *)dictionaryKeyForSIAchievementLevel:(SIAchievementLevel)achievementLevel {
+    switch (achievementLevel) {
+        case SIAchievementLevelOne:
+            return kSINSDictionaryKeySIAchievementPlistLevel1;
+        case SIAchievementLevelTwo:
+            return kSINSDictionaryKeySIAchievementPlistLevel2;
+        default:
+            return kSINSDictionaryKeySIAchievementPlistLevel3;
+    }
+}
+/**
+ Called to see if achievement
+ */
 
 /**
  Creates and returns a array with the achiement keys we are trying to complete at the current skill level
@@ -151,6 +316,18 @@
                      kSIAchievementIDChallengeMaster3,
                      kSIAchievementIDChallengeMasterAll];
     }
+}
+
+/**
+ Simply checks to see if the key is equal to any of the all keys 
+    found in SIConstants
+ */
++ (BOOL)isAchievementKeyAll:(NSString *)achievementKey {
+    if ([achievementKey isEqualToString:kSIAchievementIDChallengeBeginnerAll] || [achievementKey isEqualToString:kSIAchievementIDChallengeIntermediateAll] || [achievementKey isEqualToString:kSIAchievementIDChallengeMasterAll] || [achievementKey isEqualToString:kSIAchievementIDChallengeProAll]) {
+        return YES;
+    }
+    
+    return NO;
 }
 
 /**
@@ -201,7 +378,7 @@
  */
 + (SIAchievementLevel)achievementLevelForPercentComplete:(float)percent {
     if (percent < ACHIEVEMENT_PERCENT_PER_LEVEL) {
-        return SIAchievementLevelNone;
+        return SIAchievementLevelNew;
     } else if (percent < 2 * ACHIEVEMENT_PERCENT_PER_LEVEL) {
         return SIAchievementLevelOne;
     } else if (percent < 3 * ACHIEVEMENT_PERCENT_PER_LEVEL) {
@@ -214,6 +391,24 @@
 }
 
 /**
+ Get the percent complete for a given level
+ */
++ (float)percentCompleteForAchievement:(SIAchievementLevel)achievementLevel {
+    switch (achievementLevel) {
+        case SIAchievementLevelNew:
+            return 0.0f;
+        case SIAchievementLevelOne:
+            return 0.0f;
+        case SIAchievementLevelTwo:
+            return ACHIEVEMENT_PERCENT_PER_LEVEL;
+        case SIAchievementLevelThree:
+            return ACHIEVEMENT_PERCENT_PER_LEVEL * 2;
+        default:  //SIAchievementLevelDone
+            return 100.0f;
+    }
+}
+
+/**
  This will extract and configure the achievement given a dictionary that is the enrty itself in the plist file
  NOT the whole plist dictionary, just the corrent entry like `challengeBeginner2`
  
@@ -221,29 +416,32 @@
  */
 + (SIAchievement *)configureAchievementFromDictionary:(NSDictionary *)dictionary {
     
-    SIAchievement *achievement                  = [[SIAchievement alloc] init];
+    SIAchievement *achievement                          = [[SIAchievement alloc] init];
     
-    achievement.details.completed               = NO;
-    achievement.details.type                    = [SIAchievementSingleton achievementTypeForTypeString:[dictionary objectForKey:kSINSDictionaryKeySIAchievementPlistTypeString]];
+    achievement.currentLevel                            = SIAchievementLevelNew;
+    achievement.currentAmount                           = 0;
+    achievement.details.completed                       = NO;
+    achievement.details.type                            = [SIAchievementSingleton achievementTypeForTypeString:[dictionary objectForKey:kSINSDictionaryKeySIAchievementPlistTypeString]];
     
     
     if (achievement.details.type == SIAchievementTypeAll) {
-        achievement.title                       = [dictionary objectForKey:kSINSDictionaryKeySIAchievementPlistTitleString];
-        achievement.details.completionReward    = [(NSNumber *)[dictionary objectForKey:kSINSDictionaryKeySIAchievementPlistCompletionRewardInt] intValue];
+        achievement.title                               = [dictionary objectForKey:kSINSDictionaryKeySIAchievementPlistTitleString];
+        achievement.details.completionReward            = [(NSNumber *)[dictionary objectForKey:kSINSDictionaryKeySIAchievementPlistCompletionRewardInt] intValue];
         return achievement;
     }
     
-    achievement.details.helpString              = [dictionary objectForKey:kSINSDictionaryKeySIAchievementPlistHelpString];
-    achievement.details.postfixString           = [dictionary objectForKey:kSINSDictionaryKeySIAchievementPlistPostfixString];
-    achievement.details.prefixString            = [dictionary objectForKey:kSINSDictionaryKeySIAchievementPlistPrefixString];
-    achievement.challengeLevels                 = [(NSDictionary *)[dictionary objectForKey:kSINSDictionaryKeySIAchievementPlistChallengeLevelsDictionary] mutableCopy];
+    achievement.details.helpString                      = [dictionary objectForKey:kSINSDictionaryKeySIAchievementPlistHelpString];
+    achievement.details.postfixString                   = [dictionary objectForKey:kSINSDictionaryKeySIAchievementPlistPostfixString];
+    achievement.details.prefixString                    = [dictionary objectForKey:kSINSDictionaryKeySIAchievementPlistPrefixString];
+    achievement.currentLevels                           = [dictionary objectForKey:kSINSDictionaryKeySIAchievementPlistChallengeLevelsDictionary];
     
     if (achievement.details.type == SIAchievementTypeMove) {
-        achievement.currentMove                 = [SIAchievementSingleton moveCommandForString:kSINSDictionaryKeySIAchievementPlistMoveString];
+        achievement.currentMoveCommand                  = [SIAchievementSingleton moveCommandForString:kSINSDictionaryKeySIAchievementPlistMoveString];
     }
     
     if (achievement.details.type == SIAchievementTypeMoveSequence) {
-        achievement.details.moveSequenceArray   = [dictionary objectForKey:kSINSDictionaryKeySIAchievementPlistMoveSequenceArray];
+        achievement.details.moveSequenceArray           = [dictionary objectForKey:kSINSDictionaryKeySIAchievementPlistMoveSequenceArray];
+        achievement.currentIndexOfMoveSequenceCommand   = 0;
     }
     
     return achievement;
@@ -318,8 +516,10 @@
         return SIMoveCommandShake;
     } else if ([stringCommand isEqualToString:kSIPlistMoveCommandSwype]) {
         return SIMoveCommandSwype;
-    } if ([stringCommand isEqualToString:kSIPlistMoveCommandTap]) {
+    } else if ([stringCommand isEqualToString:kSIPlistMoveCommandTap]) {
         return SIMoveCommandTap;
+    } else if ([stringCommand isEqualToString:kSIPlistMoveCommandStop]) {
+        return SIMoveCommandStop;
     } else {
         return SIMoveCommandFallingMonkey;
     }

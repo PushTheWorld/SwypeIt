@@ -7,6 +7,7 @@ PODS:
   - Instabug (4.1.4)
   - iRate (1.11.4)
   - iVersion (1.11.4)
+  - JCNotificationBannerPresenter (1.1.2)
   - SoundManager (1.4.2)
 
 DEPENDENCIES:
@@ -16,6 +17,7 @@ DEPENDENCIES:
   - Instabug
   - iRate
   - iVersion
+  - JCNotificationBannerPresenter
   - SoundManager
 
 SPEC CHECKSUMS:
@@ -25,6 +27,7 @@ SPEC CHECKSUMS:
   Instabug: de19c1b0f89c4e5deda6dd7f1dc3515e54238b08
   iRate: 599ed07c854e0695f3c605d1b2a64c67d912acb7
   iVersion: 2b6ffe708672cb494ba3cab150a94800c2892e81
+  JCNotificationBannerPresenter: f40150961943048ed3b1d2628d29dbf66a959e21
   SoundManager: 99ae328a3ec9b259db774c9851a65feeceba8183
 
 COCOAPODS: 0.38.2

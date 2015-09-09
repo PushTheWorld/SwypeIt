@@ -13,3 +13,5 @@ pod 'iRate'
 pod 'iVersion'
 
 pod 'FXBlurView'
+
+pod 'JCNotificationBannerPresenter'

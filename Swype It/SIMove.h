@@ -29,4 +29,10 @@
  */
 @property (nonatomic, assign) CGPoint touchPoint;
 
+/**
+ The total score at this point
+ */
+@property (nonatomic, assign) float totalScore;
+
+
 @end

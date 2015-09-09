@@ -28,12 +28,12 @@
  Called when the scene recognizes a gesture
     Pinch, Tap, Swype of Shake
  */
-- (void)sceneGameDidRecieveMove:(SIMove *)move;
+- (void)controllerSceneGameDidRecieveMove:(SIMove *)move;
 
 /**
  Fires when the pause button is pressed
  */
-- (void)sceneGamePauseButtonTapped;
+- (void)controllerSceneGamePauseButtonTapped;
 
 /**
  Fires after the continue meny node has been pressed...
@@ -41,26 +41,23 @@
     If ads   -> PayMethod - Ads
     If no    -> PayMethod - User is not going to pay for this shit...
  */
-- (void)sceneGameWillDismissPopupContinueWithPayMethod:(SISceneGamePopupContinueMenuItem)continuePayMethod;
+- (void)controllerSceneGameWillDismissPopupContinueWithPayMethod:(SISceneGamePopupContinueMenuItem)continuePayMethod;
 
 /**
  Called when the ring node is tapped and the result
     needs to be sent to the controller
  */
-- (void)sceneGameDidRecieveRingNode:(HLRingNode *)ringNode tap:(SISceneGameRingNode)gameSceneRingNode;
+- (void)controllerSceneGameDidRecieveRingNode:(HLRingNode *)ringNode tap:(SISceneGameRingNode)gameSceneRingNode;
 
 /**
  Powerup tool bar was tapped
  */
-- (void)sceneGameToolbar:(HLToolbarNode *)toolbar powerUpWasTapped:(SIPowerUpType)powerUp;
+- (void)controllerSceneGameToolbar:(HLToolbarNode *)toolbar powerUpWasTapped:(SIPowerUpType)powerUp;
 
 /**
  This is called on every update... So it gets called a ton!
  */
-- (SISceneGameProgressBarUpdate *)sceneGameWillUpdateProgressBars;
-
-
-
+- (SISceneGameProgressBarUpdate *)controllerSceneGameWillUpdateProgressBars;
 
 @end
 

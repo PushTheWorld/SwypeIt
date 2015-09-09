@@ -38,7 +38,7 @@
     When the user has reached 10, 30 or 50 user gets
         at least a notification... maybe a reward
  */
-@property (strong, nonatomic) NSMutableDictionary *challengeLevels;
+@property (strong, nonatomic) NSDictionary *currentLevels;
 
 /**
  This is the current sequence being worked on
@@ -54,7 +54,16 @@
  This is the current move we are looking for
     Move and MoveSequence use this
  */
-@property (assign, nonatomic) SIMoveCommand currentMove;
+@property (assign, nonatomic) SIMoveCommand currentMoveCommand;
 
+/**
+ The index of the current move sequence
+ */
+@property (assign, nonatomic) NSUInteger currentIndexOfMoveSequenceCommand;
+
+/**
+ The amount of the current level
+ */
+@property (assign, nonatomic) int currentAmount;
 
 @end
