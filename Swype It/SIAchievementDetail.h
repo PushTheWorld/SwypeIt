@@ -16,7 +16,7 @@
 #import "SIGame.h"
 // Other Imports
 
-@interface SIAchievementDetail : NSObject
+@interface SIAchievementDetail : NSObject <NSCoding>
 
 /**
  Used for when the user clicks on the help icon

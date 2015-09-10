@@ -17,7 +17,7 @@
 // Other Imports
 
 
-@interface SIAchievement : NSObject
+@interface SIAchievement : NSObject <NSCoding>
 
 /**
  This combines the prefix the next quantity to reach and postfix.
@@ -38,7 +38,7 @@
     When the user has reached 10, 30 or 50 user gets
         at least a notification... maybe a reward
  */
-@property (strong, nonatomic) NSDictionary *currentLevels;
+@property (strong, nonatomic) NSDictionary *levelDictionary;
 
 /**
  This is the current sequence being worked on
@@ -65,9 +65,5 @@
  The amount of the current level
  */
 @property (assign, nonatomic) int currentAmount;
-
-/**
- The game center achievement
- */
 
 @end

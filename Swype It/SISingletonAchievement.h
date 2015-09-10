@@ -16,7 +16,7 @@
 #import "SIGame.h"
 // Other Imports
 
-@protocol SIAchievementSingletonDelegate <NSObject>
+@protocol SISingletonAchievementDelegate <NSObject>
 /**
  Called when challenge was complete
  */
@@ -29,14 +29,14 @@
 
 @end
 
-@interface SIAchievementSingleton : NSObject
+@interface SISingletonAchievement : NSObject
 
 /// @name Delegate Methods
 
 /**
  Delegate methods
  */
-@property (nonatomic, weak) id <SIAchievementSingletonDelegate> delegate;
+@property (nonatomic, weak) id <SISingletonAchievementDelegate> delegate;
 
 #pragma mark - Singleton Method
 + (instancetype)singleton;

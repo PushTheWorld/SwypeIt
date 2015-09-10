@@ -485,7 +485,7 @@ extern NSString *const kSINSDictionaryKeyMoveScore;
 extern NSString *const kSINSDictionaryKeyPowerUp;
 extern NSString *const kSINSDictionaryKeyPackProduct;
 extern NSString *const kSINSDictionaryKeySIAchievementPlistAmount;
-extern NSString *const kSINSDictionaryKeySIAchievementPlistChallengeLevelsDictionary;
+extern NSString *const kSINSDictionaryKeySIAchievementPlistLevelsDictionary;
 extern NSString *const kSINSDictionaryKeySIAchievementPlistCompletedBool;
 extern NSString *const kSINSDictionaryKeySIAchievementPlistCompletionRewardInt;
 extern NSString *const kSINSDictionaryKeySIAchievementPlistHelpString;
@@ -620,6 +620,28 @@ extern NSString *const kSIEmitterSpark;
 #pragma mark - Game Center Leaderboard IDs
 extern NSString *const kSIGameCenterLeaderBoardIDHandOne;
 extern NSString *const kSIGameCenterLeaderBoardIDHandTwo;
+
+#pragma mark - Encode/Decode 
+extern NSString *const kEDDirectoryAchievements;
+extern NSString *const kEDTypeArchive;
+
+#pragma mark - Encode/Decode Keys
+extern NSString *const kEDKeyAchievementCurrentAmount;
+extern NSString *const kEDKeyAchievementCurrentIndexOfMoveSequenceCommand;
+extern NSString *const kEDKeyAchievementCurrentLevel;
+extern NSString *const kEDKeyAchievementCurrentLevels;
+extern NSString *const kEDKeyAchievementCurrentMoveCommand;
+extern NSString *const kEDKeyAchievementCurrentSequence;
+extern NSString *const kEDKeyAchievementDetails;
+extern NSString *const kEDKeyAchievementDetailsHelpString;
+extern NSString *const kEDKeyAchievementDetailsPrefixString;
+extern NSString *const kEDKeyAchievementDetailsPostfixString;
+extern NSString *const kEDKeyAchievementDetailsType;
+extern NSString *const kEDKeyAchievementDetailsCompleted;
+extern NSString *const kEDKeyAchievementDetailsCompletionReward;
+extern NSString *const kEDKeyAchievementDetailsMoveSequenceArray;
+extern NSString *const kEDKeyAchievementDetailsDictionaryKey;
+extern NSString *const kEDKeyAchievementTitle;
 
 #pragma mark - Useful things
 @interface SIConstants : NSObject

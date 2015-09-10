@@ -17,7 +17,7 @@
 #import "SIMove.h"
 // Other Imports
 
-@protocol SIGameSingletonDelegate <NSObject>
+@protocol SISingletonGameDelegate <NSObject>
 /**
  Called when the model is ready for a new move to be 
     loaded by the controller to the view
@@ -60,7 +60,7 @@
 
 
 @class SIGame;
-@interface SIGameSingleton : NSObject {
+@interface SISingletonGame : NSObject {
     
 }
 /// @name Delegate Methods
@@ -68,7 +68,7 @@
 /**
  Delegate methods
  */
-@property (nonatomic, weak) id <SIGameSingletonDelegate> delegate;
+@property (nonatomic, weak) id <SISingletonGameDelegate> delegate;
 
 #pragma mark - Singleton Method
 + (instancetype)singleton;

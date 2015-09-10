@@ -6,7 +6,7 @@
 //  Purpose: This is a singlton... the `MODEL` in MVC paradigm
 //
 // Local Controller Import
-#import "SIGameSingleton.h"
+#import "SISingletonGame.h"
 // Framework Import
 // Drop-In Class Imports (CocoaPods/GitHub/Guru)
 #import "FXReachability.h"
@@ -19,7 +19,7 @@
 
 
 
-@implementation SIGameSingleton {
+@implementation SISingletonGame {
     BOOL                         _isPaused;
     
     BOOL                         _willIgnoreShake;
@@ -42,10 +42,10 @@
 
 #pragma mark - Singleton Method
 + (instancetype)singleton {
-    static SIGameSingleton *singleton = nil;
+    static SISingletonGame *singleton = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        singleton = [[SIGameSingleton alloc] init];
+        singleton = [[SISingletonGame alloc] init];
     });
     return singleton;
 }

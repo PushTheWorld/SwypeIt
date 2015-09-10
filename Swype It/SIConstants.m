@@ -11,12 +11,12 @@ SKTexture *monkeyFaceTexture() {
 
 SKLabelNode *moveCommandLabelNode() {
     SKLabelNode *label;
-    label                                           = [SKLabelNode labelNodeWithFontNamed:kSIFontFuturaMedium];
-    label.fontColor                                 = [SKColor whiteColor];
-    label.userInteractionEnabled                    = YES;
-    label.name                                      = kSINodeGameMoveCommand;
-    label.horizontalAlignmentMode                   = SKLabelHorizontalAlignmentModeCenter;
-    label.verticalAlignmentMode                     = SKLabelVerticalAlignmentModeCenter;
+    label                                                                       = [SKLabelNode labelNodeWithFontNamed:kSIFontFuturaMedium];
+    label.fontColor                                                             = [SKColor whiteColor];
+    label.userInteractionEnabled                                                = YES;
+    label.name                                                                  = kSINodeGameMoveCommand;
+    label.horizontalAlignmentMode                                               = SKLabelHorizontalAlignmentModeCenter;
+    label.verticalAlignmentMode                                                 = SKLabelVerticalAlignmentModeCenter;
     return label;
 }
 
@@ -24,24 +24,24 @@ HLRingNode *sceneGamePauseRingNode() {
     HLRingNode *ringNode;
     
     /*First Button - Play*/
-    HLItemNode *playButtonNode                                      = [[HLItemNode alloc] init];
+    HLItemNode *playButtonNode                                                  = [[HLItemNode alloc] init];
     [playButtonNode setContent:[SKSpriteNode spriteNodeWithTexture:[[SIConstants buttonAtlas] textureNamed:kSIImageButtonPlay] size:[SIConstants powerUpToolbarButtonSize]]];
     
     /*Second Button - SoundFX*/
-    HLItemContentFrontHighlightNode *soundFXNode                    = [[HLItemContentFrontHighlightNode alloc] initWithContentNode:[SKSpriteNode spriteNodeWithTexture:[[SIConstants buttonAtlas] textureNamed:kSIImageButtonSoundOnFX] size:[SIConstants powerUpToolbarButtonSize]]
+    HLItemContentFrontHighlightNode *soundFXNode                                = [[HLItemContentFrontHighlightNode alloc] initWithContentNode:[SKSpriteNode spriteNodeWithTexture:[[SIConstants buttonAtlas] textureNamed:kSIImageButtonSoundOnFX] size:[SIConstants powerUpToolbarButtonSize]]
                                                                                                     frontHighlightNode:[SKSpriteNode spriteNodeWithTexture:[[SIConstants buttonAtlas] textureNamed:kSIImageButtonCross] size:[SIConstants powerUpToolbarButtonSize]]];
     
     /*Third Button - Sound Background*/
-    HLItemContentFrontHighlightNode *soundBkgrndNode                = [[HLItemContentFrontHighlightNode alloc] initWithContentNode:[SKSpriteNode spriteNodeWithTexture:[[SIConstants buttonAtlas] textureNamed:kSIImageButtonSoundOnBackground] size:[SIConstants powerUpToolbarButtonSize]]
+    HLItemContentFrontHighlightNode *soundBkgrndNode                            = [[HLItemContentFrontHighlightNode alloc] initWithContentNode:[SKSpriteNode spriteNodeWithTexture:[[SIConstants buttonAtlas] textureNamed:kSIImageButtonSoundOnBackground] size:[SIConstants powerUpToolbarButtonSize]]
                                                                                                     frontHighlightNode:[SKSpriteNode spriteNodeWithTexture:[[SIConstants buttonAtlas] textureNamed:kSIImageButtonCross] size:[SIConstants powerUpToolbarButtonSize]]];
     
     /*First Button - Play*/
-    HLItemNode *endGameButton                                       = [[HLItemNode alloc] init];
+    HLItemNode *endGameButton                                                   = [[HLItemNode alloc] init];
     [endGameButton setContent:[SKSpriteNode spriteNodeWithTexture:[[SIConstants imagesAtlas] textureNamed:kSIImageButtonEndGame] size:[SIConstants powerUpToolbarButtonSize]]];
     
 
-    NSArray *arrayOfRingItems                                       = @[playButtonNode, soundFXNode, soundBkgrndNode,endGameButton];
-    ringNode                                                        = [[HLRingNode alloc] initWithItemCount:(int)[arrayOfRingItems count]];
+    NSArray *arrayOfRingItems                                                   = @[playButtonNode, soundFXNode, soundBkgrndNode,endGameButton];
+    ringNode                                                                    = [[HLRingNode alloc] initWithItemCount:(int)[arrayOfRingItems count]];
     [ringNode setContent:arrayOfRingItems];
     [ringNode setLayoutWithRadius:[SIConstants powerUpToolbarButtonSize].width initialTheta:M_PI];
 
@@ -231,7 +231,7 @@ NSString *const kSINSDictionaryKeyMoveScore                                     
 NSString *const kSINSDictionaryKeyPowerUp                                       = @"powerUp";
 NSString *const kSINSDictionaryKeyPackProduct                                   = @"packProduct";
 NSString *const kSINSDictionaryKeySIAchievementPlistAmount                      = @"amount";
-NSString *const kSINSDictionaryKeySIAchievementPlistChallengeLevelsDictionary   = @"challengeLevels";
+NSString *const kSINSDictionaryKeySIAchievementPlistLevelsDictionary            = @"levelsDictionary";
 NSString *const kSINSDictionaryKeySIAchievementPlistCompletedBool               = @"completed";
 NSString *const kSINSDictionaryKeySIAchievementPlistCompletionRewardInt         = @"completionReward";
 NSString *const kSINSDictionaryKeySIAchievementPlistHelpString                  = @"help";
@@ -365,6 +365,29 @@ NSString *const kSIEmitterSpark                                                 
 #pragma mark - Game Center Leaderboard IDs
 NSString *const kSIGameCenterLeaderBoardIDHandOne                               = @"oneHandGHS";
 NSString *const kSIGameCenterLeaderBoardIDHandTwo                               = @"GHS";
+
+#pragma mark - Encode/Decode
+NSString *const kEDDirectoryAchievements                                        = @"achievements";
+NSString *const kEDTypeArchive                                                  = @"archive";
+
+#pragma mark - Encode/Decode Keys
+NSString *const kEDKeyAchievementCurrentAmount                                  = @"currentAmount";
+NSString *const kEDKeyAchievementCurrentIndexOfMoveSequenceCommand              = @"currentIndexOfMove";
+NSString *const kEDKeyAchievementCurrentLevel                                   = @"currentLevel";
+NSString *const kEDKeyAchievementCurrentLevels                                  = @"levelDictionary";
+NSString *const kEDKeyAchievementCurrentMoveCommand                             = @"currentMoveCommand";
+NSString *const kEDKeyAchievementCurrentSequence                                = @"currentSequence";
+NSString *const kEDKeyAchievementDetails                                        = @"details";
+NSString *const kEDKeyAchievementDetailsHelpString                              = @"helpString";
+NSString *const kEDKeyAchievementDetailsPrefixString                            = @"prefixString";
+NSString *const kEDKeyAchievementDetailsPostfixString                           = @"postfixString";
+NSString *const kEDKeyAchievementDetailsType                                    = @"type";
+NSString *const kEDKeyAchievementDetailsCompleted                               = @"compeleted";
+NSString *const kEDKeyAchievementDetailsCompletionReward                        = @"completionReward";
+NSString *const kEDKeyAchievementDetailsMoveSequenceArray                       = @"moveSequenceArray";
+NSString *const kEDKeyAchievementDetailsDictionaryKey                           = @"dictionaryKey";
+NSString *const kEDKeyAchievementTitle                                          = @"title";
+
 
 
 #pragma mark - Useful things
