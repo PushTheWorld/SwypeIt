@@ -79,7 +79,9 @@
 #define IAP_PACK_PRICE_LARGE                09.99
 #define IAP_PACK_PRICE_EXTRA_LARGE          24.99
 
-#define SCENE_TRANSISTION_DURATION          1.0
+#define SCENE_TRANSISTION_DURATION_FAST     0.25
+#define SCENE_TRANSISTION_DURATION_NORMAL   1.0
+
 #define MOVE_COMMAND_LAUNCH_DURATION        0.25
 
 #define SECONDS_IN_DAY                      60 * 60 * 24
@@ -93,9 +95,7 @@
 #define MONKEY_SPEED_INCREASE               0.08
 
 #define FREE_COINS_PER_DAY                  5
-
 #define EPSILON_NUMBER                      0.01
-
 #define ACHIEVEMENT_PERCENT_PER_LEVEL       33
 
 /**
@@ -112,13 +112,12 @@ FOUNDATION_EXPORT SKLabelNode               *moveCommandLabelNode();
 FOUNDATION_EXPORT HLRingNode                *sceneGamePauseRingNode();
 
 
-typedef NS_ENUM(NSInteger, SISIGameControllerScene) {
-    SIMainControllerSceneNone,
-    SIMainControllerSceneEndGame,
-    SIMainControllerSceneGame,
-    SIMainControllerSceneSettings,
-    SIMainControllerSceneStart,
-    SIMainControllerSceneStore,
+typedef NS_ENUM(NSInteger, SIGameControllerScene) {
+    SIGameControllerSceneLoading,
+    SIGameControllerSceneMenu,
+    SIGameControllerSceneGame,
+    SIGameControllerSceneFallingMonkey,
+    SIGameControllerSceneCount
 };
 
 typedef NS_ENUM(NSInteger, SIGameMode) {
@@ -140,23 +139,23 @@ typedef NS_ENUM(NSInteger, SIPowerUpType) {
     SIPowerUpTypeRapidFire
 };
 typedef NS_ENUM(NSInteger, SIPowerUpCost) {
-    SIPowerUpCostNone               = 0,
-    SIPowerUpCostTimeFreeze         = 1,
-    SIPowerUpCostRapidFire          = 3,
-    SIPowerUpCostFallingMonkeys     = 5
+    SIPowerUpCostNone                       = 0,
+    SIPowerUpCostTimeFreeze                 = 1,
+    SIPowerUpCostRapidFire                  = 3,
+    SIPowerUpCostFallingMonkeys             = 5
 };
 
 typedef NS_ENUM(NSInteger, SIPowerUpDuration) {
-    SIPowerUpDurationNone           = 0,
-    SIPowerUpDurationRapidFire      = 3,
-    SIPowerUpDurationTimeFreeze     = 8
+    SIPowerUpDurationNone                   = 0,
+    SIPowerUpDurationRapidFire              = 3,
+    SIPowerUpDurationTimeFreeze             = 8
 };
 
 typedef NS_ENUM(NSInteger, SIIAPNumberOfCoins) {
-    SIIAPNumberOfCoinsSmall         = 30,
-    SIIAPNumberOfCoinsMedium        = 200,
-    SIIAPNumberOfCoinsLarge         = 500,
-    SIIAPNumberOfCoinsExtraLarge    = 1500
+    SIIAPNumberOfCoinsSmall                 = 30,
+    SIIAPNumberOfCoinsMedium                = 200,
+    SIIAPNumberOfCoinsLarge                 = 500,
+    SIIAPNumberOfCoinsExtraLarge            = 1500
 };
 typedef NS_ENUM(NSInteger, SIIAPPack) {
     SIIAPPackSmall,
@@ -176,52 +175,52 @@ typedef NS_ENUM(NSInteger, SIMoveCommandAction) {
     SIMoveCommandActionSwypeNone
 };
 typedef NS_ENUM(NSInteger, SIContinueLifeCost) {
-    SIContinueLifeCost0     = 0,
-    SIContinueLifeCost1     = 5,
-    SIContinueLifeCost2     = 10,
-    SIContinueLifeCost3     = 20,
-    SIContinueLifeCost4     = 40,
-    SIContinueLifeCost5     = 60,
-    SIContinueLifeCost6     = 100,
-    SIContinueLifeCost7     = 200,
-    SIContinueLifeCost8     = 400,
-    SIContinueLifeCost9     = 600,
-    SIContinueLifeCost10    = 800,
-    SIContinueLifeCost11    = 1000,
-    SIContinueLifeCost12    = 1250,
-    SIContinueLifeCost13    = 1500,
-    SIContinueLifeCost14    = 2000,
-    SIContinueLifeCost15    = 2500,
-    SIContinueLifeCost16    = 3000,
-    SIContinueLifeCost17    = 4000,
-    SIContinueLifeCost18    = 5000,
-    SIContinueLifeCost19    = 100000,
-    SIContinueLifeCost20    = 1000000,
-    SIContinueLifeCost21    = 10000000
+    SIContinueLifeCost0                     = 0,
+    SIContinueLifeCost1                     = 5,
+    SIContinueLifeCost2                     = 10,
+    SIContinueLifeCost3                     = 20,
+    SIContinueLifeCost4                     = 40,
+    SIContinueLifeCost5                     = 60,
+    SIContinueLifeCost6                     = 100,
+    SIContinueLifeCost7                     = 200,
+    SIContinueLifeCost8                     = 400,
+    SIContinueLifeCost9                     = 600,
+    SIContinueLifeCost10                    = 800,
+    SIContinueLifeCost11                    = 1000,
+    SIContinueLifeCost12                    = 1250,
+    SIContinueLifeCost13                    = 1500,
+    SIContinueLifeCost14                    = 2000,
+    SIContinueLifeCost15                    = 2500,
+    SIContinueLifeCost16                    = 3000,
+    SIContinueLifeCost17                    = 4000,
+    SIContinueLifeCost18                    = 5000,
+    SIContinueLifeCost19                    = 100000,
+    SIContinueLifeCost20                    = 1000000,
+    SIContinueLifeCost21                    = 10000000
 };
 typedef NS_ENUM(NSInteger, SIContinueAdCount) {
-    SIContinueAdCount0     = 0,
-    SIContinueAdCount1     = 1,
-    SIContinueAdCount2     = 2,
-    SIContinueAdCount3     = 4,
-    SIContinueAdCount4     = 6,
-    SIContinueAdCount5     = 8,
-    SIContinueAdCount6     = 10,
-    SIContinueAdCount7     = 14,
-    SIContinueAdCount8     = 18,
-    SIContinueAdCount9     = 26,
-    SIContinueAdCount10    = 42,
-    SIContinueAdCount11    = 84,
-    SIContinueAdCount12    = 128,
-    SIContinueAdCount13    = 256,
-    SIContinueAdCount14    = 512,
-    SIContinueAdCount15    = 1024,
-    SIContinueAdCount16    = 2048,
-    SIContinueAdCount17    = 4096,
-    SIContinueAdCount18    = 10000,
-    SIContinueAdCount19    = 100000,
-    SIContinueAdCount20    = 1000000,
-    SIContinueAdCount21    = 10000000
+    SIContinueAdCount0                      = 0,
+    SIContinueAdCount1                      = 1,
+    SIContinueAdCount2                      = 2,
+    SIContinueAdCount3                      = 4,
+    SIContinueAdCount4                      = 6,
+    SIContinueAdCount5                      = 8,
+    SIContinueAdCount6                      = 10,
+    SIContinueAdCount7                      = 14,
+    SIContinueAdCount8                      = 18,
+    SIContinueAdCount9                      = 26,
+    SIContinueAdCount10                     = 42,
+    SIContinueAdCount11                     = 84,
+    SIContinueAdCount12                     = 128,
+    SIContinueAdCount13                     = 256,
+    SIContinueAdCount14                     = 512,
+    SIContinueAdCount15                     = 1024,
+    SIContinueAdCount16                     = 2048,
+    SIContinueAdCount17                     = 4096,
+    SIContinueAdCount18                     = 10000,
+    SIContinueAdCount19                     = 100000,
+    SIContinueAdCount20                     = 1000000,
+    SIContinueAdCount21                     = 10000000
 };
 typedef NS_ENUM(NSInteger, SIProgressBar) {
     SIProgressBarMove,
@@ -240,53 +239,53 @@ typedef NS_ENUM(NSInteger, SIBackgroundSound) {
 };
 
 typedef NS_ENUM(NSInteger, SISceneGameRingNode) {
-    SISceneGameRingNodePlay = 0,
+    SISceneGameRingNodePlay                 = 0,
     SISceneGameRingNodeSoundFX,
     SISceneGameRingNodeSoundBackground,
     SISceneGameRingNodeEndGame
 };
 
 typedef NS_ENUM(NSInteger, SIGameFreePrize) {
-    SIGameFreePrizeNo = 0,
+    SIGameFreePrizeNo                       = 0,
     SIGameFreePrizeYesConsecutive,
     SIGameFreePrizeYes
 };
 
 typedef NS_ENUM(NSInteger, SISceneGamePopupContinueMenuItem) {
-    SISceneGamePopupContinueMenuItemCoin = 0,
+    SISceneGamePopupContinueMenuItemCoin    = 0,
     SISceneGamePopupContinueMenuItemAd,
     SISceneGamePopupContinueMenuItemNo
 };
 
 typedef NS_ENUM(NSInteger, SISceneStartToolBarNode) {
-    SISceneStartToolBarNodeNoAds = 0,
+    SISceneStartToolBarNodeNoAds            = 0,
     SISceneStartToolBarNodeLeaderboard,
     SISceneStartToolBarNodeSettings,
     SISceneStartToolBarNodeHelp
 };
 
 typedef NS_ENUM(NSInteger, SISceneMenuType) {
-    SISceneMenuTypeStart = 0,
+    SISceneMenuTypeStart                    = 0,
     SISceneMenuTypeEnd,
     SISceneMenuTypeChallenges
 };
 
 typedef NS_ENUM(NSInteger, SIAchievementSkillLevel) {
-    SIAchievementSkillLevelBeginner = 0,
+    SIAchievementSkillLevelBeginner         = 0,
     SIAchievementSkillLevelIntermediate,
     SIAchievementSkillLevelPro,
     SIAchievementSkillLevelMaster
 };
 
 typedef NS_ENUM(NSInteger, SIAchievementType) {
-    SIAchievementTypeMove = 0,
+    SIAchievementTypeMove                   = 0,
     SIAchievementTypeMoveSequence,
     SIAchievementTypeScore,
     SIAchievementTypeAll
 };
 
 typedef NS_ENUM(NSInteger, SIAchievementLevel) {
-    SIAchievementLevelNew = 0,
+    SIAchievementLevelNew                   = 0,
     SIAchievementLevelOne,
     SIAchievementLevelTwo,
     SIAchievementLevelThree,
@@ -294,7 +293,7 @@ typedef NS_ENUM(NSInteger, SIAchievementLevel) {
 };
 
 typedef NS_ENUM(NSInteger, SIAchievementMoveSequence) {
-    SIAchievementMoveSequenceOne = 0,
+    SIAchievementMoveSequenceOne            = 0,
     SIAchievementMoveSequenceTwo,
     SIAchievementMoveSequenceThree,
     SIAchievementMoveSequenceFour,
@@ -453,18 +452,19 @@ extern NSString *const kSIImageTapToPlayText;
 extern NSString *const kSIAtlasBackground;
 extern NSString *const kSIAtlasButtons;
 extern NSString *const kSIAtlasImages;
-extern NSString *const kSIAtlasMenu;
+extern NSString *const kSIAtlasSceneMenu;
 extern NSString *const kSIAtlasShapes;
 
 #pragma mark - Images in Atlas
-extern NSString *const kSIAtlasMenuAdFree;
-extern NSString *const kSIAtlasMenuHelp;
-extern NSString *const kSIAtlasMenuLeaderboard;
-extern NSString *const kSIAtlasMenuPlayClassic;
-extern NSString *const kSIAtlasMenuPlayOneHand;
-extern NSString *const kSIAtlasMenuSettings;
-extern NSString *const kSIAtlasMenuSoundBackground;
-extern NSString *const kSIAtlasMenuSoundFX;
+extern NSString *const kSIAtlasSceneMenuAchievements;
+extern NSString *const kSIAtlasSceneMenuAdFree;
+extern NSString *const kSIAtlasSceneMenuHelp;
+extern NSString *const kSIAtlasSceneMenuLeaderboard;
+extern NSString *const kSIAtlasSceneMenuPlayClassic;
+extern NSString *const kSIAtlasSceneMenuPlayOneHand;
+extern NSString *const kSIAtlasSceneMenuSettings;
+extern NSString *const kSIAtlasSceneMenuSoundBackground;
+extern NSString *const kSIAtlasSceneMenuSoundFX;
 
 #pragma mark - Button Labels
 extern NSString *const kSIButtonLabelStringOneHand;
@@ -544,6 +544,7 @@ extern NSString *const kSINodeNodeChest;
 extern NSString *const kSINodeNodeBag;
 extern NSString *const kSINodeNodeBucket;
 extern NSString *const kSINodeNodePile;
+extern NSString *const kSINodeButtonAchievement;
 extern NSString *const kSINodeButtonContinue;
 extern NSString *const kSINodeButtonDone;
 extern NSString *const kSINodeButtonFallingMonkey;
@@ -634,11 +635,11 @@ extern NSString *const kSIGameCenterLeaderBoardIDHandTwo;
 + (NSArray *)userMessageHighScoreBad;
 + (NSString *)pathForSparkEmitter;
 + (NSString *)pathForTouchExplosionEmitter;
++ (SKTextureAtlas *)atlasSceneMenu;
 + (SKTextureAtlas *)backgroundAtlas;
 + (SKTextureAtlas *)buttonAtlas;
 + (SKTextureAtlas *)imagesAtlas;
 + (SKTextureAtlas *)shapesAtlas;
-+ (SKTextureAtlas *)atlasStart;
 @end
 
 

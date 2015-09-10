@@ -144,5 +144,16 @@
  */
 - (void)singletonGameDidEnd;
 
+/**
+ This will be called by the controller when asking to start a power up
+ */
+- (void)singletonGameWillActivatePowerUp:(SIPowerUpType)powerUp;
+
+/**
+ Called internally by the timer functions when a powerup's
+ percent remaining value drops below the epsilon value
+ */
+- (void)singletonGameWillDectivatePowerUp:(SIPowerUp *)powerUpClass;
+
 @end
 

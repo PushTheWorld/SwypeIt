@@ -59,6 +59,8 @@
 		092B47101B52273A00AFE43C /* libOCMock.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 092B470F1B52273A00AFE43C /* libOCMock.a */; };
 		092DBE6D1B6F022E00328A6B /* shapes.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 092DBE6C1B6F022E00328A6B /* shapes.atlas */; };
 		09343DAA1B44BB1C00D1C707 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 09343DA91B44BB1C00D1C707 /* QuartzCore.framework */; };
+		094D109F1BA0BC5C00392587 /* SIGameController.m in Sources */ = {isa = PBXBuildFile; fileRef = 099A62221B5C635F009BF339 /* SIGameController.m */; };
+		094D10A11BA0BCBC00392587 /* SIGameControllerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 094D10A01BA0BCBC00392587 /* SIGameControllerTests.m */; };
 		094F229C1B95911D00968FB5 /* ultraStroked.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 094F22981B95911D00968FB5 /* ultraStroked.atlas */; };
 		094F229D1B95911D00968FB5 /* ultraStroked.xml in Resources */ = {isa = PBXBuildFile; fileRef = 094F22991B95911D00968FB5 /* ultraStroked.xml */; };
 		094F229E1B95911D00968FB5 /* ultraStroked@2x.xml in Resources */ = {isa = PBXBuildFile; fileRef = 094F229A1B95911D00968FB5 /* ultraStroked@2x.xml */; };
@@ -248,6 +250,7 @@
 		092DBE6C1B6F022E00328A6B /* shapes.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = shapes.atlas; sourceTree = "<group>"; };
 		09343DA91B44BB1C00D1C707 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		0938FD501B92124E00ACD99C /* libSSBitmapFont.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSSBitmapFont.a; path = ../Downloads/libSSBitmapFont/libSSBitmapFont.a; sourceTree = "<group>"; };
+		094D10A01BA0BCBC00392587 /* SIGameControllerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SIGameControllerTests.m; sourceTree = "<group>"; };
 		094F22981B95911D00968FB5 /* ultraStroked.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = ultraStroked.atlas; sourceTree = "<group>"; };
 		094F22991B95911D00968FB5 /* ultraStroked.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = ultraStroked.xml; sourceTree = "<group>"; };
 		094F229A1B95911D00968FB5 /* ultraStroked@2x.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "ultraStroked@2x.xml"; sourceTree = "<group>"; };
@@ -525,6 +528,7 @@
 		091FED5F1B37283E0071F8DC /* Swype ItTests */ = {
 			isa = PBXGroup;
 			children = (
+				094D10A01BA0BCBC00392587 /* SIGameControllerTests.m */,
 				09A488BC1B9D877D0075F41C /* SIMenuContentTests.m */,
 				09A488AA1B9B61660075F41C /* SIPowerUpTests.m */,
 				09A488A81B9B4B5C0075F41C /* GameSceneTests.m */,
@@ -1108,6 +1112,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				094D10A11BA0BCBC00392587 /* SIGameControllerTests.m in Sources */,
 				09A488BD1B9D877D0075F41C /* SIMenuContentTests.m in Sources */,
 				09A904071B6616DA00C48A9B /* SIGame.m in Sources */,
 				09A488A71B9B49950075F41C /* SIAdBannerTests.m in Sources */,
@@ -1115,6 +1120,7 @@
 				09A488AB1B9B61660075F41C /* SIPowerUpTests.m in Sources */,
 				09D256E91B9D8EFF00F6BD14 /* SIMenuContent.m in Sources */,
 				091FED631B37283E0071F8DC /* Swype_ItTests.m in Sources */,
+				094D109F1BA0BC5C00392587 /* SIGameController.m in Sources */,
 				09A904061B6616C300C48A9B /* SIConstants.m in Sources */,
 				092720E71B60F2790005A6B6 /* SIIAPUtilityTests.m in Sources */,
 				09A488A91B9B4B5C0075F41C /* GameSceneTests.m in Sources */,

@@ -38,6 +38,7 @@
  As a user I want to start time freeze
  go right ahead man
  
+ AUTO TESTED
  */
 + (BOOL)canStartPowerUp:(SIPowerUpType)powerUp powerUpArray:(NSArray *)powerUpArray {
     if ([SIPowerUp isPowerUpArrayEmpty:powerUpArray]) {
@@ -62,7 +63,7 @@
             return NO;
     }
 }
-
+/*AUTO TESTED*/
 + (BOOL)isPowerUpActive:(SIPowerUpType)powerUp powerUpArray:(NSArray *)powerUpArray {
     for (SIPowerUp *powerUpClass in powerUpArray) {
         if (powerUp == powerUpClass.type) {
@@ -71,7 +72,7 @@
     }
     return NO;
 }
-
+/*AUTO TESTED*/
 + (BOOL)isPowerUpArrayEmpty:(NSArray *)powerUpArray {
     if (powerUpArray == nil) {
         return YES;
@@ -83,8 +84,8 @@
     
     return NO;
 }
-
-+ (float)maxDurationPercentOfPowerUpArray:(NSArray *)powerUpArray {
+/*AUTO TESTED*/
++ (float)maxPercentOfPowerUpArray:(NSArray *)powerUpArray {
     if (powerUpArray == nil) {
         return 0.0f;
     }
@@ -93,14 +94,11 @@
         return 0.0f;
     }
     
-    float maxRemainingDuraion = 0.0f;
-    
-    float maxPercentRemaining = 0.0f;
+    float maxPercentRemaining   = 0.0f;
     
     for (SIPowerUp *powerUp in powerUpArray) {
-        if (powerUp.percentRemaining > maxRemainingDuraion) {
-            maxPercentRemaining = powerUp.percentRemaining / (float)powerUp.duration;
-            maxRemainingDuraion = powerUp.percentRemaining;
+        if (powerUp.percentRemaining > maxPercentRemaining) {
+            maxPercentRemaining = powerUp.percentRemaining;
         }
     }
     
@@ -108,6 +106,7 @@
 }
 
 
+/*AUTO TESTED*/
 + (SIPowerUpCost)costForPowerUp:(SIPowerUpType)powerUp {
     switch (powerUp) {
         case SIPowerUpTypeTimeFreeze:
@@ -120,7 +119,7 @@
             return SIPowerUpCostNone;
     }
 }
-
+/*AUTO TESTED*/
 + (SIPowerUpDuration)durationForPowerUp:(SIPowerUpType)powerUp {
     switch (powerUp) {
         case SIPowerUpTypeTimeFreeze:
@@ -147,11 +146,14 @@
             return nil;
     }
 }
-
+/*AUTO TESTED*/
 + (float)powerUpPercentRemaining:(NSArray *)powerUpArray compositeTime:(float)compositeTime withCallback:(void (^)(SIPowerUp *powerUpToDeactivate))callback {
     float maxPercent = 0.0f;
     
     for (SIPowerUp *powerUp in powerUpArray) {
+        if (powerUp.type == SIPowerUpTypeFallingMonkeys) {
+            break; //GTFO of loop of falling monkey
+        }
         powerUp.percentRemaining = ((powerUp.duration * MILI_SECS_IN_SEC) - (compositeTime - powerUp.startTimeMS)) / (powerUp.duration * MILI_SECS_IN_SEC);
         if (powerUp.percentRemaining < EPSILON_NUMBER) { /*This deactivates powerups... it's sooo powerful muwahahahha*/
             /*Can one class function handle all that power?!?!*/
@@ -165,7 +167,7 @@
     }
     return maxPercent;
 }
-
+/*AUTO TESTED*/
 + (SIPowerUpType)powerUpForString:(NSString *)powerUpString {
     if ([powerUpString isEqualToString:kSIPowerUpTypeFallingMonkeys]) {
         return SIPowerUpTypeFallingMonkeys;

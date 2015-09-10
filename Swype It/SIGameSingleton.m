@@ -366,7 +366,7 @@
 
 #pragma mark - Power Up Methods
 /**
- This will be called by the controller when asking to start
+ This will be called by the controller when asking to start a power up
  */
 - (void)singletonGameWillActivatePowerUp:(SIPowerUpType)powerUp {
     if ([SIPowerUp canStartPowerUp:powerUp powerUpArray:_currentGame.powerUpArray]) {

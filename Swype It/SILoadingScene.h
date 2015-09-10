@@ -10,8 +10,8 @@
 @interface SILoadingScene : SKScene
 
 /**
- Sets the progress of the progress bar
+ Sets the progress of the loading bar.. 0.0f - 1.0f
  */
-- (void)sceneLoadingWillLoadProgressPercent:(float)percent;
+- (void)sceneLoadingSetProgressPercent:(float)percent;
 
 @end

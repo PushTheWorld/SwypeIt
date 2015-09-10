@@ -57,30 +57,12 @@
 + (SKLabelNode *)       SILabelInterfaceFontSize:(CGFloat)fontSize;
 + (SKLabelNode *)       SILabelSceneGameMoveCommand;
 
-///**
-// Hids the banner ad
-// */
-//- (void)bannerAdHide;
-///**
-// Shows the banner ad
-// */
-//- (void)bannerAdShow;
-///**
-// Present the interstital ad
-// */
-//- (void)presentInterstital;
-///**
-// Returns if user is premium
-// */
-//+ (BOOL)isPremiumUser;
-///**
-// Asks the singleton if the game is paused
-// */
-//+ (BOOL)gameIsPaused;
-///**
-// Asks the singleton if the game has started
-// */
-//+ (BOOL)gameIsStarted;
+/**
+ This a spritenode made from falling monkey
+    Utilize static variables to reduce overhead and reuseability
+ */
++ (SKSpriteNode *)SIFallingMonkeyNode;
+
 
 
 

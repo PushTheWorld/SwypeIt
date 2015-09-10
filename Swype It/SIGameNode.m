@@ -163,7 +163,7 @@ enum {
 }
 
 - (void)makeAndSendMove:(SIMoveCommand)moveCommand moveCommandAction:(SIMoveCommandAction)moveCommandAction gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer {
-    SIMove *move = [[SIMove alloc] init];
+    SIMove *move            = [[SIMove alloc] init];
     move.moveCommand        = moveCommand;
     move.moveCommandAction  = moveCommandAction;
     move.gestureRecognizer  = gestureRecognizer;

@@ -14,6 +14,9 @@
  */
 @property (nonatomic, assign) BOOL isExpired;
 
+/**
+ The type (SIPowerUpType) of the power up
+ */
 @property (nonatomic, assign) SIPowerUpType type;
 
 /**
@@ -39,12 +42,28 @@
  */
 - (instancetype)initWithPowerUp:(SIPowerUpType)powerUp atTime:(float)powerUpStartTime;
 
-
-+ (BOOL)                canStartPowerUp:(SIPowerUpType)powerUp powerUpArray:(NSArray *)powerUpArray;
-+ (BOOL)                isPowerUpActive:(SIPowerUpType)powerUp powerUpArray:(NSArray *)powerUpArray;
-+ (BOOL)                isPowerUpArrayEmpty:(NSArray *)powerUpArray;
-+ (float)               maxDurationPercentOfPowerUpArray:(NSArray *)powerUpArray;
-+ (float)               powerUpPercentRemaining:(NSArray *)powerUpArray compositeTime:(float)compositeTime withCallback:(void (^)(SIPowerUp *powerUpToDeactivate))callback;
+/**
+ Applys Programmer defined rules for whether or not a power up can start
+ */
++ (BOOL)canStartPowerUp:(SIPowerUpType)powerUp powerUpArray:(NSArray *)powerUpArray;
+/**
+ Checks an powerUpArray to see if the powerUp is active
+ */
++ (BOOL)isPowerUpActive:(SIPowerUpType)powerUp powerUpArray:(NSArray *)powerUpArray;
+/**
+ Checks to see if the powerUpArray has 0 objects or is nil
+ */
++ (BOOL)isPowerUpArrayEmpty:(NSArray *)powerUpArray;
+/**
+ Returns the maximum percent found in the powerup array
+ */
++ (float)maxPercentOfPowerUpArray:(NSArray *)powerUpArray;
+/**
+ Traverses through powerUpArray and recaluclates all powerup percentages using the composite time, 
+    Uses properties to do with start time too and duration of power up
+    Callback returns any powerup with a percentage less than 0.01 to be deactivated
+ */
++ (float)powerUpPercentRemaining:(NSArray *)powerUpArray compositeTime:(float)compositeTime withCallback:(void (^)(SIPowerUp *powerUpToDeactivate))callback;
 
 /**
  Gets the SIPowerUp given a string...

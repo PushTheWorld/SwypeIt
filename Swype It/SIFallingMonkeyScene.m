@@ -8,7 +8,6 @@
 //
 // Local Controller Import
 #import "SIGameController.h"
-#import "SIAdBannerNode.h"
 // Framework Import
 // Drop-In Class Imports (CocoaPods/GitHub/Guru)
 // Category Import
@@ -33,6 +32,8 @@ enum {
 };
 
 @implementation SIFallingMonkeyScene {
+    
+    float                                _monkeySpeed;
     
     int                                  _numberOfMonkeysLaunched;
     
@@ -92,8 +93,7 @@ enum {
     
 }
 
-#pragma mark - Setters
-
+#pragma mark - Public Accessors
 - (void)setAdBannerNode:(SIAdBannerNode *)adBannerNode {
     if (_adContentNode) {
         [_adContentNode removeFromParent];
@@ -122,6 +122,7 @@ enum {
     /**Configure any constants*/
     _numberOfMonkeysLaunched                = 0;
     _fallingMonkeyZPosition                 = 0.1f;
+    _monkeySpeed                            = 1.0f;
     
 }
 
@@ -197,6 +198,7 @@ enum {
 #pragma mark - Public Methods
 - (void)sceneFallingMonkeyWillStart {
     _fallingMonkeyZPosition                         = FALLING_MONKEY_Z_POSITION_INCREMENTER;
+    _monkeySpeed                                    = 1.0f;
 }
 
 - (void)sceneFallingMonkeyWillLaunchMonkey:(SKSpriteNode *)monkey withWorldGravitySpeed:(CGFloat)worldGravitySpeed {
@@ -216,10 +218,6 @@ enum {
     
     /*Increase the zPosition for the next one...*/
     _fallingMonkeyZPosition                     = _fallingMonkeyZPosition + FALLING_MONKEY_Z_POSITION_INCREMENTER;
-}
-
-- (void)sceneFallingMonkeyWillStop {
-    
 }
 
 #pragma mark - Custom Touch Methods
@@ -246,11 +244,11 @@ enum {
     while (xLocation < [SIGameController SIFallingMonkeySize].width / 2.0) {
         xLocation                               = arc4random_uniform(validMax);
     }
-    CGFloat yLocation                           = self.frame.size.height + SIGameScene fallingMonkeySize].height;
+    CGFloat yLocation                           = self.frame.size.height + [SIGameController SIFallingMonkeySize].height;
     
     /*Make Monkey*/
     
-    SKSpriteNode *monkey                        = [SIGameController ];
+    SKSpriteNode *monkey                        = [SIGameController SIFallingMonkeyNode];
     
     monkey.position                             = CGPointMake(xLocation, yLocation);
     
@@ -270,33 +268,33 @@ enum {
     [self performSelector:@selector(launchMonkey) withObject:nil afterDelay:randomDelay];
     
 }
-+ (SKSpriteNode *)newMonkey {
-    SKSpriteNode *monkey                        = [SKSpriteNode spriteNodeWithTexture:[SIGameController sharedMonkeyFace]  size:SIGameScene fallingMonkeySize]];
-    monkey.name                                 = kSINodeFallingMonkey;
-    monkey.physicsBody                          = [SKPhysicsBody bodyWithRectangleOfSize:SIGameScene fallingMonkeySize]];
-    monkey.physicsBody.linearDamping            = 0.0f;
-    monkey.physicsBody.categoryBitMask          = monkeyCategory;
-    monkey.physicsBody.contactTestBitMask       = bottomEdgeCategory;
-    monkey.physicsBody.collisionBitMask         = sideEdgeCategory;
-    monkey.zPosition                            = SIGameNodeZPositionLayerFallingMonkey / SIGameNodeZPositionLayerCount;
-    monkey.userInteractionEnabled               = YES;
-    return monkey;
-}
-/**Called when a monkey is tapped...*/
-- (void)monkeyWasTapped:(SKNode *)monkey {
-    /*Remove that monkey*/
-    if ([monkey.name isEqualToString:kSINodeFallingMonkey]) {
-        [monkey removeFromParent];
-        [AppSingleton singleton].currentGame.totalScore = [AppSingleton singleton].currentGame.totalScore + VALUE_OF_MONKEY;
-        
-        [[AppSingleton singleton] setAndCheckDefaults:VALUE_OF_MONKEY];
-        
-        _totalScoreLabel.text                       = [NSString stringWithFormat:@"%0.2f",[AppSingleton singleton].currentGame.totalScore];
-        
-        self.view.backgroundColor                       = [[AppSingleton singleton] newBackgroundColor];
-        
-    }
-}
+//+ (SKSpriteNode *)newMonkey {
+//    SKSpriteNode *monkey                        = [SKSpriteNode spriteNodeWithTexture:[SIGameController sharedMonkeyFace]  size:SIGameScene fallingMonkeySize]];
+//    monkey.name                                 = kSINodeFallingMonkey;
+//    monkey.physicsBody                          = [SKPhysicsBody bodyWithRectangleOfSize:SIGameScene fallingMonkeySize]];
+//    monkey.physicsBody.linearDamping            = 0.0f;
+//    monkey.physicsBody.categoryBitMask          = monkeyCategory;
+//    monkey.physicsBody.contactTestBitMask       = bottomEdgeCategory;
+//    monkey.physicsBody.collisionBitMask         = sideEdgeCategory;
+//    monkey.zPosition                            = SIGameNodeZPositionLayerFallingMonkey / SIGameNodeZPositionLayerCount;
+//    monkey.userInteractionEnabled               = YES;
+//    return monkey;
+//}
+///**Called when a monkey is tapped...*/
+//- (void)monkeyWasTapped:(SKNode *)monkey {
+//    /*Remove that monkey*/
+//    if ([monkey.name isEqualToString:kSINodeFallingMonkey]) {
+//        [monkey removeFromParent];
+//        [AppSingleton singleton].currentGame.totalScore = [AppSingleton singleton].currentGame.totalScore + VALUE_OF_MONKEY;
+//        
+//        [[AppSingleton singleton] setAndCheckDefaults:VALUE_OF_MONKEY];
+//        
+//        _totalScoreLabel.text                       = [NSString stringWithFormat:@"%0.2f",[AppSingleton singleton].currentGame.totalScore];
+//        
+//        self.view.backgroundColor                       = [[AppSingleton singleton] newBackgroundColor];
+//        
+//    }
+//}
 
 -(void)didBeginContact:(SKPhysicsContact *)contact {
     
@@ -308,7 +306,7 @@ enum {
         notTheBottomEdge                = contact.bodyB;
     }
     
-    if (notTheBottomEdge.categoryBitMask == uiControlCategory) { /*Label*/
+    if (notTheBottomEdge.categoryBitMask == SIFallingMonkeySceneCategoryUIControl) { /*Label*/
         /*Remove the label*/
         SKNode *moveLabelNode = notTheBottomEdge.node;
         
@@ -321,7 +319,7 @@ enum {
         
     }
     
-    if (notTheBottomEdge.categoryBitMask == monkeyCategory) {
+    if (notTheBottomEdge.categoryBitMask == SIFallingMonkeySceneCategoryMonkey) {
         /*Remove the Monkey*/
         for (SKNode *node in _backgroundNode.children) {
             if ([node.name isEqualToString:kSINodeFallingMonkey]) {
@@ -333,13 +331,15 @@ enum {
         /*Cancel any monkeys that */
         [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(launchMonkey) object:nil];
         
-        [self powerUpDeactivated];
-        [self correctMoveEntered:nil];
+        /*Tell delegate that monkey did colide!*/
+        if ([_sceneDelegate respondsToSelector:@selector(sceneFallingMonkeyDidCollideWithBottomEdge)]) {
+            [_sceneDelegate sceneFallingMonkeyDidCollideWithBottomEdge];
+        }
+
         self.physicsWorld.gravity       = CGVectorMake(0, -9.8);
         
     }
     
 }
-
 
 @end

@@ -66,4 +66,8 @@
  */
 @property (assign, nonatomic) int currentAmount;
 
+/**
+ The game center achievement
+ */
+
 @end

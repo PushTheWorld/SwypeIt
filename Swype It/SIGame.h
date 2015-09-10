@@ -53,7 +53,14 @@
 + (NSString *)          stringForMove:(SIMoveCommand)move;
 + (SIBackgroundSound)   backgroundSoundForScore:(float)score;
 + (SIBackgroundSound)   checkBackgroundSound:(SIBackgroundSound)currentBackgroundSound forTotalScore:(float)totalScore withCallback:(void (^)(BOOL updatedBackgroundSound, SIBackgroundSound backgroundSound))callback;
-+ (SIContinueLifeCost)  lifeCostForCurrentContinueLevel:(SIContinueLifeCost)siContinuedLifeCost;
+/**
+ Returns the number of ads to show given a number of times the user has continued
+ */
++ (SIContinueAdCount)adCountForNumberOfTimesContinued:(int)numberOfTimesContinued;
+/**
+ Returns the IT Coin cost based on the number of times the user has continued
+ */
++ (SIContinueLifeCost)lifeCostForNumberOfTimesContinued:(int)numberOfTimesContinued;
 /**
  Determine prize to give based off when the last time a prize was given... either:
  SIGameFreePrizeNo -> No prize to be given

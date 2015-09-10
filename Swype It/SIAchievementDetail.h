@@ -54,5 +54,10 @@
  */
 @property (strong, nonatomic) NSArray *moveSequenceArray;
 
+/**
+ The dictionary key for this achievement
+ */
+@property (strong, nonatomic) NSString *dictionaryKey;
+
 
 @end

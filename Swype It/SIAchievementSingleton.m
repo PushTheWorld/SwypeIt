@@ -20,6 +20,7 @@
 // Framework Import
 #import <GameKit/GameKit.h>
 // Drop-In Class Imports (CocoaPods/GitHub/Guru)
+#import "FXReachability.h"
 // Category Import
 #import "UIColor+Additions.h"
 // Support/Data Class Imports
@@ -30,6 +31,8 @@
     NSArray                     *_remoteGKAchievementArray;
     
     NSMutableDictionary         *_localMutableAchievementDictionary;
+    
+    NSMutableDictionary         *_localRemoteGKAchievementDictionary;
     
     SIAchievementSkillLevel      _currentAchievementSkillLevel;
     
@@ -71,8 +74,8 @@
     
     [SIAchievementSingleton singletonAchievementFetchAchievementRemoteWithCallback:^(NSArray *remoteArray, NSError *error) {
         if (error) {
-            if ([_delegate respondsToSelector:@selector(singletonAchievementFailedToReachGameCenterWithError:)]) {
-                [_delegate singletonAchievementFailedToReachGameCenterWithError:error];
+            if ([_delegate respondsToSelector:@selector(controllerSingletonAchievementFailedToReachGameCenterWithError:)]) {
+                [_delegate controllerSingletonAchievementFailedToReachGameCenterWithError:error];
             }
         } else {
             /*Assign remote for later use*/
@@ -94,8 +97,6 @@
 }
 
 
-
-
 /**
  Actually pulls from user defaults also reads from plist if the achievement is not in user defaults
     I think the question of this working is if nsuerdefaults is powerful enought to save a whole
@@ -108,7 +109,7 @@
         // TODO load from plist & store to userDefualts
         if (siAchievement == nil) {
             NSDictionary *plistDictionary = [SIAchievementSingleton singletonAchievementLoadFromPlist];
-            siAchievement = [SIAchievementSingleton configureAchievementFromDictionary:[plistDictionary objectForKey:achievementKey]];
+            siAchievement = [SIAchievementSingleton configureAchievementFromDictionary:[plistDictionary objectForKey:achievementKey] withKeyName:achievementKey];
             [SIAchievementSingleton storeSIAchievement:siAchievement toMemoryWithKey:achievementKey];
         }
         [newDictionary setObject:siAchievement forKey:achievementKey];
@@ -118,16 +119,16 @@
 
 
 #pragma mark - Public Methods
+/**
+ This is the only input to the achievement singleton... it's what makes the engine move ya dig
+ */
 - (void)singletonAchievementWillProcessMove:(SIMove *)move {
     for (NSString *achievementKey in _currentAchievementKeys) {
         SIAchievement *achievement = [_localMutableAchievementDictionary objectForKey:achievementKey];
         if (achievement.details.completed == NO) {
             /*Mark achievement done if it's on the done level and not marked completed...*/
             if (achievement.currentLevel == SIAchievementLevelDone) {
-                achievement.details.completed = YES;
-                if ([_delegate respondsToSelector:@selector(singletonAchievementDidCompleteAchievement:)]) {
-                    [_delegate singletonAchievementDidCompleteAchievement:achievement];
-                }
+                [self completedAchievement:achievement];
             } else {
                 [self processAchievementTypeMoveForMove:move forAchievement:achievement];
                 [self processAchievementTypeMoveSequenceForMove:move forAchievement:achievement];
@@ -189,9 +190,7 @@
 - (void)checkIfNewLevelAndNotifyUserForAchievement:(SIAchievement *)achievement {
     if ([SIAchievementSingleton isNewLevelAndUpdateForAchievement:achievement]) {
         if (achievement.currentLevel == SIAchievementLevelDone) {
-            if ([_delegate respondsToSelector:@selector(singletonAchievementDidCompleteAchievement:)]) {
-                [_delegate singletonAchievementDidCompleteAchievement:achievement];
-            }
+            [self completedAchievement:achievement];
             [self isSkillLevelCompletedAndNotifyUserForCurrentAchievements];
         }
     }
@@ -210,17 +209,39 @@
     }
     if (allCompleted) {
         SIAchievement *all = [_localMutableAchievementDictionary objectForKey:_currentAchievementKeys[SIAchievementArrayIndexForAchievementTypeAll]];
-        all.details.completed = YES;
-        if ([_delegate respondsToSelector:@selector(singletonAchievementDidCompleteAchievement:)]) {
-            [_delegate singletonAchievementDidCompleteAchievement:all];
-        }
+        [self completedAchievement:all];
     }
 
 }
 
+/**
+ Called when you want to notify the user that achievement was compeleted and you want to sync with Game Center
+ */
+- (void)completedAchievement:(SIAchievement *)achievement {
+    achievement.details.completed = YES;
+    [SIAchievementSingleton storeSIAchievement:achievement toMemoryWithKey:achievement.details.dictionaryKey];
+    if ([_delegate respondsToSelector:@selector(controllerSingletonAchievementDidCompleteAchievement:)]) {
+        [_delegate controllerSingletonAchievementDidCompleteAchievement:achievement];
+    }
+    [self updateGameCenterForAchievement:achievement];
+}
+/**
+ Update the achievement with game center... 
+ */
+- (void)updateGameCenterForAchievement:(SIAchievement *)achievement {
+    if ([FXReachability isReachable]) {
+        GKAchievement *achievementToReport          = [[GKAchievement alloc] initWithIdentifier:achievement.details.dictionaryKey player:[GKLocalPlayer localPlayer]];
+        achievementToReport.percentComplete         = [SIAchievementSingleton percentCompleteForAchievement:achievement.currentLevel];
+        achievementToReport.showsCompletionBanner   = NO;
+        [GKAchievement reportAchievements:@[achievementToReport] withCompletionHandler:^(NSError * __nullable error) {
+            if ([_delegate respondsToSelector:@selector(controllerSingletonAchievementFailedToReachGameCenterWithError:)]) {
+                [_delegate controllerSingletonAchievementFailedToReachGameCenterWithError:error];
+            }
+        }];
+    }
 
+}
 #pragma mark - Private Class Methods
-
 + (BOOL)isNewLevelAndUpdateForAchievement:(SIAchievement *)achievement {
 
     SIAchievementLevel newLevel = [SIAchievementSingleton getAchievementLevelForAchievement:achievement];
@@ -286,9 +307,6 @@
             return kSINSDictionaryKeySIAchievementPlistLevel3;
     }
 }
-/**
- Called to see if achievement
- */
 
 /**
  Creates and returns a array with the achiement keys we are trying to complete at the current skill level
@@ -414,7 +432,7 @@
  
  Also note it is extremely important that the type is set before!
  */
-+ (SIAchievement *)configureAchievementFromDictionary:(NSDictionary *)dictionary {
++ (SIAchievement *)configureAchievementFromDictionary:(NSDictionary *)dictionary withKeyName:(NSString *)key {
     
     SIAchievement *achievement                          = [[SIAchievement alloc] init];
     
@@ -422,7 +440,7 @@
     achievement.currentAmount                           = 0;
     achievement.details.completed                       = NO;
     achievement.details.type                            = [SIAchievementSingleton achievementTypeForTypeString:[dictionary objectForKey:kSINSDictionaryKeySIAchievementPlistTypeString]];
-    
+    achievement.details.dictionaryKey                   = key;
     
     if (achievement.details.type == SIAchievementTypeAll) {
         achievement.title                               = [dictionary objectForKey:kSINSDictionaryKeySIAchievementPlistTitleString];

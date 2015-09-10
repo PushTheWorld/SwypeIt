@@ -19,11 +19,6 @@
 @protocol SIMenuSceneDelegate <NSObject>
 
 /**
- Called when the scene registers a monkey tap
- */
-- (void)sceneFallingMonkeyWasTappedMonkey:(SKNode *)monkey;
-
-/**
  Called right after a new scene has been loaded... essentially
     notifies that the scene is ready to animate in the buttons and 
     such
@@ -53,6 +48,12 @@
  Default is nil...
  */
 @property (nonatomic, strong) SIAdBannerNode *adBannerNode;
+
+/**
+ Setting this property will handle all animations for going to a differnt configuration of the
+    menu scene
+ */
+@property (nonatomic, assign) SISceneMenuType sceneMenuType;
 
 
 

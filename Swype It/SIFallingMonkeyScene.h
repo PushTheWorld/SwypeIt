@@ -5,6 +5,7 @@
 //  Created by Andrew Keller on 9/4/15.
 //  Copyright © 2015 Push The World LLC. All rights reserved.
 //
+#import "SIAdBannerNode.h"
 
 #import "HLScene.h"
 @protocol SIFallingMonkeySceneDelegate <NSObject>

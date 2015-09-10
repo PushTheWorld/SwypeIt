@@ -197,18 +197,19 @@ NSString *const kSIImageTapToPlayText                                           
 NSString *const kSIAtlasBackground                                              = @"background";
 NSString *const kSIAtlasButtons                                                 = @"buttons";
 NSString *const kSIAtlasImages                                                  = @"images";
-NSString *const kSIAtlasMenu                                                    = @"sceneMenu";
+NSString *const kSIAtlasSceneMenu                                               = @"sceneMenu";
 NSString *const kSIAtlasShapes                                                  = @"shapes";
 
 #pragma mark - Images in Atlas 
-NSString *const kSIAtlasMenuAdFree                                              = @"adFreeRevB";
-NSString *const kSIAtlasMenuHelp                                                = @"helpRevB";
-NSString *const kSIAtlasMenuLeaderboard                                         = @"leaderboardRevB";
-NSString *const kSIAtlasMenuPlayClassic                                         = @"playClassic";
-NSString *const kSIAtlasMenuPlayOneHand                                         = @"playOneHand";
-NSString *const kSIAtlasMenuSettings                                            = @"settingsRevB";
-NSString *const kSIAtlasMenuSoundBackground                                     = @"startBackgroundSound";
-NSString *const kSIAtlasMenuSoundFX                                             = @"startFXSound";
+NSString *const kSIAtlasSceneMenuAchievements                                   = @"achievementsRevA";
+NSString *const kSIAtlasSceneMenuAdFree                                         = @"adFreeRevB";
+NSString *const kSIAtlasSceneMenuHelp                                           = @"helpRevB";
+NSString *const kSIAtlasSceneMenuLeaderboard                                    = @"leaderboardRevB";
+NSString *const kSIAtlasSceneMenuPlayClassic                                    = @"playClassic";
+NSString *const kSIAtlasSceneMenuPlayOneHand                                    = @"playOneHand";
+NSString *const kSIAtlasSceneMenuSettings                                       = @"settingsRevB";
+NSString *const kSIAtlasSceneMenuSoundBackground                                = @"startBackgroundSound";
+NSString *const kSIAtlasSceneMenuSoundFX                                        = @"startFXSound";
 
 
 #pragma mark - Button Labels
@@ -288,6 +289,7 @@ NSString *const kSINodeNodeChest                                                
 NSString *const kSINodeNodeBag                                                  = @"bagOfCoinsNode";
 NSString *const kSINodeNodeBucket                                               = @"bucketOfCoinsNode";
 NSString *const kSINodeNodePile                                                 = @"pileOfCoinsNode";
+NSString *const kSINodeButtonAchievement                                        = @"achievementButton";
 NSString *const kSINodeButtonContinue                                           = @"continueButton";
 NSString *const kSINodeButtonDone                                               = @"doneButton";
 NSString *const kSINodeButtonFallingMonkey                                      = @"fallingMonkeyButton";
@@ -402,8 +404,8 @@ NSString *const kSIGameCenterLeaderBoardIDHandTwo                               
 + (NSString *)pathForTouchExplosionEmitter {
     return [[NSBundle mainBundle] pathForResource:kSIEmitterExplosionTouch ofType:kSIEmitterFileTypeSKS];
 }
-+ (SKTextureAtlas *)atlasStart {
-    return [SKTextureAtlas atlasNamed:kSIAtlasBackground];
++ (SKTextureAtlas *)atlasSceneMenu {
+    return [SKTextureAtlas atlasNamed:kSIAtlasSceneMenu];
 }
 + (SKTextureAtlas *)backgroundAtlas {
     return [SKTextureAtlas atlasNamed:kSIAtlasBackground];

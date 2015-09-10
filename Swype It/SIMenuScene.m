@@ -27,7 +27,7 @@
 - (instancetype)initWithSize:(CGSize)size {
     if (self = [super initWithSize:size]) {
         /**Do any setup before self.view is loaded*/
-        _type                                       = SISceneMenuTypeStart;
+        _menuType                                   = SISceneMenuTypeStart;
         _sceneSize                                  = size;
         [self initSetup:size];
     }
@@ -117,9 +117,11 @@
     }
     [self layoutXY];
 }
-- (void)setType:(SISceneMenuType)type {
+
+- (void)setSceneMenuType:(SISceneMenuType)sceneMenuType {
     [self layoutXY];
 }
+
 #pragma mark - Layout Functions
 /**
  Called when ever you may need to layout the end scene

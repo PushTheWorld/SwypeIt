@@ -446,51 +446,151 @@
             return 0;
     }
 }
-+ (SIContinueLifeCost)lifeCostForCurrentContinueLevel:(SIContinueLifeCost)siContinuedLifeCost {
-    if (siContinuedLifeCost < SIContinueLifeCost1) {
-        return SIContinueLifeCost1;
-    } else if (siContinuedLifeCost < SIContinueLifeCost2) {
-        return SIContinueLifeCost2;
-    } else if (siContinuedLifeCost < SIContinueLifeCost3) {
-        return SIContinueLifeCost3;
-    } else if (siContinuedLifeCost < SIContinueLifeCost4) {
-        return SIContinueLifeCost4;
-    } else if (siContinuedLifeCost < SIContinueLifeCost5) {
-        return SIContinueLifeCost5;
-    } else if (siContinuedLifeCost < SIContinueLifeCost6) {
-        return SIContinueLifeCost6;
-    } else if (siContinuedLifeCost < SIContinueLifeCost7) {
-        return SIContinueLifeCost7;
-    } else if (siContinuedLifeCost < SIContinueLifeCost8) {
-        return SIContinueLifeCost8;
-    } else if (siContinuedLifeCost < SIContinueLifeCost9) {
-        return SIContinueLifeCost9;
-    } else if (siContinuedLifeCost < SIContinueLifeCost10) {
-        return SIContinueLifeCost10;
-    } else if (siContinuedLifeCost < SIContinueLifeCost11) {
-        return SIContinueLifeCost11;
-    } else if (siContinuedLifeCost < SIContinueLifeCost12) {
-        return SIContinueLifeCost12;
-    } else if (siContinuedLifeCost < SIContinueLifeCost13) {
-        return SIContinueLifeCost13;
-    } else if (siContinuedLifeCost < SIContinueLifeCost14) {
-        return SIContinueLifeCost14;
-    } else if (siContinuedLifeCost < SIContinueLifeCost15) {
-        return SIContinueLifeCost15;
-    } else if (siContinuedLifeCost < SIContinueLifeCost16) {
-        return SIContinueLifeCost16;
-    } else if (siContinuedLifeCost < SIContinueLifeCost17) {
-        return SIContinueLifeCost17;
-    } else if (siContinuedLifeCost < SIContinueLifeCost18) {
-        return SIContinueLifeCost18;
-    } else if (siContinuedLifeCost < SIContinueLifeCost19) {
-        return SIContinueLifeCost19;
-    } else if (siContinuedLifeCost < SIContinueLifeCost20) {
-        return SIContinueLifeCost20;
-    } else {
-        return SIContinueLifeCost0;
++ (SIContinueLifeCost)lifeCostForNumberOfTimesContinued:(int)numberOfTimesContinued {
+    switch (numberOfTimesContinued) {
+        case 0:
+            return SIContinueLifeCost0;
+        case 1:
+            return SIContinueLifeCost1;
+        case 2:
+            return SIContinueLifeCost2;
+        case 3:
+            return SIContinueLifeCost3;
+        case 4:
+            return SIContinueLifeCost4;
+        case 5:
+            return SIContinueLifeCost5;
+        case 6:
+            return SIContinueLifeCost6;
+        case 7:
+            return SIContinueLifeCost7;
+        case 8:
+            return SIContinueLifeCost8;
+        case 9:
+            return SIContinueLifeCost9;
+        case 10:
+            return SIContinueLifeCost10;
+        case 11:
+            return SIContinueLifeCost11;
+        case 12:
+            return SIContinueLifeCost12;
+        case 13:
+            return SIContinueLifeCost13;
+        case 14:
+            return SIContinueLifeCost14;
+        case 15:
+            return SIContinueLifeCost15;
+        case 16:
+            return SIContinueLifeCost16;
+        case 17:
+            return SIContinueLifeCost17;
+        case 18:
+            return SIContinueLifeCost18;
+        case 19:
+            return SIContinueLifeCost19;
+        case 20:
+            return SIContinueLifeCost20;
+        case 21:
+            return SIContinueLifeCost21;
+        default:
+            return SIContinueLifeCost0;
     }
 }
++ (SIContinueAdCount)adCountForNumberOfTimesContinued:(int)numberOfTimesContinued {
+    switch (numberOfTimesContinued) {
+        case 0:
+            return SIContinueAdCount0;
+        case 1:
+            return SIContinueAdCount1;
+        case 2:
+            return SIContinueAdCount2;
+        case 3:
+            return SIContinueAdCount3;
+        case 4:
+            return SIContinueAdCount4;
+        case 5:
+            return SIContinueAdCount5;
+        case 6:
+            return SIContinueAdCount6;
+        case 7:
+            return SIContinueAdCount7;
+        case 8:
+            return SIContinueAdCount8;
+        case 9:
+            return SIContinueAdCount9;
+        case 10:
+            return SIContinueAdCount10;
+        case 11:
+            return SIContinueAdCount11;
+        case 12:
+            return SIContinueAdCount12;
+        case 13:
+            return SIContinueAdCount13;
+        case 14:
+            return SIContinueAdCount14;
+        case 15:
+            return SIContinueAdCount15;
+        case 16:
+            return SIContinueAdCount16;
+        case 17:
+            return SIContinueAdCount17;
+        case 18:
+            return SIContinueAdCount18;
+        case 19:
+            return SIContinueAdCount19;
+        case 20:
+            return SIContinueAdCount20;
+        case 21:
+            return SIContinueAdCount21;
+        default:
+            return SIContinueAdCount0;
+    }
+}
+//+ (SIContinueLifeCost)lifeCostForCurrentContinueLevel:(SIContinueLifeCost)siContinuedLifeCost {
+//    if (siContinuedLifeCost < SIContinueLifeCost1) {
+//        return SIContinueLifeCost1;
+//    } else if (siContinuedLifeCost < SIContinueLifeCost2) {
+//        return SIContinueLifeCost2;
+//    } else if (siContinuedLifeCost < SIContinueLifeCost3) {
+//        return SIContinueLifeCost3;
+//    } else if (siContinuedLifeCost < SIContinueLifeCost4) {
+//        return SIContinueLifeCost4;
+//    } else if (siContinuedLifeCost < SIContinueLifeCost5) {
+//        return SIContinueLifeCost5;
+//    } else if (siContinuedLifeCost < SIContinueLifeCost6) {
+//        return SIContinueLifeCost6;
+//    } else if (siContinuedLifeCost < SIContinueLifeCost7) {
+//        return SIContinueLifeCost7;
+//    } else if (siContinuedLifeCost < SIContinueLifeCost8) {
+//        return SIContinueLifeCost8;
+//    } else if (siContinuedLifeCost < SIContinueLifeCost9) {
+//        return SIContinueLifeCost9;
+//    } else if (siContinuedLifeCost < SIContinueLifeCost10) {
+//        return SIContinueLifeCost10;
+//    } else if (siContinuedLifeCost < SIContinueLifeCost11) {
+//        return SIContinueLifeCost11;
+//    } else if (siContinuedLifeCost < SIContinueLifeCost12) {
+//        return SIContinueLifeCost12;
+//    } else if (siContinuedLifeCost < SIContinueLifeCost13) {
+//        return SIContinueLifeCost13;
+//    } else if (siContinuedLifeCost < SIContinueLifeCost14) {
+//        return SIContinueLifeCost14;
+//    } else if (siContinuedLifeCost < SIContinueLifeCost15) {
+//        return SIContinueLifeCost15;
+//    } else if (siContinuedLifeCost < SIContinueLifeCost16) {
+//        return SIContinueLifeCost16;
+//    } else if (siContinuedLifeCost < SIContinueLifeCost17) {
+//        return SIContinueLifeCost17;
+//    } else if (siContinuedLifeCost < SIContinueLifeCost18) {
+//        return SIContinueLifeCost18;
+//    } else if (siContinuedLifeCost < SIContinueLifeCost19) {
+//        return SIContinueLifeCost19;
+//    } else if (siContinuedLifeCost < SIContinueLifeCost20) {
+//        return SIContinueLifeCost20;
+//    } else {
+//        return SIContinueLifeCost0;
+//    }
+//}
 + (void)incrementGamesPlayed {
     NSInteger gamesPlayed = [[NSUserDefaults standardUserDefaults] integerForKey:kSINSUserDefaultLifetimeGamesPlayed];
     [[NSUserDefaults standardUserDefaults] setInteger:gamesPlayed + 1 forKey:kSINSUserDefaultLifetimeGamesPlayed];
