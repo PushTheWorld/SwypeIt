@@ -569,6 +569,10 @@
         [[SISingletonAchievement singleton] singletonAchievementWillProcessMove:moveForBackground];
     });
     
+    _sceneGame.backgroundColor = [SISingletonGame singleton].currentGame.currentBackgroundColor;
+    _sceneGame.scoreTotalLabel.text = [NSString stringWithFormat:@"%0.2f",[SISingletonGame singleton].currentGame.totalScore];
+    
+    
     [_sceneGame sceneGameUpdateWithBackgroundColor:[SISingletonGame singleton].currentGame.currentBackgroundColor
                                         totalScore:[SISingletonGame singleton].currentGame.totalScore
                                               move:[SISingletonGame singleton].currentGame.currentMove
