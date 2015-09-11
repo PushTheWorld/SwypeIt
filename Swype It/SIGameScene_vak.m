@@ -1326,36 +1326,36 @@ enum {
                                            cornerRadius:4.0f];
     return progressBar;
 }
-/**Power up toolbar*/
-+ (HLToolbarNode *)powerUpToolbarSize:(CGSize)toolbarSize toolbarNodeSize:(CGSize)toolbarNodeSize horizontalSpacing:(CGFloat)horizontalSpacing {
-    HLToolbarNode *toolbarNode                  = [[HLToolbarNode alloc] init];
-    toolbarNode.automaticHeight                 = NO;
-    toolbarNode.automaticWidth                  = NO;
-    toolbarNode.backgroundBorderSize            = 0.0f;
-    toolbarNode.squareSeparatorSize             = horizontalSpacing;
-    toolbarNode.backgroundColor                 = [UIColor clearColor];
-    toolbarNode.anchorPoint                     = CGPointMake(0.0f, 0.0f);
-    toolbarNode.size                            = toolbarSize;
-    toolbarNode.squareColor                     = [SKColor clearColor];
-    
-    NSMutableArray *toolNodes                   = [NSMutableArray array];
-    NSMutableArray *toolTags                    = [NSMutableArray array];
-    
-    SIPowerUpToolbarNode *timeFreezeNode        = [[SIPowerUpToolbarNode alloc] initWithSIPowerUp:SIPowerUpTypeTimeFreeze size:toolbarNodeSize];
-    [toolNodes  addObject:timeFreezeNode];
-    [toolTags   addObject:kSINodeButtonTimeFreeze];
-    
-    SIPowerUpToolbarNode *rapidFireNode         = [[SIPowerUpToolbarNode alloc] initWithSIPowerUp:SIPowerUpTypeRapidFire size:toolbarNodeSize];
-    [toolNodes addObject:rapidFireNode];
-    [toolTags addObject:kSINodeButtonRapidFire];
-    
-    SIPowerUpToolbarNode *fallingMonkeyNode     = [[SIPowerUpToolbarNode alloc] initWithSIPowerUp:SIPowerUpTypeFallingMonkeys size:toolbarNodeSize];
-    [toolNodes addObject:fallingMonkeyNode];
-    [toolTags addObject:kSINodeButtonFallingMonkey];
-    
-    [toolbarNode setTools:toolNodes tags:toolTags animation:HLToolbarNodeAnimationSlideUp];
-    
-    [toolbarNode layoutToolsAnimation:HLToolbarNodeAnimationNone];
-    return toolbarNode;
-}
+///**Power up toolbar*/
+//+ (HLToolbarNode *)powerUpToolbarSize:(CGSize)toolbarSize toolbarNodeSize:(CGSize)toolbarNodeSize horizontalSpacing:(CGFloat)horizontalSpacing {
+//    HLToolbarNode *toolbarNode                  = [[HLToolbarNode alloc] init];
+//    toolbarNode.automaticHeight                 = NO;
+//    toolbarNode.automaticWidth                  = NO;
+//    toolbarNode.backgroundBorderSize            = 0.0f;
+//    toolbarNode.squareSeparatorSize             = horizontalSpacing;
+//    toolbarNode.backgroundColor                 = [UIColor clearColor];
+//    toolbarNode.anchorPoint                     = CGPointMake(0.0f, 0.0f);
+//    toolbarNode.size                            = toolbarSize;
+//    toolbarNode.squareColor                     = [SKColor clearColor];
+//    
+//    NSMutableArray *toolNodes                   = [NSMutableArray array];
+//    NSMutableArray *toolTags                    = [NSMutableArray array];
+//    
+//    SIPowerUpToolbarNode *timeFreezeNode        = [[SIPowerUpToolbarNode alloc] initWithSIPowerUp:SIPowerUpTypeTimeFreeze size:toolbarNodeSize];
+//    [toolNodes  addObject:timeFreezeNode];
+//    [toolTags   addObject:kSINodeButtonTimeFreeze];
+//    
+//    SIPowerUpToolbarNode *rapidFireNode         = [[SIPowerUpToolbarNode alloc] initWithSIPowerUp:SIPowerUpTypeRapidFire size:toolbarNodeSize];
+//    [toolNodes addObject:rapidFireNode];
+//    [toolTags addObject:kSINodeButtonRapidFire];
+//    
+//    SIPowerUpToolbarNode *fallingMonkeyNode     = [[SIPowerUpToolbarNode alloc] initWithSIPowerUp:SIPowerUpTypeFallingMonkeys size:toolbarNodeSize];
+//    [toolNodes addObject:fallingMonkeyNode];
+//    [toolTags addObject:kSINodeButtonFallingMonkey];
+//    
+//    [toolbarNode setTools:toolNodes tags:toolTags animation:HLToolbarNodeAnimationSlideUp];
+//    
+//    [toolbarNode layoutToolsAnimation:HLToolbarNodeAnimationNone];
+//    return toolbarNode;
+//}
 @end

@@ -90,6 +90,8 @@ enum {
 
 - (void)viewSetup:(SKView *)view {
     /**Preform setup post-view load*/
+    [self layoutXY];
+    [self updatePhysicsEdges];
     
 }
 #pragma mark -
@@ -136,7 +138,7 @@ enum {
     _edgeBottom                             = [SKNode node];
     _edgeLeft                               = [SKNode node];
     _edgeRight                              = [SKNode node];
-    
+        
 }
 
 - (void)setupControlsWithSize:(CGSize)size {
@@ -151,6 +153,7 @@ enum {
 
     _edgeRight.physicsBody.categoryBitMask          = SIFallingMonkeySceneCategoryEdgeSide;
     _edgeRight.physicsBody.collisionBitMask         = SIFallingMonkeySceneCategoryEdgeSide;
+    
 
     
 }

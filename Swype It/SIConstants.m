@@ -313,6 +313,7 @@ NSString *const kSINodePopupTitle                                               
 #pragma mark - Fonts
 NSString *const kSIFontGameScore                                                = @"LongIslandContour";
 NSString *const kSIFontFuturaMedium                                             = @"Futura-Medium";
+NSString *const kSIFontLongIslandStroked                                        = @"longIslandStrokedShadowed";
 NSString *const kSIFontUltra                                                    = @"Ultra";
 NSString *const kSIFontUltraStroked                                             = @"ultraStroked";
 

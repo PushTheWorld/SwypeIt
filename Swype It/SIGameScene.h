@@ -8,16 +8,33 @@
 //
 // Local Scene Import
 #import "HLSpriteKit.h"
+#import "SIAdBannerNode.h"
 #import "SIGameNode.h"
 #import "SIPopupNode.h"
 // Framework Import
 // Drop-In Class Imports (CocoaPods/GitHub/Guru)
 #import "BMGlyphLabel.h"
+#import "TCProgressBarNode.h"
 // Category Import
 // Support/Data Class Imports
 #import "SIGame.h"
 #import "SISceneGameProgressBarUpdate.h"
 // Other Imports
+
+typedef NS_ENUM(NSInteger, SIGameSceneContentAnimation) {
+    /**
+     If you don't want the screen to animate
+     */
+    SIGameSceneContentAnimationNone = 0,
+    /**
+     Things animate away from the center
+     */
+    SIGameSceneContentAnimationOut,
+    /**
+     Things animate towards the center
+     */
+    SIGameSceneContentAnimationIn
+};
 
 @protocol SIGameSceneDelegate <NSObject>
 
@@ -59,7 +76,7 @@
 @end
 
 
-@interface SIGameScene : HLScene <HLToolbarNodeDelegate, SIGameNodeDelegate, HLRingNodeDelegate, SIPopUpNodeDelegate, HLMenuNodeDelegate>
+@interface SIGameScene : HLScene <HLToolbarNodeDelegate, SIGameNodeDelegate, HLRingNodeDelegate, SIPopUpNodeDelegate>
 
 /**
  The delegate for the scene
@@ -72,35 +89,9 @@
 - (instancetype)initWithSize:(CGSize)size;
 
 /**
- I guess you could use this for a pause menu... if that's something
- you're into.
- */
-- (void)sceneGameBlurDisplayRingNode:(HLRingNode *)ringNode;
-
-/**
- Present a popup without a menu node
- */
-- (void)sceneGameDisplayPopup:(SIPopupNode *)popupNode;
-
-/**
- Used to fade all of the UI elements in
- */
-- (void)sceneGameFadeUIElementsInDuration:(CGFloat)duration;
-
-/**
- Used to fade all of the UI elements out
- */
-- (void)sceneGameFadeUIElementsOutDuration:(CGFloat)duration;
-
-/**
  When you need to move power up progress bar on or off screen
  */
 - (void)sceneGameMovePowerUpProgressBarOnScreen:(BOOL)OnScreen animate:(BOOL)animate;
-
-/**
- Present a node modally with a pop up
- */
-- (void)sceneGamePresentPopup:(SIPopupNode *)popupNode withMenuNode:(HLMenuNode *)menuNode;
 
 /**
  Called when the scene shall show a new high score
@@ -112,6 +103,10 @@
  */
 - (void)sceneGameShowFreeCoinEarned;
 
+/**
+ Called to show an exploding move score
+ */
+- (void)sceneGameWillShowMoveScore:(BMGlyphLabel *)moveLabel;
 
 /**
  The ad content
@@ -122,13 +117,81 @@
 @property (nonatomic, strong) SIAdBannerNode *adBannerNode;
 
 /**
+ The duration for how long it takes to animate objects in for layout
+ default is `1.0f`
+ */
+@property (nonatomic, assign) CGFloat animationDuration;
+
+/**
+ Set this true to display a blur screen above the view
+ */
+@property (nonatomic, assign) BOOL blurScreen;
+
+/**
+ Blur screen duration
+ Default is `0.25`
+ */
+@property (nonatomic, assign) CGFloat blurScreenDuration;
+
+/**
+ For setting the move command
+ */
+@property (nonatomic, strong) NSString *moveCommandText;
+
+/**
+ The label of the move command
+ */
+@property (nonatomic, strong) BMGlyphLabel *moveCommandLabel;
+
+/**
+ Move Command Label Position Random
+ Set this true to make the moveCommand move in random around the scene
+ */
+@property (nonatomic, assign) BOOL moveCommandRandomLocation;
+
+/**
  Oh yeah, so good news kids! if you set this to content it will get blaster up to the top of the screen!!
  */
 @property (nonatomic, strong) SIPopupNode *popupNode;
+
+/**
+ A Power Up Toolbar
+ */
+@property (nonatomic, strong) HLToolbarNode *powerUpToolbarNode;
+
+/**
+ The progress bar for the free coin
+ */
+@property (nonatomic, strong) TCProgressBarNode *progressBarFreeCoin;
+
+/**
+ The progress bar for the power up
+ */
+@property (nonatomic, strong) TCProgressBarNode *progressBarPowerUp;
+
+/**
+ The progress bar for the move
+ */
+@property (nonatomic, strong) TCProgressBarNode *progressBarMove;
 
 /**
  A ring node to display
  */
 @property (nonatomic, strong) HLRingNode *ringNode;
 
+/**
+ The total score label
+ */
+@property (nonatomic, strong) BMGlyphLabel *scoreTotalLabel;
+
+/**
+ Pading of the top label
+ Default is `8.0f`
+ */
+@property (nonatomic, assign) CGFloat scoreTotalLabelTopPadding;
+
+/**
+ Number of Coins the user has
+ */
+@property (nonatomic, assign) int swypeItCoins;
 @end

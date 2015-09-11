@@ -10,6 +10,9 @@
 
 @interface TCProgressBarNode : SKNode
 
+/**Size of Progress Bar*/
+@property (nonatomic) CGSize size;
+
 /** Current progress of the progress bar, value between 0.0 and 1.0 */
 @property (nonatomic) CGFloat progress;
 

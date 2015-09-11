@@ -27,7 +27,7 @@
 - (instancetype)initWithSize:(CGSize)size {
     if (self = [super initWithSize:size]) {
         /**Do any setup before self.view is loaded*/
-        _menuType                                   = SISceneMenuTypeStart;
+        _sceneMenuType                              = SISceneMenuTypeStart;
         _sceneSize                                  = size;
         [self initSetup:size];
     }
@@ -69,42 +69,9 @@
     /*Create Background Node*/
     _backgroundNode.anchorPoint                     = CGPointMake(0.0f, 0.0f);
 }
-- (HLToolbarNode *)createToolbarBottom:(CGSize)size {
-    HLToolbarNode *toolbarNode                      = [[HLToolbarNode alloc] init];
-    toolbarNode.automaticHeight                     = NO;
-    toolbarNode.automaticWidth                      = NO;
-    toolbarNode.backgroundBorderSize                = 0.0f;
-    toolbarNode.squareSeparatorSize                 = 10.0f;
-    toolbarNode.backgroundColor                     = [UIColor clearColor];
-    toolbarNode.anchorPoint                         = CGPointMake(0.0f, 0.0f);
-    toolbarNode.size                                = CGSizeMake(size.width, [SIGameController SIButtonSize:size].height);
-    toolbarNode.squareColor                         = [SKColor clearColor];
-    
-    
-    NSMutableArray *toolNodes                       = [NSMutableArray array];
-    NSMutableArray *toolTags                        = [NSMutableArray array];
-    
-    [toolNodes  addObject:[SKSpriteNode spriteNodeWithTexture:[[SIConstants buttonAtlas] textureNamed:kSIImageButtonSettings]]];
-    [toolTags   addObject:kSINodeButtonSettings];
-    
-    BOOL isPremiumUser = [[NSUserDefaults standardUserDefaults] boolForKey:kSINSUserDefaultPremiumUser];
-    if (!isPremiumUser) {
-        [toolNodes  addObject:[SKSpriteNode spriteNodeWithTexture:[[SIConstants buttonAtlas] textureNamed:kSIImageButtonNoAd]]];
-        [toolTags   addObject:kSINodeButtonNoAd];
-    }
-    
-    [toolNodes  addObject:[SKSpriteNode spriteNodeWithTexture:[[SIConstants buttonAtlas] textureNamed:kSIImageButtonInstructions]]];
-    [toolTags   addObject:kSINodeButtonInstructions];
-    
-    [toolNodes  addObject:[SKSpriteNode spriteNodeWithTexture:[[SIConstants buttonAtlas] textureNamed:kSIImageButtonLeaderboard]]];
-    [toolTags   addObject:kSINodeButtonLeaderBoard];
-    
-    [toolbarNode setTools:toolNodes tags:toolTags animation:HLToolbarNodeAnimationNone];
-    
-    [toolbarNode layoutToolsAnimation:HLToolbarNodeAnimationNone];
-    return toolbarNode;
-}
-#pragma mark - Setters
+
+#pragma mark -
+#pragma mark - Public Accessors
 - (void)setAdBannerNode:(SIAdBannerNode *)adBannerNode {
     if (_adContentNode) {
         [_adContentNode removeFromParent];

@@ -25,7 +25,6 @@
 
 @property (nonatomic, strong) SKLabelNode *titleLabelNode;;
 
-@property (nonatomic) CGSize size;
 @property (nonatomic) CGFloat cornerRadius;
 @property (nonatomic) CGFloat borderWidth;
 

@@ -35,11 +35,27 @@
 
 + (CGSize)              SIButtonSize:(CGSize)size;
 + (CGSize)              SIFallingMonkeySize;
+/**
+ Input the scene size
+ */
++ (CGSize)SIProgressBarGameFreeCoinSize:(CGSize)size;
+/**
+ Input the scene size
+ */
++ (CGSize)SIProgressBarGameMoveSize:(CGSize)size;
+/**
+ Input the scene size
+ */
++ (CGSize)SIProgressBarGamePowerUpSize:(CGSize)size;
 
 + (HLLabelButtonNode *) SIMenuButtonPrototypeBack:(CGSize)size;
 + (HLLabelButtonNode *) SIMenuButtonPrototypeBasic:(CGSize)size;
 + (HLLabelButtonNode *) SIMenuButtonPrototypeBasic:(CGSize)size backgroundColor:(UIColor *)backgroundColor fontColor:(UIColor *)fontColor;
 + (HLLabelButtonNode *) SIMenuButtonPrototypePopUp:(CGSize)size;
+/**
+ Returns the number of coins the user has
+ */
++ (int)numberOfCoinsForUser;
 
 + (NSDate *)            getDateFromInternet;
 

@@ -47,31 +47,34 @@
 @end
 
 @implementation SIGameController {
-    __weak SKScene      *_currentScene;
+    __weak SKScene                           *_currentScene;
     
-    ADBannerView        *_adBannerView;
+    ADBannerView                             *_adBannerView;
     
-    ADInterstitialAd    *_interstitialAd;
+    ADInterstitialAd                         *_interstitialAd;
     
-    BOOL                 _interstitialAdPresentationIsLive;
+    BOOL                                     _interstitialAdPresentationIsLive;
     
     /**
      Premium User or not... for quick reference and shit
      */
-    BOOL                 _premiumUser;
+    BOOL                                     _premiumUser;
     
     /**
      Set this true if you want a ton of print statements
      */
-    BOOL                 _verbose;
-
-    CGFloat              _screenHeight;
+    BOOL                                     _verbose;
     
-    CGSize               _sceneSize;
+    CGFloat                                  _sceneGameSpacingHorizontalToolbar;
+    
+    CGSize                                   _sceneSize;
+    CGSize                                   _sceneGameToolbarSize;
+    CGSize                                   _sceneGameToolbarNodeSize;
 
-    int                  _loadingPointsCurrent;
-    int                  _loadingPointsTotal;
-    int                  _numberOfAdsToWatch;
+
+    int                                      _loadingPointsCurrent;
+    int                                      _loadingPointsTotal;
+    int                                      _numberOfAdsToWatch;
     
     /**
      0.0 to 1.0 for the amount of the scene that is loaded
@@ -83,7 +86,7 @@
     HLRingNode                              *_sceneGameRingNodePause;
     
     HLToolbarNode                           *_sceneGameToolbarPowerUp;
-    HLToolbarNode                           *_sceneMenuToolbarBottom;
+    HLToolbarNode                           *_sceneMenuToolbarStart;
     
     MBProgressHUD                           *_hud;
     
@@ -175,11 +178,15 @@
 
     _sceneSize                          = self.view.frame.size;
     _interstitialAdPresentationIsLive   = NO;
-    _screenHeight                       = [UIScreen mainScreen].bounds.size.height;
     _monkeyFaceTexture                  = [[SIConstants buttonAtlas] textureNamed:kSIImageFallingMonkeys];
     _loadingPointsCurrent               = 0;
     _verbose                            = YES;
     _premiumUser                        = [SIGameController premiumUser];
+    
+    _sceneGameSpacingHorizontalToolbar  = 10.0f;
+    CGFloat toolBarNodeWidth            = (SCREEN_WIDTH - (4.0f * _sceneGameSpacingHorizontalToolbar)) / 5.0f;
+    _sceneGameToolbarNodeSize           = CGSizeMake(toolBarNodeWidth, toolBarNodeWidth);
+    _sceneGameToolbarSize               = CGSizeMake(_sceneSize.width, _sceneGameToolbarNodeSize.height + VERTICAL_SPACING_8);
 
 }
 - (void)setupControls {
@@ -203,9 +210,9 @@
 - (void)loadingIncrementWillOverrideAndKill:(BOOL)overrideAndKillLoadingScreen {
     _loadingPointsCurrent = _loadingPointsCurrent + 1;
     if (_loadingPointsCurrent == (int)SIGameControllerSceneCount) {
-        [SIGameController transisitionToSKScene:_sceneMenu toSKView:[self fastSKView] DoorsOpen:YES pausesIncomingScene:NO pausesOutgoingScene:NO duration:SCENE_TRANSISTION_DURATION_NORMAL];
+        _currentScene = [SIGameController transisitionToSKScene:_sceneMenu toSKView:[self fastSKView] DoorsOpen:YES pausesIncomingScene:NO pausesOutgoingScene:NO duration:SCENE_TRANSISTION_DURATION_NORMAL];
     } else if (overrideAndKillLoadingScreen) {
-        [SIGameController transisitionToSKScene:_sceneMenu toSKView:[self fastSKView] DoorsOpen:YES pausesIncomingScene:NO pausesOutgoingScene:NO duration:SCENE_TRANSISTION_DURATION_NORMAL];
+        _currentScene = [SIGameController transisitionToSKScene:_sceneMenu toSKView:[self fastSKView] DoorsOpen:YES pausesIncomingScene:NO pausesOutgoingScene:NO duration:SCENE_TRANSISTION_DURATION_NORMAL];
     }
     [_sceneLoading sceneLoadingSetProgressPercent:(float)_loadingPointsCurrent / (float)SIGameControllerSceneCount];
 }
@@ -218,7 +225,7 @@
     /*Init The Loading Scene First and Fire It Up There!*/
     _sceneLoading = [SIGameController mainLoadSceneSILoadingSize:_sceneSize];
     [self loadingIncrementWillOverrideAndKill:NO];
-    [SIGameController viewController:[self fastSKView] transisitionToSKScene:_sceneLoading duration:SCENE_TRANSISTION_DURATION_FAST];
+    _currentScene = [SIGameController viewController:[self fastSKView] transisitionToSKScene:_sceneLoading duration:SCENE_TRANSISTION_DURATION_FAST];
     
     /*Load the scenes*/
     [self loadAllScenes];
@@ -263,6 +270,8 @@
     
     _sceneGameRingNodePause         = [SIGameController SIRingNodeSceneGamePause];
     
+    _sceneGameToolbarPowerUp        = [SIGameController SIToolbarGamePowerUpToolbarSize:_sceneGameToolbarSize toolbarNodeSize:_sceneGameToolbarNodeSize horizontalSpacing:_sceneGameSpacingHorizontalToolbar];
+    
     [SIGameController sceneGameWillLoadEmitters];
     
     if (_verbose) {
@@ -279,7 +288,7 @@
     
     menuScene.sceneDelegate = self;
     
-    menuScene.toolBarBottom = [SIGameController HLToolbarStartScene:[SIGameController SIToolbarSceneMenuSize:_sceneSize] isPremiumUser:_premiumUser];
+    menuScene.toolBarBottom = [SIGameController SIToolbarMenuStartScene:[SIGameController SIToolbarSceneMenuSize:_sceneSize] isPremiumUser:_premiumUser];
     
     if (_verbose) {
         NSLog(@"SIMenuScene Initialized: loaded in %0.2f seconds", [[NSDate date] timeIntervalSinceDate:startDate]);
@@ -298,21 +307,29 @@
 }
 
 
-
-
-
-- (BOOL)verifySceneGame {
-    if (_sceneGame == nil) {
-        _sceneGame = [[SIGameScene alloc] initWithSize:_sceneSize];
-    }
-    if (_sceneGamePopupContinue == nil) {
-        _sceneGamePopupContinue = [SIGameController SIPopupSceneGameContinue];
-    }
-    if (_sceneGamePopupContinueMenuNode == nil) {
-        _sceneGamePopupContinueMenuNode = [SIGameController SIMenuNodeSceneGamePopup:_sceneGamePopupContinue];
-    }
-    return YES;
-}
+/**
+ Call when ever you want... just know that this could cause a delay in scene transistion
+    Honestly it might be better to just check individual components befor animating each of them in
+    That way we isolate potential screen hangups because one node had to load...
+ */
+//- (BOOL)verifySceneGame {
+//    if (_sceneGame == nil) {
+//        _sceneGame = [[SIGameScene alloc] initWithSize:_sceneSize];
+//    }
+//    if (_sceneGamePopupContinue == nil) {
+//        _sceneGamePopupContinue = [SIGameController SIPopupSceneGameContinue];
+//    }
+//    if (_sceneGamePopupContinueMenuNode == nil) {
+//        _sceneGamePopupContinueMenuNode = [SIGameController SIMenuNodeSceneGamePopup:_sceneGamePopupContinue];
+//    }
+//    if (_sceneGameToolbarPowerUp == nil) {
+//        _sceneGameToolbarPowerUp = [SIGameController SIToolbarGamePowerUpToolbarSize:_sceneGameToolbarSize toolbarNodeSize:_sceneGameToolbarNodeSize horizontalSpacing:_sceneGameSpacingHorizontalToolbar];
+//    }
+//    if (_sceneGameRingNodePause == nil) {
+//        _sceneGameRingNodePause = [SIGameController SIRingNodeSceneGamePause];
+//    }
+//    return YES;
+//}
 
 #pragma mark -
 #pragma mark - Accessors Methods
@@ -327,7 +344,7 @@
  Called when you need a new move score label and such
  */
 - (BMGlyphLabel *)moveScoreLabel:(float)score {
-    return [BMGlyphLabel labelWithText:[NSString stringWithFormat:@"%0.2f",score] font:[SIGameController moveScoreFont]];
+    return [BMGlyphLabel labelWithText:[NSString stringWithFormat:@"%0.2f",score] font:[SIGameController BMGFontUltraStroked]];
 }
 
 /**
@@ -394,7 +411,7 @@
     } else {
         _adBannerView               = [[ADBannerView alloc] initWithAdType:ADAdTypeBanner];
         CGFloat bannerViewHeight    = _adBannerView.bounds.size.height;
-        _adBannerView.frame         = CGRectMake(0.0f, _screenHeight + bannerViewHeight, 0.0f, 0.0f);
+        _adBannerView.frame         = CGRectMake(0.0f, _sceneSize.height + bannerViewHeight, 0.0f, 0.0f);
         _adBannerView.hidden        = YES;
         _adBannerView.alpha         = 0.0f;
         [self.view addSubview:_adBannerView];
@@ -413,7 +430,7 @@
             NSLog(@"Banner Ads Hidden.");
         }
     }
-    _sceneMenu.toolBarBottom = [SIGameController HLToolbarStartScene:[SIGameController SIToolbarSceneMenuSize:_sceneSize] isPremiumUser:_premiumUser];
+    _sceneMenu.toolBarBottom = [SIGameController SIToolbarMenuStartScene:[SIGameController SIToolbarSceneMenuSize:_sceneSize] isPremiumUser:_premiumUser];
 }
 
 #pragma mark Interstitial Ads
@@ -566,8 +583,6 @@
  the game
  */
 - (void)controllerSingletonGameShowContinue {
-    [self verifySceneGame];
-    
     if ([SIIAPUtility canAffordContinue:[SISingletonGame singleton].currentGame.currentContinueLifeCost]) {
         [[[_sceneGamePopupContinueMenuNode menu] itemAtIndex:SISceneGamePopupContinueMenuItemCoin] setText:[NSString stringWithFormat:@"Use %d Coins!",(int)[SIGame lifeCostForNumberOfTimesContinued:[SISingletonGame singleton].currentGame.currentNumberOfTimesContinued]]];
     }
@@ -612,7 +627,7 @@
             /*pause the singleton*/
             [[SISingletonGame singleton] singletonGameWillPause];
             /*launch the other scene with no delay*/
-            [SIGameController viewController:[self fastSKView] transisitionToSKScene:_sceneFallingMonkey duration:SCENE_TRANSISTION_DURATION_FAST];
+            _currentScene = [SIGameController viewController:[self fastSKView] transisitionToSKScene:_sceneFallingMonkey duration:SCENE_TRANSISTION_DURATION_FAST];
             break;
         case SIPowerUpTypeRapidFire:
             /*Bring out progress bar*/
@@ -637,7 +652,7 @@
     switch (powerUp) {
         case SIPowerUpTypeFallingMonkeys:
             /*pause the singleton*/
-            [SIGameController viewController:[self fastSKView] transisitionToSKScene:_sceneGame duration:SCENE_TRANSISTION_DURATION_NORMAL];
+            _currentScene = [SIGameController viewController:[self fastSKView] transisitionToSKScene:_sceneGame duration:SCENE_TRANSISTION_DURATION_NORMAL];
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(SCENE_TRANSISTION_DURATION_NORMAL * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                 [[SISingletonGame singleton] singletonGameWillResumeAndContinue:YES];
             });
@@ -820,7 +835,7 @@
     
     [UIView beginAnimations:nil context:nil];
     [UIView setAnimationDuration:1.0f];
-    _adBannerView.frame                 = CGRectMake(0.0f, _screenHeight - bv, 0.0f, 0.0f);
+    _adBannerView.frame                 = CGRectMake(0.0f, _sceneSize.height - bv, 0.0f, 0.0f);
     [UIView commitAnimations];
 }
 
@@ -832,7 +847,7 @@
     
     [UIView beginAnimations:nil context:nil];
     [UIView setAnimationDuration:1.0f];
-    _adBannerView.frame = CGRectMake(0.0f, _screenHeight + bv, 0.0f, 0.0f);
+    _adBannerView.frame = CGRectMake(0.0f, _sceneSize.height + bv, 0.0f, 0.0f);
     [UIView commitAnimations];
 }
 
@@ -902,15 +917,17 @@
 #pragma mark - Class Functions
 #pragma mark Scene Transistions
 
-+ (void)viewController:(SKView *)view transisitionToSKScene:(SKScene *)scene duration:(CGFloat)duration {
++ (SKScene *)viewController:(SKView *)view transisitionToSKScene:(SKScene *)scene duration:(CGFloat)duration {
     SKTransition *transistion;
     
     transistion = [SKTransition fadeWithColor:[SKColor blackColor] duration:duration];
     
     [view presentScene:scene transition:transistion];
+    
+    return scene;
 }
 
-+ (void)transisitionToSKScene:(SKScene *)scene toSKView:(SKView *)view DoorsOpen:(BOOL)doorsOpen pausesIncomingScene:(BOOL)pausesIncomingScene pausesOutgoingScene:(BOOL)pausesOutgoingScene duration:(CGFloat)duration {
++ (SKScene *)transisitionToSKScene:(SKScene *)scene toSKView:(SKView *)view DoorsOpen:(BOOL)doorsOpen pausesIncomingScene:(BOOL)pausesIncomingScene pausesOutgoingScene:(BOOL)pausesOutgoingScene duration:(CGFloat)duration {
     SKTransition *transistion;
     
     if (doorsOpen) {
@@ -923,6 +940,8 @@
     transistion.pausesOutgoingScene = pausesOutgoingScene;
     
     [view presentScene:scene transition:transistion];
+    
+    return scene;
 }
 #pragma mark Ads
 + (CGFloat)SIAdBannerViewHeight {
@@ -976,6 +995,10 @@
     }
     
     return currentDate;
+}
+
++ (int)numberOfCoinsForUser {
+    return [[[MKStoreKit sharedKit] availableCreditsForConsumable:kSIIAPConsumableIDCoins] intValue];
 }
 
 #pragma mark Size Functions
@@ -1140,6 +1163,19 @@
         
     }
 }
+
++ (CGSize)SIProgressBarGameFreeCoinSize:(CGSize)size {
+    return CGSizeMake(size.width / 8.0f, size.height / 4.0f);
+}
+
++ (CGSize)SIProgressBarGameMoveSize:(CGSize)size {
+    return CGSizeMake(size.width, size.height / 6.0f);
+}
+
++ (CGSize)SIProgressBarGamePowerUpSize:(CGSize)size {
+    return CGSizeMake([SIGameController SIProgressBarGameMoveSize:size].width, [SIGameController SIProgressBarGameMoveSize:size].height / 2.0f);
+}
+
 
 #pragma mark SpriteKit
 + (SKLabelNode *)SILabelHeader:(NSString *)text {
@@ -1317,7 +1353,7 @@
     
     return menuNode;
 }
-+ (HLToolbarNode *)HLToolbarStartScene:(CGSize)size isPremiumUser:(BOOL)isPremiumUser {
++ (HLToolbarNode *)SIToolbarMenuStartScene:(CGSize)size isPremiumUser:(BOOL)isPremiumUser {
     HLToolbarNode *toolbarNode                  = [[HLToolbarNode alloc] init];
     toolbarNode.automaticHeight                 = NO;
     toolbarNode.automaticWidth                  = NO;
@@ -1354,6 +1390,39 @@
     [toolbarNode layoutToolsAnimation:HLToolbarNodeAnimationNone];
     return toolbarNode;
 }
+/**Power up toolbar*/
++ (HLToolbarNode *)SIToolbarGamePowerUpToolbarSize:(CGSize)toolbarSize toolbarNodeSize:(CGSize)toolbarNodeSize horizontalSpacing:(CGFloat)horizontalSpacing {
+    HLToolbarNode *toolbarNode                  = [[HLToolbarNode alloc] init];
+    toolbarNode.automaticHeight                 = NO;
+    toolbarNode.automaticWidth                  = NO;
+    toolbarNode.backgroundBorderSize            = 0.0f;
+    toolbarNode.squareSeparatorSize             = horizontalSpacing;
+    toolbarNode.backgroundColor                 = [UIColor clearColor];
+    toolbarNode.anchorPoint                     = CGPointMake(0.0f, 0.0f);
+    toolbarNode.size                            = toolbarSize;
+    toolbarNode.squareColor                     = [SKColor clearColor];
+    
+    NSMutableArray *toolNodes                   = [NSMutableArray array];
+    NSMutableArray *toolTags                    = [NSMutableArray array];
+    
+    SIPowerUpToolbarNode *timeFreezeNode        = [[SIPowerUpToolbarNode alloc] initWithSIPowerUp:SIPowerUpTypeTimeFreeze size:toolbarNodeSize];
+    [toolNodes  addObject:timeFreezeNode];
+    [toolTags   addObject:kSINodeButtonTimeFreeze];
+    
+    SIPowerUpToolbarNode *rapidFireNode         = [[SIPowerUpToolbarNode alloc] initWithSIPowerUp:SIPowerUpTypeRapidFire size:toolbarNodeSize];
+    [toolNodes addObject:rapidFireNode];
+    [toolTags addObject:kSINodeButtonRapidFire];
+    
+    SIPowerUpToolbarNode *fallingMonkeyNode     = [[SIPowerUpToolbarNode alloc] initWithSIPowerUp:SIPowerUpTypeFallingMonkeys size:toolbarNodeSize];
+    [toolNodes addObject:fallingMonkeyNode];
+    [toolTags addObject:kSINodeButtonFallingMonkey];
+    
+    [toolbarNode setTools:toolNodes tags:toolTags animation:HLToolbarNodeAnimationSlideUp];
+    
+    [toolbarNode layoutToolsAnimation:HLToolbarNodeAnimationNone];
+    return toolbarNode;
+}
+
 + (HLRingNode *)SIRingNodeSceneGamePause {
     static HLRingNode *ringNode = nil;
     if (!ringNode) {
@@ -1363,12 +1432,28 @@
 }
 
 #pragma mark BMGlyphFonts
-+ (BMGlyphFont *)moveScoreFont {
++ (BMGlyphFont *)BMGFontLongIslandStroked {
     static BMGlyphFont *font = nil;
     if (!font) {
         font = [BMGlyphFont fontWithName:kSIFontUltraStroked];
     }
     return font;
+}
++ (BMGlyphFont *)BMGFontUltraStroked {
+    static BMGlyphFont *font = nil;
+    if (!font) {
+        font = [BMGlyphFont fontWithName:kSIFontUltraStroked];
+    }
+    return font;
+}
++ (BMGlyphLabel *)BMGLabelLongIslandStroked {
+    static BMGlyphLabel *label = nil;
+    if (!label) {
+        label                       = [BMGlyphLabel labelWithText:@"0.00" font:[SIGameController BMGFontLongIslandStroked]];
+        label.horizontalAlignment   = BMGlyphHorizontalAlignmentCentered;
+        label.verticalAlignment     = BMGlyphVerticalAlignmentTop;
+    }
+    return label;
 }
 
 #pragma mark SI methods
@@ -1413,5 +1498,41 @@
     emitterNode = [emitterStore setEmitterWithResource:kSIEmitterSpark forKey:kSIEmitterSpark];
     
     NSLog(@"SIGameScene loadEmitters: loaded in %0.2f seconds", [[NSDate date] timeIntervalSinceDate:startDate]);
+}
+/**Progress Bar for Free Coin*/
++ (TCProgressBarNode *)SISceneGameProgressBarFreeCoinSceneSize:(CGSize)size {
+    CGSize progressBarSize              = CGSizeMake(size.width / 2.0f, (size.width / 2.0f) * 0.2);
+    TCProgressBarNode *progressBar      = [[TCProgressBarNode alloc]
+                                           initWithSize:progressBarSize
+                                           backgroundColor:[UIColor lightGrayColor]
+                                           fillColor:[UIColor goldColor]
+                                           borderColor:[UIColor blackColor]
+                                           borderWidth:2.0f
+                                           cornerRadius:4.0f];
+    return progressBar;
+}
+/**Progress Bar for Move*/
++ (TCProgressBarNode *)SISceneGameProgressBarMoveSceneSize:(CGSize)size {
+    CGSize progressBarSize              = CGSizeMake(size.width, (size.width / 2.0f) * 0.3);
+    TCProgressBarNode *progressBar      = [[TCProgressBarNode alloc]
+                                           initWithSize:progressBarSize
+                                           backgroundColor:[UIColor grayColor]
+                                           fillColor:[UIColor redColor]
+                                           borderColor:[UIColor clearColor]
+                                           borderWidth:0.0f
+                                           cornerRadius:0.0f];
+    return progressBar;
+}
+/**Progress Bar for Power Up*/
++ (TCProgressBarNode *)SISceneGameProgressBarPowerUpSceneSize:(CGSize)size {
+    CGSize progressBarSize              = CGSizeMake(size.width, (size.width / 2.0f) * 0.3);
+    TCProgressBarNode *progressBar      = [[TCProgressBarNode alloc]
+                                           initWithSize:progressBarSize
+                                           backgroundColor:[UIColor grayColor]
+                                           fillColor:[UIColor greenColor]
+                                           borderColor:[UIColor clearColor]
+                                           borderWidth:0.0f
+                                           cornerRadius:0.0f];
+    return progressBar;
 }
 @end

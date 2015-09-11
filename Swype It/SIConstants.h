@@ -111,69 +111,53 @@ FOUNDATION_EXPORT SKLabelNode               *moveCommandLabelNode();
  */
 FOUNDATION_EXPORT HLRingNode                *sceneGamePauseRingNode();
 
-
-typedef NS_ENUM(NSInteger, SIGameControllerScene) {
-    SIGameControllerSceneLoading,
-    SIGameControllerSceneMenu,
-    SIGameControllerSceneGame,
-    SIGameControllerSceneFallingMonkey,
-    SIGameControllerSceneCount
+typedef NS_ENUM(NSInteger, SIAchievementArrayIndexForAchievementType) {
+    SIAchievementArrayIndexForAchievementTypeLevel1 = 0,
+    SIAchievementArrayIndexForAchievementTypeLevel2,
+    SIAchievementArrayIndexForAchievementTypeLevel3,
+    SIAchievementArrayIndexForAchievementTypeAll
 };
 
-typedef NS_ENUM(NSInteger, SIGameMode) {
-    SIGameModeOneHand,
-    SIGameModeTwoHand
-};
-typedef NS_ENUM(NSInteger, SIMoveCommand) {
-    SIMoveCommandTap,
-    SIMoveCommandSwype,
-    SIMoveCommandPinch,
-    SIMoveCommandShake,
-    SIMoveCommandFallingMonkey,
-    SIMoveCommandStop
-};
-typedef NS_ENUM(NSInteger, SIPowerUpType) {
-    SIPowerUpTypeNone,
-    SIPowerUpTypeFallingMonkeys,
-    SIPowerUpTypeTimeFreeze,
-    SIPowerUpTypeRapidFire
-};
-typedef NS_ENUM(NSInteger, SIPowerUpCost) {
-    SIPowerUpCostNone                       = 0,
-    SIPowerUpCostTimeFreeze                 = 1,
-    SIPowerUpCostRapidFire                  = 3,
-    SIPowerUpCostFallingMonkeys             = 5
+typedef NS_ENUM(NSInteger, SIAchievementLevel) {
+    SIAchievementLevelOne = 0,
+    SIAchievementLevelTwo,
+    SIAchievementLevelThree,
+    SIAchievementLevelDone
 };
 
-typedef NS_ENUM(NSInteger, SIPowerUpDuration) {
-    SIPowerUpDurationNone                   = 0,
-    SIPowerUpDurationRapidFire              = 3,
-    SIPowerUpDurationTimeFreeze             = 8
+typedef NS_ENUM(NSInteger, SIAchievementMoveSequence) {
+    SIAchievementMoveSequenceOne            = 0,
+    SIAchievementMoveSequenceTwo,
+    SIAchievementMoveSequenceThree,
+    SIAchievementMoveSequenceFour,
+    SIAchievementMoveSequenceDone
 };
 
-typedef NS_ENUM(NSInteger, SIIAPNumberOfCoins) {
-    SIIAPNumberOfCoinsSmall                 = 30,
-    SIIAPNumberOfCoinsMedium                = 200,
-    SIIAPNumberOfCoinsLarge                 = 500,
-    SIIAPNumberOfCoinsExtraLarge            = 1500
+typedef NS_ENUM(NSInteger, SIAchievementSkillLevel) {
+    SIAchievementSkillLevelBeginner         = 0,
+    SIAchievementSkillLevelIntermediate,
+    SIAchievementSkillLevelPro,
+    SIAchievementSkillLevelMaster
 };
-typedef NS_ENUM(NSInteger, SIIAPPack) {
-    SIIAPPackSmall,
-    SIIAPPackMedium,
-    SIIAPPackLarge,
-    SIIAPPackExtraLarge
+
+typedef NS_ENUM(NSInteger, SIAchievementType) {
+    SIAchievementTypeMove                   = 0,
+    SIAchievementTypeMoveSequence,
+    SIAchievementTypeScore,
+    SIAchievementTypeAll
 };
-typedef NS_ENUM(NSInteger, SIMoveCommandAction) {
-    SIMoveCommandActionTap,
-    SIMoveCommandActionShake,
-    SIMoveCommandActionPinchNegative,
-    SIMoveCommandActionPinchPositive,
-    SIMoveCommandActionSwypeUp,
-    SIMoveCommandActionSwypeDown,
-    SIMoveCommandActionSwypeLeft,
-    SIMoveCommandActionSwypeRight,
-    SIMoveCommandActionSwypeNone
+
+typedef NS_ENUM(NSInteger, SIBackgroundSound) {
+    SIBackgroundSoundMenu,
+    SIBackgroundSoundOne,
+    SIBackgroundSoundTwo,
+    SIBackgroundSoundThree,
+    SIBackgroundSoundFour,
+    SIBackgroundSoundFive,
+    SIBackgroundSoundSix,
+    SIBackgroundSoundSeven
 };
+
 typedef NS_ENUM(NSInteger, SIContinueLifeCost) {
     SIContinueLifeCost0                     = 0,
     SIContinueLifeCost1                     = 5,
@@ -222,20 +206,91 @@ typedef NS_ENUM(NSInteger, SIContinueAdCount) {
     SIContinueAdCount20                     = 1000000,
     SIContinueAdCount21                     = 10000000
 };
+
+typedef NS_ENUM(NSInteger, SIGameControllerScene) {
+    SIGameControllerSceneLoading,
+    SIGameControllerSceneMenu,
+    SIGameControllerSceneGame,
+    SIGameControllerSceneFallingMonkey,
+    SIGameControllerSceneCount
+};
+
+typedef NS_ENUM(NSInteger, SIGameFreePrize) {
+    SIGameFreePrizeNo                       = 0,
+    SIGameFreePrizeYesConsecutive,
+    SIGameFreePrizeYes
+};
+
+
+typedef NS_ENUM(NSInteger, SIGameMode) {
+    SIGameModeOneHand,
+    SIGameModeTwoHand
+};
+
+typedef NS_ENUM(NSInteger, SIIAPNumberOfCoins) {
+    SIIAPNumberOfCoinsSmall                 = 30,
+    SIIAPNumberOfCoinsMedium                = 200,
+    SIIAPNumberOfCoinsLarge                 = 500,
+    SIIAPNumberOfCoinsExtraLarge            = 1500
+};
+
+typedef NS_ENUM(NSInteger, SIIAPPack) {
+    SIIAPPackSmall,
+    SIIAPPackMedium,
+    SIIAPPackLarge,
+    SIIAPPackExtraLarge
+};
+
+typedef NS_ENUM(NSInteger, SIMoveCommand) {
+    SIMoveCommandTap,
+    SIMoveCommandSwype,
+    SIMoveCommandPinch,
+    SIMoveCommandShake,
+    SIMoveCommandFallingMonkey,
+    SIMoveCommandStop
+};
+
+typedef NS_ENUM(NSInteger, SIMoveCommandAction) {
+    SIMoveCommandActionTap,
+    SIMoveCommandActionShake,
+    SIMoveCommandActionPinchNegative,
+    SIMoveCommandActionPinchPositive,
+    SIMoveCommandActionSwypeUp,
+    SIMoveCommandActionSwypeDown,
+    SIMoveCommandActionSwypeLeft,
+    SIMoveCommandActionSwypeRight,
+    SIMoveCommandActionSwypeNone
+};
+
+typedef NS_ENUM(NSInteger, SIPowerUpCost) {
+    SIPowerUpCostNone                       = 0,
+    SIPowerUpCostTimeFreeze                 = 1,
+    SIPowerUpCostRapidFire                  = 3,
+    SIPowerUpCostFallingMonkeys             = 5
+};
+
+typedef NS_ENUM(NSInteger, SIPowerUpDuration) {
+    SIPowerUpDurationNone                   = 0,
+    SIPowerUpDurationRapidFire              = 3,
+    SIPowerUpDurationTimeFreeze             = 8
+};
+
+typedef NS_ENUM(NSInteger, SIPowerUpType) {
+    SIPowerUpTypeNone,
+    SIPowerUpTypeFallingMonkeys,
+    SIPowerUpTypeTimeFreeze,
+    SIPowerUpTypeRapidFire
+};
+
 typedef NS_ENUM(NSInteger, SIProgressBar) {
     SIProgressBarMove,
     SIProgressBarPowerUp
 };
 
-typedef NS_ENUM(NSInteger, SIBackgroundSound) {
-    SIBackgroundSoundMenu,
-    SIBackgroundSoundOne,
-    SIBackgroundSoundTwo,
-    SIBackgroundSoundThree,
-    SIBackgroundSoundFour,
-    SIBackgroundSoundFive,
-    SIBackgroundSoundSix,
-    SIBackgroundSoundSeven
+typedef NS_ENUM(NSInteger, SISceneGamePopupContinueMenuItem) {
+    SISceneGamePopupContinueMenuItemCoin    = 0,
+    SISceneGamePopupContinueMenuItemAd,
+    SISceneGamePopupContinueMenuItemNo
 };
 
 typedef NS_ENUM(NSInteger, SISceneGameRingNode) {
@@ -245,19 +300,9 @@ typedef NS_ENUM(NSInteger, SISceneGameRingNode) {
     SISceneGameRingNodeEndGame
 };
 
-typedef NS_ENUM(NSInteger, SIGameFreePrize) {
-    SIGameFreePrizeNo                       = 0,
-    SIGameFreePrizeYesConsecutive,
-    SIGameFreePrizeYes
-};
 
-typedef NS_ENUM(NSInteger, SISceneGamePopupContinueMenuItem) {
-    SISceneGamePopupContinueMenuItemCoin    = 0,
-    SISceneGamePopupContinueMenuItemAd,
-    SISceneGamePopupContinueMenuItemNo
-};
 
-typedef NS_ENUM(NSInteger, SISceneStartToolBarNode) {
+typedef NS_ENUM(NSInteger, SISceneMenuToolBarNode) {
     SISceneStartToolBarNodeNoAds            = 0,
     SISceneStartToolBarNodeLeaderboard,
     SISceneStartToolBarNodeSettings,
@@ -270,40 +315,17 @@ typedef NS_ENUM(NSInteger, SISceneMenuType) {
     SISceneMenuTypeChallenges
 };
 
-typedef NS_ENUM(NSInteger, SIAchievementSkillLevel) {
-    SIAchievementSkillLevelBeginner         = 0,
-    SIAchievementSkillLevelIntermediate,
-    SIAchievementSkillLevelPro,
-    SIAchievementSkillLevelMaster
-};
-
-typedef NS_ENUM(NSInteger, SIAchievementType) {
-    SIAchievementTypeMove                   = 0,
-    SIAchievementTypeMoveSequence,
-    SIAchievementTypeScore,
-    SIAchievementTypeAll
-};
-
-typedef NS_ENUM(NSInteger, SIAchievementLevel) {
-    SIAchievementLevelOne = 0,
-    SIAchievementLevelTwo,
-    SIAchievementLevelThree,
-    SIAchievementLevelDone
-};
-
-typedef NS_ENUM(NSInteger, SIAchievementMoveSequence) {
-    SIAchievementMoveSequenceOne            = 0,
-    SIAchievementMoveSequenceTwo,
-    SIAchievementMoveSequenceThree,
-    SIAchievementMoveSequenceFour,
-    SIAchievementMoveSequenceDone
-};
-
-typedef NS_ENUM(NSInteger, SIAchievementArrayIndexForAchievementType) {
-    SIAchievementArrayIndexForAchievementTypeLevel1 = 0,
-    SIAchievementArrayIndexForAchievementTypeLevel2,
-    SIAchievementArrayIndexForAchievementTypeLevel3,
-    SIAchievementArrayIndexForAchievementTypeAll
+typedef NS_ENUM(NSInteger, SIZPositionGame) {
+    SIZPositionGameBackground = 0,
+    SIZPositionGameContent,
+    SIZPositionGameContentProgressBarContent,
+    SIZPositionGameContentMoveScoreEmitter,
+    SIZPositionGameContentMoveScore,
+    SIZPositionGameOverlayMin,
+    SIZPositionGameOverlayMax,
+    SIZPositionGameModalMin,
+    SIZPositionGameModalMax,
+    SIZPositionGameCount
 };
 
 #pragma mark - Images
@@ -565,10 +587,11 @@ extern NSString *const kSINodePopupContent;
 extern NSString *const kSINodePopupTitle;
 
 #pragma mark - Fonts
-extern NSString *const kSIFontUltraStroked;
 extern NSString *const kSIFontGameScore;
 extern NSString *const kSIFontFuturaMedium;
+extern NSString *const kSIFontLongIslandStroked;
 extern NSString *const kSIFontUltra;
+extern NSString *const kSIFontUltraStroked;
 
 #pragma mark - Menu Button Texts
 extern NSString *const kSIMenuTextBack;

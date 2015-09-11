@@ -62,10 +62,6 @@
 		094D10A11BA0BCBC00392587 /* SIGameControllerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 094D10A01BA0BCBC00392587 /* SIGameControllerTests.m */; };
 		094D10A31BA18D5A00392587 /* SISingletonAchievementTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 094D10A21BA18D5A00392587 /* SISingletonAchievementTests.m */; };
 		094D10A41BA18DA200392587 /* SISingletonAchievement.m in Sources */ = {isa = PBXBuildFile; fileRef = 09A488BF1B9D8D770075F41C /* SISingletonAchievement.m */; };
-		094F229C1B95911D00968FB5 /* ultraStroked.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 094F22981B95911D00968FB5 /* ultraStroked.atlas */; };
-		094F229D1B95911D00968FB5 /* ultraStroked.xml in Resources */ = {isa = PBXBuildFile; fileRef = 094F22991B95911D00968FB5 /* ultraStroked.xml */; };
-		094F229E1B95911D00968FB5 /* ultraStroked@2x.xml in Resources */ = {isa = PBXBuildFile; fileRef = 094F229A1B95911D00968FB5 /* ultraStroked@2x.xml */; };
-		094F229F1B95911D00968FB5 /* ultraStroked@3x.xml in Resources */ = {isa = PBXBuildFile; fileRef = 094F229B1B95911D00968FB5 /* ultraStroked@3x.xml */; };
 		094F22A51B95916E00968FB5 /* BMGlyphFont.m in Sources */ = {isa = PBXBuildFile; fileRef = 094F22A21B95916E00968FB5 /* BMGlyphFont.m */; };
 		094F22A61B95916E00968FB5 /* BMGlyphLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 094F22A41B95916E00968FB5 /* BMGlyphLabel.m */; };
 		09549B221B9F08BA0058D2E9 /* SIAchievementDetail.m in Sources */ = {isa = PBXBuildFile; fileRef = 09549B211B9F08BA0058D2E9 /* SIAchievementDetail.m */; };
@@ -110,6 +106,14 @@
 		099A62311B5C8750009BF339 /* EndGameScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 099A62301B5C8750009BF339 /* EndGameScene.m */; };
 		099A62331B5C8B12009BF339 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 099A62321B5C8B12009BF339 /* Main.storyboard */; };
 		099A62361B5C917A009BF339 /* CustomProgressBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 099A62351B5C917A009BF339 /* CustomProgressBar.m */; };
+		099C6E321BA2C64D00D13B9F /* longIslandStrokedShadowed.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 099C6E2E1BA2C64D00D13B9F /* longIslandStrokedShadowed.atlas */; };
+		099C6E331BA2C64D00D13B9F /* longIslandStrokedShadowed.xml in Resources */ = {isa = PBXBuildFile; fileRef = 099C6E2F1BA2C64D00D13B9F /* longIslandStrokedShadowed.xml */; };
+		099C6E341BA2C64D00D13B9F /* longIslandStrokedShadowed@2x.xml in Resources */ = {isa = PBXBuildFile; fileRef = 099C6E301BA2C64D00D13B9F /* longIslandStrokedShadowed@2x.xml */; };
+		099C6E351BA2C64D00D13B9F /* longIslandStrokedShadowed@3x.xml in Resources */ = {isa = PBXBuildFile; fileRef = 099C6E311BA2C64D00D13B9F /* longIslandStrokedShadowed@3x.xml */; };
+		099C6E3A1BA2C83600D13B9F /* ultraStrokedShadowed.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 099C6E361BA2C83500D13B9F /* ultraStrokedShadowed.atlas */; };
+		099C6E3B1BA2C83600D13B9F /* ultraStrokedShadowed.xml in Resources */ = {isa = PBXBuildFile; fileRef = 099C6E371BA2C83600D13B9F /* ultraStrokedShadowed.xml */; };
+		099C6E3C1BA2C83600D13B9F /* ultraStrokedShadowed@2x.xml in Resources */ = {isa = PBXBuildFile; fileRef = 099C6E381BA2C83600D13B9F /* ultraStrokedShadowed@2x.xml */; };
+		099C6E3D1BA2C83600D13B9F /* ultraStrokedShadowed@3x.xml in Resources */ = {isa = PBXBuildFile; fileRef = 099C6E391BA2C83600D13B9F /* ultraStrokedShadowed@3x.xml */; };
 		09A4889B1B99D92B0075F41C /* SIPowerUp.m in Sources */ = {isa = PBXBuildFile; fileRef = 09A4889A1B99D92B0075F41C /* SIPowerUp.m */; };
 		09A4889E1B9A43490075F41C /* DSMultilineLabelNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 09A4889D1B9A43490075F41C /* DSMultilineLabelNode.m */; };
 		09A488A21B9A77FE0075F41C /* SILoadingScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 09A488A11B9A77FE0075F41C /* SILoadingScene.m */; };
@@ -255,10 +259,6 @@
 		0938FD501B92124E00ACD99C /* libSSBitmapFont.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSSBitmapFont.a; path = ../Downloads/libSSBitmapFont/libSSBitmapFont.a; sourceTree = "<group>"; };
 		094D10A01BA0BCBC00392587 /* SIGameControllerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SIGameControllerTests.m; sourceTree = "<group>"; };
 		094D10A21BA18D5A00392587 /* SISingletonAchievementTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SISingletonAchievementTests.m; sourceTree = "<group>"; };
-		094F22981B95911D00968FB5 /* ultraStroked.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = ultraStroked.atlas; sourceTree = "<group>"; };
-		094F22991B95911D00968FB5 /* ultraStroked.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = ultraStroked.xml; sourceTree = "<group>"; };
-		094F229A1B95911D00968FB5 /* ultraStroked@2x.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "ultraStroked@2x.xml"; sourceTree = "<group>"; };
-		094F229B1B95911D00968FB5 /* ultraStroked@3x.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "ultraStroked@3x.xml"; sourceTree = "<group>"; };
 		094F22A11B95916E00968FB5 /* BMGlyphFont.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BMGlyphFont.h; sourceTree = "<group>"; };
 		094F22A21B95916E00968FB5 /* BMGlyphFont.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BMGlyphFont.m; sourceTree = "<group>"; };
 		094F22A31B95916E00968FB5 /* BMGlyphLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BMGlyphLabel.h; sourceTree = "<group>"; };
@@ -318,6 +318,14 @@
 		099A62321B5C8B12009BF339 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		099A62341B5C917A009BF339 /* CustomProgressBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomProgressBar.h; sourceTree = "<group>"; };
 		099A62351B5C917A009BF339 /* CustomProgressBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomProgressBar.m; sourceTree = "<group>"; };
+		099C6E2E1BA2C64D00D13B9F /* longIslandStrokedShadowed.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; name = longIslandStrokedShadowed.atlas; path = ../../Dropbox/PushTheWorld/illustrator/bmGlyphFonts/longIslandStrokedShadowed.atlas; sourceTree = "<group>"; };
+		099C6E2F1BA2C64D00D13B9F /* longIslandStrokedShadowed.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = longIslandStrokedShadowed.xml; path = ../../Dropbox/PushTheWorld/illustrator/bmGlyphFonts/longIslandStrokedShadowed.xml; sourceTree = "<group>"; };
+		099C6E301BA2C64D00D13B9F /* longIslandStrokedShadowed@2x.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = "longIslandStrokedShadowed@2x.xml"; path = "../../Dropbox/PushTheWorld/illustrator/bmGlyphFonts/longIslandStrokedShadowed@2x.xml"; sourceTree = "<group>"; };
+		099C6E311BA2C64D00D13B9F /* longIslandStrokedShadowed@3x.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = "longIslandStrokedShadowed@3x.xml"; path = "../../Dropbox/PushTheWorld/illustrator/bmGlyphFonts/longIslandStrokedShadowed@3x.xml"; sourceTree = "<group>"; };
+		099C6E361BA2C83500D13B9F /* ultraStrokedShadowed.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; name = ultraStrokedShadowed.atlas; path = ../../Dropbox/PushTheWorld/illustrator/bmGlyphFonts/ultraStrokedShadowed.atlas; sourceTree = "<group>"; };
+		099C6E371BA2C83600D13B9F /* ultraStrokedShadowed.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = ultraStrokedShadowed.xml; path = ../../Dropbox/PushTheWorld/illustrator/bmGlyphFonts/ultraStrokedShadowed.xml; sourceTree = "<group>"; };
+		099C6E381BA2C83600D13B9F /* ultraStrokedShadowed@2x.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = "ultraStrokedShadowed@2x.xml"; path = "../../Dropbox/PushTheWorld/illustrator/bmGlyphFonts/ultraStrokedShadowed@2x.xml"; sourceTree = "<group>"; };
+		099C6E391BA2C83600D13B9F /* ultraStrokedShadowed@3x.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = "ultraStrokedShadowed@3x.xml"; path = "../../Dropbox/PushTheWorld/illustrator/bmGlyphFonts/ultraStrokedShadowed@3x.xml"; sourceTree = "<group>"; };
 		09A488991B99D92B0075F41C /* SIPowerUp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SIPowerUp.h; sourceTree = "<group>"; };
 		09A4889A1B99D92B0075F41C /* SIPowerUp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SIPowerUp.m; sourceTree = "<group>"; };
 		09A4889C1B9A43490075F41C /* DSMultilineLabelNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DSMultilineLabelNode.h; sourceTree = "<group>"; };
@@ -706,10 +714,8 @@
 		0988CC971B7203CE00BF429D /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				094F22981B95911D00968FB5 /* ultraStroked.atlas */,
-				094F22991B95911D00968FB5 /* ultraStroked.xml */,
-				094F229A1B95911D00968FB5 /* ultraStroked@2x.xml */,
-				094F229B1B95911D00968FB5 /* ultraStroked@3x.xml */,
+				099C6E3E1BA2C83D00D13B9F /* ultraStrokedShadow */,
+				099C6E3F1BA2C84E00D13B9F /* longIslandStrokedShadow */,
 				0979E6591B77A74E002FC2F2 /* LongIslandContour.otf */,
 				0979E6571B77A614002FC2F2 /* LongIsland-Shadow.otf */,
 				0988CC951B7203CA00BF429D /* Ultra.ttf */,
@@ -781,6 +787,28 @@
 				09552DE51BA2296A00D275A9 /* SIGameScene.m */,
 			);
 			name = Scenes;
+			sourceTree = "<group>";
+		};
+		099C6E3E1BA2C83D00D13B9F /* ultraStrokedShadow */ = {
+			isa = PBXGroup;
+			children = (
+				099C6E361BA2C83500D13B9F /* ultraStrokedShadowed.atlas */,
+				099C6E371BA2C83600D13B9F /* ultraStrokedShadowed.xml */,
+				099C6E381BA2C83600D13B9F /* ultraStrokedShadowed@2x.xml */,
+				099C6E391BA2C83600D13B9F /* ultraStrokedShadowed@3x.xml */,
+			);
+			name = ultraStrokedShadow;
+			sourceTree = "<group>";
+		};
+		099C6E3F1BA2C84E00D13B9F /* longIslandStrokedShadow */ = {
+			isa = PBXGroup;
+			children = (
+				099C6E2E1BA2C64D00D13B9F /* longIslandStrokedShadowed.atlas */,
+				099C6E2F1BA2C64D00D13B9F /* longIslandStrokedShadowed.xml */,
+				099C6E301BA2C64D00D13B9F /* longIslandStrokedShadowed@2x.xml */,
+				099C6E311BA2C64D00D13B9F /* longIslandStrokedShadowed@3x.xml */,
+			);
+			name = longIslandStrokedShadow;
 			sourceTree = "<group>";
 		};
 		09A4889F1B9A434F0075F41C /* DSMultilineLabelNode */ = {
@@ -953,30 +981,34 @@
 			files = (
 				096ABDF61B6B6ABB005B2F12 /* swypeItSound5.caf in Resources */,
 				09B1E35A1B97A33B00EDF051 /* explosionTouch.sks in Resources */,
-				094F229F1B95911D00968FB5 /* ultraStroked@3x.xml in Resources */,
+				099C6E3D1BA2C83600D13B9F /* ultraStrokedShadowed@3x.xml in Resources */,
 				0979E65A1B77A74E002FC2F2 /* LongIslandContour.otf in Resources */,
 				092113B01B6B787B005F7D8B /* swypeItFXChaChing.caf in Resources */,
 				09D256F11B9E631700F6BD14 /* SIAchievements.plist in Resources */,
+				099C6E3C1BA2C83600D13B9F /* ultraStrokedShadowed@2x.xml in Resources */,
 				0979E65C1B77C0F2002FC2F2 /* diamondPlate3.png in Resources */,
 				096ABDF21B6B6ABB005B2F12 /* swypeItSound1.caf in Resources */,
 				092DBE6D1B6F022E00328A6B /* shapes.atlas in Resources */,
 				096ABDF71B6B6ABB005B2F12 /* swypeItSound6.caf in Resources */,
 				0919ABE21B91FC83009ACFF1 /* sparkRevA.sks in Resources */,
 				09DB639E1B56525100387C13 /* MKStoreKitConfigs.plist in Resources */,
+				099C6E351BA2C64D00D13B9F /* longIslandStrokedShadowed@3x.xml in Resources */,
 				09A488B81B9C7D0A0075F41C /* sceneMenu.atlas in Resources */,
 				096ABDF41B6B6ABB005B2F12 /* swypeItSound3.caf in Resources */,
 				09D5ED4C1B8B1AB900E84179 /* background.atlas in Resources */,
 				099A62331B5C8B12009BF339 /* Main.storyboard in Resources */,
+				099C6E3A1BA2C83600D13B9F /* ultraStrokedShadowed.atlas in Resources */,
+				099C6E341BA2C64D00D13B9F /* longIslandStrokedShadowed@2x.xml in Resources */,
 				096ABDF51B6B6ABB005B2F12 /* swypeItSound4.caf in Resources */,
-				094F229D1B95911D00968FB5 /* ultraStroked.xml in Resources */,
 				0919ABE31B91FC83009ACFF1 /* spark.png in Resources */,
+				099C6E3B1BA2C83600D13B9F /* ultraStrokedShadowed.xml in Resources */,
 				09CAF9AC1B646F4C00466606 /* buttons.atlas in Resources */,
 				0979E6581B77A614002FC2F2 /* LongIsland-Shadow.otf in Resources */,
 				092113B11B6B787B005F7D8B /* swypeItFXInitalize.caf in Resources */,
+				099C6E331BA2C64D00D13B9F /* longIslandStrokedShadowed.xml in Resources */,
 				091FED541B37283E0071F8DC /* Images.xcassets in Resources */,
-				094F229E1B95911D00968FB5 /* ultraStroked@2x.xml in Resources */,
+				099C6E321BA2C64D00D13B9F /* longIslandStrokedShadowed.atlas in Resources */,
 				096ABDF31B6B6ABB005B2F12 /* swypeItSound2.caf in Resources */,
-				094F229C1B95911D00968FB5 /* ultraStroked.atlas in Resources */,
 				0988CC9B1B720F3B00BF429D /* images.atlas in Resources */,
 				096ABDF11B6B6ABB005B2F12 /* swypeItGameOver.caf in Resources */,
 				0988CC961B7203CA00BF429D /* Ultra.ttf in Resources */,
