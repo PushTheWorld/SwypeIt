@@ -4,6 +4,8 @@
 <dict>
 	<key>challengeBeginner1</key>
 	<dict>
+		<key>moveSequence</key>
+		<array/>
 		<key>help</key>
 		<string>Score over the amount of points listed below</string>
 		<key>prefix</key>
@@ -80,6 +82,10 @@
 	</dict>
 	<key>challengeBeginner3</key>
 	<dict>
+		<key>moveSequence</key>
+		<array>
+			<string>swype</string>
+		</array>
 		<key>help</key>
 		<string>Perform enough of these moves to finish the challenge.</string>
 		<key>prefix</key>
@@ -88,8 +94,6 @@
 		<string>moves</string>
 		<key>type</key>
 		<string>move</string>
-		<key>move</key>
-		<string>swype</string>
 		<key>levelsDictionary</key>
 		<dict>
 			<key>level1</key>
@@ -117,12 +121,40 @@
 	</dict>
 	<key>challengeBeginnerAll</key>
 	<dict>
-		<key>completionReward</key>
-		<integer>2</integer>
+		<key>moveSequence</key>
+		<array/>
+		<key>help</key>
+		<string>Finish all Beginner achievements to complete this level!</string>
+		<key>prefix</key>
+		<string>Beginner</string>
+		<key>postfix</key>
+		<string></string>
 		<key>type</key>
 		<string>all</string>
-		<key>title</key>
-		<string>Beginner</string>
+		<key>levelsDictionary</key>
+		<dict>
+			<key>level1</key>
+			<dict>
+				<key>amount</key>
+				<integer>0</integer>
+				<key>reward</key>
+				<integer>2</integer>
+			</dict>
+			<key>level2</key>
+			<dict>
+				<key>amount</key>
+				<integer>0</integer>
+				<key>reward</key>
+				<integer>0</integer>
+			</dict>
+			<key>level3</key>
+			<dict>
+				<key>amount</key>
+				<integer>0</integer>
+				<key>reward</key>
+				<integer>0</integer>
+			</dict>
+		</dict>
 	</dict>
 </dict>
 </plist>

@@ -10,8 +10,21 @@
 
 @implementation SIAchievementDetail
 
-- (instancetype)initWithCoder:(NSCoder *)aDecoder {
+- (instancetype)init {
     self = [super init];
+    if (self) {
+        _helpString     = @"";
+        _prefixString   = @"";
+        _postfixString  = @"";
+        _type           = SIAchievementTypeScore;
+        _completed      = NO;
+        _dictionaryKey  = @"";
+    }
+    return self;
+}
+
+- (instancetype)initWithCoder:(NSCoder *)aDecoder {
+    self = [self init];
     if (self) {
 
         _helpString         = [aDecoder decodeObjectForKey:kEDKeyAchievementDetailsHelpString];
@@ -24,8 +37,6 @@
         
         _completed          = [aDecoder decodeBoolForKey:kEDKeyAchievementDetailsCompleted];
 
-        _completionReward   = [aDecoder decodeIntForKey:kEDKeyAchievementDetailsCompletionReward];
-        
         _moveSequenceArray  = [aDecoder decodeObjectForKey:kEDKeyAchievementDetailsMoveSequenceArray];
         
         _dictionaryKey      = [aDecoder decodeObjectForKey:kEDKeyAchievementDetailsDictionaryKey];
@@ -40,7 +51,6 @@
     [aCoder encodeObject:_postfixString     forKey:kEDKeyAchievementDetailsHelpString];
     [aCoder encodeInteger:_type             forKey:kEDKeyAchievementDetailsType];
     [aCoder encodeBool:_completed           forKey:kEDKeyAchievementDetailsCompleted];
-    [aCoder encodeInt:_completionReward     forKey:kEDKeyAchievementDetailsCompletionReward];
     [aCoder encodeObject:_moveSequenceArray forKey:kEDKeyAchievementDetailsMoveSequenceArray];
     [aCoder encodeObject:_dictionaryKey     forKey:kEDKeyAchievementDetailsDictionaryKey];
 }

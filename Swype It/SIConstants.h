@@ -285,8 +285,7 @@ typedef NS_ENUM(NSInteger, SIAchievementType) {
 };
 
 typedef NS_ENUM(NSInteger, SIAchievementLevel) {
-    SIAchievementLevelNew                   = 0,
-    SIAchievementLevelOne,
+    SIAchievementLevelOne = 0,
     SIAchievementLevelTwo,
     SIAchievementLevelThree,
     SIAchievementLevelDone
@@ -487,17 +486,14 @@ extern NSString *const kSINSDictionaryKeyPackProduct;
 extern NSString *const kSINSDictionaryKeySIAchievementPlistAmount;
 extern NSString *const kSINSDictionaryKeySIAchievementPlistLevelsDictionary;
 extern NSString *const kSINSDictionaryKeySIAchievementPlistCompletedBool;
-extern NSString *const kSINSDictionaryKeySIAchievementPlistCompletionRewardInt;
 extern NSString *const kSINSDictionaryKeySIAchievementPlistHelpString;
 extern NSString *const kSINSDictionaryKeySIAchievementPlistLevel1;
 extern NSString *const kSINSDictionaryKeySIAchievementPlistLevel2;
 extern NSString *const kSINSDictionaryKeySIAchievementPlistLevel3;
-extern NSString *const kSINSDictionaryKeySIAchievementPlistMoveString;
 extern NSString *const kSINSDictionaryKeySIAchievementPlistMoveSequenceArray;
 extern NSString *const kSINSDictionaryKeySIAchievementPlistPostfixString;
 extern NSString *const kSINSDictionaryKeySIAchievementPlistPrefixString;
 extern NSString *const kSINSDictionaryKeySIAchievementPlistReward;
-extern NSString *const kSINSDictionaryKeySIAchievementPlistTitleString;
 extern NSString *const kSINSDictionaryKeySIAchievementPlistTypeString;
 
 
@@ -630,7 +626,6 @@ extern NSString *const kEDKeyAchievementCurrentAmount;
 extern NSString *const kEDKeyAchievementCurrentIndexOfMoveSequenceCommand;
 extern NSString *const kEDKeyAchievementCurrentLevel;
 extern NSString *const kEDKeyAchievementCurrentLevels;
-extern NSString *const kEDKeyAchievementCurrentMoveCommand;
 extern NSString *const kEDKeyAchievementCurrentSequence;
 extern NSString *const kEDKeyAchievementDetails;
 extern NSString *const kEDKeyAchievementDetailsHelpString;
@@ -638,10 +633,8 @@ extern NSString *const kEDKeyAchievementDetailsPrefixString;
 extern NSString *const kEDKeyAchievementDetailsPostfixString;
 extern NSString *const kEDKeyAchievementDetailsType;
 extern NSString *const kEDKeyAchievementDetailsCompleted;
-extern NSString *const kEDKeyAchievementDetailsCompletionReward;
 extern NSString *const kEDKeyAchievementDetailsMoveSequenceArray;
 extern NSString *const kEDKeyAchievementDetailsDictionaryKey;
-extern NSString *const kEDKeyAchievementTitle;
 
 #pragma mark - Useful things
 @interface SIConstants : NSObject

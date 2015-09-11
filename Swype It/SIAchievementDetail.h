@@ -44,12 +44,6 @@
 @property (assign, nonatomic) BOOL completed;
 
 /**
- The amount to be given upon completion of the reward
-    NOTE: This is only used by ALL class
- */
-@property (assign, nonatomic) int completionReward;
-
-/**
  Array that contains n `moveCommands` to make up a sequence
  */
 @property (strong, nonatomic) NSArray *moveSequenceArray;

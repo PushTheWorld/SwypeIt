@@ -17,17 +17,26 @@
 
 @implementation SIAchievement
 
-- (instancetype)initWithCoder:(NSCoder *)aDecoder {
+- (instancetype)init {
     self = [super init];
     if (self) {
+        _details                    = [[SIAchievementDetail alloc] init];
+        _currentLevel               = SIAchievementLevelOne;
+        _currentIndexOfMoveSequence = 0;
+        _currentAmount              = 0;
+    }
+    return self;
+}
+
+- (instancetype)initWithCoder:(NSCoder *)aDecoder {
+    self = [self init];
+    if (self) {
         
-        _title                              = [aDecoder                             decodeObjectForKey:kEDKeyAchievementTitle];
         _details                            = [aDecoder                             decodeObjectForKey:kEDKeyAchievementDetails];
-        _levelDictionary                      = [aDecoder                             decodeObjectForKey:kEDKeyAchievementCurrentLevels];
+        _levelDictionary                    = [aDecoder                             decodeObjectForKey:kEDKeyAchievementCurrentLevels];
         _currentSequence                    = (SIAchievementMoveSequence)[aDecoder  decodeIntegerForKey:kEDKeyAchievementCurrentSequence];
         _currentLevel                       = (SIAchievementLevel)[aDecoder         decodeIntegerForKey:kEDKeyAchievementCurrentLevel];
-        _currentMoveCommand                 = (SIMoveCommand)[aDecoder              decodeIntegerForKey:kEDKeyAchievementCurrentMoveCommand];
-        _currentIndexOfMoveSequenceCommand  = [[aDecoder                            decodeObjectForKey:kEDKeyAchievementCurrentIndexOfMoveSequenceCommand] unsignedIntegerValue];
+        _currentIndexOfMoveSequence         = [[aDecoder                            decodeObjectForKey:kEDKeyAchievementCurrentIndexOfMoveSequenceCommand] unsignedIntegerValue];
         _currentAmount                      = [aDecoder                             decodeIntForKey:kEDKeyAchievementCurrentAmount];
         
     }
@@ -36,13 +45,11 @@
 
 - (void)encodeWithCoder:(NSCoder *)aCoder {
     
-    [aCoder encodeObject:_title                                                                     forKey:kEDKeyAchievementTitle];
     [aCoder encodeObject:_details                                                                   forKey:kEDKeyAchievementDetails];
-    [aCoder encodeObject:_levelDictionary                                                             forKey:kEDKeyAchievementCurrentLevels];
+    [aCoder encodeObject:_levelDictionary                                                           forKey:kEDKeyAchievementCurrentLevels];
     [aCoder encodeInteger:_currentSequence                                                          forKey:kEDKeyAchievementCurrentSequence];
     [aCoder encodeInteger:_currentLevel                                                             forKey:kEDKeyAchievementCurrentLevel];
-    [aCoder encodeInteger:_currentMoveCommand                                                       forKey:kEDKeyAchievementCurrentMoveCommand];
-    [aCoder encodeObject:[NSNumber numberWithUnsignedInteger:_currentIndexOfMoveSequenceCommand]    forKey:kEDKeyAchievementCurrentIndexOfMoveSequenceCommand];
+    [aCoder encodeObject:[NSNumber numberWithUnsignedInteger:_currentIndexOfMoveSequence]    forKey:kEDKeyAchievementCurrentIndexOfMoveSequenceCommand];
     [aCoder encodeInt:_currentAmount                                                                forKey:kEDKeyAchievementCurrentAmount];
 
 }

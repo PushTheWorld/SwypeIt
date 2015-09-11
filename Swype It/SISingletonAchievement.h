@@ -48,6 +48,9 @@
 - (void)singletonAchievementWillProcessMove:(SIMove *)move;
 
 #pragma mark - Public Class Methods
-
+/**
+ Get the amount at a given level for an achievement
+ */
++ (int)amountForAchievementLevel:(SIAchievementLevel)achievementLevel forAchievement:(SIAchievement *)achievement;
 
 @end

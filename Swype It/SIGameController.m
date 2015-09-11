@@ -210,6 +210,9 @@
     [_sceneLoading sceneLoadingSetProgressPercent:(float)_loadingPointsCurrent / (float)SIGameControllerSceneCount];
 }
 
+
+#pragma mark -
+#pragma mark - Scene Loading
 - (void)mainSceneInitializationMethod {
     NSDate *startDate = [NSDate date];
     /*Init The Loading Scene First and Fire It Up There!*/
@@ -260,6 +263,8 @@
     
     _sceneGameRingNodePause         = [SIGameController SIRingNodeSceneGamePause];
     
+    [SIGameController sceneGameWillLoadEmitters];
+    
     if (_verbose) {
         NSLog(@"SIGameScene Initialized: loaded in %0.2f seconds", [[NSDate date] timeIntervalSinceDate:startDate]);
     }
@@ -274,7 +279,7 @@
     
     menuScene.sceneDelegate = self;
     
-    menuScene.toolBarBottom = [SIGameController sceneMenuStartToolbarNode:[SIGameController SIToolbarSceneMenuSize:_sceneSize] isPremiumUser:_premiumUser];
+    menuScene.toolBarBottom = [SIGameController HLToolbarStartScene:[SIGameController SIToolbarSceneMenuSize:_sceneSize] isPremiumUser:_premiumUser];
     
     if (_verbose) {
         NSLog(@"SIMenuScene Initialized: loaded in %0.2f seconds", [[NSDate date] timeIntervalSinceDate:startDate]);
@@ -408,6 +413,7 @@
             NSLog(@"Banner Ads Hidden.");
         }
     }
+    _sceneMenu.toolBarBottom = [SIGameController HLToolbarStartScene:[SIGameController SIToolbarSceneMenuSize:_sceneSize] isPremiumUser:_premiumUser];
 }
 
 #pragma mark Interstitial Ads
@@ -546,8 +552,7 @@
         [[SISingletonAchievement singleton] singletonAchievementWillProcessMove:moveForBackground];
     });
     
-    
-    [_sceneGame updateSceneGameWithBackgroundColor:[SISingletonGame singleton].currentGame.currentBackgroundColor
+    [_sceneGame sceneGameUpdateWithBackgroundColor:[SISingletonGame singleton].currentGame.currentBackgroundColor
                                         totalScore:[SISingletonGame singleton].currentGame.totalScore
                                               move:[SISingletonGame singleton].currentGame.currentMove
                                     moveScoreLabel:moveLabel
@@ -570,8 +575,7 @@
     [[[_sceneGamePopupContinueMenuNode menu] itemAtIndex:SISceneGamePopupContinueMenuItemAd] setText:[NSString stringWithFormat:@"Watch %d Ads!",(int)(int)[SIGame adCountForNumberOfTimesContinued:[SISingletonGame singleton].currentGame.currentNumberOfTimesContinued]]];
     
     [_sceneGamePopupContinueMenuNode redisplayMenuAnimation:HLMenuNodeAnimationNone];
-    
-    [_sceneGame sceneGameModallyPresentPopup:_sceneGamePopupContinue withMenuNode:_sceneGamePopupContinueMenuNode];
+    [_sceneGame sceneGamePresentPopup:_sceneGamePopupContinue withMenuNode:_sceneGamePopupContinueMenuNode];
 
 }
 
@@ -579,7 +583,7 @@
  Called when there is a high score
  */
 - (void)controllerSingletonGameShowIsHighScore {
-    [_sceneGame sceneGameWillShowHighScore];
+    [_sceneGame sceneGameShowHighScore];
 }
 
 /**
@@ -587,7 +591,7 @@
  Handle the sound for this in the controller?
  */
 - (void)controllerSingletonGameShowFreeCoinEarned {
-    [_sceneGame sceneGameWillShowFreeCoinEarned];
+    [_sceneGame sceneGameShowFreeCoinEarned];
 }
 
 /**
@@ -661,7 +665,8 @@
  Called when challenge was complete
  */
 - (void)controllerSingletonAchievementDidCompleteAchievement:(SIAchievement *)achievement {
-    [JCNotificationCenter enqueueNotificationWithTitle:@"Achievement Completed" message:achievement.title tapHandler:^{
+    NSString *message = [NSString stringWithFormat:@"%@ %d %@",achievement.details.prefixString,[SISingletonAchievement amountForAchievementLevel:achievement.currentLevel forAchievement:achievement],achievement.details.postfixString];
+    [JCNotificationCenter enqueueNotificationWithTitle:@"Achievement Completed" message:message tapHandler:^{
         NSLog(@"Tacos!!!!!");
     }];
 }
@@ -1312,7 +1317,7 @@
     
     return menuNode;
 }
-+ (HLToolbarNode *)sceneMenuStartToolbarNode:(CGSize)size isPremiumUser:(BOOL)isPremiumUser {
++ (HLToolbarNode *)HLToolbarStartScene:(CGSize)size isPremiumUser:(BOOL)isPremiumUser {
     HLToolbarNode *toolbarNode                  = [[HLToolbarNode alloc] init];
     toolbarNode.automaticHeight                 = NO;
     toolbarNode.automaticWidth                  = NO;
@@ -1393,5 +1398,20 @@
     [loadingScene sceneLoadingSetProgressPercent:0.0f];
     
     return loadingScene;
+}
+/**
+ Call this class in the initialization... this will add the emitters to the store
+ */
++ (void)sceneGameWillLoadEmitters {
+    NSDate *startDate = [NSDate date];
+    
+    HLEmitterStore *emitterStore = [HLEmitterStore sharedStore];
+    
+    SKEmitterNode *emitterNode;
+    
+    emitterNode = [emitterStore setEmitterWithResource:kSIEmitterExplosionTouch forKey:kSIEmitterExplosionTouch];
+    emitterNode = [emitterStore setEmitterWithResource:kSIEmitterSpark forKey:kSIEmitterSpark];
+    
+    NSLog(@"SIGameScene loadEmitters: loaded in %0.2f seconds", [[NSDate date] timeIntervalSinceDate:startDate]);
 }
 @end

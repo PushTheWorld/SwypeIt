@@ -1,33 +1,29 @@
-//  GameScene.h
+//  SIGameSceneTemp.h
 //  Swype It
 //
-//  Created by Andrew Keller on 7/19/15.
+//  Created by Andrew Keller on 9/10/15.
 //  Copyright © 2015 Push The World LLC. All rights reserved.
 //
-//  Purpose: This is....
+//  Purpose:
 //
-// Local Controller Import
-#import "SIAdBannerNode.h"
+// Local Scene Import
+#import "HLSpriteKit.h"
+#import "SIGameNode.h"
 #import "SIPopupNode.h"
-#import "SIPowerUpToolbarNode.h"
 // Framework Import
-#import <SpriteKit/SpriteKit.h>
 // Drop-In Class Imports (CocoaPods/GitHub/Guru)
 #import "BMGlyphLabel.h"
-#import "HLSpriteKit.h"
 // Category Import
 // Support/Data Class Imports
 #import "SIGame.h"
-#import "SIMove.h"
 #import "SISceneGameProgressBarUpdate.h"
 // Other Imports
 
-@class SIGameScene;
 @protocol SIGameSceneDelegate <NSObject>
 
 /**
  Called when the scene recognizes a gesture
-    Pinch, Tap, Swype of Shake
+ Pinch, Tap, Swype of Shake
  */
 - (void)controllerSceneGameDidRecieveMove:(SIMove *)move;
 
@@ -38,15 +34,15 @@
 
 /**
  Fires after the continue meny node has been pressed...
-    If coins -> PayMethod - Coin
-    If ads   -> PayMethod - Ads
-    If no    -> PayMethod - User is not going to pay for this shit...
+ If coins -> PayMethod - Coin
+ If ads   -> PayMethod - Ads
+ If no    -> PayMethod - User is not going to pay for this shit...
  */
 - (void)controllerSceneGameWillDismissPopupContinueWithPayMethod:(SISceneGamePopupContinueMenuItem)continuePayMethod;
 
 /**
  Called when the ring node is tapped and the result
-    needs to be sent to the controller
+ needs to be sent to the controller
  */
 - (void)controllerSceneGameDidRecieveRingNode:(HLRingNode *)ringNode tap:(SISceneGameRingNode)gameSceneRingNode;
 
@@ -62,7 +58,8 @@
 
 @end
 
-@interface SIGameScene : HLScene <SKPhysicsContactDelegate>
+
+@interface SIGameScene : HLScene <HLToolbarNodeDelegate, SIGameNodeDelegate, HLRingNodeDelegate, SIPopUpNodeDelegate, HLMenuNodeDelegate>
 
 /**
  The delegate for the scene
@@ -75,6 +72,17 @@
 - (instancetype)initWithSize:(CGSize)size;
 
 /**
+ I guess you could use this for a pause menu... if that's something
+ you're into.
+ */
+- (void)sceneGameBlurDisplayRingNode:(HLRingNode *)ringNode;
+
+/**
+ Present a popup without a menu node
+ */
+- (void)sceneGameDisplayPopup:(SIPopupNode *)popupNode;
+
+/**
  Used to fade all of the UI elements in
  */
 - (void)sceneGameFadeUIElementsInDuration:(CGFloat)duration;
@@ -85,62 +93,42 @@
 - (void)sceneGameFadeUIElementsOutDuration:(CGFloat)duration;
 
 /**
- A super convient method for doing one thing and one thing only
-    but im not sure i should say here. I mean really this is a 
-    MVC and the view shall never have knowledge.. or shall it?
-    
-    Alright fine this is for a new move. there i said it...
+ When you need to move power up progress bar on or off screen
  */
-- (void)updateSceneGameWithBackgroundColor:(UIColor *)backgroundColor
-                            totalScore:(float)totalScore
-                                  move:(SIMove *)move
-                        moveScoreLabel:(BMGlyphLabel *)moveScoreLabel
-            freeCoinProgressBarPercent:(float)freeCoinProgressBarPercent
-                     moveCommandString:(NSString *)moveCommandString;
+- (void)sceneGameMovePowerUpProgressBarOnScreen:(BOOL)OnScreen animate:(BOOL)animate;
 
-/**
- I guess you could use this for a pause menu... if that's something
-    you're into.
- */
-- (void)sceneGameBlurDisplayRingNode:(HLRingNode *)ringNode;
-
-/**
- Present a popup without a menu node
- */
-- (void)sceneGameWillDisplayPopup:(SIPopupNode *)popupNode;
 /**
  Present a node modally with a pop up
  */
-- (void)sceneGameModallyPresentPopup:(SIPopupNode *)popupNode withMenuNode:(HLMenuNode *)menuNode;
-
-///**
-// Make and explosion at a point already set...
-// */
-//- (void)sceneWillPresentEmitter:(SKEmitterNode *)emitter;
+- (void)sceneGamePresentPopup:(SIPopupNode *)popupNode withMenuNode:(HLMenuNode *)menuNode;
 
 /**
  Called when the scene shall show a new high score
  */
-- (void)sceneGameWillShowHighScore;
+- (void)sceneGameShowHighScore;
 
 /**
  Called when the scene shall notify the user they got a free coin
  */
-- (void)sceneGameWillShowFreeCoinEarned;
+- (void)sceneGameShowFreeCoinEarned;
 
-/**
- When you need to move power up progress bar on or off screen
- 
- */
-- (void)sceneGameMovePowerUpProgressBarOnScreen:(BOOL)willMoveOnScreen animate:(BOOL)animate;
 
 /**
  The ad content
  
  Default is nil...
- 
  We are just going to make this an SIAdBannerNode!
  */
 @property (nonatomic, strong) SIAdBannerNode *adBannerNode;
+
+/**
+ Oh yeah, so good news kids! if you set this to content it will get blaster up to the top of the screen!!
+ */
+@property (nonatomic, strong) SIPopupNode *popupNode;
+
+/**
+ A ring node to display
+ */
+@property (nonatomic, strong) HLRingNode *ringNode;
 
 @end

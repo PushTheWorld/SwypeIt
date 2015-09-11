@@ -92,7 +92,7 @@ enum {
     /**Preform setup post-view load*/
     
 }
-
+#pragma mark -
 #pragma mark - Public Accessors
 - (void)setAdBannerNode:(SIAdBannerNode *)adBannerNode {
     if (_adContentNode) {

@@ -233,17 +233,14 @@ NSString *const kSINSDictionaryKeyPackProduct                                   
 NSString *const kSINSDictionaryKeySIAchievementPlistAmount                      = @"amount";
 NSString *const kSINSDictionaryKeySIAchievementPlistLevelsDictionary            = @"levelsDictionary";
 NSString *const kSINSDictionaryKeySIAchievementPlistCompletedBool               = @"completed";
-NSString *const kSINSDictionaryKeySIAchievementPlistCompletionRewardInt         = @"completionReward";
 NSString *const kSINSDictionaryKeySIAchievementPlistHelpString                  = @"help";
 NSString *const kSINSDictionaryKeySIAchievementPlistLevel1                      = @"level1";
 NSString *const kSINSDictionaryKeySIAchievementPlistLevel2                      = @"level2";
 NSString *const kSINSDictionaryKeySIAchievementPlistLevel3                      = @"level3";
-NSString *const kSINSDictionaryKeySIAchievementPlistMoveString                  = @"move";
 NSString *const kSINSDictionaryKeySIAchievementPlistMoveSequenceArray           = @"moveSequence";
 NSString *const kSINSDictionaryKeySIAchievementPlistPostfixString               = @"postfix";
 NSString *const kSINSDictionaryKeySIAchievementPlistPrefixString                = @"prefix";
 NSString *const kSINSDictionaryKeySIAchievementPlistReward                      = @"reward";
-NSString *const kSINSDictionaryKeySIAchievementPlistTitleString                 = @"title";
 NSString *const kSINSDictionaryKeySIAchievementPlistTypeString                  = @"type";
 
 
@@ -375,7 +372,6 @@ NSString *const kEDKeyAchievementCurrentAmount                                  
 NSString *const kEDKeyAchievementCurrentIndexOfMoveSequenceCommand              = @"currentIndexOfMove";
 NSString *const kEDKeyAchievementCurrentLevel                                   = @"currentLevel";
 NSString *const kEDKeyAchievementCurrentLevels                                  = @"levelDictionary";
-NSString *const kEDKeyAchievementCurrentMoveCommand                             = @"currentMoveCommand";
 NSString *const kEDKeyAchievementCurrentSequence                                = @"currentSequence";
 NSString *const kEDKeyAchievementDetails                                        = @"details";
 NSString *const kEDKeyAchievementDetailsHelpString                              = @"helpString";
@@ -383,10 +379,8 @@ NSString *const kEDKeyAchievementDetailsPrefixString                            
 NSString *const kEDKeyAchievementDetailsPostfixString                           = @"postfixString";
 NSString *const kEDKeyAchievementDetailsType                                    = @"type";
 NSString *const kEDKeyAchievementDetailsCompleted                               = @"compeleted";
-NSString *const kEDKeyAchievementDetailsCompletionReward                        = @"completionReward";
 NSString *const kEDKeyAchievementDetailsMoveSequenceArray                       = @"moveSequenceArray";
 NSString *const kEDKeyAchievementDetailsDictionaryKey                           = @"dictionaryKey";
-NSString *const kEDKeyAchievementTitle                                          = @"title";
 
 
 

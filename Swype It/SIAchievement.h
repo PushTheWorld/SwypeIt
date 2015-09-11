@@ -20,12 +20,6 @@
 @interface SIAchievement : NSObject <NSCoding>
 
 /**
- This combines the prefix the next quantity to reach and postfix.
-    NOTE: if this is an ALL, it just returns the title assigned to it
- */
-@property (strong, nonatomic) NSString *title;
-
-/**
  The details of the challenge
  
  If type is SIAchievementTypeAll then this returns the
@@ -51,19 +45,19 @@
 @property (assign, nonatomic) SIAchievementLevel currentLevel;
 
 /**
- This is the current move we are looking for
-    Move and MoveSequence use this
- */
-@property (assign, nonatomic) SIMoveCommand currentMoveCommand;
-
-/**
  The index of the current move sequence
  */
-@property (assign, nonatomic) NSUInteger currentIndexOfMoveSequenceCommand;
+@property (assign, nonatomic) NSUInteger currentIndexOfMoveSequence;
 
 /**
  The amount of the current level
  */
 @property (assign, nonatomic) int currentAmount;
+
+/**
+ Sets the percent complete for the achievement... if you set this, it's going
+    to go in and set some stuff complete and what have you
+ */
+//@property (assign, nonatomic) float percentComplete;
 
 @end
