@@ -369,6 +369,13 @@ typedef NS_ENUM(NSInteger, SIZPositionPopup) {
     SIZPositionPopupContentTop,
     SIZPositionPopupCount
 };
+
+typedef NS_ENUM(NSInteger, SIMenuNodeAnimation) {
+    SIMenuNodeAnimationLeft = 0,
+    SIMenuNodeAnimationRight,
+    SIMenuNodeAnimationNone
+};
+
 #pragma mark - Images
 extern NSString *const kSIImageTitleLabel;
 
@@ -526,6 +533,8 @@ extern NSString *const kSIAtlasSceneMenuLeaderboard;
 extern NSString *const kSIAtlasSceneMenuPlayClassic;
 extern NSString *const kSIAtlasSceneMenuPlayOneHand;
 extern NSString *const kSIAtlasSceneMenuSettings;
+extern NSString *const kSIAtlasSceneMenuShareFacebook;
+extern NSString *const kSIAtlasSceneMenuShareTwitter;
 extern NSString *const kSIAtlasSceneMenuShop;
 extern NSString *const kSIAtlasSceneMenuSoundBackground;
 extern NSString *const kSIAtlasSceneMenuSoundFX;
@@ -606,6 +615,7 @@ extern NSString *const kSINodeNodeBag;
 extern NSString *const kSINodeNodeBucket;
 extern NSString *const kSINodeNodePile;
 extern NSString *const kSINodeButtonAchievement;
+extern NSString *const kSINodeButtonBack;
 extern NSString *const kSINodeButtonContinue;
 extern NSString *const kSINodeButtonDone;
 extern NSString *const kSINodeButtonFallingMonkey;

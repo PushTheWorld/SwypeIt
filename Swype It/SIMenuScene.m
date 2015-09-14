@@ -25,11 +25,11 @@
     
     SIAdBannerNode                                  *_adContentNode;
     
+    SIMenuNode                                      *_currentMenuNode;
+    
     SIPopupNode                                     *_popupContentNode;
     
     SKSpriteNode                                    *_backgroundNode;
-    
-    SKSpriteNode                                    *_backButtonNode;
 
 }
 - (nonnull instancetype)init {
@@ -38,7 +38,6 @@
         _type                                       = SISceneMenuTypeNone;
         _spacingToolbarBottom                       = VERTICAL_SPACING_4;
         _animationDuration                          = 1.0f;
-        _backButtonVisible                          = NO;
     }
     return self;
 }
@@ -78,14 +77,11 @@
 #pragma mark Scene Setup
 - (void)createConstantsWithSize:(CGSize)size {
     /**Configure any constants*/
-    _backButtonSize                                 = CGSizeMake(_sceneSize.width / 8.0f, _sceneSize.width / 4.0f);
 }
 - (void)createControlsWithSize:(CGSize)size {
     /**Preform all your alloc/init's here*/
     _backgroundNode                                 = [SKSpriteNode spriteNodeWithColor:[SKColor simplstMainColor] size:_sceneSize];
-    
-    _backButtonNode                                 = [SKSpriteNode spriteNodeWithTexture:[[SIConstants atlasSceneMenu] textureNamed:kSIAtlasSceneMenuBackButton] size:_backButtonSize];
-    
+     
 }
 - (void)setupControlsWithSize:(CGSize)size {
     /**Configrue the labels, nodes and what ever else you can*/
@@ -104,6 +100,9 @@
         _adContentNode.name                         = kSINodeAdBannerNode;
         _adContentNode.position                     = CGPointMake(0.0f, 0.0f);
         [self addChild:_adContentNode];
+        [_adContentNode hlSetGestureTarget:_adBannerNode];
+        [self registerDescendant:_adBannerNode withOptions:[NSSet setWithObject:HLSceneChildGestureTarget]];
+
     }
     [self layoutXYAnimation:SISceneContentAnimationNone];
 }
@@ -128,10 +127,57 @@
             [self layoutXYAnimation:SISceneContentAnimationOut];
             break;
             
+        case SISceneMenuTypeSettings:
+            [self layoutXYAnimation:SISceneContentAnimationNone];
+            break;
+            
+        case SISceneMenuTypeStore:
+            [self layoutXYAnimation:SISceneContentAnimationNone];
+            break;
+    
         default:
             [self layoutXYAnimation:SISceneContentAnimationNone];
             break;
     }
+}
+
+- (void)showMenuNode:(SIMenuNode *)menuNode menuNodeAnimation:(SIMenuNodeAnimation)menuNodeAnimation {
+    [self addChild:menuNode];
+    SKAction *blockAction;
+    if (menuNodeAnimation == SIMenuNodeAnimationLeft) {
+        menuNode.position = CGPointMake(menuNode.size.width, 0.0f);
+        SKAction *moveLeft = [SKAction moveByX:menuNode.size.width y:0.0f duration:SCENE_TRANSISTION_DURATION_FAST];
+        [menuNode runAction:moveLeft];
+        blockAction = [SKAction runBlock:^{
+            [_currentMenuNode removeFromParent];
+            _currentMenuNode = menuNode;
+        }];
+        [_currentMenuNode runAction:[SKAction sequence:@[moveLeft,blockAction]]];
+        if (_toolbarContentNode) {
+            [_toolbarContentNode runAction:moveLeft];
+        }
+
+    } else if (menuNodeAnimation == SIMenuNodeAnimationRight) {
+        menuNode.position = CGPointMake(-1.0f * menuNode.size.width, 0.0f);
+        SKAction *moveRight = [SKAction moveByX:menuNode.size.width y:0.0f duration:SCENE_TRANSISTION_DURATION_FAST];
+        [menuNode runAction:moveRight];
+        blockAction = [SKAction runBlock:^{
+            _currentMenuNode = menuNode;
+        }];
+        [_currentMenuNode runAction:[SKAction sequence:@[moveRight,blockAction]]];
+        if (_toolbarContentNode) {
+            [_toolbarContentNode runAction:moveRight];
+        }
+
+
+    } else {
+        menuNode.position = CGPointZero;
+        if (_currentMenuNode) {
+            [_currentMenuNode removeFromParent];
+        }
+        _currentMenuNode = menuNode;
+    }
+
 }
 
 /**
@@ -181,7 +227,7 @@
                 positionHidden      = sceneMidPoint;
                 positionVisible     = sceneMidPoint;
                 [SIGameController SIControllerNode:_toolbarContentNode
-                                         animation:SISceneContentAnimationIn
+                                         animation:animation
                                     animationStyle:SISceneContentAnimationStyleGrow
                                  animationDuration:_animationDuration
                                    positionVisible:positionVisible
@@ -192,7 +238,7 @@
                 positionHidden      = CGPointMake(sceneMidX, -1.0f * _toolbarContentNode.frame.size.height);
                 positionVisible     = CGPointMake(sceneMidX,_adContentNode.size.height + _spacingToolbarBottom + ((_toolbarContentNode.frame.size.height / 2.0f)));
                 [SIGameController SIControllerNode:_toolbarContentNode
-                                         animation:SISceneContentAnimationIn
+                                         animation:animation
                                     animationStyle:SISceneContentAnimationStyleSlide
                                  animationDuration:_animationDuration
                                    positionVisible:positionVisible
@@ -204,7 +250,7 @@
                 positionHidden      = sceneMidPoint;
                 positionVisible     = sceneMidPoint;
                 [SIGameController SIControllerNode:_toolbarContentNode
-                                         animation:SISceneContentAnimationOut
+                                         animation:animation
                                     animationStyle:SISceneContentAnimationStyleGrow
                                  animationDuration:_animationDuration
                                    positionVisible:positionVisible
@@ -215,13 +261,20 @@
                 positionHidden      = CGPointMake(sceneMidX, -1.0f * _toolbarContentNode.frame.size.height);
                 positionVisible     = CGPointMake(sceneMidX,_adContentNode.size.height + _spacingToolbarBottom + ((_toolbarContentNode.frame.size.height / 2.0f)));
                 [SIGameController SIControllerNode:_toolbarContentNode
-                                         animation:SISceneContentAnimationOut
+                                         animation:animation
                                     animationStyle:SISceneContentAnimationStyleSlide
                                  animationDuration:_animationDuration
                                    positionVisible:positionVisible
                                     positionHidden:positionHidden];
             }
             break;
+            
+        case SISceneMenuTypeSettings:
+            break;
+            
+        case SISceneMenuTypeStore:
+            break;
+            
         default:
             break;
     }

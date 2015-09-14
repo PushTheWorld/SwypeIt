@@ -9,6 +9,7 @@
 // Local Controller Import
 #import "SIAdBannerNode.h"
 #import "SIPopupNode.h"
+#import "SIMenuNode.h"
 // Framework Import
 #import <SpriteKit/SpriteKit.h>
 // Drop-In Class Imports (CocoaPods/GitHub/Guru)
@@ -26,6 +27,11 @@
     such
  */
 - (void)controllerSceneMenuDidLoadType:(SISceneMenuType)type;
+
+/**
+ Called when the back button is pressed
+ */
+- (void)controllerSceneMenuDidTapBackButton;
 
 
 
@@ -85,9 +91,13 @@
 @property (nonatomic, strong) SIPopupNode *popupNode;
 
 /**
- Show back button
+ Set the menu node of the thing
  */
-@property (nonatomic, assign) BOOL backButtonVisible;
+@property (nonatomic, strong) SIMenuNode *menuNode;
+
+
+
+
 
 
 

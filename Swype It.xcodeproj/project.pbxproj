@@ -68,6 +68,7 @@
 		09552DE61BA2296A00D275A9 /* SIGameScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 09552DE51BA2296A00D275A9 /* SIGameScene.m */; };
 		09552DE71BA230EE00D275A9 /* SIGameScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 09552DE51BA2296A00D275A9 /* SIGameScene.m */; };
 		0957AB771BA7034200D3FDF5 /* SIPopupContentNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 0957AB761BA7034200D3FDF5 /* SIPopupContentNode.m */; };
+		0957AB7A1BA7626600D3FDF5 /* SIMenuNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 0957AB791BA7626600D3FDF5 /* SIMenuNode.m */; };
 		096ABDCA1B6AF83A005B2F12 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 096ABDC91B6AF83A005B2F12 /* MessageUI.framework */; };
 		096ABDCC1B6AF843005B2F12 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 096ABDCB1B6AF843005B2F12 /* OpenGLES.framework */; };
 		096ABDCD1B6AF84C005B2F12 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 09343DA91B44BB1C00D1C707 /* QuartzCore.framework */; };
@@ -271,6 +272,8 @@
 		09552DE51BA2296A00D275A9 /* SIGameScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SIGameScene.m; sourceTree = "<group>"; };
 		0957AB751BA7034200D3FDF5 /* SIPopupContentNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SIPopupContentNode.h; sourceTree = "<group>"; };
 		0957AB761BA7034200D3FDF5 /* SIPopupContentNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SIPopupContentNode.m; sourceTree = "<group>"; };
+		0957AB781BA7626600D3FDF5 /* SIMenuNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SIMenuNode.h; sourceTree = "<group>"; };
+		0957AB791BA7626600D3FDF5 /* SIMenuNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SIMenuNode.m; sourceTree = "<group>"; };
 		096ABDC91B6AF83A005B2F12 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		096ABDCB1B6AF843005B2F12 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 		096ABDCE1B6AF856005B2F12 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
@@ -664,6 +667,8 @@
 				0988CC931B70C82300BF429D /* SIStoreButtonNode.m */,
 				0957AB751BA7034200D3FDF5 /* SIPopupContentNode.h */,
 				0957AB761BA7034200D3FDF5 /* SIPopupContentNode.m */,
+				0957AB781BA7626600D3FDF5 /* SIMenuNode.h */,
+				0957AB791BA7626600D3FDF5 /* SIMenuNode.m */,
 			);
 			name = CustomUIClasses;
 			sourceTree = "<group>";
@@ -1133,6 +1138,7 @@
 				09DB638A1B564DA700387C13 /* IAPTableViewController.m in Sources */,
 				0917D4FA1B6DD8240046B5FF /* HLToolbarNode.m in Sources */,
 				09A488C01B9D8D770075F41C /* SISingletonAchievement.m in Sources */,
+				0957AB7A1BA7626600D3FDF5 /* SIMenuNode.m in Sources */,
 				09A4889E1B9A43490075F41C /* DSMultilineLabelNode.m in Sources */,
 				09CAF9A91B646BE100466606 /* MBProgressHUD.m in Sources */,
 				09D5ED4F1B8B205B00E84179 /* SISegmentControl.m in Sources */,

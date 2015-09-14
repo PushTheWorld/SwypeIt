@@ -383,7 +383,7 @@ enum {
 }
 
 - (void)layoutZ {
-    CGFloat zPositionLayerIncrement     = self.zPositionScale / SIPopUpNodeZPositionLayerCount;
+    CGFloat zPositionLayerIncrement     = self.zPositionScale / (float)SIPopUpNodeZPositionLayerCount;
     
     _backgroundNode.zPosition               = SIPopUpNodeZPositionLayerBackground * zPositionLayerIncrement;
     
@@ -429,13 +429,14 @@ enum {
             return YES;
         }
     }
-    if ([_contentNode containsPoint:location]) {
-        if ([gestureRecognizer isKindOfClass:[UITapGestureRecognizer class]]) {
-            NSLog(@"Content Node Tapped");
-            *isInside       = YES;
-            return YES;        }
-
-    }
+//    if ([_contentNode containsPoint:location]) {
+//        if ([gestureRecognizer isKindOfClass:[UITapGestureRecognizer class]]) {
+//            NSLog(@"Content Node Tapped");
+//            *isInside       = YES;
+//            return YES;
+//        }
+//
+//    }
     
     return NO;
 }
@@ -452,21 +453,17 @@ enum {
 //        });
 //    }
 //}
-- (void)launchNode:(SKNode *)node {
+- (void)launchNode:(SKSpriteNode *)node {
     
+    CGFloat zPositionLayerIncrement             = self.zPositionScale / (float)SIPopUpNodeZPositionLayerCount;
     
-    coinNode.zPosition                              = (float)SIStoreSceneZPositionLayerPopupCoin / (float)SIStoreSceneZPositionLayerCount;
-    coinNode.position                               = CGPointMake(0.0f, 0.0f);//CGPointMake(self.frame.size.width / 2.0f, (self.frame.size.height / 2.0f) - _moveCommandLabel.frame.size.height);
-    coinNode.physicsBody                            = [SKPhysicsBody bodyWithCircleOfRadius:_coinSize.height/2.0f];
-    coinNode.physicsBody.collisionBitMask           = 0;
-    coinNode.physicsBody.linearDamping              = 0.0f;
-    
-    node.position                                   = CGPointZero;
-    node.physicsBody                            = [SKPhysicsBody bodyWithCircleOfRadius:_coinSize.height/2.0f];
+    node.zPosition                              = SIZPositionPopupContentTop * zPositionLayerIncrement;
+    node.position                               = CGPointZero;
+    node.physicsBody                            = [SKPhysicsBody bodyWithCircleOfRadius:node.size.height/2.0f];
     node.physicsBody.collisionBitMask           = 0;
     node.physicsBody.linearDamping              = 0.0f;
     
-    [_backgroundNode addChild:coinNode];
+    [_backgroundNode addChild:node];
     
     
     CGFloat randomDx                            = arc4random_uniform(LAUNCH_DX_VECTOR_MAX);
@@ -483,30 +480,28 @@ enum {
     //    NSLog(@"Vector... dX = %0.2f | Y = %0.2f",randomDx,randomDy);
     CGVector moveScoreVector                    = CGVectorMake(randomDx, randomDy);
     
-    [coinNode.physicsBody applyImpulse:moveScoreVector];
+    [node.physicsBody applyImpulse:moveScoreVector];
     
-    if ([SIConstants isFXAllowed]) {
-        [[SoundManager sharedManager] playSound:kSISoundFXChaChing];
-    }
+
 }
-- (void)finishPrize {
-    if ([SIConstants isFXAllowed]) {
-        [[SoundManager sharedManager] playSound:kSISoundFXChaChing];
-    }
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        NSDate *currentDate = [SIGameController getDateFromInternet];
-        if (currentDate) {
-            [[MKStoreKit sharedKit] addFreeCredits:[NSNumber numberWithInt:[self getPrizeAmount]] identifiedByConsumableIdentifier:kSIIAPConsumableIDCoins];
-            
-            [[NSUserDefaults standardUserDefaults] setObject:currentDate forKey:kSINSUserDefaultLastPrizeAwardedDate];
-            [[NSUserDefaults standardUserDefaults] synchronize];
-            
-            [self changeCoinValue];
-        }
-        [self increaseConsecutiveDaysLaunched];
-        [self dismissModalNodeAnimation:HLScenePresentationAnimationFade];
-    });
-}
+//- (void)finishPrize {
+//    if ([SIConstants isFXAllowed]) {
+//        [[SoundManager sharedManager] playSound:kSISoundFXChaChing];
+//    }
+//    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+//        NSDate *currentDate = [SIGameController getDateFromInternet];
+//        if (currentDate) {
+//            [[MKStoreKit sharedKit] addFreeCredits:[NSNumber numberWithInt:[self getPrizeAmount]] identifiedByConsumableIdentifier:kSIIAPConsumableIDCoins];
+//            
+//            [[NSUserDefaults standardUserDefaults] setObject:currentDate forKey:kSINSUserDefaultLastPrizeAwardedDate];
+//            [[NSUserDefaults standardUserDefaults] synchronize];
+//            
+//            [self changeCoinValue];
+//        }
+//        [self increaseConsecutiveDaysLaunched];
+//        [self dismissModalNodeAnimation:HLScenePresentationAnimationFade];
+//    });
+//}
 
 
 

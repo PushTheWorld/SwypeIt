@@ -222,6 +222,8 @@ NSString *const kSIAtlasSceneMenuHelp                                           
 NSString *const kSIAtlasSceneMenuLeaderboard                                    = @"leaderboardRevB";
 NSString *const kSIAtlasSceneMenuPlayClassic                                    = @"playClassic";
 NSString *const kSIAtlasSceneMenuPlayOneHand                                    = @"playOneHand";
+NSString *const kSIAtlasSceneMenuShareFacebook                                  = @"shareFacebook";
+NSString *const kSIAtlasSceneMenuShareTwitter                                   = @"shareTwitter";
 NSString *const kSIAtlasSceneMenuShop                                           = @"shopRevA";
 NSString *const kSIAtlasSceneMenuSettings                                       = @"settingsRevB";
 NSString *const kSIAtlasSceneMenuSoundBackground                                = @"startBackgroundSound";
@@ -303,6 +305,7 @@ NSString *const kSINodeNodeBag                                                  
 NSString *const kSINodeNodeBucket                                               = @"bucketOfCoinsNode";
 NSString *const kSINodeNodePile                                                 = @"pileOfCoinsNode";
 NSString *const kSINodeButtonAchievement                                        = @"achievementButton";
+NSString *const kSINodeButtonBackButton                                         = @"backButtonNode";
 NSString *const kSINodeButtonContinue                                           = @"continueButton";
 NSString *const kSINodeButtonDone                                               = @"doneButton";
 NSString *const kSINodeButtonFallingMonkey                                      = @"fallingMonkeyButton";
@@ -345,10 +348,10 @@ NSString *const kSIMenuTextPopUpWatchAd                                         
 NSString *const kSIMenuTextSettingsBugReport                                    = @"Report Bug";
 NSString *const kSIMenuTextSettingsResetHighScore                               = @"Reset High Score";
 NSString *const kSIMenuTextSettingsRestorePurchases                             = @"Restore Purchases";
-NSString *const kSIMenuTextSettingsToggleSoundOffBackground                     = @"Music Off";
-NSString *const kSIMenuTextSettingsToggleSoundOffFX                             = @"Sound FX Off";
-NSString *const kSIMenuTextSettingsToggleSoundOnBackground                      = @"Music On";
-NSString *const kSIMenuTextSettingsToggleSoundOnFX                              = @"Sound FX On";
+NSString *const kSIMenuTextSettingsToggleSoundOffBackground                     = @"Turn Music Off";
+NSString *const kSIMenuTextSettingsToggleSoundOffFX                             = @"Turn Sound FX Off";
+NSString *const kSIMenuTextSettingsToggleSoundOnBackground                      = @"Turn Music On";
+NSString *const kSIMenuTextSettingsToggleSoundOnFX                              = @"Turn Sound FX On";
 NSString *const kSIMenuTextStartScreenOneHand                                   = @"Play One Hand";
 NSString *const kSIMenuTextStartScreenTwoHand                                   = @"Play Original";
 NSString *const kSIMenuTextStartScreenSettings                                  = @"Settings";

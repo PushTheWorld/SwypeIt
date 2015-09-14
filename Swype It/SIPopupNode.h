@@ -232,7 +232,7 @@
 @property (nonatomic, assign) CGPoint dismissButtonPosition;
 
 /**Use to launch a node such as a coin*/
-- (void)launchNode:(SKNode *)node;
+- (void)launchNode:(SKSpriteNode *)node;
 
 
 

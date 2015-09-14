@@ -105,6 +105,8 @@ enum {
         _adContentNode.name                 = kSINodeAdBannerNode;
         _adContentNode.position             = CGPointMake(0.0f, 0.0f);
         [self addChild:_adContentNode];
+        [_adContentNode hlSetGestureTarget:_adBannerNode];
+        [self registerDescendant:_adBannerNode withOptions:[NSSet setWithObject:HLSceneChildGestureTarget]];
     }
     [self layoutXY];
     [self updatePhysicsEdges];
