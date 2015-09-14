@@ -49,6 +49,20 @@ HLRingNode *sceneGamePauseRingNode() {
     return ringNode;
 }
 
+SKSpriteNode *coinNodeLargeFront() {
+    SKSpriteNode *coinNode;
+    
+    CGSize coinSize                         = CGSizeMake(SCREEN_WIDTH / 8.0f, SCREEN_WIDTH / 8.0f);
+    
+    coinNode                                = [SKSpriteNode spriteNodeWithTexture:[[SIConstants imagesAtlas] textureNamed:kSIImageCoinLargeFront] size:coinSize];
+    coinNode.anchorPoint                    = CGPointMake(0.5f, 0.5f);
+    coinNode.physicsBody                    = [SKPhysicsBody bodyWithCircleOfRadius:coinSize.height/2.0f];
+    coinNode.physicsBody.collisionBitMask   = 0;
+    coinNode.physicsBody.linearDamping      = 0.0f;
+    
+    return coinNode;
+}
+
 
 
 #pragma mark - Images
@@ -203,10 +217,12 @@ NSString *const kSIAtlasShapes                                                  
 #pragma mark - Images in Atlas 
 NSString *const kSIAtlasSceneMenuAchievements                                   = @"achievementsRevA";
 NSString *const kSIAtlasSceneMenuAdFree                                         = @"adFreeRevB";
+NSString *const kSIAtlasSceneMenuBackButton                                     = @"backButton";
 NSString *const kSIAtlasSceneMenuHelp                                           = @"helpRevB";
 NSString *const kSIAtlasSceneMenuLeaderboard                                    = @"leaderboardRevB";
 NSString *const kSIAtlasSceneMenuPlayClassic                                    = @"playClassic";
 NSString *const kSIAtlasSceneMenuPlayOneHand                                    = @"playOneHand";
+NSString *const kSIAtlasSceneMenuShop                                           = @"shopRevA";
 NSString *const kSIAtlasSceneMenuSettings                                       = @"settingsRevB";
 NSString *const kSIAtlasSceneMenuSoundBackground                                = @"startBackgroundSound";
 NSString *const kSIAtlasSceneMenuSoundFX                                        = @"startFXSound";
@@ -375,13 +391,14 @@ NSString *const kEDKeyAchievementCurrentLevel                                   
 NSString *const kEDKeyAchievementCurrentLevels                                  = @"levelDictionary";
 NSString *const kEDKeyAchievementCurrentSequence                                = @"currentSequence";
 NSString *const kEDKeyAchievementDetails                                        = @"details";
+NSString *const kEDKeyAchievementDetailsCompleted                               = @"compeleted";
+NSString *const kEDKeyAchievementDetailsDictionaryKey                           = @"dictionaryKey";
 NSString *const kEDKeyAchievementDetailsHelpString                              = @"helpString";
+NSString *const kEDKeyAchievementDetailsMoveSequenceArray                       = @"moveSequenceArray";
+NSString *const kEDKeyAchievementDetailsPercentComplete                         = @"percentComplete";
 NSString *const kEDKeyAchievementDetailsPrefixString                            = @"prefixString";
 NSString *const kEDKeyAchievementDetailsPostfixString                           = @"postfixString";
 NSString *const kEDKeyAchievementDetailsType                                    = @"type";
-NSString *const kEDKeyAchievementDetailsCompleted                               = @"compeleted";
-NSString *const kEDKeyAchievementDetailsMoveSequenceArray                       = @"moveSequenceArray";
-NSString *const kEDKeyAchievementDetailsDictionaryKey                           = @"dictionaryKey";
 
 
 

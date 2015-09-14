@@ -13,12 +13,13 @@
 - (instancetype)init {
     self = [super init];
     if (self) {
-        _helpString     = @"";
-        _prefixString   = @"";
-        _postfixString  = @"";
-        _type           = SIAchievementTypeScore;
-        _completed      = NO;
-        _dictionaryKey  = @"";
+        _helpString             = @"";
+        _prefixString           = @"";
+        _postfixString          = @"";
+        _type                   = SIAchievementTypeScore;
+        _completed              = NO;
+        _dictionaryKey          = @"";
+        _percentComplete        = 0.0f;
     }
     return self;
 }
@@ -27,19 +28,21 @@
     self = [self init];
     if (self) {
 
-        _helpString         = [aDecoder decodeObjectForKey:kEDKeyAchievementDetailsHelpString];
+        _helpString             = [aDecoder decodeObjectForKey:kEDKeyAchievementDetailsHelpString];
         
-        _prefixString       = [aDecoder decodeObjectForKey:kEDKeyAchievementDetailsPrefixString];
+        _prefixString           = [aDecoder decodeObjectForKey:kEDKeyAchievementDetailsPrefixString];
         
-        _postfixString      = [aDecoder decodeObjectForKey:kEDKeyAchievementDetailsPostfixString];
+        _postfixString          = [aDecoder decodeObjectForKey:kEDKeyAchievementDetailsPostfixString];
         
-        _type               = (SIAchievementType)[aDecoder decodeIntegerForKey:kEDKeyAchievementDetailsType];
+        _type                   = (SIAchievementType)[aDecoder decodeIntegerForKey:kEDKeyAchievementDetailsType];
         
-        _completed          = [aDecoder decodeBoolForKey:kEDKeyAchievementDetailsCompleted];
+        _completed              = [aDecoder decodeBoolForKey:kEDKeyAchievementDetailsCompleted];
 
-        _moveSequenceArray  = [aDecoder decodeObjectForKey:kEDKeyAchievementDetailsMoveSequenceArray];
+        _moveSequenceArray      = [aDecoder decodeObjectForKey:kEDKeyAchievementDetailsMoveSequenceArray];
         
-        _dictionaryKey      = [aDecoder decodeObjectForKey:kEDKeyAchievementDetailsDictionaryKey];
+        _dictionaryKey          = [aDecoder decodeObjectForKey:kEDKeyAchievementDetailsDictionaryKey];
+        
+        _percentComplete        = [aDecoder decodeFloatForKey:kEDKeyAchievementDetailsPercentComplete];
     }
     return self;
 }
@@ -53,6 +56,8 @@
     [aCoder encodeBool:_completed           forKey:kEDKeyAchievementDetailsCompleted];
     [aCoder encodeObject:_moveSequenceArray forKey:kEDKeyAchievementDetailsMoveSequenceArray];
     [aCoder encodeObject:_dictionaryKey     forKey:kEDKeyAchievementDetailsDictionaryKey];
+    [aCoder encodeFloat:_percentComplete    forKey:kEDKeyAchievementDetailsPercentComplete];
+    
 }
 
 @end

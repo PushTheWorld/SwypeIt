@@ -25,7 +25,7 @@
  The delegate invoked on interaction
  
  */
-- (void)dismissPopUp:(SIPopupNode *)popUpNode;
+- (void)dismissPopup:(SIPopupNode *)popupNode;
 
 @end
 
@@ -116,6 +116,17 @@
  Default value is [SKColor blackColor]
  */
 @property (nonatomic, strong) SKColor *borderColor;
+
+/**
+ Set to button you want displayed
+ */
+@property (nonatomic, strong) SKNode *bottomNode;
+
+/**
+ The distance between the anchor point of the node and the bottom of the popup node
+ Default is `8.0f`
+ */
+@property (nonatomic, assign) CGFloat bottomNodeBottomSpacing;
 
 /**
  The title of the popup
@@ -219,5 +230,10 @@
  Default value `(1, 1)`.
  */
 @property (nonatomic, assign) CGPoint dismissButtonPosition;
+
+/**Use to launch a node such as a coin*/
+- (void)launchNode:(SKNode *)node;
+
+
 
 @end

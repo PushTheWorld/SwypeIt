@@ -49,24 +49,24 @@ typedef NS_ENUM(NSInteger, SIGameSceneContentAnimation) {
  */
 - (void)controllerSceneGamePauseButtonTapped;
 
-/**
- Fires after the continue meny node has been pressed...
- If coins -> PayMethod - Coin
- If ads   -> PayMethod - Ads
- If no    -> PayMethod - User is not going to pay for this shit...
- */
-- (void)controllerSceneGameWillDismissPopupContinueWithPayMethod:(SISceneGamePopupContinueMenuItem)continuePayMethod;
-
-/**
- Called when the ring node is tapped and the result
- needs to be sent to the controller
- */
-- (void)controllerSceneGameDidRecieveRingNode:(HLRingNode *)ringNode tap:(SISceneGameRingNode)gameSceneRingNode;
-
-/**
- Powerup tool bar was tapped
- */
-- (void)controllerSceneGameToolbar:(HLToolbarNode *)toolbar powerUpWasTapped:(SIPowerUpType)powerUp;
+///**
+// Fires after the continue meny node has been pressed...
+// If coins -> PayMethod - Coin
+// If ads   -> PayMethod - Ads
+// If no    -> PayMethod - User is not going to pay for this shit...
+// */
+//- (void)controllerSceneGameWillDismissPopupContinueWithPayMethod:(SISceneGamePopupContinueMenuItem)continuePayMethod;
+//
+///**
+// Called when the ring node is tapped and the result
+// needs to be sent to the controller
+// */
+//- (void)controllerSceneGameDidRecieveRingNode:(HLRingNode *)ringNode tap:(SISceneGameRingNode)gameSceneRingNode;
+//
+///**
+// Powerup tool bar was tapped
+// */
+//- (void)controllerSceneGameToolbar:(HLToolbarNode *)toolbar powerUpWasTapped:(SIPowerUpType)powerUp;
 
 /**
  This is called on every update... So it gets called a ton!
@@ -76,7 +76,7 @@ typedef NS_ENUM(NSInteger, SIGameSceneContentAnimation) {
 @end
 
 
-@interface SIGameScene : HLScene <HLToolbarNodeDelegate, SIGameNodeDelegate, HLRingNodeDelegate, SIPopUpNodeDelegate>
+@interface SIGameScene : HLScene <SIGameNodeDelegate>
 
 /**
  The delegate for the scene
@@ -88,10 +88,15 @@ typedef NS_ENUM(NSInteger, SIGameSceneContentAnimation) {
  */
 - (instancetype)initWithSize:(CGSize)size;
 
+///**
+// When you need to move power up progress bar on or off screen
+// */
+//- (void)sceneGameMovePowerUpProgressBarOnScreen:(BOOL)OnScreen animate:(BOOL)animate;
+
 /**
- When you need to move power up progress bar on or off screen
+ Used to launch a move command
  */
-- (void)sceneGameMovePowerUpProgressBarOnScreen:(BOOL)OnScreen animate:(BOOL)animate;
+- (void)sceneGameLaunchMoveCommandLabelWithCommandAction:(SIMoveCommandAction)commandAction;
 
 /**
  Called when the scene shall show a new high score
@@ -132,11 +137,6 @@ typedef NS_ENUM(NSInteger, SIGameSceneContentAnimation) {
  Default is `0.25`
  */
 @property (nonatomic, assign) CGFloat blurScreenDuration;
-
-/**
- For setting the move command
- */
-@property (nonatomic, strong) NSString *moveCommandText;
 
 /**
  The label of the move command

@@ -53,5 +53,10 @@
  */
 @property (strong, nonatomic) NSString *dictionaryKey;
 
+/**
+ The percent complete of the achievement
+ */
+@property (assign, nonatomic) float percentComplete;
+
 
 @end

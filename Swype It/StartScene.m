@@ -564,9 +564,9 @@ enum {
     NSLog(@"Ad Banner was tapped and delegate fired");
 }
 #pragma mark - Daily Prize Methods
-/**
- Compares a time from the internet to determine if should give a daily prize
- */
+///**
+// Compares a time from the internet to determine if should give a daily prize
+// */
 //- (BOOL)checkForDailyPrize {
 //    NSDate *currentDate = [SIGameController getDateFromInternet];
 //    if (!currentDate) {

@@ -34,7 +34,23 @@
  Retuns nil if the product cannot be found
  */
 + (NSDecimalNumber *)   productPriceForSIIAPPack:(SIIAPPack)siiapPack;
+
 + (NSString *)          imageNameForSIIAPPack:(SIIAPPack)siiapPack;
+
 + (void)                productForSIIAPPack:(SIIAPPack)siiapPack inPackArray:(NSArray *)productArray withBlock:(void (^)(BOOL succeeded, SKProduct *product))completionBlock;
 
+/**
+ Get the date from the internet
+ */
++ (NSDate *)getDateFromInternet;
+/**
+ Uses NSUserDefaults to get the number of coins to give for free daily prize
+ */
++ (int)getDailyFreePrizeAmount;
+
++ (void)increaseConsecutiveDaysLaunched;
+/**
+ Returns a cool looking title node for daily free prize
+ */
++ (SKSpriteNode *)createTitleNode:(CGSize)size;
 @end

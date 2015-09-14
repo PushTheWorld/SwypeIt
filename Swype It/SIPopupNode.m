@@ -21,8 +21,9 @@ enum {
     CGSize           _sceneSize;
     
 //    HLComponentNode *_contentNode;
-    SKNode          *_titleNode;
-    SKNode          *_contentNode;
+    SKNode          *_bottomContentNode;
+    SKNode          *_titleContentNode;
+    SKNode          *_popupContentContentNode;
     SKSpriteNode    *_backgroundNode;
     SKSpriteNode    *_dismissButton;
     SKLabelNode     *_titleLabelNode;
@@ -40,6 +41,7 @@ enum {
         _titleLabelTopPading        = VERTICAL_SPACING_16;
         _titleAutomaticYPosition    = NO;
         _contentPostion             = CGPointMake(0.5f, 0.5f);
+        _bottomNodeBottomSpacing    = VERTICAL_SPACING_8;
     }
     return self;
 }
@@ -59,7 +61,7 @@ enum {
     self = [super init];
     if (self) {
         _sceneSize                  = size;
-        _titleNode                  = titleNode;
+        _titleContentNode           = titleNode;
         
         [self createPoupNodeInitCommon:size];
     }
@@ -172,6 +174,7 @@ enum {
 
 - (void)setAnchorPoint:(CGPoint)anchorPoint {
     self.anchorPoint                = anchorPoint;
+    [self layoutXY];
 }
 
 - (CGPoint)anchorPoint {
@@ -235,6 +238,8 @@ enum {
 
 - (void)setDismissButtonSize:(CGSize)dismissButtonSize {
     _dismissButton.size                 = dismissButtonSize;
+    
+    [self layoutXY];
 }
 
 - (CGPoint)dismissButtonPosition {
@@ -246,6 +251,8 @@ enum {
     CGFloat newY                        = self.size.height * dismissButtonPosition.y;
 
     _dismissButton.position             = CGPointMake(newX, newY);
+    
+    [self layoutXY];
 }
 
 - (void)setXPadding:(CGFloat)xPadding {
@@ -262,34 +269,60 @@ enum {
     _titleAutomaticYPosition            = titleAutomaticYPosition;
     [self layoutXY];
 }
+
 - (void)setTitleContentNode:(SKNode *)titleContentNode {
     if (_titleLabelNode) {
         [_titleLabelNode removeFromParent];
     }
     
-    if (_titleNode) {
-        [_titleNode removeFromParent];
+    if (_titleContentNode) {
+        [_titleContentNode removeFromParent];
     }
     
     if (titleContentNode) {
-        _titleNode                      = titleContentNode;
-        _titleNode.name                 = kSINodePopupTitle;
-        [_backgroundNode addChild:_titleNode];
+        _titleContentNode           = titleContentNode;
+        _titleContentNode.name         = kSINodePopupTitle;
+        [_backgroundNode addChild:_titleContentNode];
     }
     [self layoutXY];
 
 }
 
 - (void)setPopupContentNode:(SKNode *)popupContentNode {
-    if (_contentNode) {
-        [_contentNode removeFromParent];
+    if (_popupContentContentNode) {
+        [_popupContentContentNode removeFromParent];
     }
     if (popupContentNode) {
-        _contentNode                    = popupContentNode;
-        _contentNode.name               = kSINodePopupContent;
-        [_backgroundNode addChild:_contentNode];
+        _popupContentContentNode                    = popupContentNode;
+        _popupContentContentNode.name               = kSINodePopupContent;
+        [_backgroundNode addChild:_popupContentContentNode];
     }
-    [self layoutXY];
+    [self layoutXYZ];
+}
+
+- (SKNode *)bottomNode {
+    if (_bottomContentNode) {
+        return _bottomContentNode;
+    } else {
+        return nil;
+    }
+}
+
+- (void)setBottomNode:(SKNode *)bottomNode {
+    if (_bottomContentNode) {
+        [_bottomContentNode removeFromParent];
+    }
+    if (bottomNode) {
+        _bottomContentNode                          = bottomNode;
+        [_backgroundNode addChild:bottomNode];
+    }
+    [self layoutXYZ];
+}
+
+- (void)setBottomNodeBottomSpacing:(CGFloat)bottomNodeBottomSpacing {
+    if (_bottomContentNode) {
+        [self layoutXY];
+    }
 }
 
 - (void)setContentPostion:(CGPoint)contentPostion {
@@ -297,6 +330,10 @@ enum {
     [self layoutXY];
 }
 
+- (void)layoutXYZ {
+    [self layoutXY];
+    [self layoutZ];
+}
 - (void)layoutXY {
 
     if (!_backgroundNode) {
@@ -304,9 +341,9 @@ enum {
     }
     _backgroundNode.size                = CGSizeMake(_sceneSize.width - _xPadding, _sceneSize.height - _yPadding);
 
-    if (_titleNode) {
+    if (_titleContentNode) {
         /*If someone supplied their own node*/
-        _titleNode.position             = CGPointMake(0.0f, self.backgroundSize.height / 2.0f - _titleLabelTopPading - _titleNode.frame.size.height / 2.0f);
+        _titleContentNode.position      = CGPointMake(0.0f, self.backgroundSize.height / 2.0f - _titleLabelTopPading - _titleContentNode.frame.size.height / 2.0f);
         
     } else {
         /*Use titleLabelNode*/
@@ -334,15 +371,40 @@ enum {
         _dismissButton.position         = dismissButtonPosition;
     }
     
-    _backgroundNode.texture             = [SIGame textureBackgroundColor:_backgroundNode.color size:_backgroundNode.size cornerRadius:_cornerRadius borderWidth:_borderWidth borderColor:_borderColor];
+    if (_popupContentContentNode) {
+        _popupContentContentNode.position   = CGPointMake(0.0f, 0.0f);
+    }
+    
+    if (_bottomContentNode) {
+        _bottomContentNode.position         = CGPointMake(0.0f, -1.0f * (_backgroundNode.size.height / 2.0f) + _bottomNodeBottomSpacing);
+    }
+    
+    _backgroundNode.texture                 = [SIGame textureBackgroundColor:_backgroundNode.color size:_backgroundNode.size cornerRadius:_cornerRadius borderWidth:_borderWidth borderColor:_borderColor];
 }
 
-- (void)layoutZ
-{
+- (void)layoutZ {
     CGFloat zPositionLayerIncrement     = self.zPositionScale / SIPopUpNodeZPositionLayerCount;
-    _backgroundNode.zPosition           = SIPopUpNodeZPositionLayerBackground * zPositionLayerIncrement;
-    _popupContentNode.zPosition         = SIPopUpNodeZPositionLayerContent * zPositionLayerIncrement;
-//    _popupContentNode.zPositionScale    = zPositionLayerIncrement;
+    
+    _backgroundNode.zPosition               = SIPopUpNodeZPositionLayerBackground * zPositionLayerIncrement;
+    
+    if (_popupContentContentNode) {
+        _popupContentContentNode.zPosition  = SIZPositionPopupContent * zPositionLayerIncrement;
+    }
+    
+    if (_dismissButton) {
+        _dismissButton.zPosition            = SIZPositionPopupContent * zPositionLayerIncrement;
+    }
+    
+    if (_bottomContentNode) {
+        _bottomContentNode.zPosition        = SIZPositionPopupContent * zPositionLayerIncrement;
+    }
+    
+    if (_titleContentNode) {
+        _titleContentNode.zPosition         = SIZPositionPopupContent * zPositionLayerIncrement;
+    } else {
+        _titleLabelNode.zPosition           = SIZPositionPopupContent * zPositionLayerIncrement;
+    }
+    
 }
 
 #pragma mark - HLGestureTarget
@@ -361,7 +423,9 @@ enum {
         *isInside       = YES;
         if ([gestureRecognizer isKindOfClass:[UITapGestureRecognizer class]]) {
             NSLog(@"Dismiss Pop Up View");
-            [self.delegate dismissPopUp:self];
+            if ([_delegate respondsToSelector:@selector(dismissPopup:)]) {
+                [_delegate dismissPopup:self];
+            }
             return YES;
         }
     }
@@ -375,6 +439,75 @@ enum {
     
     return NO;
 }
+
+#pragma mark - Launch Coins
+//- (void)launchCoins:(int)totalCoins coinsLaunched:(int)coinsLaunched {
+//    if (coinsLaunched == totalCoins) {
+//        [self finishPrize];
+//    } else {
+//        _prizeAmountLabelNode.text  = [NSString stringWithFormat:@"%d",totalCoins - coinsLaunched - 1];
+//        [self lauchCoin];
+//        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(((CGFloat)(totalCoins - coinsLaunched) / (CGFloat)totalCoins) / 2.0f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+//            [self launchCoins:totalCoins coinsLaunched:coinsLaunched + 1];
+//        });
+//    }
+//}
+- (void)launchNode:(SKNode *)node {
+    
+    
+    coinNode.zPosition                              = (float)SIStoreSceneZPositionLayerPopupCoin / (float)SIStoreSceneZPositionLayerCount;
+    coinNode.position                               = CGPointMake(0.0f, 0.0f);//CGPointMake(self.frame.size.width / 2.0f, (self.frame.size.height / 2.0f) - _moveCommandLabel.frame.size.height);
+    coinNode.physicsBody                            = [SKPhysicsBody bodyWithCircleOfRadius:_coinSize.height/2.0f];
+    coinNode.physicsBody.collisionBitMask           = 0;
+    coinNode.physicsBody.linearDamping              = 0.0f;
+    
+    node.position                                   = CGPointZero;
+    node.physicsBody                            = [SKPhysicsBody bodyWithCircleOfRadius:_coinSize.height/2.0f];
+    node.physicsBody.collisionBitMask           = 0;
+    node.physicsBody.linearDamping              = 0.0f;
+    
+    [_backgroundNode addChild:coinNode];
+    
+    
+    CGFloat randomDx                            = arc4random_uniform(LAUNCH_DX_VECTOR_MAX);
+    while (randomDx < LAUNCH_DX_VECTOR_MIX) {
+        randomDx                                = arc4random_uniform(LAUNCH_DX_VECTOR_MAX);
+    }
+    int randomDirection                         = arc4random_uniform(2);
+    if (randomDirection == 1) { /*Negative Direction*/
+        randomDx                                = -1.0f * randomDx;
+    }
+    
+    CGFloat randomDy                            = ((arc4random_uniform(5)/5) + 1)* LAUNCH_DY_MULTIPLIER;
+    
+    //    NSLog(@"Vector... dX = %0.2f | Y = %0.2f",randomDx,randomDy);
+    CGVector moveScoreVector                    = CGVectorMake(randomDx, randomDy);
+    
+    [coinNode.physicsBody applyImpulse:moveScoreVector];
+    
+    if ([SIConstants isFXAllowed]) {
+        [[SoundManager sharedManager] playSound:kSISoundFXChaChing];
+    }
+}
+- (void)finishPrize {
+    if ([SIConstants isFXAllowed]) {
+        [[SoundManager sharedManager] playSound:kSISoundFXChaChing];
+    }
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        NSDate *currentDate = [SIGameController getDateFromInternet];
+        if (currentDate) {
+            [[MKStoreKit sharedKit] addFreeCredits:[NSNumber numberWithInt:[self getPrizeAmount]] identifiedByConsumableIdentifier:kSIIAPConsumableIDCoins];
+            
+            [[NSUserDefaults standardUserDefaults] setObject:currentDate forKey:kSINSUserDefaultLastPrizeAwardedDate];
+            [[NSUserDefaults standardUserDefaults] synchronize];
+            
+            [self changeCoinValue];
+        }
+        [self increaseConsecutiveDaysLaunched];
+        [self dismissModalNodeAnimation:HLScenePresentationAnimationFade];
+    });
+}
+
 
 
 @end

@@ -758,10 +758,13 @@ enum {
 }
 
 #pragma mark - Popup Node
+- (void)sceneGameDisplayMenuPopup:(SIPopupNode *)popupNode {
+    
+}
 - (void)sceneGameModallyPresentPopup:(SIPopupNode *)popupNode withMenuNode:(HLMenuNode *)menuNode {
-    popupNode.delegate                              = self;
-
-    menuNode.delegate                               = self;
+//    popupNode.delegate                              = self;
+//
+//    menuNode.delegate                               = self;
     
     _coinMenuItemText = [[menuNode menu] itemAtIndex:SISceneGamePopupContinueMenuItemCoin].text;
     
@@ -844,8 +847,6 @@ enum {
     [oldMoveLabel runAction:[SIGame actionForSIMoveCommandAction:_moveScoreAction]];
     
     return newMoveCommandLabel;
-//    label.fontSize                      = [SIGameController fontSizeMoveCommand];
-
 }
 //+ (SKLabelNode *)moveCommandLabelNode {
 ////    SKLabelNode *label;

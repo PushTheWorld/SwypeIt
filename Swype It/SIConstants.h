@@ -79,6 +79,7 @@
 #define IAP_PACK_PRICE_LARGE                09.99
 #define IAP_PACK_PRICE_EXTRA_LARGE          24.99
 
+#define SCENE_TRANSISTION_DURATION_ZERO     0
 #define SCENE_TRANSISTION_DURATION_FAST     0.25
 #define SCENE_TRANSISTION_DURATION_NORMAL   1.0
 
@@ -110,6 +111,11 @@ FOUNDATION_EXPORT SKLabelNode               *moveCommandLabelNode();
  The ring node for the pause menu
  */
 FOUNDATION_EXPORT HLRingNode                *sceneGamePauseRingNode();
+/**
+ The Front of the Large Coin SpriteNode
+ */
+SKSpriteNode                                *coinNodeLargeFront();
+
 
 typedef NS_ENUM(NSInteger, SIAchievementArrayIndexForAchievementType) {
     SIAchievementArrayIndexForAchievementTypeLevel1 = 0,
@@ -215,10 +221,11 @@ typedef NS_ENUM(NSInteger, SIGameControllerScene) {
     SIGameControllerSceneCount
 };
 
-typedef NS_ENUM(NSInteger, SIGameFreePrize) {
-    SIGameFreePrizeNo                       = 0,
-    SIGameFreePrizeYesConsecutive,
-    SIGameFreePrizeYes
+typedef NS_ENUM(NSInteger, SIFreePrizeType) {
+    SIFreePrizeTypeNone                       = 0,
+    SIFreePrizeTypeConsecutive,
+    SIFreePrizeTypeNonConsecutive,
+    SIFreePrizeTypeFirst
 };
 
 
@@ -287,6 +294,32 @@ typedef NS_ENUM(NSInteger, SIProgressBar) {
     SIProgressBarPowerUp
 };
 
+typedef NS_ENUM(NSInteger, SISceneContentAnimation) {
+    /**
+     If you don't want the screen to animate
+     */
+    SISceneContentAnimationNone = 0,
+    /**
+     Things animate away from the center
+     */
+    SISceneContentAnimationOut,
+    /**
+     Things animate towards the center
+     */
+    SISceneContentAnimationIn
+};
+
+typedef NS_ENUM(NSInteger, SISceneContentAnimationStyle) {
+    /**
+     Nodes grow in size
+     */
+    SISceneContentAnimationStyleSlide = 0,
+    /**
+     Nodes don't change in size, their position changes
+     */
+    SISceneContentAnimationStyleGrow
+};
+
 typedef NS_ENUM(NSInteger, SISceneGamePopupContinueMenuItem) {
     SISceneGamePopupContinueMenuItemCoin    = 0,
     SISceneGamePopupContinueMenuItemAd,
@@ -301,7 +334,6 @@ typedef NS_ENUM(NSInteger, SISceneGameRingNode) {
 };
 
 
-
 typedef NS_ENUM(NSInteger, SISceneMenuToolBarNode) {
     SISceneStartToolBarNodeNoAds            = 0,
     SISceneStartToolBarNodeLeaderboard,
@@ -312,7 +344,11 @@ typedef NS_ENUM(NSInteger, SISceneMenuToolBarNode) {
 typedef NS_ENUM(NSInteger, SISceneMenuType) {
     SISceneMenuTypeStart                    = 0,
     SISceneMenuTypeEnd,
-    SISceneMenuTypeChallenges
+    SISceneMenuTypeAchievements,
+    SISceneMenuTypeHelp,
+    SISceneMenuTypeSettings,
+    SISceneMenuTypeStore,
+    SISceneMenuTypeNone
 };
 
 typedef NS_ENUM(NSInteger, SIZPositionGame) {
@@ -327,7 +363,12 @@ typedef NS_ENUM(NSInteger, SIZPositionGame) {
     SIZPositionGameModalMax,
     SIZPositionGameCount
 };
-
+typedef NS_ENUM(NSInteger, SIZPositionPopup) {
+    SIZPositionPopupBackground = 0,
+    SIZPositionPopupContent,
+    SIZPositionPopupContentTop,
+    SIZPositionPopupCount
+};
 #pragma mark - Images
 extern NSString *const kSIImageTitleLabel;
 
@@ -479,11 +520,13 @@ extern NSString *const kSIAtlasShapes;
 #pragma mark - Images in Atlas
 extern NSString *const kSIAtlasSceneMenuAchievements;
 extern NSString *const kSIAtlasSceneMenuAdFree;
+extern NSString *const kSIAtlasSceneMenuBackButton;
 extern NSString *const kSIAtlasSceneMenuHelp;
 extern NSString *const kSIAtlasSceneMenuLeaderboard;
 extern NSString *const kSIAtlasSceneMenuPlayClassic;
 extern NSString *const kSIAtlasSceneMenuPlayOneHand;
 extern NSString *const kSIAtlasSceneMenuSettings;
+extern NSString *const kSIAtlasSceneMenuShop;
 extern NSString *const kSIAtlasSceneMenuSoundBackground;
 extern NSString *const kSIAtlasSceneMenuSoundFX;
 
@@ -651,13 +694,14 @@ extern NSString *const kEDKeyAchievementCurrentLevel;
 extern NSString *const kEDKeyAchievementCurrentLevels;
 extern NSString *const kEDKeyAchievementCurrentSequence;
 extern NSString *const kEDKeyAchievementDetails;
+extern NSString *const kEDKeyAchievementDetailsCompleted;
+extern NSString *const kEDKeyAchievementDetailsDictionaryKey;
 extern NSString *const kEDKeyAchievementDetailsHelpString;
+extern NSString *const kEDKeyAchievementDetailsMoveSequenceArray;
+extern NSString *const kEDKeyAchievementDetailsPercentComplete;
 extern NSString *const kEDKeyAchievementDetailsPrefixString;
 extern NSString *const kEDKeyAchievementDetailsPostfixString;
 extern NSString *const kEDKeyAchievementDetailsType;
-extern NSString *const kEDKeyAchievementDetailsCompleted;
-extern NSString *const kEDKeyAchievementDetailsMoveSequenceArray;
-extern NSString *const kEDKeyAchievementDetailsDictionaryKey;
 
 #pragma mark - Useful things
 @interface SIConstants : NSObject

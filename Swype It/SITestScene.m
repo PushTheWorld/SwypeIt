@@ -153,8 +153,8 @@
     menuNode.delegate                       = self;
     menuNode.itemAnimation                  = HLMenuNodeAnimationSlideLeft;
     menuNode.itemAnimationDuration          = self.buttonAnimationDuration;
-    menuNode.itemButtonPrototype            = [SIGameController SIMenuButtonPrototypePopUp:[SIGameController SIButtonSize:size]];
-    menuNode.backItemButtonPrototype        = [SIGameController SIMenuButtonPrototypeBack:[SIGameController SIButtonSize:size]];
+    menuNode.itemButtonPrototype            = [SIGameController SILabelButtonMenuPrototypePopUp:[SIGameController SIButtonSize:size]];
+    menuNode.backItemButtonPrototype        = [SIGameController SILabelButtonMenuPrototypeBack:[SIGameController SIButtonSize:size]];
     menuNode.itemSeparatorSize              = 20;
     
     HLMenu *menu                            = [[HLMenu alloc] init];
@@ -166,7 +166,7 @@
 
     /*Add the Back Button... Need to change the prototype*/
     HLMenuItem *endGameItem                 = [HLMenuItem menuItemWithText:kSIMenuTextPopUpEndGame];
-    endGameItem.buttonPrototype             = [SIGameController SIMenuButtonPrototypeBack:[SIGameController SIButtonSize:size]];
+    endGameItem.buttonPrototype             = [SIGameController SILabelButtonMenuPrototypeBack:[SIGameController SIButtonSize:size]];
     [menu addItem:endGameItem];
 
     

@@ -8,9 +8,11 @@
 //
 // Local Controller Import
 #import "SIAdBannerNode.h"
+#import "SIPopupNode.h"
 // Framework Import
 #import <SpriteKit/SpriteKit.h>
 // Drop-In Class Imports (CocoaPods/GitHub/Guru)
+#import "BMGlyphLabel.h"
 #import "HLSpriteKit.h"
 // Category Import
 // Support/Data Class Imports
@@ -23,7 +25,7 @@
     notifies that the scene is ready to animate in the buttons and 
     such
  */
-- (void)sceneMenuDidLoadType:(SISceneMenuType)sceneMenuType;
+- (void)controllerSceneMenuDidLoadType:(SISceneMenuType)type;
 
 
 
@@ -50,10 +52,43 @@
 @property (nonatomic, strong) SIAdBannerNode *adBannerNode;
 
 /**
+ The duration for how long it takes to animate objects in for layout
+ default is `1.0f`
+ */
+@property (nonatomic, assign) CGFloat animationDuration;
+
+/**
  Setting this property will handle all animations for going to a differnt configuration of the
     menu scene
  */
-@property (nonatomic, assign) SISceneMenuType sceneMenuType;
+@property (nonatomic, assign) SISceneMenuType type;
+
+/**
+ Use this to easily present a grid of buttons to click on
+ */
+@property (nonatomic, strong) HLGridNode *gridNode;
+
+/**
+ Toolbar to be displayed towards the bottom
+ */
+@property (nonatomic, strong) HLToolbarNode *toolbarNode;
+
+/**
+ Spacing between the bottom of the toolbar and the background node
+ Default `4.0f`
+ */
+@property (nonatomic, assign) CGFloat spacingToolbarBottom;
+
+/**
+ Oh yeah, so good news kids! if you set this to content it will get blaster up to the top of the screen!!
+ */
+@property (nonatomic, strong) SIPopupNode *popupNode;
+
+/**
+ Show back button
+ */
+@property (nonatomic, assign) BOOL backButtonVisible;
+
 
 
 

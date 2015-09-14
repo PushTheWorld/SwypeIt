@@ -67,6 +67,7 @@
 		09549B221B9F08BA0058D2E9 /* SIAchievementDetail.m in Sources */ = {isa = PBXBuildFile; fileRef = 09549B211B9F08BA0058D2E9 /* SIAchievementDetail.m */; };
 		09552DE61BA2296A00D275A9 /* SIGameScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 09552DE51BA2296A00D275A9 /* SIGameScene.m */; };
 		09552DE71BA230EE00D275A9 /* SIGameScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 09552DE51BA2296A00D275A9 /* SIGameScene.m */; };
+		0957AB771BA7034200D3FDF5 /* SIPopupContentNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 0957AB761BA7034200D3FDF5 /* SIPopupContentNode.m */; };
 		096ABDCA1B6AF83A005B2F12 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 096ABDC91B6AF83A005B2F12 /* MessageUI.framework */; };
 		096ABDCC1B6AF843005B2F12 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 096ABDCB1B6AF843005B2F12 /* OpenGLES.framework */; };
 		096ABDCD1B6AF84C005B2F12 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 09343DA91B44BB1C00D1C707 /* QuartzCore.framework */; };
@@ -268,6 +269,8 @@
 		09552DE11BA1BE3B00D275A9 /* SISingletonAchievement_Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SISingletonAchievement_Private.h; sourceTree = "<group>"; };
 		09552DE41BA2296A00D275A9 /* SIGameScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SIGameScene.h; sourceTree = "<group>"; };
 		09552DE51BA2296A00D275A9 /* SIGameScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SIGameScene.m; sourceTree = "<group>"; };
+		0957AB751BA7034200D3FDF5 /* SIPopupContentNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SIPopupContentNode.h; sourceTree = "<group>"; };
+		0957AB761BA7034200D3FDF5 /* SIPopupContentNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SIPopupContentNode.m; sourceTree = "<group>"; };
 		096ABDC91B6AF83A005B2F12 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		096ABDCB1B6AF843005B2F12 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 		096ABDCE1B6AF856005B2F12 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
@@ -659,6 +662,8 @@
 				09D5ED4E1B8B205B00E84179 /* SISegmentControl.m */,
 				0988CC921B70C82300BF429D /* SIStoreButtonNode.h */,
 				0988CC931B70C82300BF429D /* SIStoreButtonNode.m */,
+				0957AB751BA7034200D3FDF5 /* SIPopupContentNode.h */,
+				0957AB761BA7034200D3FDF5 /* SIPopupContentNode.m */,
 			);
 			name = CustomUIClasses;
 			sourceTree = "<group>";
@@ -1086,6 +1091,7 @@
 				099A622E1B5C6C2A009BF339 /* SIGameScene_vak.m in Sources */,
 				0917D4EB1B6DD8240046B5FF /* HLItemNode.m in Sources */,
 				09549B221B9F08BA0058D2E9 /* SIAchievementDetail.m in Sources */,
+				0957AB771BA7034200D3FDF5 /* SIPopupContentNode.m in Sources */,
 				091FED791B3736210071F8DC /* UIColor+Additions.m in Sources */,
 				091FED7D1B374C470071F8DC /* BaseNavigationViewController.m in Sources */,
 				0917D4F31B6DD8240046B5FF /* HLRingLayoutManager.m in Sources */,

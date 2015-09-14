@@ -251,7 +251,7 @@ enum {
     
     /*Make Monkey*/
     
-    SKSpriteNode *monkey                        = [SIGameController SIFallingMonkeyNode];
+    SKSpriteNode *monkey                        = [SIGameController SISpriteNodeFallingMonkey];
     
     monkey.position                             = CGPointMake(xLocation, yLocation);
     

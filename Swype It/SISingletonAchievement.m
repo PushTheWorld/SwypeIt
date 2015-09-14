@@ -75,7 +75,9 @@
     [SISingletonAchievement singletonAchievementFetchAchievementRemoteWithCallback:^(NSArray *remoteArray, NSError *error) {
         if (error) {
             if ([_delegate respondsToSelector:@selector(controllerSingletonAchievementFailedToReachGameCenterWithError:)]) {
-                [_delegate controllerSingletonAchievementFailedToReachGameCenterWithError:error];
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [_delegate controllerSingletonAchievementFailedToReachGameCenterWithError:error];
+                });
             }
         } else {
             /*Assign remote for later use*/
@@ -207,7 +209,9 @@
     achievement.details.completed = YES;
     [SISingletonAchievement storeAchievement:achievement];
     if ([_delegate respondsToSelector:@selector(controllerSingletonAchievementDidCompleteAchievement:)]) {
-        [_delegate controllerSingletonAchievementDidCompleteAchievement:achievement];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [_delegate controllerSingletonAchievementDidCompleteAchievement:achievement];
+        });
     }
     [self updateGameCenterForAchievement:achievement];
 }
@@ -221,7 +225,9 @@
         achievementToReport.showsCompletionBanner   = NO;
         [GKAchievement reportAchievements:@[achievementToReport] withCompletionHandler:^(NSError * __nullable error) {
             if ([_delegate respondsToSelector:@selector(controllerSingletonAchievementFailedToReachGameCenterWithError:)]) {
-                [_delegate controllerSingletonAchievementFailedToReachGameCenterWithError:error];
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [_delegate controllerSingletonAchievementFailedToReachGameCenterWithError:error];
+                });
             }
         }];
     }

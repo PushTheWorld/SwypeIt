@@ -48,10 +48,15 @@
  */
 + (CGSize)SIProgressBarGamePowerUpSize:(CGSize)size;
 
-+ (HLLabelButtonNode *) SIMenuButtonPrototypeBack:(CGSize)size;
-+ (HLLabelButtonNode *) SIMenuButtonPrototypeBasic:(CGSize)size;
-+ (HLLabelButtonNode *) SIMenuButtonPrototypeBasic:(CGSize)size backgroundColor:(UIColor *)backgroundColor fontColor:(UIColor *)fontColor;
-+ (HLLabelButtonNode *) SIMenuButtonPrototypePopUp:(CGSize)size;
+/**Quick zPosition for game content*/
++ (float)floatZPositionGameForContent:(SIZPositionGame)layer;
+/**Quick zPosition for popup content*/
++ (float)floatZPositionPopupForContent:(SIZPositionPopup)layer;
+
++ (HLLabelButtonNode *) SILabelButtonMenuPrototypeBack:(CGSize)size;
++ (HLLabelButtonNode *) SILabelButtonMenuPrototypeBasic:(CGSize)size;
++ (HLLabelButtonNode *) SILabelButtonMenuPrototypeBasic:(CGSize)size backgroundColor:(UIColor *)backgroundColor fontColor:(UIColor *)fontColor;
++ (HLLabelButtonNode *) SILabelButtonMenuPrototypePopUp:(CGSize)size;
 /**
  Returns the number of coins the user has
  */
@@ -61,7 +66,7 @@
 
 + (SIPopupNode *)       SIPopUpNodeTitle:(NSString *)title SceneSize:(CGSize)sceneSize;
 
-+ (SKTexture *)         SIMonkeyFaceTexture;
++ (SKTexture *)         SITextureMonkeyFace;
 
 + (SKLabelNode *)       SILabelHeader:(NSString *)text;
 + (SKLabelNode *)       SILabelHeader_x2:(NSString *)text;
@@ -77,8 +82,15 @@
  This a spritenode made from falling monkey
     Utilize static variables to reduce overhead and reuseability
  */
-+ (SKSpriteNode *)SIFallingMonkeyNode;
++ (SKSpriteNode *)SISpriteNodeFallingMonkey;
 
+/** For animating a node for a screen */
++ (void)SIControllerNode:(SKNode *)node
+               animation:(SISceneContentAnimation)animation
+          animationStyle:(SISceneContentAnimationStyle)animationStyle
+       animationDuration:(float)animationDuration
+         positionVisible:(CGPoint)positionVisible
+          positionHidden:(CGPoint)positionHidden;
 
 
 
