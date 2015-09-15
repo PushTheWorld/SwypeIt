@@ -371,9 +371,38 @@ typedef NS_ENUM(NSInteger, SIZPositionPopup) {
 };
 
 typedef NS_ENUM(NSInteger, SIMenuNodeAnimation) {
-    SIMenuNodeAnimationLeft = 0,
-    SIMenuNodeAnimationRight,
-    SIMenuNodeAnimationNone
+    /**
+     Menu node appears to pop off and pop the current node to the right
+     */
+    SIMenuNodeAnimationPop = 0,
+    /**
+     Menu node appears to slide in and push the current node to the left
+     */
+    SIMenuNodeAnimationPush,
+    /**
+     Nodes slide in from closest edge
+     */
+    SIMenuNodeAnimationSlideIn,
+    /**
+     Nodes slide towards closest edge
+     */
+    SIMenuNodeAnimationSlideOut,
+    /**
+     Nodes grow in size, position contstant
+     */
+    SIMenuNodeAnimationGrowIn,
+    /**
+     Nodes shrink in size, position constant
+     */
+    SIMenuNodeAnimationGrowOut,
+    /**
+     If you don't want the node to animate but you want it just visible
+     */
+    SIMenuNodeAnimationStaticVisible,
+    /**
+     If you don't want the node to animate but you want it hidden
+     */
+    SIMenuNodeAnimationStaticHidden
 };
 
 #pragma mark - Images

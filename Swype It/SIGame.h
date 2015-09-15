@@ -51,6 +51,10 @@
 + (NSString *)          productIDForSIIAPPack:(SIIAPPack)siiapPack;
 + (NSString *)          soundNameForSIBackgroundSound:(SIBackgroundSound)siBackgroundSound;
 + (NSString *)          stringForMove:(SIMoveCommand)move;
+/**
+ Gets the title for the type of menu
+ */
++ (NSString *)          titleForMenuType:(SISceneMenuType)type;
 + (SIBackgroundSound)   backgroundSoundForScore:(float)score;
 + (SIBackgroundSound)   checkBackgroundSound:(SIBackgroundSound)currentBackgroundSound forTotalScore:(float)totalScore withCallback:(void (^)(BOOL updatedBackgroundSound, SIBackgroundSound backgroundSound))callback;
 /**

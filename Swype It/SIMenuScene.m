@@ -26,6 +26,7 @@
     SIAdBannerNode                                  *_adContentNode;
     
     SIMenuNode                                      *_currentMenuNode;
+    SIMenuNode                                      *_rootSceneMenuNode;
     
     SIPopupNode                                     *_popupContentNode;
     
@@ -35,9 +36,7 @@
 - (nonnull instancetype)init {
     self = [super init];
     if (self) {
-        _type                                       = SISceneMenuTypeNone;
-        _spacingToolbarBottom                       = VERTICAL_SPACING_4;
-        _animationDuration                          = 1.0f;
+        _animationDuration                          = SCENE_TRANSISTION_DURATION_NORMAL;
     }
     return self;
 }
@@ -91,6 +90,13 @@
 
 #pragma mark -
 #pragma mark - Public Accessors
+- (SIAdBannerNode *)adBannerNode {
+    if (_adContentNode) {
+        return _adContentNode;
+    } else {
+        return nil;
+    }
+}
 - (void)setAdBannerNode:(SIAdBannerNode *)adBannerNode {
     if (_adContentNode) {
         [_adContentNode removeFromParent];
@@ -100,84 +106,19 @@
         _adContentNode.name                         = kSINodeAdBannerNode;
         _adContentNode.position                     = CGPointMake(0.0f, 0.0f);
         [self addChild:_adContentNode];
-        [_adContentNode hlSetGestureTarget:_adBannerNode];
-        [self registerDescendant:_adBannerNode withOptions:[NSSet setWithObject:HLSceneChildGestureTarget]];
+        [_adContentNode hlSetGestureTarget:_adContentNode];
+        [self registerDescendant:_adContentNode withOptions:[NSSet setWithObject:HLSceneChildGestureTarget]];
 
     }
     [self layoutXYAnimation:SISceneContentAnimationNone];
 }
 
-- (void)setGridNode:(HLGridNode *)gridNode {
-    if (_gridContentNode) {
-        [_gridContentNode removeFromParent];
-    }
-    if (gridNode) {
-        _gridContentNode = gridNode;
-        [self addChild:_gridContentNode];
-    }
-    [self layoutXYAnimation:SISceneContentAnimationNone];
-}
--(void)setType:(SISceneMenuType)type {
-    switch (type) {
-        case SISceneMenuTypeStart:
-            [self layoutXYAnimation:SISceneContentAnimationIn];
-            break;
-        
-        case SISceneMenuTypeNone:
-            [self layoutXYAnimation:SISceneContentAnimationOut];
-            break;
-            
-        case SISceneMenuTypeSettings:
-            [self layoutXYAnimation:SISceneContentAnimationNone];
-            break;
-            
-        case SISceneMenuTypeStore:
-            [self layoutXYAnimation:SISceneContentAnimationNone];
-            break;
-    
-        default:
-            [self layoutXYAnimation:SISceneContentAnimationNone];
-            break;
-    }
-}
-
-- (void)showMenuNode:(SIMenuNode *)menuNode menuNodeAnimation:(SIMenuNodeAnimation)menuNodeAnimation {
-    [self addChild:menuNode];
-    SKAction *blockAction;
-    if (menuNodeAnimation == SIMenuNodeAnimationLeft) {
-        menuNode.position = CGPointMake(menuNode.size.width, 0.0f);
-        SKAction *moveLeft = [SKAction moveByX:menuNode.size.width y:0.0f duration:SCENE_TRANSISTION_DURATION_FAST];
-        [menuNode runAction:moveLeft];
-        blockAction = [SKAction runBlock:^{
-            [_currentMenuNode removeFromParent];
-            _currentMenuNode = menuNode;
-        }];
-        [_currentMenuNode runAction:[SKAction sequence:@[moveLeft,blockAction]]];
-        if (_toolbarContentNode) {
-            [_toolbarContentNode runAction:moveLeft];
-        }
-
-    } else if (menuNodeAnimation == SIMenuNodeAnimationRight) {
-        menuNode.position = CGPointMake(-1.0f * menuNode.size.width, 0.0f);
-        SKAction *moveRight = [SKAction moveByX:menuNode.size.width y:0.0f duration:SCENE_TRANSISTION_DURATION_FAST];
-        [menuNode runAction:moveRight];
-        blockAction = [SKAction runBlock:^{
-            _currentMenuNode = menuNode;
-        }];
-        [_currentMenuNode runAction:[SKAction sequence:@[moveRight,blockAction]]];
-        if (_toolbarContentNode) {
-            [_toolbarContentNode runAction:moveRight];
-        }
-
-
+- (SIPopupNode *)popupNode {
+    if (_popupContentNode) {
+        return _popupContentNode;
     } else {
-        menuNode.position = CGPointZero;
-        if (_currentMenuNode) {
-            [_currentMenuNode removeFromParent];
-        }
-        _currentMenuNode = menuNode;
+        return nil;
     }
-
 }
 
 /**
@@ -191,23 +132,19 @@
         [_popupContentNode removeFromParent];
     }
     if (popupNode) {
-        _popupContentNode                                   = popupNode;
+        _popupContentNode                           = popupNode;
         [self addChild:_popupContentNode];
     }
-    [self layoutXYZAnimation:SISceneContentAnimationNone];
+    [self layoutZ];
 }
 
+#pragma mark -
 #pragma mark - Layout Functions
-/**
- Called when ever you may need to layout the end scene
- */
+/**Called when ever you may need to layout the end scene*/
 #pragma mark Layout
 - (void)layoutXYZAnimation:(SISceneContentAnimation)animation {
     [self layoutXYAnimation:animation];
     [self layoutZ];
-    if ([_sceneDelegate respondsToSelector:@selector(controllerSceneMenuDidLoadType:)]) {
-        [_sceneDelegate controllerSceneMenuDidLoadType:_type];
-    }
 }
 
 - (void)layoutXYAnimation:(SISceneContentAnimation)animation {
@@ -216,73 +153,15 @@
     }
     CGFloat sceneMidX                               = _sceneSize.width /2.0f;
     CGFloat sceneMidY                               = _sceneSize.height /2.0f;
-    CGPoint sceneMidPoint = CGPointMake(sceneMidX, sceneMidY);
     
-    CGPoint positionHidden = CGPointZero;
-    CGPoint positionVisible = CGPointZero;
+    _backgroundNode.size                            = CGSizeMake(sceneMidX, sceneMidY - _adContentNode.size.height);
     
-    switch (_type) {
-        case SISceneMenuTypeStart:
-            if (_gridContentNode) {
-                positionHidden      = sceneMidPoint;
-                positionVisible     = sceneMidPoint;
-                [SIGameController SIControllerNode:_toolbarContentNode
-                                         animation:animation
-                                    animationStyle:SISceneContentAnimationStyleGrow
-                                 animationDuration:_animationDuration
-                                   positionVisible:positionVisible
-                                    positionHidden:positionHidden];
-            }
-            
-            if (_toolbarContentNode) {
-                positionHidden      = CGPointMake(sceneMidX, -1.0f * _toolbarContentNode.frame.size.height);
-                positionVisible     = CGPointMake(sceneMidX,_adContentNode.size.height + _spacingToolbarBottom + ((_toolbarContentNode.frame.size.height / 2.0f)));
-                [SIGameController SIControllerNode:_toolbarContentNode
-                                         animation:animation
-                                    animationStyle:SISceneContentAnimationStyleSlide
-                                 animationDuration:_animationDuration
-                                   positionVisible:positionVisible
-                                    positionHidden:positionHidden];
-            }
-            break;
-        case SISceneMenuTypeNone:
-            if (_gridContentNode) {
-                positionHidden      = sceneMidPoint;
-                positionVisible     = sceneMidPoint;
-                [SIGameController SIControllerNode:_toolbarContentNode
-                                         animation:animation
-                                    animationStyle:SISceneContentAnimationStyleGrow
-                                 animationDuration:_animationDuration
-                                   positionVisible:positionVisible
-                                    positionHidden:positionHidden];
-            }
-            
-            if (_toolbarContentNode) {
-                positionHidden      = CGPointMake(sceneMidX, -1.0f * _toolbarContentNode.frame.size.height);
-                positionVisible     = CGPointMake(sceneMidX,_adContentNode.size.height + _spacingToolbarBottom + ((_toolbarContentNode.frame.size.height / 2.0f)));
-                [SIGameController SIControllerNode:_toolbarContentNode
-                                         animation:animation
-                                    animationStyle:SISceneContentAnimationStyleSlide
-                                 animationDuration:_animationDuration
-                                   positionVisible:positionVisible
-                                    positionHidden:positionHidden];
-            }
-            break;
-            
-        case SISceneMenuTypeSettings:
-            break;
-            
-        case SISceneMenuTypeStore:
-            break;
-            
-        default:
-            break;
-    }
-    
-
-    
-    _backgroundNode.size                            = CGSizeMake(_sceneSize.width, _sceneSize.height - _adContentNode.size.height);
     _backgroundNode.position                        = CGPointMake(0.0f, _adContentNode.size.height);
+    
+    if (_currentMenuNode) {
+        _currentMenuNode.size                           = _backgroundNode.size;
+        _currentMenuNode.position                       = CGPointMake(sceneMidX, _adContentNode.size.height + (_backgroundNode.size.height / 2.0f));
+    }
     
 }
 
@@ -295,7 +174,48 @@
     }
 }
 #pragma mark -
+#pragma mark - Delegate
+#pragma mark SIMenuNode
+- (void)menuNodeDidTapBackButton:(SIMenuNode *)menuNode {
+    [self menuScenePushRootScene];
+}
+
+#pragma mark -
 #pragma mark - Public Functions
+- (void)showMenuNode:(SIMenuNode *)menuNode menuNodeAnimation:(SIMenuNodeAnimation)menuNodeAnimation {
+    [self addChild:menuNode];
+    menuNode.animationDuration                      = _animationDuration;
+    
+    SKAction *blockAction = [SKAction runBlock:^{
+        //        [_currentMenuNode removeFromParent];
+        _currentMenuNode                            = menuNode;
+    }];
+    
+    SKAction *moveAction;
+    if (menuNodeAnimation == SIMenuNodeAnimationPush) {
+        menuNode.position                           = CGPointMake(menuNode.size.width, 0.0f);
+        moveAction                                  = [SKAction moveByX:-1.0f * menuNode.size.width y:0.0f duration:SCENE_TRANSISTION_DURATION_FAST];
+        [menuNode runAction:moveAction];
+        _rootSceneMenuNode = _currentMenuNode;
+        [_currentMenuNode runAction:[SKAction sequence:@[moveAction,blockAction]]];
+        
+        
+    } else if (menuNodeAnimation == SIMenuNodeAnimationPop) {
+        menuNode.position                           = CGPointMake(-1.0f * menuNode.size.width, 0.0f);
+        moveAction                                  = [SKAction moveByX:menuNode.size.width y:0.0f duration:SCENE_TRANSISTION_DURATION_FAST];
+        [menuNode runAction:moveAction];
+        [_currentMenuNode runAction:[SKAction sequence:@[moveAction,blockAction]]];
+        
+    } else {
+        menuNode.position = CGPointZero;
+        if (_currentMenuNode) {
+            //            [_currentMenuNode removeFromParent];
+        }
+        _currentMenuNode                            = menuNode;
+    }
+}
 
-
+- (void)menuScenePushRootScene {
+    [self showMenuNode:_rootSceneMenuNode menuNodeAnimation:SIMenuNodeAnimationPush];
+}
 @end

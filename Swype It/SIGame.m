@@ -914,26 +914,43 @@
     SIGameFreePrizeYes -> Give prize, reset the days since last launch and such
     SIGameFreePrizeYesConsecutive -> give prize, increment days since last launch..
  */
-+ (SIGameFreePrize)gamePrizeForCurrentDate:(NSDate *)currentDate lastPrizeGivenDate:(NSDate *)lastPrizeGivenDate {
++ (SIFreePrizeType)gamePrizeForCurrentDate:(NSDate *)currentDate lastPrizeGivenDate:(NSDate *)lastPrizeGivenDate {
     
     //I would rather have a soft fail then a hard fail if either are nil
     if (!currentDate || !lastPrizeGivenDate) {
-        return SIGameFreePrizeNo;
+        return SIFreePrizeTypeNone;
     }
     
     NSTimeInterval timeSinceLastPrize = [currentDate timeIntervalSince1970] - [lastPrizeGivenDate timeIntervalSince1970];
     
     //Still the same day
     if (timeSinceLastPrize < SECONDS_IN_DAY) {
-        return SIGameFreePrizeNo;
+        return SIFreePrizeTypeNone;
 
     //Prize given more than two days ago
     } else if (timeSinceLastPrize > 2 * SECONDS_IN_DAY) {
-        return SIGameFreePrizeYes;
+        return SIFreePrizeTypeNonConsecutive;
         
     //Prize for conseuctive launch
     } else {
-        return SIGameFreePrizeYesConsecutive;
+        return SIFreePrizeTypeConsecutive;
+    }
+}
+
++ (NSString *)titleForMenuType:(SISceneMenuType)type {
+    switch (type) {
+        case SISceneMenuTypeEnd:
+            return @"End";
+        case SISceneMenuTypeStart:
+            return @"Start";
+        case SISceneMenuTypeSettings:
+            return @"Settings";
+        case SISceneMenuTypeHelp:
+            return @"Help";
+        case SISceneMenuTypeStore:
+            return @"Shop";
+        default: //SISceneMenuTypeNone
+            return nil;
     }
 }
 @end

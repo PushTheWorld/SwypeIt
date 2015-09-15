@@ -94,33 +94,6 @@ enum {
     [self updatePhysicsEdges];
     
 }
-#pragma mark -
-#pragma mark - Public Accessors
-- (void)setAdBannerNode:(SIAdBannerNode *)adBannerNode {
-    if (_adContentNode) {
-        [_adContentNode removeFromParent];
-    }
-    if (adBannerNode) {
-        _adContentNode                      = adBannerNode;
-        _adContentNode.name                 = kSINodeAdBannerNode;
-        _adContentNode.position             = CGPointMake(0.0f, 0.0f);
-        [self addChild:_adContentNode];
-        [_adContentNode hlSetGestureTarget:_adBannerNode];
-        [self registerDescendant:_adBannerNode withOptions:[NSSet setWithObject:HLSceneChildGestureTarget]];
-    }
-    [self layoutXY];
-    [self updatePhysicsEdges];
-}
-/**
- This will intercept the and override the command going to self
-    and will allow us to actually change the color of the background node
- */
-- (void)setBackgroundColor:(UIColor * __nonnull)backgroundColor {
-    if (_backgroundNode) {
-        _backgroundNode.color               = backgroundColor;
-    }
-}
-
 #pragma mark Scene Setup
 - (void)createConstantsWithSize:(CGSize)size {
     /**Configure any constants*/
@@ -200,6 +173,41 @@ enum {
     
 }
 
+#pragma mark -
+#pragma mark - Public Accessors
+- (SIAdBannerNode *)adBannerNode {
+    if (_adContentNode) {
+        return _adContentNode;
+    } else {
+        return nil;
+    }
+}
+- (void)setAdBannerNode:(SIAdBannerNode *)adBannerNode {
+    if (_adContentNode) {
+        [_adContentNode removeFromParent];
+    }
+    if (adBannerNode) {
+        _adContentNode                      = adBannerNode;
+        _adContentNode.name                 = kSINodeAdBannerNode;
+        _adContentNode.position             = CGPointMake(0.0f, 0.0f);
+        [self addChild:_adContentNode];
+        [_adContentNode hlSetGestureTarget:_adContentNode];
+        [self registerDescendant:_adContentNode withOptions:[NSSet setWithObject:HLSceneChildGestureTarget]];
+    }
+    [self layoutXY];
+    [self updatePhysicsEdges];
+}
+/**
+ This will intercept the and override the command going to self
+ and will allow us to actually change the color of the background node
+ */
+- (void)setBackgroundColor:(UIColor * __nonnull)backgroundColor {
+    if (_backgroundNode) {
+        _backgroundNode.color               = backgroundColor;
+    }
+}
+
+#pragma mark -
 #pragma mark - Public Methods
 - (void)sceneFallingMonkeyWillStart {
     _fallingMonkeyZPosition                         = FALLING_MONKEY_Z_POSITION_INCREMENTER;
@@ -225,7 +233,7 @@ enum {
     _fallingMonkeyZPosition                     = _fallingMonkeyZPosition + FALLING_MONKEY_Z_POSITION_INCREMENTER;
 }
 
-#pragma mark - Custom Touch Methods
+#pragma mark Custom Touch Methods
 -(void)touchesBegan:(nonnull NSSet<UITouch *> *)touches withEvent:(nullable UIEvent *)event {
     UITouch *touch = [touches anyObject];
     CGPoint touchLocation = [touch locationInNode:self];
@@ -241,7 +249,7 @@ enum {
 }
 
 
-#pragma mark - Monkey Methods!
+#pragma mark Monkey Methods!
 - (void)launchMonkey {
     /*Get Random Number Max... based of width of screen and monkey*/
     CGFloat validMax                                = self.frame.size.width - ([SIGameController SIFallingMonkeySize].width / 2.0f);

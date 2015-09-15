@@ -166,6 +166,13 @@ static const uint32_t SIGameSceneCategoryMoveScore     = 0x1 << 3; // 0000000000
 
 #pragma mark -
 #pragma mark - Public Accessors
+- (SIAdBannerNode *)adBannerNode {
+    if (_adContentNode) {
+        return _adContentNode;
+    } else {
+        return nil;
+    }
+}
 - (void)setAdBannerNode:(SIAdBannerNode *)adBannerNode {
     if (_adContentNode) {
         [_adContentNode removeFromParent];
@@ -175,8 +182,8 @@ static const uint32_t SIGameSceneCategoryMoveScore     = 0x1 << 3; // 0000000000
         _adContentNode.name                                 = kSINodeAdBannerNode;
         _adContentNode.position                             = CGPointMake(0.0f, 0.0f);
         [self addChild:_adContentNode];
-        [_adContentNode hlSetGestureTarget:_adBannerNode];
-        [self registerDescendant:_adBannerNode withOptions:[NSSet setWithObject:HLSceneChildGestureTarget]];
+        [_adContentNode hlSetGestureTarget:_adContentNode];
+        [self registerDescendant:_adContentNode withOptions:[NSSet setWithObject:HLSceneChildGestureTarget]];
 
     }
     [self layoutXYAnimation:SIGameSceneContentAnimationNone];
@@ -224,6 +231,13 @@ static const uint32_t SIGameSceneCategoryMoveScore     = 0x1 << 3; // 0000000000
     [self layoutXYZAnimation:SIGameSceneContentAnimationNone];
 }
 
+- (SIPopupNode *)popupNode {
+    if (_popupContentNode) {
+        return _popupContentNode;
+    } else {
+        return nil;
+    }
+}
 /**
  A popup node to be displayed modally
  */
@@ -244,7 +258,6 @@ static const uint32_t SIGameSceneCategoryMoveScore     = 0x1 << 3; // 0000000000
 - (HLToolbarNode *)powerUpToolbarNode {
     return _powerUpToolbarContentNode;
 }
-
 - (void)setPowerUpToolbarNode:(HLToolbarNode *)powerUpToolbarNode {
     if (_powerUpToolbarContentNode) {
         [_powerUpToolbarContentNode removeFromParent];

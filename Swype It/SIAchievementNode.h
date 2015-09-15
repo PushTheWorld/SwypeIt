@@ -18,13 +18,15 @@
 
 @interface SIAchievementNode : HLComponentNode
 
-/**
- The progress node for the achievenment
- */
-@property (nonatomic, strong) TCProgressBarNode *progressNode;
+- (instancetype)initWithSize:(CGSize)size withProgressBarColor:(SKColor *)progressBarBackgroundColor withPercentComplete:(float)percentComplete;
 
 /**
- Setting the percent complete
+ The size of the whole shubang
+ */
+@property (nonatomic, assign) CGSize size;
+/**
+ Setting the percent complete 0.0f-1.0f
+    Value protected
  */
 @property (nonatomic, assign) CGFloat percentComplete;
 

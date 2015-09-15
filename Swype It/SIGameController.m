@@ -44,7 +44,7 @@
 #import "SIGame.h"
 // Other Imports
 
-@interface SIGameController () <ADBannerViewDelegate, ADInterstitialAdDelegate, GKGameCenterControllerDelegate, SISingletonGameDelegate, SIGameSceneDelegate, SISingletonAchievementDelegate, SIMenuSceneDelegate, SIFallingMonkeySceneDelegate, HLMenuNodeDelegate, HLGridNodeDelegate, HLRingNodeDelegate, HLToolbarNodeDelegate, SIPopUpNodeDelegate, SIAdBannerNodeDelegate, SIMenuNodeDelegate>
+@interface SIGameController () <ADBannerViewDelegate, ADInterstitialAdDelegate, GKGameCenterControllerDelegate, SISingletonGameDelegate, SIGameSceneDelegate, SISingletonAchievementDelegate, SIMenuSceneDelegate, SIFallingMonkeySceneDelegate, HLMenuNodeDelegate, HLGridNodeDelegate, HLRingNodeDelegate, HLToolbarNodeDelegate, SIPopUpNodeDelegate, SIAdBannerNodeDelegate>
 
 @property (strong, nonatomic) UIButton          *closeButton;
 @end
@@ -279,8 +279,6 @@
         
         // MENU
         case SIGameControllerSceneMenu:
-            _sceneMenu.type = SISceneMenuTypeNone;
-
             switch (_currentSceneType) {
                 case SIGameControllerSceneGame:
                     _currentScene = [SIGameController transisitionFastOpenToSKScene:_sceneMenu toSKView:[self fastSKView]];
@@ -288,11 +286,11 @@
                     break;
                 case SIGameControllerSceneLoading:
                     _currentScene = [SIGameController transisitionZeroOpenToSKScene:_sceneMenu toSKView:[self fastSKView]];
-                    [self presentSceneMenuType:SISceneMenuTypeStart inDelay:0.0f];
+                    [self presentSceneMenuType:SISceneMenuTypeStart inDelay:SCENE_TRANSISTION_DURATION_ZERO];
                     break;
                 default:
                     _currentScene = [SIGameController transisitionNormalOpenToSKScene:_sceneMenu toSKView:[self fastSKView]];
-                    [self presentSceneMenuType:SISceneMenuTypeStart inDelay:0.0f];
+                    [self presentSceneMenuType:SISceneMenuTypeStart inDelay:SCENE_TRANSISTION_DURATION_ZERO];
                     break;
             }
             break;
@@ -300,7 +298,7 @@
         default:
             break;
     }
-    _currentSceneType = SIGameControllerSceneLoading;
+    _currentSceneType = sceneType;
 }
 
 - (void)presentSceneMenuType:(SISceneMenuType)type inDelay:(float)delay {
@@ -1324,11 +1322,6 @@
     NSLog(@"Ad banner was tapped");
 }
 
-#pragma mark SIMenuNode
-- (void)menuNodeDidTapBackButton:(SIMenuNode *)menuNode {
-    [self presentSceneMenuType:SISceneMenuTypeStart inDelay:SCENE_TRANSISTION_DURATION_FAST];
-}
-
 
 #pragma mark -
 #pragma mark - Class Functions
@@ -1659,8 +1652,8 @@
     return label;
 }
 + (SKLabelNode *)SILabelInterfaceFontSize:(CGFloat)fontSize {
-    SKLabelNode *label                          = [SKLabelNode labelNodeWithFontNamed:kSIFontUltra];
-    label.fontColor                             = [SKColor blackColor];
+    SKLabelNode *label                          = [SKLabelNode labelNodeWithFontNamed:kSIFontFuturaMedium];
+    label.fontColor                             = [SKColor whiteColor];
     label.fontSize                              = fontSize;
     label.horizontalAlignmentMode               = SKLabelHorizontalAlignmentModeCenter;
     label.verticalAlignmentMode                 = SKLabelVerticalAlignmentModeCenter;

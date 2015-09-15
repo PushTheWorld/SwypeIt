@@ -13,7 +13,7 @@
 // Support/Data Class Imports
 #import "SIGame.h"
 // Other Imports
-#import "HLComponentNode.h"
+#import "HLSpriteKit.h"
 
 @class SIMenuNode;
 @protocol SIMenuNodeDelegate <NSObject>
@@ -43,11 +43,28 @@
  */
 - (instancetype)initWithSize:(CGSize)size Node:(SKNode *)mainNode type:(SISceneMenuType)type;
 
-@property (nonatomic, assign) CGSize size;
+/**
+ The duration for how long it takes to animate objects in for layout
+ default is `1.0f`
+ */
+@property (nonatomic, assign) CGFloat animationDuration;
+
 /**
  Set true when you want the back button to be activated
  */
 @property (nonatomic, assign) BOOL backButtonVisible;
+
+/**
+ Set this if you want the menu to have a bottom toolbar....
+    This will allow a move toolbar to move in sink
+ */
+@property (nonatomic, strong) HLToolbarNode *bottomToolBarNode;
+
+/**
+ Bottom toolbar bottom y padding
+    Default is `8.0`
+ */
+@property (nonatomic, assign) CGFloat bottomToolbarYPadding;
 
 /**
  The main node of info to be displayed
@@ -55,8 +72,27 @@
 @property (nonatomic, strong) SKNode *mainNode;
 
 /**
+ Returns the size of the whole thing... generally will be a sceneSize
+ */
+@property (nonatomic, assign) CGSize size;
+
+/**
+ Bottom toolbar bottom y padding
+ Default is `8.0`
+ */
+@property (nonatomic, assign) CGFloat topTitleYPadding;
+
+/**
  The type of menu
  */
 @property (nonatomic, assign) SISceneMenuType type;
+
+/**
+ Use for aninmating the menu in
+ */
+- (void)layoutXYAnimation:(SIMenuNodeAnimation)animation;
+
+
+
 
 @end
