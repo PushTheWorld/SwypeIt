@@ -37,7 +37,7 @@
 - (instancetype)initEndMenuGameScore:(float)gameScore lifetimeHighScore:(float)lifetimeHighScore isHighScore:(BOOL)isHighScore coinsEarned:(int)coinsEarned {
     self = [self init];
     if (self) {
-        _type              touches = SISceneMenuTypeEnd;
+        _type               = SISceneMenuTypeStart;
         _scoreGame          = gameScore;
         _scoreLifeTimeHigh  = lifetimeHighScore;
         _isHighScore        = isHighScore;

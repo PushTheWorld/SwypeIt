@@ -21,74 +21,24 @@
 @implementation SIIAPUtility
 
 #pragma mark - Singleton Method
-+ (instancetype)singleton {
-    static SIIAPUtility *singleton = nil;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        singleton = [[SIIAPUtility alloc] init];
-    });
-    return singleton;
-}
-
-- (instancetype)init {
-    self = [super init];
-    if (self) {
-        //[self registerForNotifications];
-    }
-    return self;
-}
-//
-//- (void)registerForNotifications {
-//    //    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(packPurchaseRequest:) name:kSINotificationPackPurchaseRequest object:nil];
-//    [[NSNotificationCenter defaultCenter] addObserverForName:kMKStoreKitProductPurchasedNotification
-//                                                      object:nil
-//                                                       queue:[[NSOperationQueue alloc] init]
-//                                                  usingBlock:^(NSNotification *note) {
-//                                                      
-//                                                      NSLog(@"Purchased/Subscribed to product with id: %@", [note object]);
-//                                                      NSNotification *notification = [[NSNotification alloc] initWithName:kSINotificationAdFreePurchasedSucceded object:nil userInfo:nil];
-//                                                      [[NSNotificationCenter defaultCenter] postNotification:notification];
-//                                                  }];
-//    [[NSNotificationCenter defaultCenter] addObserverForName:kMKStoreKitProductPurchaseFailedNotification
-//                                                      object:nil
-//                                                       queue:[[NSOperationQueue alloc] init]
-//                                                  usingBlock:^(NSNotification *note) {
-//                                                      
-//                                                      NSLog(@"Failed [kMKStoreKitProductPurchaseFailedNotification] with error: %@", [note object]);
-//                                                      NSNotification *notification = [[NSNotification alloc] initWithName:kSINotificationAdFreePurchasedFailed object:nil userInfo:nil];
-//                                                      [[NSNotificationCenter defaultCenter] postNotification:notification];
-//                                                  }];
-//    
-//    [[NSNotificationCenter defaultCenter] addObserverForName:kMKStoreKitProductPurchaseDeferredNotification
-//                                                      object:nil
-//                                                       queue:[[NSOperationQueue alloc] init]
-//                                                  usingBlock:^(NSNotification *note) {
-//                                                      
-//                                                      NSLog(@"Failed [kMKStoreKitProductPurchaseDeferredNotification] with error: %@", [note object]);
-//                                                      NSNotification *notification = [[NSNotification alloc] initWithName:kSINotificationAdFreePurchasedFailed object:nil userInfo:nil];
-//                                                      [[NSNotificationCenter defaultCenter] postNotification:notification];
-//                                                  }];
-//    
-//    [[NSNotificationCenter defaultCenter] addObserverForName:kMKStoreKitRestoredPurchasesNotification
-//                                                      object:nil
-//                                                       queue:[[NSOperationQueue alloc] init]
-//                                                  usingBlock:^(NSNotification *note) {
-//                                                      
-//                                                      NSLog(@"Restored Purchases");
-//                                                      NSNotification *notification = [[NSNotification alloc] initWithName:kSINotificationAdFreePurchasedSucceded object:nil userInfo:nil];
-//                                                      [[NSNotificationCenter defaultCenter] postNotification:notification];
-//                                                  }];
-//    
-//    [[NSNotificationCenter defaultCenter] addObserverForName:kMKStoreKitRestoringPurchasesFailedNotification
-//                                                      object:nil
-//                                                       queue:[[NSOperationQueue alloc] init]
-//                                                  usingBlock:^(NSNotification *note) {
-//                                                      
-//                                                      NSLog(@"Failed restoring purchases with error: %@", [note object]);
-//                                                      NSNotification *notification = [[NSNotification alloc] initWithName:kSINotificationAdFreePurchasedFailed object:nil userInfo:nil];
-//                                                      [[NSNotificationCenter defaultCenter] postNotification:notification];
-//                                                  }];
+//+ (instancetype)singleton {
+//    static SIIAPUtility *singleton = nil;
+//    static dispatch_once_t onceToken;
+//    dispatch_once(&onceToken, ^{
+//        singleton = [[SIIAPUtility alloc] init];
+//    });
+//    return singleton;
 //}
+//
+//- (instancetype)init {
+//    self = [super init];
+//    if (self) {
+//        //[self registerForNotifications];
+//    }
+//    return self;
+//}
+////
+
 
 /**Retuns nil if the product cannot be found*/
 +(void)productForSIIAPPack:(SIIAPPack)siiapPack inPackArray:(NSArray *)productArray withBlock:(void (^)(BOOL, SKProduct *))completionBlock {

@@ -44,7 +44,7 @@
 #import "SIGame.h"
 // Other Imports
 
-@interface SIGameController () <ADBannerViewDelegate, ADInterstitialAdDelegate, GKGameCenterControllerDelegate, SISingletonGameDelegate, SIGameSceneDelegate, SISingletonAchievementDelegate, SIMenuSceneDelegate, SIFallingMonkeySceneDelegate, HLMenuNodeDelegate, HLGridNodeDelegate, HLRingNodeDelegate, HLToolbarNodeDelegate, SIPopUpNodeDelegate, SIAdBannerNodeDelegate>
+@interface SIGameController () <ADBannerViewDelegate, ADInterstitialAdDelegate, GKGameCenterControllerDelegate, SISingletonGameDelegate, SIGameSceneDelegate, SISingletonAchievementDelegate, SIMenuSceneDelegate, SIFallingMonkeySceneDelegate, HLMenuNodeDelegate, HLGridNodeDelegate, HLRingNodeDelegate, HLToolbarNodeDelegate, SIPopUpNodeDelegate, SIAdBannerNodeDelegate, SIMenuNodeDelegate>
 
 @property (strong, nonatomic) UIButton          *closeButton;
 @end
@@ -113,6 +113,7 @@
     SILoadingScene                          *_sceneLoading;
     
     SIMenuNode                              *_menuNodeEnd;
+    SIMenuNode                              *_menuNodeHelp;
     SIMenuNode                              *_menuNodeSettings;
     SIMenuNode                              *_menuNodeStart;
     SIMenuNode                              *_menuNodeStore;
@@ -154,6 +155,7 @@
                                                      name:UIApplicationDidReceiveMemoryWarningNotification
                                                    object:nil];
     }
+    [self registerForNotifications];
     return self;
 }
 - (void)viewDidLoad {
@@ -174,6 +176,8 @@
     
     _adBannerView.delegate  = nil;
     [_adBannerView removeFromSuperview];
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
     
     [super viewWillDisappear:animated];
 }
@@ -304,6 +308,7 @@
         switch (type) {
             case SISceneMenuTypeStart:
                 _sceneMenu.menuNode = _menuNodeStart;
+                _sceneMenu.menuNode.delegate = self;
                 break;
                 
             case SISceneMenuTypeStore:
@@ -313,10 +318,14 @@
             case SISceneMenuTypeSettings:
                 _sceneMenu.menuNode = _menuNodeSettings;
                 break;
-
+            case SISceneMenuTypeHelp:
+                _sceneMenu.menuNode = _menuNodeHelp;
+                break;
             default:
                 break;
         }
+        _sceneMenu.menuNode.delegate = self;
+
         
     });
 }
@@ -397,12 +406,6 @@
     
     menuScene.sceneDelegate                     = self;
     
-    SKSpriteNode *startMenuNode                 = [SKSpriteNode spriteNodeWithColor:[SKColor clearColor] size:_sceneSize];
-    
-    [startMenuNode addChild:[SIGameController SIHLGridNodeMenuSceneSize:_sceneSize]];
-    
-    [startMenuNode addChild:[SIGameController SIHLToolbarMenuStartScene:[SIGameController SIToolbarSceneMenuSize:_sceneSize] isPremiumUser:_premiumUser]];
-    
 //    menuScene.gridNode                          = [SIGameController SIHLGridNodeMenuSceneSize:_sceneSize];
 //    
 //    menuScene.toolBarBottom                     = [SIGameController SIHLToolbarMenuStartScene:[SIGameController SIToolbarSceneMenuSize:_sceneSize] isPremiumUser:_premiumUser];
@@ -417,7 +420,15 @@
     
     _menuNodeStore                              = [[SIMenuNode alloc] initWithSize:_sceneSize Node:[SIGameController SIHLMenuNodeSceneMenuStore:_sceneSize] type:SISceneMenuTypeStore];
     
+    SKSpriteNode *startMenuNode                 = [SKSpriteNode spriteNodeWithColor:[SKColor clearColor] size:_sceneSize];
+    
+    [startMenuNode addChild:[SIGameController SIHLGridNodeMenuSceneSize:_sceneSize]];
+    
+    [startMenuNode addChild:[SIGameController SIHLToolbarMenuStartScene:[SIGameController SIToolbarSceneMenuSize:_sceneSize] isPremiumUser:_premiumUser]];
+
     _menuNodeStart                              = [[SIMenuNode alloc] initWithSize:_sceneSize Node:startMenuNode type:SISceneMenuTypeStart];
+    
+    _menuNodeHelp                               = [SIGameController SIMenuNodeInstructionsSceneSize:_sceneSize];
     
     menuScene.adBannerNode                      = _adBannerNode;
         
@@ -451,8 +462,8 @@
     //    _menuNode.delegate                              = self;
     menuNode.itemAnimation                         = HLMenuNodeAnimationSlideLeft;
     menuNode.itemAnimationDuration                 = SCENE_TRANSISTION_DURATION_FAST;
-    menuNode.itemButtonPrototype                   = [SIGameController SILabelButtonMenuPrototypeBasic:[SIGameController SIButtonSize:size]];
-    menuNode.backItemButtonPrototype               = [SIGameController SILabelButtonMenuPrototypeBack:[SIGameController SIButtonSize:size]];
+    menuNode.itemButtonPrototype                   = [SIGameController SIHLLabelButtonMenuPrototypeBasic:[SIGameController SIButtonSize:size]];
+    menuNode.backItemButtonPrototype               = [SIGameController SIHLLabelButtonMenuPrototypeBack:[SIGameController SIButtonSize:size]];
     menuNode.itemSeparatorSize                     = [SIGameController SIMenuButtonSpacing];
     
     HLMenu *menu = [[HLMenu alloc] init];
@@ -1237,20 +1248,21 @@
         }
         if ([toolTag isEqualToString:kSINodeButtonLeaderBoard]) {
             NSLog(@"Leaderboard Toolbar Button Tapped");
-            NSNotification *notification    = [[NSNotification alloc] initWithName:kSINotificationShowLeaderBoard object:nil userInfo:nil];
-            [[NSNotificationCenter defaultCenter] postNotification:notification];
+            [self showGameCenterLeaderBoard];
             
         } else if ([toolTag isEqualToString:kSINodeButtonNoAd]) {
             [[MKStoreKit sharedKit] initiatePaymentRequestForProductWithIdentifier:kSIIAPProductIDAdFree];
+            [self hudWillShowWithTitle:@"Working..." info:@"Going Ad Free" dimBackground:YES animate:YES];
             NSLog(@"Ad Free Toolbar Button Tapped");
             
         } else if ([toolTag isEqualToString:kSINodeButtonSettings]) {
-            SettingsScene *settingsScene    = [SettingsScene sceneWithSize:self.size];
-            SIGame transisitionToSKScene:settingsScene toSKView:self.view DoorsOpen:YES pausesIncomingScene:YES pausesOutgoingScene:YES duration:SCENE_TRANSISTION_DURATION];
+            [self presentSceneMenuType:SISceneMenuTypeSettings inDelay:SCENE_TRANSISTION_DURATION_FAST];
+//            SettingsScene *settingsScene    = [SettingsScene sceneWithSize:self.size];
+//            SIGame transisitionToSKScene:settingsScene toSKView:self.view DoorsOpen:YES pausesIncomingScene:YES pausesOutgoingScene:YES duration:SCENE_TRANSISTION_DURATION];
             
         } else if ([toolTag isEqualToString:kSINodeButtonInstructions]) {
             NSLog(@"Instructions Toolbar Button Tapped");
-            [self launchHelp];
+            [self presentSceneMenuType:SISceneMenuTypeHelp inDelay:SCENE_TRANSISTION_DURATION_FAST];
         } else if ([toolTag isEqualToString:kSINodeButtonAchievement]) {
             NSLog(@"Achievement Toolbar item tapped");
         }
@@ -1310,6 +1322,11 @@
 #pragma mark AdBannerDelegate
 - (void)adBannerWasTapped {
     NSLog(@"Ad banner was tapped");
+}
+
+#pragma mark SIMenuNode
+- (void)menuNodeDidTapBackButton:(SIMenuNode *)menuNode {
+    [self presentSceneMenuType:SISceneMenuTypeStart inDelay:SCENE_TRANSISTION_DURATION_FAST];
 }
 
 
@@ -1685,14 +1702,14 @@
 }
 
 #pragma mark HLLabelButtons
-+ (HLLabelButtonNode *)SILabelButtonMenuPrototypeBasic:(CGSize)size {
++ (HLLabelButtonNode *)SIHLLabelButtonMenuPrototypeBasic:(CGSize)size {
     HLLabelButtonNode *buttonPrototype;
     buttonPrototype                         = [[SIGameController SIHLLabelButtonInterface:size] copy];
     buttonPrototype.verticalAlignmentMode   = HLLabelNodeVerticalAlignFontAscenderBias;
     
     return buttonPrototype;
 }
-+ (HLLabelButtonNode *)SILabelButtonMenuPrototypeBasic:(CGSize)size backgroundColor:(SKColor *)backgroundColor fontColor:(UIColor *)fontColor {
++ (HLLabelButtonNode *)SIHLLabelButtonMenuPrototypeBasic:(CGSize)size backgroundColor:(SKColor *)backgroundColor fontColor:(UIColor *)fontColor {
     HLLabelButtonNode *buttonPrototype;
     buttonPrototype                         = [[SIGameController SIHLLabelButtonInterface:size backgroundColor:fontColor fontColor:fontColor] copy];
     buttonPrototype.verticalAlignmentMode   = HLLabelNodeVerticalAlignFontAscenderBias;
@@ -1747,7 +1764,7 @@
     claimButton.text                            = @"CLAIM!";
     claimButton.fontColor                       = [SKColor whiteColor];
     claimButton.verticalAlignmentMode           = HLLabelNodeVerticalAlignFont;
-    
+    return claimButton;
 }
 
 #pragma mark HLMenuNodes
@@ -1755,8 +1772,8 @@
     HLMenuNode *menuNode                = [[HLMenuNode alloc] init];
     menuNode.itemAnimation              = HLMenuNodeAnimationSlideLeft;
     menuNode.itemAnimationDuration      = SCENE_TRANSISTION_DURATION_FAST;
-    menuNode.itemButtonPrototype        = [SIGameController SILabelButtonMenuPrototypePopUp:[SIGameController SIButtonSize:popupNode.backgroundSize]];
-    menuNode.backItemButtonPrototype    = [SIGameController SILabelButtonMenuPrototypeBack:[SIGameController SIButtonSize:popupNode.backgroundSize]];
+    menuNode.itemButtonPrototype        = [SIGameController SIHLLabelButtonMenuPopup:[SIGameController SIButtonSize:popupNode.backgroundSize]];
+    menuNode.backItemButtonPrototype    = [SIGameController SIHLLabelButtonMenuPrototypeBack:[SIGameController SIButtonSize:popupNode.backgroundSize]];
     menuNode.itemSeparatorSize          = 20;
     
     HLMenu *menu                        = [[HLMenu alloc] init];
@@ -1775,7 +1792,7 @@
     
     /*Add the Back Button... Need to change the prototype*/
     HLMenuItem *endGameItem             = [HLMenuItem menuItemWithText:kSIMenuTextPopUpEndGame];
-    endGameItem.buttonPrototype         = [SIGameController SILabelButtonMenuPrototypeBack:[SIGameController SIButtonSize:popupNode.backgroundSize]];
+    endGameItem.buttonPrototype         = [SIGameController SIHLLabelButtonMenuPrototypeBack:[SIGameController SIButtonSize:popupNode.backgroundSize]];
     [menu addItem:endGameItem];
     
     [menuNode setMenu:menu animation:HLMenuNodeAnimationNone];
@@ -1793,8 +1810,8 @@
     HLMenuNode *menuNode                = [[HLMenuNode alloc] init];
     menuNode.itemAnimation              = HLMenuNodeAnimationSlideLeft;
     menuNode.itemAnimationDuration      = SCENE_TRANSISTION_DURATION_FAST;
-    menuNode.itemButtonPrototype        = [SIGameController SILabelButtonMenuPrototypePopUp:[SIGameController SIButtonSize:size]];
-    menuNode.backItemButtonPrototype    = [SIGameController SILabelButtonMenuPrototypeBack:[SIGameController SIButtonSize:size]];
+    menuNode.itemButtonPrototype        = [SIGameController SIHLLabelButtonMenuPopup:[SIGameController SIButtonSize:size]];
+    menuNode.backItemButtonPrototype    = [SIGameController SIHLLabelButtonMenuPrototypeBack:[SIGameController SIButtonSize:size]];
     menuNode.itemSeparatorSize          = 20;
 
     
@@ -1979,6 +1996,18 @@
     SIPopupContentNode *popupContentNode        = [[SIPopupContentNode alloc] initWithSize:size];
     popupContentNode.labelNode                  = [SIGameController BMGLabelLongIslandStroked];
     popupContentNode.backgroundImageNode        = [SKSpriteNode spriteNodeWithTexture:[[SIConstants imagesAtlas] textureNamed:kSIImageIAPExtraLarge] size:[SIGameController SIChestSize]];
+    return popupContentNode;
+}
+
+#pragma mark SIMenuNode
++ (SIMenuNode *)SIMenuNodeInstructionsSceneSize:(CGSize)size {
+    DSMultilineLabelNode *multilineNode     = [[DSMultilineLabelNode alloc] initWithFontNamed:kSIFontFuturaMedium];
+    multilineNode.paragraphWidth            = size.width - VERTICAL_SPACING_16;
+    multilineNode.fontColor                 = [SKColor whiteColor];
+    multilineNode.fontSize                  = [SIGameController SIFontSizeText];
+    multilineNode.text                      = @"Tap the start screen to start a game. A gesture command will appear. Perform the gesture to progress through the game. The faster you enter the next gesture, the more points you score! Points are awesome! Use power ups to get an even higher score! Power ups are purchased with IT Coins. BUY IT Coins in the Store, earn a coin every 500 points and each day you launch the app get free! Opening Swype It every day earns you more and more free coins!!! SWYPE ON!";
+    SIMenuNode *menuNode                    = [[SIMenuNode alloc] initWithSize:size Node:multilineNode type:SISceneMenuTypeHelp];
+    return menuNode;
 }
 
 #pragma mark Scenes
@@ -2116,5 +2145,59 @@
 
 + (float)floatZPositionPopupForContent:(SIZPositionPopup)layer {
     return (float)layer / (float)SIZPositionPopupCount;
+}
+#pragma mark -
+#pragma mark - IAP Stuff
+- (void)registerForNotifications {
+    //    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(packPurchaseRequest:) name:kSINotificationPackPurchaseRequest object:nil];
+    [[NSNotificationCenter defaultCenter] addObserverForName:kMKStoreKitProductPurchasedNotification
+                                                      object:nil
+                                                       queue:[[NSOperationQueue alloc] init]
+                                                  usingBlock:^(NSNotification *note) {
+
+                                                      NSLog(@"Purchased/Subscribed to product with id: %@", [note object]);
+                                                      
+                                                      NSNotification *notification = [[NSNotification alloc] initWithName:kSINotificationAdFreePurchasedSucceded object:nil userInfo:nil];
+                                                      [[NSNotificationCenter defaultCenter] postNotification:notification];
+                                                  }];
+    [[NSNotificationCenter defaultCenter] addObserverForName:kMKStoreKitProductPurchaseFailedNotification
+                                                      object:nil
+                                                       queue:[[NSOperationQueue alloc] init]
+                                                  usingBlock:^(NSNotification *note) {
+
+                                                      NSLog(@"Failed [kMKStoreKitProductPurchaseFailedNotification] with error: %@", [note object]);
+                                                      NSNotification *notification = [[NSNotification alloc] initWithName:kSINotificationAdFreePurchasedFailed object:nil userInfo:nil];
+                                                      [[NSNotificationCenter defaultCenter] postNotification:notification];
+                                                  }];
+
+    [[NSNotificationCenter defaultCenter] addObserverForName:kMKStoreKitProductPurchaseDeferredNotification
+                                                      object:nil
+                                                       queue:[[NSOperationQueue alloc] init]
+                                                  usingBlock:^(NSNotification *note) {
+
+                                                      NSLog(@"Failed [kMKStoreKitProductPurchaseDeferredNotification] with error: %@", [note object]);
+                                                      NSNotification *notification = [[NSNotification alloc] initWithName:kSINotificationAdFreePurchasedFailed object:nil userInfo:nil];
+                                                      [[NSNotificationCenter defaultCenter] postNotification:notification];
+                                                  }];
+
+    [[NSNotificationCenter defaultCenter] addObserverForName:kMKStoreKitRestoredPurchasesNotification
+                                                      object:nil
+                                                       queue:[[NSOperationQueue alloc] init]
+                                                  usingBlock:^(NSNotification *note) {
+
+                                                      NSLog(@"Restored Purchases");
+                                                      NSNotification *notification = [[NSNotification alloc] initWithName:kSINotificationAdFreePurchasedSucceded object:nil userInfo:nil];
+                                                      [[NSNotificationCenter defaultCenter] postNotification:notification];
+                                                  }];
+
+    [[NSNotificationCenter defaultCenter] addObserverForName:kMKStoreKitRestoringPurchasesFailedNotification
+                                                      object:nil
+                                                       queue:[[NSOperationQueue alloc] init]
+                                                  usingBlock:^(NSNotification *note) {
+
+                                                      NSLog(@"Failed restoring purchases with error: %@", [note object]);
+                                                      NSNotification *notification = [[NSNotification alloc] initWithName:kSINotificationAdFreePurchasedFailed object:nil userInfo:nil];
+                                                      [[NSNotificationCenter defaultCenter] postNotification:notification];
+                                                  }];
 }
 @end

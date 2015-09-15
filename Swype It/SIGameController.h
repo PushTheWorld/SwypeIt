@@ -53,10 +53,10 @@
 /**Quick zPosition for popup content*/
 + (float)floatZPositionPopupForContent:(SIZPositionPopup)layer;
 
-+ (HLLabelButtonNode *) SILabelButtonMenuPrototypeBack:(CGSize)size;
-+ (HLLabelButtonNode *) SILabelButtonMenuPrototypeBasic:(CGSize)size;
-+ (HLLabelButtonNode *) SILabelButtonMenuPrototypeBasic:(CGSize)size backgroundColor:(UIColor *)backgroundColor fontColor:(UIColor *)fontColor;
-+ (HLLabelButtonNode *) SILabelButtonMenuPrototypePopUp:(CGSize)size;
+//+ (HLLabelButtonNode *) SIHLLabelButtonMenuPrototypeBack:(CGSize)size;
+//+ (HLLabelButtonNode *) SIHLLabelButtonMenuPrototypeBasic:(CGSize)size;
+//+ (HLLabelButtonNode *) SIHLLabelButtonMenuPrototypeBasic:(CGSize)size backgroundColor:(UIColor *)backgroundColor fontColor:(UIColor *)fontColor;
+//+ (HLLabelButtonNode *) SIHLLabelButtonMenuPrototypePopUp:(CGSize)size;
 /**
  Returns the number of coins the user has
  */

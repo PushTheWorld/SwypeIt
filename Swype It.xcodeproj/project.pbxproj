@@ -59,6 +59,7 @@
 		092B47101B52273A00AFE43C /* libOCMock.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 092B470F1B52273A00AFE43C /* libOCMock.a */; };
 		092DBE6D1B6F022E00328A6B /* shapes.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 092DBE6C1B6F022E00328A6B /* shapes.atlas */; };
 		09343DAA1B44BB1C00D1C707 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 09343DA91B44BB1C00D1C707 /* QuartzCore.framework */; };
+		0938C2BB1BA7AACF00B69FC2 /* SIAchievementNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 0938C2BA1BA7AACF00B69FC2 /* SIAchievementNode.m */; };
 		094D10A11BA0BCBC00392587 /* SIGameControllerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 094D10A01BA0BCBC00392587 /* SIGameControllerTests.m */; };
 		094D10A31BA18D5A00392587 /* SISingletonAchievementTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 094D10A21BA18D5A00392587 /* SISingletonAchievementTests.m */; };
 		094D10A41BA18DA200392587 /* SISingletonAchievement.m in Sources */ = {isa = PBXBuildFile; fileRef = 09A488BF1B9D8D770075F41C /* SISingletonAchievement.m */; };
@@ -258,6 +259,8 @@
 		092B470F1B52273A00AFE43C /* libOCMock.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libOCMock.a; path = usr/lib/libOCMock.a; sourceTree = "<group>"; };
 		092DBE6C1B6F022E00328A6B /* shapes.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = shapes.atlas; sourceTree = "<group>"; };
 		09343DA91B44BB1C00D1C707 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		0938C2B91BA7AACF00B69FC2 /* SIAchievementNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SIAchievementNode.h; sourceTree = "<group>"; };
+		0938C2BA1BA7AACF00B69FC2 /* SIAchievementNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SIAchievementNode.m; sourceTree = "<group>"; };
 		0938FD501B92124E00ACD99C /* libSSBitmapFont.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSSBitmapFont.a; path = ../Downloads/libSSBitmapFont/libSSBitmapFont.a; sourceTree = "<group>"; };
 		094D10A01BA0BCBC00392587 /* SIGameControllerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SIGameControllerTests.m; sourceTree = "<group>"; };
 		094D10A21BA18D5A00392587 /* SISingletonAchievementTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SISingletonAchievementTests.m; sourceTree = "<group>"; };
@@ -669,6 +672,8 @@
 				0957AB761BA7034200D3FDF5 /* SIPopupContentNode.m */,
 				0957AB781BA7626600D3FDF5 /* SIMenuNode.h */,
 				0957AB791BA7626600D3FDF5 /* SIMenuNode.m */,
+				0938C2B91BA7AACF00B69FC2 /* SIAchievementNode.h */,
+				0938C2BA1BA7AACF00B69FC2 /* SIAchievementNode.m */,
 			);
 			name = CustomUIClasses;
 			sourceTree = "<group>";
@@ -1101,6 +1106,7 @@
 				091FED7D1B374C470071F8DC /* BaseNavigationViewController.m in Sources */,
 				0917D4F31B6DD8240046B5FF /* HLRingLayoutManager.m in Sources */,
 				0917D4F71B6DD8240046B5FF /* HLTableLayoutManager.m in Sources */,
+				0938C2BB1BA7AACF00B69FC2 /* SIAchievementNode.m in Sources */,
 				0917D4E91B6DD8240046B5FF /* HLGridNode.m in Sources */,
 				09A488AE1B9B65DB0075F41C /* SISceneGameProgressBarUpdate.m in Sources */,
 				0914D7AA1B81C22400911DD8 /* SIPowerUpToolbarNode.m in Sources */,

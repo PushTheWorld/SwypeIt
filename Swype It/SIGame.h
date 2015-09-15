@@ -67,7 +67,7 @@
  SIGameFreePrizeYes -> Give prize, reset the days since last launch and such
  SIGameFreePrizeYesConsecutive -> give prize, increment days since last launch..
  */
-+ (SIGameFreePrize)gamePrizeForCurrentDate:(NSDate *)currentDate lastPrizeGivenDate:(NSDate *)lastPrizeGivenDate;
++ (SIFreePrizeType)gamePrizeForCurrentDate:(NSDate *)currentDate lastPrizeGivenDate:(NSDate *)lastPrizeGivenDate;
 + (SIIAPPack)           siiapPackForNameNodeLabel:(NSString *)nodeName;
 + (SIIAPPack)           siiapPackForNameNodeNode:(NSString *)nodeName;
 + (SIMoveCommand)       getRandomMoveForGameMode:(SIGameMode)gameMode;
