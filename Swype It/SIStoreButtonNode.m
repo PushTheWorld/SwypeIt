@@ -168,6 +168,10 @@ enum {
     _priceLabelNode.position                = CGPointMake(xLabels, -1.0f * (_valueLabelNode.frame.size.height + VERTICAL_SPACING_4));
 }
 
+- (CGSize)size {
+    return _backgroundNode.size;
+}
+
 - (void)setAnchorPoint:(CGPoint)anchorPoint
 {
     _backgroundNode.anchorPoint = anchorPoint;

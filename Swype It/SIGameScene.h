@@ -99,11 +99,6 @@ typedef NS_ENUM(NSInteger, SIGameSceneContentAnimation) {
 - (void)sceneGameLaunchMoveCommandLabelWithCommandAction:(SIMoveCommandAction)commandAction;
 
 /**
- Called when the scene shall show a new high score
- */
-- (void)sceneGameShowHighScore;
-
-/**
  Called when the scene shall notify the user they got a free coin
  */
 - (void)sceneGameShowFreeCoinEarned;
@@ -194,4 +189,9 @@ typedef NS_ENUM(NSInteger, SIGameSceneContentAnimation) {
  Number of Coins the user has
  */
 @property (nonatomic, assign) int swypeItCoins;
+
+/**
+ High score
+ */
+@property (nonatomic, assign) BOOL highScore;
 @end

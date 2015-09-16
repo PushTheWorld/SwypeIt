@@ -170,7 +170,7 @@ enum {
             
             segmentNode.anchorPoint             = CGPointMake(0.0f, 0.5f);
             
-            segmentNode.fontSize                = [SIGameController fontSizeParagraph];
+            segmentNode.fontSize                = [SIGameController SIFontSizeParagraph];
             
             segmentNode.fontName                = kSIFontFuturaMedium;
             

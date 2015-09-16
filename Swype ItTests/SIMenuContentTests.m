@@ -11,9 +11,7 @@
 
 @end
 
-@implementation SIMenuContentTests {
-
-}
+@implementation SIMenuContentTests
 
 - (void)setUp {
     [super setUp];
@@ -46,11 +44,11 @@
     XCTAssert([[SIConstants userMessageHighScoreBad] containsObject:endMenu.userMessageString]);
 }
 
-- (void)testMenuTypeEnd {
-    SIMenuContent *endMenu = [[SIMenuContent alloc] initEndMenuGameScore:10.0f lifetimeHighScore:100.0f isHighScore:NO coinsEarned:0];
-
-    XCTAssertEqual(endMenu.type, SISceneMenuTypeEnd);
-}
+//- (void)testMenuTypeEnd {
+//    SIMenuContent *endMenu = [[SIMenuContent alloc] initEndMenuGameScore:10.0f lifetimeHighScore:100.0f isHighScore:NO coinsEarned:0];
+//
+//    XCTAssertEqual(endMenu.type, SISceneMenuTypeEnd);
+//}
 
 - (void)testMenuTypeStartInit {
     SIMenuContent *startMenu    = [[SIMenuContent alloc] initStartMenuUserIsPremium:YES];

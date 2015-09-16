@@ -31,11 +31,6 @@
 - (void)controllerSingletonGameShowContinue;
 
 /**
- Called when there is a high score
- */
-- (void)controllerSingletonGameShowIsHighScore;
-
-/**
  Called when a free coin is earned
  Handle the sound for this in the controller?
  */

@@ -11,6 +11,10 @@
 
 }
 
+- (NSString *)description {
+    return [NSString stringWithFormat:@"%@\n Type: %@\nDuration: %d\nPercent Remaining: %0.2f\nPowerup Start Time:%0.2f",[super description],[SIPowerUp stringForPowerUp:_type],(int)_duration,_percentRemaining,_startTimeMS];
+}
+
 - (instancetype)initWithPowerUp:(SIPowerUpType)powerUp atTime:(float)powerUpStartTime {
     self = [super init];
     if (self) {
@@ -47,17 +51,24 @@
     switch (powerUp) {
         case SIPowerUpTypeFallingMonkeys:
             for (SIPowerUp *powerUpClass in powerUpArray) {
-                if (powerUpClass.type == SIPowerUpTypeRapidFire) {
+                if (powerUpClass.type == SIPowerUpTypeRapidFire || powerUpClass.type == SIPowerUpTypeFallingMonkeys) {
                     return NO;
                 }
             }
+            return YES;
         case SIPowerUpTypeRapidFire:
             for (SIPowerUp *powerUpClass in powerUpArray) {
-                if (powerUpClass.type == SIPowerUpTypeFallingMonkeys) {
+                if (powerUpClass.type == SIPowerUpTypeFallingMonkeys || powerUpClass.type == SIPowerUpTypeRapidFire) {
                     return NO;
                 }
             }
+            return YES;
         case SIPowerUpTypeTimeFreeze:
+            for (SIPowerUp *powerUpClass in powerUpArray) {
+                if (powerUpClass.type == SIPowerUpTypeTimeFreeze) {
+                    return NO;
+                }
+            }
             return YES;
         default:
             return NO;
@@ -151,18 +162,17 @@
     float maxPercent = 0.0f;
     
     for (SIPowerUp *powerUp in powerUpArray) {
-        if (powerUp.type == SIPowerUpTypeFallingMonkeys) {
-            break; //GTFO of loop of falling monkey
-        }
-        powerUp.percentRemaining = ((powerUp.duration * MILI_SECS_IN_SEC) - (compositeTime - powerUp.startTimeMS)) / (powerUp.duration * MILI_SECS_IN_SEC);
-        if (powerUp.percentRemaining < EPSILON_NUMBER) { /*This deactivates powerups... it's sooo powerful muwahahahha*/
-            /*Can one class function handle all that power?!?!*/
-            if (callback) {
-                callback(powerUp);
+        if (powerUp.type != SIPowerUpTypeFallingMonkeys) {
+            powerUp.percentRemaining = ((powerUp.duration * MILI_SECS_IN_SEC) - (compositeTime - powerUp.startTimeMS)) / (powerUp.duration * MILI_SECS_IN_SEC);
+            if (powerUp.percentRemaining < EPSILON_NUMBER) { /*This deactivates powerups... it's sooo powerful muwahahahha*/
+                /*Can one class function handle all that power?!?!*/
+                if (callback) {
+                    callback(powerUp);
+                }
             }
-        }
-        if (powerUp.percentRemaining > maxPercent) {
-            maxPercent = powerUp.percentRemaining;
+            if (powerUp.percentRemaining > maxPercent) {
+                maxPercent = powerUp.percentRemaining;
+            }
         }
     }
     return maxPercent;

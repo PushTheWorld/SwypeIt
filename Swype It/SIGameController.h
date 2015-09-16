@@ -12,10 +12,13 @@
 #import "BaseViewController.h"
 #import "HLSpriteKit.h"
 #import "SIPopupNode.h"
+#import "BMGlyphLabel.h"
 
 
 
 @interface SIGameController : UIViewController
++ (BMGlyphLabel *)BMGLabelLongIslandStroked;
++ (BMGlyphLabel *)BMGLabelHiraginoKakuGothicText:(NSString *)text;
 /**
  Gets the height of the ad banner view
  */
@@ -50,6 +53,8 @@
 
 /**Quick zPosition for game content*/
 + (float)floatZPositionGameForContent:(SIZPositionGame)layer;
+/**Quick zPosition for menu content*/
++ (float)floatZPositionMenuForContent:(SIZPositionMenu)layer;
 /**Quick zPosition for popup content*/
 + (float)floatZPositionPopupForContent:(SIZPositionPopup)layer;
 
@@ -57,14 +62,15 @@
 //+ (HLLabelButtonNode *) SIHLLabelButtonMenuPrototypeBasic:(CGSize)size;
 //+ (HLLabelButtonNode *) SIHLLabelButtonMenuPrototypeBasic:(CGSize)size backgroundColor:(UIColor *)backgroundColor fontColor:(UIColor *)fontColor;
 //+ (HLLabelButtonNode *) SIHLLabelButtonMenuPrototypePopUp:(CGSize)size;
-/**
- Returns the number of coins the user has
- */
-+ (int)numberOfCoinsForUser;
+///**
+// Returns the number of coins the user has
+// */
+//+ (int)numberOfCoinsForUser;
 
-+ (NSDate *)            getDateFromInternet;
+//+ (NSDate *)            getDateFromInternet;
 
-+ (SIPopupNode *)       SIPopUpNodeTitle:(NSString *)title SceneSize:(CGSize)sceneSize;
+
++ (SIPopupNode *)SIPopupNodeTitle:(NSString *)title SceneSize:(CGSize)sceneSize;
 
 + (SKTexture *)         SITextureMonkeyFace;
 

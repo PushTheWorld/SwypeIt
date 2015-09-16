@@ -12,6 +12,7 @@
 #import <math.h>
 // Drop-In Class Imports (CocoaPods/GitHub/Guru)
 // Category Import
+//#import "UIImage+BlurredFrame.h"
 #import "UIColor+Additions.h"
 // Support/Data Class Imports
 // Other Imports
@@ -637,6 +638,52 @@
             return kSISoundBackgroundMenu;
     }
 }
++ (NSString *)userMessageForScore:(float)score isHighScore:(BOOL)isHighScore highScore:(float)highScore {
+    if (isHighScore) {
+        NSUInteger randomNumber = arc4random_uniform(3);
+        switch (randomNumber) {
+            case 0:
+                return @"You did it!";
+            case 1:
+                return @"Can you beat that?";
+            default:
+                return @"Your Awesome! 👍";
+        }    }
+    
+    if (score / highScore > 0.8) { /*Give user a encourage to keep going... maybe spend money?*/
+        NSUInteger randomNumber = arc4random_uniform(5);
+        switch (randomNumber) {
+            case 0:
+                return @"Continue Now!";
+            case 1:
+                return @"So Close!!!";
+            case 2:
+                return @"Use IT Coins!";
+            case 3:
+                return @"Nooo! You had it!";
+            default:
+                return @"Use Monkeys!";
+        }
+    } else {
+        NSUInteger randomNumber = arc4random_uniform(7);
+        switch (randomNumber) {
+            case 0:
+                return @"🙅 NO HIGH SCORE!";
+            case 1:
+                return @"You Can Do Better";
+            case 2:
+                return @"You're The Best 😊";
+            case 3:
+                return @"Try Again";
+            case 4:
+                return @"Swype Faster";
+            case 5:
+                return @"You Are Awesome 😊";
+            default:
+                return @"😭 Game over 😭";
+        }
+    }
+}
 #pragma mark - Private Class Methods
 + (float)levelSpeedForScore:(float)score {
     if (score < MAX_MOVE_SCORE) {
@@ -653,21 +700,22 @@
     UIImage *ss = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
     
-    CIFilter *gaussianBlurFilter = [CIFilter filterWithName:@"CIGaussianBlur"];
-    [gaussianBlurFilter setDefaults];
-    [gaussianBlurFilter setValue:[CIImage imageWithCGImage:[ss CGImage]] forKey:kCIInputImageKey];
-    [gaussianBlurFilter setValue:@10 forKey:kCIInputRadiusKey];
-    
-    CIImage *outputImage = [gaussianBlurFilter outputImage];
-    CIContext *context   = [CIContext contextWithOptions:nil];
-    CGRect rect          = [outputImage extent];
-    rect.origin.x        += (rect.size.width  - ss.size.width ) / 2;
-    rect.origin.y        += (rect.size.height - ss.size.height) / 2;
-    rect.size            = ss.size;
-    CGImageRef cgimg     = [context createCGImage:outputImage fromRect:rect];
-    UIImage *image       = [UIImage imageWithCGImage:cgimg];
-    CGImageRelease(cgimg);
-    return image;
+    return [ss applyLightEffectAtFrame:view.frame];
+//    CIFilter *gaussianBlurFilter = [CIFilter filterWithName:@"CIGaussianBlur"];
+//    [gaussianBlurFilter setDefaults];
+//    [gaussianBlurFilter setValue:[CIImage imageWithCGImage:[ss CGImage]] forKey:kCIInputImageKey];
+//    [gaussianBlurFilter setValue:@10 forKey:kCIInputRadiusKey];
+//    
+//    CIImage *outputImage = [gaussianBlurFilter outputImage];
+//    CIContext *context   = [CIContext contextWithOptions:nil];
+//    CGRect rect          = [outputImage extent];
+//    rect.origin.x        += (rect.size.width  - ss.size.width ) / 2;
+//    rect.origin.y        += (rect.size.height - ss.size.height) / 2;
+//    rect.size            = ss.size;
+//    CGImageRef cgimg     = [context createCGImage:outputImage fromRect:rect];
+//    UIImage *image       = [UIImage imageWithCGImage:cgimg];
+//    CGImageRelease(cgimg);
+//    return image;
 }
 
 #pragma mark - Public Methods
@@ -928,7 +976,7 @@
         return SIFreePrizeTypeNone;
 
     //Prize given more than two days ago
-    } else if (timeSinceLastPrize > 2 * SECONDS_IN_DAY) {
+    } else if (timeSinceLastPrize >= 2 * SECONDS_IN_DAY) {
         return SIFreePrizeTypeNonConsecutive;
         
     //Prize for conseuctive launch
@@ -940,9 +988,9 @@
 + (NSString *)titleForMenuType:(SISceneMenuType)type {
     switch (type) {
         case SISceneMenuTypeEnd:
-            return @"End";
+            return @"Swype It";
         case SISceneMenuTypeStart:
-            return @"Start";
+            return @"Swype It";
         case SISceneMenuTypeSettings:
             return @"Settings";
         case SISceneMenuTypeHelp:

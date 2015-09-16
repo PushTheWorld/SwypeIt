@@ -29,7 +29,7 @@
 
 @end
 
-@interface SIMenuNode : HLComponentNode
+@interface SIMenuNode : HLComponentNode 
 
 /// @name Delegate Method
 
@@ -48,11 +48,6 @@
  default is `1.0f`
  */
 @property (nonatomic, assign) CGFloat animationDuration;
-
-/**
- Set true when you want the back button to be activated
- */
-@property (nonatomic, assign) BOOL backButtonVisible;
 
 /**
  Set this if you want the menu to have a bottom toolbar....
@@ -87,10 +82,14 @@
  */
 @property (nonatomic, assign) SISceneMenuType type;
 
+
+@property (nonatomic, strong) SKSpriteNode *backButtonNode;
+
+
 /**
  Use for aninmating the menu in
  */
-- (void)layoutXYAnimation:(SIMenuNodeAnimation)animation;
+- (void)layoutXYZAnimation:(SIMenuNodeAnimation)animation;
 
 
 

@@ -52,6 +52,8 @@
 #define SCREEN_WIDTH                        MIN([UIScreen mainScreen].bounds.size.height, [UIScreen mainScreen].bounds.size.width)
 #define SCREEN_HEIGHT                       MAX([UIScreen mainScreen].bounds.size.height, [UIScreen mainScreen].bounds.size.width)
 
+#define MAX_NUMBER_OF_ATTEMPTS              20
+
 #define MILI_SECS_IN_SEC                    1000
 
 #pragma mark - Game Constants
@@ -79,9 +81,9 @@
 #define IAP_PACK_PRICE_LARGE                09.99
 #define IAP_PACK_PRICE_EXTRA_LARGE          24.99
 
-#define SCENE_TRANSISTION_DURATION_ZERO     0
+#define SCENE_TRANSISTION_DURATION_NOW      0.00
 #define SCENE_TRANSISTION_DURATION_FAST     0.25
-#define SCENE_TRANSISTION_DURATION_NORMAL   1.0
+#define SCENE_TRANSISTION_DURATION_NORMAL   1.00
 
 #define MOVE_COMMAND_LAUNCH_DURATION        0.25
 
@@ -351,6 +353,13 @@ typedef NS_ENUM(NSInteger, SISceneMenuType) {
     SISceneMenuTypeNone
 };
 
+typedef NS_ENUM(NSInteger, SIZPositionMenu) {
+    SIZPositionMenuBackground = 0,
+    SIZPositionMenuContent,
+    SIZPositionMenuContentToolbar,
+    SIZPositionMenuCount
+};
+
 typedef NS_ENUM(NSInteger, SIZPositionGame) {
     SIZPositionGameBackground = 0,
     SIZPositionGameContent,
@@ -363,6 +372,7 @@ typedef NS_ENUM(NSInteger, SIZPositionGame) {
     SIZPositionGameModalMax,
     SIZPositionGameCount
 };
+
 typedef NS_ENUM(NSInteger, SIZPositionPopup) {
     SIZPositionPopupBackground = 0,
     SIZPositionPopupContent,
@@ -671,9 +681,10 @@ extern NSString *const kSINodePopupTitle;
 #pragma mark - Fonts
 extern NSString *const kSIFontGameScore;
 extern NSString *const kSIFontFuturaMedium;
-extern NSString *const kSIFontLongIslandStroked;
+extern NSString *const kSIBGFontLongIslandStroked;
 extern NSString *const kSIFontUltra;
-extern NSString *const kSIFontUltraStroked;
+extern NSString *const kSIBGFontUltraStroked;
+extern NSString *const kSIBGFontHiraginoKakuGothic;
 
 #pragma mark - Menu Button Texts
 extern NSString *const kSIMenuTextBack;
@@ -712,6 +723,9 @@ extern NSString *const kSISoundFXCoinNoise;
 extern NSString *const kSISoundFXChaChing;
 extern NSString *const kSISoundFXGameOver;
 extern NSString *const kSISoundFXInitalize;
+extern NSString *const kSISoundFXMoveTap;
+extern NSString *const kSISoundFXMoveSwype;
+extern NSString *const kSISoundFXSceneWoosh;
 
 #pragma mark - EmitterNodes
 extern NSString *const kSIEmitterFileTypeSKS;

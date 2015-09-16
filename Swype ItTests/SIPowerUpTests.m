@@ -296,8 +296,10 @@
     powerUpArray                            = [NSArray arrayWithObjects:powerUpFallingMonkey, powerUpRapidFire,nil];
     // (3000 - 1000) / 3000 = 0.667 percent remaining
     XCTAssertEqualWithAccuracy([SIPowerUp powerUpPercentRemaining:powerUpArray compositeTime:currentTime withCallback:nil],0.667f,0.05f);
+    
     // (3000 - 2000) / 3000 = 0.333 percent remaining
     XCTAssertEqualWithAccuracy([SIPowerUp powerUpPercentRemaining:powerUpArray compositeTime:currentTime * 2 withCallback:nil],0.333f,0.05f);
+    
     // (3000 - 3000) / 3000 = 0.0 percent remaining
     float zeroTest = [SIPowerUp powerUpPercentRemaining:powerUpArray compositeTime:currentTime * 3 withCallback:^(SIPowerUp *powerUpToDeactivate) {
         XCTAssertEqual(powerUpToDeactivate.type, SIPowerUpTypeRapidFire);

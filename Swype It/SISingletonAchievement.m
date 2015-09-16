@@ -16,7 +16,7 @@
 //          3. Sync local with game center
 //
 // Local Controller Import
-#import "SISingletonAchievement_Private.h"
+#import "SISingletonAchievement.h"
 // Framework Import
 #import <GameKit/GameKit.h>
 // Drop-In Class Imports (CocoaPods/GitHub/Guru)
@@ -429,6 +429,10 @@
  NOT the whole plist dictionary, just the corrent entry like `challengeBeginner2`
  */
 + (SIAchievement *)configureAchievementFromDictionary:(NSDictionary *)dictionary withKeyName:(NSString *)key {
+    
+    if (dictionary == nil) {
+        return nil;
+    }
     
     SIAchievement *achievement                          = [[SIAchievement alloc] init];
     

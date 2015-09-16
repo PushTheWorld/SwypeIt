@@ -19,7 +19,7 @@
 // Support/Data Class Imports
 #import "SIGame.h"
 // Other Imports
-@protocol SIMenuSceneDelegate <NSObject, SIMenuNodeDelegate>
+@protocol SIMenuSceneDelegate <NSObject>
 
 ///**
 // Called right after a new scene has been loaded... essentially
@@ -33,7 +33,7 @@
 
 
 @end
-@interface SIMenuScene : HLScene
+@interface SIMenuScene : HLScene <SIMenuNodeDelegate>
 
 /**
  The delegate for the scene
@@ -62,9 +62,17 @@
  */
 - (void)showMenuNode:(SIMenuNode *)menuNode menuNodeAnimation:(SIMenuNodeAnimation)menuNodeAnimation;
 
+/**
+ Show a menu node and animate it
+ */
+- (void)showMenuNode:(SIMenuNode *)menuNode menuNodeAnimation:(SIMenuNodeAnimation)menuNodeAnimation animationDuration:(float)animationDuration;
 
-
-
+/**
+ Pushes a menu node onto the scene... saves previous as root
+    NOTE: Can only go one layer deep at this time
+ */
+- (void)pushMenuNode:(SIMenuNode *)menuNode;
+- (void)menuScenePopMenuNode;
 
 
 @end

@@ -16,6 +16,7 @@
 // Category Import
 #import "UIColor+Additions.h"
 // Support/Data Class Imports
+#import "SIIAPUtility.h"
 // Other Imports
 
 #define FALLING_MONKEY_Z_POSITION_INCREMENTER 0.01
@@ -45,11 +46,13 @@ static const uint32_t SIGameSceneCategoryMoveScore     = 0x1 << 3; // 0000000000
     
     SIPopupNode                                         *_popupContentNode;
     
+    SKLabelNode                                         *_highScoreLabelNode;
     SKLabelNode                                         *_swypeItCoinsLabelNode;
     
     SKNode                                              *_edge;
     
-    SKSpriteNode                                        *_backgroundNode;
+    SIGameNode                                          *_backgroundNode;
+
     SKSpriteNode                                        *_coinNode;
     SKSpriteNode                                        *_overlayContentNode;
     
@@ -117,7 +120,7 @@ static const uint32_t SIGameSceneCategoryMoveScore     = 0x1 << 3; // 0000000000
     /**Preform all your alloc/init's here*/
     
     /*Create Background Node*/
-    _backgroundNode                                         = [SKSpriteNode spriteNodeWithColor:[SKColor simplstMainColor] size:_sceneSize];
+    _backgroundNode                                         = [[SIGameNode alloc] initWithSize:_sceneSize gameMode:SIGameModeTwoHand];
 
     _edge                                                   = [SKNode node];
     
@@ -127,10 +130,16 @@ static const uint32_t SIGameSceneCategoryMoveScore     = 0x1 << 3; // 0000000000
     
     _swypeItCoinsLabelNode                                  = [SIGameController SILabelParagraph_x2:[NSString stringWithFormat:@"%d",0]];
 
+    _highScoreLabelNode                                     = [SIGameController SILabelParagraph_x2:@"HIGH SCORE!"];
 }
 - (void)setupControlsWithSize:(CGSize)size {
     /**Configrue the labels, nodes and what ever else you can*/
     _backgroundNode.anchorPoint                             = CGPointMake(0.0f, 0.0f);
+//    _backgroundNode.physicsBody.categoryBitMask                 = SIFallingMonkeySceneCategoryUIControl;
+    _backgroundNode.zPosition                               = [SIGameController floatZPositionGameForContent:SIZPositionGameBackground];
+    _backgroundNode.backgroundColor                         = [SKColor backgroundColorForLevelOneA];
+    _backgroundNode.delegate                                = self;
+    [_backgroundNode hlSetGestureTarget:_backgroundNode];
     
     _edge.physicsBody.categoryBitMask                       = SIGameSceneCategoryEdge;
     _edge.physicsBody.collisionBitMask                      = SIGameSceneCategoryZero;
@@ -144,11 +153,16 @@ static const uint32_t SIGameSceneCategoryMoveScore     = 0x1 << 3; // 0000000000
     _pauseButtonNode.userInteractionEnabled                 = YES;
     _pauseButtonNode.zPosition                              = [SIGameController floatZPositionGameForContent:SIZPositionGameContent];
     
-    _swypeItCoinsLabelNode.fontColor                        = [SKColor whiteColor];
     _swypeItCoinsLabelNode.zPosition                        = [SIGameController floatZPositionGameForContent:SIZPositionGameContent];
     _swypeItCoinsLabelNode.physicsBody.categoryBitMask      = SIGameSceneCategoryUIControl;
-    [_swypeItCoinsLabelNode setHorizontalAlignmentMode:SKLabelHorizontalAlignmentModeLeft];
-    [_swypeItCoinsLabelNode setVerticalAlignmentMode:SKLabelVerticalAlignmentModeTop];
+    _swypeItCoinsLabelNode.horizontalAlignmentMode          = SKLabelHorizontalAlignmentModeCenter;
+    _swypeItCoinsLabelNode.verticalAlignmentMode            = SKLabelVerticalAlignmentModeCenter;
+    
+    _highScoreLabelNode.zPosition                           = [SIGameController floatZPositionGameForContent:SIZPositionGameContent];
+    _highScoreLabelNode.physicsBody.categoryBitMask         = SIGameSceneCategoryUIControl;
+    _highScoreLabelNode.horizontalAlignmentMode             = SKLabelHorizontalAlignmentModeCenter;
+    _highScoreLabelNode.verticalAlignmentMode               = SKLabelVerticalAlignmentModeCenter;
+    _highScoreLabelNode.hidden                              = YES;
 
 }
 
@@ -161,7 +175,7 @@ static const uint32_t SIGameSceneCategoryMoveScore     = 0x1 << 3; // 0000000000
     
     [self addChild:_pauseButtonNode];
     
-    [self addChild:_swypeItCoinsLabelNode];
+    [self addChild:_highScoreLabelNode];
 }
 
 #pragma mark -
@@ -209,11 +223,7 @@ static const uint32_t SIGameSceneCategoryMoveScore     = 0x1 << 3; // 0000000000
  This will intercept the and override the command going to self
  and will allow us to actually change the color of the background node
  */
-- (void)setBackgroundColor:(UIColor * __nonnull)backgroundColor {
-    if (_backgroundNode) {
-        _backgroundNode.color                               = backgroundColor;
-    }
-}
+
 
 - (void)setMoveCommandLabel:(BMGlyphLabel *)moveCommandLabel {
     if (_moveCommandContentLabel) {
@@ -365,9 +375,26 @@ static const uint32_t SIGameSceneCategoryMoveScore     = 0x1 << 3; // 0000000000
     [self layoutXYAnimation:SIGameSceneContentAnimationNone];
 }
 
--(void)setMoveCommandText:(NSString *)moveCommandText {
+- (void)setMoveCommandText:(NSString *)moveCommandText {
     if (_moveCommandLabel) {
         
+    }
+}
+
+- (BOOL)highScore {
+    return !_highScoreLabelNode.hidden;
+}
+
+- (void)setHighScore:(BOOL)highScore {
+    _highScoreLabelNode.hidden = !highScore;
+    if (highScore) {
+        if (_highScoreLabelNode.hidden == YES) {
+            _highScoreLabelNode.hidden = NO;
+            [_highScoreLabelNode runAction:[SKAction repeatActionForever:[SKAction sequence:@[[SKAction scaleTo:1.1 duration:0.5f],
+                                                                                              [SKAction scaleTo:0.9 duration:0.5f]]]]];
+        }
+    } else {
+        _highScoreLabelNode.hidden = YES;
     }
 }
 
@@ -441,6 +468,15 @@ static const uint32_t SIGameSceneCategoryMoveScore     = 0x1 << 3; // 0000000000
     }
     
     if (_pauseButtonNode) {
+        [_pauseButtonNode removeFromParent];
+        [self addChild:_pauseButtonNode];
+        [_pauseButtonNode hlSetGestureTarget:[HLTapGestureTarget tapGestureTargetWithHandleGestureBlock:^(UIGestureRecognizer *gr) {
+            if ([_sceneDelegate respondsToSelector:@selector(controllerSceneGamePauseButtonTapped)]) {
+                [_sceneDelegate controllerSceneGamePauseButtonTapped];
+            }
+        }]];
+        [self registerDescendant:_pauseButtonNode withOptions:[NSSet setWithObject:HLSceneChildGestureTarget]];
+
         positionVisible = CGPointMake(_sceneSize.width - VERTICAL_SPACING_4 - (_pauseButtonSize.width / 2.0f), _sceneSize.height - VERTICAL_SPACING_4 - (_pauseButtonSize.width / 2.0f));
         positionHidden = CGPointMake(_sceneSize.width + positionVisible.x, positionVisible.y);
         [SIGameController SIControllerNode:_pauseButtonNode
@@ -451,8 +487,18 @@ static const uint32_t SIGameSceneCategoryMoveScore     = 0x1 << 3; // 0000000000
                             positionHidden:positionHidden];
     }
     
+    if (_highScoreLabelNode) {
+        positionVisible     = CGPointMake(_sceneSize.width / 2.0f, _sceneSize.height - _scoreTotalLabelTopPadding - _moveCommandContentLabel.frame.size.height);
+        [SIGameController SIControllerNode:_highScoreLabelNode
+                                 animation:SISceneContentAnimationIn
+                            animationStyle:SISceneContentAnimationStyleGrow
+                         animationDuration:_animationDuration
+                           positionVisible:positionVisible
+                            positionHidden:positionHidden];
+    }
+    
     if (_swypeItCoinsLabelNode) {
-        _swypeItCoinsLabelNode.text = [NSString stringWithFormat:@"%d",[SIGameController numberOfCoinsForUser]];
+        _swypeItCoinsLabelNode.text = [NSString stringWithFormat:@"%d",[SIIAPUtility numberOfCoinsForUser]];
     }
 
     _backgroundNode.size                            = CGSizeMake(_sceneSize.width, _sceneSize.height - _adContentNode.size.height);
@@ -554,6 +600,11 @@ static const uint32_t SIGameSceneCategoryMoveScore     = 0x1 << 3; // 0000000000
  Called when the scene shall show a new high score
  */
 - (void)sceneGameShowHighScore {
+    if (_highScoreLabelNode.hidden) {
+        _highScoreLabelNode.hidden  = NO;
+        [_highScoreLabelNode runAction:[SKAction repeatActionForever:[SKAction sequence:@[[SKAction scaleTo:1.1 duration:0.5f],
+                                                                                          [SKAction scaleTo:0.9 duration:0.5f]]]]];
+    }
     
 }
 
@@ -645,7 +696,13 @@ static const uint32_t SIGameSceneCategoryMoveScore     = 0x1 << 3; // 0000000000
 }
 
 #pragma mark -
-#pragma mark - Private Class Functions
+#pragma mark - Delegate Methods
+#pragma mark SIGameNode
+- (void)gestureEnded:(SIMove *)move {
+    if ([_sceneDelegate respondsToSelector:@selector(controllerSceneGameDidRecieveMove:)]) {
+        [_sceneDelegate controllerSceneGameDidRecieveMove:move];
+    }
+}
 
 
 @end

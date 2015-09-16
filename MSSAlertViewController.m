@@ -4,7 +4,7 @@
 //  Copyright (c) 2015 Mustard Seed Software LLC. All rights reserved.
 // Header import
 #import "MSSAlertViewController.h"
-#import "AppSingleton.h"
+#import "SIConstants.h"
 @interface MSSAlertViewController () <UITextFieldDelegate, UIViewControllerAnimatedTransitioning, UIViewControllerTransitioningDelegate> {
     
 }

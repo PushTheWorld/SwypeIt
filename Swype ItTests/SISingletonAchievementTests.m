@@ -7,7 +7,7 @@
 //
 
 #import <XCTest/XCTest.h>
-#import "SISingletonAchievement_Private.h"
+#import "SISingletonAchievement.h"
 
 @interface SISingletonAchievementTests : XCTestCase
 
@@ -123,7 +123,7 @@
             break;
     }
     _achievementLevelDictionary     = [SISingletonAchievementTests createLevelsDictionaryLevel1Amount:_achievementLevel1Amount
-                                                                                         level1Reward:_achievementLevel1Amount
+                                                                                         level1Reward:_achievementLevel1Reward
                                                                                          level2Amount:_achievementLevel2Amount
                                                                                          level2Reward:_achievementLevel2Reward
                                                                                          level3Amount:_achievementLevel3Amount
@@ -153,40 +153,40 @@
 }
 
 - (void)testPercentCompleteForAchievementLevel {
-    XCTAssertEqualWithAccuracy(0.0f, [SISingletonAchievement_Private percentCompleteForAchievement:SIAchievementLevelOne], 0.1);
+    XCTAssertEqualWithAccuracy(0.0f, [SISingletonAchievement percentCompleteForAchievement:SIAchievementLevelOne], 0.1);
 
-    XCTAssertEqualWithAccuracy(ACHIEVEMENT_PERCENT_PER_LEVEL, [SISingletonAchievement_Private percentCompleteForAchievement:SIAchievementLevelTwo], 0.1);
+    XCTAssertEqualWithAccuracy(ACHIEVEMENT_PERCENT_PER_LEVEL, [SISingletonAchievement percentCompleteForAchievement:SIAchievementLevelTwo], 0.1);
 
-    XCTAssertEqualWithAccuracy(ACHIEVEMENT_PERCENT_PER_LEVEL * 2, [SISingletonAchievement_Private percentCompleteForAchievement:SIAchievementLevelThree], 0.1);
+    XCTAssertEqualWithAccuracy(ACHIEVEMENT_PERCENT_PER_LEVEL * 2, [SISingletonAchievement percentCompleteForAchievement:SIAchievementLevelThree], 0.1);
     
-    XCTAssertEqualWithAccuracy(100.0f, [SISingletonAchievement_Private percentCompleteForAchievement:SIAchievementLevelDone], 0.1);
+    XCTAssertEqualWithAccuracy(100.0f, [SISingletonAchievement percentCompleteForAchievement:SIAchievementLevelDone], 0.1);
 
 }
 
 - (void)testAchievementLevelForPercentComplete {
-    XCTAssertEqual(SIAchievementLevelOne, [SISingletonAchievement_Private achievementLevelForPercentComplete:0.0f]);
+    XCTAssertEqual(SIAchievementLevelOne, [SISingletonAchievement achievementLevelForPercentComplete:0.0f]);
 
-    XCTAssertEqual(SIAchievementLevelOne, [SISingletonAchievement_Private achievementLevelForPercentComplete:15.0f]);
+    XCTAssertEqual(SIAchievementLevelOne, [SISingletonAchievement achievementLevelForPercentComplete:15.0f]);
 
-    XCTAssertEqual(SIAchievementLevelOne, [SISingletonAchievement_Private achievementLevelForPercentComplete:ACHIEVEMENT_PERCENT_PER_LEVEL - 1]);
+    XCTAssertEqual(SIAchievementLevelOne, [SISingletonAchievement achievementLevelForPercentComplete:ACHIEVEMENT_PERCENT_PER_LEVEL - 1]);
 
-    XCTAssertEqual(SIAchievementLevelTwo, [SISingletonAchievement_Private achievementLevelForPercentComplete:ACHIEVEMENT_PERCENT_PER_LEVEL]);
+    XCTAssertEqual(SIAchievementLevelTwo, [SISingletonAchievement achievementLevelForPercentComplete:ACHIEVEMENT_PERCENT_PER_LEVEL]);
 
-    XCTAssertEqual(SIAchievementLevelTwo, [SISingletonAchievement_Private achievementLevelForPercentComplete:45.0f]);
+    XCTAssertEqual(SIAchievementLevelTwo, [SISingletonAchievement achievementLevelForPercentComplete:45.0f]);
 
-    XCTAssertEqual(SIAchievementLevelTwo, [SISingletonAchievement_Private achievementLevelForPercentComplete:(ACHIEVEMENT_PERCENT_PER_LEVEL * 2) - 1]);
+    XCTAssertEqual(SIAchievementLevelTwo, [SISingletonAchievement achievementLevelForPercentComplete:(ACHIEVEMENT_PERCENT_PER_LEVEL * 2) - 1]);
     
-    XCTAssertEqual(SIAchievementLevelThree, [SISingletonAchievement_Private achievementLevelForPercentComplete:ACHIEVEMENT_PERCENT_PER_LEVEL * 2]);
+    XCTAssertEqual(SIAchievementLevelThree, [SISingletonAchievement achievementLevelForPercentComplete:ACHIEVEMENT_PERCENT_PER_LEVEL * 2]);
 
-    XCTAssertEqual(SIAchievementLevelThree, [SISingletonAchievement_Private achievementLevelForPercentComplete:(ACHIEVEMENT_PERCENT_PER_LEVEL * 2) - 15]);
+    XCTAssertEqual(SIAchievementLevelThree, [SISingletonAchievement achievementLevelForPercentComplete:(ACHIEVEMENT_PERCENT_PER_LEVEL * 3) - 15]);
     
-    XCTAssertEqual(SIAchievementLevelThree, [SISingletonAchievement_Private achievementLevelForPercentComplete:(ACHIEVEMENT_PERCENT_PER_LEVEL * 3) - 1]);
+    XCTAssertEqual(SIAchievementLevelThree, [SISingletonAchievement achievementLevelForPercentComplete:(ACHIEVEMENT_PERCENT_PER_LEVEL * 3) - 1]);
     
-    XCTAssertEqual(SIAchievementLevelDone, [SISingletonAchievement_Private achievementLevelForPercentComplete:ACHIEVEMENT_PERCENT_PER_LEVEL * 3]);
+    XCTAssertEqual(SIAchievementLevelDone, [SISingletonAchievement achievementLevelForPercentComplete:ACHIEVEMENT_PERCENT_PER_LEVEL * 3]);
 
-    XCTAssertEqual(SIAchievementLevelDone, [SISingletonAchievement_Private achievementLevelForPercentComplete:100.0f]);
+    XCTAssertEqual(SIAchievementLevelDone, [SISingletonAchievement achievementLevelForPercentComplete:100.0f]);
     
-    XCTAssertEqual(SIAchievementLevelDone, [SISingletonAchievement_Private achievementLevelForPercentComplete:ACHIEVEMENT_PERCENT_PER_LEVEL * 100]);
+    XCTAssertEqual(SIAchievementLevelDone, [SISingletonAchievement achievementLevelForPercentComplete:ACHIEVEMENT_PERCENT_PER_LEVEL * 100]);
 
 }
 
@@ -194,55 +194,55 @@
     float percentInput,percentOutput = 0.0f;
     
     /*LEVEL 1*/
-    SIAchievementLevel achievementLevel = [SISingletonAchievement_Private achievementLevelForPercentComplete:percentInput];
+    SIAchievementLevel achievementLevel = [SISingletonAchievement achievementLevelForPercentComplete:percentInput];
     
     XCTAssertEqual(achievementLevel, SIAchievementLevelOne);
     
-    percentOutput = [SISingletonAchievement_Private percentCompleteForAchievement:achievementLevel];
+    percentOutput = [SISingletonAchievement percentCompleteForAchievement:achievementLevel];
     
     XCTAssertEqual(percentOutput, percentInput);
     
     /*LEVEL 2*/
     percentInput = ACHIEVEMENT_PERCENT_PER_LEVEL; //33
     
-    achievementLevel = [SISingletonAchievement_Private achievementLevelForPercentComplete:percentInput];
+    achievementLevel = [SISingletonAchievement achievementLevelForPercentComplete:percentInput];
     
     XCTAssertEqual(achievementLevel, SIAchievementLevelTwo);
     
-    percentOutput = [SISingletonAchievement_Private percentCompleteForAchievement:achievementLevel];
+    percentOutput = [SISingletonAchievement percentCompleteForAchievement:achievementLevel];
     
     XCTAssertEqual(percentOutput, percentInput);
 
     /*LEVEL 3*/
     percentInput = ACHIEVEMENT_PERCENT_PER_LEVEL * 2; //66
     
-    achievementLevel = [SISingletonAchievement_Private achievementLevelForPercentComplete:percentInput];
+    achievementLevel = [SISingletonAchievement achievementLevelForPercentComplete:percentInput];
     
     XCTAssertEqual(achievementLevel, SIAchievementLevelThree);
     
-    percentOutput = [SISingletonAchievement_Private percentCompleteForAchievement:achievementLevel];
+    percentOutput = [SISingletonAchievement percentCompleteForAchievement:achievementLevel];
     
     XCTAssertEqual(percentOutput, percentInput);
     
     /*LEVEL DONE*/
     percentInput = ACHIEVEMENT_PERCENT_PER_LEVEL * 3; //99
     
-    achievementLevel = [SISingletonAchievement_Private achievementLevelForPercentComplete:percentInput];
+    achievementLevel = [SISingletonAchievement achievementLevelForPercentComplete:percentInput];
     
     XCTAssertEqual(achievementLevel, SIAchievementLevelDone);
     
-    percentOutput = [SISingletonAchievement_Private percentCompleteForAchievement:achievementLevel];
+    percentOutput = [SISingletonAchievement percentCompleteForAchievement:achievementLevel];
     
-    XCTAssertEqual(percentOutput, percentInput);
+    XCTAssertEqual(percentOutput, percentInput + 1);
     
     /*LEVEL Done*/
-    percentInput = ACHIEVEMENT_PERCENT_PER_LEVEL * 3; //100
+    percentInput = 100; //100
     
-    achievementLevel = [SISingletonAchievement_Private achievementLevelForPercentComplete:percentInput];
+    achievementLevel = [SISingletonAchievement achievementLevelForPercentComplete:percentInput];
     
     XCTAssertEqual(achievementLevel, SIAchievementLevelDone);
     
-    percentOutput = [SISingletonAchievement_Private percentCompleteForAchievement:achievementLevel];
+    percentOutput = [SISingletonAchievement percentCompleteForAchievement:achievementLevel];
     
     XCTAssertEqual(percentOutput, percentInput);
 
@@ -251,7 +251,7 @@
 - (void)testConfigureAchievementFromDictionary {
     [self setConstantsForAchievementType:SIAchievementTypeScore];
 
-    SIAchievement *newAchievement = [SISingletonAchievement_Private configureAchievementFromDictionary:_achievementDictionary withKeyName:_achievementDicKey];
+    SIAchievement *newAchievement = [SISingletonAchievement configureAchievementFromDictionary:_achievementDictionary withKeyName:_achievementDicKey];
     
     XCTAssertEqual(_achievement.currentAmount, newAchievement.currentAmount);
     
@@ -278,7 +278,7 @@
 }
 
 - (void)testConfigureAchievementFromNILDictionary {
-    SIAchievement *newAchievement = [SISingletonAchievement_Private configureAchievementFromDictionary:nil withKeyName:_achievementDicKey];
+    SIAchievement *newAchievement = [SISingletonAchievement configureAchievementFromDictionary:nil withKeyName:_achievementDicKey];
     
     XCTAssertNil(newAchievement); //better make sure that shit is nil! This is also a good way to make sure the
 
@@ -287,20 +287,20 @@
 - (void)testIsNewLevelAndUpdateCurrentLevelForAchievement {
     [self setConstantsForAchievementType:SIAchievementTypeScore];
     
-    XCTAssertEqual([SISingletonAchievement_Private isNewLevelAndUpdateCurrentLevelForAchievement:_achievement], NO);
+    XCTAssertEqual([SISingletonAchievement isNewLevelAndUpdateCurrentLevelForAchievement:_achievement], NO);
     
-    int amount = [SISingletonAchievement_Private amountForAchievementLevel:SIAchievementLevelOne forAchievement:_achievement];
+    int amount = [SISingletonAchievement amountForAchievementLevel:SIAchievementLevelOne forAchievement:_achievement];
 
     _achievement.currentAmount = amount + 1;
 
-    XCTAssertEqual([SISingletonAchievement_Private isNewLevelAndUpdateCurrentLevelForAchievement:_achievement], NO);
+    XCTAssertEqual([SISingletonAchievement isNewLevelAndUpdateCurrentLevelForAchievement:_achievement], YES);
     XCTAssertEqual(_achievement.currentLevel, SIAchievementLevelTwo);
     
-    amount = [SISingletonAchievement_Private amountForAchievementLevel:SIAchievementLevelThree forAchievement:_achievement];
+    amount = [SISingletonAchievement amountForAchievementLevel:SIAchievementLevelThree forAchievement:_achievement];
     
     _achievement.currentAmount = amount + 1;
     
-    XCTAssertEqual([SISingletonAchievement_Private isNewLevelAndUpdateCurrentLevelForAchievement:_achievement], NO);
+    XCTAssertEqual([SISingletonAchievement isNewLevelAndUpdateCurrentLevelForAchievement:_achievement], YES);
     XCTAssertEqual(_achievement.currentLevel, SIAchievementLevelDone); //test to make sure the level got updated
 
 }
@@ -309,38 +309,38 @@
     /*Setup Constants for Score Type*/
     [self setConstantsForAchievementType:SIAchievementTypeScore];
     
-    XCTAssertEqual(SIAchievementLevelOne, [SISingletonAchievement_Private getAchievementLevelForAchievement:_achievement]);
+    XCTAssertEqual(SIAchievementLevelOne, [SISingletonAchievement getAchievementLevelForAchievement:_achievement]);
     
-    int amount = [SISingletonAchievement_Private amountForAchievementLevel:SIAchievementLevelOne forAchievement:_achievement];
-    
-    _achievement.currentAmount = amount + 1;
-    
-    XCTAssertEqual(SIAchievementLevelTwo, [SISingletonAchievement_Private getAchievementLevelForAchievement:_achievement]);
-    
-    amount = [SISingletonAchievement_Private amountForAchievementLevel:SIAchievementLevelTwo forAchievement:_achievement];
+    int amount = [SISingletonAchievement amountForAchievementLevel:SIAchievementLevelOne forAchievement:_achievement];
     
     _achievement.currentAmount = amount + 1;
     
-    XCTAssertEqual(SIAchievementLevelThree, [SISingletonAchievement_Private getAchievementLevelForAchievement:_achievement]);
+    XCTAssertEqual(SIAchievementLevelTwo, [SISingletonAchievement getAchievementLevelForAchievement:_achievement]);
     
-    amount = [SISingletonAchievement_Private amountForAchievementLevel:SIAchievementLevelThree forAchievement:_achievement];
+    amount = [SISingletonAchievement amountForAchievementLevel:SIAchievementLevelTwo forAchievement:_achievement];
     
     _achievement.currentAmount = amount + 1;
     
-    XCTAssertEqual(SIAchievementLevelDone, [SISingletonAchievement_Private getAchievementLevelForAchievement:_achievement]);
+    XCTAssertEqual(SIAchievementLevelThree, [SISingletonAchievement getAchievementLevelForAchievement:_achievement]);
+    
+    amount = [SISingletonAchievement amountForAchievementLevel:SIAchievementLevelThree forAchievement:_achievement];
+    
+    _achievement.currentAmount = amount + 1;
+    
+    XCTAssertEqual(SIAchievementLevelDone, [SISingletonAchievement getAchievementLevelForAchievement:_achievement]);
     
 }
 
 - (void)testRewardForAchievementLevelForAchievement {
     [self setConstantsForAchievementType:SIAchievementTypeScore];
 
-    XCTAssertEqual([SISingletonAchievement_Private rewardForAchievementLevel:SIAchievementLevelOne forAchievement:_achievement], _achievementLevel1Reward);
+    XCTAssertEqual([SISingletonAchievement rewardForAchievementLevel:SIAchievementLevelOne forAchievement:_achievement], _achievementLevel1Reward);
 
-    XCTAssertEqual([SISingletonAchievement_Private rewardForAchievementLevel:SIAchievementLevelTwo forAchievement:_achievement], _achievementLevel2Reward);
+    XCTAssertEqual([SISingletonAchievement rewardForAchievementLevel:SIAchievementLevelTwo forAchievement:_achievement], _achievementLevel2Reward);
 
-    XCTAssertEqual([SISingletonAchievement_Private rewardForAchievementLevel:SIAchievementLevelThree forAchievement:_achievement], _achievementLevel3Reward);
+    XCTAssertEqual([SISingletonAchievement rewardForAchievementLevel:SIAchievementLevelThree forAchievement:_achievement], _achievementLevel3Reward);
 
-    XCTAssertEqual([SISingletonAchievement_Private rewardForAchievementLevel:SIAchievementLevelDone forAchievement:_achievement], _achievementLevel3Reward);
+    XCTAssertEqual([SISingletonAchievement rewardForAchievementLevel:SIAchievementLevelDone forAchievement:_achievement], _achievementLevel3Reward);
 
 }
 
@@ -348,84 +348,90 @@
 - (void)testAmountForAchievementLevelForAchievement {
     [self setConstantsForAchievementType:SIAchievementTypeScore];
     
-    XCTAssertEqual([SISingletonAchievement_Private amountForAchievementLevel:SIAchievementLevelOne forAchievement:_achievement], _achievementLevel1Amount);
+    XCTAssertEqual([SISingletonAchievement amountForAchievementLevel:SIAchievementLevelOne forAchievement:_achievement], _achievementLevel1Amount);
     
-    XCTAssertEqual([SISingletonAchievement_Private amountForAchievementLevel:SIAchievementLevelTwo forAchievement:_achievement], _achievementLevel2Amount);
+    XCTAssertEqual([SISingletonAchievement amountForAchievementLevel:SIAchievementLevelTwo forAchievement:_achievement], _achievementLevel2Amount);
     
-    XCTAssertEqual([SISingletonAchievement_Private amountForAchievementLevel:SIAchievementLevelThree forAchievement:_achievement], _achievementLevel3Amount);
+    XCTAssertEqual([SISingletonAchievement amountForAchievementLevel:SIAchievementLevelThree forAchievement:_achievement], _achievementLevel3Amount);
     
-    XCTAssertEqual([SISingletonAchievement_Private amountForAchievementLevel:SIAchievementLevelDone forAchievement:_achievement], _achievementLevel3Amount);
+    XCTAssertEqual([SISingletonAchievement amountForAchievementLevel:SIAchievementLevelDone forAchievement:_achievement], _achievementLevel3Amount);
     
 }
 
 - (void)testIsAchievementKeyAll {
-    XCTAssertEqual(YES, [SISingletonAchievement_Private isAchievementKeyAll:@"all"]);
+    XCTAssertEqual(YES, [SISingletonAchievement isAchievementKeyAll:kSIAchievementIDChallengeBeginnerAll]);
 
-    XCTAssertEqual(YES, [SISingletonAchievement_Private isAchievementKeyAll:kSIPlistTypeAll]);
+    XCTAssertEqual(YES, [SISingletonAchievement isAchievementKeyAll:kSIAchievementIDChallengeIntermediateAll]);
 
-    XCTAssertEqual(NO, [SISingletonAchievement_Private isAchievementKeyAll:@"taco"]);
-
-    XCTAssertEqual(NO, [SISingletonAchievement_Private isAchievementKeyAll:kSIPlistTypeMove]);
-
-    XCTAssertEqual(NO, [SISingletonAchievement_Private isAchievementKeyAll:kSIPlistTypeMoveSequence]);
+    XCTAssertEqual(YES, [SISingletonAchievement isAchievementKeyAll:kSIAchievementIDChallengeProAll]);
     
-    XCTAssertEqual(NO, [SISingletonAchievement_Private isAchievementKeyAll:kSIPlistTypeScore]);
+    XCTAssertEqual(YES, [SISingletonAchievement isAchievementKeyAll:kSIAchievementIDChallengeMasterAll]);
+
+    XCTAssertEqual(NO, [SISingletonAchievement isAchievementKeyAll:@"taco"]);
+
+    XCTAssertEqual(NO, [SISingletonAchievement isAchievementKeyAll:kSIAchievementIDChallengeMaster1]);
+
+    XCTAssertEqual(NO, [SISingletonAchievement isAchievementKeyAll:kSIPlistTypeMoveSequence]);
+    
+    XCTAssertEqual(NO, [SISingletonAchievement isAchievementKeyAll:kSIPlistTypeScore]);
 }
 
 - (void)testDictionaryKeyForSIAchievementLevel {
     XCTAssertEqualObjects(kSINSDictionaryKeySIAchievementPlistLevel1, @"level1");
-    XCTAssertEqualObjects(kSINSDictionaryKeySIAchievementPlistLevel1, [SISingletonAchievement_Private dictionaryKeyForSIAchievementLevel:SIAchievementLevelOne]);
+    XCTAssertEqualObjects(kSINSDictionaryKeySIAchievementPlistLevel1, [SISingletonAchievement dictionaryKeyForSIAchievementLevel:SIAchievementLevelOne]);
 
     XCTAssertEqualObjects(kSINSDictionaryKeySIAchievementPlistLevel2, @"level2");
-    XCTAssertEqualObjects(kSINSDictionaryKeySIAchievementPlistLevel2, [SISingletonAchievement_Private dictionaryKeyForSIAchievementLevel:SIAchievementLevelTwo]);
+    XCTAssertEqualObjects(kSINSDictionaryKeySIAchievementPlistLevel2, [SISingletonAchievement dictionaryKeyForSIAchievementLevel:SIAchievementLevelTwo]);
     
     XCTAssertEqualObjects(kSINSDictionaryKeySIAchievementPlistLevel3, @"level3");
-    XCTAssertEqualObjects(kSINSDictionaryKeySIAchievementPlistLevel3, [SISingletonAchievement_Private dictionaryKeyForSIAchievementLevel:SIAchievementLevelThree]);
+    XCTAssertEqualObjects(kSINSDictionaryKeySIAchievementPlistLevel3, [SISingletonAchievement dictionaryKeyForSIAchievementLevel:SIAchievementLevelThree]);
     
     //throw some shit at it... see what happens
-    XCTAssertEqualObjects(kSINSDictionaryKeySIAchievementPlistLevel3, [SISingletonAchievement_Private dictionaryKeyForSIAchievementLevel:SIAchievementLevelDone]);
-    XCTAssertEqualObjects(kSINSDictionaryKeySIAchievementPlistLevel3, [SISingletonAchievement_Private dictionaryKeyForSIAchievementLevel:123]);
+    XCTAssertEqualObjects(kSINSDictionaryKeySIAchievementPlistLevel3, [SISingletonAchievement dictionaryKeyForSIAchievementLevel:SIAchievementLevelDone]);
+    XCTAssertEqualObjects(kSINSDictionaryKeySIAchievementPlistLevel3, [SISingletonAchievement dictionaryKeyForSIAchievementLevel:123]);
 
 }
 
 - (void)testLevelDictionaryForAchievement {
     [self setConstantsForAchievementType:SIAchievementTypeScore];
 
-    XCTAssertEqualObjects([_achievementLevelDictionary objectForKey:@"level1"], [SISingletonAchievement_Private levelDictionaryForAchievement:_achievement atLevel:SIAchievementLevelOne]);
-    XCTAssertEqualObjects([[_achievementLevelDictionary objectForKey:@"level1"] objectForKey:kSINSDictionaryKeySIAchievementPlistAmount], [[SISingletonAchievement_Private levelDictionaryForAchievement:_achievement atLevel:SIAchievementLevelOne] objectForKey:kSINSDictionaryKeySIAchievementPlistAmount]);
+    XCTAssertEqualObjects([_achievementLevelDictionary objectForKey:@"level1"], [SISingletonAchievement levelDictionaryForAchievement:_achievement atLevel:SIAchievementLevelOne]);
+    XCTAssertEqualObjects([[_achievementLevelDictionary objectForKey:@"level1"] objectForKey:kSINSDictionaryKeySIAchievementPlistAmount], [[SISingletonAchievement levelDictionaryForAchievement:_achievement atLevel:SIAchievementLevelOne] objectForKey:kSINSDictionaryKeySIAchievementPlistAmount]);
 
-    XCTAssertEqualObjects([_achievementLevelDictionary objectForKey:@"level2"], [SISingletonAchievement_Private levelDictionaryForAchievement:_achievement atLevel:SIAchievementLevelTwo]);
-    XCTAssertEqualObjects([[_achievementLevelDictionary objectForKey:@"level2"] objectForKey:kSINSDictionaryKeySIAchievementPlistAmount], [[SISingletonAchievement_Private levelDictionaryForAchievement:_achievement atLevel:SIAchievementLevelOne] objectForKey:kSINSDictionaryKeySIAchievementPlistAmount]);
+    XCTAssertEqualObjects([_achievementLevelDictionary objectForKey:@"level2"], [SISingletonAchievement levelDictionaryForAchievement:_achievement atLevel:SIAchievementLevelTwo]);
+    XCTAssertEqualObjects([[_achievementLevelDictionary objectForKey:@"level2"] objectForKey:kSINSDictionaryKeySIAchievementPlistAmount], [[SISingletonAchievement levelDictionaryForAchievement:_achievement atLevel:SIAchievementLevelTwo] objectForKey:kSINSDictionaryKeySIAchievementPlistAmount]);
 
-    XCTAssertEqualObjects([_achievementLevelDictionary objectForKey:@"level3"], [SISingletonAchievement_Private levelDictionaryForAchievement:_achievement atLevel:SIAchievementLevelThree]);
-    XCTAssertEqualObjects([[_achievementLevelDictionary objectForKey:@"level3"] objectForKey:kSINSDictionaryKeySIAchievementPlistAmount], [[SISingletonAchievement_Private levelDictionaryForAchievement:_achievement atLevel:SIAchievementLevelOne] objectForKey:kSINSDictionaryKeySIAchievementPlistAmount]);
+    XCTAssertEqualObjects([_achievementLevelDictionary objectForKey:@"level3"], [SISingletonAchievement levelDictionaryForAchievement:_achievement atLevel:SIAchievementLevelThree]);
+    XCTAssertEqualObjects([[_achievementLevelDictionary objectForKey:@"level3"] objectForKey:kSINSDictionaryKeySIAchievementPlistAmount], [[SISingletonAchievement levelDictionaryForAchievement:_achievement atLevel:SIAchievementLevelThree] objectForKey:kSINSDictionaryKeySIAchievementPlistAmount]);
 
 }
 
 - (void)testMoveCommandForString {
-    XCTAssertEqual(SIMoveCommandTap, [SISingletonAchievement_Private moveCommandForString:@"tap"]);
+    XCTAssertEqual(SIMoveCommandTap, [SISingletonAchievement moveCommandForString:@"tap"]);
 
-    XCTAssertEqual(SIMoveCommandSwype, [SISingletonAchievement_Private moveCommandForString:@"swype"]);
+    XCTAssertEqual(SIMoveCommandSwype, [SISingletonAchievement moveCommandForString:@"swype"]);
     
-    XCTAssertEqual(SIMoveCommandPinch, [SISingletonAchievement_Private moveCommandForString:@"pinch"]);
+    XCTAssertEqual(SIMoveCommandPinch, [SISingletonAchievement moveCommandForString:@"pinch"]);
     
-    XCTAssertEqual(SIMoveCommandShake, [SISingletonAchievement_Private moveCommandForString:@"shake"]);
+    XCTAssertEqual(SIMoveCommandShake, [SISingletonAchievement moveCommandForString:@"shake"]);
 
-    XCTAssertEqual(SIMoveCommandFallingMonkey, [SISingletonAchievement_Private moveCommandForString:@"sksj;adf;n"]);
+    XCTAssertEqual(SIMoveCommandFallingMonkey, [SISingletonAchievement moveCommandForString:@"sksj;adf;n"]);
 
 }
 
 - (void)testAchievementTypeForTypeString {
-    XCTAssertEqual(SIAchievementTypeAll, [SISingletonAchievement_Private achievementTypeForTypeString:@"all"]);
+    XCTAssertEqual(SIAchievementTypeAll, [SISingletonAchievement achievementTypeForTypeString:@"all"]);
 
-    XCTAssertEqual(SIAchievementTypeScore, [SISingletonAchievement_Private achievementTypeForTypeString:@"score"]);
+    XCTAssertEqual(SIAchievementTypeScore, [SISingletonAchievement achievementTypeForTypeString:@"score"]);
 
-    XCTAssertEqual(SIAchievementTypeMove, [SISingletonAchievement_Private achievementTypeForTypeString:@"move"]);
+    XCTAssertEqual(SIAchievementTypeMove, [SISingletonAchievement achievementTypeForTypeString:@"move"]);
 
-    XCTAssertEqual(SIAchievementTypeMoveSequence, [SISingletonAchievement_Private achievementTypeForTypeString:@"moveSequence"]);
+    XCTAssertEqual(SIAchievementTypeMoveSequence, [SISingletonAchievement achievementTypeForTypeString:@"moveSequence"]);
     
-    XCTAssertEqual(SIAchievementTypeScore, [SISingletonAchievement_Private achievementTypeForTypeString:@"kdkfkfkdked"]);
+    XCTAssertEqual(SIAchievementTypeScore, [SISingletonAchievement achievementTypeForTypeString:@"kdkfkfkdked"]);
 }
+
+
 
 #pragma mark - Private Class Functions for Testing
 + (SIAchievement *)createAchievementType:(SIAchievementType)type dicKey:(NSString *)dicKey postfix:(NSString *)postfixString prefix:(NSString *)prefixString helpString:(NSString *)helpString levelDictionary:(NSDictionary *)levelDictionary moveSequenceArray:(NSArray *)moveSequenceArray {

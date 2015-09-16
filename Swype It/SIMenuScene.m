@@ -11,6 +11,7 @@
 #import "SIMenuScene.h"
 // Framework Import
 // Drop-In Class Imports (CocoaPods/GitHub/Guru)
+#import "SoundManager.h"
 // Category Import
 #import "UIColor+Additions.h"
 // Support/Data Class Imports
@@ -47,6 +48,8 @@
         /**Do any setup before self.view is loaded*/
         [self initSetup:size];
         _sceneSize                                  = size;
+        self.gestureTargetHitTestMode = HLSceneGestureTargetHitTestModeDeepestThenParent;
+//        self.backgroundColor = [SKColor colorWithRed:0.22f green:0.22f blue:0.22f alpha:0.5f];
         
 
     }
@@ -79,13 +82,15 @@
 }
 - (void)createControlsWithSize:(CGSize)size {
     /**Preform all your alloc/init's here*/
-    _backgroundNode                                 = [SKSpriteNode spriteNodeWithColor:[SKColor simplstMainColor] size:_sceneSize];
+    _backgroundNode                                 = [SKSpriteNode spriteNodeWithColor:[SKColor mainColor] size:_sceneSize];
      
 }
 - (void)setupControlsWithSize:(CGSize)size {
     /**Configrue the labels, nodes and what ever else you can*/
     /*Create Background Node*/
     _backgroundNode.anchorPoint                     = CGPointMake(0.0f, 0.0f);
+    self.backgroundColor                           = [SKColor mainColor]; //this sets color for everything muwahah
+
 }
 
 #pragma mark -
@@ -134,6 +139,9 @@
     if (popupNode) {
         _popupContentNode                           = popupNode;
         [self addChild:_popupContentNode];
+        [_popupContentNode hlSetGestureTarget:_popupContentNode];
+        [self registerDescendant:_popupContentNode withOptions:[NSSet setWithObject:HLSceneChildGestureTarget]];
+
     }
     [self layoutZ];
 }
@@ -151,13 +159,12 @@
     if (!_backgroundNode) {
         return;
     }
-    CGFloat sceneMidX                               = _sceneSize.width /2.0f;
-    CGFloat sceneMidY                               = _sceneSize.height /2.0f;
+    CGFloat sceneMidX                                   = _sceneSize.width /2.0f;
+    CGFloat sceneMidY                                   = _sceneSize.height /2.0f;
     
-    _backgroundNode.size                            = CGSizeMake(sceneMidX, sceneMidY - _adContentNode.size.height);
+    _backgroundNode.size                                = CGSizeMake(sceneMidX, sceneMidY - _adContentNode.size.height);
     
-    _backgroundNode.position                        = CGPointMake(0.0f, _adContentNode.size.height);
-    
+    _backgroundNode.position                            = CGPointMake(0.0f, _adContentNode.size.height);
     if (_currentMenuNode) {
         _currentMenuNode.size                           = _backgroundNode.size;
         _currentMenuNode.position                       = CGPointMake(sceneMidX, _adContentNode.size.height + (_backgroundNode.size.height / 2.0f));
@@ -177,45 +184,76 @@
 #pragma mark - Delegate
 #pragma mark SIMenuNode
 - (void)menuNodeDidTapBackButton:(SIMenuNode *)menuNode {
-    [self menuScenePushRootScene];
+    [self menuScenePopMenuNode];
 }
 
 #pragma mark -
 #pragma mark - Public Functions
+- (void)pushMenuNode:(SIMenuNode *)menuNode {
+    [self showMenuNode:menuNode menuNodeAnimation:SIMenuNodeAnimationPush];
+}
+- (void)menuScenePopMenuNode {
+    [self showMenuNode:_rootSceneMenuNode menuNodeAnimation:SIMenuNodeAnimationPop];
+}
+
 - (void)showMenuNode:(SIMenuNode *)menuNode menuNodeAnimation:(SIMenuNodeAnimation)menuNodeAnimation {
     [self addChild:menuNode];
-    menuNode.animationDuration                      = _animationDuration;
+    menuNode.animationDuration                      = SCENE_TRANSISTION_DURATION_FAST;
+    
     
     SKAction *blockAction = [SKAction runBlock:^{
-        //        [_currentMenuNode removeFromParent];
+        if (_currentMenuNode) {
+            [_currentMenuNode removeFromParent];
+        }
         _currentMenuNode                            = menuNode;
     }];
     
     SKAction *moveAction;
     if (menuNodeAnimation == SIMenuNodeAnimationPush) {
-        menuNode.position                           = CGPointMake(menuNode.size.width, 0.0f);
-        moveAction                                  = [SKAction moveByX:-1.0f * menuNode.size.width y:0.0f duration:SCENE_TRANSISTION_DURATION_FAST];
+        if ([SIConstants isFXAllowed]) {
+            [[SoundManager sharedManager] playSound:kSISoundFXSceneWoosh];
+        }
+        menuNode.position                           = CGPointMake(_currentMenuNode.position.x + menuNode.size.width, _currentMenuNode.position.y);
+        [menuNode layoutXYZAnimation:SIMenuNodeAnimationStaticVisible];
+        moveAction                                  = [SKAction moveByX:-1.0f * menuNode.size.width y:0.0f duration:menuNode.animationDuration]; //SCENE_TRANSISTION_DURATION_FAST];
         [menuNode runAction:moveAction];
         _rootSceneMenuNode = _currentMenuNode;
         [_currentMenuNode runAction:[SKAction sequence:@[moveAction,blockAction]]];
-        
+//        [menuNode hlSetGestureTarget:menuNode];
+
+
+
         
     } else if (menuNodeAnimation == SIMenuNodeAnimationPop) {
+        if ([SIConstants isFXAllowed]) {
+            [[SoundManager sharedManager] playSound:kSISoundFXSceneWoosh];
+        }
         menuNode.position                           = CGPointMake(-1.0f * menuNode.size.width, 0.0f);
-        moveAction                                  = [SKAction moveByX:menuNode.size.width y:0.0f duration:SCENE_TRANSISTION_DURATION_FAST];
+        [menuNode layoutXYZAnimation:SIMenuNodeAnimationStaticVisible];
+        moveAction                                  = [SKAction moveByX:menuNode.size.width y:0.0f duration:menuNode.animationDuration]; //SCENE_TRANSISTION_DURATION_FAST];
         [menuNode runAction:moveAction];
         [_currentMenuNode runAction:[SKAction sequence:@[moveAction,blockAction]]];
+
         
     } else {
         menuNode.position = CGPointZero;
         if (_currentMenuNode) {
-            //            [_currentMenuNode removeFromParent];
+            [_currentMenuNode removeFromParent];
         }
         _currentMenuNode                            = menuNode;
+//        _currentMenuNode.animationDuration          = 5;
+        [_currentMenuNode layoutXYZAnimation:menuNodeAnimation];
     }
+
+    _currentMenuNode.delegate                       = self;
+    [menuNode.backButtonNode hlSetGestureTarget:[HLTapGestureTarget tapGestureTargetWithHandleGestureBlock:^(UIGestureRecognizer *gr) {
+        [self menuScenePopMenuNode];
+    }]];
+    [self registerDescendant:menuNode.backButtonNode withOptions:[NSSet setWithObject:HLSceneChildGestureTarget]];
 }
 
-- (void)menuScenePushRootScene {
-    [self showMenuNode:_rootSceneMenuNode menuNodeAnimation:SIMenuNodeAnimationPush];
+- (void)showMenuNode:(SIMenuNode *)menuNode menuNodeAnimation:(SIMenuNodeAnimation)menuNodeAnimation animationDuration:(float)animationDuration {
+    _animationDuration = animationDuration;
+    [self showMenuNode:menuNode menuNodeAnimation:menuNodeAnimation];
 }
 @end

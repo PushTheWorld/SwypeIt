@@ -62,8 +62,7 @@
     [self addChild:_progressBarLoading];
     
 }
-
-- (void)sceneLoadingWillLoadProgressPercent:(float)percent {
+- (void)sceneLoadingSetProgressPercent:(float)percent {
     if (percent > 1.0) {
         _progressBarLoading.progress = 1.0f;
         
@@ -73,5 +72,6 @@
         _progressBarLoading.progress = percent;
     }
 }
+
 
 @end

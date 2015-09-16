@@ -15,3 +15,5 @@ pod 'iVersion'
 pod 'FXBlurView'
 
 pod 'JCNotificationBannerPresenter'
+
+pod 'UIImage+BlurredFrame'

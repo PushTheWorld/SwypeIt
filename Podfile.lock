@@ -9,6 +9,7 @@ PODS:
   - iVersion (1.11.4)
   - JCNotificationBannerPresenter (1.1.2)
   - SoundManager (1.4.2)
+  - UIImage+BlurredFrame (0.0.4)
 
 DEPENDENCIES:
   - Crashlytics
@@ -19,6 +20,7 @@ DEPENDENCIES:
   - iVersion
   - JCNotificationBannerPresenter
   - SoundManager
+  - UIImage+BlurredFrame
 
 SPEC CHECKSUMS:
   Crashlytics: 93e2f86363d53c002c6366a9d87e41f2eaee87c3
@@ -29,5 +31,6 @@ SPEC CHECKSUMS:
   iVersion: 2b6ffe708672cb494ba3cab150a94800c2892e81
   JCNotificationBannerPresenter: f40150961943048ed3b1d2628d29dbf66a959e21
   SoundManager: 99ae328a3ec9b259db774c9851a65feeceba8183
+  UIImage+BlurredFrame: ad2f7195c6947ea3117c7d202f75a51958d5061a
 
 COCOAPODS: 0.38.2

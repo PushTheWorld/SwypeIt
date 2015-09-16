@@ -58,8 +58,17 @@
 		092B470E1B521B7900AFE43C /* GameTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 092B470D1B521B7900AFE43C /* GameTests.m */; };
 		092B47101B52273A00AFE43C /* libOCMock.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 092B470F1B52273A00AFE43C /* libOCMock.a */; };
 		092DBE6D1B6F022E00328A6B /* shapes.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 092DBE6C1B6F022E00328A6B /* shapes.atlas */; };
+		092E9CCE1BA9DD3D0022E644 /* hiraginoKakuGothic.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 092E9CCA1BA9DD3D0022E644 /* hiraginoKakuGothic.atlas */; };
+		092E9CCF1BA9DD3D0022E644 /* hiraginoKakuGothic.xml in Resources */ = {isa = PBXBuildFile; fileRef = 092E9CCB1BA9DD3D0022E644 /* hiraginoKakuGothic.xml */; };
+		092E9CD01BA9DD3D0022E644 /* hiraginoKakuGothic@2x.xml in Resources */ = {isa = PBXBuildFile; fileRef = 092E9CCC1BA9DD3D0022E644 /* hiraginoKakuGothic@2x.xml */; };
+		092E9CD11BA9DD3D0022E644 /* hiraginoKakuGothic@3x.xml in Resources */ = {isa = PBXBuildFile; fileRef = 092E9CCD1BA9DD3D0022E644 /* hiraginoKakuGothic@3x.xml */; };
 		09343DAA1B44BB1C00D1C707 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 09343DA91B44BB1C00D1C707 /* QuartzCore.framework */; };
 		0938C2BB1BA7AACF00B69FC2 /* SIAchievementNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 0938C2BA1BA7AACF00B69FC2 /* SIAchievementNode.m */; };
+		0938C2BE1BA835D900B69FC2 /* SIMenuNodeContent.m in Sources */ = {isa = PBXBuildFile; fileRef = 0938C2BD1BA835D900B69FC2 /* SIMenuNodeContent.m */; };
+		0938C2C11BA8483200B69FC2 /* tapNoise.caf in Resources */ = {isa = PBXBuildFile; fileRef = 0938C2BF1BA8483200B69FC2 /* tapNoise.caf */; };
+		0938C2C21BA8483200B69FC2 /* swypeNoise.caf in Resources */ = {isa = PBXBuildFile; fileRef = 0938C2C01BA8483200B69FC2 /* swypeNoise.caf */; };
+		0938C2C41BA84A1900B69FC2 /* wooshNoise.caf in Resources */ = {isa = PBXBuildFile; fileRef = 0938C2C31BA84A1900B69FC2 /* wooshNoise.caf */; };
+		0938C2C61BA8663900B69FC2 /* SISingletonGameTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 0938C2C51BA8663900B69FC2 /* SISingletonGameTests.m */; };
 		094D10A11BA0BCBC00392587 /* SIGameControllerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 094D10A01BA0BCBC00392587 /* SIGameControllerTests.m */; };
 		094D10A31BA18D5A00392587 /* SISingletonAchievementTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 094D10A21BA18D5A00392587 /* SISingletonAchievementTests.m */; };
 		094D10A41BA18DA200392587 /* SISingletonAchievement.m in Sources */ = {isa = PBXBuildFile; fileRef = 09A488BF1B9D8D770075F41C /* SISingletonAchievement.m */; };
@@ -258,9 +267,19 @@
 		092B470D1B521B7900AFE43C /* GameTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameTests.m; sourceTree = "<group>"; };
 		092B470F1B52273A00AFE43C /* libOCMock.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libOCMock.a; path = usr/lib/libOCMock.a; sourceTree = "<group>"; };
 		092DBE6C1B6F022E00328A6B /* shapes.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = shapes.atlas; sourceTree = "<group>"; };
+		092E9CCA1BA9DD3D0022E644 /* hiraginoKakuGothic.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = hiraginoKakuGothic.atlas; sourceTree = "<group>"; };
+		092E9CCB1BA9DD3D0022E644 /* hiraginoKakuGothic.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = hiraginoKakuGothic.xml; sourceTree = "<group>"; };
+		092E9CCC1BA9DD3D0022E644 /* hiraginoKakuGothic@2x.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "hiraginoKakuGothic@2x.xml"; sourceTree = "<group>"; };
+		092E9CCD1BA9DD3D0022E644 /* hiraginoKakuGothic@3x.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "hiraginoKakuGothic@3x.xml"; sourceTree = "<group>"; };
 		09343DA91B44BB1C00D1C707 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		0938C2B91BA7AACF00B69FC2 /* SIAchievementNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SIAchievementNode.h; sourceTree = "<group>"; };
 		0938C2BA1BA7AACF00B69FC2 /* SIAchievementNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SIAchievementNode.m; sourceTree = "<group>"; };
+		0938C2BC1BA835D900B69FC2 /* SIMenuNodeContent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SIMenuNodeContent.h; sourceTree = "<group>"; };
+		0938C2BD1BA835D900B69FC2 /* SIMenuNodeContent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SIMenuNodeContent.m; sourceTree = "<group>"; };
+		0938C2BF1BA8483200B69FC2 /* tapNoise.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = tapNoise.caf; sourceTree = "<group>"; };
+		0938C2C01BA8483200B69FC2 /* swypeNoise.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = swypeNoise.caf; sourceTree = "<group>"; };
+		0938C2C31BA84A1900B69FC2 /* wooshNoise.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = wooshNoise.caf; sourceTree = "<group>"; };
+		0938C2C51BA8663900B69FC2 /* SISingletonGameTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SISingletonGameTests.m; sourceTree = "<group>"; };
 		0938FD501B92124E00ACD99C /* libSSBitmapFont.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSSBitmapFont.a; path = ../Downloads/libSSBitmapFont/libSSBitmapFont.a; sourceTree = "<group>"; };
 		094D10A01BA0BCBC00392587 /* SIGameControllerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SIGameControllerTests.m; sourceTree = "<group>"; };
 		094D10A21BA18D5A00392587 /* SISingletonAchievementTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SISingletonAchievementTests.m; sourceTree = "<group>"; };
@@ -552,6 +571,7 @@
 		091FED5F1B37283E0071F8DC /* Swype ItTests */ = {
 			isa = PBXGroup;
 			children = (
+				0938C2C51BA8663900B69FC2 /* SISingletonGameTests.m */,
 				094D10A21BA18D5A00392587 /* SISingletonAchievementTests.m */,
 				094D10A01BA0BCBC00392587 /* SIGameControllerTests.m */,
 				09A488BC1B9D877D0075F41C /* SIMenuContentTests.m */,
@@ -656,10 +676,18 @@
 				099A62351B5C917A009BF339 /* CustomProgressBar.m */,
 				092720EA1B6388740005A6B6 /* ProgressBar.h */,
 				092720EB1B6388740005A6B6 /* ProgressBar.m */,
+				0938C2B91BA7AACF00B69FC2 /* SIAchievementNode.h */,
+				0938C2BA1BA7AACF00B69FC2 /* SIAchievementNode.m */,
 				09E3527D1B96E78D00B53F7A /* SIAdBannerNode.h */,
 				09E3527E1B96E78D00B53F7A /* SIAdBannerNode.m */,
 				09A57AB91B788BEF003B6F08 /* SIGameNode.h */,
 				09A57ABA1B788BEF003B6F08 /* SIGameNode.m */,
+				0957AB781BA7626600D3FDF5 /* SIMenuNode.h */,
+				0957AB791BA7626600D3FDF5 /* SIMenuNode.m */,
+				0938C2BC1BA835D900B69FC2 /* SIMenuNodeContent.h */,
+				0938C2BD1BA835D900B69FC2 /* SIMenuNodeContent.m */,
+				0957AB751BA7034200D3FDF5 /* SIPopupContentNode.h */,
+				0957AB761BA7034200D3FDF5 /* SIPopupContentNode.m */,
 				099302FA1B7CB50600D2CCE4 /* SIPopupNode.h */,
 				099302FB1B7CB50600D2CCE4 /* SIPopupNode.m */,
 				0914D7A81B81C22400911DD8 /* SIPowerUpToolbarNode.h */,
@@ -668,12 +696,6 @@
 				09D5ED4E1B8B205B00E84179 /* SISegmentControl.m */,
 				0988CC921B70C82300BF429D /* SIStoreButtonNode.h */,
 				0988CC931B70C82300BF429D /* SIStoreButtonNode.m */,
-				0957AB751BA7034200D3FDF5 /* SIPopupContentNode.h */,
-				0957AB761BA7034200D3FDF5 /* SIPopupContentNode.m */,
-				0957AB781BA7626600D3FDF5 /* SIMenuNode.h */,
-				0957AB791BA7626600D3FDF5 /* SIMenuNode.m */,
-				0938C2B91BA7AACF00B69FC2 /* SIAchievementNode.h */,
-				0938C2BA1BA7AACF00B69FC2 /* SIAchievementNode.m */,
 			);
 			name = CustomUIClasses;
 			sourceTree = "<group>";
@@ -701,6 +723,9 @@
 		096ABDF91B6B6AC4005B2F12 /* Sounds */ = {
 			isa = PBXGroup;
 			children = (
+				0938C2C31BA84A1900B69FC2 /* wooshNoise.caf */,
+				0938C2BF1BA8483200B69FC2 /* tapNoise.caf */,
+				0938C2C01BA8483200B69FC2 /* swypeNoise.caf */,
 				09E352801B9786DC00B53F7A /* coinNoise.caf */,
 				096ABDE71B6B6ABB005B2F12 /* menuSound.caf */,
 				092113AE1B6B787B005F7D8B /* swypeItFXChaChing.caf */,
@@ -729,6 +754,10 @@
 		0988CC971B7203CE00BF429D /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				092E9CCA1BA9DD3D0022E644 /* hiraginoKakuGothic.atlas */,
+				092E9CCB1BA9DD3D0022E644 /* hiraginoKakuGothic.xml */,
+				092E9CCC1BA9DD3D0022E644 /* hiraginoKakuGothic@2x.xml */,
+				092E9CCD1BA9DD3D0022E644 /* hiraginoKakuGothic@3x.xml */,
 				099C6E3E1BA2C83D00D13B9F /* ultraStrokedShadow */,
 				099C6E3F1BA2C84E00D13B9F /* longIslandStrokedShadow */,
 				0979E6591B77A74E002FC2F2 /* LongIslandContour.otf */,
@@ -786,8 +815,10 @@
 				091470F61B68F1A2006B0CC1 /* SettingsScene.m */,
 				09A488A31B9A7F490075F41C /* SIFallingMonkeyScene.h */,
 				09A488A41B9A7F490075F41C /* SIFallingMonkeyScene.m */,
-				099A622D1B5C6C2A009BF339 /* SIGameScene_vak.m */,
 				099A622C1B5C6C2A009BF339 /* SIGameScene_vak.h */,
+				099A622D1B5C6C2A009BF339 /* SIGameScene_vak.m */,
+				09552DE41BA2296A00D275A9 /* SIGameScene.h */,
+				09552DE51BA2296A00D275A9 /* SIGameScene.m */,
 				09A488A01B9A77FE0075F41C /* SILoadingScene.h */,
 				09A488A11B9A77FE0075F41C /* SILoadingScene.m */,
 				09A488B41B9C78FA0075F41C /* SIMenuScene.h */,
@@ -798,8 +829,6 @@
 				099A62291B5C6B3B009BF339 /* StartScene.m */,
 				092720DD1B5EF1C30005A6B6 /* StoreScene.h */,
 				092720DE1B5EF1C30005A6B6 /* StoreScene.m */,
-				09552DE41BA2296A00D275A9 /* SIGameScene.h */,
-				09552DE51BA2296A00D275A9 /* SIGameScene.m */,
 			);
 			name = Scenes;
 			sourceTree = "<group>";
@@ -994,12 +1023,15 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0938C2C21BA8483200B69FC2 /* swypeNoise.caf in Resources */,
 				096ABDF61B6B6ABB005B2F12 /* swypeItSound5.caf in Resources */,
 				09B1E35A1B97A33B00EDF051 /* explosionTouch.sks in Resources */,
 				099C6E3D1BA2C83600D13B9F /* ultraStrokedShadowed@3x.xml in Resources */,
 				0979E65A1B77A74E002FC2F2 /* LongIslandContour.otf in Resources */,
 				092113B01B6B787B005F7D8B /* swypeItFXChaChing.caf in Resources */,
+				0938C2C41BA84A1900B69FC2 /* wooshNoise.caf in Resources */,
 				09D256F11B9E631700F6BD14 /* SIAchievements.plist in Resources */,
+				092E9CCF1BA9DD3D0022E644 /* hiraginoKakuGothic.xml in Resources */,
 				099C6E3C1BA2C83600D13B9F /* ultraStrokedShadowed@2x.xml in Resources */,
 				0979E65C1B77C0F2002FC2F2 /* diamondPlate3.png in Resources */,
 				096ABDF21B6B6ABB005B2F12 /* swypeItSound1.caf in Resources */,
@@ -1013,16 +1045,20 @@
 				09D5ED4C1B8B1AB900E84179 /* background.atlas in Resources */,
 				099A62331B5C8B12009BF339 /* Main.storyboard in Resources */,
 				099C6E3A1BA2C83600D13B9F /* ultraStrokedShadowed.atlas in Resources */,
+				092E9CCE1BA9DD3D0022E644 /* hiraginoKakuGothic.atlas in Resources */,
 				099C6E341BA2C64D00D13B9F /* longIslandStrokedShadowed@2x.xml in Resources */,
 				096ABDF51B6B6ABB005B2F12 /* swypeItSound4.caf in Resources */,
 				0919ABE31B91FC83009ACFF1 /* spark.png in Resources */,
+				092E9CD11BA9DD3D0022E644 /* hiraginoKakuGothic@3x.xml in Resources */,
 				099C6E3B1BA2C83600D13B9F /* ultraStrokedShadowed.xml in Resources */,
+				0938C2C11BA8483200B69FC2 /* tapNoise.caf in Resources */,
 				09CAF9AC1B646F4C00466606 /* buttons.atlas in Resources */,
 				0979E6581B77A614002FC2F2 /* LongIsland-Shadow.otf in Resources */,
 				092113B11B6B787B005F7D8B /* swypeItFXInitalize.caf in Resources */,
 				099C6E331BA2C64D00D13B9F /* longIslandStrokedShadowed.xml in Resources */,
 				091FED541B37283E0071F8DC /* Images.xcassets in Resources */,
 				099C6E321BA2C64D00D13B9F /* longIslandStrokedShadowed.atlas in Resources */,
+				092E9CD01BA9DD3D0022E644 /* hiraginoKakuGothic@2x.xml in Resources */,
 				096ABDF31B6B6ABB005B2F12 /* swypeItSound2.caf in Resources */,
 				0988CC9B1B720F3B00BF429D /* images.atlas in Resources */,
 				096ABDF11B6B6ABB005B2F12 /* swypeItGameOver.caf in Resources */,
@@ -1114,6 +1150,7 @@
 				0917D4E71B6DD8240046B5FF /* HLEmitterStore.m in Sources */,
 				09CB158E1B7E85DC00F9A956 /* SITestScene.m in Sources */,
 				0917D4F91B6DD8240046B5FF /* HLTiledNode.m in Sources */,
+				0938C2BE1BA835D900B69FC2 /* SIMenuNodeContent.m in Sources */,
 				092720EF1B63A62D0005A6B6 /* TCProgressBarNode.m in Sources */,
 				099A62231B5C635F009BF339 /* SIGameController.m in Sources */,
 				099A622A1B5C6B3B009BF339 /* StartScene.m in Sources */,
@@ -1187,6 +1224,7 @@
 				09A904061B6616C300C48A9B /* SIConstants.m in Sources */,
 				09552DE71BA230EE00D275A9 /* SIGameScene.m in Sources */,
 				092720E71B60F2790005A6B6 /* SIIAPUtilityTests.m in Sources */,
+				0938C2C61BA8663900B69FC2 /* SISingletonGameTests.m in Sources */,
 				09A488A91B9B4B5C0075F41C /* GameSceneTests.m in Sources */,
 				092B470E1B521B7900AFE43C /* GameTests.m in Sources */,
 			);

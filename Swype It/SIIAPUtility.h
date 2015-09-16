@@ -53,4 +53,9 @@
  Returns a cool looking title node for daily free prize
  */
 + (SKSpriteNode *)createTitleNode:(CGSize)size;
+
+/**
+ Uses MKStoreKit to get the total number of coins available
+ */
++ (int)numberOfCoinsForUser;
 @end

@@ -305,7 +305,7 @@ NSString *const kSINodeNodeBag                                                  
 NSString *const kSINodeNodeBucket                                               = @"bucketOfCoinsNode";
 NSString *const kSINodeNodePile                                                 = @"pileOfCoinsNode";
 NSString *const kSINodeButtonAchievement                                        = @"achievementButton";
-NSString *const kSINodeButtonBackButton                                         = @"backButtonNode";
+NSString *const kSINodeButtonBack                                               = @"backButtonNode";
 NSString *const kSINodeButtonContinue                                           = @"continueButton";
 NSString *const kSINodeButtonDone                                               = @"doneButton";
 NSString *const kSINodeButtonFallingMonkey                                      = @"fallingMonkeyButton";
@@ -332,9 +332,10 @@ NSString *const kSINodePopupTitle                                               
 #pragma mark - Fonts
 NSString *const kSIFontGameScore                                                = @"LongIslandContour";
 NSString *const kSIFontFuturaMedium                                             = @"Futura-Medium";
-NSString *const kSIFontLongIslandStroked                                        = @"longIslandStrokedShadowed";
+NSString *const kSIBGFontLongIslandStroked                                      = @"longIslandStrokedShadowed";
 NSString *const kSIFontUltra                                                    = @"Ultra";
-NSString *const kSIFontUltraStroked                                             = @"ultraStroked";
+NSString *const kSIBGFontUltraStroked                                           = @"ultraStrokedShadow";
+NSString *const kSIBGFontHiraginoKakuGothic                                     = @"hiraginoKakuGothic";
 
 #pragma mark - Menu Button Texts
 NSString *const kSIMenuTextBack                                                 = @"Back";
@@ -372,7 +373,10 @@ NSString *const kSISoundBackgroundSeven                                         
 NSString *const kSISoundFXCoinNoise                                             = @"coinNoise";
 NSString *const kSISoundFXChaChing                                              = @"swypeItFXChaChing";
 NSString *const kSISoundFXGameOver                                              = @"swypeItGameOver";
-NSString *const kSISoundFXInitalize                                             = @"swypeItFXInitalize.caf";
+NSString *const kSISoundFXInitalize                                             = @"swypeItFXInitalize";
+NSString *const kSISoundFXMoveTap                                               = @"tapNoise";
+NSString *const kSISoundFXMoveSwype                                             = @"swypeNoise";
+NSString *const kSISoundFXSceneWoosh                                            = @"wooshNoise";
 
 #pragma mark - EmitterNodes
 NSString *const kSIEmitterFileTypeSKS                                           = @"sks";
@@ -396,7 +400,7 @@ NSString *const kEDKeyAchievementCurrentSequence                                
 NSString *const kEDKeyAchievementDetails                                        = @"details";
 NSString *const kEDKeyAchievementDetailsCompleted                               = @"compeleted";
 NSString *const kEDKeyAchievementDetailsDictionaryKey                           = @"dictionaryKey";
-NSString *const kEDKeyAchievementDetailsHelpString                              = @"helpString";
+NSString *const kEDKeyAchievementDetailsHelpString                              = @"helpStringer";
 NSString *const kEDKeyAchievementDetailsMoveSequenceArray                       = @"moveSequenceArray";
 NSString *const kEDKeyAchievementDetailsPercentComplete                         = @"percentComplete";
 NSString *const kEDKeyAchievementDetailsPrefixString                            = @"prefixString";

@@ -203,11 +203,11 @@
     XCTAssertEqualObjects(kSIMoveCommandShake, [SIGame stringForMove:SIMoveCommandShake]);
 }
 
-- (void)testGetRandomMoveForRapidFire {
-    /*Check to make the Rapid Fire Returns Tap*/
-    SIMoveCommand move = [SIGame getRandomMoveForGameMode:SIGameModeOneHand];
-    XCTAssertEqual(move, SIMoveCommandTap);
-}
+//- (void)testGetRandomMoveForRapidFire {
+//    /*Check to make the Rapid Fire Returns Tap*/
+//    SIMoveCommand move = [SIGame getRandomMoveForGameMode:SIGameModeOneHand];
+//    XCTAssertEqual(move, SIMoveCommandTap);
+//}
 - (void)testGetRandomMoveForOneHandGameMode {
     for (int i = 0; i < 50; i++) {
         SIMoveCommand move = [SIGame getRandomMoveForGameMode:SIGameModeOneHand];
@@ -338,9 +338,9 @@
     
     NSDate *lastPrizeGivenDate = [currentDate dateByAddingTimeInterval:-1 * (1)]; //1 second ago
     
-    SIGameFreePrize freePrize  = [SIGame gamePrizeForCurrentDate:currentDate lastPrizeGivenDate:lastPrizeGivenDate];
+    SIFreePrizeType freePrize  = [SIGame gamePrizeForCurrentDate:currentDate lastPrizeGivenDate:lastPrizeGivenDate];
     
-    XCTAssertEqual(freePrize, SIGameFreePrizeNo);
+    XCTAssertEqual(freePrize, SIFreePrizeTypeNone);
 }
 
 - (void)testGameFreePrizeNo {
@@ -348,9 +348,9 @@
     
     NSDate *lastPrizeGivenDate = [currentDate dateByAddingTimeInterval:-1 * (60 * 60 * 23)]; //23 hours ago
     
-    SIGameFreePrize freePrize  = [SIGame gamePrizeForCurrentDate:currentDate lastPrizeGivenDate:lastPrizeGivenDate];
+    SIFreePrizeType freePrize  = [SIGame gamePrizeForCurrentDate:currentDate lastPrizeGivenDate:lastPrizeGivenDate];
     
-    XCTAssertEqual(freePrize, SIGameFreePrizeNo);
+    XCTAssertEqual(freePrize, SIFreePrizeTypeNone);
 }
 
 - (void)testGameFreePrizeYesConsecutiveBorderFront {
@@ -358,9 +358,9 @@
     
     NSDate *lastPrizeGivenDate = [currentDate dateByAddingTimeInterval:-1 * (60 * 60 * 24)]; //24 hours ago
     
-    SIGameFreePrize freePrize  = [SIGame gamePrizeForCurrentDate:currentDate lastPrizeGivenDate:lastPrizeGivenDate];
+    SIFreePrizeType freePrize  = [SIGame gamePrizeForCurrentDate:currentDate lastPrizeGivenDate:lastPrizeGivenDate];
     
-    XCTAssertEqual(freePrize, SIGameFreePrizeYesConsecutive);
+    XCTAssertEqual(freePrize, SIFreePrizeTypeConsecutive);
 }
 
 - (void)testGameFreePrizeYesConsecutiveMiddle {
@@ -368,9 +368,9 @@
     
     NSDate *lastPrizeGivenDate = [currentDate dateByAddingTimeInterval:-1 * (60 * 60 * 36)]; //36 hours ago
     
-    SIGameFreePrize freePrize  = [SIGame gamePrizeForCurrentDate:currentDate lastPrizeGivenDate:lastPrizeGivenDate];
+    SIFreePrizeType freePrize  = [SIGame gamePrizeForCurrentDate:currentDate lastPrizeGivenDate:lastPrizeGivenDate];
     
-    XCTAssertEqual(freePrize, SIGameFreePrizeYesConsecutive);
+    XCTAssertEqual(freePrize, SIFreePrizeTypeConsecutive);
 }
 
 - (void)testGameFreePrizeYesConsecutiveBorderEnd {
@@ -378,9 +378,9 @@
     
     NSDate *lastPrizeGivenDate = [currentDate dateByAddingTimeInterval:-1 * ((60 * 60 * 47) + (60 * 59))]; //47 hours 59 minutes ago
     
-    SIGameFreePrize freePrize  = [SIGame gamePrizeForCurrentDate:currentDate lastPrizeGivenDate:lastPrizeGivenDate];
+    SIFreePrizeType freePrize  = [SIGame gamePrizeForCurrentDate:currentDate lastPrizeGivenDate:lastPrizeGivenDate];
     
-    XCTAssertEqual(freePrize, SIGameFreePrizeYesConsecutive);
+    XCTAssertEqual(freePrize, SIFreePrizeTypeConsecutive);
 }
 
 - (void)testGameFreePrizeYesBorderFront {
@@ -388,9 +388,9 @@
     
     NSDate *lastPrizeGivenDate = [currentDate dateByAddingTimeInterval:-1 * (60 * 60 * 48)]; //48 hours ago
     
-    SIGameFreePrize freePrize  = [SIGame gamePrizeForCurrentDate:currentDate lastPrizeGivenDate:lastPrizeGivenDate];
+    SIFreePrizeType freePrize  = [SIGame gamePrizeForCurrentDate:currentDate lastPrizeGivenDate:lastPrizeGivenDate];
     
-    XCTAssertEqual(freePrize, SIGameFreePrizeYes);
+    XCTAssertEqual(freePrize, SIFreePrizeTypeNonConsecutive);
 }
 
 - (void)testGameFreePrizeYesClear {
@@ -398,9 +398,9 @@
     
     NSDate *lastPrizeGivenDate = [currentDate dateByAddingTimeInterval:-1 * (60 * 60 * 100)]; //100 hours ago
     
-    SIGameFreePrize freePrize  = [SIGame gamePrizeForCurrentDate:currentDate lastPrizeGivenDate:lastPrizeGivenDate];
+    SIFreePrizeType freePrize  = [SIGame gamePrizeForCurrentDate:currentDate lastPrizeGivenDate:lastPrizeGivenDate];
     
-    XCTAssertEqual(freePrize, SIGameFreePrizeYes);
+    XCTAssertEqual(freePrize, SIFreePrizeTypeNonConsecutive);
 }
 
 - (void)testSecondsInDay {

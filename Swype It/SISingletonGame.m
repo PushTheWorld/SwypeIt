@@ -53,10 +53,8 @@
 - (instancetype)init {
     self = [super init];
     if (self) {
-        [self singletonGameSetup];
-        
         _currentGame                    = [[SIGame alloc] init];
-        
+        [self singletonGameSetup];
     }
     return self;
 }
@@ -67,7 +65,7 @@
 - (void)singletonGameSetup {
     _timer                                          = [[NSTimer alloc] init];
     _timerInterval                                  = TIMER_INTERVAL;
-
+    [self singletonGameWillStart];
 }
 
 #pragma mark - Singleton Game Control Functions
@@ -100,9 +98,9 @@
             [[SoundManager sharedManager] playMusic:[SIGame soundNameForSIBackgroundSound:soundForScore] looping:YES fadeIn:YES];
         }
     }
-    
-    /*Call this to get a new move and such...*/
-    [self singletonGameWillContinue];
+//    
+//    /*Call this to get a new move and such...*/
+//    [self singletonGameWillContinue];
 }
 
 /**
@@ -169,6 +167,9 @@
     If incorrect -> calls singletonGameWillEnd
  */
 - (void)singletonGameDidEnterMove:(SIMove *)move {
+    if (!_timer.valid) {
+        [self singletonGameDidStart];
+    }
     if (_currentGame.isPaused == YES) {
         return;
     }
@@ -234,7 +235,7 @@
     [self updateBackgroundSound];
     
     /*Determine if Device High Score*/
-    [self updateDeviceHighScore];
+    self.currentGame.isHighScore = [SIGame isDevieHighScore:_currentGame.totalScore];
     
     /*Update the Free coin meter*/
     [self updatePointsTillFreeCoin];
@@ -261,14 +262,6 @@
                 [[SoundManager sharedManager] playMusic:[SIGame soundNameForSIBackgroundSound:backgroundSoundNew] looping:YES fadeIn:YES];
             }
         }];
-    }
-}
-
-- (void)updateDeviceHighScore {
-    if ([SIGame isDevieHighScore:_currentGame.totalScore]) {
-        if ([_delegate respondsToSelector:@selector(controllerSingletonGameShowIsHighScore)]) {
-            [self.delegate controllerSingletonGameShowIsHighScore];
-        }
     }
 }
 
