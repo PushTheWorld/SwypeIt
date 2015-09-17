@@ -296,6 +296,11 @@ typedef NS_ENUM(NSInteger, SIProgressBar) {
     SIProgressBarPowerUp
 };
 
+typedef NS_ENUM(NSInteger, SIMenuNodeContentPosition) {
+    SIMenuNodeContentPositionCenter,
+    SIMenuNodeContentPositionBottom
+};
+
 typedef NS_ENUM(NSInteger, SISceneContentAnimation) {
     /**
      If you don't want the screen to animate

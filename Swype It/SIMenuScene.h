@@ -27,7 +27,7 @@
 //    such
 // */
 //- (void)controllerSceneMenuDidLoadType:(SISceneMenuType)type;
-
+- (void)menuSceneShopNodeWasTapped;
 
 
 

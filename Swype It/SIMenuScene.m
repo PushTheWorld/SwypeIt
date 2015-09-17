@@ -250,6 +250,35 @@
         [self menuScenePopMenuNode];
     }]];
     [self registerDescendant:menuNode.backButtonNode withOptions:[NSSet setWithObject:HLSceneChildGestureTarget]];
+    
+    if (menuNode.centerNode) {
+        if ([menuNode.centerNode isKindOfClass:[HLMenuNode class]]) {
+            HLMenuNode *newMenuNode = (HLMenuNode *)menuNode.centerNode;
+            [newMenuNode hlSetGestureTarget:newMenuNode];
+            [self registerDescendant:newMenuNode withOptions:[NSSet setWithObject:HLSceneChildGestureTarget]];
+        } else if ([menuNode.centerNode isKindOfClass:[HLGridNode class]]){
+            HLGridNode *newGridNode = (HLGridNode *)menuNode.centerNode;
+            [newGridNode hlSetGestureTarget:newGridNode];
+            [self registerDescendant:newGridNode withOptions:[NSSet setWithObject:HLSceneChildGestureTarget]];
+        }
+    }
+    if (menuNode.bottomNode) {
+        if ([menuNode.bottomNode isKindOfClass:[HLToolbarNode class]]) {
+            HLToolbarNode *newToolbarNode = (HLToolbarNode *)menuNode.bottomNode;
+            [newToolbarNode hlSetGestureTarget:newToolbarNode];
+            [self registerDescendant:newToolbarNode withOptions:[NSSet setWithObject:HLSceneChildGestureTarget]];
+        }
+    }
+    if (menuNode.shopNode) {
+        [menuNode.shopNode hlSetGestureTarget:[HLTapGestureTarget tapGestureTargetWithHandleGestureBlock:^(UIGestureRecognizer *jerry) {
+            if ([_sceneDelegate respondsToSelector:@selector(menuSceneShopNodeWasTapped)]) {
+                [_sceneDelegate menuSceneShopNodeWasTapped];
+            }
+            
+        }]];
+        [self registerDescendant:menuNode.shopNode withOptions:[NSSet setWithObject:HLSceneChildGestureTarget]];
+
+    }
 }
 
 - (void)showMenuNode:(SIMenuNode *)menuNode menuNodeAnimation:(SIMenuNodeAnimation)menuNodeAnimation animationDuration:(float)animationDuration {

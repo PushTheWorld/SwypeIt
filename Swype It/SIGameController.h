@@ -51,6 +51,8 @@
  */
 + (CGSize)SIProgressBarGamePowerUpSize:(CGSize)size;
 
++ (CGSize)SIToolbarSceneMenuSize:(CGSize)size;
+
 /**Quick zPosition for game content*/
 + (float)floatZPositionGameForContent:(SIZPositionGame)layer;
 /**Quick zPosition for menu content*/

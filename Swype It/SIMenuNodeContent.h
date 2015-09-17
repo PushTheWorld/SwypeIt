@@ -26,10 +26,12 @@
 
 @property (nonatomic, assign) SISceneMenuType type;
 
-@property (nonatomic, strong) SKLabelNode *userMessage;
+@property (nonatomic, strong) SKNode *userMessage;
 
 @property (nonatomic, strong) HLGridNode *gridNode;
 
 @property (nonatomic, strong) HLMenuNode *menuNode;
+
+
 
 @end

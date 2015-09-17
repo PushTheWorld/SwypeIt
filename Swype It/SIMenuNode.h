@@ -41,19 +41,13 @@
 /**
  Init the backgrond node with size
  */
-- (instancetype)initWithSize:(CGSize)size Node:(SKNode *)mainNode type:(SISceneMenuType)type;
+- (instancetype)initWithSize:(CGSize)size type:(SISceneMenuType)type;
 
 /**
  The duration for how long it takes to animate objects in for layout
  default is `1.0f`
  */
 @property (nonatomic, assign) CGFloat animationDuration;
-
-/**
- Set this if you want the menu to have a bottom toolbar....
-    This will allow a move toolbar to move in sink
- */
-@property (nonatomic, strong) HLToolbarNode *bottomToolBarNode;
 
 /**
  Bottom toolbar bottom y padding
@@ -64,7 +58,22 @@
 /**
  The main node of info to be displayed
  */
-@property (nonatomic, strong) SKNode *mainNode;
+@property (nonatomic, strong) SKNode *topNode;
+
+/**
+ The shop node
+ */
+@property (nonatomic, strong) SKSpriteNode *shopNode;
+
+/**
+ The main node of info to be displayed
+ */
+@property (nonatomic, strong) SKNode *centerNode;
+
+/**
+ The main node of info to be displayed
+ */
+@property (nonatomic, strong) SKNode *bottomNode;
 
 /**
  Returns the size of the whole thing... generally will be a sceneSize
@@ -84,6 +93,11 @@
 
 
 @property (nonatomic, strong) SKSpriteNode *backButtonNode;
+
+/**
+ The placement of the menu content
+ */
+@property (nonatomic, assign) SIMenuNodeContentPosition menuContentPosition;
 
 
 /**

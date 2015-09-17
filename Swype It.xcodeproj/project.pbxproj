@@ -62,6 +62,10 @@
 		092E9CCF1BA9DD3D0022E644 /* hiraginoKakuGothic.xml in Resources */ = {isa = PBXBuildFile; fileRef = 092E9CCB1BA9DD3D0022E644 /* hiraginoKakuGothic.xml */; };
 		092E9CD01BA9DD3D0022E644 /* hiraginoKakuGothic@2x.xml in Resources */ = {isa = PBXBuildFile; fileRef = 092E9CCC1BA9DD3D0022E644 /* hiraginoKakuGothic@2x.xml */; };
 		092E9CD11BA9DD3D0022E644 /* hiraginoKakuGothic@3x.xml in Resources */ = {isa = PBXBuildFile; fileRef = 092E9CCD1BA9DD3D0022E644 /* hiraginoKakuGothic@3x.xml */; };
+		092E9CD41BAA05410022E644 /* UIImage+BlurredFrame.m in Sources */ = {isa = PBXBuildFile; fileRef = 092E9CD31BAA05410022E644 /* UIImage+BlurredFrame.m */; };
+		092E9CD81BAA05710022E644 /* UIImage+ImageEffects.m in Sources */ = {isa = PBXBuildFile; fileRef = 092E9CD71BAA05710022E644 /* UIImage+ImageEffects.m */; };
+		092E9CD91BAA05710022E644 /* UIImage+ImageEffects.m in Sources */ = {isa = PBXBuildFile; fileRef = 092E9CD71BAA05710022E644 /* UIImage+ImageEffects.m */; };
+		092E9CDA1BAA05770022E644 /* UIImage+BlurredFrame.m in Sources */ = {isa = PBXBuildFile; fileRef = 092E9CD31BAA05410022E644 /* UIImage+BlurredFrame.m */; };
 		09343DAA1B44BB1C00D1C707 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 09343DA91B44BB1C00D1C707 /* QuartzCore.framework */; };
 		0938C2BB1BA7AACF00B69FC2 /* SIAchievementNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 0938C2BA1BA7AACF00B69FC2 /* SIAchievementNode.m */; };
 		0938C2BE1BA835D900B69FC2 /* SIMenuNodeContent.m in Sources */ = {isa = PBXBuildFile; fileRef = 0938C2BD1BA835D900B69FC2 /* SIMenuNodeContent.m */; };
@@ -271,6 +275,10 @@
 		092E9CCB1BA9DD3D0022E644 /* hiraginoKakuGothic.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = hiraginoKakuGothic.xml; sourceTree = "<group>"; };
 		092E9CCC1BA9DD3D0022E644 /* hiraginoKakuGothic@2x.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "hiraginoKakuGothic@2x.xml"; sourceTree = "<group>"; };
 		092E9CCD1BA9DD3D0022E644 /* hiraginoKakuGothic@3x.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "hiraginoKakuGothic@3x.xml"; sourceTree = "<group>"; };
+		092E9CD21BAA05410022E644 /* UIImage+BlurredFrame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+BlurredFrame.h"; sourceTree = "<group>"; };
+		092E9CD31BAA05410022E644 /* UIImage+BlurredFrame.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+BlurredFrame.m"; sourceTree = "<group>"; };
+		092E9CD61BAA05710022E644 /* UIImage+ImageEffects.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+ImageEffects.h"; sourceTree = "<group>"; };
+		092E9CD71BAA05710022E644 /* UIImage+ImageEffects.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+ImageEffects.m"; sourceTree = "<group>"; };
 		09343DA91B44BB1C00D1C707 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		0938C2B91BA7AACF00B69FC2 /* SIAchievementNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SIAchievementNode.h; sourceTree = "<group>"; };
 		0938C2BA1BA7AACF00B69FC2 /* SIAchievementNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SIAchievementNode.m; sourceTree = "<group>"; };
@@ -709,6 +717,17 @@
 			name = TCProgressBarNode;
 			sourceTree = "<group>";
 		};
+		092E9CD51BAA05470022E644 /* BlurredFrame */ = {
+			isa = PBXGroup;
+			children = (
+				092E9CD61BAA05710022E644 /* UIImage+ImageEffects.h */,
+				092E9CD71BAA05710022E644 /* UIImage+ImageEffects.m */,
+				092E9CD21BAA05410022E644 /* UIImage+BlurredFrame.h */,
+				092E9CD31BAA05410022E644 /* UIImage+BlurredFrame.m */,
+			);
+			name = BlurredFrame;
+			sourceTree = "<group>";
+		};
 		094F22A01B95916E00968FB5 /* BMGlyphLabel */ = {
 			isa = PBXGroup;
 			children = (
@@ -786,6 +805,7 @@
 		098B3B4B1B378EC8000D4702 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				092E9CD51BAA05470022E644 /* BlurredFrame */,
 				09A4889F1B9A434F0075F41C /* DSMultilineLabelNode */,
 				094F22A01B95916E00968FB5 /* BMGlyphLabel */,
 				098B3B4C1B378ED1000D4702 /* FXReachability */,
@@ -1129,6 +1149,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				092E9CD41BAA05410022E644 /* UIImage+BlurredFrame.m in Sources */,
 				09A488B11B9B7B860075F41C /* SIMove.m in Sources */,
 				09552DE61BA2296A00D275A9 /* SIGameScene.m in Sources */,
 				092720E51B60D3CB0005A6B6 /* SIIAPUtility.m in Sources */,
@@ -1165,6 +1186,7 @@
 				0917D4F11B6DD8240046B5FF /* HLMessageNode.m in Sources */,
 				09E3527F1B96E78D00B53F7A /* SIAdBannerNode.m in Sources */,
 				097375461B57A97500BE1BCA /* BaseViewController.m in Sources */,
+				092E9CD81BAA05710022E644 /* UIImage+ImageEffects.m in Sources */,
 				0917D4F81B6DD8240046B5FF /* HLTextureStore.m in Sources */,
 				0917D4FE1B6DD8240046B5FF /* SKSpriteNode+HLSpriteNodeAdditions.m in Sources */,
 				09A488BB1B9D7D850075F41C /* SIMenuContent.m in Sources */,
@@ -1213,6 +1235,7 @@
 			files = (
 				094D10A11BA0BCBC00392587 /* SIGameControllerTests.m in Sources */,
 				09A488BD1B9D877D0075F41C /* SIMenuContentTests.m in Sources */,
+				092E9CDA1BAA05770022E644 /* UIImage+BlurredFrame.m in Sources */,
 				09A904071B6616DA00C48A9B /* SIGame.m in Sources */,
 				09A488A71B9B49950075F41C /* SIAdBannerTests.m in Sources */,
 				09A904081B6616DE00C48A9B /* SIIAPUtility.m in Sources */,
@@ -1227,6 +1250,7 @@
 				0938C2C61BA8663900B69FC2 /* SISingletonGameTests.m in Sources */,
 				09A488A91B9B4B5C0075F41C /* GameSceneTests.m in Sources */,
 				092B470E1B521B7900AFE43C /* GameTests.m in Sources */,
+				092E9CD91BAA05710022E644 /* UIImage+ImageEffects.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

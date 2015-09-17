@@ -22,20 +22,15 @@
     
     HLTapGestureTarget                              *_tapGestureTarget;
     
-    HLToolbarNode                                   *_bottomToolbarContentNode;
-    
     BMGlyphLabel                                    *_titleContentNode;
     
-    SKNode                                          *_mainContentNode;
-    
-//    SKSpriteNode                                    *_backButtonNode;
     SKSpriteNode                                    *_backgroundNode;
 
     
 }
 
 - (NSString *)description {
-    return [NSString stringWithFormat:@"%@\n Type: %@\nAnimation Duration: %0.2f\nMain Node: %@\n",[super description],[SIGame titleForMenuType:_type],(float)_animationDuration,_mainContentNode];
+    return [NSString stringWithFormat:@"%@\n Type: %@\nAnimation Duration: %0.2f\n",[super description],[SIGame titleForMenuType:_type],(float)_animationDuration];
 }
 
 #pragma mark -
@@ -50,10 +45,9 @@
     }
     return self;
 }
-- (instancetype)initWithSize:(CGSize)size Node:(SKNode *)mainNode type:(SISceneMenuType)type {
+- (instancetype)initWithSize:(CGSize)size type:(SISceneMenuType)type {
     self = [self initWithSize:size];
     if (self) {
-        _mainContentNode                            = mainNode;
         _type                                       = type;
         _size                                       = size;
         [self initSetup:size];
@@ -109,35 +103,53 @@
 - (void)setType:(SISceneMenuType)type {
     _type = type;
     if (_titleContentNode) {
-        _titleContentNode.text                      = [SIGame titleForMenuType:type];
+        _titleContentNode.text = [SIGame titleForMenuType:type];
     }
     [self layoutXYZAnimation:SIMenuNodeAnimationStaticVisible];
 }
 
-- (void)setBottomToolBarNode:(HLToolbarNode *)bottomToolBarNode {
-    if (_bottomToolbarContentNode) {
-        [_bottomToolbarContentNode removeFromParent];
+- (void)setTopNode:(SKNode *)topNode {
+    if (_topNode) {
+        [_topNode removeFromParent];
     }
-    if (bottomToolBarNode) {
-        _bottomToolbarContentNode                   = bottomToolBarNode;
-        _bottomToolbarContentNode.anchorPoint       = CGPointMake(0.5f, 0.0f);
-        [_backgroundNode addChild:_bottomToolbarContentNode];
+    if (topNode) {
+        _topNode = topNode;
+        [_backgroundNode addChild:_topNode];
     }
     [self layoutXYZAnimation:SIMenuNodeAnimationStaticVisible];
-    _bottomToolBarNode = bottomToolBarNode;
 }
 
-
-- (void)setMainNode:(SKNode *)mainNode {
-    if (_mainContentNode) {
-        [_mainContentNode removeFromParent];
+- (void)setCenterNode:(SKNode *)centerNode {
+    if (_centerNode) {
+        [_centerNode removeFromParent];
     }
-    if (mainNode) {
-        _mainContentNode                            = mainNode;
-        [_backgroundNode addChild:_mainContentNode];
+    if (centerNode) {
+        _centerNode = centerNode;
+        [_backgroundNode addChild:_centerNode];
     }
     [self layoutXYZAnimation:SIMenuNodeAnimationStaticVisible];
-    _mainNode = mainNode;
+}
+
+- (void)setBottomNode:(SKNode *)bottomNode {
+    if (_bottomNode) {
+        [_bottomNode removeFromParent];
+    }
+    if (bottomNode) {
+        _bottomNode = bottomNode;
+        [_backgroundNode addChild:_bottomNode];
+    }
+    [self layoutXYZAnimation:SIMenuNodeAnimationStaticVisible];
+}
+
+- (void)setShopNode:(SKSpriteNode *)shopNode {
+    if (_shopNode) {
+        [_shopNode removeFromParent];
+    }
+    if (shopNode) {
+        _shopNode = shopNode;
+        [_backgroundNode addChild:_shopNode];
+    }
+    [self layoutXYZAnimation:SIMenuNodeAnimationStaticVisible];
 }
 
 #pragma mark - 
@@ -158,22 +170,55 @@
     
     _backgroundNode.position                        = sceneMidPoint;
 
-    if (_mainContentNode) {
-        //      _mainContentNode.position                   = CGPointMake(0.0f,0.0f);
-        positionHidden                              = CGPointZero;
+    if (_topNode) {
+        positionHidden                              = CGPointMake(0.0f, sceneMidY + _topNode.frame.size.height);
+        positionVisible                             = CGPointMake(0.0f, sceneMidY - _titleContentNode.frame.size.height - (_topNode.frame.size.height / 2.0f));
+        [SIMenuNode animateMenuContentNode:_titleContentNode
+                                 animation:animation
+                         animationDuration:_animationDuration
+                           positionVisible:positionVisible
+                            positionHidden:positionHidden];
+        _topNode.position    = CGPointMake(0.0f, (_backgroundNode.size.height / 4.0f));
+    }
+    if (_centerNode) {
         positionVisible                             = CGPointZero;
-        [SIMenuNode animateMenuContentNode:_mainContentNode
+        if (_menuContentPosition == SIMenuNodeContentPositionBottom) {
+            if (_bottomNode) {
+                positionVisible = CGPointMake(0.0f, (-1.0f * sceneMidY) + [SIGameController SIToolbarSceneMenuSize:_size].height);
+            } else {
+                positionVisible = CGPointMake(0.0f, -1.0f * sceneMidY);
+            }
+        }
+        positionHidden                              = CGPointZero;
+        [SIMenuNode animateMenuContentNode:_centerNode
                                  animation:animation
                          animationDuration:_animationDuration
                            positionVisible:positionVisible
                             positionHidden:positionHidden];
     }
     
-    if (_bottomToolbarContentNode) {
+    if (_shopNode) {
+        positionVisible                             = CGPointZero;
+        if (_menuContentPosition == SIMenuNodeContentPositionCenter) {
+            if (_bottomNode) {
+                positionVisible = CGPointMake(0.0f, (-1.0f * sceneMidY) + [SIGameController SIToolbarSceneMenuSize:_size].height);
+            } else {
+                positionVisible = CGPointMake(0.0f, -1.0f * sceneMidY);
+            }
+        }
+        positionHidden                              = CGPointZero;
+        [SIMenuNode animateMenuContentNode:_shopNode
+                                 animation:animation
+                         animationDuration:_animationDuration
+                           positionVisible:positionVisible
+                            positionHidden:positionHidden];
+    }
+    
+    if (_bottomNode) {
         //        _bottomToolbarContentNode.position          = CGPointMake(0.0f, (-1.0f * sceneMidY) + _bottomToolbarYPadding);
-        positionHidden                              = CGPointMake(0.0f, (-1.0f * sceneMidY) - _bottomToolbarContentNode.size.height);
+        positionHidden                              = CGPointMake(0.0f, (-1.0f * sceneMidY) - [SIGameController SIToolbarSceneMenuSize:_size].height);
         positionVisible                             = CGPointMake(0.0f, (-1.0f * sceneMidY) + _bottomToolbarYPadding);
-        [SIMenuNode animateMenuContentNode:_bottomToolbarContentNode
+        [SIMenuNode animateMenuContentNode:_bottomNode
                                  animation:animation
                          animationDuration:_animationDuration
                            positionVisible:positionVisible
@@ -191,8 +236,10 @@
                             positionHidden:positionHidden];
     }
     
+    [_backButtonNode runAction:[SKAction scaleTo:0.5f duration:0.0f]];
+    _backButtonNode.anchorPoint                     = CGPointMake(0.0f,1.0f);
     positionHidden                                  = CGPointMake((-1.0f * sceneMidX) - _backButtonSize.width, sceneMidY - (_backButtonSize.height / 2.0f) - VERTICAL_SPACING_8);
-    positionVisible                                 = CGPointMake((-1.0f * sceneMidX) + _backButtonSize.width, sceneMidY - (_backButtonSize.height / 2.0f) - VERTICAL_SPACING_8);
+    positionVisible                                 = CGPointMake((-1.0f * sceneMidX) + VERTICAL_SPACING_8, sceneMidY - VERTICAL_SPACING_8);
     [SIMenuNode animateMenuContentNode:_backButtonNode
                              animation:animation
                      animationDuration:_animationDuration
@@ -212,12 +259,16 @@
     }
 }
 - (void)layoutZ {
-    if (_mainContentNode) {
-        _mainContentNode.zPosition          = [SIGameController floatZPositionMenuForContent:SIZPositionMenuContent];
+    if (_topNode) {
+        _topNode.zPosition                  = [SIGameController floatZPositionMenuForContent:SIZPositionMenuContentToolbar];
     }
     
-    if (_bottomToolbarContentNode) {
-        _bottomToolbarContentNode.zPosition = [SIGameController floatZPositionMenuForContent:SIZPositionMenuContentToolbar];
+    if (_centerNode) {
+        _centerNode.zPosition               = [SIGameController floatZPositionMenuForContent:SIZPositionMenuContentToolbar];
+    }
+    
+    if (_bottomNode) {
+        _bottomNode.zPosition               = [SIGameController floatZPositionMenuForContent:SIZPositionMenuContentToolbar];
     }
     
     if (_titleContentNode) {

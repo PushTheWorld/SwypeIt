@@ -12,7 +12,7 @@
 #import <math.h>
 // Drop-In Class Imports (CocoaPods/GitHub/Guru)
 // Category Import
-//#import "UIImage+BlurredFrame.h"
+#import "UIImage+BlurredFrame.h"
 #import "UIColor+Additions.h"
 // Support/Data Class Imports
 // Other Imports
