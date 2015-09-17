@@ -10,7 +10,8 @@
 //
 // Local Controller Import
 #import "SIGameController.h"
-#import "SIPopupNode.h"
+#import "SIGameScene.h"
+#import "SISingletonGame.h"
 #import "SITestScene.h"
 // Framework Import
 //#import <Instabug/Instabug.h>
@@ -20,7 +21,7 @@
 // Support/Data Class Imports
 // Other Imports
 
-@interface SITestScene () <HLMenuNodeDelegate, SIPopUpNodeDelegate>
+@interface SITestScene ()
 
 #pragma mark - Private Constraints
 @property (assign, nonatomic) CGFloat        buttonSpacing;
@@ -37,8 +38,21 @@
     BOOL         _shouldRespondToTap;
     
     CGFloat      _fontSize;
+    CGFloat                     _sceneGameSpacingHorizontalToolbar;
+    
+    CGSize                                   _sceneSize;
+    CGSize                                   _sceneGameToolbarSize;
+    CGSize                                   _sceneGameToolbarNodeSize;
+
     NSString    *_buttonSoundBackgroundText;
     NSString    *_buttonSoundFXText;
+    
+    SIGameScene                             *_sceneGame;
+    HLMenuNode                              *_sceneGamePopupContinueMenuNode;
+    HLRingNode                              *_sceneGameRingNodePause;
+    HLToolbarNode                           *_sceneGameToolbarPowerUp;
+    SIPopupNode                             *_sceneGamePopupContinue;
+
 }
 
 #pragma mark - Scene Life Cycle
@@ -92,11 +106,18 @@
         buttonSizeDivder                = 1.5f;
         
     }
+    _sceneSize = size;
     //    _buttonSize                     = CGSizeMake(size.width / buttonSizeDivder, (size.width / buttonSizeDivder) * 0.25);
     _buttonSpacing                  = [SIGameController SIButtonSize:size].height * 0.25;
     _buttonAnimationDuration        = 0.25f;
     
     _shouldRespondToTap             = YES;
+    
+    _sceneGameSpacingHorizontalToolbar  = 10.0f;
+    CGFloat toolBarNodeWidth            = (SCREEN_WIDTH - (4.0f * _sceneGameSpacingHorizontalToolbar)) / 5.0f;
+    _sceneGameToolbarNodeSize           = CGSizeMake(toolBarNodeWidth, toolBarNodeWidth);
+    _sceneGameToolbarSize               = CGSizeMake(_sceneSize.width, _sceneGameToolbarNodeSize.height + VERTICAL_SPACING_8);
+
 }
 - (void)createControlsWithSize:(CGSize)size {
     /**Preform all your alloc/init's here*/
@@ -115,82 +136,21 @@
     _titleLabel.position       = CGPointMake((size.width / 2.0f),
                                              size.height - _titleLabel.frame.size.height - VERTICAL_SPACING_8);
     [self addChild:_titleLabel];
-    
-    
-    /*Menu Node*/
-
-    [self menuCreate:size];
 }
 
 - (void)viewSetup:(SKView *)view {
     /**Preform setup post-view load*/
     self.backgroundColor                    = [SKColor sandColor]; /*Maybe add a convience method*/
     
-    SKLabelNode *label                      = [SIGameController SILabelHeader:@"Test Scene"];
-    label.position                          = CGPointMake(self.view.frame.size.width / 2.0f, self.view.frame.size.height / 2.0f);
-    [self addChild:label];
     
-    CGSize sceneSize                        = self.size;
     
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        SIPopupNode *popUpNode              = [SIGameController  SIPopupNodeTitle:@"Contine?" SceneSize:sceneSize];
-        
-        HLMenuNode *menuNode                = [self menuCreate:popUpNode.backgroundSize];
-        popUpNode.popupContentNode          = menuNode;
-        [self registerDescendant:menuNode withOptions:[NSSet setWithObject:HLSceneChildGestureTarget]];
-        
-        popUpNode.delegate                  = self;
-        popUpNode.userInteractionEnabled    = YES;
-        [popUpNode hlSetGestureTarget:popUpNode];
-        [self registerDescendant:popUpNode withOptions:[NSSet setWithObject:HLSceneChildGestureTarget]];
-        [self presentModalNode:popUpNode animation:HLScenePresentationAnimationFade];
-    });
-
+    SIGameScene *gameScene;
+    [view presentScene:gameScene];
+    
+    
 
 }
-- (HLMenuNode *)menuCreate:(CGSize)size {
-    HLMenuNode *menuNode                    = [[HLMenuNode alloc] init];
-    menuNode.delegate                       = self;
-    menuNode.itemAnimation                  = HLMenuNodeAnimationSlideLeft;
-    menuNode.itemAnimationDuration          = self.buttonAnimationDuration;
-//    menuNode.itemButtonPrototype            = [SIGameController  SILabelButtonMenuPrototypePopUp:[SIGameController SIButtonSize:size]];
-//    menuNode.backItemButtonPrototype        = [SIGameController SILabelButtonMenuPrototypeBack:[SIGameController SIButtonSize:size]];
-    menuNode.itemSeparatorSize              = 20;
-    
-    HLMenu *menu                            = [[HLMenu alloc] init];
-    
-    /*Add the regular buttons*/
-    [menu addItem:[HLMenuItem menuItemWithText:kSIMenuTextPopUpBuyCoins]];
 
-    [menu addItem:[HLMenuItem menuItemWithText:kSIMenuTextPopUpWatchAd]];
 
-    /*Add the Back Button... Need to change the prototype*/
-    HLMenuItem *endGameItem                 = [HLMenuItem menuItemWithText:kSIMenuTextPopUpEndGame];
-//    endGameItem.buttonPrototype             = [SIGameController SILabelButtonMenuPrototypeBack:[SIGameController SIButtonSize:size]];
-    [menu addItem:endGameItem];
 
-    
-    [menuNode setMenu:menu animation:HLMenuNodeAnimationNone];
-    
-    menuNode.position                   = CGPointMake(0.0f, 0.0f);
-    
-    return menuNode;
-}
-#pragma mark - HLMenuNodeDelegate
-- (void)menuNode:(HLMenuNode *)menuNode didTapMenuItem:(HLMenuItem *)menuItem itemIndex:(NSUInteger)itemIndex {
-    NSLog(@"Tapped Menu Item [%@] at index %u",menuItem.text,(unsigned)itemIndex);
-    if ([menuItem.text isEqualToString:kSIMenuTextPopUpBuyCoins]) {
-        NSLog(@"Launch Store!");
-    } else if ([menuItem.text isEqualToString:kSIMenuTextPopUpWatchAd]) {
-        NSLog(@"Watch an ad");
-    } else if ([menuItem.text isEqualToString:kSIMenuTextSettingsResetHighScore]) {
-        NSLog(@"Launch End Scene");
-    }
-}
-
-#pragma mark - Private Methods
-
-- (void)dismissPopUp:(SIPopupNode *)popUpNode {
-    [self dismissModalNodeAnimation:HLScenePresentationAnimationFade];
-}
 @end

@@ -54,18 +54,10 @@
     self = [super init];
     if (self) {
         _currentGame                    = [[SIGame alloc] init];
-        [self singletonGameSetup];
+        _timer                                          = [[NSTimer alloc] init];
+        _timerInterval                                  = TIMER_INTERVAL;
     }
     return self;
-}
-
-/**
- Initialize the controls for singlton
- */
-- (void)singletonGameSetup {
-    _timer                                          = [[NSTimer alloc] init];
-    _timerInterval                                  = TIMER_INTERVAL;
-    [self singletonGameWillStart];
 }
 
 #pragma mark - Singleton Game Control Functions
@@ -74,7 +66,7 @@
  Restarts the game... calling this will
  make you loose all current game data
  */
-- (void)singletonGameWillStart {
+- (void)singletonGameWillStartNewGame {
     _willResume                                     = NO;
     _previousLevel                                  = [SIGame currentLevelStringForScore:0.0f];
     _compositeTimeInMiliSeconds                     = 0.0f;
@@ -82,14 +74,21 @@
     _moveStartTimeInMiliSeconds                     = 0.0f;
     _timeFreezeMultiplyer                           = 1.0f;
     [SIGame setStartGameProperties:_currentGame];
+    /*Alert that the model is ready for a new move*/
+    if ([_delegate respondsToSelector:@selector(controllerSingletonGameLoadNewMove)]) {
+        [_delegate controllerSingletonGameLoadNewMove];
+    }
 }
 
 /**
+ LOCAL
  Called when the user enters the first move
  */
 - (void)singletonGameDidStart {
     /*Start The Timer*/
     [self startTimer];
+    
+    self.currentGame.isStarted = YES;
     
     if ([SIConstants isBackgroundSoundAllowed]) {
         SIBackgroundSound soundForScore = [SIGame backgroundSoundForScore:self.currentGame.totalScore];
@@ -100,7 +99,7 @@
     }
 //    
 //    /*Call this to get a new move and such...*/
-//    [self singletonGameWillContinue];
+    [self singletonGameWillContinue];
 }
 
 /**
@@ -115,12 +114,6 @@
     /*Alert the controller that the modal is ready to end the game*/
     if ([_delegate respondsToSelector:@selector(controllerSingletonGameShowContinue)]) {
         [_delegate controllerSingletonGameShowContinue];
-        // TODO: add this to the controller...
-//        if ( ) {
-//            [self singletonWillContinue];
-//        } else {
-//            [self singletonDidEnd];
-//        }
     }
 }
 
@@ -129,6 +122,7 @@
  */
 - (void)singletonGameDidEnd {
     [SIGame updateLifetimePointsScore:_currentGame.totalScore];
+    self.currentGame.isStarted = NO;
 }
 
 - (void)singletonGameWillPause {

@@ -941,10 +941,12 @@
     game.moveScorePercentRemaining      = 1.0f;
     game.currentBackgroundSound         = SIBackgroundSoundMenu;
     game.currentLevel                   = [SIGame currentLevelStringForScore:0.0f];
+    game.currentMove                    = [[SIMove alloc] init];
     game.currentMove.moveCommand        = SIMoveCommandSwype;
     game.currentContinueLifeCost        = SIContinueLifeCost1;
     game.currentNumberOfTimesContinued  = 0;
     game.totalScore                     = 0.0f;
+    game.moveScore                      = 0.0f;
     game.freeCoinsEarned                = 0;
     game.currentBackgroundColorNumber   = arc4random_uniform(NUMBER_OF_MOVES);
     game.currentBackgroundColor         = [SIGame backgroundColorForScore:0.0f forRandomNumber:game.currentBackgroundColorNumber];

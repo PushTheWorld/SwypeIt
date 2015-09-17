@@ -10,7 +10,6 @@
 #import "BMGlyphFont.h"
 
 @interface BMGlyphLabel ()
-@property (assign, nonatomic) CGSize totalSize;
 @property (strong, nonatomic) BMGlyphFont *font;
 @end
 
@@ -138,7 +137,7 @@
                 {
                     while (nodePosition < numberNodes)
                     {
-                        node = [[self children] objectAtIndex:nodePosition];
+                        node = (SKSpriteNode *)[[self children] objectAtIndex:nodePosition];
                         if (_textJustify == BMGlyphJustifyRight)
                         {
                             node.position = CGPointMake(node.position.x  + self.totalSize.width - widthForLine +shift.x  ,node.position.y);
@@ -154,7 +153,7 @@
             }
             else
             {
-                node = [[self children] objectAtIndex:numberNodes];
+                node = (SKSpriteNode *)[[self children] objectAtIndex:numberNodes];
                 numberNodes++;
                 widthForLine = node.position.x + node.size.width;
             }
@@ -187,7 +186,7 @@
         SKSpriteNode *del;
         for (int j=childCount;j>self.text.length-linesCount;j--)
         {
-            del = [[self children] objectAtIndex:j-1];
+            del = (SKSpriteNode *)[[self children] objectAtIndex:j-1];
             [del removeFromParent];
         }
     }

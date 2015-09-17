@@ -18,7 +18,6 @@
 #import "SIGameController.h"
 // Scene Import
 #import "SIFallingMonkeyScene.h"
-#import "SIGameScene.h"
 #import "SILoadingScene.h"
 #import "SIMenuScene.h"
 #import "SITestScene.h"
@@ -68,6 +67,7 @@
     BOOL                                     _verbose;
     BOOL                                     _highScoreShowing;
     BOOL                                     _isPurchaseInProgress;
+    BOOL                                     _testMode;
 
     
     CGFloat                                  _sceneGameSpacingHorizontalToolbar;
@@ -87,13 +87,13 @@
      */
     float                                    _percentLoaded;
     
-    HLGridNode                              *_sceneMenuStartGridNode;
     HLGridNode                              *_sceneMenuEndGridNode;
+    HLGridNode                              *_sceneMenuStartGridNode;
     
     HLMenuNode                              *_sceneGamePopupContinueMenuNode;
     HLMenuNode                              *_sceneMenuStoreMenuNode;
     HLMenuNode                              *_sceneMenuSettingsMenuNode;
-    
+
     HLRingNode                              *_sceneGameRingNodePause;
     
     HLToolbarNode                           *_sceneGameToolbarPowerUp;
@@ -130,7 +130,7 @@
 //    SIMenuNodeContent                       *_menuNodeContentStore;
     
     SIMenuScene                             *_sceneMenu;
-    
+
     SIPopupNode                             *_sceneGamePopupContinue;
     SIPopupNode                             *_sceneMenuPopupFreePrize;
     
@@ -175,6 +175,14 @@
     [self setupUserInterface];
     
 }
+
+/**This is an attempt to force view to be an skview*/
+- (void)loadView {
+    CGRect applicationFrame = [[UIScreen mainScreen] applicationFrame];
+    SKView *skView = [[SKView alloc] initWithFrame:applicationFrame];
+    self.view = skView;
+}
+
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
@@ -224,6 +232,7 @@
     _loadingPointsCurrent               = 0;
     _verbose                            = YES;
     _premiumUser                        = [SIGameController premiumUser];
+    _testMode                           = YES;
     
     _sceneGameSpacingHorizontalToolbar  = 10.0f;
     CGFloat toolBarNodeWidth            = (SCREEN_WIDTH - (4.0f * _sceneGameSpacingHorizontalToolbar)) / 5.0f;
@@ -236,8 +245,8 @@
     [self authenticateLocalPlayer];
 
     /*Start your singletons*/
-    [SISingletonGame singleton];
-    [SISingletonAchievement singleton];
+    [SISingletonGame singleton].delegate                = self;
+    [SISingletonAchievement singleton].delegate         = self;;
     
     /*Start Sounds*/
     [SoundManager sharedManager].allowsBackgroundMusic  = YES;
@@ -356,17 +365,24 @@
 }
 
 - (void)mainSceneInitializationMethod {
-    NSDate *startDate = [NSDate date];
-    /*Init The Loading Scene First and Fire It Up There!*/
-    _sceneLoading = [SIGameController SILoaderSceneLoadingSize:_sceneSize];
-    [self loadingIncrementWillOverrideAndKill:NO];
-    [self presentScene:SIGameControllerSceneLoading];
-    /*Load the scenes*/
-    [self loadAllScenes];
-    
-    /*Load any pop ups and such remaining*/
-    if (_verbose) {
-        NSLog(@"All data initialized in %0.2f seconds", [[NSDate date] timeIntervalSinceDate:startDate]);
+    if (_testMode) {
+        _sceneGame = [self loadGameScene];
+        _sceneGame.sceneDelegate = self;
+        [[self fastSKView] presentScene:_sceneGame];
+        [[SISingletonGame singleton] singletonGameWillStartNewGame];        
+    } else {
+        NSDate *startDate = [NSDate date];
+        /*Init The Loading Scene First and Fire It Up There!*/
+        _sceneLoading = [SIGameController SILoaderSceneLoadingSize:_sceneSize];
+        [self loadingIncrementWillOverrideAndKill:NO];
+        [self presentScene:SIGameControllerSceneLoading];
+        /*Load the scenes*/
+        [self loadAllScenes];
+        
+        /*Load any pop ups and such remaining*/
+        if (_verbose) {
+            NSLog(@"All data initialized in %0.2f seconds", [[NSDate date] timeIntervalSinceDate:startDate]);
+        }
     }
 }
 
@@ -473,30 +489,6 @@
     return newScene;
 }
 
-/**
- Call when ever you want... just know that this could cause a delay in scene transistion
-    Honestly it might be better to just check individual components befor animating each of them in
-    That way we isolate potential screen hangups because one node had to load...
- */
-//- (BOOL)verifySceneGame {
-//    if (_sceneGame == nil) {
-//        _sceneGame = [[SIGameScene alloc] initWithSize:_sceneSize];
-//    }
-//    if (_sceneGamePopupContinue == nil) {
-//        _sceneGamePopupContinue = [SIGameController SIPopupSceneGameContinue];
-//    }
-//    if (_sceneGamePopupContinueMenuNode == nil) {
-//        _sceneGamePopupContinueMenuNode = [SIGameController SIMenuNodeSceneGamePopup:_sceneGamePopupContinue];
-//    }
-//    if (_sceneGameToolbarPowerUp == nil) {
-//        _sceneGameToolbarPowerUp = [SIGameController SIHLToolbarGamePowerUpToolbarSize:_sceneGameToolbarSize toolbarNodeSize:_sceneGameToolbarNodeSize horizontalSpacing:_sceneGameSpacingHorizontalToolbar];
-//    }
-//    if (_sceneGameRingNodePause == nil) {
-//        _sceneGameRingNodePause = [SIGameController SIHLRingNodeSceneGamePause];
-//    }
-//    return YES;
-//}
-
 #pragma mark -
 #pragma mark - Accessors Methods
 #pragma mark Visual Help
@@ -504,16 +496,6 @@
     SKView * skView         = (SKView *)self.view;
     skView.showsFPS         = showFPS;
     skView.showsNodeCount   = showFPS;
-}
-
-/**
- Called when you need a new move score label and such
- */
-+ (BMGlyphLabel *)moveScoreLabel:(float)score {
-    return [BMGlyphLabel labelWithText:[NSString stringWithFormat:@"%0.2f",score] font:[SIGameController BMGFontUltraStroked]];
-}
-+ (BMGlyphLabel *)moveCommandLabelWithText:(NSString *)text {
-    return [BMGlyphLabel labelWithText:text font:[SIGameController BMGFontLongIslandStroked]];
 }
 
 /**
@@ -1396,16 +1378,10 @@
     if (gridNode == _sceneMenuStartGridNode) {
         switch (squareIndex) {
             case 0: //Launch Classic `SIGameModeTwoHand`
-                //            [self presentSceneMenuType:SISceneMenuTypeNone inDelay:0.0f];
-                [SISingletonGame singleton].currentGame.gameMode = SIGameModeTwoHand;
-                [self controllerSingletonGameLoadNewMove];
-                [self presentScene:SIGameControllerSceneGame];
+                [self launchSceneGameWithGameMode:SIGameModeTwoHand];
                 break;
             case 1: //Launch One Hand `SIGameModeOneHand`
-                //            [self presentSceneMenuType:SISceneMenuTypeNone inDelay:0.0f];
-                [SISingletonGame singleton].currentGame.gameMode = SIGameModeOneHand;
-                [self controllerSingletonGameLoadNewMove];
-                [self presentScene:SIGameControllerSceneGame];
+                [self launchSceneGameWithGameMode:SIGameModeOneHand];
                 break;
             default:
 
@@ -1422,14 +1398,10 @@
                 NSLog(@"Twitter share button activated.");
                 break;
             case 2: //Launch Classic `SIGameModeTwoHand`
-                [SISingletonGame singleton].currentGame.gameMode = SIGameModeTwoHand;
-                [self controllerSingletonGameLoadNewMove];
-                [self presentScene:SIGameControllerSceneGame];
+                [self launchSceneGameWithGameMode:SIGameModeTwoHand];
                 break;
             case 3: //Launch One Hand `SIGameModeOneHand`
-                [SISingletonGame singleton].currentGame.gameMode = SIGameModeOneHand;
-                [self controllerSingletonGameLoadNewMove];
-                [self presentScene:SIGameControllerSceneGame];
+                [self launchSceneGameWithGameMode:SIGameModeOneHand];
                 break;
             default:
                 [_sceneMenu pushMenuNode:_menuNodeStore];
@@ -1438,7 +1410,11 @@
     }
 
 }
-
+/**Called to launch an actual game*/
+- (void)launchSceneGameWithGameMode:(SIGameMode)gameMode {
+    [SISingletonGame singleton].currentGame.gameMode = gameMode;
+    [self presentScene:SIGameControllerSceneGame];
+}
 #pragma mark HLMenuNodeDelegate
 - (void)menuNode:(HLMenuNode *)menuNode didTapMenuItem:(HLMenuItem *)menuItem itemIndex:(NSUInteger)itemIndex {
     if (menuNode == _sceneGamePopupContinueMenuNode) {
@@ -1800,7 +1776,7 @@
     SKTransition *transistion;
     
     transistion = [SKTransition fadeWithColor:[SKColor blackColor] duration:duration];
-    
+
     [view presentScene:scene transition:transistion];
     
     return scene;
@@ -2465,6 +2441,15 @@
         label.verticalAlignment     = BMGlyphVerticalAlignmentTop;
     }
     return label;
+}
+/**
+ Called when you need a new move score label and such
+ */
++ (BMGlyphLabel *)moveScoreLabel:(float)score {
+    return [BMGlyphLabel labelWithText:[NSString stringWithFormat:@"%0.2f",score] font:[SIGameController BMGFontUltraStroked]];
+}
++ (BMGlyphLabel *)moveCommandLabelWithText:(NSString *)text {
+    return [BMGlyphLabel labelWithText:text font:[SIGameController BMGFontLongIslandStroked]];
 }
 
 #pragma mark ZPosition Convience Methods

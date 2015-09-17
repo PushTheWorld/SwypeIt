@@ -5,9 +5,11 @@
 //  Created by Andrew Keller on 9/15/15.
 //  Copyright © 2015 Push The World LLC. All rights reserved.
 //
-
 #import <XCTest/XCTest.h>
+#import <OCMock/OCMock.h>
+#import <UIKit/UIKit.h>
 #import "SISingletonGame.h"
+#import "SIGameController.h"
 
 @interface SISingletonGameTests : XCTestCase
 
@@ -46,12 +48,35 @@
     [SISingletonGame singleton].currentGame.gameMode = SIGameModeTwoHand;
 
     SIMoveCommand moveCommand = [SISingletonGame singleton].currentGame.currentMove.moveCommand;
-    XCTAssert(moveCommand == SIMoveCommandTap || moveCommand == SIMoveCommandSwype || moveCommand == SIMoveCommandPinch);
+    XCTAssert(moveCommand == SIMoveCommandSwype);
     
     [SISingletonGame singleton].currentGame.gameMode = SIGameModeOneHand;
     
     moveCommand = [SISingletonGame singleton].currentGame.currentMove.moveCommand;
-    XCTAssert(moveCommand == SIMoveCommandTap || moveCommand == SIMoveCommandSwype || moveCommand == SIMoveCommandShake);
+    XCTAssert(moveCommand == SIMoveCommandSwype);
+}
+
+- (void)testFirstMove {
+    //given a mock SISingletonGame
+    id mockGame = [OCMockObject niceMockForClass:[SISingletonGame class]];
+    [[[mockGame stub] andReturn:mockGame] singleton];
+    
+    SIGameController *gameController = [[SIGameController alloc] init];
+//    [gameController view];
+    
+    [gameController launchSceneGameWithGameMode:SIGameModeOneHand];
+    
+    SIMove *move = [[SIMove alloc] init];
+    move.moveCommand = SIMoveCommandSwype;
+    
+    [gameController controllerSceneGameDidRecieveMove:move];
+    
+    OCMVerify([mockGame singletonGameDidEnterMove:move]);
+    
+    OCMVerify([mockGame controllerSingletonGameLoadNewMove]);
+        
+    // Stop mocking!
+    [mockGame stopMocking];
 }
 
 @end

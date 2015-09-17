@@ -31,6 +31,7 @@ static const uint32_t SIGameSceneCategoryMoveScore     = 0x1 << 3; // 0000000000
     
     BMGlyphLabel                                        *_moveCommandContentLabel;
     BMGlyphLabel                                        *_scoreTotalContentLabel;
+    BMGlyphLabel                                        *_swypeItCoinsLabelNode;
     
     CGSize                                               _coinSize;
     CGSize                                               _pauseButtonSize;
@@ -47,7 +48,6 @@ static const uint32_t SIGameSceneCategoryMoveScore     = 0x1 << 3; // 0000000000
     SIPopupNode                                         *_popupContentNode;
     
     SKLabelNode                                         *_highScoreLabelNode;
-    SKLabelNode                                         *_swypeItCoinsLabelNode;
     
     SKNode                                              *_edge;
     
@@ -128,7 +128,7 @@ static const uint32_t SIGameSceneCategoryMoveScore     = 0x1 << 3; // 0000000000
 
     _pauseButtonNode                                        = [[HLLabelButtonNode alloc] initWithTexture:[[SIConstants buttonAtlas] textureNamed:kSIImageButtonPause]];
     
-    _swypeItCoinsLabelNode                                  = [SIGameController SILabelParagraph_x2:[NSString stringWithFormat:@"%d",0]];
+    _swypeItCoinsLabelNode                                  = [SIGameController BMGLabelLongIslandStroked];
 
     _highScoreLabelNode                                     = [SIGameController SILabelParagraph_x2:@"HIGH SCORE!"];
 }
@@ -155,8 +155,8 @@ static const uint32_t SIGameSceneCategoryMoveScore     = 0x1 << 3; // 0000000000
     
     _swypeItCoinsLabelNode.zPosition                        = [SIGameController floatZPositionGameForContent:SIZPositionGameContent];
     _swypeItCoinsLabelNode.physicsBody.categoryBitMask      = SIGameSceneCategoryUIControl;
-    _swypeItCoinsLabelNode.horizontalAlignmentMode          = SKLabelHorizontalAlignmentModeCenter;
-    _swypeItCoinsLabelNode.verticalAlignmentMode            = SKLabelVerticalAlignmentModeCenter;
+    _swypeItCoinsLabelNode.horizontalAlignment              = BMGlyphHorizontalAlignmentLeft;
+    _swypeItCoinsLabelNode.verticalAlignment                = BMGlyphVerticalAlignmentMiddle;
     
     _highScoreLabelNode.zPosition                           = [SIGameController floatZPositionGameForContent:SIZPositionGameContent];
     _highScoreLabelNode.physicsBody.categoryBitMask         = SIGameSceneCategoryUIControl;
@@ -295,11 +295,13 @@ static const uint32_t SIGameSceneCategoryMoveScore     = 0x1 << 3; // 0000000000
         _progressBarFreeCoinContent.physicsBody.categoryBitMask = SIGameSceneCategoryUIControl;
         [self addChild:_progressBarFreeCoinContent];
         _coinNode.position                                      = CGPointMake(-1.0f * (_progressBarFreeCoinContent.size.width / 2.0f), 0.0f);
+        _coinNode.zRotation                                     = M_PI + M_PI_2;
         [_progressBarFreeCoinContent addChild:_coinNode];
-        _swypeItCoinsLabelNode.position                         = CGPointMake(-1.0f * ((_progressBarFreeCoinContent.size.width / 2.0f) + (_coinSize.width / 2.0f) + VERTICAL_SPACING_4), _progressBarFreeCoinContent.size.height / 2.0f);
-        _swypeItCoinsLabelNode.zRotation                        = M_PI_2 + M_PI_4;
-        _swypeItCoinsLabelNode.physicsBody.categoryBitMask      = SIGameSceneCategoryUIControl;
         [_progressBarFreeCoinContent addChild:_swypeItCoinsLabelNode];
+        NSLog(@"\n\nHeight of coins label: %0.2f\n\n",_swypeItCoinsLabelNode.totalSize.height);
+        _swypeItCoinsLabelNode.position                         = CGPointMake(-1.0f * ((_progressBarFreeCoinContent.size.width / 2.0f) + (_coinSize.width / 2.0f) + (_swypeItCoinsLabelNode.totalSize.height / 2.0f)+ VERTICAL_SPACING_4), _progressBarFreeCoinContent.size.height / 2.0f);
+        _swypeItCoinsLabelNode.zRotation                        = M_PI + M_PI_2;
+        _swypeItCoinsLabelNode.physicsBody.categoryBitMask      = SIGameSceneCategoryUIControl;
     }
     [self layoutXYZAnimation:SIGameSceneContentAnimationNone];
 }
@@ -445,9 +447,8 @@ static const uint32_t SIGameSceneCategoryMoveScore     = 0x1 << 3; // 0000000000
     }
     
     if (_progressBarFreeCoinContent) {
-        positionVisible = CGPointMake(VERTICAL_SPACING_8 + (_progressBarFreeCoinContent.size.width / 2.0f), _sceneSize.height - VERTICAL_SPACING_8 - (_progressBarFreeCoinContent.size.height / 2.0f));
+        positionVisible = CGPointMake(VERTICAL_SPACING_8 + (_progressBarFreeCoinContent.size.height / 2.0f), _sceneSize.height - VERTICAL_SPACING_8 - (_progressBarFreeCoinContent.size.width / 2.0f));
         positionHidden = CGPointMake(-1.0f * _progressBarFreeCoinContent.frame.size.width, positionVisible.y);
-        
         [SIGameController SIControllerNode:_progressBarFreeCoinContent
                                  animation:SISceneContentAnimationIn
                             animationStyle:SISceneContentAnimationStyleSlide
@@ -458,7 +459,7 @@ static const uint32_t SIGameSceneCategoryMoveScore     = 0x1 << 3; // 0000000000
     
     if (_powerUpToolbarContentNode) {
         positionHidden      = CGPointMake(sceneMidX, -1.0f * _powerUpToolbarContentNode.frame.size.height);
-        positionVisible     = CGPointMake(_sceneSize.width / 2.0f,_adContentNode.size.height + VERTICAL_SPACING_4 + ((_powerUpToolbarContentNode.frame.size.height / 2.0f)));
+        positionVisible     = CGPointMake(0.0f,_adContentNode.size.height + VERTICAL_SPACING_4 + ((_powerUpToolbarContentNode.frame.size.height / 2.0f)));
         [SIGameController SIControllerNode:_powerUpToolbarContentNode
                                  animation:SISceneContentAnimationIn
                             animationStyle:SISceneContentAnimationStyleSlide
@@ -692,7 +693,10 @@ static const uint32_t SIGameSceneCategoryMoveScore     = 0x1 << 3; // 0000000000
     
     explosionEmitter.zPosition                      = [SIGameController floatZPositionGameForContent:SIZPositionGameContentMoveScoreEmitter];
     
-    [self addChild:explosionEmitter];
+    if (explosionEmitter) {
+        [self addChild:explosionEmitter];
+    }
+    
 }
 
 #pragma mark -

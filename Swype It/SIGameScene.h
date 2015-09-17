@@ -109,6 +109,11 @@ typedef NS_ENUM(NSInteger, SIGameSceneContentAnimation) {
 - (void)sceneGameWillShowMoveScore:(BMGlyphLabel *)moveLabel;
 
 /**
+ Layout the Scene
+ */
+- (void)layoutScene;
+
+/**
  The ad content
  
  Default is nil...

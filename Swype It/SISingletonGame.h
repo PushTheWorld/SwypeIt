@@ -111,10 +111,8 @@
  */
 - (void)singletonGameDidEnterMove:(SIMove *)move;
 
-/**
- Called when the user enters the first move
- */
-- (void)singletonGameDidStart;
+
+- (void)singletonGameWillStartNewGame;
 
 /**
  Pauses the game state...

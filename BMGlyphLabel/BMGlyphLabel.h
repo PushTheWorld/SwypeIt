@@ -34,6 +34,7 @@ typedef enum _BMGlyphJustify
 @interface BMGlyphLabel : SKNode
 
 @property (strong, nonatomic) NSString *text;
+@property (assign, nonatomic) CGSize totalSize;
 @property (assign, nonatomic) BMGlyphHorizontalAlignment horizontalAlignment;
 @property (assign, nonatomic) BMGlyphVerticalAlignment verticalAlignment;
 @property (assign, nonatomic) BMGlyphJustify textJustify;

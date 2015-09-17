@@ -5,14 +5,23 @@
 //  Created by Andrew Keller on 7/19/15.
 //  Copyright © 2015 Push The World LLC. All rights reserved.
 //
-// Framworks
+//  Purpose: This is the header for the controller class
+//
+// Local Controller Import
+#import "BaseViewController.h"
+#import "SIGameScene.h"
+#import "SIPopupNode.h"
+// Framework Import
 #import <UIKit/UIKit.h>
 #import <SpriteKit/SpriteKit.h>
-// Dropin Classes
-#import "BaseViewController.h"
-#import "HLSpriteKit.h"
-#import "SIPopupNode.h"
+// Drop-In Class Imports (CocoaPods/GitHub/Guru)
 #import "BMGlyphLabel.h"
+#import "HLSpriteKit.h"
+#import "TCProgressBarNode.h"
+// Category Import
+// Support/Data Class Imports
+// Other Imports
+
 
 
 
@@ -60,19 +69,16 @@
 /**Quick zPosition for popup content*/
 + (float)floatZPositionPopupForContent:(SIZPositionPopup)layer;
 
-//+ (HLLabelButtonNode *) SIHLLabelButtonMenuPrototypeBack:(CGSize)size;
-//+ (HLLabelButtonNode *) SIHLLabelButtonMenuPrototypeBasic:(CGSize)size;
-//+ (HLLabelButtonNode *) SIHLLabelButtonMenuPrototypeBasic:(CGSize)size backgroundColor:(UIColor *)backgroundColor fontColor:(UIColor *)fontColor;
-//+ (HLLabelButtonNode *) SIHLLabelButtonMenuPrototypePopUp:(CGSize)size;
-///**
-// Returns the number of coins the user has
-// */
-//+ (int)numberOfCoinsForUser;
-
-//+ (NSDate *)            getDateFromInternet;
-
-
+/**Called when creating the grid for the start menu*/
+//+ (HLGridNode *)SIHLGridNodeMenuSceneStartSize:(CGSize)size;
+//+ (HLMenuNode *)SIHLMenuNodeSceneGamePopup:(SIPopupNode *)popupNode;
+//+ (HLRingNode *)SIHLRingNodeSceneGamePause;
+//+ (HLToolbarNode *)SIHLToolbarGamePowerUpToolbarSize:(CGSize)toolbarSize toolbarNodeSize:(CGSize)toolbarNodeSize horizontalSpacing:(CGFloat)horizontalSpacing;
+//+ (SIPopupNode *)SIPopupSceneGameContinue;
 + (SIPopupNode *)SIPopupNodeTitle:(NSString *)title SceneSize:(CGSize)sceneSize;
+//+ (TCProgressBarNode *)SIProgressBarSceneGameFreeCoinSceneSize:(CGSize)size;
+//+ (TCProgressBarNode *)SIProgressBarSceneGameMoveSceneSize:(CGSize)size;
+//+ (TCProgressBarNode *)SIProgressBarSceneGamePowerUpSceneSize:(CGSize)size;
 
 + (SKTexture *)         SITextureMonkeyFace;
 
@@ -92,6 +98,8 @@
  */
 + (SKSpriteNode *)SISpriteNodeFallingMonkey;
 
+//+ (void)SILoaderEmitters;
+
 /** For animating a node for a screen */
 + (void)SIControllerNode:(SKNode *)node
                animation:(SISceneContentAnimation)animation
@@ -101,5 +109,9 @@
           positionHidden:(CGPoint)positionHidden;
 
 
+#pragma mark - Public Methods for Testing
+- (void)launchSceneGameWithGameMode:(SIGameMode)gameMode;
+- (void)controllerSceneGameDidRecieveMove:(SIMove *)move;
+- (SIGameScene *)loadGameScene;
 
 @end
