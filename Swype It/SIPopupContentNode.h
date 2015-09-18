@@ -31,7 +31,7 @@
 /**
  A label node that you can change and supply your own and stuff
  */
-@property (nonatomic, strong) BMGlyphLabel *labelNode;
+@property (nonatomic, strong) SKLabelNode *labelNode;
 
 /**
  The background content

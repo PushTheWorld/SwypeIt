@@ -11,7 +11,7 @@ SKTexture *monkeyFaceTexture() {
 
 SKLabelNode *moveCommandLabelNode() {
     SKLabelNode *label;
-    label                                                                       = [SKLabelNode labelNodeWithFontNamed:kSIFontFuturaMedium];
+    label                                                                       = [SKLabelNode labelNodeWithFontNamed:kSISFFontDisplayHeavy];
     label.fontColor                                                             = [SKColor whiteColor];
     label.userInteractionEnabled                                                = YES;
     label.name                                                                  = kSINodeGameMoveCommand;
@@ -330,12 +330,38 @@ NSString *const kSINodePopupContent                                             
 NSString *const kSINodePopupTitle                                               = @"title";
 
 #pragma mark - Fonts
-NSString *const kSIFontGameScore                                                = @"LongIslandContour";
-NSString *const kSIFontFuturaMedium                                             = @"Futura-Medium";
-NSString *const kSIBGFontLongIslandStroked                                      = @"longIslandStrokedShadowed";
-NSString *const kSIFontUltra                                                    = @"Ultra";
-NSString *const kSIBGFontUltraStroked                                           = @"ultraStrokedShadow";
-NSString *const kSIBGFontHiraginoKakuGothic                                     = @"hiraginoKakuGothic";
+//NSString *const kSIFontGameScore                                                = @"LongIslandContour";
+//NSString *const kSIFontFuturaMedium                                             = @"Futura-Medium";
+//NSString *const kSIBGFontLongIslandStroked                                      = @"longIslandStrokedShadowed";
+//NSString *const kSIFontUltra                                                    = @"Ultra";
+//NSString *const kSIBGFontUltraStroked                                           = @"ultraStrokedShadow";
+//NSString *const kSIBGFontHiraginoKakuGothic                                     = @"hiraginoKakuGothic";
+//NSString *const kSIBGFontSceneGameSwypeItCoins                                  = @"sceneGameSwypeItCoins";
+
+
+#pragma mark - San Fran Fonts
+NSString *const kSISFFontDisplayLight                                           = @"SFUIDisplay-Light";
+NSString *const kSISFFontDisplayHeavy                                           = @"SFUIDisplay-Heavy";
+NSString *const kSISFFontDisplayRegular                                         = @"SFUIDisplay-Regular";
+NSString *const kSISFFontDisplayMedium                                          = @"SFUIDisplay-Medium";
+NSString *const kSISFFontDisplayBold                                            = @"SFUIDisplay-Bold";
+NSString *const kSISFFontDisplayBlack                                           = @"SFUIDisplay-Black";
+NSString *const kSISFFontDisplayUltralight                                      = @"SFUIDisplay-Ultralight";
+NSString *const kSISFFontDisplayThin                                            = @"SFUIDisplay-Thin";
+NSString *const kSISFFontDisplaySemibold                                        = @"SFUIDisplay-Semibold";
+NSString *const kSISFFontTextLightItalic                                        = @"SFUIText-LightItalic";
+NSString *const kSISFFontTextHeavyItalic                                        = @"SFUIText-HeavyItalic";
+NSString *const kSISFFontTextBold                                               = @"SFUIText-Bold";
+NSString *const kSISFFontTextRegular                                            = @"SFUIText-Regular";
+NSString *const kSISFFontTextItalic                                             = @"SFUIText-Italic";
+NSString *const kSISFFontTextLight                                              = @"SFUIText-Light";
+NSString *const kSISFFontTextMediumItalic                                       = @"SFUIText-MediumItalic";
+NSString *const kSISFFontTextSemibold                                           = @"SFUIText-Semibold";
+NSString *const kSISFFontTextBoldItalic                                         = @"SFUIText-BoldItalic";
+NSString *const kSISFFontTextSemiboldItalic                                     = @"SFUIText-SemiboldItalic";
+NSString *const kSISFFontTextMedium                                             = @"SFUIText-Medium";
+NSString *const kSISFFontTextHeavy                                              = @"SFUIText-Heavy";
+
 
 #pragma mark - Menu Button Texts
 NSString *const kSIMenuTextBack                                                 = @"Back";

@@ -43,6 +43,15 @@ static BOOL isRunningTests(void) __attribute__((const));
     [FXReachability sharedInstance].host = @"google.com";
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateStatus) name:FXReachabilityStatusDidChangeNotification object:nil];
     
+    for (NSString* family in [UIFont familyNames])
+    {
+        NSLog(@"%@", family);
+        
+        for (NSString* name in [UIFont fontNamesForFamilyName: family])
+        {
+            NSLog(@"  %@", name);
+        }
+    }
     /*Init window*/
 //    self.window                             = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
 //    

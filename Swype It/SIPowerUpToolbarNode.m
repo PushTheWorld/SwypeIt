@@ -87,7 +87,7 @@ enum {
     _iconNode                       = [SKSpriteNode spriteNodeWithTexture:[SIGame textureForSIPowerUp:_siPowerUp] size:_iconNodeSize];
     
     
-    _costLabelNode                  = [SKLabelNode labelNodeWithFontNamed:kSIFontUltra];
+    _costLabelNode                  = [SKLabelNode labelNodeWithFontNamed:kSISFFontTextHeavy];
     
 }
 - (void)setupControlsWithSize:(CGSize)size {

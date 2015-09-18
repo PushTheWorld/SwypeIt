@@ -119,21 +119,21 @@
     SKSpriteNode *backgroundNode = [SKSpriteNode spriteNodeWithColor:[SKColor clearColor] size:size];
     backgroundNode.anchorPoint                  = CGPointMake(0.5f, 0.5f);
     
-    SKLabelNode *dailyNode                      = [SKLabelNode labelNodeWithFontNamed:kSIFontUltra];
+    SKLabelNode *dailyNode                      = [SKLabelNode labelNodeWithFontNamed:kSISFFontDisplayLight];
     dailyNode.text                              = @"DAILY";
     dailyNode.fontColor                         = [SKColor whiteColor];
     dailyNode.fontSize                          = (size.height / 4.0f) - VERTICAL_SPACING_8;
     dailyNode.verticalAlignmentMode             = SKLabelVerticalAlignmentModeBottom;
     dailyNode.horizontalAlignmentMode           = SKLabelHorizontalAlignmentModeRight;
     
-    SKLabelNode *prizeNode                      = [SKLabelNode labelNodeWithFontNamed:kSIFontUltra];
+    SKLabelNode *prizeNode                      = [SKLabelNode labelNodeWithFontNamed:kSISFFontDisplayLight];
     prizeNode.text                              = @"PRIZE";
     prizeNode.fontColor                         = [SKColor whiteColor];
     prizeNode.fontSize                          = (size.height / 4.0f) - VERTICAL_SPACING_8;
     prizeNode.verticalAlignmentMode             = SKLabelVerticalAlignmentModeTop;
     prizeNode.horizontalAlignmentMode           = SKLabelHorizontalAlignmentModeRight;
     
-    SKLabelNode *freeNode                       = [SKLabelNode labelNodeWithFontNamed:kSIFontUltra];
+    SKLabelNode *freeNode                       = [SKLabelNode labelNodeWithFontNamed:kSISFFontDisplayBold];
     freeNode.text                               = @"FREE";
     freeNode.fontColor                          = [SKColor redColor];
     freeNode.fontSize                           = (size.height / 2.0f) - VERTICAL_SPACING_16;

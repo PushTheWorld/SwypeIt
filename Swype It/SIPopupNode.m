@@ -141,7 +141,7 @@ enum {
     _backgroundNode.zPosition       = SIPopUpNodeZPositionLayerBackground * self.zPositionScale / SIPopUpNodeZPositionLayerCount;
     [self addChild:_backgroundNode];
     
-    _titleLabelNode                 = [SKLabelNode labelNodeWithFontNamed:kSIFontUltra];
+    _titleLabelNode                 = [SKLabelNode labelNodeWithFontNamed:kSISFFontDisplayHeavy];
     _titleLabelNode.zPosition       = SIPopUpNodeZPositionLayerContent * self.zPositionScale / SIPopUpNodeZPositionLayerCount;
     [_backgroundNode addChild:_titleLabelNode];
     

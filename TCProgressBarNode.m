@@ -20,7 +20,6 @@
 @property (nonatomic, strong) SKTexture *overlayTexture;
 
 @property (nonatomic, strong) UIColor *backgroundColor;
-@property (nonatomic, strong) UIColor *fillColor;
 @property (nonatomic, strong) UIColor *borderColor;
 
 @property (nonatomic, strong) SKLabelNode *titleLabelNode;;
@@ -109,6 +108,11 @@
     }
     
     return self;
+}
+
+- (void)setFillColor:(UIColor *)fillColor {
+    _fillColor              = fillColor;
+    _fillSpriteNode.color   = _fillColor;
 }
 
 #pragma mark - Initialization

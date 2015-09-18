@@ -949,12 +949,12 @@
     game.moveScore                      = 0.0f;
     game.freeCoinsEarned                = 0;
     game.currentBackgroundColorNumber   = arc4random_uniform(NUMBER_OF_MOVES);
-    game.currentBackgroundColor         = [SIGame backgroundColorForScore:0.0f forRandomNumber:game.currentBackgroundColorNumber];
+    game.currentBackgroundColor         = [SKColor mainColor];
     
     /*Booleans*/
     game.isHighScore                    = NO;
     game.isPaused                       = NO;
-    game.isStarted                      = YES;
+    game.isStarted                      = NO;
     
     [game.powerUpArray removeAllObjects];
 }

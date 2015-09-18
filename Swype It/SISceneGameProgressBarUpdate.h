@@ -31,4 +31,10 @@
  */
 @property (nonatomic, strong) NSString *textMove;
 
+/**
+ The
+ */
+@property (nonatomic, assign) BOOL hasStarted;
+
+
 @end

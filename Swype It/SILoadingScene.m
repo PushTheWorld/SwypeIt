@@ -41,24 +41,21 @@
                                                       borderWidth:0.0f
                                                      cornerRadius:8.0f];
     
-    _loadingLabel       = [SKLabelNode labelNodeWithFontNamed:kSIFontUltra];
+    _loadingLabel       = [SKLabelNode labelNodeWithFontNamed:kSISFFontDisplayHeavy];
 }
 - (void)setupControlsWithSize:(CGSize)size {
     /**Configrue the labels, nodes and what ever else you can*/
-    _loadingLabel.fontSize = [SIGameController SIFontSizeParagraph];
-    _loadingLabel.fontColor = [SKColor whiteColor];
-    _loadingLabel.verticalAlignmentMode = SKLabelVerticalAlignmentModeCenter;
-    _loadingLabel.horizontalAlignmentMode = SKLabelHorizontalAlignmentModeCenter;
-    
-    
-    
+    _loadingLabel.fontSize                  = [SIGameController SIFontSizeHeader_x3];
+    _loadingLabel.fontColor                 = [SKColor whiteColor];
+    _loadingLabel.verticalAlignmentMode     = SKLabelVerticalAlignmentModeCenter;
+    _loadingLabel.horizontalAlignmentMode   = SKLabelHorizontalAlignmentModeCenter;
 }
 - (void)layoutControlsWithSize:(CGSize)size {
     /**Layout those controls*/
-    _loadingLabel.position = CGPointMake((size.width / 2.0f), (size.height / 2.0f) + VERTICAL_SPACING_8);
+    _loadingLabel.position                  = CGPointMake((size.width / 2.0f), (size.height / 2.0f) + VERTICAL_SPACING_8);
     [self addChild:_loadingLabel];
     
-    _progressBarLoading.position    = CGPointMake((size.width / 2.0f),(size.width / 2.0f) - VERTICAL_SPACING_8);
+    _progressBarLoading.position            = CGPointMake((size.width / 2.0f),(size.width / 2.0f) - VERTICAL_SPACING_8);
     [self addChild:_progressBarLoading];
     
 }

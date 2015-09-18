@@ -22,7 +22,7 @@
     
     HLTapGestureTarget                              *_tapGestureTarget;
     
-    BMGlyphLabel                                    *_titleContentNode;
+    SKLabelNode                                     *_titleContentNode;
     
     SKSpriteNode                                    *_backgroundNode;
 
@@ -86,9 +86,9 @@
     [_backgroundNode addChild:_backButtonNode];
     [self setType:_type]; //hid the back button node if necessary
     
-    _titleContentNode                           = [SIGameController BMGLabelHiraginoKakuGothicText:[SIGame titleForMenuType:_type]];;
-    _titleContentNode.verticalAlignment         = BMGlyphVerticalAlignmentTop;
-    _titleContentNode.horizontalAlignment       = BMGlyphHorizontalAlignmentCentered;
+    _titleContentNode                           = [SIGameController SILabelHeader_x3:[SIGame titleForMenuType:_type]];
+    _titleContentNode.verticalAlignmentMode         = SKLabelVerticalAlignmentModeTop;
+    _titleContentNode.horizontalAlignmentMode       = SKLabelHorizontalAlignmentModeCenter;
     [_backgroundNode addChild:_titleContentNode];
     
 }

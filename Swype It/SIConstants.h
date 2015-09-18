@@ -684,12 +684,36 @@ extern NSString *const kSINodePopupContent;
 extern NSString *const kSINodePopupTitle;
 
 #pragma mark - Fonts
-extern NSString *const kSIFontGameScore;
-extern NSString *const kSIFontFuturaMedium;
-extern NSString *const kSIBGFontLongIslandStroked;
-extern NSString *const kSIFontUltra;
-extern NSString *const kSIBGFontUltraStroked;
-extern NSString *const kSIBGFontHiraginoKakuGothic;
+//extern NSString *const kSIBGFontHiraginoKakuGothic;
+//extern NSString *const kSIBGFontLongIslandStroked;
+//extern NSString *const kSIBGFontSceneGameSwypeItCoins;
+//extern NSString *const kSIBGFontUltraStroked;
+//extern NSString *const kSIFontGameScore;
+//extern NSString *const kSIFontFuturaMedium;
+//extern NSString *const kSIFontUltra;
+
+#pragma mark - San Fran Fonts
+extern NSString *const kSISFFontDisplayLight;
+extern NSString *const kSISFFontDisplayHeavy;
+extern NSString *const kSISFFontDisplayRegular;
+extern NSString *const kSISFFontDisplayMedium;
+extern NSString *const kSISFFontDisplayBold;
+extern NSString *const kSISFFontDisplayBlack;
+extern NSString *const kSISFFontDisplayUltralight;
+extern NSString *const kSISFFontDisplayThin;
+extern NSString *const kSISFFontDisplaySemibold;
+extern NSString *const kSISFFontTextLightItalic;
+extern NSString *const kSISFFontTextHeavyItalic;
+extern NSString *const kSISFFontTextBold;
+extern NSString *const kSISFFontTextRegular;
+extern NSString *const kSISFFontTextItalic;
+extern NSString *const kSISFFontTextLight;
+extern NSString *const kSISFFontTextMediumItalic;
+extern NSString *const kSISFFontTextSemibold;
+extern NSString *const kSISFFontTextBoldItalic;
+extern NSString *const kSISFFontTextSemiboldItalic;
+extern NSString *const kSISFFontTextMedium;
+extern NSString *const kSISFFontTextHeavy;
 
 #pragma mark - Menu Button Texts
 extern NSString *const kSIMenuTextBack;

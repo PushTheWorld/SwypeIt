@@ -305,6 +305,7 @@
                     
                 default:
                     _currentScene = [SIGameController viewController:[self fastSKView] transisitionToSKScene:_sceneGame duration:SCENE_TRANSISTION_DURATION_NORMAL];
+                    _sceneGameToolbarPowerUp.delegate = self;
                     break;
             }
             break;
@@ -405,6 +406,8 @@
 - (SIGameScene *)loadGameScene {
     NSDate *startDate = [NSDate date];
     
+//    [SIGameController BMGLabelSceneGameSwypeItCoins];
+    
     [SISingletonGame singleton];
     
     SIGameScene *sceneGame              = [[SIGameScene alloc] initWithSize:_sceneSize];
@@ -421,13 +424,18 @@
 
     
     _sceneGameToolbarPowerUp            = [SIGameController SIHLToolbarGamePowerUpToolbarSize:_sceneGameToolbarSize toolbarNodeSize:_sceneGameToolbarNodeSize horizontalSpacing:_sceneGameSpacingHorizontalToolbar];
+    [_sceneGameToolbarPowerUp hlSetGestureTarget:_sceneGameToolbarPowerUp];
+    [sceneGame registerDescendant:_sceneGameToolbarPowerUp withOptions:[NSSet setWithObject:HLSceneChildGestureTarget]];
     sceneGame.powerUpToolbarNode        = _sceneGameToolbarPowerUp;
     
     sceneGame.progressBarFreeCoin       = [SIGameController SIProgressBarSceneGameFreeCoinSceneSize:_sceneSize];
+    sceneGame.progressBarFreeCoin.userInteractionEnabled = YES;
     
     sceneGame.progressBarMove           = [SIGameController SIProgressBarSceneGameMoveSceneSize:_sceneSize];
+    sceneGame.progressBarMove.userInteractionEnabled = YES;
     
     sceneGame.progressBarPowerUp        = [SIGameController SIProgressBarSceneGamePowerUpSceneSize:_sceneSize];
+    sceneGame.progressBarPowerUp.userInteractionEnabled = YES;
     
 //    sceneGame.adBannerNode              = _adBannerNode;
     
@@ -1043,10 +1051,16 @@
         _sceneGame.highScore = YES;
     }
     
-    _sceneGame.backgroundColor = [SISingletonGame singleton].currentGame.currentBackgroundColor;
-    _sceneGame.scoreTotalLabel.text = [NSString stringWithFormat:@"%0.2f",[SISingletonGame singleton].currentGame.totalScore];
+//    _sceneGame.backgroundColor              = [SISingletonGame singleton].currentGame.currentBackgroundColor;
+    _sceneGame.progressBarMove.fillColor    = [SISingletonGame singleton].currentGame.currentBackgroundColor;
+    _sceneGame.progressBarPowerUp.fillColor = [SISingletonGame singleton].currentGame.currentBackgroundColor;
+    _sceneGame.scoreTotalLabel.text         = [NSString stringWithFormat:@"%0.2f",[SISingletonGame singleton].currentGame.totalScore];
     _sceneGame.progressBarFreeCoin.progress = [SISingletonGame singleton].currentGame.freeCoinPercentRemaining;
-    _sceneGame.moveCommandLabel = [SIGameController moveCommandLabelWithText:[SIGame stringForMove:[SISingletonGame singleton].currentGame.currentMove.moveCommand]];
+    SKLabelNode *label                      = [SKLabelNode labelNodeWithFontNamed:kSISFFontDisplayHeavy];
+    label.fontSize                          = [SIGameController SIFontSizeMoveCommand];
+    label.text                              = [SIGame stringForMove:[SISingletonGame singleton].currentGame.currentMove.moveCommand];
+    label.userInteractionEnabled            = YES;
+    _sceneGame.moveCommandLabel             = label;
 
 }
 
@@ -1236,7 +1250,7 @@
     progressBarUpdate.percentMove                   = [SISingletonGame singleton].currentGame.moveScorePercentRemaining;
     progressBarUpdate.percentPowerUp                = [SISingletonGame singleton].currentGame.powerUpPercentRemaining;
     progressBarUpdate.pointsMove                    = [SISingletonGame singleton].currentGame.currentPointsRemainingThisRound;
-    
+    progressBarUpdate.hasStarted                    = [SISingletonGame singleton].currentGame.isStarted;
     return progressBarUpdate;
 }
 
@@ -1747,11 +1761,12 @@
     }
 }
 + (CGSize)SIProgressBarGameFreeCoinSize:(CGSize)size {
-    return CGSizeMake(size.width / 8.0f, size.height / 4.0f);
+    return CGSizeMake(size.width / 4.0f, size.width / 8.0f);
 }
 
 + (CGSize)SIProgressBarGameMoveSize:(CGSize)size {
-    return CGSizeMake(size.width, size.height / 6.0f);
+    return CGSizeMake(size.width, (size.height / 2.0f) - [SIGameController SIButtonSize:size].height - ([SIGameController SIFontSizeMoveCommand] / 2.0f) - VERTICAL_SPACING_16);
+
 }
 
 + (CGSize)SIProgressBarGamePowerUpSize:(CGSize)size {
@@ -1857,41 +1872,48 @@
 #pragma mark SKLabelNodes
 + (SKLabelNode *)SILabelHeader:(NSString *)text {
     SKLabelNode *label  = [SIGameController SILabelInterfaceFontSize:[SIGameController SIFontSizeHeader]];
+    label.fontName      = kSISFFontDisplayRegular;
     label.text          = text;
     return label;
 }
 + (SKLabelNode *)SILabelHeader_x2:(NSString *)text {
     SKLabelNode *label  = [SIGameController SILabelInterfaceFontSize:[SIGameController SIFontSizeHeader_x2]];
+    label.fontName      = kSISFFontDisplaySemibold;
     label.text          = text;
     return label;
 }
 + (SKLabelNode *)SILabelHeader_x3:(NSString *)text {
     SKLabelNode *label  = [SIGameController SILabelInterfaceFontSize:[SIGameController SIFontSizeHeader_x3]];
+    label.fontName      = kSISFFontDisplaySemibold;
     label.text          = text;
     return label;
 }
 + (SKLabelNode *)SILabelParagraph:(NSString *)text {
     SKLabelNode *label  = [SIGameController SILabelInterfaceFontSize:[SIGameController SIFontSizeParagraph]];
     label.text          = text;
+    label.fontName      = kSISFFontDisplayMedium;
     return label;
 }
 + (SKLabelNode *)SILabelParagraph_x2:(NSString *)text {
     SKLabelNode *label  = [SIGameController SILabelInterfaceFontSize:[SIGameController SIFontSizeParagraph_x2]];
     label.text          = text;
+    label.fontName      = kSISFFontDisplayMedium;
     return label;
 }
 + (SKLabelNode *)SILabelParagraph_x3:(NSString *)text {
     SKLabelNode *label  = [SIGameController SILabelInterfaceFontSize:[SIGameController SIFontSizeParagraph_x3]];
     label.text          = text;
+    label.fontName      = kSISFFontDisplayMedium;
     return label;
 }
 + (SKLabelNode *)SILabelParagraph_x4:(NSString *)text {
     SKLabelNode *label  = [SIGameController SILabelInterfaceFontSize:[SIGameController SIFontSizeParagraph_x4]];
     label.text          = text;
+    label.fontName      = kSISFFontDisplayMedium;
     return label;
 }
 + (SKLabelNode *)SILabelInterfaceFontSize:(CGFloat)fontSize {
-    SKLabelNode *label                          = [SKLabelNode labelNodeWithFontNamed:kSIFontFuturaMedium];
+    SKLabelNode *label                          = [SKLabelNode labelNodeWithFontNamed:kSISFFontDisplayMedium];
     label.fontColor                             = [SKColor whiteColor];
     label.fontSize                              = fontSize;
     label.horizontalAlignmentMode               = SKLabelHorizontalAlignmentModeCenter;
@@ -1970,7 +1992,7 @@
 + (HLLabelButtonNode *)SIHLLabelButtonInterface:(CGSize)size {
     HLLabelButtonNode *labelButton              = [[HLLabelButtonNode alloc] initWithColor:[UIColor simplstMainColor] size:size];
     labelButton.cornerRadius                    = 12.0f;
-    labelButton.fontName                        = kSIFontUltra; // kSIFontFuturaMedium;
+    labelButton.fontName                        = kSISFFontDisplayRegular; // kSIFontFuturaMedium;
     labelButton.fontSize                        = size.height * 0.33f;
     labelButton.borderWidth                     = 0.0f;
     labelButton.borderColor                     = [SKColor blackColor];
@@ -1980,7 +2002,7 @@
 }
 + (HLLabelButtonNode *)SIHLLabelButtonInterface:(CGSize)size backgroundColor:(UIColor *)backgroundColor fontColor:(SKColor *)fontColor {
     HLLabelButtonNode *labelButton              = [[HLLabelButtonNode alloc] initWithColor:[SKColor orangeColor] size:size];
-    labelButton.fontName                        = kSIFontUltra;
+    labelButton.fontName                        = kSISFFontDisplayRegular;
     labelButton.cornerRadius                    = 12.0f;
     labelButton.borderWidth                     = 8.0f;
     labelButton.borderColor                     = [SKColor blackColor];
@@ -2251,9 +2273,9 @@
 }
 + (SIPopupNode *)SIPopupSceneGameContinue {
     
-    DSMultilineLabelNode *titleNode                 = [DSMultilineLabelNode labelNodeWithFontNamed:kSIFontUltra];
-    titleNode.fontColor                         = [SKColor whiteColor];
-    titleNode.fontSize              = [SIGameController SIFontSizePopUp];
+    DSMultilineLabelNode *titleNode         = [DSMultilineLabelNode labelNodeWithFontNamed:kSISFFontTextLight];
+    titleNode.fontColor                     = [SKColor whiteColor];
+    titleNode.fontSize                      = [SIGameController SIFontSizePopUp];
     
     
     SIPopupNode *popupNode                  = [[SIPopupNode alloc] initWithSceneSize:[SIGameController sceneSize]];
@@ -2278,7 +2300,7 @@
 
 + (SIPopupContentNode *)SIPopupContentSceneMenuFreePrizeSize:(CGSize)size {
     SIPopupContentNode *popupContentNode        = [[SIPopupContentNode alloc] initWithSize:size];
-    popupContentNode.labelNode                  = [SIGameController BMGLabelLongIslandStroked];
+    popupContentNode.labelNode                  = [SIGameController SILabelHeader_x3:@""];
     popupContentNode.backgroundImageNode        = [SKSpriteNode spriteNodeWithTexture:[[SIConstants imagesAtlas] textureNamed:kSIImageIAPExtraLarge] size:[SIGameController SIChestSize]];
     return popupContentNode;
 }
@@ -2288,7 +2310,7 @@
  The multiline node for the instructions page
  */
 + (DSMultilineLabelNode *)SIMultilineLabelNodeSceneSize:(CGSize)size {
-    DSMultilineLabelNode *multilineNode     = [[DSMultilineLabelNode alloc] initWithFontNamed:kSIFontFuturaMedium];
+    DSMultilineLabelNode *multilineNode     = [[DSMultilineLabelNode alloc] initWithFontNamed:kSISFFontTextLight];
     multilineNode.paragraphWidth            = size.width - VERTICAL_SPACING_16;
     multilineNode.fontColor                 = [SKColor whiteColor];
     multilineNode.fontSize                  = [SIGameController SIFontSizeText];
@@ -2330,9 +2352,8 @@
 #pragma mark TCProgressBarNodes
 /**Progress Bar for Free Coin*/
 + (TCProgressBarNode *)SIProgressBarSceneGameFreeCoinSceneSize:(CGSize)size {
-    CGSize progressBarSize              = CGSizeMake(size.width / 2.0f, (size.width / 2.0f) * 0.2);
     TCProgressBarNode *progressBar      = [[TCProgressBarNode alloc]
-                                           initWithSize:progressBarSize
+                                           initWithSize:[SIGameController SIProgressBarGameFreeCoinSize:size]
                                            backgroundColor:[UIColor lightGrayColor]
                                            fillColor:[UIColor goldColor]
                                            borderColor:[UIColor blackColor]
@@ -2342,10 +2363,9 @@
 }
 /**Progress Bar for Move*/
 + (TCProgressBarNode *)SIProgressBarSceneGameMoveSceneSize:(CGSize)size {
-    CGSize progressBarSize              = CGSizeMake(size.width, (size.width / 2.0f) * 0.3);
     TCProgressBarNode *progressBar      = [[TCProgressBarNode alloc]
-                                           initWithSize:progressBarSize
-                                           backgroundColor:[UIColor grayColor]
+                                           initWithSize:[SIGameController SIProgressBarGameMoveSize:size]
+                                           backgroundColor:[UIColor clearColor]
                                            fillColor:[UIColor redColor]
                                            borderColor:[UIColor clearColor]
                                            borderWidth:0.0f
@@ -2357,7 +2377,7 @@
     CGSize progressBarSize              = CGSizeMake(size.width, (size.width / 2.0f) * 0.3);
     TCProgressBarNode *progressBar      = [[TCProgressBarNode alloc]
                                            initWithSize:progressBarSize
-                                           backgroundColor:[UIColor grayColor]
+                                           backgroundColor:[UIColor clearColor]
                                            fillColor:[UIColor greenColor]
                                            borderColor:[UIColor clearColor]
                                            borderWidth:0.0f
@@ -2402,54 +2422,68 @@
     }
 }
 #pragma mark BMGlyphFonts
-+ (BMGlyphFont *)BMGFontHiraginoKakuGothic {
-    static BMGlyphFont *font = nil;
-    if (!font) {
-        font = [BMGlyphFont fontWithName:kSIBGFontHiraginoKakuGothic];
-    }
-    return font;
-}
-+ (BMGlyphFont *)BMGFontLongIslandStroked {
-    static BMGlyphFont *font = nil;
-    if (!font) {
-        font = [BMGlyphFont fontWithName:kSIBGFontLongIslandStroked];
-    }
-    return font;
-}
-+ (BMGlyphFont *)BMGFontUltraStroked {
-    static BMGlyphFont *font = nil;
-    if (!font) {
-        font = [BMGlyphFont fontWithName:kSIBGFontUltraStroked];
-    }
-    return font;
-}
+//+ (BMGlyphFont *)BMGFontHiraginoKakuGothic {
+//    static BMGlyphFont *font = nil;
+//    if (!font) {
+//        font = [BMGlyphFont fontWithName:kSIBGFontHiraginoKakuGothic];
+//    }
+//    return font;
+//}
+//+ (BMGlyphFont *)BMGFontLongIslandStroked {
+//    static BMGlyphFont *font = nil;
+//    if (!font) {
+//        font = [BMGlyphFont fontWithName:kSIBGFontLongIslandStroked];
+//    }
+//    return font;
+//}
+//+ (BMGlyphFont *)BMGFontUltraStroked {
+//    static BMGlyphFont *font = nil;
+//    if (!font) {
+//        font = [BMGlyphFont fontWithName:kSIBGFontUltraStroked];
+//    }
+//    return font;
+//}
+//+ (BMGlyphFont *)BMGFontSceneGameSwypeItCoins {
+//    static BMGlyphFont *font = nil;
+//    if (!font) {
+//        font = [BMGlyphFont fontWithName:kSIBGFontSceneGameSwypeItCoins];
+//    }
+//    return font;
+//}
 #pragma mark BMGLabels
-+ (BMGlyphLabel *)BMGLabelHiraginoKakuGothicText:(NSString *)text {
-    BMGlyphLabel *label;
-    if (!label) {
-        label                       = [BMGlyphLabel labelWithText:text font:[SIGameController BMGFontHiraginoKakuGothic]];
-        label.horizontalAlignment   = BMGlyphHorizontalAlignmentCentered;
-        label.verticalAlignment     = BMGlyphVerticalAlignmentTop;
-    }
-    return label;
-}
-+ (BMGlyphLabel *)BMGLabelLongIslandStroked {
-    BMGlyphLabel *label;
-    if (!label) {
-        label                       = [BMGlyphLabel labelWithText:@"0.00" font:[SIGameController BMGFontLongIslandStroked]];
-        label.horizontalAlignment   = BMGlyphHorizontalAlignmentCentered;
-        label.verticalAlignment     = BMGlyphVerticalAlignmentTop;
-    }
-    return label;
-}
+//+ (BMGlyphLabel *)BMGLabelHiraginoKakuGothicText:(NSString *)text {
+//    BMGlyphLabel *label;
+//    if (!label) {
+//        label                       = [BMGlyphLabel labelWithText:text font:[SIGameController BMGFontHiraginoKakuGothic]];
+//        label.horizontalAlignment   = BMGlyphHorizontalAlignmentCentered;
+//        label.verticalAlignment     = BMGlyphVerticalAlignmentTop;
+//    }
+//    return label;
+//}
+//+ (BMGlyphLabel *)BMGLabelLongIslandStroked {
+//    BMGlyphLabel *label;
+//    if (!label) {
+//        label                       = [BMGlyphLabel labelWithText:@"0.00" font:[SIGameController BMGFontLongIslandStroked]];
+//        label.horizontalAlignment   = BMGlyphHorizontalAlignmentCentered;
+//        label.verticalAlignment     = BMGlyphVerticalAlignmentTop;
+//    }
+//    return label;
+//}
+//+ (BMGlyphLabel *)BMGLabelSceneGameSwypeItCoins {
+//    BMGlyphLabel *label;
+//    if (!label) {
+//        label                       = [BMGlyphLabel labelWithText:@"0" font:[SIGameController BMGFontSceneGameSwypeItCoins]];
+//    }
+//    return label;
+//}
 /**
  Called when you need a new move score label and such
  */
-+ (BMGlyphLabel *)moveScoreLabel:(float)score {
-    return [BMGlyphLabel labelWithText:[NSString stringWithFormat:@"%0.2f",score] font:[SIGameController BMGFontUltraStroked]];
++ (SKLabelNode *)moveScoreLabel:(float)score {
+    return [SIGameController SILabelHeader_x3:[NSString stringWithFormat:@"%0.2f",score]];
 }
-+ (BMGlyphLabel *)moveCommandLabelWithText:(NSString *)text {
-    return [BMGlyphLabel labelWithText:text font:[SIGameController BMGFontLongIslandStroked]];
++ (SKLabelNode *)moveCommandLabelWithText:(NSString *)text {
+    return [SIGameController SILabelHeader_x3:text];
 }
 
 #pragma mark ZPosition Convience Methods

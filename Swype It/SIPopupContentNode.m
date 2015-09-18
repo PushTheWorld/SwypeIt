@@ -22,7 +22,6 @@ enum {
     SIPopUpNodeContentZPositionLayerCount
 };
 @implementation SIPopupContentNode {
-    BMGlyphLabel    *_labelContentNode;
     
     SKSpriteNode    *_backgroundNode;
     SKSpriteNode    *_backgroundImageContentNode;
@@ -50,13 +49,13 @@ enum {
     return self;
 }
 
-- (void)setLabelNode:(BMGlyphLabel *)labelNode {
-    if (_labelContentNode) {
-        [_labelContentNode removeFromParent];
+- (void)setLabelNode:(SKLabelNode *)labelNode {
+    if (_labelNode) {
+        [_labelNode removeFromParent];
     }
     if (labelNode) {
-        _labelContentNode = labelNode;
-        [_backgroundNode addChild:_labelContentNode];
+        _labelNode = labelNode;
+        [_backgroundNode addChild:_labelNode];
     }
     [self layoutXYZ];
 }
@@ -78,8 +77,8 @@ enum {
 }
 
 - (void)layoutXY {
-    if (_labelContentNode) {
-        _labelContentNode.position  = CGPointMake(0.0f, -1.0f * _size.height / 2.0f);
+    if (_labelNode) {
+        _labelNode.position  = CGPointMake(0.0f, -1.0f * _size.height / 2.0f);
     }
     
     if (_backgroundImageContentNode) {
@@ -92,8 +91,8 @@ enum {
         _backgroundImageContentNode.zPosition   = (float)SIPopUpNodeContentZPositionLayerBackground / (float)SIPopUpNodeContentZPositionLayerCount;
     }
     
-    if (_labelContentNode) {
-        _labelContentNode.zPosition             = (float)SIPopUpNodeContentZPositionLayerContent / (float)SIPopUpNodeContentZPositionLayerCount;
+    if (_labelNode) {
+        _labelNode.zPosition             = (float)SIPopUpNodeContentZPositionLayerContent / (float)SIPopUpNodeContentZPositionLayerCount;
     }
 }
 

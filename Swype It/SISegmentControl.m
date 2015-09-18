@@ -172,7 +172,7 @@ enum {
             
             segmentNode.fontSize                = [SIGameController SIFontSizeParagraph];
             
-            segmentNode.fontName                = kSIFontFuturaMedium;
+            segmentNode.fontName                = kSISFFontDisplayRegular;
             
             segmentNode.fontColor               = [SKColor blackColor];
             

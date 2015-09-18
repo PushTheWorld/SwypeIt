@@ -104,11 +104,11 @@ enum {
     
     _imageNode                              = [SKSpriteNode spriteNodeWithTexture:[[SIConstants imagesAtlas] textureNamed:[SIIAPUtility imageNameForSIIAPPack:_pack]] size:_imageSize];
     
-    _valueLabelNode                         = [SKLabelNode labelNodeWithFontNamed:kSIFontUltra];
+    _valueLabelNode                         = [SKLabelNode labelNodeWithFontNamed:kSISFFontDisplayRegular];
     
-    _titleLabelNode                         = [SKLabelNode labelNodeWithFontNamed:kSIFontUltra];
+    _titleLabelNode                         = [SKLabelNode labelNodeWithFontNamed:kSISFFontDisplayRegular];
     
-    _priceLabelNode                         = [SKLabelNode labelNodeWithFontNamed:kSIFontUltra];
+    _priceLabelNode                         = [SKLabelNode labelNodeWithFontNamed:kSISFFontDisplayRegular];
 }
 - (void)setupControlsWithSize:(CGSize)size {
     /**Configrue the labels, nodes and what ever else you can*/

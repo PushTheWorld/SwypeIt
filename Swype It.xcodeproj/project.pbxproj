@@ -164,6 +164,31 @@
 		09DB639C1B5651C100387C13 /* MKStoreKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 09DB639B1B5651C100387C13 /* MKStoreKit.m */; };
 		09DB639E1B56525100387C13 /* MKStoreKitConfigs.plist in Resources */ = {isa = PBXBuildFile; fileRef = 09DB639D1B56525100387C13 /* MKStoreKitConfigs.plist */; };
 		09E3527F1B96E78D00B53F7A /* SIAdBannerNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 09E3527E1B96E78D00B53F7A /* SIAdBannerNode.m */; };
+		09E4D7E21BAB01CB00994E8E /* sceneGameSwypeItCoins.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 09E4D7DE1BAB01CB00994E8E /* sceneGameSwypeItCoins.atlas */; settings = {ASSET_TAGS = (); }; };
+		09E4D7E31BAB01CB00994E8E /* sceneGameSwypeItCoins.xml in Resources */ = {isa = PBXBuildFile; fileRef = 09E4D7DF1BAB01CB00994E8E /* sceneGameSwypeItCoins.xml */; settings = {ASSET_TAGS = (); }; };
+		09E4D7E41BAB01CB00994E8E /* sceneGameSwypeItCoins@2x.xml in Resources */ = {isa = PBXBuildFile; fileRef = 09E4D7E01BAB01CB00994E8E /* sceneGameSwypeItCoins@2x.xml */; settings = {ASSET_TAGS = (); }; };
+		09E4D7E51BAB01CB00994E8E /* sceneGameSwypeItCoins@3x.xml in Resources */ = {isa = PBXBuildFile; fileRef = 09E4D7E11BAB01CB00994E8E /* sceneGameSwypeItCoins@3x.xml */; settings = {ASSET_TAGS = (); }; };
+		09E4D7FB1BAB584C00994E8E /* SF-UI-Display-Black.otf in Resources */ = {isa = PBXBuildFile; fileRef = 09E4D7E61BAB584B00994E8E /* SF-UI-Display-Black.otf */; settings = {ASSET_TAGS = (); }; };
+		09E4D7FC1BAB584C00994E8E /* SF-UI-Display-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 09E4D7E71BAB584B00994E8E /* SF-UI-Display-Bold.otf */; settings = {ASSET_TAGS = (); }; };
+		09E4D7FD1BAB584C00994E8E /* SF-UI-Display-Heavy.otf in Resources */ = {isa = PBXBuildFile; fileRef = 09E4D7E81BAB584B00994E8E /* SF-UI-Display-Heavy.otf */; settings = {ASSET_TAGS = (); }; };
+		09E4D7FE1BAB584C00994E8E /* SF-UI-Display-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = 09E4D7E91BAB584B00994E8E /* SF-UI-Display-Light.otf */; settings = {ASSET_TAGS = (); }; };
+		09E4D7FF1BAB584C00994E8E /* SF-UI-Display-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = 09E4D7EA1BAB584B00994E8E /* SF-UI-Display-Medium.otf */; settings = {ASSET_TAGS = (); }; };
+		09E4D8001BAB584C00994E8E /* SF-UI-Display-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 09E4D7EB1BAB584B00994E8E /* SF-UI-Display-Regular.otf */; settings = {ASSET_TAGS = (); }; };
+		09E4D8011BAB584C00994E8E /* SF-UI-Display-Semibold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 09E4D7EC1BAB584B00994E8E /* SF-UI-Display-Semibold.otf */; settings = {ASSET_TAGS = (); }; };
+		09E4D8021BAB584C00994E8E /* SF-UI-Display-Thin.otf in Resources */ = {isa = PBXBuildFile; fileRef = 09E4D7ED1BAB584B00994E8E /* SF-UI-Display-Thin.otf */; settings = {ASSET_TAGS = (); }; };
+		09E4D8031BAB584C00994E8E /* SF-UI-Display-Ultralight.otf in Resources */ = {isa = PBXBuildFile; fileRef = 09E4D7EE1BAB584B00994E8E /* SF-UI-Display-Ultralight.otf */; settings = {ASSET_TAGS = (); }; };
+		09E4D8041BAB584C00994E8E /* SF-UI-Text-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 09E4D7EF1BAB584B00994E8E /* SF-UI-Text-Bold.otf */; settings = {ASSET_TAGS = (); }; };
+		09E4D8051BAB584C00994E8E /* SF-UI-Text-BoldItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 09E4D7F01BAB584C00994E8E /* SF-UI-Text-BoldItalic.otf */; settings = {ASSET_TAGS = (); }; };
+		09E4D8061BAB584C00994E8E /* SF-UI-Text-Heavy.otf in Resources */ = {isa = PBXBuildFile; fileRef = 09E4D7F11BAB584C00994E8E /* SF-UI-Text-Heavy.otf */; settings = {ASSET_TAGS = (); }; };
+		09E4D8071BAB584C00994E8E /* SF-UI-Text-HeavyItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 09E4D7F21BAB584C00994E8E /* SF-UI-Text-HeavyItalic.otf */; settings = {ASSET_TAGS = (); }; };
+		09E4D8081BAB584C00994E8E /* SF-UI-Text-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = 09E4D7F31BAB584C00994E8E /* SF-UI-Text-Light.otf */; settings = {ASSET_TAGS = (); }; };
+		09E4D8091BAB584C00994E8E /* SF-UI-Text-LightItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 09E4D7F41BAB584C00994E8E /* SF-UI-Text-LightItalic.otf */; settings = {ASSET_TAGS = (); }; };
+		09E4D80A1BAB584C00994E8E /* SF-UI-Text-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = 09E4D7F51BAB584C00994E8E /* SF-UI-Text-Medium.otf */; settings = {ASSET_TAGS = (); }; };
+		09E4D80B1BAB584C00994E8E /* SF-UI-Text-MediumItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 09E4D7F61BAB584C00994E8E /* SF-UI-Text-MediumItalic.otf */; settings = {ASSET_TAGS = (); }; };
+		09E4D80C1BAB584C00994E8E /* SF-UI-Text-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 09E4D7F71BAB584C00994E8E /* SF-UI-Text-Regular.otf */; settings = {ASSET_TAGS = (); }; };
+		09E4D80D1BAB584C00994E8E /* SF-UI-Text-RegularItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 09E4D7F81BAB584C00994E8E /* SF-UI-Text-RegularItalic.otf */; settings = {ASSET_TAGS = (); }; };
+		09E4D80E1BAB584C00994E8E /* SF-UI-Text-Semibold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 09E4D7F91BAB584C00994E8E /* SF-UI-Text-Semibold.otf */; settings = {ASSET_TAGS = (); }; };
+		09E4D80F1BAB584C00994E8E /* SF-UI-Text-SemiboldItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 09E4D7FA1BAB584C00994E8E /* SF-UI-Text-SemiboldItalic.otf */; settings = {ASSET_TAGS = (); }; };
 		F91BB9396F4CAAE0BC65B477 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 769385628457ECC646BCC3FE /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -410,6 +435,31 @@
 		09E3527D1B96E78D00B53F7A /* SIAdBannerNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SIAdBannerNode.h; sourceTree = "<group>"; };
 		09E3527E1B96E78D00B53F7A /* SIAdBannerNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SIAdBannerNode.m; sourceTree = "<group>"; };
 		09E352801B9786DC00B53F7A /* coinNoise.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = coinNoise.caf; sourceTree = "<group>"; };
+		09E4D7DE1BAB01CB00994E8E /* sceneGameSwypeItCoins.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; name = sceneGameSwypeItCoins.atlas; path = ../../Dropbox/PushTheWorld/illustrator/bmGlyphFonts/sceneGameSwypeItCoins.atlas; sourceTree = "<group>"; };
+		09E4D7DF1BAB01CB00994E8E /* sceneGameSwypeItCoins.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = sceneGameSwypeItCoins.xml; path = ../../Dropbox/PushTheWorld/illustrator/bmGlyphFonts/sceneGameSwypeItCoins.xml; sourceTree = "<group>"; };
+		09E4D7E01BAB01CB00994E8E /* sceneGameSwypeItCoins@2x.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = "sceneGameSwypeItCoins@2x.xml"; path = "../../Dropbox/PushTheWorld/illustrator/bmGlyphFonts/sceneGameSwypeItCoins@2x.xml"; sourceTree = "<group>"; };
+		09E4D7E11BAB01CB00994E8E /* sceneGameSwypeItCoins@3x.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = "sceneGameSwypeItCoins@3x.xml"; path = "../../Dropbox/PushTheWorld/illustrator/bmGlyphFonts/sceneGameSwypeItCoins@3x.xml"; sourceTree = "<group>"; };
+		09E4D7E61BAB584B00994E8E /* SF-UI-Display-Black.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-UI-Display-Black.otf"; sourceTree = "<group>"; };
+		09E4D7E71BAB584B00994E8E /* SF-UI-Display-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-UI-Display-Bold.otf"; sourceTree = "<group>"; };
+		09E4D7E81BAB584B00994E8E /* SF-UI-Display-Heavy.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-UI-Display-Heavy.otf"; sourceTree = "<group>"; };
+		09E4D7E91BAB584B00994E8E /* SF-UI-Display-Light.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-UI-Display-Light.otf"; sourceTree = "<group>"; };
+		09E4D7EA1BAB584B00994E8E /* SF-UI-Display-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-UI-Display-Medium.otf"; sourceTree = "<group>"; };
+		09E4D7EB1BAB584B00994E8E /* SF-UI-Display-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-UI-Display-Regular.otf"; sourceTree = "<group>"; };
+		09E4D7EC1BAB584B00994E8E /* SF-UI-Display-Semibold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-UI-Display-Semibold.otf"; sourceTree = "<group>"; };
+		09E4D7ED1BAB584B00994E8E /* SF-UI-Display-Thin.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-UI-Display-Thin.otf"; sourceTree = "<group>"; };
+		09E4D7EE1BAB584B00994E8E /* SF-UI-Display-Ultralight.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-UI-Display-Ultralight.otf"; sourceTree = "<group>"; };
+		09E4D7EF1BAB584B00994E8E /* SF-UI-Text-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-UI-Text-Bold.otf"; sourceTree = "<group>"; };
+		09E4D7F01BAB584C00994E8E /* SF-UI-Text-BoldItalic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-UI-Text-BoldItalic.otf"; sourceTree = "<group>"; };
+		09E4D7F11BAB584C00994E8E /* SF-UI-Text-Heavy.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-UI-Text-Heavy.otf"; sourceTree = "<group>"; };
+		09E4D7F21BAB584C00994E8E /* SF-UI-Text-HeavyItalic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-UI-Text-HeavyItalic.otf"; sourceTree = "<group>"; };
+		09E4D7F31BAB584C00994E8E /* SF-UI-Text-Light.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-UI-Text-Light.otf"; sourceTree = "<group>"; };
+		09E4D7F41BAB584C00994E8E /* SF-UI-Text-LightItalic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-UI-Text-LightItalic.otf"; sourceTree = "<group>"; };
+		09E4D7F51BAB584C00994E8E /* SF-UI-Text-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-UI-Text-Medium.otf"; sourceTree = "<group>"; };
+		09E4D7F61BAB584C00994E8E /* SF-UI-Text-MediumItalic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-UI-Text-MediumItalic.otf"; sourceTree = "<group>"; };
+		09E4D7F71BAB584C00994E8E /* SF-UI-Text-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-UI-Text-Regular.otf"; sourceTree = "<group>"; };
+		09E4D7F81BAB584C00994E8E /* SF-UI-Text-RegularItalic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-UI-Text-RegularItalic.otf"; sourceTree = "<group>"; };
+		09E4D7F91BAB584C00994E8E /* SF-UI-Text-Semibold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-UI-Text-Semibold.otf"; sourceTree = "<group>"; };
+		09E4D7FA1BAB584C00994E8E /* SF-UI-Text-SemiboldItalic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-UI-Text-SemiboldItalic.otf"; sourceTree = "<group>"; };
 		250606D5461711E9FC89BC0E /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		515AAE4709C37B6475D12AF4 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		769385628457ECC646BCC3FE /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -773,10 +823,9 @@
 		0988CC971B7203CE00BF429D /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				092E9CCA1BA9DD3D0022E644 /* hiraginoKakuGothic.atlas */,
-				092E9CCB1BA9DD3D0022E644 /* hiraginoKakuGothic.xml */,
-				092E9CCC1BA9DD3D0022E644 /* hiraginoKakuGothic@2x.xml */,
-				092E9CCD1BA9DD3D0022E644 /* hiraginoKakuGothic@3x.xml */,
+				09E4D8101BAB585400994E8E /* SF-UI */,
+				09E4D7DC1BAAFFEF00994E8E /* sceneGameSwypeItCoins */,
+				09E4D7DD1BAB000000994E8E /* hiraginoKakuGothic */,
 				099C6E3E1BA2C83D00D13B9F /* ultraStrokedShadow */,
 				099C6E3F1BA2C84E00D13B9F /* longIslandStrokedShadow */,
 				0979E6591B77A74E002FC2F2 /* LongIslandContour.otf */,
@@ -923,6 +972,56 @@
 			name = InAppPurchase;
 			sourceTree = "<group>";
 		};
+		09E4D7DC1BAAFFEF00994E8E /* sceneGameSwypeItCoins */ = {
+			isa = PBXGroup;
+			children = (
+				09E4D7DE1BAB01CB00994E8E /* sceneGameSwypeItCoins.atlas */,
+				09E4D7DF1BAB01CB00994E8E /* sceneGameSwypeItCoins.xml */,
+				09E4D7E01BAB01CB00994E8E /* sceneGameSwypeItCoins@2x.xml */,
+				09E4D7E11BAB01CB00994E8E /* sceneGameSwypeItCoins@3x.xml */,
+			);
+			name = sceneGameSwypeItCoins;
+			sourceTree = "<group>";
+		};
+		09E4D7DD1BAB000000994E8E /* hiraginoKakuGothic */ = {
+			isa = PBXGroup;
+			children = (
+				092E9CCA1BA9DD3D0022E644 /* hiraginoKakuGothic.atlas */,
+				092E9CCB1BA9DD3D0022E644 /* hiraginoKakuGothic.xml */,
+				092E9CCC1BA9DD3D0022E644 /* hiraginoKakuGothic@2x.xml */,
+				092E9CCD1BA9DD3D0022E644 /* hiraginoKakuGothic@3x.xml */,
+			);
+			name = hiraginoKakuGothic;
+			sourceTree = "<group>";
+		};
+		09E4D8101BAB585400994E8E /* SF-UI */ = {
+			isa = PBXGroup;
+			children = (
+				09E4D7E61BAB584B00994E8E /* SF-UI-Display-Black.otf */,
+				09E4D7E71BAB584B00994E8E /* SF-UI-Display-Bold.otf */,
+				09E4D7E81BAB584B00994E8E /* SF-UI-Display-Heavy.otf */,
+				09E4D7E91BAB584B00994E8E /* SF-UI-Display-Light.otf */,
+				09E4D7EA1BAB584B00994E8E /* SF-UI-Display-Medium.otf */,
+				09E4D7EB1BAB584B00994E8E /* SF-UI-Display-Regular.otf */,
+				09E4D7EC1BAB584B00994E8E /* SF-UI-Display-Semibold.otf */,
+				09E4D7ED1BAB584B00994E8E /* SF-UI-Display-Thin.otf */,
+				09E4D7EE1BAB584B00994E8E /* SF-UI-Display-Ultralight.otf */,
+				09E4D7EF1BAB584B00994E8E /* SF-UI-Text-Bold.otf */,
+				09E4D7F01BAB584C00994E8E /* SF-UI-Text-BoldItalic.otf */,
+				09E4D7F11BAB584C00994E8E /* SF-UI-Text-Heavy.otf */,
+				09E4D7F21BAB584C00994E8E /* SF-UI-Text-HeavyItalic.otf */,
+				09E4D7F31BAB584C00994E8E /* SF-UI-Text-Light.otf */,
+				09E4D7F41BAB584C00994E8E /* SF-UI-Text-LightItalic.otf */,
+				09E4D7F51BAB584C00994E8E /* SF-UI-Text-Medium.otf */,
+				09E4D7F61BAB584C00994E8E /* SF-UI-Text-MediumItalic.otf */,
+				09E4D7F71BAB584C00994E8E /* SF-UI-Text-Regular.otf */,
+				09E4D7F81BAB584C00994E8E /* SF-UI-Text-RegularItalic.otf */,
+				09E4D7F91BAB584C00994E8E /* SF-UI-Text-Semibold.otf */,
+				09E4D7FA1BAB584C00994E8E /* SF-UI-Text-SemiboldItalic.otf */,
+			);
+			name = "SF-UI";
+			sourceTree = "<group>";
+		};
 		0F880A65ACF3CFF0D72120E8 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -1045,41 +1144,66 @@
 			files = (
 				0938C2C21BA8483200B69FC2 /* swypeNoise.caf in Resources */,
 				096ABDF61B6B6ABB005B2F12 /* swypeItSound5.caf in Resources */,
+				09E4D80C1BAB584C00994E8E /* SF-UI-Text-Regular.otf in Resources */,
 				09B1E35A1B97A33B00EDF051 /* explosionTouch.sks in Resources */,
 				099C6E3D1BA2C83600D13B9F /* ultraStrokedShadowed@3x.xml in Resources */,
+				09E4D8021BAB584C00994E8E /* SF-UI-Display-Thin.otf in Resources */,
 				0979E65A1B77A74E002FC2F2 /* LongIslandContour.otf in Resources */,
+				09E4D7E31BAB01CB00994E8E /* sceneGameSwypeItCoins.xml in Resources */,
+				09E4D7E21BAB01CB00994E8E /* sceneGameSwypeItCoins.atlas in Resources */,
 				092113B01B6B787B005F7D8B /* swypeItFXChaChing.caf in Resources */,
 				0938C2C41BA84A1900B69FC2 /* wooshNoise.caf in Resources */,
+				09E4D8081BAB584C00994E8E /* SF-UI-Text-Light.otf in Resources */,
+				09E4D7E51BAB01CB00994E8E /* sceneGameSwypeItCoins@3x.xml in Resources */,
+				09E4D7FE1BAB584C00994E8E /* SF-UI-Display-Light.otf in Resources */,
 				09D256F11B9E631700F6BD14 /* SIAchievements.plist in Resources */,
 				092E9CCF1BA9DD3D0022E644 /* hiraginoKakuGothic.xml in Resources */,
+				09E4D8071BAB584C00994E8E /* SF-UI-Text-HeavyItalic.otf in Resources */,
 				099C6E3C1BA2C83600D13B9F /* ultraStrokedShadowed@2x.xml in Resources */,
 				0979E65C1B77C0F2002FC2F2 /* diamondPlate3.png in Resources */,
 				096ABDF21B6B6ABB005B2F12 /* swypeItSound1.caf in Resources */,
 				092DBE6D1B6F022E00328A6B /* shapes.atlas in Resources */,
 				096ABDF71B6B6ABB005B2F12 /* swypeItSound6.caf in Resources */,
 				0919ABE21B91FC83009ACFF1 /* sparkRevA.sks in Resources */,
+				09E4D80B1BAB584C00994E8E /* SF-UI-Text-MediumItalic.otf in Resources */,
 				09DB639E1B56525100387C13 /* MKStoreKitConfigs.plist in Resources */,
 				099C6E351BA2C64D00D13B9F /* longIslandStrokedShadowed@3x.xml in Resources */,
+				09E4D8041BAB584C00994E8E /* SF-UI-Text-Bold.otf in Resources */,
+				09E4D8091BAB584C00994E8E /* SF-UI-Text-LightItalic.otf in Resources */,
+				09E4D7FF1BAB584C00994E8E /* SF-UI-Display-Medium.otf in Resources */,
 				09A488B81B9C7D0A0075F41C /* sceneMenu.atlas in Resources */,
 				096ABDF41B6B6ABB005B2F12 /* swypeItSound3.caf in Resources */,
 				09D5ED4C1B8B1AB900E84179 /* background.atlas in Resources */,
 				099A62331B5C8B12009BF339 /* Main.storyboard in Resources */,
+				09E4D8051BAB584C00994E8E /* SF-UI-Text-BoldItalic.otf in Resources */,
 				099C6E3A1BA2C83600D13B9F /* ultraStrokedShadowed.atlas in Resources */,
 				092E9CCE1BA9DD3D0022E644 /* hiraginoKakuGothic.atlas in Resources */,
+				09E4D80E1BAB584C00994E8E /* SF-UI-Text-Semibold.otf in Resources */,
 				099C6E341BA2C64D00D13B9F /* longIslandStrokedShadowed@2x.xml in Resources */,
+				09E4D80D1BAB584C00994E8E /* SF-UI-Text-RegularItalic.otf in Resources */,
 				096ABDF51B6B6ABB005B2F12 /* swypeItSound4.caf in Resources */,
 				0919ABE31B91FC83009ACFF1 /* spark.png in Resources */,
+				09E4D8011BAB584C00994E8E /* SF-UI-Display-Semibold.otf in Resources */,
 				092E9CD11BA9DD3D0022E644 /* hiraginoKakuGothic@3x.xml in Resources */,
+				09E4D7FB1BAB584C00994E8E /* SF-UI-Display-Black.otf in Resources */,
+				09E4D80A1BAB584C00994E8E /* SF-UI-Text-Medium.otf in Resources */,
+				09E4D8061BAB584C00994E8E /* SF-UI-Text-Heavy.otf in Resources */,
 				099C6E3B1BA2C83600D13B9F /* ultraStrokedShadowed.xml in Resources */,
 				0938C2C11BA8483200B69FC2 /* tapNoise.caf in Resources */,
 				09CAF9AC1B646F4C00466606 /* buttons.atlas in Resources */,
+				09E4D7FC1BAB584C00994E8E /* SF-UI-Display-Bold.otf in Resources */,
 				0979E6581B77A614002FC2F2 /* LongIsland-Shadow.otf in Resources */,
 				092113B11B6B787B005F7D8B /* swypeItFXInitalize.caf in Resources */,
 				099C6E331BA2C64D00D13B9F /* longIslandStrokedShadowed.xml in Resources */,
 				091FED541B37283E0071F8DC /* Images.xcassets in Resources */,
+				09E4D8031BAB584C00994E8E /* SF-UI-Display-Ultralight.otf in Resources */,
 				099C6E321BA2C64D00D13B9F /* longIslandStrokedShadowed.atlas in Resources */,
+				09E4D7FD1BAB584C00994E8E /* SF-UI-Display-Heavy.otf in Resources */,
+				09E4D7E41BAB01CB00994E8E /* sceneGameSwypeItCoins@2x.xml in Resources */,
+				09E4D80F1BAB584C00994E8E /* SF-UI-Text-SemiboldItalic.otf in Resources */,
 				092E9CD01BA9DD3D0022E644 /* hiraginoKakuGothic@2x.xml in Resources */,
 				096ABDF31B6B6ABB005B2F12 /* swypeItSound2.caf in Resources */,
+				09E4D8001BAB584C00994E8E /* SF-UI-Display-Regular.otf in Resources */,
 				0988CC9B1B720F3B00BF429D /* images.atlas in Resources */,
 				096ABDF11B6B6ABB005B2F12 /* swypeItGameOver.caf in Resources */,
 				0988CC961B7203CA00BF429D /* Ultra.ttf in Resources */,

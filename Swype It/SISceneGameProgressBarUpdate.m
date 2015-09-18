@@ -10,6 +10,11 @@
 
 @implementation SISceneGameProgressBarUpdate
 
+- (NSString *)description {
+    return [NSString stringWithFormat:@"%@\nPercent Move: %0.2f\nPercent Powerup: %0.2f\nPoints Move: %0.2f\nText Move: %@",[super description],_pointsMove,_percentPowerUp,_percentMove,_textMove];
+}
+
+
 - (void)setPercentMove:(float)percentMove {
     if (percentMove < 0.0f) {
         percentMove = 0.0f;

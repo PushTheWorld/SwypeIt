@@ -56,7 +56,7 @@ enum {
     
     _graphicNode                        = [SKSpriteNode spriteNodeWithColor:[SKColor clearColor] size:_graphicNodeSize];
     
-    _callToActionLabelNode              = [SKLabelNode labelNodeWithFontNamed:kSIFontFuturaMedium];
+    _callToActionLabelNode              = [SKLabelNode labelNodeWithFontNamed:kSISFFontDisplayLight];
 }
 - (void)setupControlsWithSize:(CGSize)size {
     /**Configrue the labels, nodes and what ever else you can*/

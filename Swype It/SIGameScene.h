@@ -21,21 +21,6 @@
 #import "SISceneGameProgressBarUpdate.h"
 // Other Imports
 
-typedef NS_ENUM(NSInteger, SIGameSceneContentAnimation) {
-    /**
-     If you don't want the screen to animate
-     */
-    SIGameSceneContentAnimationNone = 0,
-    /**
-     Things animate away from the center
-     */
-    SIGameSceneContentAnimationOut,
-    /**
-     Things animate towards the center
-     */
-    SIGameSceneContentAnimationIn
-};
-
 @protocol SIGameSceneDelegate <NSObject>
 
 /**
@@ -141,7 +126,7 @@ typedef NS_ENUM(NSInteger, SIGameSceneContentAnimation) {
 /**
  The label of the move command
  */
-@property (nonatomic, strong) BMGlyphLabel *moveCommandLabel;
+@property (nonatomic, strong) SKLabelNode *moveCommandLabel;
 
 /**
  Move Command Label Position Random
@@ -182,7 +167,7 @@ typedef NS_ENUM(NSInteger, SIGameSceneContentAnimation) {
 /**
  The total score label
  */
-@property (nonatomic, strong) BMGlyphLabel *scoreTotalLabel;
+@property (nonatomic, strong) SKLabelNode *scoreTotalLabel;
 
 /**
  Pading of the top label

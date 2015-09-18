@@ -396,8 +396,9 @@
 //
 //    _backgroundNode.position                                    = CGPointMake(0.0f, [SIGameController bannerViewHeight]);
 //    [self addChild:_backgroundNode];
-//    [self registerDescendant:_backgroundNode withOptions:[NSSet setWithObject:HLSceneChildGestureTarget]];
-//    
+//[_backgroundNode hlSetGestureTarget:_backgroundNode];
+//[self registerDescendant:_backgroundNode withOptions:[NSSet setWithObject:HLSceneChildGestureTarget]];
+//
 //    _adBackgroundNode.position                                  = CGPointMake(0.0f, 0.0f);
 //    [self addChild:_adBackgroundNode];
 //    

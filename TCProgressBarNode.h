@@ -16,6 +16,9 @@
 /** Current progress of the progress bar, value between 0.0 and 1.0 */
 @property (nonatomic) CGFloat progress;
 
+/**The fill color*/
+@property (nonatomic, strong) UIColor *fillColor;
+
 /** Configurable title label, displayed centered in the progress bar by default */
 @property (nonatomic, strong, readonly) SKLabelNode *titleLabelNode;
 

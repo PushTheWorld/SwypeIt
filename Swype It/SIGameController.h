@@ -26,8 +26,9 @@
 
 
 @interface SIGameController : UIViewController
-+ (BMGlyphLabel *)BMGLabelLongIslandStroked;
-+ (BMGlyphLabel *)BMGLabelHiraginoKakuGothicText:(NSString *)text;
+//+ (BMGlyphLabel *)BMGLabelLongIslandStroked;
+//+ (BMGlyphLabel *)BMGLabelHiraginoKakuGothicText:(NSString *)text;
+//+ (BMGlyphLabel *)BMGLabelSceneGameSwypeItCoins;
 /**
  Gets the height of the ad banner view
  */
