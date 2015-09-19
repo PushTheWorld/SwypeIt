@@ -407,5 +407,60 @@
     XCTAssertEqual(SECONDS_IN_DAY, 60*60*24);
 }
 
+- (void)testStateStringNameForGameState {
+    /*Idle*/
+    XCTAssertEqualObjects(kSITKStateMachineStateGameIdle, [SIGame stateStringNameForGameState:SIGameStateIdle]);
+    
+    /*Pause*/
+    XCTAssertEqualObjects(kSITKStateMachineStateGamePause, [SIGame stateStringNameForGameState:SIGameStatePause]);
+
+    /*Paying For Life*/
+    XCTAssertEqualObjects(kSITKStateMachineStateGamePayingForContinue, [SIGame stateStringNameForGameState:SIGameStatePayingForContinue]);
+    
+    /*Popup Continue*/
+    XCTAssertEqualObjects(kSITKStateMachineStateGamePopupContinue, [SIGame stateStringNameForGameState:SIGameStatePopupContinue]);
+    
+    /*Processing Move*/
+    XCTAssertEqualObjects(kSITKStateMachineStateGameProcessingMove, [SIGame stateStringNameForGameState:SIGameStateProcessingMove]);
+    
+    /*Start*/
+    XCTAssertEqualObjects(kSITKStateMachineStateGameStart, [SIGame stateStringNameForGameState:SIGameStateStart]);
+
+    /*End*/
+    XCTAssertEqualObjects(kSITKStateMachineStateGameEnd, [SIGame stateStringNameForGameState:SIGameStateEnd]);
+    
+    /*Falling Monkey*/
+    XCTAssertEqualObjects(kSITKStateMachineStateGameFallingMonkey, [SIGame stateStringNameForGameState:SIGameStateFallingMonkey]);
+    
+}
+
+- (void)testGameStateForString {
+    /*Idle*/
+    XCTAssertEqual(SIGameStateIdle, [SIGame gameStateForStringName:kSITKStateMachineStateGameIdle]);
+    
+    /*Pause*/
+    XCTAssertEqual(SIGameStatePause, [SIGame gameStateForStringName:kSITKStateMachineStateGamePause]);
+    
+    /*Paying For Life*/
+    XCTAssertEqual(SIGameStatePayingForContinue, [SIGame gameStateForStringName:kSITKStateMachineStateGamePayingForContinue]);
+    
+    /*Popup Continue*/
+    XCTAssertEqual(SIGameStatePopupContinue, [SIGame gameStateForStringName:kSITKStateMachineStateGamePopupContinue]);
+    
+    /*Processing Move*/
+    XCTAssertEqual(SIGameStateProcessingMove, [SIGame gameStateForStringName:kSITKStateMachineStateGameProcessingMove]);
+    
+    /*Start*/
+    XCTAssertEqual(SIGameStateStart, [SIGame gameStateForStringName:kSITKStateMachineStateGameStart]);
+
+    /*End*/
+    XCTAssertEqual(SIGameStateEnd, [SIGame gameStateForStringName:kSITKStateMachineStateGameEnd]);
+    
+    /*Falling Monkey*/
+    XCTAssertEqual(SIGameStateFallingMonkey, [SIGame gameStateForStringName:kSITKStateMachineStateGameFallingMonkey]);
+    
+}
+
+
 
 @end

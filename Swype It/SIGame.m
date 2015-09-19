@@ -1003,4 +1003,81 @@
             return nil;
     }
 }
+/**
+ Call this to get the string name of a game state
+ Default is End
+ */
++ (NSString *)stateStringNameForGameState:(SIGameState)gameState {
+    switch (gameState) {
+        case SIGameStateIdle:
+            return kSITKStateMachineStateGameIdle;
+            
+        case SIGameStatePause:
+            return kSITKStateMachineStateGamePause;
+            
+        case SIGameStatePayingForContinue:
+            return kSITKStateMachineStateGamePayingForContinue;
+            
+        case SIGameStatePopupContinue:
+            return kSITKStateMachineStateGamePopupContinue;
+            
+        case SIGameStateProcessingMove:
+            return kSITKStateMachineStateGameProcessingMove;
+            
+        case SIGameStateStart:
+            return kSITKStateMachineStateGameStart;
+            
+        case SIGameStateFallingMonkey:
+            return kSITKStateMachineStateGameFallingMonkey;
+            
+        default:
+            return kSITKStateMachineStateGameEnd;
+    }
+}
+/**
+ Call this to get an SIGameState for a string key
+ Default return is SIGameStateStartEnd
+ */
++ (SIGameState)gameStateForStringName:(NSString *)gameStateString {
+    if ([gameStateString isEqualToString:kSITKStateMachineStateGamePause]) {
+        return SIGameStatePause;
+    } else if ([gameStateString isEqualToString:kSITKStateMachineStateGamePayingForContinue]) {
+        return SIGameStatePayingForContinue;
+    } else if ([gameStateString isEqualToString:kSITKStateMachineStateGamePopupContinue]) {
+        return SIGameStatePopupContinue;
+    } else if ([gameStateString isEqualToString:kSITKStateMachineStateGameProcessingMove]) {
+        return SIGameStateProcessingMove;
+    } else if ([gameStateString isEqualToString:kSITKStateMachineStateGameIdle]) {
+        return SIGameStateIdle;
+    } else if ([gameStateString isEqualToString:kSITKStateMachineStateGameFallingMonkey]) {
+        return SIGameStateFallingMonkey;
+    } else if ([gameStateString isEqualToString:kSITKStateMachineStateGameStart]) {
+        return SIGameStateStart;
+    } else {
+        return SIGameStateEnd;
+    }
+}
+
+/**
+ Geat a new background color
+ */
+
++ (int)newBackgroundColorNumberCurrentNumber:(int)currentColorNumber totalScore:(float)totalScore {
+    int randomNumber;
+    if (totalScore >= LEVEL12) {
+        randomNumber = arc4random_uniform(NUMBER_OF_MOVES * 3);
+        while (randomNumber == currentColorNumber) {
+            randomNumber = arc4random_uniform(NUMBER_OF_MOVES * 3);
+        }
+        
+    } else {
+        randomNumber = arc4random_uniform(NUMBER_OF_MOVES);
+        while (randomNumber == currentColorNumber) {
+            randomNumber = arc4random_uniform(NUMBER_OF_MOVES);
+        }
+        
+    }
+    currentColorNumber = randomNumber;
+    return currentColorNumber;
+}
 @end

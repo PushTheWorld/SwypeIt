@@ -433,6 +433,26 @@ NSString *const kEDKeyAchievementDetailsPrefixString                            
 NSString *const kEDKeyAchievementDetailsPostfixString                           = @"postfixString";
 NSString *const kEDKeyAchievementDetailsType                                    = @"type";
 
+#pragma mark - State Machine
+NSString *const kSITKStateMachineStateGameEnd                                   = @"end";
+NSString *const kSITKStateMachineStateGameFallingMonkey                         = @"fallingMonkey";
+NSString *const kSITKStateMachineStateGameIdle                                  = @"idle";
+NSString *const kSITKStateMachineStateGamePause                                 = @"pause";
+NSString *const kSITKStateMachineStateGamePayingForContinue                     = @"payingForContinue";
+NSString *const kSITKStateMachineStateGamePopupContinue                         = @"popupContinue";
+NSString *const kSITKStateMachineStateGameProcessingMove                        = @"processingMove";
+NSString *const kSITKStateMachineStateGameStart                                 = @"start";
+
+#pragma mark - State Machine Events
+NSString *const kSITKStateMachineEventGameEndGame                               = @"endGame";
+NSString *const kSITKStateMachineEventGameFallingMonkeyEnd                      = @"fallingMonkeyEnd";
+NSString *const kSITKStateMachineEventGameFallingMonkeyStart                    = @"fallingMonkeyStart";
+NSString *const kSITKStateMachineEventGameMoveEntered                           = @"moveEntered";
+NSString *const kSITKStateMachineEventGamePause                                 = @"pauseEvent";
+NSString *const kSITKStateMachineEventGamePayForContinue                        = @"payForContinue";
+NSString *const kSITKStateMachineEventGameStartGame                             = @"startGame";
+NSString *const kSITKStateMachineEventGameWaitForMove                           = @"waitForMove";
+NSString *const kSITKStateMachineEventGameWrongMoveEntered                      = @"wrongMoveEntered";
 
 
 #pragma mark - Useful things

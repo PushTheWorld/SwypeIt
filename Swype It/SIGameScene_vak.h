@@ -28,7 +28,7 @@
 // Called when the scene recognizes a gesture
 //    Pinch, Tap, Swype of Shake
 // */
-//- (void)controllerSceneGameDidRecieveMove:(SIMove *)move;
+//- (void)sceneGameDidRecieveMove:(SIMove *)move;
 //
 ///**
 // Fires when the pause button is pressed

@@ -4,10 +4,27 @@
 //  Created by Andrew Keller on 9/5/15.
 //  Copyright © 2015 Push The World LLC. All rights reserved.
 //
-
+#import "SIPowerUp.h"
 #import "SIMove.h"
 
 @implementation SIMove
+
+- (instancetype)initWithRandomMoveForGameMode:(SIGameMode)gameMode powerUpArray:(NSArray *)array {
+    self = [super init];
+    if (self) {
+        _moveCommand = [SIMove randomMoveForGameMode:gameMode withPowerUpArray:array];
+    }
+    return self;
+}
+
++ (SIMoveCommand)randomMoveForGameMode:(SIGameMode)gameMode withPowerUpArray:(NSArray *)powerUpArray {
+    if ([SIPowerUp isPowerUpActive:SIPowerUpTypeRapidFire powerUpArray:powerUpArray]) {
+        return SIMoveCommandTap;
+    } else {
+        return [SIGame getRandomMoveForGameMode:gameMode];
+    }
+}
+
 
 - (CGPoint)touchPoint {
     if (_gestureRecognizer == nil) {

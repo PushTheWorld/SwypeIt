@@ -346,18 +346,7 @@ static const uint32_t SIGameSceneCategoryMoveScore     = 0x1 << 3; // 0000000000
         _progressBarMove = progressBarMove;
         _progressBarMove.physicsBody.categoryBitMask = SIGameSceneCategoryUIControl;
         [self addChild:_progressBarMove];
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(7 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            NSLog(@"3");
-        });
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(8 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            NSLog(@"2");
-        });
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(9 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            NSLog(@"1");
-        });
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(10.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            _progressBarMove.progress = 1.0f;
-        });
+        _progressBarMove.progress = 1.0f;
     }
     [self layoutXYZAnimation:SISceneContentAnimationNone];
 }
@@ -722,7 +711,7 @@ static const uint32_t SIGameSceneCategoryMoveScore     = 0x1 << 3; // 0000000000
 /**
  Called to show an exploding move score
  */
-- (void)sceneGameWillShowMoveScore:(BMGlyphLabel *)moveLabel {
+- (void)sceneGameWillShowMoveScore:(SKLabelNode *)moveLabel {
     //Had to create a node for scaling the moveLabel
     SKSpriteNode *moveLabelNode = [SKSpriteNode spriteNodeWithColor:[SKColor clearColor] size:CGSizeMake(200.0f, 100.0f)];
 
@@ -804,8 +793,8 @@ static const uint32_t SIGameSceneCategoryMoveScore     = 0x1 << 3; // 0000000000
 #pragma mark - Delegate Methods
 #pragma mark SIGameNode
 - (void)gestureEnded:(SIMove *)move {
-    if ([_sceneDelegate respondsToSelector:@selector(controllerSceneGameDidRecieveMove:)]) {
-        [_sceneDelegate controllerSceneGameDidRecieveMove:move];
+    if ([_sceneDelegate respondsToSelector:@selector(sceneGameDidRecieveMove:)]) {
+        [_sceneDelegate sceneGameDidRecieveMove:move];
     }
 }
 

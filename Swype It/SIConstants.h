@@ -359,14 +359,14 @@ typedef NS_ENUM(NSInteger, SISceneMenuType) {
 };
 
 typedef NS_ENUM(NSInteger, SIZPositionMenu) {
-    SIZPositionMenuBackground = 0,
+    SIZPositionMenuBackground       = 0,
     SIZPositionMenuContent,
     SIZPositionMenuContentToolbar,
     SIZPositionMenuCount
 };
 
 typedef NS_ENUM(NSInteger, SIZPositionGame) {
-    SIZPositionGameBackground = 0,
+    SIZPositionGameBackground       = 0,
     SIZPositionGameContent,
     SIZPositionGameContentProgressBarContent,
     SIZPositionGameContentMoveScoreEmitter,
@@ -379,10 +379,33 @@ typedef NS_ENUM(NSInteger, SIZPositionGame) {
 };
 
 typedef NS_ENUM(NSInteger, SIZPositionPopup) {
-    SIZPositionPopupBackground = 0,
+    SIZPositionPopupBackground      = 0,
     SIZPositionPopupContent,
     SIZPositionPopupContentTop,
     SIZPositionPopupCount
+};
+
+typedef NS_ENUM(NSInteger, SIGameState) {
+    SIGameStateEnd                  = 0,
+    SIGameStateFallingMonkey,
+    SIGameStateIdle,
+    SIGameStatePause,
+    SIGameStatePayingForContinue,
+    SIGameStatePopupContinue,
+    SIGameStateProcessingMove,
+    SIGameStateStart
+};
+
+typedef NS_ENUM(NSInteger, SIGameEvent) {
+    SIGameEventEndGame                  = 0,
+    SIGameEventFallingMonkeyEnd,
+    SIGameEventFallingMonkeyStart,
+    SIGameEventMoveEntered,
+    SIGameEventPause,
+    SIGameEventPayForContinue,
+    SIGameEventStartGame,
+    SIGameEventWaitForMove,
+    SIGameEventWrongMoveEntered
 };
 
 typedef NS_ENUM(NSInteger, SIMenuNodeAnimation) {
@@ -683,15 +706,6 @@ extern NSString *const kSINodeGameScoreTotal;
 extern NSString *const kSINodePopupContent;
 extern NSString *const kSINodePopupTitle;
 
-#pragma mark - Fonts
-//extern NSString *const kSIBGFontHiraginoKakuGothic;
-//extern NSString *const kSIBGFontLongIslandStroked;
-//extern NSString *const kSIBGFontSceneGameSwypeItCoins;
-//extern NSString *const kSIBGFontUltraStroked;
-//extern NSString *const kSIFontGameScore;
-//extern NSString *const kSIFontFuturaMedium;
-//extern NSString *const kSIFontUltra;
-
 #pragma mark - San Fran Fonts
 extern NSString *const kSISFFontDisplayLight;
 extern NSString *const kSISFFontDisplayHeavy;
@@ -784,6 +798,28 @@ extern NSString *const kEDKeyAchievementDetailsPercentComplete;
 extern NSString *const kEDKeyAchievementDetailsPrefixString;
 extern NSString *const kEDKeyAchievementDetailsPostfixString;
 extern NSString *const kEDKeyAchievementDetailsType;
+
+#pragma mark - State Machine States
+extern NSString *const kSITKStateMachineStateGameEnd;
+extern NSString *const kSITKStateMachineStateGameFallingMonkey;
+extern NSString *const kSITKStateMachineStateGameIdle;
+extern NSString *const kSITKStateMachineStateGamePause;
+extern NSString *const kSITKStateMachineStateGamePayingForContinue;
+extern NSString *const kSITKStateMachineStateGamePopupContinue;
+extern NSString *const kSITKStateMachineStateGameProcessingMove;
+extern NSString *const kSITKStateMachineStateGameStart;
+
+#pragma mark - State Machine Events
+extern NSString *const kSITKStateMachineEventGameEndGame;
+extern NSString *const kSITKStateMachineEventGameFallingMonkeyEnd;
+extern NSString *const kSITKStateMachineEventGameFallingMonkeyStart;
+extern NSString *const kSITKStateMachineEventGameMoveEntered;
+extern NSString *const kSITKStateMachineEventGamePause;
+extern NSString *const kSITKStateMachineEventGamePayForContinue;
+extern NSString *const kSITKStateMachineEventGameStartGame;
+extern NSString *const kSITKStateMachineEventGameWaitForMove;
+extern NSString *const kSITKStateMachineEventGameWrongMoveEntered;
+
 
 #pragma mark - Useful things
 @interface SIConstants : NSObject

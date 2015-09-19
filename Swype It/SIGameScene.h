@@ -27,7 +27,7 @@
  Called when the scene recognizes a gesture
  Pinch, Tap, Swype of Shake
  */
-- (void)controllerSceneGameDidRecieveMove:(SIMove *)move;
+- (void)sceneGameDidRecieveMove:(SIMove *)move;
 
 /**
  Fires when the pause button is pressed
@@ -91,7 +91,7 @@
 /**
  Called to show an exploding move score
  */
-- (void)sceneGameWillShowMoveScore:(BMGlyphLabel *)moveLabel;
+- (void)sceneGameWillShowMoveScore:(SKLabelNode *)moveLabel;
 
 /**
  Layout the Scene

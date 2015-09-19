@@ -69,7 +69,7 @@
     SIMove *move = [[SIMove alloc] init];
     move.moveCommand = SIMoveCommandSwype;
     
-    [gameController controllerSceneGameDidRecieveMove:move];
+    [gameController sceneGameDidRecieveMove:move];
     
     OCMVerify([mockGame singletonGameDidEnterMove:move]);
     

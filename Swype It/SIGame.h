@@ -14,8 +14,8 @@
 #pragma mark - Public Objects
 
 #pragma mark - Public Properties
-@property (assign, nonatomic) BOOL               isPaused;
-@property (assign, nonatomic) BOOL               isStarted;
+//@property (assign, nonatomic) BOOL               isPaused;
+//@property (assign, nonatomic) BOOL               isStarted;
 @property (assign, nonatomic) BOOL               isHighScore;
 @property (assign, nonatomic) int                freeCoinsEarned;
 @property (assign, nonatomic) int                currentNumberOfTimesContinued;
@@ -26,7 +26,7 @@
 @property (assign, nonatomic) float              powerUpPercentRemaining;
 @property (assign, nonatomic) float              totalScore;
 @property (assign, nonatomic) NSInteger          currentPointsRemainingThisRound;
-@property (assign, nonatomic) NSInteger          currentBackgroundColorNumber;
+@property (assign, nonatomic) int                currentBackgroundColorNumber;
 @property (assign, nonatomic) SIBackgroundSound  currentBackgroundSound;
 @property (assign, nonatomic) SIContinueLifeCost currentContinueLifeCost;
 @property (assign, nonatomic) SIGameMode         gameMode;
@@ -41,6 +41,7 @@
 + (float)               scoreForMoveDuration:(float)durationOfLastMove withLevelSpeedDivider:(float)levelSpeedDivider;
 + (float)               levelSpeedForScore:(float)score;
 + (float)               updatePointsTillFreeCoinMoveScore:(float)moveScore withCallback:(void (^)(BOOL willAwardFreeCoin))callback;
++ (int)newBackgroundColorNumberCurrentNumber:(int)currentColorNumber totalScore:(float)totalScore
 + (int)                 nextLevelForScore:(float)score;
 + (int)                 numberOfCoinsForSIIAPPack:(SIIAPPack)siiapPack;
 + (NSString *)          buttonNodeNameLabelDescriptionForSIIAPPack:(SIIAPPack)siiapPack;
@@ -52,6 +53,7 @@
 + (NSString *)          soundNameForSIBackgroundSound:(SIBackgroundSound)siBackgroundSound;
 + (NSString *)          stringForMove:(SIMoveCommand)move;
 + (NSString *)userMessageForScore:(float)score isHighScore:(BOOL)isHighScore highScore:(float)highScore;
+
 /**
  Gets the title for the type of menu
  */
@@ -89,6 +91,18 @@
  Configures game properties for new game
  */
 + (void)setStartGameProperties:(SIGame *)game;
+
+#pragma mark State Machine Class Functions
+/**
+ Call this to get an SIGameState for a string key
+ Default return is SIGameStateStartEnd
+ */
++ (SIGameState)gameStateForStringName:(NSString *)gameStateString;
+/**
+ Call this to get the string name of a game state
+ Default is Start End
+ */
++ (NSString *)stateStringNameForGameState:(SIGameState)gameState;
 
 #pragma mark - Public Methods
 - (NSString *)getCurrentLevelString;

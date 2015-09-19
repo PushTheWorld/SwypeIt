@@ -18,6 +18,18 @@
 // Other Imports
 
 @protocol SISingletonGameDelegate <NSObject>
+
+/**
+ called when the right move is made and sends a new one
+ */
+- (void)singletonGameCorrectMoveEnteredNewMove:(SIMove *)move;
+
+/**
+ called when the wrong move is entered move is made and sends a new one
+ */
+- (void)singletonGameWrongMoveEntered;
+
+
 /**
  Called when the model is ready for a new move to be 
     loaded by the controller to the view
@@ -147,6 +159,13 @@
  percent remaining value drops below the epsilon value
  */
 - (void)singletonGameWillDectivatePowerUp:(SIPowerUp *)powerUpClass;
+
+
+
+- (void)startTimer;
+
+- (void)pauseTimer;
+
 
 @end
 

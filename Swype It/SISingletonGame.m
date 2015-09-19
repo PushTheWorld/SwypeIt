@@ -53,7 +53,6 @@
 - (instancetype)init {
     self = [super init];
     if (self) {
-        _currentGame                    = [[SIGame alloc] init];
         _timer                                          = [[NSTimer alloc] init];
         _timerInterval                                  = TIMER_INTERVAL;
     }
@@ -73,11 +72,6 @@
     _levelSpeedDivider                              = 1.0f;
     _moveStartTimeInMiliSeconds                     = 0.0f;
     _timeFreezeMultiplyer                           = 1.0f;
-    [SIGame setStartGameProperties:_currentGame];
-    /*Alert that the model is ready for a new move*/
-    if ([_delegate respondsToSelector:@selector(controllerSingletonGameLoadNewMove)]) {
-        [_delegate controllerSingletonGameLoadNewMove];
-    }
 }
 
 /**
@@ -122,13 +116,9 @@
  */
 - (void)singletonGameDidEnd {
     [SIGame updateLifetimePointsScore:_currentGame.totalScore];
-    self.currentGame.isStarted = NO;
 }
 
-- (void)singletonGameWillPause {
-    _currentGame.isPaused           = YES;
-    _pauseStartTimeInMiliSeconds    = _compositeTimeInMiliSeconds;
-}
+
 
 /**
  Called in several scenarios
@@ -138,7 +128,7 @@
     2. User tapped pause and now wants to play...
  */
 - (void)singletonGameWillResumeAndContinue:(BOOL)willContinue {
-    _currentGame.isPaused           = NO;
+    _isPaused                       = NO;
     
     /*Update the moveStartTime to account for the pause duration*/
     _moveStartTimeInMiliSeconds     = (_compositeTimeInMiliSeconds - _pauseStartTimeInMiliSeconds) + _moveStartTimeInMiliSeconds;
@@ -160,41 +150,53 @@
     If correct -> calls singletonGameWillShowNewMove
     If incorrect -> calls singletonGameWillEnd
  */
+//- (void)singletonGameDidEnterMove:(SIMove *)move {
+//    if (!_timer.valid) {
+//        [self singletonGameDidStart];
+//    }
+//    if (_currentGame.isPaused == YES) {
+//        return;
+//    }
+//    
+//    if (_currentGame.gameMode == SIGameModeTwoHand) {
+//        if (move.moveCommand == SIMoveCommandShake) {
+//            return;
+//        }
+//    //don't need else `if` because there are only two modes
+//    //  it's implied....
+//    } else { //if (_currentGame.gameMode == SIGameModeOneHand) {
+//        if (move.moveCommand == SIMoveCommandPinch) {
+//            return;
+//        }
+//    }
+//    
+//    /*Continue on... business as usual*/
+//    if (move.moveCommand == _currentGame.currentMove.moveCommand) {
+//        /*
+//         If the game is not started we need to do a little extra, like
+//            start the timers and such
+//         */
+//        if ([_delegate respondsToSelector:@selector(singletonGameCorrectMoveEnteredNewMove:)]) {
+//            [_delegate singletonGameCorrectMoveEnteredNewMove:[[SIMove alloc] initWithRandomMoveForGameMode:_currentGame.gameMode powerUpArray:[_currentGame.powerUpArray copy]]];
+//        }
+////        if (self.currentGame.isStarted) {
+////            [self singletonGameWillContinue];
+////        } else {
+////            [self singletonGameDidStart];
+////        }
+//    } else {
+//        [self singletonGameWillEnd];
+//    }
+//}
+
 - (void)singletonGameDidEnterMove:(SIMove *)move {
-    if (!_timer.valid) {
-        [self singletonGameDidStart];
-    }
-    if (_currentGame.isPaused == YES) {
-        return;
-    }
-    
-    if (_currentGame.gameMode == SIGameModeTwoHand) {
-        if (move.moveCommand == SIMoveCommandShake) {
-            return;
-        }
-    //don't need else `if` because there are only two modes
-    //  it's implied....
-    } else { //if (_currentGame.gameMode == SIGameModeOneHand) {
-        if (move.moveCommand == SIMoveCommandPinch) {
-            return;
-        }
-    }
-    
-    /*Continue on... business as usual*/
-    if (move.moveCommand == _currentGame.currentMove.moveCommand) {
-        /*
-         If the game is not started we need to do a little extra, like
-            start the timers and such
-         */
-        if (self.currentGame.isStarted) {
-            [self singletonGameWillContinue];
-        } else {
-            [self singletonGameDidStart];
-        }
-    } else {
-        [self singletonGameWillEnd];
+    if ([_delegate respondsToSelector:@selector(singletonGameDidEnterMove:)]) {
+        SIMove *newMove = [[SIMove alloc] initWithRandomMoveForGameMode:_currentGame.gameMode powerUpArray:[_currentGame.powerUpArray copy]];
+        [_delegate singletonGameCorrectMoveEnteredNewMove:newMove];
     }
 }
+
+
 
 /**
  Indicates: 
@@ -220,10 +222,6 @@
         _currentGame.currentMove.moveCommand        = [self updateMove];
 
     }
-    
-    
-    /*Get a new background color*/
-    _currentGame.currentBackgroundColor = [self singletonGameNewBackgroundColor];
     
     /*Update Background Sound*/
     [self updateBackgroundSound];
@@ -281,24 +279,24 @@
     _currentGame.freeCoinPercentRemaining   = _currentGame.freeCoinInPoints / (float)POINTS_NEEDED_FOR_FREE_COIN;
 }
 
-- (UIColor *)singletonGameNewBackgroundColor {
-    NSInteger randomNumber;
-    if (self.currentGame.totalScore >= LEVEL12) {
-        randomNumber = arc4random_uniform(NUMBER_OF_MOVES * 3);
-        while (randomNumber == _currentGame.currentBackgroundColorNumber) {
-            randomNumber = arc4random_uniform(NUMBER_OF_MOVES * 3);
-        }
-
-    } else {
-        randomNumber = arc4random_uniform(NUMBER_OF_MOVES);
-        while (randomNumber == _currentGame.currentBackgroundColorNumber) {
-            randomNumber = arc4random_uniform(NUMBER_OF_MOVES);
-        }
-
-    }
-    _currentGame.currentBackgroundColorNumber = randomNumber;
-    return [SIGame backgroundColorForScore:_currentGame.totalScore forRandomNumber:randomNumber];
-}
+//- (UIColor *)singletonGameNewBackgroundColor {
+//    NSInteger randomNumber;
+//    if (self.currentGame.totalScore >= LEVEL12) {
+//        randomNumber = arc4random_uniform(NUMBER_OF_MOVES * 3);
+//        while (randomNumber == _currentGame.currentBackgroundColorNumber) {
+//            randomNumber = arc4random_uniform(NUMBER_OF_MOVES * 3);
+//        }
+//
+//    } else {
+//        randomNumber = arc4random_uniform(NUMBER_OF_MOVES);
+//        while (randomNumber == _currentGame.currentBackgroundColorNumber) {
+//            randomNumber = arc4random_uniform(NUMBER_OF_MOVES);
+//        }
+//
+//    }
+//    _currentGame.currentBackgroundColorNumber = randomNumber;
+//    return [SIGame backgroundColorForScore:_currentGame.totalScore forRandomNumber:randomNumber];
+//}
 - (void)didLevelStringChange:(NSString *)oldLevelString newLevelString:(NSString *)newLevelString {
     if ([oldLevelString isEqualToString:newLevelString] == NO) {
         self.currentGame.currentLevel   = newLevelString;
@@ -314,25 +312,38 @@
         _startTime  = [NSDate timeIntervalSinceReferenceDate];
     }
 }
+- (void)pauseTimer {
+    _isPaused                       = YES;
+    _pauseStartTimeInMiliSeconds    = _compositeTimeInMiliSeconds;
+}
+
+- (void)resumeTimer {
+    _isPaused                       = NO;
+    
+    /*Update the moveStartTime to account for the pause duration*/
+    _moveStartTimeInMiliSeconds     = (_compositeTimeInMiliSeconds - _pauseStartTimeInMiliSeconds) + _moveStartTimeInMiliSeconds;
+    
+    for (SIPowerUp *powerUp in _currentGame.powerUpArray) {
+        powerUp.startTimeMS         = (_compositeTimeInMiliSeconds - _pauseStartTimeInMiliSeconds) + powerUp.startTimeMS;
+    }
+}
 /*updateTimeAndScore gets updated every 1/30 seconds*/
 - (void)updateTimeAndScore {
     /*Update the master timer*/
     [self updateCompositeTime];
     
-    if (_currentGame.isPaused == NO) {
+    if (_isPaused == NO) {
         /*Calculate new time*/
         float durationOfLastMove                = (_compositeTimeInMiliSeconds - _moveStartTimeInMiliSeconds) * _timeFreezeMultiplyer;
         
         /*Calculate Level Speed Divider*/
-        _levelSpeedDivider                      = [SIGame levelSpeedForScore:self.currentGame.totalScore];
+        _levelSpeedDivider                      = [SIGame levelSpeedForScore:_currentGame.totalScore];
         
         /*Get the new score for this time -- Always keep the time current*/
         _currentGame.moveScore                  = [SIGame scoreForMoveDuration:durationOfLastMove withLevelSpeedDivider:_levelSpeedDivider];
         
         /*Get the new percentage for score*/
         _currentGame.moveScorePercentRemaining  = _currentGame.moveScore / MAX_MOVE_SCORE;
-        
-        
         
         /*Get the powerup percent remaining*/
         _currentGame.powerUpPercentRemaining    = [SIPowerUp powerUpPercentRemaining:_currentGame.powerUpArray compositeTime:_compositeTimeInMiliSeconds withCallback:^(SIPowerUp *powerUpToDeactivate) {

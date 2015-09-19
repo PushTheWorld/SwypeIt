@@ -1,14 +1,15 @@
 PODS:
-  - Crashlytics (3.1.0)
-  - Fabric (1.2.8):
-    - Fabric/Base (= 1.2.8)
-  - Fabric/Base (1.2.8)
-  - FXBlurView (1.6.3)
-  - Instabug (4.1.4)
+  - Crashlytics (3.3.1)
+  - Fabric (1.5.1):
+    - Fabric/Base (= 1.5.1)
+  - Fabric/Base (1.5.1)
+  - FXBlurView (1.6.4)
+  - Instabug (4.1.6)
   - iRate (1.11.4)
   - iVersion (1.11.4)
   - JCNotificationBannerPresenter (1.1.2)
   - SoundManager (1.4.2)
+  - TransitionKit (2.0.0)
 
 DEPENDENCIES:
   - Crashlytics
@@ -19,15 +20,17 @@ DEPENDENCIES:
   - iVersion
   - JCNotificationBannerPresenter
   - SoundManager
+  - TransitionKit (~> 2.0.0)
 
 SPEC CHECKSUMS:
-  Crashlytics: 93e2f86363d53c002c6366a9d87e41f2eaee87c3
-  Fabric: a9eabe53915e9f1db55a84dd2838737928675878
-  FXBlurView: c6d23f3d35af2c6282296a2930f61c6e2c788d01
-  Instabug: de19c1b0f89c4e5deda6dd7f1dc3515e54238b08
+  Crashlytics: 0e61bdda9def51f1e99720f804eebe94865442b2
+  Fabric: 03c3b3fe77e11a2bc31421b989a9c7adaa4779a5
+  FXBlurView: db786c2561cb49a09ae98407f52460096ab8a44f
+  Instabug: 6f87a52937b449c03e9f99b81ee85b13eea0cf25
   iRate: 599ed07c854e0695f3c605d1b2a64c67d912acb7
   iVersion: 2b6ffe708672cb494ba3cab150a94800c2892e81
   JCNotificationBannerPresenter: f40150961943048ed3b1d2628d29dbf66a959e21
   SoundManager: 99ae328a3ec9b259db774c9851a65feeceba8183
+  TransitionKit: c150629869b0eab9d270f914aad2d1a088a8c19d
 
 COCOAPODS: 0.38.2

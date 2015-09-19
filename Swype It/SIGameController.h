@@ -112,7 +112,7 @@
 
 #pragma mark - Public Methods for Testing
 - (void)launchSceneGameWithGameMode:(SIGameMode)gameMode;
-- (void)controllerSceneGameDidRecieveMove:(SIMove *)move;
+- (void)sceneGameDidRecieveMove:(SIMove *)move;
 - (SIGameScene *)loadGameScene;
 
 @end

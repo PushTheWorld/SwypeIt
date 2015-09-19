@@ -479,16 +479,16 @@
 //
 //#pragma mark - SIGameNode delegate
 //- (void)gestureEnded:(SIMove *)move {
-//    if ([_sceneDelegate respondsToSelector:@selector(controllerSceneGameDidRecieveMove:)]) {
-//        [_sceneDelegate controllerSceneGameDidRecieveMove:move];
+//    if ([_sceneDelegate respondsToSelector:@selector(sceneGameDidRecieveMove:)]) {
+//        [_sceneDelegate sceneGameDidRecieveMove:move];
 //    }
 //}
 //- (void)shakeRegistered {
-//    if ([_sceneDelegate respondsToSelector:@selector(controllerSceneGameDidRecieveMove:)]) {
+//    if ([_sceneDelegate respondsToSelector:@selector(sceneGameDidRecieveMove:)]) {
 //        SIMove *move = [[SIMove alloc] init];
 //        move.moveCommand = SIMoveCommandShake;
 //        move.moveCommandAction = SIMoveCommandActionShake;
-//        [_sceneDelegate controllerSceneGameDidRecieveMove:move];
+//        [_sceneDelegate sceneGameDidRecieveMove:move];
 //    }
 //}
 //- (void)sceneGameFadeUIElementsInDuration:(CGFloat)duration {
