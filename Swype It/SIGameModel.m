@@ -23,7 +23,9 @@
 - (instancetype)init {
     self = [super init];
     if (self) {
-        _stateMachine = [self createGameStateMachine];
+        _game                                               = [[SIGame alloc] init];
+        _powerUpArray                                       = [NSMutableArray array];
+        _stateMachine                                       = [self createGameStateMachine];
     }
     return self;
 }
@@ -61,8 +63,8 @@
     [gameStateProcessingMove setDidEnterStateBlock:^(TKState *state, TKTransition *transition) {
         NSDictionary *userInfo = transition.userInfo;
         
-        if ([_delegate respondsToSelector:@selector(gameModelGameStateExitedEnd)]) {
-            [_delegate gameModelEnteredStateProcessingMove:[userInfo objectForKey:@"move"]];
+        if ([_delegate respondsToSelector:@selector(gameModelStateEndExited)]) {
+            [_delegate gameModelStateProcessingMoveEnteredWithMove:[userInfo objectForKey:@"move"]];
         }
     }];
     
@@ -76,8 +78,20 @@
     
     //exits
     [gameStateEnd setDidExitStateBlock:^(TKState *state, TKTransition *transition) {
-        if ([_delegate respondsToSelector:@selector(gameModelGameStateExitedEnd)]) {
-            [_delegate gameModelGameStateExitedEnd];
+        if ([_delegate respondsToSelector:@selector(gameModelStateEndExited)]) {
+            [_delegate gameModelStateEndExited];
+        }
+    }];
+    
+    [gameStatePause setDidExitStateBlock:^(TKState *state, TKTransition *transition) {
+        if ([_delegate respondsToSelector:@selector(gameModelStatePauseExited)]) {
+            [_delegate gameModelStatePauseExited];
+        }
+    }];
+    
+    [gameStateProcessingMove setDidExitStateBlock:^(TKState *state, TKTransition *transition) {
+        if ([_delegate respondsToSelector:@selector(gameModelStateProcessingMoveExited)]) {
+            [_delegate gameModelStateProcessingMoveExited];
         }
     }];
     
@@ -135,34 +149,34 @@
 - (void)didEnterState:(SIGameState)gameState {
     switch (gameState) {
         case SIGameStateIdle:
-            if ([_delegate respondsToSelector:@selector(gameModelEnteredStateIdle)]) {
-                [_delegate gameModelEnteredStateIdle];
+            if ([_delegate respondsToSelector:@selector(gameModelStateIdleEntered)]) {
+                [_delegate gameModelStateIdleEntered];
             }
             break;
         case SIGameStatePause:
-            if ([_delegate respondsToSelector:@selector(gameModelEnteredStatePause)]) {
-                [_delegate gameModelEnteredStatePause];
+            if ([_delegate respondsToSelector:@selector(gameModelStatePauseEntered)]) {
+                [_delegate gameModelStatePauseEntered];
             }
             break;
         case SIGameStatePayingForContinue:
-            if ([_delegate respondsToSelector:@selector(gameModelEnteredStatePayingForContinue)]) {
-                [_delegate gameModelEnteredStatePayingForContinue];
+            if ([_delegate respondsToSelector:@selector(gameModelStatePayingForContinueEntered)]) {
+                [_delegate gameModelStatePayingForContinueEntered];
             }
             break;
         case SIGameStatePopupContinue:
-            if ([_delegate respondsToSelector:@selector(gameModelEnteredStatePopupContinue)]) {
-                [_delegate gameModelEnteredStatePopupContinue];
+            if ([_delegate respondsToSelector:@selector(gameModelStatePopupContinueEntered)]) {
+                [_delegate gameModelStatePopupContinueEntered];
             }
             break;
         case SIGameStateFallingMonkey:
-            if ([_delegate respondsToSelector:@selector(gameModelEnteredStateFallingMonkey)]) {
-                [_delegate gameModelEnteredStateFallingMonkey];
+            if ([_delegate respondsToSelector:@selector(gameModelStateFallingMonkeyEntered)]) {
+                [_delegate gameModelStateFallingMonkeyEntered];
             }
             break;
         case SIGameStateEnd:
         default:
-            if ([_delegate respondsToSelector:@selector(gameModelEnteredStateEnd)]) {
-                [_delegate gameModelEnteredStateEnd];
+            if ([_delegate respondsToSelector:@selector(gameModelStateEndEntered)]) {
+                [_delegate gameModelStateEndEntered];
             }
             break;
     }

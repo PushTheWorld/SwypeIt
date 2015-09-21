@@ -576,8 +576,8 @@
 // Called Syncrousnly
 // */
 //-(void)update:(NSTimeInterval)currentTime {
-//    if ([_sceneDelegate respondsToSelector:@selector(controllerSceneGameWillUpdateProgressBars)]) {
-//        SISceneGameProgressBarUpdate *progressBarUpdate = [_sceneDelegate controllerSceneGameWillUpdateProgressBars];
+//    if ([_sceneDelegate respondsToSelector:@selector(sceneGameWillUpdateProgressBars)]) {
+//        SISceneGameProgressBarUpdate *progressBarUpdate = [_sceneDelegate sceneGameWillUpdateProgressBars];
 //        
 //        _progressBarMove.titleLabelNode.text            = progressBarUpdate.textMove;
 //        _progressBarMove.progress                       = progressBarUpdate.percentMove;

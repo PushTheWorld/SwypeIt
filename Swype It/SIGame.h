@@ -30,7 +30,7 @@
 @property (assign, nonatomic) SIBackgroundSound  currentBackgroundSound;
 @property (assign, nonatomic) SIContinueLifeCost currentContinueLifeCost;
 @property (assign, nonatomic) SIGameMode         gameMode;
-@property (strong, nonatomic) SIMove            *currentMove;
+//@property (strong, nonatomic) SIMove            *currentMove;
 @property (strong, nonatomic) NSMutableArray    *powerUpArray;
 @property (strong, nonatomic) NSString          *currentLevel;
 @property (strong, nonatomic) UIColor           *currentBackgroundColor;
@@ -41,7 +41,7 @@
 + (float)               scoreForMoveDuration:(float)durationOfLastMove withLevelSpeedDivider:(float)levelSpeedDivider;
 + (float)               levelSpeedForScore:(float)score;
 + (float)               updatePointsTillFreeCoinMoveScore:(float)moveScore withCallback:(void (^)(BOOL willAwardFreeCoin))callback;
-+ (int)newBackgroundColorNumberCurrentNumber:(int)currentColorNumber totalScore:(float)totalScore
++ (int)newBackgroundColorNumberCurrentNumber:(int)currentColorNumber totalScore:(float)totalScore;
 + (int)                 nextLevelForScore:(float)score;
 + (int)                 numberOfCoinsForSIIAPPack:(SIIAPPack)siiapPack;
 + (NSString *)          buttonNodeNameLabelDescriptionForSIIAPPack:(SIIAPPack)siiapPack;

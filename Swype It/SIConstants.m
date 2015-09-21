@@ -292,18 +292,6 @@ NSString *const kSIIAPPackNameExtraLarge                                        
 
 #pragma mark - Node Names
 NSString *const kSINodeAdBannerNode                                             = @"adBannerNode";
-NSString *const kSINodeLabelDescriptionChest                                    = @"chestOfCoinsLabelDescription";
-NSString *const kSINodeLabelDescriptionBag                                      = @"bagOfCoinsLabelDescription";
-NSString *const kSINodeLabelDescriptionBucket                                   = @"bucketOfCoinsLabelDescription";
-NSString *const kSINodeLabelDescriptionPile                                     = @"pileOfCoinsLabelDescription";
-NSString *const kSINodeLabelPriceChest                                          = @"chestOfCoinsLabelPrice";
-NSString *const kSINodeLabelPriceBag                                            = @"bagOfCoinsLabelPrice";
-NSString *const kSINodeLabelPriceBucket                                         = @"bucketOfCoinsLabelPrice";
-NSString *const kSINodeLabelPricePile                                           = @"pileOfCoinsLabelPrice";
-NSString *const kSINodeNodeChest                                                = @"chestOfCoinsNode";
-NSString *const kSINodeNodeBag                                                  = @"bagOfCoinsNode";
-NSString *const kSINodeNodeBucket                                               = @"bucketOfCoinsNode";
-NSString *const kSINodeNodePile                                                 = @"pileOfCoinsNode";
 NSString *const kSINodeButtonAchievement                                        = @"achievementButton";
 NSString *const kSINodeButtonBack                                               = @"backButtonNode";
 NSString *const kSINodeButtonContinue                                           = @"continueButton";
@@ -322,22 +310,26 @@ NSString *const kSINodeButtonSettings                                           
 NSString *const kSINodeButtonStore                                              = @"store";
 NSString *const kSINodeButtonTwoHand                                            = @"twoHand";
 NSString *const kSINodeButtonTimeFreeze                                         = @"timeFreeze";
+NSString *const kSINodeEmitterFire                                              = @"fireEmitterNode";
+NSString *const kSINodeEmitterSnow                                              = @"snowEmitterNode";
 NSString *const kSINodeFallingMonkey                                            = @"fallingMonkey";
 NSString *const kSINodeGameMoveCommand                                          = @"moveCommand";
 NSString *const kSINodeGameProgressBarMove                                      = @"progressBarMove";
 NSString *const kSINodeGameScoreTotal                                           = @"scoreTotal";
+NSString *const kSINodeLabelDescriptionChest                                    = @"chestOfCoinsLabelDescription";
+NSString *const kSINodeLabelDescriptionBag                                      = @"bagOfCoinsLabelDescription";
+NSString *const kSINodeLabelDescriptionBucket                                   = @"bucketOfCoinsLabelDescription";
+NSString *const kSINodeLabelDescriptionPile                                     = @"pileOfCoinsLabelDescription";
+NSString *const kSINodeLabelPriceChest                                          = @"chestOfCoinsLabelPrice";
+NSString *const kSINodeLabelPriceBag                                            = @"bagOfCoinsLabelPrice";
+NSString *const kSINodeLabelPriceBucket                                         = @"bucketOfCoinsLabelPrice";
+NSString *const kSINodeLabelPricePile                                           = @"pileOfCoinsLabelPrice";
+NSString *const kSINodeNodeChest                                                = @"chestOfCoinsNode";
+NSString *const kSINodeNodeBag                                                  = @"bagOfCoinsNode";
+NSString *const kSINodeNodeBucket                                               = @"bucketOfCoinsNode";
+NSString *const kSINodeNodePile                                                 = @"pileOfCoinsNode";
 NSString *const kSINodePopupContent                                             = @"content";
 NSString *const kSINodePopupTitle                                               = @"title";
-
-#pragma mark - Fonts
-//NSString *const kSIFontGameScore                                                = @"LongIslandContour";
-//NSString *const kSIFontFuturaMedium                                             = @"Futura-Medium";
-//NSString *const kSIBGFontLongIslandStroked                                      = @"longIslandStrokedShadowed";
-//NSString *const kSIFontUltra                                                    = @"Ultra";
-//NSString *const kSIBGFontUltraStroked                                           = @"ultraStrokedShadow";
-//NSString *const kSIBGFontHiraginoKakuGothic                                     = @"hiraginoKakuGothic";
-//NSString *const kSIBGFontSceneGameSwypeItCoins                                  = @"sceneGameSwypeItCoins";
-
 
 #pragma mark - San Fran Fonts
 NSString *const kSISFFontDisplayLight                                           = @"SFUIDisplay-Light";
@@ -407,7 +399,9 @@ NSString *const kSISoundFXSceneWoosh                                            
 #pragma mark - EmitterNodes
 NSString *const kSIEmitterFileTypeSKS                                           = @"sks";
 NSString *const kSIEmitterExplosionTouch                                        = @"explosionTouch";
+NSString *const kSIEmitterFireProgressBarPowerUp                                = @"rapidFireRevA";
 NSString *const kSIEmitterSpark                                                 = @"sparkRevA";
+NSString *const kSIEmitterSnowTimeFreeze                                        = @"snowTimeFreezeRevA";
 
 #pragma mark - Game Center Leaderboard IDs
 NSString *const kSIGameCenterLeaderBoardIDHandOne                               = @"oneHandGHS";

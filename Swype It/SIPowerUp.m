@@ -12,17 +12,17 @@
 }
 
 - (NSString *)description {
-    return [NSString stringWithFormat:@"%@\n Type: %@\nDuration: %d\nPercent Remaining: %0.2f\nPowerup Start Time:%0.2f",[super description],[SIPowerUp stringForPowerUp:_type],(int)_duration,_percentRemaining,_startTimeMS];
+    return [NSString stringWithFormat:@"%@\n Type: %@\nDuration: %d\nPercent Remaining: %0.2f\nPowerup Start Time:%0.2f",[super description],[SIPowerUp stringForPowerUp:_type],(int)_duration,_percentRemaining,_startTime];
 }
 
-- (instancetype)initWithPowerUp:(SIPowerUpType)powerUp atTime:(float)powerUpStartTime {
+- (instancetype)initWithPowerUp:(SIPowerUpType)powerUp startTime:(NSTimeInterval)powerUpStartTime {
     self = [super init];
     if (self) {
         _type               = powerUp;
         _duration           = [SIPowerUp durationForPowerUp:powerUp];
         _percentRemaining   = 1.0f;
         _isExpired          = NO;
-        _startTimeMS        = powerUpStartTime;
+        _startTime          = powerUpStartTime;
     }
     return self;
 }
@@ -158,12 +158,13 @@
     }
 }
 /*AUTO TESTED*/
-+ (float)powerUpPercentRemaining:(NSArray *)powerUpArray compositeTime:(float)compositeTime withCallback:(void (^)(SIPowerUp *powerUpToDeactivate))callback {
++ (float)powerUpPercentRemaining:(NSArray *)powerUpArray gameStartTime:(NSTimeInterval)gameStartTime timeFreezeMultiplier:(float)timeFreezeMultiplier withCallback:(void (^)(SIPowerUp *powerUpToDeactivate))callback {
     float maxPercent = 0.0f;
     
     for (SIPowerUp *powerUp in powerUpArray) {
         if (powerUp.type != SIPowerUpTypeFallingMonkeys) {
-            powerUp.percentRemaining = ((powerUp.duration * MILI_SECS_IN_SEC) - (compositeTime - powerUp.startTimeMS)) / (powerUp.duration * MILI_SECS_IN_SEC);
+            powerUp.percentRemaining = (powerUp.duration - (gameStartTime - powerUp.startTime)) / (powerUp.duration);
+            powerUp.percentRemaining = powerUp.percentRemaining * timeFreezeMultiplier;
             if (powerUp.percentRemaining < EPSILON_NUMBER) { /*This deactivates powerups... it's sooo powerful muwahahahha*/
                 /*Can one class function handle all that power?!?!*/
                 if (callback) {

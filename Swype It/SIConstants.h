@@ -669,18 +669,6 @@ extern NSString *const kSIIAPPackNameExtraLarge;
 
 #pragma mark - Node Names
 extern NSString *const kSINodeAdBannerNode;
-extern NSString *const kSINodeLabelDescriptionChest;
-extern NSString *const kSINodeLabelDescriptionBag;
-extern NSString *const kSINodeLabelDescriptionBucket;
-extern NSString *const kSINodeLabelDescriptionPile;
-extern NSString *const kSINodeLabelPriceChest;
-extern NSString *const kSINodeLabelPriceBag;
-extern NSString *const kSINodeLabelPriceBucket;
-extern NSString *const kSINodeLabelPricePile;
-extern NSString *const kSINodeNodeChest;
-extern NSString *const kSINodeNodeBag;
-extern NSString *const kSINodeNodeBucket;
-extern NSString *const kSINodeNodePile;
 extern NSString *const kSINodeButtonAchievement;
 extern NSString *const kSINodeButtonBack;
 extern NSString *const kSINodeButtonContinue;
@@ -699,10 +687,24 @@ extern NSString *const kSINodeButtonRapidFire;
 extern NSString *const kSINodeButtonReplay;
 extern NSString *const kSINodeButtonSettings;
 extern NSString *const kSINodeButtonStore;
+extern NSString *const kSINodeEmitterFire;
+extern NSString *const kSINodeEmitterSnow;
 extern NSString *const kSINodeFallingMonkey;
 extern NSString *const kSINodeGameMoveCommand;
 extern NSString *const kSINodeGameProgressBarMove;
 extern NSString *const kSINodeGameScoreTotal;
+extern NSString *const kSINodeLabelDescriptionChest;
+extern NSString *const kSINodeLabelDescriptionBag;
+extern NSString *const kSINodeLabelDescriptionBucket;
+extern NSString *const kSINodeLabelDescriptionPile;
+extern NSString *const kSINodeLabelPriceChest;
+extern NSString *const kSINodeLabelPriceBag;
+extern NSString *const kSINodeLabelPriceBucket;
+extern NSString *const kSINodeLabelPricePile;
+extern NSString *const kSINodeNodeChest;
+extern NSString *const kSINodeNodeBag;
+extern NSString *const kSINodeNodeBucket;
+extern NSString *const kSINodeNodePile;
 extern NSString *const kSINodePopupContent;
 extern NSString *const kSINodePopupTitle;
 
@@ -773,7 +775,9 @@ extern NSString *const kSISoundFXSceneWoosh;
 #pragma mark - EmitterNodes
 extern NSString *const kSIEmitterFileTypeSKS;
 extern NSString *const kSIEmitterExplosionTouch;
+extern NSString *const kSIEmitterFireProgressBarPowerUp;
 extern NSString *const kSIEmitterSpark;
+extern NSString *const kSIEmitterSnowTimeFreeze;
 
 #pragma mark - Game Center Leaderboard IDs
 extern NSString *const kSIGameCenterLeaderBoardIDHandOne;

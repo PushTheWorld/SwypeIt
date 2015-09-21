@@ -36,5 +36,20 @@
  */
 @property (nonatomic, assign) float totalScore;
 
+/**
+ The time the move started at
+ */
+@property (nonatomic, assign) NSTimeInterval timeStart;
+
+/**
+ The time the move was acted upon at
+ */
+@property (nonatomic, assign) NSTimeInterval timeEnd;
+
+/**
+ The current move score
+ */
+@property (nonatomic, assign) float moveScore;
+
 
 @end

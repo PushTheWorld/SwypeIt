@@ -627,8 +627,8 @@ static const uint32_t SIGameSceneCategoryMoveScore     = 0x1 << 3; // 0000000000
     }
 }
 - (void)update:(NSTimeInterval)currentTime {
-    if ([_sceneDelegate respondsToSelector:@selector(controllerSceneGameWillUpdateProgressBars)]) {
-        SISceneGameProgressBarUpdate *progressBarUpdate     = [_sceneDelegate controllerSceneGameWillUpdateProgressBars];
+    if ([_sceneDelegate respondsToSelector:@selector(sceneGameWillUpdateProgressBars)]) {
+        SISceneGameProgressBarUpdate *progressBarUpdate     = [_sceneDelegate sceneGameWillUpdateProgressBars];
         if (progressBarUpdate.hasStarted) {
             if (_progressBarMove) {
                 _progressBarMove.titleLabelNode.text        = progressBarUpdate.textMove;

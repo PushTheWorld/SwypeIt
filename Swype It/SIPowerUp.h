@@ -33,14 +33,14 @@
  The time (in world game time) that the power up was started
  Unit of time is milli seconds
  */
-@property (nonatomic, assign) float startTimeMS;
+@property (nonatomic, assign) NSTimeInterval startTime;
 
 
 
 /**
  Your run at the mill initializer
  */
-- (instancetype)initWithPowerUp:(SIPowerUpType)powerUp atTime:(float)powerUpStartTime;
+- (instancetype)initWithPowerUp:(SIPowerUpType)powerUp startTime:(NSTimeInterval)powerUpStartTime;
 
 /**
  Applys Programmer defined rules for whether or not a power up can start
@@ -59,11 +59,11 @@
  */
 + (float)maxPercentOfPowerUpArray:(NSArray *)powerUpArray;
 /**
- Traverses through powerUpArray and recaluclates all powerup percentages using the composite time, 
+ Traverses through powerUpArray and recaluclates all powerup percentages using the start time,
     Uses properties to do with start time too and duration of power up
     Callback returns any powerup with a percentage less than 0.01 to be deactivated
  */
-+ (float)powerUpPercentRemaining:(NSArray *)powerUpArray compositeTime:(float)compositeTime withCallback:(void (^)(SIPowerUp *powerUpToDeactivate))callback;
++ (float)powerUpPercentRemaining:(NSArray *)powerUpArray gameStartTime:(NSTimeInterval)gameStartTime timeFreezeMultiplier:(float)timeFreezeMultiplier withCallback:(void (^)(SIPowerUp *powerUpToDeactivate))callback;
 
 /**
  Gets the SIPowerUp given a string...

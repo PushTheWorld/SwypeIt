@@ -57,7 +57,7 @@
 ///**
 // This is called on every update... So it gets called a ton!
 // */
-//- (SISceneGameProgressBarUpdate *)controllerSceneGameWillUpdateProgressBars;
+//- (SISceneGameProgressBarUpdate *)sceneGameWillUpdateProgressBars;
 //
 //@end
 //

@@ -24,7 +24,7 @@
     
     BOOL                         _willIgnoreShake;
     
-    CGFloat                      _timerInterval;
+    float                        _timerInterval;
     
     float                        _compositeTimeInMiliSeconds;
     float                        _timeFreezeMultiplyer;
@@ -35,9 +35,6 @@
     
     NSString                    *_previousLevel;
     
-    NSTimeInterval               _startTime;
-    
-    NSTimer                     *_timer;
 }
 
 #pragma mark - Singleton Method
@@ -65,24 +62,12 @@
  Restarts the game... calling this will
  make you loose all current game data
  */
-- (void)singletonGameWillStartNewGame {
-    _willResume                                     = NO;
+- (void)singletonGameStartNewGame {
     _previousLevel                                  = [SIGame currentLevelStringForScore:0.0f];
     _compositeTimeInMiliSeconds                     = 0.0f;
     _levelSpeedDivider                              = 1.0f;
     _moveStartTimeInMiliSeconds                     = 0.0f;
     _timeFreezeMultiplyer                           = 1.0f;
-}
-
-/**
- LOCAL
- Called when the user enters the first move
- */
-- (void)singletonGameDidStart {
-    /*Start The Timer*/
-    [self startTimer];
-    
-    self.currentGame.isStarted = YES;
     
     if ([SIConstants isBackgroundSoundAllowed]) {
         SIBackgroundSound soundForScore = [SIGame backgroundSoundForScore:self.currentGame.totalScore];
@@ -91,9 +76,6 @@
             [[SoundManager sharedManager] playMusic:[SIGame soundNameForSIBackgroundSound:soundForScore] looping:YES fadeIn:YES];
         }
     }
-//    
-//    /*Call this to get a new move and such...*/
-    [self singletonGameWillContinue];
 }
 
 /**
@@ -327,6 +309,12 @@
         powerUp.startTimeMS         = (_compositeTimeInMiliSeconds - _pauseStartTimeInMiliSeconds) + powerUp.startTimeMS;
     }
 }
+
+- (void)setMoveStartTime {
+    /*Save the start of this new move*/
+    _moveStartTimeInMiliSeconds         = _compositeTimeInMiliSeconds;
+
+}
 /*updateTimeAndScore gets updated every 1/30 seconds*/
 - (void)updateTimeAndScore {
     /*Update the master timer*/
@@ -396,6 +384,7 @@
             break;
     }
 }
+
 /**
  Called internally by the timer functions when a powerup's
     percent remaining value drops below the epsilon value

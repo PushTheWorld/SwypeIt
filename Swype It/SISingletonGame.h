@@ -84,8 +84,6 @@
 @property (assign, nonatomic) BOOL               isSaving;
 @property (assign, nonatomic) BOOL               willResume;
 
-#pragma mark - Public Objects
-@property (strong, nonatomic) SIGame              *currentGame;
 
 
 #pragma mark - Public Instance Methods

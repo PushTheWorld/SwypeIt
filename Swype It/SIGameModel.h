@@ -20,11 +20,30 @@
 
 @protocol SIGameModelDelegate <NSObject>
 
+/**
+ //show menu with end configuration
+ 
+ //send score to game center
+ */
+- (void)gameModelStateEndEntered;
+
+/**
+ reset all game data
+ */
+- (void)gameModelStateEndExited;
+
+/**
+ //pause time
+ 
+ //make sure monkey scene is ready
+ //transistion to monkey scene fast!
+ */
+- (void)gameModelStateFallingMonkeyEntered;
 
 /**
  -update screen
  */
-- (void)gameModelEnteredStateIdle;
+- (void)gameModelStateIdleEntered;
 
 /**
  //pause time
@@ -35,12 +54,17 @@
  
  //connect it's gesture target
  */
-- (void)gameModelEnteredStatePause;
+- (void)gameModelStatePauseEntered;
+
+/**
+ Called when the game leaves the paused state
+ */
+- (void)gameModelStatePauseExited;
 
 /**
  //show ad or charge user
  */
-- (void)gameModelEnteredStatePayingForContinue;
+- (void)gameModelStatePayingForContinueEntered;
 
 /**
  //pause time
@@ -51,7 +75,7 @@
  
  //connect it's gesture target!
  */
-- (void)gameModelEnteredStatePopupContinue;
+- (void)gameModelStatePopupContinueEntered;
 
 /**
  //correctMove?
@@ -66,35 +90,19 @@
  //  load start/end scene
  */
 
-- (void)gameModelEnteredStateProcessingMove:(SIMove *)move;
+- (void)gameModelStateProcessingMoveEnteredWithMove:(SIMove *)move;
 
 /**
- //show menu with end configuration
- 
- //send score to game center
+ get new move
  */
-- (void)gameModelEnteredStateEnd;
-
-/**
- clear data
- */
-- (void)gameModelGameStateExitedEnd;
+- (void)gameModelStateProcessingMoveExited;
 
 /**
  //clear the data
  
  //send to wait for move
  */
-- (void)gameModelEnteredStateStart;
-
-/**
- //pause time
- 
- //make sure monkey scene is ready
- //transistion to monkey scene fast!
- */
-- (void)gameModelEnteredStateFallingMonkey;
-
+- (void)gameModelStateStartEntered;
 
 @end
 
@@ -111,6 +119,16 @@
  The state machine of the whole thing
  */
 @property (nonatomic, strong) TKStateMachine  *stateMachine;
+
+/**
+ The game
+ */
+@property (nonatomic, strong) SIGame *game;
+
+/**
+ Powerup Array
+ */
+@property (nonatomic, strong) NSMutableArray *powerUpArray;
 
 
 @end
