@@ -190,6 +190,22 @@
     [self registerForNotifications];
     return self;
 }
+
+- (void)applicationDidBecomeActive {
+    //TODO: Implement Did Become Active Logic
+    NSLog(@"Resuming Active State");
+}
+
+- (void)applicationWillResignActive {
+    //TODO: Implement Will Resign Active Logic
+    NSLog(@"Resiging active state");
+}
+
+- (void)applicationDidReceiveMemoryWarning {
+    //TODO: Implement Memory Warning Logic
+    NSLog(@"Recieved memory warning");
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
@@ -292,14 +308,14 @@
 - (void)loadingIncrementWillOverrideAndKill:(BOOL)overrideAndKillLoadingScreen {
     _loadingPointsCurrent = _loadingPointsCurrent + 1;
     if (_loadingPointsCurrent == (int)SIGameControllerSceneCount || overrideAndKillLoadingScreen) {
-        [self presentScene:SIGameControllerSceneMenu];
+        [self gameFireEvent:kSITKStateMachineEventGameEndGame userInfo:nil];
+//        [self presentScene:SIGameControllerSceneMenu];
     }
     [_sceneLoading sceneLoadingSetProgressPercent:(float)_loadingPointsCurrent / (float)SIGameControllerSceneCount];
 }
 
 - (void)presentScene:(SIGameControllerScene)sceneType {
     NSNumber *highScore;
-
     if (_adBannerNode) {
         [_adBannerNode removeFromParent];
     }
@@ -313,6 +329,7 @@
         case SIGameControllerSceneFallingMonkey:
             _sceneFallingMonkey.adBannerNode = [SIGameController premiumUser] ? nil : _adBannerNode;
             _currentScene = [SIGameController viewController:[self fastSKView] transisitionToSKScene:_sceneFallingMonkey duration:SCENE_TRANSISTION_DURATION_FAST];
+
             break;
             
         // GAME
@@ -321,14 +338,12 @@
                 case SIGameControllerSceneFallingMonkey:
                     _sceneGame.adBannerNode = [SIGameController premiumUser] ? nil : _adBannerNode;
                     _currentScene = [SIGameController viewController:[self fastSKView] transisitionToSKScene:_sceneGame duration:SCENE_TRANSISTION_DURATION_NORMAL];
-//                    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(SCENE_TRANSISTION_DURATION_NORMAL * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-//                        [[SISingletonGame singleton] singletonGameWillResumeAndContinue:YES];
-//                    });
+//                    [self gameFireState:kSITKStateMachineEventGameWaitForMove userInfo:nil inDelay:SCENE_TRANSISTION_DURATION_NORMAL];
                     break;
                     
                 default:
                     _currentScene = [SIGameController viewController:[self fastSKView] transisitionToSKScene:_sceneGame duration:SCENE_TRANSISTION_DURATION_NORMAL];
-                    _sceneGameToolbarPowerUp.delegate = self;
+//                    [self gameFireState:kSITKStateMachineEventGameWaitForMove userInfo:nil inDelay:SCENE_TRANSISTION_DURATION_NORMAL];
                     break;
             }
             break;
@@ -349,8 +364,6 @@
                 case SIGameControllerSceneLoading:
                     _currentScene = [SIGameController transisitionNormalOpenToSKScene:_sceneMenu toSKView:[self fastSKView]];
                     [self controllerSceneMenuShowMenu:_menuNodeStart menuNodeAnimiation:SIMenuNodeAnimationGrowIn delay:SCENE_TRANSISTION_DURATION_NORMAL];
-//                    _menuNodeContentStart.gridNode.delegate     = self;
-//                    _sceneMenuToolbarStart.delegate   = self;
                     break;
                 default:
                     _currentScene = [SIGameController transisitionNormalOpenToSKScene:_sceneMenu toSKView:[self fastSKView]];
@@ -364,6 +377,7 @@
     }
     _currentSceneType = sceneType;
 }
+
 
 - (void)controllerSceneMenuShowMenu:(SIMenuNode *)menuNode menuNodeAnimiation:(SIMenuNodeAnimation)menuNodeAnimation delay:(float)delay {
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delay * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
@@ -395,18 +409,20 @@
         [[self fastSKView] presentScene:_sceneGame];
 //        [[SISingletonGame singleton] singletonGameWillStartNewGame];        
     } else {
-        NSDate *startDate = [NSDate date];
-        /*Init The Loading Scene First and Fire It Up There!*/
-        _sceneLoading = [SIGameController SILoaderSceneLoadingSize:_sceneSize];
-        [self loadingIncrementWillOverrideAndKill:NO];
-        [self presentScene:SIGameControllerSceneLoading];
-        /*Load the scenes*/
-        [self loadAllScenes];
+        [self gameFireEvent:kSITKStateMachineEventGameLoad userInfo:nil];
         
-        /*Load any pop ups and such remaining*/
-        if (_verbose) {
-            NSLog(@"All data initialized in %0.2f seconds", [[NSDate date] timeIntervalSinceDate:startDate]);
-        }
+//        NSDate *startDate = [NSDate date];
+//        /*Init The Loading Scene First and Fire It Up There!*/
+//        _sceneLoading = [SIGameController SILoaderSceneLoadingSize:_sceneSize];
+//        [self loadingIncrementWillOverrideAndKill:NO];
+//        [self presentScene:SIGameControllerSceneLoading];
+//        /*Load the scenes*/
+//        [self loadAllScenes];
+//        
+//        /*Load any pop ups and such remaining*/
+//        if (_verbose) {
+//            NSLog(@"All data initialized in %0.2f seconds", [[NSDate date] timeIntervalSinceDate:startDate]);
+//        }
     }
 }
 
@@ -445,9 +461,12 @@
 
     
     _sceneGameToolbarPowerUp            = [SIGameController SIHLToolbarGamePowerUpToolbarSize:_sceneGameToolbarSize toolbarNodeSize:_sceneGameToolbarNodeSize horizontalSpacing:_sceneGameSpacingHorizontalToolbar];
+    _sceneGameToolbarPowerUp.delegate   = self;
+    
     [_sceneGameToolbarPowerUp hlSetGestureTarget:_sceneGameToolbarPowerUp];
     [sceneGame registerDescendant:_sceneGameToolbarPowerUp withOptions:[NSSet setWithObject:HLSceneChildGestureTarget]];
     sceneGame.powerUpToolbarNode        = _sceneGameToolbarPowerUp;
+    
     
     sceneGame.progressBarFreeCoin       = [SIGameController SIProgressBarSceneGameFreeCoinSceneSize:_sceneSize];
     sceneGame.progressBarFreeCoin.userInteractionEnabled = YES;
@@ -509,11 +528,11 @@
     /*This will init the first monkey node!*/
     [SIGameController SISpriteNodeFallingMonkey];
     
-//    newScene.adBannerNode                       = _adBannerNode;
-    
     if (_verbose) {
         NSLog(@"SIFallingMonkeyScene Initialized: loaded in %0.2f seconds", [[NSDate date] timeIntervalSinceDate:startDate]);
     }
+    
+    newScene.sceneDelegate                      = self;
     
     return newScene;
 }
@@ -1146,6 +1165,12 @@
     }
     
     return success;
+}
+
+- (void)gameFireState:(NSString *)state userInfo:(NSDictionary *)userInfo inDelay:(float)delay {
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(SCENE_TRANSISTION_DURATION_NORMAL * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [self gameFireEvent:state userInfo:userInfo];
+    });
 }
 
 
@@ -1844,6 +1869,25 @@
 }
 
 /**
+ Called when the game wants to load
+ */
+- (void)gameModelStateLoadingEntered {
+    _sceneLoading = [SIGameController SILoaderSceneLoadingSize:_sceneSize];
+    [self loadingIncrementWillOverrideAndKill:NO];
+    [self presentScene:SIGameControllerSceneLoading];
+    /*Load the scenes*/
+    [self loadAllScenes];
+}
+
+/**
+ Called when the game is done loading
+ */
+- (void)gameModelStateLoadingExited {
+    NSLog(@"Load State Exited");
+}
+
+
+/**
  //pause time
  
  //display blur screen
@@ -2048,8 +2092,10 @@
     if (!success) {
         [self timerFireEvent:kSITKStateMachineEventTimerStopCriticalFailure userInfo:nil];
     }
-    _sceneFallingMonkey.adBannerNode                    = [SIGameController premiumUser] ? nil : _adBannerNode;
-    _currentScene                                       = [SIGameController viewController:[self fastSKView] transisitionToSKScene:_sceneFallingMonkey duration:SCENE_TRANSISTION_DURATION_FAST];
+    if (_sceneFallingMonkey == nil) {
+        _sceneFallingMonkey = [self loadFallingMonkeyScene];
+    }
+    [self presentScene:SIGameControllerSceneFallingMonkey];
 }
 
 ////////////////////////////////////////////////////////////////////////////////////

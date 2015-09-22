@@ -46,6 +46,16 @@
 - (void)gameModelStateIdleEntered;
 
 /**
+ Called when the game wants to load
+ */
+- (void)gameModelStateLoadingEntered;
+
+/**
+ Called when the game is done loading
+ */
+- (void)gameModelStateLoadingExited;
+
+/**
  //pause time
  
  //display blur screen

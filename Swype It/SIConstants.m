@@ -432,6 +432,7 @@ NSString *const kEDKeyAchievementDetailsType                                    
 NSString *const kSITKStateMachineStateGameEnd                                   = @"end";
 NSString *const kSITKStateMachineStateGameFallingMonkey                         = @"fallingMonkey";
 NSString *const kSITKStateMachineStateGameIdle                                  = @"idle";
+NSString *const kSITKStateMachineStateGameLoading                               = @"loading";
 NSString *const kSITKStateMachineStateGamePause                                 = @"pause";
 NSString *const kSITKStateMachineStateGamePayingForContinue                     = @"payingForContinue";
 NSString *const kSITKStateMachineStateGamePopupContinue                         = @"popupContinue";
@@ -445,6 +446,7 @@ NSString *const kSITKStateMachineStateTimerStopped                              
 NSString *const kSITKStateMachineEventGameEndGame                               = @"endGame";
 NSString *const kSITKStateMachineEventGameFallingMonkeyEnd                      = @"fallingMonkeyEnd";
 NSString *const kSITKStateMachineEventGameFallingMonkeyStart                    = @"fallingMonkeyStart";
+NSString *const kSITKStateMachineEventGameLoad                                  = @"load";
 NSString *const kSITKStateMachineEventGameMoveEntered                           = @"moveEntered";
 NSString *const kSITKStateMachineEventGamePause                                 = @"pauseEvent";
 NSString *const kSITKStateMachineEventGamePayForContinue                        = @"payForContinue";
