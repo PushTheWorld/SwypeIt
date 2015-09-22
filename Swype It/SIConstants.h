@@ -624,6 +624,7 @@ extern NSString *const kSINSDictionaryKeyHudWillShowCheckmark;
 extern NSString *const kSINSDictionaryKeyMoveScore;
 extern NSString *const kSINSDictionaryKeyPowerUp;
 extern NSString *const kSINSDictionaryKeyPackProduct;
+extern NSString *const kSINSDictionaryKeyPayToContinueMethod;
 extern NSString *const kSINSDictionaryKeySIAchievementPlistAmount;
 extern NSString *const kSINSDictionaryKeySIAchievementPlistLevelsDictionary;
 extern NSString *const kSINSDictionaryKeySIAchievementPlistCompletedBool;
@@ -812,6 +813,9 @@ extern NSString *const kSITKStateMachineStateGamePayingForContinue;
 extern NSString *const kSITKStateMachineStateGamePopupContinue;
 extern NSString *const kSITKStateMachineStateGameProcessingMove;
 extern NSString *const kSITKStateMachineStateGameStart;
+extern NSString *const kSITKStateMachineStateTimerPaused;
+extern NSString *const kSITKStateMachineStateTimerRunning;
+extern NSString *const kSITKStateMachineStateTimerStopped;
 
 #pragma mark - State Machine Events
 extern NSString *const kSITKStateMachineEventGameEndGame;
@@ -823,6 +827,11 @@ extern NSString *const kSITKStateMachineEventGamePayForContinue;
 extern NSString *const kSITKStateMachineEventGameStartGame;
 extern NSString *const kSITKStateMachineEventGameWaitForMove;
 extern NSString *const kSITKStateMachineEventGameWrongMoveEntered;
+extern NSString *const kSITKStateMachineEventTimerPause;
+extern NSString *const kSITKStateMachineEventTimerResume;
+extern NSString *const kSITKStateMachineEventTimerStart;
+extern NSString *const kSITKStateMachineEventTimerStop;
+extern NSString *const kSITKStateMachineEventTimerStopCriticalFailure;
 
 
 #pragma mark - Useful things

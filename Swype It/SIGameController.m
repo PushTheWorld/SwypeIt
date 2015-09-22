@@ -12,7 +12,6 @@
 #import "SIStoreButtonNode.h"
 #import "SIMenuNode.h"
 #import "SIGameModel.h"
-//#import "SIMenuNodeContent.h"
 #import "SIPowerUpToolbarNode.h"
 #import "SIPopupContentNode.h"
 #import "SIGameController.h"
@@ -24,18 +23,17 @@
 #import "SettingsScene.h"
 #import "StoreScene.h"
 // Framework Import
-#import "SIIAPUtility.h"
 #import <GameKit/GameKit.h>
 #import <iAd/iAd.h>
 #import <Instabug/Instabug.h>
 #import <MessageUI/MessageUI.h>
-#import "MSSAlertViewController.h"
 // Drop-In Class Imports (CocoaPods/GitHub/Guru)
 #import "DSMultilineLabelNode.h"
 #import "FXReachability.h"
 #import "JCNotificationCenter.h"
 #import "MBProgressHud.h"
 #import "MKStoreKit.h"
+#import "MSSAlertViewController.h"
 #import "SoundManager.h"
 #import "TransitionKit.h"
 // Category Import
@@ -43,6 +41,7 @@
 // Support/Data Class Imports
 #import "SIGame.h"
 #import "SIPowerUp.h"
+#import "SIIAPUtility.h"
 // Other Imports
 
 @interface SIGameController () <ADBannerViewDelegate, ADInterstitialAdDelegate, GKGameCenterControllerDelegate, SIGameSceneDelegate, SISingletonAchievementDelegate, SIMenuSceneDelegate, SIFallingMonkeySceneDelegate, HLMenuNodeDelegate, HLGridNodeDelegate, HLRingNodeDelegate, HLToolbarNodeDelegate, SIPopUpNodeDelegate, SIAdBannerNodeDelegate, SIGameModelDelegate>
@@ -153,6 +152,14 @@
     SKLabelNode                             *_sceneMenuLabelEnd;
     
     SKTexture                               *_monkeyFaceTexture;
+    
+    TKStateMachine                          *_timerStateMachine;
+    
+    TKEvent                                 *_timerEventPause;
+    TKEvent                                 *_timerEventResume;
+    TKEvent                                 *_timerEventStart;
+    TKEvent                                 *_timerEventStop;
+    TKEvent                                 *_timerEventStopCriticalFailure;
 
     UIView                                  *_placeHolderView;
 
@@ -260,13 +267,7 @@
     
     _gameModel = [[SIGameModel alloc] init]; //starts in the end scene
     
-    //pulse the game to the start
-    NSError *error = nil;
-    BOOL success                                        = [_gameModel.stateMachine fireEvent:kSITKStateMachineEventGameStartGame userInfo:nil error:&error];
-    _gameModel.delegate                                 = self;
-    if (_verbose) {
-        NSLog(@"Able to Start engine: %@", success ? @"YES" : @"NO");
-    }
+    _timerStateMachine = [self createTimeStateMachine];
     
     /*Start your singletons*/
     [SISingletonAchievement singleton].delegate         = self;;
@@ -320,9 +321,9 @@
                 case SIGameControllerSceneFallingMonkey:
                     _sceneGame.adBannerNode = [SIGameController premiumUser] ? nil : _adBannerNode;
                     _currentScene = [SIGameController viewController:[self fastSKView] transisitionToSKScene:_sceneGame duration:SCENE_TRANSISTION_DURATION_NORMAL];
-                    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(SCENE_TRANSISTION_DURATION_NORMAL * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                        [[SISingletonGame singleton] singletonGameWillResumeAndContinue:YES];
-                    });
+//                    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(SCENE_TRANSISTION_DURATION_NORMAL * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+//                        [[SISingletonGame singleton] singletonGameWillResumeAndContinue:YES];
+//                    });
                     break;
                     
                 default:
@@ -633,8 +634,11 @@
     if (_interstitialAdPresentationIsLive) {
         if (_numberOfAdsToWatch <= 0) {
             _interstitialAdPresentationIsLive = NO;
-            BOOL success = [self fireEvent:kSITKStateMachineEventGameWaitForMove userInfo:nil];
+            BOOL success = [self gameFireEvent:kSITKStateMachineEventGameWaitForMove userInfo:nil];
             NSLog(@"When back to idle from ad watching state: %@",success ? @"YES" : @"NO");
+            if (!success) {
+                [self gameFireEvent:kSITKStateMachineEventGameEndGame userInfo:nil];
+            }
         } else {
             [self interstitialAdPresent];
         }
@@ -1040,40 +1044,111 @@
     return menuNode;
 }
 
-#pragma mark Game Timers
-- (void)gameTimerStart {
-    if (!_gameTimer.valid) {
-        //  Start Timer
-        _gameTimer      = [NSTimer scheduledTimerWithTimeInterval:TIMER_INTERVAL target:self selector:@selector(gameTimerAsyncUpdate) userInfo:nil repeats:YES];
-        _gameTimeStart  = [NSDate timeIntervalSinceReferenceDate];
-    }
+#pragma mark Timer State Machine
+- (TKStateMachine *)createTimeStateMachine {
+    TKStateMachine *timerStateMachine                       = [TKStateMachine new];
+    
+    TKState *timerStatePaused                               = [TKState stateWithName:kSITKStateMachineStateTimerPaused];
+    TKState *timerStateRunning                              = [TKState stateWithName:kSITKStateMachineStateTimerRunning];
+    TKState *timerStateStopped                              = [TKState stateWithName:kSITKStateMachineStateTimerStopped];
+    
+    [timerStatePaused setDidEnterStateBlock:^(TKState *state, TKTransition *transition) {
+        //snapshot the current time
+        _gameTimePauseStart = _gameTimeTotal;
+    }];
+    
+    [timerStatePaused setDidExitStateBlock:^(TKState *state, TKTransition *transition) {
+        //fast-forward power ups and move time
+        // The amount of time that the pause took
+        NSTimeInterval pauseOffSet = (_gameTimeTotal - _gameTimePauseStart);
+        
+        // Add the time the pause took to the move and to any and all power ups
+        if (_currentMove) {
+            _currentMove.timeStart = pauseOffSet + _currentMove.timeStart;
+        }
+        for (SIPowerUp *powerUp in _gameModel.game.powerUpArray) {
+            powerUp.startTime =  pauseOffSet + powerUp.startTime;
+        }
+
+    }];
+    
+    [timerStateStopped setDidEnterStateBlock:^(TKState *state, TKTransition *transition) {
+        //deactivate the timer
+        [_gameTimer invalidate];
+    }];
+    
+    [timerStateStopped setDidExitStateBlock:^(TKState *state, TKTransition *transition) {
+        //activate the timer
+        if (!_gameTimer.valid) {
+            //  Start Timer... returns a new nstimer object
+            _gameTimer      = [NSTimer scheduledTimerWithTimeInterval:TIMER_INTERVAL target:self selector:@selector(gameTimerAsyncUpdate) userInfo:nil repeats:YES];
+            _gameTimeStart  = [NSDate timeIntervalSinceReferenceDate];
+        } else {
+            
+        }
+    }];
+    
+    
+    //add
+    [timerStateMachine addStates:@[ timerStatePaused,timerStateRunning,timerStateStopped]];
+    
+    // Set the inital state to start... this way we get fresh new data!!!
+    timerStateMachine.initialState                          = timerStateStopped;
+    
+    _timerEventPause                                        = [TKEvent eventWithName:kSITKStateMachineEventTimerPause
+                                                             transitioningFromStates:@[timerStateRunning]
+                                                                             toState:timerStatePaused];
+    _timerEventResume                                       = [TKEvent eventWithName:kSITKStateMachineEventTimerResume
+                                                             transitioningFromStates:@[timerStatePaused]
+                                                                             toState:timerStateRunning];
+    _timerEventStart                                        = [TKEvent eventWithName:kSITKStateMachineEventTimerStart
+                                                             transitioningFromStates:@[timerStateStopped]
+                                                                             toState:timerStateRunning];
+    _timerEventStop                                         = [TKEvent eventWithName:kSITKStateMachineEventTimerStop
+                                                             transitioningFromStates:@[timerStatePaused]
+                                                                             toState:timerStateStopped];
+    _timerEventStopCriticalFailure                          = [TKEvent eventWithName:kSITKStateMachineEventTimerStopCriticalFailure
+                                                             transitioningFromStates:@[timerStateRunning]
+                                                                             toState:timerStateStopped];
+    
+    //add event rules
+    [timerStateMachine addEvents:@[_timerEventPause, _timerEventResume, _timerEventStart, _timerEventStop, _timerEventStopCriticalFailure]];
+    
+    return timerStateMachine;
 }
 
 - (void)gameTimerAsyncUpdate {
-    NSTimeInterval currentTime      = [NSDate timeIntervalSinceReferenceDate];
+    NSTimeInterval currentTime                              = [NSDate timeIntervalSinceReferenceDate];
     
-    _gameTimeTotal      = currentTime - _gameTimeStart;
-
-}
-
-- (void)gameTimerPause {
-    _gameTimePauseStart = _gameTimeTotal;
-}
-
-- (void)gameTimerResume {
-    // The amount of time that the pause took
-    NSTimeInterval pauseOffSet = (_gameTimeTotal - _gameTimePauseStart);
-    
-    // Add the time the pause took to the move and to any and all power ups
-    _currentMove.timeStart = pauseOffSet + _currentMove.timeStart;
-    for (SIPowerUp *powerUp in _gameModel.game.powerUpArray) {
-        powerUp.startTime =  pauseOffSet + powerUp.startTime;
-    }
+    _gameTimeTotal                                          = currentTime - _gameTimeStart;
 }
 
 - (float)gameTimerTotalInMS {
     return _gameTimeTotal * MILI_SECS_IN_SEC;
 }
+
+- (BOOL)timerFireEvent:(NSString *)event userInfo:(NSDictionary *)userInfo {
+    NSError *error                                      = nil;
+    BOOL success                                        = [_timerStateMachine fireEvent:event userInfo:userInfo error:&error];
+    if (!success) {
+        NSLog(@"Error [unable to fire event]: %@",error.localizedFailureReason);
+    }
+    
+    return success;
+}
+
+#pragma mark Game State Machine
+- (BOOL)gameFireEvent:(NSString *)event userInfo:(NSDictionary *)userInfo {
+    NSError *error                                      = nil;
+    BOOL success                                        = [_gameModel.stateMachine fireEvent:event userInfo:userInfo error:&error];
+    if (!success) {
+        NSLog(@"Error [unable to fire event]: %@",error.localizedFailureReason);
+    }
+    
+    return success;
+}
+
+
 
 #pragma mark _ SIPowerUp Shitttt
 - (void)powerUpActivatePowerUp:(SIPowerUp *)powerUp {
@@ -1544,25 +1619,34 @@
 /**Called to launch an actual game*/
 - (void)launchSceneGameWithGameMode:(SIGameMode)gameMode {
     _currentGame.gameMode = gameMode;
-    [self presentScene:SIGameControllerSceneGame];
+    //pulse the game to the start
+    NSError *error = nil;
+    BOOL success                                        = [_gameModel.stateMachine fireEvent:kSITKStateMachineEventGameStartGame userInfo:nil error:&error];
+    _gameModel.delegate                                 = self;
+    if (_verbose) {
+        NSLog(@"Able to Start engine: %@", success ? @"YES" : @"NO");
+    }
 }
 #pragma mark HLMenuNodeDelegate
 - (void)menuNode:(HLMenuNode *)menuNode didTapMenuItem:(HLMenuItem *)menuItem itemIndex:(NSUInteger)itemIndex {
     if (menuNode == _sceneGamePopupContinueMenuNode) {
         if ([menuItem.text isEqualToString:_sceneGamePopupMenuItemTextContinueWithCoin]) {
-            if ([SIIAPUtility canAffordContinue:_currentGame.currentContinueLifeCost]) {
-                [[MKStoreKit sharedKit] consumeCredits:[NSNumber numberWithInt:_currentGame.currentContinueLifeCost] identifiedByConsumableIdentifier:kSIIAPConsumableIDCoins];
-            } else {
-                [[SISingletonGame singleton] singletonGameWillResumeAndContinue:YES];
+            BOOL success = [self gameFireEvent:kSITKStateMachineEventGamePayForContinue userInfo:@{kSINSDictionaryKeyPayToContinueMethod : @(SISceneGamePopupContinueMenuItemCoin)}];
+            if (!success) {
+                [self gameFireEvent:kSITKStateMachineEventGameEndGame userInfo:nil];
             }
             
         }  else if ([menuItem.text isEqualToString:_sceneGamePopupMenuItemTextContinueWithAd]) {
-            _interstitialAdPresentationIsLive = YES;
-            [self interstitialAdPresent];
+            BOOL success = [self gameFireEvent:kSITKStateMachineEventGamePayForContinue userInfo:@{kSINSDictionaryKeyPayToContinueMethod : @(SISceneGamePopupContinueMenuItemAd)}];
+            if (!success) {
+                [self gameFireEvent:kSITKStateMachineEventGameEndGame userInfo:nil];
+            }
             
         } else if ([menuItem.text isEqualToString:kSIMenuTextPopUpEndGame]) {
-            [self presentScene:SIGameControllerSceneMenu];
-            [[SISingletonGame singleton] singletonGameDidEnd];
+            BOOL success = [self gameFireEvent:kSITKStateMachineEventGameEndGame userInfo:nil];
+            if (!success) { //this is a critical failure...
+                [self presentScene:SIGameControllerSceneMenu];
+            }
         }
     } else if (menuNode == _sceneMenuSettingsMenuNode) {
         if ([menuItem.text isEqualToString:kSIMenuTextSettingsBugReport]) {
@@ -1687,7 +1771,7 @@
     } else if (popupNode == _sceneGamePopupContinue) {
         [self presentScene:SIGameControllerSceneMenu];
     } else {
-        HLScene *currentHLSceen = (HLScene *)_currentScene;
+        HLScene *currentHLSceen                         = (HLScene *)_currentScene;
         [currentHLSceen dismissModalNodeAnimation:HLScenePresentationAnimationFade];
     }
 }
@@ -1697,44 +1781,66 @@
     NSLog(@"Ad banner was tapped");
 }
 ////////////////////////////////////////////////////////////////////////////////////
+//\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+//START/////////////////////////////////////////////////////////////////////////////
+//\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+//**********************************************************************************
+//**********************************************************************************
+//**********************************************************************************
+//**********************************************************************************
+//\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+//START/////////////////////////////////////////////////////////////////////////////
+//**********************************************************************************
+//**********************************************************************************
+//**********************************************************************************
+//**********************************************************************************
 ////////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////////
+//\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+//START/////////////////////////////////////////////////////////////////////////////
+//\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+
+
 #pragma mark SIGameModelDelegate
 /**
- -update screen
+ update screen
  */
 - (void)gameModelStateIdleEntered {
     if (_sceneGame) {
         _sceneGame = [self loadGameScene];
     }
     
-    _currentGame.currentBackgroundColorNumber = [SIGame newBackgroundColorNumberCurrentNumber:_currentGame.currentBackgroundColorNumber totalScore:_currentGame.totalScore];
+    if (_currentScene != _sceneGame) {
+        [self presentScene:SIGameControllerSceneGame];
+    }
     
-    _currentGame.currentBackgroundColor = [SIGame backgroundColorForScore:_currentGame.totalScore forRandomNumber:_currentGame.currentBackgroundColorNumber];
+    if ([_timerStateMachine isInState:kSITKStateMachineStateTimerRunning] == NO) {
+        if ([_timerStateMachine isInState:kSITKStateMachineStateTimerPaused]) {
+            [self timerFireEvent:kSITKStateMachineEventTimerResume userInfo:nil];
+        } else {
+            [self timerFireEvent:kSITKStateMachineEventTimerStart userInfo:nil];
+        }
+    }
+    
+    _gameModel.game.currentBackgroundColorNumber           = [SIGame newBackgroundColorNumberCurrentNumber:_gameModel.game.currentBackgroundColorNumber totalScore:_gameModel.game.totalScore];
+    
+    _gameModel.game.currentBackgroundColor                 = [SIGame backgroundColorForScore:_gameModel.game.totalScore forRandomNumber:_gameModel.game.currentBackgroundColorNumber];
 
     
-    if (_currentGame.isHighScore) {
+    if (_gameModel.game.isHighScore) {
         _sceneGame.highScore = YES;
     }
     
-    _sceneGame.progressBarMove.fillColor    = _currentGame.currentBackgroundColor;
-    _sceneGame.progressBarPowerUp.fillColor = _currentGame.currentBackgroundColor;
-    _sceneGame.scoreTotalLabel.text         = [NSString stringWithFormat:@"%0.2f",_currentGame.totalScore];
-    _sceneGame.progressBarFreeCoin.progress = _currentGame.freeCoinPercentRemaining;
+    _sceneGame.backgroundColor                          = _gameModel.game.currentBackgroundColor;
+    _sceneGame.progressBarMove.fillColor                = _gameModel.game.currentBackgroundColor;
+    _sceneGame.progressBarPowerUp.fillColor             = _gameModel.game.currentBackgroundColor;
+    _sceneGame.scoreTotalLabel.text                     = [NSString stringWithFormat:@"%0.2f",_gameModel.game.totalScore];
+    _sceneGame.progressBarFreeCoin.progress             = _gameModel.game.freeCoinPercentRemaining;
     
-    SKLabelNode *label                      = [SKLabelNode labelNodeWithFontNamed:kSISFFontDisplayHeavy];
-    label.fontSize                          = [SIGameController SIFontSizeMoveCommand];
-    label.text                              = [SIGame stringForMove:_currentMove.moveCommand];
-    label.userInteractionEnabled            = YES;
-    _sceneGame.moveCommandLabel             = label;
+    SKLabelNode *label                                  = [SKLabelNode labelNodeWithFontNamed:kSISFFontDisplayHeavy];
+    label.fontSize                                      = [SIGameController SIFontSizeMoveCommand];
+    label.text                                          = [SIGame stringForMove:_currentMove.moveCommand];
+    label.userInteractionEnabled                        = YES;
+    _sceneGame.moveCommandLabel                         = label;
 }
 
 /**
@@ -1747,24 +1853,48 @@
  //connect it's gesture target
  */
 - (void)gameModelStatePauseEntered {
-    [self gameTimerPause];
-    _sceneGame.blurScreen               = YES;
-    _sceneGameRingNodePause.delegate    = self;
-    _sceneGame.ringNode                 = _sceneGameRingNodePause;
+    BOOL success = [self timerFireEvent:kSITKStateMachineEventTimerPause userInfo:nil];
+    if (!success) {
+        [self timerFireEvent:kSITKStateMachineEventTimerStopCriticalFailure userInfo:nil];
+    }
+    _sceneGame.blurScreen                               = YES;
+    _sceneGameRingNodePause.delegate                    = self;
+    _sceneGame.ringNode                                 = _sceneGameRingNodePause;
 }
 
 /**
  Called when the game exits the paused state, whether it be to end the game or resume it
  */
 - (void)gameModelStatePauseExited {
-    [self gameTimerResume];
-    _sceneGame.blurScreen   = NO;
-    _sceneGame.ringNode     = nil;
+    _sceneGame.blurScreen                               = NO;
+    _sceneGame.ringNode                                 = nil;
 }
 
 /**
  //show ad or charge user
  */
+- (void)gameModelStatePayingForContinueEnteredWithPayMethod:(SISceneGamePopupContinueMenuItem)paymentMethod {
+    BOOL success = YES;
+    switch (paymentMethod) {
+        case SISceneGamePopupContinueMenuItemAd:
+            _interstitialAdPresentationIsLive = YES;
+            [self interstitialAdPresent];
+            break;
+        case SISceneGamePopupContinueMenuItemCoin:
+            if ([SIIAPUtility canAffordContinue:_gameModel.game.currentContinueLifeCost]) {
+                [[MKStoreKit sharedKit] consumeCredits:[NSNumber numberWithInt:_gameModel.game.currentContinueLifeCost] identifiedByConsumableIdentifier:kSIIAPConsumableIDCoins];
+                
+            }
+            break;
+        default:
+            success = [self gameFireEvent:kSITKStateMachineEventGameWaitForMove userInfo:nil];
+            break;
+    }
+    if (!success) {
+        [self gameFireEvent:kSITKStateMachineEventGameEndGame userInfo:nil];
+    }
+    
+}
 - (void)gameModelStatePayingForContinueEntered {
     
 }
@@ -1815,11 +1945,11 @@
     
     //if correctMove
     if (move.moveCommand == _currentGame.currentMove.moveCommand) {
-        SIMove *moveForBackground = _currentGame.currentMove;
+        SIMove *moveForBackground                       = _currentGame.currentMove;
         
         //  launch the move command and such
-        SKLabelNode *moveLabel = [SIGameController moveScoreLabel:_currentGame.moveScore];
-        moveLabel.position = _currentGame.currentMove.touchPoint;
+        SKLabelNode *moveLabel                          = [SIGameController moveScoreLabel:_currentGame.moveScore];
+        moveLabel.position                              = _currentGame.currentMove.touchPoint;
         [_sceneGame sceneGameWillShowMoveScore:moveLabel];
         [_sceneGame sceneGameLaunchMoveCommandLabelWithCommandAction:moveForBackground.moveCommandAction];
 
@@ -1831,11 +1961,15 @@
         //  show new move data
         [self fireEvent:kSITKStateMachineEventGameWaitForMove userInfo:nil];
         
+    } else {
+        //else notCorrectMove
+        //  display pop up
+        [self fireEvent:kSITKStateMachineEventGamePayForContinue userInfo:nil];
+        //  load start/end scene
+        if (_sceneMenu == nil) {
+            _sceneMenu                                  = [self loadMenuScene];
+        }
     }
-    
-    //else notCorrectMove
-    //  display pop up
-    //  load start/end scene
 }
 
 /**
@@ -1845,8 +1979,8 @@
  */
 - (void)gameModelStateProcessingMoveExited {
     //  get new move data
-    SIMove *newMove                         = [[SIMove alloc] initWithRandomMoveForGameMode:_currentGame.gameMode powerUpArray:[_gameModel.powerUpArray copy]];
-    _currentMove                            = newMove;
+    SIMove *newMove                                     = [[SIMove alloc] initWithRandomMoveForGameMode:_currentGame.gameMode powerUpArray:[_gameModel.powerUpArray copy]];
+    _currentMove                                        = newMove;
     
     //where is total score being updated?
     
@@ -1855,27 +1989,22 @@
         _sceneGame.highScore = YES;
     }
     
-    _sceneGame.scoreTotalLabel.text         = [NSString stringWithFormat:@"%0.2f",_currentGame.totalScore];
-    _sceneGame.progressBarFreeCoin.progress = _currentGame.freeCoinPercentRemaining;
+    _sceneGame.scoreTotalLabel.text                     = [NSString stringWithFormat:@"%0.2f",_currentGame.totalScore];
+    _sceneGame.progressBarFreeCoin.progress             = _currentGame.freeCoinPercentRemaining;
 
 }
-
-- (BOOL)fireEvent:(NSString *)event userInfo:(NSDictionary *)userInfo {
-    NSError *error                      = nil;
-    BOOL success                        = [_gameModel.stateMachine fireEvent:event userInfo:userInfo error:&error];
-    if (!success) {
-        NSLog(@"Error [unable to fire event]: %@",error.localizedFailureReason);
-    }
-    
-    return success;
-}
-
 /**
  //show menu with end configuration
  
  //send score to game center
  */
 - (void)gameModelStateEndEntered {
+    if (!_sceneMenu) {
+        _sceneMenu = [self loadMenuScene];
+    }
+    
+    [self presentScene:SIGameControllerSceneMenu];
+    
     
 }
 
@@ -1883,26 +2012,23 @@
  clear data
  */
 - (void)gameModelStateEndExited {
-    if () {
-        <#statements#>
-    }
-    _gameModel.game.moveScorePercentRemaining      = 1.0f;
-    _gameModel.game.currentBackgroundSound         = SIBackgroundSoundMenu;
-    _gameModel.game.currentLevel                   = [SIGame currentLevelStringForScore:0.0f];
-    _gameModel.game.currentContinueLifeCost        = SIContinueLifeCost1;
-    _gameModel.game.currentNumberOfTimesContinued  = 0;
-    _gameModel.game.totalScore                     = 0.0f;
-    _gameModel.game.freeCoinsEarned                = 0;
-    _gameModel.game.currentBackgroundColorNumber   = arc4random_uniform(NUMBER_OF_MOVES);
-    _gameModel.game.currentBackgroundColor         = [SKColor mainColor];
-    _gameModel.game.isHighScore                    = NO;
+
+    _gameModel.game.moveScorePercentRemaining           = 1.0f;
+    _gameModel.game.currentBackgroundSound              = SIBackgroundSoundMenu;
+    _gameModel.game.currentLevel                        = [SIGame currentLevelStringForScore:0.0f];
+    _gameModel.game.currentNumberOfTimesContinued       = 0;
+    _gameModel.game.totalScore                          = 0.0f;
+    _gameModel.game.freeCoinsEarned                     = 0;
+    _gameModel.game.currentBackgroundColorNumber        = arc4random_uniform(NUMBER_OF_MOVES);
+    _gameModel.game.currentBackgroundColor              = [SKColor mainColor];
+    _gameModel.game.isHighScore                         = NO;
     
     if (_currentMove) {
         _currentMove = nil;
     }
-    _currentMove                                = [[SIMove alloc] init];
-    _currentMove.moveCommand                    = SIMoveCommandSwype;
-    _currentMove.moveScore                      = 0.0f;
+    _currentMove                                        = [[SIMove alloc] init];
+    _currentMove.moveCommand                            = SIMoveCommandSwype;
+    _currentMove.moveScore                              = 0.0f;
 
     
     [_gameModel.powerUpArray removeAllObjects];
@@ -1918,18 +2044,31 @@
  //transistion to monkey scene fast!
  */
 - (void)gameModelStateFallingMonkeyEntered {
-    
+    BOOL success = [self timerFireEvent:kSITKStateMachineEventTimerPause userInfo:nil];
+    if (!success) {
+        [self timerFireEvent:kSITKStateMachineEventTimerStopCriticalFailure userInfo:nil];
+    }
+    _sceneFallingMonkey.adBannerNode                    = [SIGameController premiumUser] ? nil : _adBannerNode;
+    _currentScene                                       = [SIGameController viewController:[self fastSKView] transisitionToSKScene:_sceneFallingMonkey duration:SCENE_TRANSISTION_DURATION_FAST];
 }
 
 ////////////////////////////////////////////////////////////////////////////////////
+//\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+//END///////////////////////////////////////////////////////////////////////////////
+//\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 ////////////////////////////////////////////////////////////////////////////////////
+//**********************************************************************************
+//**********************************************************************************
 ////////////////////////////////////////////////////////////////////////////////////
+//\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+//END///////////////////////////////////////////////////////////////////////////////
+//\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+//**********************************************************************************
+//**********************************************************************************
 ////////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////////
+//\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+//END///////////////////////////////////////////////////////////////////////////////
+//\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 ////////////////////////////////////////////////////////////////////////////////////
 
 #pragma mark -

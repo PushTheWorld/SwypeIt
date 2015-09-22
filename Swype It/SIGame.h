@@ -28,7 +28,7 @@
 @property (assign, nonatomic) NSInteger          currentPointsRemainingThisRound;
 @property (assign, nonatomic) int                currentBackgroundColorNumber;
 @property (assign, nonatomic) SIBackgroundSound  currentBackgroundSound;
-@property (assign, nonatomic) SIContinueLifeCost currentContinueLifeCost;
+//@property (assign, nonatomic) SIContinueLifeCost currentContinueLifeCost;
 @property (assign, nonatomic) SIGameMode         gameMode;
 //@property (strong, nonatomic) SIMove            *currentMove;
 @property (strong, nonatomic) NSMutableArray    *powerUpArray;

@@ -64,7 +64,7 @@
 /**
  //show ad or charge user
  */
-- (void)gameModelStatePayingForContinueEntered;
+- (void)gameModelStatePayingForContinueEnteredWithPayMethod:(SISceneGamePopupContinueMenuItem)paymentMethod;
 
 /**
  //pause time

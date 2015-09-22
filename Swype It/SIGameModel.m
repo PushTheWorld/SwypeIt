@@ -18,6 +18,7 @@
     TKEvent                                 *_gameEventStartGame;
     TKEvent                                 *_gameEventWaitForMove;
     TKEvent                                 *_gameEventWrongMoveEntered;
+    
 }
 
 - (instancetype)init {
@@ -30,13 +31,12 @@
     return self;
 }
 
-
 #pragma mark - State Machine Methods
 - (TKStateMachine *)createGameStateMachine {
     TKStateMachine *stateMachine                            = [TKStateMachine new];
     
     TKState *gameStateIdle                                  = [TKState stateWithName:kSITKStateMachineStateGameIdle];
-    TKState *gameStatePause                                 = [TKState stateWithName:kSITKStateMachineStateGamePause];
+    TKState *gameStatePaused                                = [TKState stateWithName:kSITKStateMachineStateGamePause];
     TKState *gameStatePayingForContinue                     = [TKState stateWithName:kSITKStateMachineStateGamePayingForContinue];
     TKState *gameStatePopupContinue                         = [TKState stateWithName:kSITKStateMachineStateGamePopupContinue];
     TKState *gameStateProcessingMove                        = [TKState stateWithName:kSITKStateMachineStateGameProcessingMove];
@@ -48,12 +48,18 @@
         [self didEnterState:SIGameStateIdle];
     }];
     
-    [gameStatePause setDidEnterStateBlock:^(TKState *state, TKTransition *transition) {
+    [gameStatePaused setDidEnterStateBlock:^(TKState *state, TKTransition *transition) {
         [self didEnterState:SIGameStatePause];
     }];
     
     [gameStatePayingForContinue setDidEnterStateBlock:^(TKState *state, TKTransition *transition) {
-        [self didEnterState:SIGameStatePayingForContinue];
+        NSDictionary *userInfo = transition.userInfo;
+        
+        SISceneGamePopupContinueMenuItem payMethod = [(NSNumber *)[userInfo objectForKey:kSINSDictionaryKeyPayToContinueMethod] integerValue];
+        
+        if ([_delegate respondsToSelector:@selector(gameModelStatePayingForContinueEnteredWithPayMethod:)]) {
+            [_delegate gameModelStatePayingForContinueEnteredWithPayMethod:payMethod];
+        }
     }];
     
     [gameStatePopupContinue setDidEnterStateBlock:^(TKState *state, TKTransition *transition) {
@@ -83,7 +89,7 @@
         }
     }];
     
-    [gameStatePause setDidExitStateBlock:^(TKState *state, TKTransition *transition) {
+    [gameStatePaused setDidExitStateBlock:^(TKState *state, TKTransition *transition) {
         if ([_delegate respondsToSelector:@selector(gameModelStatePauseExited)]) {
             [_delegate gameModelStatePauseExited];
         }
@@ -96,14 +102,14 @@
     }];
     
     //add
-    [stateMachine addStates:@[ gameStateIdle,gameStatePause,gameStatePayingForContinue,gameStatePopupContinue,gameStateProcessingMove,gameStateEnd,gameStateFallingMonkey]];
+    [stateMachine addStates:@[ gameStateIdle,gameStatePaused,gameStatePayingForContinue,gameStatePopupContinue,gameStateProcessingMove,gameStateEnd,gameStateFallingMonkey]];
     
     // Set the inital state to start... this way we get fresh new data!!!
     stateMachine.initialState       = gameStateEnd;
     
     //transition rules
     _gameEventEndGame               = [TKEvent eventWithName:kSITKStateMachineEventGameEndGame
-                                     transitioningFromStates:@[gameStateIdle,gameStatePause,gameStatePayingForContinue,gameStatePopupContinue,gameStateProcessingMove,gameStateFallingMonkey]
+                                     transitioningFromStates:@[gameStateIdle,gameStatePaused,gameStatePayingForContinue,gameStatePopupContinue,gameStateProcessingMove,gameStateFallingMonkey]
                                                      toState:gameStateEnd];
     
     _gameEventFallingMonkeyEnd      = [TKEvent eventWithName:kSITKStateMachineEventGameFallingMonkeyEnd
@@ -120,7 +126,7 @@
     
     _gameEventPause                 = [TKEvent eventWithName:kSITKStateMachineEventGamePause
                                      transitioningFromStates:@[gameStateIdle]
-                                                     toState:gameStatePause];
+                                                     toState:gameStatePaused];
     
     _gameEventPayForContinue        = [TKEvent eventWithName:kSITKStateMachineEventGamePayForContinue
                                      transitioningFromStates:@[gameStatePayingForContinue]
@@ -132,7 +138,7 @@
     
     
     _gameEventWaitForMove           = [TKEvent eventWithName:kSITKStateMachineEventGameWaitForMove
-                                     transitioningFromStates:@[gameStatePayingForContinue, gameStateEnd, gameStatePause, gameStateProcessingMove]
+                                     transitioningFromStates:@[gameStatePayingForContinue, gameStateEnd, gameStatePaused, gameStateProcessingMove]
                                                      toState:gameStateIdle];
     
     _gameEventWrongMoveEntered      = [TKEvent eventWithName:kSITKStateMachineEventGameWrongMoveEntered

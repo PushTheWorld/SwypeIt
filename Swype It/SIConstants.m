@@ -248,6 +248,7 @@ NSString *const kSINSDictionaryKeyHudWillShowCheckmark                          
 NSString *const kSINSDictionaryKeyMoveScore                                     = @"moveScore";
 NSString *const kSINSDictionaryKeyPowerUp                                       = @"powerUp";
 NSString *const kSINSDictionaryKeyPackProduct                                   = @"packProduct";
+NSString *const kSINSDictionaryKeyPayToContinueMethod                           = @"payToContinue";
 NSString *const kSINSDictionaryKeySIAchievementPlistAmount                      = @"amount";
 NSString *const kSINSDictionaryKeySIAchievementPlistLevelsDictionary            = @"levelsDictionary";
 NSString *const kSINSDictionaryKeySIAchievementPlistCompletedBool               = @"completed";
@@ -436,6 +437,9 @@ NSString *const kSITKStateMachineStateGamePayingForContinue                     
 NSString *const kSITKStateMachineStateGamePopupContinue                         = @"popupContinue";
 NSString *const kSITKStateMachineStateGameProcessingMove                        = @"processingMove";
 NSString *const kSITKStateMachineStateGameStart                                 = @"start";
+NSString *const kSITKStateMachineStateTimerPaused                               = @"timerPaused";
+NSString *const kSITKStateMachineStateTimerRunning                              = @"timerRunning";
+NSString *const kSITKStateMachineStateTimerStopped                              = @"timerStopped";
 
 #pragma mark - State Machine Events
 NSString *const kSITKStateMachineEventGameEndGame                               = @"endGame";
@@ -447,7 +451,11 @@ NSString *const kSITKStateMachineEventGamePayForContinue                        
 NSString *const kSITKStateMachineEventGameStartGame                             = @"startGame";
 NSString *const kSITKStateMachineEventGameWaitForMove                           = @"waitForMove";
 NSString *const kSITKStateMachineEventGameWrongMoveEntered                      = @"wrongMoveEntered";
-
+NSString *const kSITKStateMachineEventTimerPause                                = @"timerPause";
+NSString *const kSITKStateMachineEventTimerResume                               = @"timerResume";
+NSString *const kSITKStateMachineEventTimerStart                                = @"timerStart";
+NSString *const kSITKStateMachineEventTimerStop                                 = @"timerStop";
+NSString *const kSITKStateMachineEventTimerStopCriticalFailure                  = @"timerStopCriticalFailure";
 
 #pragma mark - Useful things
 @implementation SIConstants
