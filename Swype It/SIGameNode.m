@@ -131,6 +131,7 @@ enum {
     } else if (HLGestureTarget_areEquivalentGestureRecognizers(gestureRecognizer, [[UITapGestureRecognizer alloc] init])) {
         UITapGestureRecognizer *tapGestureRecognizer = (UITapGestureRecognizer *)gestureRecognizer;
         if (tapGestureRecognizer.numberOfTapsRequired == 1) {
+            [gestureRecognizer addTarget:self action:@selector(handleTap:)];
             *isInside       = YES;
             return YES;
         }

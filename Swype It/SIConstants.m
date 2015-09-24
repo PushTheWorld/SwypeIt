@@ -63,6 +63,28 @@ SKSpriteNode *coinNodeLargeFront() {
     return coinNode;
 }
 
+CGPoint vectorAddition(CGPoint a, CGPoint b) {
+    return CGPointMake(a.x + b.x, a.y + b.y);
+}
+
+CGPoint vectorSubtraction(CGPoint a, CGPoint b) {
+    return CGPointMake(a.x - b.x, a.y - b.y);
+}
+
+CGPoint vectorMultiplication(CGPoint a, float b) {
+    return CGPointMake(a.x * b, a.y * b);
+}
+
+float vectorLength(CGPoint a) {
+    return sqrtf(a.x * a.x + a.y * a.y);
+}
+
+// Makes a vector have a length of 1
+CGPoint vectorNormalize(CGPoint a) {
+    float length = vectorLength(a);
+    return CGPointMake(a.x / length, a.y / length);
+}
+
 
 
 #pragma mark - Images
@@ -211,10 +233,11 @@ NSString *const kSIImageTapToPlayText                                           
 NSString *const kSIAtlasBackground                                              = @"background";
 NSString *const kSIAtlasButtons                                                 = @"buttons";
 NSString *const kSIAtlasImages                                                  = @"images";
+NSString *const kSIAtlasSceneFallingMonkey                                      = @"fallingMonkeys";
 NSString *const kSIAtlasSceneMenu                                               = @"sceneMenu";
 NSString *const kSIAtlasShapes                                                  = @"shapes";
 
-#pragma mark - Images in Atlas 
+#pragma mark - Images in Menu Scene Atlas
 NSString *const kSIAtlasSceneMenuAchievements                                   = @"achievementsRevA";
 NSString *const kSIAtlasSceneMenuAdFree                                         = @"adFreeRevB";
 NSString *const kSIAtlasSceneMenuBackButton                                     = @"backButton";
@@ -229,6 +252,9 @@ NSString *const kSIAtlasSceneMenuSettings                                       
 NSString *const kSIAtlasSceneMenuSoundBackground                                = @"startBackgroundSound";
 NSString *const kSIAtlasSceneMenuSoundFX                                        = @"startFXSound";
 
+#pragma mark - Images in Falling Monkey Scene Atlas
+NSString *const kSIAtlasSceneFallingMonkeyBanana                                = @"banana";
+NSString *const kSIAtlasSceneFallingMonkeyBananaBunch                           = @"bananaBunch";
 
 #pragma mark - Button Labels
 NSString *const kSIButtonLabelStringOneHand                                     = @"One Hand";
@@ -433,7 +459,7 @@ NSString *const kSITKStateMachineStateGameEnd                                   
 NSString *const kSITKStateMachineStateGameFallingMonkey                         = @"fallingMonkey";
 NSString *const kSITKStateMachineStateGameIdle                                  = @"idle";
 NSString *const kSITKStateMachineStateGameLoading                               = @"loading";
-NSString *const kSITKStateMachineStateGamePause                                 = @"pause";
+NSString *const kSITKStateMachineStateGamePaused                                = @"paused";
 NSString *const kSITKStateMachineStateGamePayingForContinue                     = @"payingForContinue";
 NSString *const kSITKStateMachineStateGamePopupContinue                         = @"popupContinue";
 NSString *const kSITKStateMachineStateGameProcessingMove                        = @"processingMove";
@@ -443,14 +469,13 @@ NSString *const kSITKStateMachineStateTimerRunning                              
 NSString *const kSITKStateMachineStateTimerStopped                              = @"timerStopped";
 
 #pragma mark - State Machine Events
-NSString *const kSITKStateMachineEventGameEndGame                               = @"endGame";
-NSString *const kSITKStateMachineEventGameFallingMonkeyEnd                      = @"fallingMonkeyEnd";
 NSString *const kSITKStateMachineEventGameFallingMonkeyStart                    = @"fallingMonkeyStart";
 NSString *const kSITKStateMachineEventGameLoad                                  = @"load";
+NSString *const kSITKStateMachineEventGameMenuEnd                               = @"menuEnd";
+NSString *const kSITKStateMachineEventGameMenuStart                             = @"menuStart";
 NSString *const kSITKStateMachineEventGameMoveEntered                           = @"moveEntered";
 NSString *const kSITKStateMachineEventGamePause                                 = @"pauseEvent";
 NSString *const kSITKStateMachineEventGamePayForContinue                        = @"payForContinue";
-NSString *const kSITKStateMachineEventGameStartGame                             = @"startGame";
 NSString *const kSITKStateMachineEventGameWaitForMove                           = @"waitForMove";
 NSString *const kSITKStateMachineEventGameWrongMoveEntered                      = @"wrongMoveEntered";
 NSString *const kSITKStateMachineEventTimerPause                                = @"timerPause";
@@ -465,30 +490,45 @@ NSString *const kSITKStateMachineEventTimerStopCriticalFailure                  
     return CGSizeMake(SCREEN_WIDTH/8.0, SCREEN_WIDTH/8.0f);
 }
 + (NSArray *)userMessageHighScore {
-    return @[@"You did it!",
-             @"Can you beat that?",
-             @"You're Awesome! 👍",
-             @"Siri is pumped!"];
+    static NSArray *msgArray = nil;
+    if (!msgArray) {
+        msgArray = @[@"You did it!",
+                     @"Can you beat that?",
+                     @"You're Awesome! 👍",
+                     @"Siri is pumped!"];
+    }
+    return msgArray;
 }
 + (NSArray *)userMessageHighScoreClose {
-    return @[@"Use Power Ups!",
-             @"Buy IT Coins!",
-             @"Nooo! You had it!",
-             @"So Close!!!"];
+    static NSArray *msgArray = nil;
+    if (!msgArray) {
+        msgArray = @[@"Use Power Ups!",
+                     @"Buy IT Coins!",
+                     @"Nooo! You had it!",
+                     @"So Close!!!"];
+    }
+    return msgArray;
 }
 + (NSArray *)userMessageHighScoreMedian {
-    return @[@"🙅 NO HIGH SCORE!",
-             @"You Can Do Better",
-             @"You're The Best 😊",
-             @"Try Again",
-             @"Swype Faster",
-             @"You Are Awesome 😊",
-             @"😭 Game over 😭"];
+    static NSArray *msgArray = nil;
+    if (!msgArray) {
+        msgArray = @[@"🙅 NO HIGH SCORE!",
+                     @"You Can Do Better",
+                     @"Well.. next time?",
+                     @"Give it another go!",
+                     @"Swype Faster",
+                     @"😭 Game over 😭"];
+    }
+    return msgArray;
 }
 + (NSArray *)userMessageHighScoreBad {
-    return @[@"Are you even trying?",
-             @"Um... try again",
-             @"Ohhhh no"];
+    static NSArray *msgArray = nil;
+    if (!msgArray) {
+        msgArray = @[@"Are you even trying?",
+                     @"Um... try again",
+                     @"Ohhhh no"];
+    }
+    return msgArray;
 }
 + (NSString *)pathForSparkEmitter {
     return [[NSBundle mainBundle] pathForResource:kSIEmitterSpark ofType:kSIEmitterFileTypeSKS];
@@ -496,20 +536,47 @@ NSString *const kSITKStateMachineEventTimerStopCriticalFailure                  
 + (NSString *)pathForTouchExplosionEmitter {
     return [[NSBundle mainBundle] pathForResource:kSIEmitterExplosionTouch ofType:kSIEmitterFileTypeSKS];
 }
++ (SKTextureAtlas *)atlasSceneFallingMonkey {
+    static SKTextureAtlas *atlas = nil;
+    if (!atlas) {
+        atlas = [SKTextureAtlas atlasNamed:kSIAtlasSceneFallingMonkey];
+    }
+    return atlas;
+}
 + (SKTextureAtlas *)atlasSceneMenu {
-    return [SKTextureAtlas atlasNamed:kSIAtlasSceneMenu];
+    static SKTextureAtlas *atlas = nil;
+    if (!atlas) {
+        atlas = [SKTextureAtlas atlasNamed:kSIAtlasSceneMenu];
+    }
+    return atlas;
 }
 + (SKTextureAtlas *)backgroundAtlas {
-    return [SKTextureAtlas atlasNamed:kSIAtlasBackground];
+    static SKTextureAtlas *atlas = nil;
+    if (!atlas) {
+        atlas = [SKTextureAtlas atlasNamed:kSIAtlasBackground];
+    }
+    return atlas;
 }
 + (SKTextureAtlas *)buttonAtlas {
-    return [SKTextureAtlas atlasNamed:kSIAtlasButtons];
+    static SKTextureAtlas *atlas = nil;
+    if (!atlas) {
+        atlas = [SKTextureAtlas atlasNamed:kSIAtlasButtons];
+    }
+    return atlas;
 }
 + (SKTextureAtlas *)imagesAtlas {
-    return [SKTextureAtlas atlasNamed:kSIAtlasImages];
+    static SKTextureAtlas *atlas = nil;
+    if (!atlas) {
+        atlas = [SKTextureAtlas atlasNamed:kSIAtlasImages];
+    }
+    return atlas;
 }
 + (SKTextureAtlas *)shapesAtlas {
-    return [SKTextureAtlas atlasNamed:kSIAtlasShapes];
+    static SKTextureAtlas *atlas = nil;
+    if (!atlas) {
+        atlas = [SKTextureAtlas atlasNamed:kSIAtlasShapes];
+    }
+    return atlas;
 }
 + (BOOL)isFXAllowed {
     return [[NSUserDefaults standardUserDefaults] boolForKey:kSINSUserDefaultSoundIsAllowedFX];

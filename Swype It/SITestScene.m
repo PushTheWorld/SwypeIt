@@ -11,7 +11,7 @@
 // Local Controller Import
 #import "SIGameController.h"
 #import "SIGameScene.h"
-#import "SISingletonGame.h"
+//#import "SISingletonGame.h"
 #import "SITestScene.h"
 // Framework Import
 //#import <Instabug/Instabug.h>

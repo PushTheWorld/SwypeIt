@@ -118,6 +118,12 @@ FOUNDATION_EXPORT HLRingNode                *sceneGamePauseRingNode();
  */
 SKSpriteNode                                *coinNodeLargeFront();
 
+FOUNDATION_EXPORT CGPoint                   vectorAddition(CGPoint a, CGPoint b);
+FOUNDATION_EXPORT CGPoint                   vectorSubtraction(CGPoint a, CGPoint b);
+FOUNDATION_EXPORT CGPoint                   vectorMultiplication(CGPoint a, float b);
+FOUNDATION_EXPORT float                     vectorLength(CGPoint a);
+FOUNDATION_EXPORT CGPoint                   vectorNormalize(CGPoint a);
+
 
 typedef NS_ENUM(NSInteger, SIAchievementArrayIndexForAchievementType) {
     SIAchievementArrayIndexForAchievementTypeLevel1 = 0,
@@ -385,6 +391,13 @@ typedef NS_ENUM(NSInteger, SIZPositionPopup) {
     SIZPositionPopupCount
 };
 
+typedef NS_ENUM(NSInteger, SIZPositionFallingMonkey) {
+    SIZPositionFallingMonkeyBackground       = 0,
+    SIZPositionFallingMonkeyUIContent,
+    SIZPositionFallingMonkeyFallingMonkey,
+    SIZPositionFallingMonkeyCount
+};
+
 typedef NS_ENUM(NSInteger, SIGameState) {
     SIGameStateEnd                  = 0,
     SIGameStateFallingMonkey,
@@ -588,10 +601,11 @@ extern NSString *const kSIImageTapToPlayText;
 extern NSString *const kSIAtlasBackground;
 extern NSString *const kSIAtlasButtons;
 extern NSString *const kSIAtlasImages;
+extern NSString *const kSIAtlasSceneFallingMonkey;
 extern NSString *const kSIAtlasSceneMenu;
 extern NSString *const kSIAtlasShapes;
 
-#pragma mark - Images in Atlas
+#pragma mark - Images in Menu Scene Atlas
 extern NSString *const kSIAtlasSceneMenuAchievements;
 extern NSString *const kSIAtlasSceneMenuAdFree;
 extern NSString *const kSIAtlasSceneMenuBackButton;
@@ -605,6 +619,10 @@ extern NSString *const kSIAtlasSceneMenuShareTwitter;
 extern NSString *const kSIAtlasSceneMenuShop;
 extern NSString *const kSIAtlasSceneMenuSoundBackground;
 extern NSString *const kSIAtlasSceneMenuSoundFX;
+
+#pragma mark - Images in Falling Monkey Scene Atlas
+extern NSString *const kSIAtlasSceneFallingMonkeyBanana;
+extern NSString *const kSIAtlasSceneFallingMonkeyBananaBunch;
 
 #pragma mark - Button Labels
 extern NSString *const kSIButtonLabelStringOneHand;
@@ -809,7 +827,7 @@ extern NSString *const kSITKStateMachineStateGameEnd;
 extern NSString *const kSITKStateMachineStateGameFallingMonkey;
 extern NSString *const kSITKStateMachineStateGameIdle;
 extern NSString *const kSITKStateMachineStateGameLoading;
-extern NSString *const kSITKStateMachineStateGamePause;
+extern NSString *const kSITKStateMachineStateGamePaused;
 extern NSString *const kSITKStateMachineStateGamePayingForContinue;
 extern NSString *const kSITKStateMachineStateGamePopupContinue;
 extern NSString *const kSITKStateMachineStateGameProcessingMove;
@@ -819,14 +837,13 @@ extern NSString *const kSITKStateMachineStateTimerRunning;
 extern NSString *const kSITKStateMachineStateTimerStopped;
 
 #pragma mark - State Machine Events
-extern NSString *const kSITKStateMachineEventGameEndGame;
-extern NSString *const kSITKStateMachineEventGameFallingMonkeyEnd;
 extern NSString *const kSITKStateMachineEventGameFallingMonkeyStart;
 extern NSString *const kSITKStateMachineEventGameLoad;
+extern NSString *const kSITKStateMachineEventGameMenuEnd;
+extern NSString *const kSITKStateMachineEventGameMenuStart;
 extern NSString *const kSITKStateMachineEventGameMoveEntered;
 extern NSString *const kSITKStateMachineEventGamePause;
 extern NSString *const kSITKStateMachineEventGamePayForContinue;
-extern NSString *const kSITKStateMachineEventGameStartGame;
 extern NSString *const kSITKStateMachineEventGameWaitForMove;
 extern NSString *const kSITKStateMachineEventGameWrongMoveEntered;
 extern NSString *const kSITKStateMachineEventTimerPause;
@@ -850,6 +867,7 @@ extern NSString *const kSITKStateMachineEventTimerStopCriticalFailure;
 + (NSArray *)userMessageHighScoreBad;
 + (NSString *)pathForSparkEmitter;
 + (NSString *)pathForTouchExplosionEmitter;
++ (SKTextureAtlas *)atlasSceneFallingMonkey;
 + (SKTextureAtlas *)atlasSceneMenu;
 + (SKTextureAtlas *)backgroundAtlas;
 + (SKTextureAtlas *)buttonAtlas;

@@ -7,21 +7,35 @@
 //
 
 #import <XCTest/XCTest.h>
+#import <OCMock/OCMock.h>
+#import "MKStoreKit.h"
 #import "SIPowerUp.h"
+
+
 
 @interface SIPowerUpTests : XCTestCase
 
 @end
 
-@implementation SIPowerUpTests
+@implementation SIPowerUpTests {
+    NSArray         *_powerUpArray;
+    NSTimeInterval   _powerUpStartTime;
+    NSTimeInterval   _gameTotalTime;
+}
 
 - (void)setUp {
     [super setUp];
+    _powerUpArray           = [NSArray array];
+    _powerUpStartTime       = 0.0;
+    _gameTotalTime          = 1.0;
     // Put setup code here. This method is called before the invocation of each test method in the class.
 }
 
 - (void)tearDown {
     // Put teardown code here. This method is called after the invocation of each test method in the class.
+    _powerUpArray           = nil;
+    _powerUpStartTime       = 0.0;
+    _gameTotalTime          = 1.0;
     [super tearDown];
 }
 
@@ -105,17 +119,17 @@
     XCTAssert([SIPowerUp canStartPowerUp:SIPowerUpTypeFallingMonkeys powerUpArray:nil]);
     
     /*Test array with rapid fire*/
-    SIPowerUp *powerUpRapidFire     = [[SIPowerUp alloc] initWithPowerUp:SIPowerUpTypeRapidFire atTime:0];
+    SIPowerUp *powerUpRapidFire     = [[SIPowerUp alloc] initWithPowerUp:SIPowerUpTypeRapidFire startTime:0];
     NSArray *powerUpArray           = [NSArray arrayWithObject:powerUpRapidFire];
     XCTAssertEqual([SIPowerUp canStartPowerUp:SIPowerUpTypeFallingMonkeys powerUpArray:powerUpArray], NO);
     
     /*Test array with slow motion*/
-    SIPowerUp *powerUpSlowMotion    = [[SIPowerUp alloc] initWithPowerUp:SIPowerUpTypeTimeFreeze atTime:0];
+    SIPowerUp *powerUpSlowMotion    = [[SIPowerUp alloc] initWithPowerUp:SIPowerUpTypeTimeFreeze startTime:0];
     powerUpArray                    = [NSArray arrayWithObject:powerUpSlowMotion];
     XCTAssertEqual([SIPowerUp canStartPowerUp:SIPowerUpTypeFallingMonkeys powerUpArray:powerUpArray], YES);
     
     /*Test array with falling monkey it... does it prevent?*/
-    SIPowerUp *powerUpFalingMonkey  = [[SIPowerUp alloc] initWithPowerUp:SIPowerUpTypeFallingMonkeys atTime:0];
+    SIPowerUp *powerUpFalingMonkey  = [[SIPowerUp alloc] initWithPowerUp:SIPowerUpTypeFallingMonkeys startTime:0];
     powerUpArray                    = [NSArray arrayWithObject:powerUpFalingMonkey];
     XCTAssertEqual([SIPowerUp canStartPowerUp:SIPowerUpTypeFallingMonkeys powerUpArray:powerUpArray], NO);
     
@@ -130,17 +144,17 @@
     XCTAssert([SIPowerUp canStartPowerUp:SIPowerUpTypeRapidFire powerUpArray:nil]);
     
     /*Test array with slow motion*/
-    SIPowerUp *powerUpSlowMotion    = [[SIPowerUp alloc] initWithPowerUp:SIPowerUpTypeTimeFreeze atTime:0];
+    SIPowerUp *powerUpSlowMotion    = [[SIPowerUp alloc] initWithPowerUp:SIPowerUpTypeTimeFreeze startTime:0];
     powerUpArray                    = [NSArray arrayWithObject:powerUpSlowMotion];
     XCTAssertEqual([SIPowerUp canStartPowerUp:SIPowerUpTypeRapidFire powerUpArray:powerUpArray], YES);
     
     /*Test array with falling monkey it... does it prevent?*/
-    SIPowerUp *powerUpFalingMonkey  = [[SIPowerUp alloc] initWithPowerUp:SIPowerUpTypeFallingMonkeys atTime:0];
+    SIPowerUp *powerUpFalingMonkey  = [[SIPowerUp alloc] initWithPowerUp:SIPowerUpTypeFallingMonkeys startTime:0];
     powerUpArray                    = [NSArray arrayWithObject:powerUpFalingMonkey];
     XCTAssertEqual([SIPowerUp canStartPowerUp:SIPowerUpTypeRapidFire powerUpArray:powerUpArray], NO);
     
     /*Test array with rapid fire*/
-    SIPowerUp *powerUpRapidFire     = [[SIPowerUp alloc] initWithPowerUp:SIPowerUpTypeRapidFire atTime:0];
+    SIPowerUp *powerUpRapidFire     = [[SIPowerUp alloc] initWithPowerUp:SIPowerUpTypeRapidFire startTime:0];
     powerUpArray                    = [NSArray arrayWithObject:powerUpRapidFire];
     XCTAssertEqual([SIPowerUp canStartPowerUp:SIPowerUpTypeRapidFire powerUpArray:powerUpArray], NO);
     
@@ -155,17 +169,17 @@
     XCTAssert([SIPowerUp canStartPowerUp:SIPowerUpTypeTimeFreeze powerUpArray:nil]);
     
     /*Test array with time freeze.. should be no, duplicate check...*/
-    SIPowerUp *powerUpTimeFreeze    = [[SIPowerUp alloc] initWithPowerUp:SIPowerUpTypeTimeFreeze atTime:0];
+    SIPowerUp *powerUpTimeFreeze    = [[SIPowerUp alloc] initWithPowerUp:SIPowerUpTypeTimeFreeze startTime:0];
     powerUpArray                    = [NSArray arrayWithObject:powerUpTimeFreeze];
     XCTAssertEqual([SIPowerUp canStartPowerUp:SIPowerUpTypeTimeFreeze powerUpArray:powerUpArray], NO);
     
     /*Test array with falling monkey it... does it prevent?*/
-    SIPowerUp *powerUpFalingMonkey  = [[SIPowerUp alloc] initWithPowerUp:SIPowerUpTypeFallingMonkeys atTime:0];
+    SIPowerUp *powerUpFalingMonkey  = [[SIPowerUp alloc] initWithPowerUp:SIPowerUpTypeFallingMonkeys startTime:0];
     powerUpArray                    = [NSArray arrayWithObject:powerUpFalingMonkey];
     XCTAssertEqual([SIPowerUp canStartPowerUp:SIPowerUpTypeTimeFreeze powerUpArray:powerUpArray], YES);
     
     /*Test array with rapid fire*/
-    SIPowerUp *powerUpRapidFire     = [[SIPowerUp alloc] initWithPowerUp:SIPowerUpTypeRapidFire atTime:0];
+    SIPowerUp *powerUpRapidFire     = [[SIPowerUp alloc] initWithPowerUp:SIPowerUpTypeRapidFire startTime:0];
     powerUpArray                    = [NSArray arrayWithObject:powerUpRapidFire];
     XCTAssertEqual([SIPowerUp canStartPowerUp:SIPowerUpTypeTimeFreeze powerUpArray:powerUpArray], YES);
     
@@ -174,6 +188,60 @@
     XCTAssertEqual([SIPowerUp canStartPowerUp:SIPowerUpTypeTimeFreeze powerUpArray:powerUpArray], YES);
 }
 
+- (void)testCanStartPowerUpNoMoney {
+    NSNumber *numberOfCoins = [NSNumber numberWithInt:0];
+    //given a mock MKStoreKit
+    id mockMKStoreKit = [OCMockObject niceMockForClass:[MKStoreKit class]];
+    [[[mockMKStoreKit stub] andReturn:mockMKStoreKit] sharedKit];
+    
+    [[[mockMKStoreKit expect] andReturn:numberOfCoins] availableCreditsForConsumable:kSIIAPConsumableIDCoins];
+    
+    BOOL ret = [SIPowerUp canStartPowerUp:SIPowerUpTypeFallingMonkeys powerUpArray:nil];
+    
+    XCTAssertEqual(ret, NO);
+    
+    //verify the return value
+    [mockMKStoreKit verify];
+    
+    //clean up the mock
+    [mockMKStoreKit stopMocking];
+}
+- (void)testCanStartPowerUpPerfectAmountOfMoney {
+    NSNumber *numberOfCoins = [NSNumber numberWithInt:[SIPowerUp costForPowerUp:SIPowerUpTypeFallingMonkeys]];
+    //given a mock MKStoreKit
+    id mockMKStoreKit = [OCMockObject niceMockForClass:[MKStoreKit class]];
+    [[[mockMKStoreKit stub] andReturn:mockMKStoreKit] sharedKit];
+    
+    [[[mockMKStoreKit expect] andReturn:numberOfCoins] availableCreditsForConsumable:kSIIAPConsumableIDCoins];
+    
+    BOOL ret = [SIPowerUp canStartPowerUp:SIPowerUpTypeFallingMonkeys powerUpArray:nil];
+    
+    XCTAssertEqual(ret, YES);
+    
+    //verify the return value
+    [mockMKStoreKit verify];
+    
+    //clean up the mock
+    [mockMKStoreKit stopMocking];
+}
+- (void)testCanStartPowerUpExcessMoney {
+    NSNumber *numberOfCoins = [NSNumber numberWithInt:100];
+    //given a mock MKStoreKit
+    id mockMKStoreKit = [OCMockObject niceMockForClass:[MKStoreKit class]];
+    [[[mockMKStoreKit stub] andReturn:mockMKStoreKit] sharedKit];
+    
+    [[[mockMKStoreKit expect] andReturn:numberOfCoins] availableCreditsForConsumable:kSIIAPConsumableIDCoins];
+    
+    BOOL ret = [SIPowerUp canStartPowerUp:SIPowerUpTypeFallingMonkeys powerUpArray:nil];
+    
+    XCTAssertEqual(ret, YES);
+    
+    //verify the return value
+    [mockMKStoreKit verify];
+    
+    //clean up the mock
+    [mockMKStoreKit stopMocking];
+}
 /**
  + (BOOL)isPowerUpActive:(SIPowerUpType)powerUp powerUpArray:(NSArray *)powerUpArray {
  for (SIPowerUp *powerUpClass in powerUpArray) {
@@ -187,19 +255,19 @@
 - (void)testIsPowerUpActive {
     NSArray *powerUpArray;
     
-    SIPowerUp *powerUpTimeFreeze    = [[SIPowerUp alloc] initWithPowerUp:SIPowerUpTypeTimeFreeze atTime:0];
+    SIPowerUp *powerUpTimeFreeze    = [[SIPowerUp alloc] initWithPowerUp:SIPowerUpTypeTimeFreeze startTime:0];
     powerUpArray                    = [NSArray arrayWithObject:powerUpTimeFreeze];
     XCTAssert([SIPowerUp isPowerUpActive:SIPowerUpTypeTimeFreeze powerUpArray:powerUpArray]);
     XCTAssertEqual([SIPowerUp isPowerUpActive:SIPowerUpTypeRapidFire powerUpArray:powerUpArray], NO);
     XCTAssertEqual([SIPowerUp isPowerUpActive:SIPowerUpTypeFallingMonkeys powerUpArray:powerUpArray], NO);
 
-    SIPowerUp *powerUpRapidFire     = [[SIPowerUp alloc] initWithPowerUp:SIPowerUpTypeRapidFire atTime:0];
+    SIPowerUp *powerUpRapidFire     = [[SIPowerUp alloc] initWithPowerUp:SIPowerUpTypeRapidFire startTime:0];
     powerUpArray                    = [NSArray arrayWithObject:powerUpRapidFire];
     XCTAssert([SIPowerUp isPowerUpActive:SIPowerUpTypeRapidFire powerUpArray:powerUpArray]);
     XCTAssertEqual([SIPowerUp isPowerUpActive:SIPowerUpTypeTimeFreeze powerUpArray:powerUpArray], NO);
     XCTAssertEqual([SIPowerUp isPowerUpActive:SIPowerUpTypeFallingMonkeys powerUpArray:powerUpArray], NO);
     
-    SIPowerUp *powerUpFallingMonkey = [[SIPowerUp alloc] initWithPowerUp:SIPowerUpTypeFallingMonkeys atTime:0];
+    SIPowerUp *powerUpFallingMonkey = [[SIPowerUp alloc] initWithPowerUp:SIPowerUpTypeFallingMonkeys startTime:0];
     powerUpArray                    = [NSArray arrayWithObject:powerUpFallingMonkey];
     XCTAssert([SIPowerUp isPowerUpActive:SIPowerUpTypeFallingMonkeys powerUpArray:powerUpArray]);
     XCTAssertEqual([SIPowerUp isPowerUpActive:SIPowerUpTypeRapidFire powerUpArray:powerUpArray], NO);
@@ -236,7 +304,7 @@
     powerUpArray                    = [NSArray array];
     XCTAssert([SIPowerUp isPowerUpArrayEmpty:powerUpArray]);
     
-    SIPowerUp *powerUpFallingMonkey = [[SIPowerUp alloc] initWithPowerUp:SIPowerUpTypeFallingMonkeys atTime:0];
+    SIPowerUp *powerUpFallingMonkey = [[SIPowerUp alloc] initWithPowerUp:SIPowerUpTypeFallingMonkeys startTime:0];
     powerUpArray                    = [NSArray arrayWithObject:powerUpFallingMonkey];
     XCTAssertEqual([SIPowerUp isPowerUpArrayEmpty:powerUpArray], NO);
 }
@@ -256,12 +324,12 @@
     XCTAssertEqualWithAccuracy([SIPowerUp maxPercentOfPowerUpArray:powerUpArray], 0.0f, 0.05f);
     
     /*Test with one power up*/
-    SIPowerUp *powerUpFallingMonkey         = [[SIPowerUp alloc] initWithPowerUp:SIPowerUpTypeFallingMonkeys atTime:0.0f];
+    SIPowerUp *powerUpFallingMonkey         = [[SIPowerUp alloc] initWithPowerUp:SIPowerUpTypeFallingMonkeys startTime:0.0f];
     powerUpFallingMonkey.percentRemaining   = 0.5f;
     powerUpArray                            = [NSArray arrayWithObject:powerUpFallingMonkey];
     XCTAssertEqualWithAccuracy([SIPowerUp maxPercentOfPowerUpArray:powerUpArray], 0.5f, 0.05f);
 
-    SIPowerUp *powerUpRapidFire             = [[SIPowerUp alloc] initWithPowerUp:SIPowerUpTypeRapidFire atTime:0];
+    SIPowerUp *powerUpRapidFire             = [[SIPowerUp alloc] initWithPowerUp:SIPowerUpTypeRapidFire startTime:0];
     powerUpRapidFire.percentRemaining       = 0.8f;
     powerUpArray                            = [NSArray arrayWithObjects:powerUpFallingMonkey, powerUpRapidFire,nil];
     XCTAssertEqualWithAccuracy([SIPowerUp maxPercentOfPowerUpArray:powerUpArray], 0.8f, 0.05f);
@@ -275,45 +343,91 @@
  Callback returns any powerup with a percentage less than 0.01 to be deactivated
  + (float)powerUpPercentRemaining:(NSArray *)powerUpArray compositeTime:(float)compositeTime withCallback:(void (^)(SIPowerUp *powerUpToDeactivate))callback;
  */
-- (void)testPowerUpPercentRemaining {
-    NSArray *powerUpArray;
-    float startTime = 0.0f;
-    float currentTime = 1000.0f; //1 second has passed!
+- (void)testPowerUpPercentRemainingNil {
     
     /*Test a nil array... what happens*/
-    XCTAssertEqualWithAccuracy([SIPowerUp powerUpPercentRemaining:powerUpArray compositeTime:0 withCallback:nil],0.0f,0.05f);
+    XCTAssertEqualWithAccuracy([SIPowerUp powerUpPercentRemaining:nil gameTimeTotal:0.0 timeFreezeMultiplier:1.0 withCallback:nil],0.0f,0.05f);
     
+}
+
+- (void)testPowerUpPercentRemainingNoObjects {
     /*Test an allocated but empty array... what happens*/
-    powerUpArray                            = [NSArray array];
-    XCTAssertEqualWithAccuracy([SIPowerUp powerUpPercentRemaining:powerUpArray compositeTime:0 withCallback:nil],0.0f,0.05f);
-    
+    XCTAssertEqualWithAccuracy([SIPowerUp powerUpPercentRemaining:_powerUpArray gameTimeTotal:0.0 timeFreezeMultiplier:1.0 withCallback:nil],0.0f,0.05f);
+}
+
+- (void)testPowerUpPercentRemainingWithOneObject {
     /*Test with one power up*/
-    SIPowerUp *powerUpFallingMonkey         = [[SIPowerUp alloc] initWithPowerUp:SIPowerUpTypeFallingMonkeys atTime:startTime];
-    powerUpArray                            = [NSArray arrayWithObject:powerUpFallingMonkey];
-    XCTAssertEqualWithAccuracy([SIPowerUp powerUpPercentRemaining:powerUpArray compositeTime:currentTime withCallback:nil],0.0f,0.05f);
-    
-    SIPowerUp *powerUpRapidFire             = [[SIPowerUp alloc] initWithPowerUp:SIPowerUpTypeRapidFire atTime:startTime];
-    powerUpArray                            = [NSArray arrayWithObjects:powerUpFallingMonkey, powerUpRapidFire,nil];
-    // (3000 - 1000) / 3000 = 0.667 percent remaining
-    XCTAssertEqualWithAccuracy([SIPowerUp powerUpPercentRemaining:powerUpArray compositeTime:currentTime withCallback:nil],0.667f,0.05f);
-    
-    // (3000 - 2000) / 3000 = 0.333 percent remaining
-    XCTAssertEqualWithAccuracy([SIPowerUp powerUpPercentRemaining:powerUpArray compositeTime:currentTime * 2 withCallback:nil],0.333f,0.05f);
-    
-    // (3000 - 3000) / 3000 = 0.0 percent remaining
-    float zeroTest = [SIPowerUp powerUpPercentRemaining:powerUpArray compositeTime:currentTime * 3 withCallback:^(SIPowerUp *powerUpToDeactivate) {
+    SIPowerUp *powerUpFallingMonkey         = [[SIPowerUp alloc] initWithPowerUp:SIPowerUpTypeFallingMonkeys startTime:_powerUpStartTime];
+    _powerUpArray                           = [NSArray arrayWithObject:powerUpFallingMonkey];
+    XCTAssertEqualWithAccuracy([SIPowerUp powerUpPercentRemaining:_powerUpArray gameTimeTotal:0.0 timeFreezeMultiplier:1.0 withCallback:nil],0.0f,0.05f);
+
+}
+
+- (void)testPowerUpPercentRemainingMultiplePowerUpsOneShallExpire {
+    SIPowerUp *powerUpRapidFire             = [[SIPowerUp alloc] initWithPowerUp:SIPowerUpTypeRapidFire startTime:_powerUpStartTime];
+    SIPowerUp *powerUpTimeFreeze            = [[SIPowerUp alloc] initWithPowerUp:SIPowerUpTypeTimeFreeze startTime:_powerUpStartTime];
+    _powerUpArray                            = [NSArray arrayWithObjects:powerUpRapidFire, powerUpTimeFreeze,nil];
+    // (8 - 5) / 8 = 0.0 percent remaining
+    float nonZeroTest = [SIPowerUp powerUpPercentRemaining:_powerUpArray gameTimeTotal:_gameTotalTime * 5 timeFreezeMultiplier:1 withCallback:^(SIPowerUp *powerUpToDeactivate) {
         XCTAssertEqual(powerUpToDeactivate.type, SIPowerUpTypeRapidFire);
     }];
-    XCTAssertEqualWithAccuracy(zeroTest,0.0f,0.05f);
+    XCTAssertEqualWithAccuracy(nonZeroTest,0.375f,0.05f);
+}
+
+- (void)testPowerUpPercentRemainingMultiplePowerUps {
+
+    SIPowerUp *powerUpRapidFire             = [[SIPowerUp alloc] initWithPowerUp:SIPowerUpTypeRapidFire startTime:_powerUpStartTime];
+    SIPowerUp *powerUpTimeFreeze            = [[SIPowerUp alloc] initWithPowerUp:SIPowerUpTypeTimeFreeze startTime:_powerUpStartTime];
+    _powerUpArray                            = [NSArray arrayWithObjects:powerUpRapidFire, powerUpTimeFreeze,nil];
+
+    // Rapid Fire:  1 - ((1 - 0)/3) == 0.667
+    // Time Freeze: 1 - ((1 - 0)/8) == 0.8
+    float expectedTime = 1 - ((_gameTotalTime - _powerUpStartTime) / [SIPowerUp durationForPowerUp:SIPowerUpTypeTimeFreeze]);
+    XCTAssertEqualWithAccuracy([SIPowerUp powerUpPercentRemaining:_powerUpArray gameTimeTotal:_gameTotalTime timeFreezeMultiplier:1 withCallback:nil],expectedTime,0.05f);
+
+}
+
+- (void)testPowerUpPercentRemainingPercentGreaterThanZero {
     
-    SIPowerUp *powerUpTimeFreeze            = [[SIPowerUp alloc] initWithPowerUp:SIPowerUpTypeTimeFreeze atTime:startTime];
-    powerUpArray                            = [NSArray arrayWithObjects:powerUpFallingMonkey, powerUpRapidFire, powerUpTimeFreeze,nil];
-    // (8000 - 1000) / 8000 = 0.875 percent remaining
-    XCTAssertEqualWithAccuracy([SIPowerUp powerUpPercentRemaining:powerUpArray compositeTime:currentTime withCallback:nil],0.875f,0.05f);
-    // (8000 - 5000) / 8000 = 0.0 percent remaining
-    float nonZeroTest = [SIPowerUp powerUpPercentRemaining:powerUpArray compositeTime:currentTime * 5 withCallback:^(SIPowerUp *powerUpToDeactivate) {
+    SIPowerUp *powerUpRapidFire             = [[SIPowerUp alloc] initWithPowerUp:SIPowerUpTypeRapidFire startTime:_powerUpStartTime];
+    
+    _powerUpArray                           = [NSArray arrayWithObjects:powerUpRapidFire,nil];
+    // 1 - ((3 - 1) / 3)  = 0.667 percent remaining
+    XCTAssertEqualWithAccuracy([SIPowerUp powerUpPercentRemaining:_powerUpArray gameTimeTotal:_gameTotalTime timeFreezeMultiplier:1.0 withCallback:nil],0.667f,0.05f);
+
+    // 1 - ((3 - 2) / 3) = 0.333 percent remaining
+    XCTAssertEqualWithAccuracy([SIPowerUp powerUpPercentRemaining:_powerUpArray gameTimeTotal:_gameTotalTime * 2 timeFreezeMultiplier:1.0 withCallback:nil],0.333f,0.05f);
+
+}
+
+- (void)testPowerUpPercentRemainingPercentZero {
+    
+    SIPowerUp *powerUpRapidFire             = [[SIPowerUp alloc] initWithPowerUp:SIPowerUpTypeRapidFire startTime:_powerUpStartTime];
+    SIPowerUp *powerUpTimeFreeze            = [[SIPowerUp alloc] initWithPowerUp:SIPowerUpTypeTimeFreeze startTime:_powerUpStartTime];
+    _powerUpArray                           = [NSArray arrayWithObjects:powerUpRapidFire, powerUpTimeFreeze,nil];
+
+    _gameTotalTime                          = _gameTotalTime * 3;
+    // Rapid Fire:  1 - ((3 - 0) / 3) = 0.0 percent remaining
+    // Time Freeze: 1 - ((3 - 0) / 8) = 0.625 percent
+    
+    float expectedOutput = 1 - ((_gameTotalTime - _powerUpStartTime) / [SIPowerUp durationForPowerUp:SIPowerUpTypeTimeFreeze]);
+    
+    float actualOutput = [SIPowerUp powerUpPercentRemaining:_powerUpArray gameTimeTotal:_gameTotalTime timeFreezeMultiplier:1.0 withCallback:^(SIPowerUp *powerUpToDeactivate) {
         XCTAssertEqual(powerUpToDeactivate.type, SIPowerUpTypeRapidFire);
     }];
-    XCTAssertEqualWithAccuracy(nonZeroTest,0.375f,0.05f);    
+    XCTAssertEqualWithAccuracy(actualOutput,expectedOutput,0.05f);
+   
+}
+
+- (void)testPowerUpPercentRemainingStartTimeLessThanGameTime {
+    _powerUpStartTime = 5.0;
+    
+    SIPowerUp *powerUpFallingMonkey         = [[SIPowerUp alloc] initWithPowerUp:SIPowerUpTypeFallingMonkeys startTime:_powerUpStartTime];
+    SIPowerUp *powerUpRapidFire             = [[SIPowerUp alloc] initWithPowerUp:SIPowerUpTypeRapidFire startTime:_powerUpStartTime];
+    
+    _powerUpArray                           = [NSArray arrayWithObjects:powerUpFallingMonkey, powerUpRapidFire,nil];
+
+    XCTAssertEqualWithAccuracy([SIPowerUp powerUpPercentRemaining:_powerUpArray gameTimeTotal:_gameTotalTime timeFreezeMultiplier:1.0 withCallback:nil],0.0f,0.05f);
+
 }
 @end

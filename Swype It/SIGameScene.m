@@ -31,7 +31,8 @@ static const uint32_t SIGameSceneCategoryMoveScore     = 0x1 << 3; // 0000000000
     
 //    BMGlyphLabel                                        *_scoreTotalContentLabel;
     SKLabelNode                                         *_swypeItCoinsLabelNode;
-    
+
+    CGSize                                               _backgroundSize;
     CGSize                                               _coinSize;
     CGSize                                               _swypeItCoinsBackgroundNodeSize;
     CGSize                                               _pauseButtonSize;
@@ -52,8 +53,9 @@ static const uint32_t SIGameSceneCategoryMoveScore     = 0x1 << 3; // 0000000000
     
     SKNode                                              *_edge;
     
-    SIGameNode                                          *_backgroundNode;
+//    SIGameNode                                          *_backgroundNode;
 
+    SKSpriteNode                                        *_backgroundNode;
     SKSpriteNode                                        *_coinNode;
     SKSpriteNode                                        *_overlayContentNode;
     SKSpriteNode                                        *_swypeItCoinsBackgroundNode;
@@ -107,8 +109,8 @@ static const uint32_t SIGameSceneCategoryMoveScore     = 0x1 << 3; // 0000000000
     [self viewSetup:view];
     self.gestureTargetHitTestMode                       = HLSceneGestureTargetHitTestModeDeepestThenParent;
     
-    [_backgroundNode hlSetGestureTarget:_backgroundNode];
-    [self registerDescendant:_backgroundNode withOptions:[NSSet setWithObject:HLSceneChildGestureTarget]];
+//    [_backgroundNode hlSetGestureTarget:_backgroundNode];
+//    [self registerDescendant:_backgroundNode withOptions:[NSSet setWithObject:HLSceneChildGestureTarget]];
 
 }
 - (void)willMoveFromView:(nonnull SKView *)view {
@@ -134,6 +136,7 @@ static const uint32_t SIGameSceneCategoryMoveScore     = 0x1 << 3; // 0000000000
 - (void)createConstantsWithSize:(CGSize)size {
     /**Configure any constants*/
     _sceneSize                                              = size;
+    _backgroundSize                                         = size;
     _pauseButtonSize                                        = CGSizeMake(size.width / 8.0f, size.width / 8.0f);
         
 }
@@ -141,7 +144,7 @@ static const uint32_t SIGameSceneCategoryMoveScore     = 0x1 << 3; // 0000000000
     /**Preform all your alloc/init's here*/
     
     /*Create Background Node*/
-    _backgroundNode                                         = [[SIGameNode alloc] initWithSize:_sceneSize gameMode:SIGameModeTwoHand];
+    _backgroundNode                                         = [SKSpriteNode spriteNodeWithColor:[SKColor mainColor] size:_sceneSize];  // [[SIGameNode alloc] initWithSize:_sceneSize gameMode:SIGameModeTwoHand];
 
     _edge                                                   = [SKNode node];
     
@@ -158,20 +161,21 @@ static const uint32_t SIGameSceneCategoryMoveScore     = 0x1 << 3; // 0000000000
                                                                                                                     cornerRadius:8.0f
                                                                                                                      borderWidth:2.0f
                                                                                                                      borderColor:[SKColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:0.5]]];
-//    [SKSpriteNode spriteNodeWithColor:[SKColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:0.1] size:_swypeItCoinsBackgroundNodeSize];
 
     _pauseButtonNode                                        = [[HLLabelButtonNode alloc] initWithTexture:[[SIConstants buttonAtlas] textureNamed:kSIImageButtonPause]];
     
     _highScoreLabelNode                                     = [SIGameController SILabelParagraph_x2:@"HIGH SCORE!"];
+    
+    _scoreTotalLabel                                        = [SIGameController SILabelHeader:@"0.00"];
 }
 - (void)setupControlsWithSize:(CGSize)size {
     /**Configrue the labels, nodes and what ever else you can*/
+    
     _backgroundNode.anchorPoint                             = CGPointMake(0.0f, 0.0f);
-//    _backgroundNode.physicsBody.categoryBitMask                 = SIFallingMonkeySceneCategoryUIControl;
     _backgroundNode.zPosition                               = [SIGameController floatZPositionGameForContent:SIZPositionGameBackground];
-    _backgroundNode.backgroundColor                         = [SKColor mainColor];;
-    _backgroundNode.delegate                                = self;
-    [_backgroundNode hlSetGestureTarget:_backgroundNode];
+    
+//    _backgroundNode.delegate                                = self;
+//    [_backgroundNode hlSetGestureTarget:_backgroundNode];
     
     _edge.physicsBody.categoryBitMask                       = SIGameSceneCategoryEdge;
     _edge.physicsBody.collisionBitMask                      = SIGameSceneCategoryZero;
@@ -200,6 +204,13 @@ static const uint32_t SIGameSceneCategoryMoveScore     = 0x1 << 3; // 0000000000
     _highScoreLabelNode.horizontalAlignmentMode             = SKLabelHorizontalAlignmentModeCenter;
     _highScoreLabelNode.verticalAlignmentMode               = SKLabelVerticalAlignmentModeCenter;
     _highScoreLabelNode.hidden                              = YES;
+    
+    _scoreTotalLabel.zPosition                              = [SIGameController floatZPositionGameForContent:SIZPositionGameContent];
+    _scoreTotalLabel.physicsBody.categoryBitMask            = SIGameSceneCategoryUIControl;
+    _scoreTotalLabel.horizontalAlignmentMode                = SKLabelHorizontalAlignmentModeCenter;
+    _scoreTotalLabel.verticalAlignmentMode                  = SKLabelVerticalAlignmentModeTop;
+    
+    
 
 }
 
@@ -213,6 +224,8 @@ static const uint32_t SIGameSceneCategoryMoveScore     = 0x1 << 3; // 0000000000
     [self addChild:_pauseButtonNode];
     
     [self addChild:_highScoreLabelNode];
+    
+    [self addChild:_scoreTotalLabel];
     
     [self addChild:_swypeItCoinsBackgroundNode];
     
@@ -344,9 +357,10 @@ static const uint32_t SIGameSceneCategoryMoveScore     = 0x1 << 3; // 0000000000
     }
     if (progressBarMove) {
         _progressBarMove = progressBarMove;
-        _progressBarMove.physicsBody.categoryBitMask = SIGameSceneCategoryUIControl;
+        _progressBarMove.physicsBody.categoryBitMask    = SIGameSceneCategoryUIControl;
+        _progressBarMove.userInteractionEnabled         = YES;
+        _progressBarMove.progress                       = 1.0f;
         [self addChild:_progressBarMove];
-        _progressBarMove.progress = 1.0f;
     }
     [self layoutXYZAnimation:SISceneContentAnimationNone];
 }
@@ -384,17 +398,17 @@ static const uint32_t SIGameSceneCategoryMoveScore     = 0x1 << 3; // 0000000000
 /**
  The label for the total score
  */
-- (void)setScoreTotalLabel:(SKLabelNode *)scoreTotalLabel {
-    if (_scoreTotalLabel) {
-        [_scoreTotalLabel removeFromParent];
-    }
-    if (scoreTotalLabel) {
-        _scoreTotalLabel                             = scoreTotalLabel;
-        _scoreTotalLabel.physicsBody.categoryBitMask = SIGameSceneCategoryUIControl;
-        [self addChild:_scoreTotalLabel];
-    }
-    [self layoutXYAnimation:SISceneContentAnimationNone];
-}
+//- (void)setScoreTotalLabel:(SKLabelNode *)scoreTotalLabel {
+//    if (_scoreTotalLabel) {
+//        [_scoreTotalLabel removeFromParent];
+//    }
+//    if (scoreTotalLabel) {
+//        _scoreTotalLabel                             = scoreTotalLabel;
+//        _scoreTotalLabel.physicsBody.categoryBitMask = SIGameSceneCategoryUIControl;
+//        [self addChild:_scoreTotalLabel];
+//    }
+//    [self layoutXYAnimation:SISceneContentAnimationNone];
+//}
 
 /**
  The padding of the top label
@@ -447,7 +461,7 @@ static const uint32_t SIGameSceneCategoryMoveScore     = 0x1 << 3; // 0000000000
     
     if (_scoreTotalLabel) {
         positionHidden      = CGPointMake(sceneMidX, _sceneSize.height + _scoreTotalLabel.frame.size.height + VERTICAL_SPACING_4);
-        positionVisible     = CGPointMake(_sceneSize.width / 2.0f, _sceneSize.height - _scoreTotalLabelTopPadding);
+        positionVisible     = CGPointMake(sceneMidX, _sceneSize.height - _scoreTotalLabelTopPadding);
         [SIGameController SIControllerNode:_scoreTotalLabel
                                  animation:animation
                             animationStyle:SISceneContentAnimationStyleSlide
@@ -539,17 +553,6 @@ static const uint32_t SIGameSceneCategoryMoveScore     = 0x1 << 3; // 0000000000
                          animationDuration:_animationDuration
                            positionVisible:positionVisible
                             positionHidden:positionHidden];
-        
-//        if (_progressBarFreeCoin) {
-//            positionVisible = CGPointMake(VERTICAL_SPACING_8 +_swypeItCoinsBackgroundNodeSize.width + VERTICAL_SPACING_8 +(_progressBarFreeCoin.size.width / 2.0f), _sceneSize.height - VERTICAL_SPACING_8 - (_swypeItCoinsBackgroundNodeSize.height / 2.0f));
-//            positionHidden = CGPointMake(0.0f, positionVisible.y + _progressBarFreeCoin.size.height);
-//            [SIGameController SIControllerNode:_progressBarFreeCoin
-//                                     animation:SISceneContentAnimationIn
-//                                animationStyle:SISceneContentAnimationStyleSlide
-//                             animationDuration:_animationDuration
-//                               positionVisible:positionVisible
-//                                positionHidden:positionHidden];
-//        }
 
     }
     
@@ -578,11 +581,6 @@ static const uint32_t SIGameSceneCategoryMoveScore     = 0x1 << 3; // 0000000000
         _progressBarFreeCoin.position                   = CGPointMake((_swypeItCoinsBackgroundNodeSize.width / 2.0f), -1.0f * (_swypeItCoinsBackgroundNodeSize.height / 2.0f) - (_swypeItCoinsLabelNode.fontSize / 2.0f) + VERTICAL_SPACING_4);
         [_swypeItCoinsBackgroundNode addChild:_progressBarFreeCoin];
     }
-//    if (_progressBarFreeCoin) {
-//        [_progressBarFreeCoin removeFromParent];
-//        [_swypeItCoinsBackgroundNode addChild:_progressBarFreeCoin];
-//        _progressBarFreeCoin.position               = CGPointMake((_swypeItCoinsBackgroundNodeSize.width / 2.0f), -1.0f * (_swypeItCoinsBackgroundNodeSize.height / 2.0f) - (_swypeItCoinsLabelNode.fontSize / 2.0f));
-//    }
 
     _backgroundNode.size                                = CGSizeMake(_sceneSize.width, _sceneSize.height - _adContentNode.size.height);
     _backgroundNode.position                            = CGPointMake(0.0f, _adContentNode.size.height);
@@ -771,32 +769,198 @@ static const uint32_t SIGameSceneCategoryMoveScore     = 0x1 << 3; // 0000000000
 
 #pragma mark -
 #pragma mark - Touch Methods
-- (void)touchesBegan:(nonnull NSSet<UITouch *> *)touches withEvent:(nullable UIEvent *)event {
-    CGPoint touchPoint                              = [[touches anyObject] locationInNode:self.scene];
-//    SKNode *node        = [self nodeAtPoint:touchPoint];
-    
-    HLEmitterStore *emitterStore                    = [HLEmitterStore sharedStore];
-    SKEmitterNode *explosionEmitter                 = [emitterStore emitterCopyForKey:kSIEmitterExplosionTouch];
-    
-    explosionEmitter.position                       = touchPoint;
-    
-    
-    explosionEmitter.zPosition                      = [SIGameController floatZPositionGameForContent:SIZPositionGameContentMoveScoreEmitter];
-    
-    if (explosionEmitter) {
-        [self addChild:explosionEmitter];
+//- (void)touchesBegan:(nonnull NSSet<UITouch *> *)touches withEvent:(nullable UIEvent *)event {
+//    CGPoint touchPoint                              = [[touches anyObject] locationInNode:self.scene];
+////    SKNode *node        = [self nodeAtPoint:touchPoint];
+//    
+//    HLEmitterStore *emitterStore                    = [HLEmitterStore sharedStore];
+//    SKEmitterNode *explosionEmitter                 = [emitterStore emitterCopyForKey:kSIEmitterExplosionTouch];
+//    
+//    explosionEmitter.position                       = touchPoint;
+//    
+//    
+//    explosionEmitter.zPosition                      = [SIGameController floatZPositionGameForContent:SIZPositionGameContentMoveScoreEmitter];
+//    
+//    if (explosionEmitter) {
+//        [self addChild:explosionEmitter];
+//    }
+//    
+//}
+
+- (void)handleGamePinch:(UIPinchGestureRecognizer *)gestureRecognizer {
+    float pinchDirection = 0.0f;
+    if (!_backgroundNode) {
+        return;
+    }
+    if (gestureRecognizer.state != UIGestureRecognizerStateRecognized) {
+        if ([gestureRecognizer numberOfTouches] > 1) {
+            CGPoint firstPoint      = [gestureRecognizer locationOfTouch:0 inView:gestureRecognizer.view];
+            CGPoint secondPoint     = [gestureRecognizer locationOfTouch:1 inView:gestureRecognizer.view];
+            pinchDirection    = atan2(secondPoint.y - firstPoint.y, secondPoint.x - firstPoint.x);
+            
+            //            NSLog(@"Angle of pinch: %0.2f",_pinchDirection);
+        }
     }
     
+    if (gestureRecognizer.state == UIGestureRecognizerStateEnded) {
+        if (pinchDirection < 0.0f) {
+            [self makeAndSendMove:SIMoveCommandPinch moveCommandAction:SIMoveCommandActionPinchNegative gestureRecognizer:gestureRecognizer];
+        } else {
+            [self makeAndSendMove:SIMoveCommandPinch moveCommandAction:SIMoveCommandActionPinchPositive gestureRecognizer:gestureRecognizer];
+        }
+    }
 }
 
-#pragma mark -
-#pragma mark - Delegate Methods
-#pragma mark SIGameNode
-- (void)gestureEnded:(SIMove *)move {
+- (void)handleGameSwypeUp:(UISwipeGestureRecognizer *)gestureRecognizer {
+    if (!_backgroundNode) {
+        return;
+    }
+    if (gestureRecognizer.state == UIGestureRecognizerStateEnded) {
+        [self makeAndSendMove:SIMoveCommandSwype moveCommandAction:SIMoveCommandActionSwypeUp gestureRecognizer:gestureRecognizer];
+    }
+}
+
+- (void)handleGameSwypeDown:(UISwipeGestureRecognizer *)gestureRecognizer {
+    if (!_backgroundNode) {
+        return;
+    }
+    if (gestureRecognizer.state == UIGestureRecognizerStateEnded) {
+        [self makeAndSendMove:SIMoveCommandSwype moveCommandAction:SIMoveCommandActionSwypeDown gestureRecognizer:gestureRecognizer];
+    }
+}
+
+- (void)handleGameSwypeLeft:(UISwipeGestureRecognizer *)gestureRecognizer {
+    if (!_backgroundNode) {
+        return;
+    }
+    if (gestureRecognizer.state == UIGestureRecognizerStateEnded) {
+        [self makeAndSendMove:SIMoveCommandSwype moveCommandAction:SIMoveCommandActionSwypeLeft gestureRecognizer:gestureRecognizer];
+    }
+}
+
+- (void)handleGameSwypeRight:(UISwipeGestureRecognizer *)gestureRecognizer {
+    if (!_backgroundNode) {
+        return;
+    }
+    [self makeAndSendMove:SIMoveCommandSwype moveCommandAction:SIMoveCommandActionSwypeRight gestureRecognizer:gestureRecognizer];
+//
+//    if (gestureRecognizer.state == UIGestureRecognizerStateEnded) {
+//        [self makeAndSendMove:SIMoveCommandSwype moveCommandAction:SIMoveCommandActionSwypeRight gestureRecognizer:gestureRecognizer];
+//    }
+}
+
+- (void)handleGameTap:(UITapGestureRecognizer *)gestureRecognizer {
+    if (!_backgroundNode) {
+        return;
+    }
+    
+    if (gestureRecognizer.state == UIGestureRecognizerStateEnded) {
+        [self makeAndSendMove:SIMoveCommandTap moveCommandAction:SIMoveCommandActionTap gestureRecognizer:gestureRecognizer];
+    }
+}
+- (void)makeAndSendMove:(SIMoveCommand)moveCommand moveCommandAction:(SIMoveCommandAction)moveCommandAction gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer {
+    SIMove *move            = [[SIMove alloc] init];
+    move.moveCommand        = moveCommand;
+    move.moveCommandAction  = moveCommandAction;
+    move.gestureRecognizer  = gestureRecognizer;
+    
     if ([_sceneDelegate respondsToSelector:@selector(sceneGameDidRecieveMove:)]) {
         [_sceneDelegate sceneGameDidRecieveMove:move];
     }
 }
+
+- (void)handlePowerUpToolBarTap:(UITapGestureRecognizer *)gestureRecognizer {
+    NSLog(@"Toolbar tapped");
+}
+
+- (void)handlePauseButtonTap:(UITapGestureRecognizer *)gestureRecognizer {
+    NSLog(@"Pause Button Tapped");
+    if ([_sceneDelegate respondsToSelector:@selector(controllerSceneGamePauseButtonTapped)]) {
+        [_sceneDelegate controllerSceneGamePauseButtonTapped];
+    }
+}
+
+#pragma mark -
+#pragma mark - Delegate Methods
+#pragma mark UIGestureRecognizer
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch {
+    CGPoint viewLocation = [touch locationInView:self.view];
+    CGPoint sceneLocation = [self convertPointFromView:viewLocation];
+
+    if ([self modalNodePresented]) {
+        return [super gestureRecognizer:gestureRecognizer shouldReceiveTouch:touch];
+    }
+    
+    if (_ringContentNode && _ringContentNode.parent && [_ringContentNode containsPoint:sceneLocation]) {
+        return NO;
+    }
+    
+    if (_popupContentNode && _popupContentNode.parent && [_popupContentNode containsPoint:sceneLocation]) {
+        return NO;
+    }
+    
+    // Power Up Toolbar Node
+    if (_powerUpToolbarContentNode && _powerUpToolbarContentNode.parent && [_powerUpToolbarContentNode containsPoint:sceneLocation]) {
+        if ([gestureRecognizer isKindOfClass:[UITapGestureRecognizer class]]) {
+            [gestureRecognizer removeTarget:nil action:NULL];
+            [gestureRecognizer addTarget:self action:@selector(handlePowerUpToolBarTap:)];
+            return YES;
+        }
+        return NO;
+    }
+    
+    // Pause Button
+    if (_pauseButtonNode && _pauseButtonNode.parent && [_pauseButtonNode containsPoint:sceneLocation]) {
+        if ([gestureRecognizer isKindOfClass:[UITapGestureRecognizer class]]) {
+            [gestureRecognizer removeTarget:nil action:NULL];
+            [gestureRecognizer addTarget:self action:@selector(handlePauseButtonTap:)];
+            return YES;
+        }
+        return NO;
+    }
+    
+    // World Info
+    if ([gestureRecognizer isKindOfClass:[UITapGestureRecognizer class]]) {
+        NSUInteger numberOfTapsRequired = [(UITapGestureRecognizer *)gestureRecognizer numberOfTapsRequired];
+        if (numberOfTapsRequired == 1) {
+            [gestureRecognizer removeTarget:nil action:NULL];
+            [gestureRecognizer addTarget:self action:@selector(handleGameTap:)];
+            return YES;
+        }
+    } else if ([gestureRecognizer isKindOfClass:[UIPinchGestureRecognizer class]]) {
+        [gestureRecognizer removeTarget:nil action:NULL];
+        [gestureRecognizer addTarget:self action:@selector(handleGamePinch:)];
+        return YES;
+    } else if ([gestureRecognizer isKindOfClass:[UISwipeGestureRecognizer class]]) {
+        UISwipeGestureRecognizerDirection swipeDirection = [(UISwipeGestureRecognizer *)gestureRecognizer direction];
+        switch (swipeDirection) {
+            case UISwipeGestureRecognizerDirectionDown:
+                [gestureRecognizer removeTarget:nil action:NULL];
+                [gestureRecognizer addTarget:self action:@selector(handleGameSwypeDown:)];
+                return YES;
+            case UISwipeGestureRecognizerDirectionLeft:
+                [gestureRecognizer removeTarget:nil action:NULL];
+                [gestureRecognizer addTarget:self action:@selector(handleGameSwypeLeft:)];
+                return YES;
+            case UISwipeGestureRecognizerDirectionRight:
+                [gestureRecognizer removeTarget:nil action:NULL];
+                [gestureRecognizer addTarget:self action:@selector(handleGameSwypeRight:)];
+                return YES;
+            case UISwipeGestureRecognizerDirectionUp:
+                [gestureRecognizer removeTarget:nil action:NULL];
+                [gestureRecognizer addTarget:self action:@selector(handleGameSwypeUp:)];
+                return YES;
+            default:
+                return NO;
+        }
+    }
+    
+    
+    return NO;
+}
+
+
+
 
 
 @end

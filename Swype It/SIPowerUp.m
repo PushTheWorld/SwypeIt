@@ -45,6 +45,11 @@
  AUTO TESTED
  */
 + (BOOL)canStartPowerUp:(SIPowerUpType)powerUp powerUpArray:(NSArray *)powerUpArray {
+    NSNumber *numberOfItCoins = [[MKStoreKit sharedKit] availableCreditsForConsumable:kSIIAPConsumableIDCoins];
+    if ([numberOfItCoins integerValue] < [SIPowerUp costForPowerUp:powerUp]) {
+        return NO;
+    }
+    
     if ([SIPowerUp isPowerUpArrayEmpty:powerUpArray]) {
         return YES;
     }
@@ -158,13 +163,13 @@
     }
 }
 /*AUTO TESTED*/
-+ (float)powerUpPercentRemaining:(NSArray *)powerUpArray gameStartTime:(NSTimeInterval)gameStartTime timeFreezeMultiplier:(float)timeFreezeMultiplier withCallback:(void (^)(SIPowerUp *powerUpToDeactivate))callback {
++ (float)powerUpPercentRemaining:(NSArray *)powerUpArray gameTimeTotal:(NSTimeInterval)gameTimeTotal timeFreezeMultiplier:(float)timeFreezeMultiplier withCallback:(void (^)(SIPowerUp *powerUpToDeactivate))callback {
     float maxPercent = 0.0f;
     
     for (SIPowerUp *powerUp in powerUpArray) {
-        if (powerUp.type != SIPowerUpTypeFallingMonkeys) {
-            powerUp.percentRemaining = (powerUp.duration - (gameStartTime - powerUp.startTime)) / (powerUp.duration);
-            powerUp.percentRemaining = powerUp.percentRemaining * timeFreezeMultiplier;
+        if (powerUp.type != SIPowerUpTypeFallingMonkeys && powerUp.startTime < gameTimeTotal) {
+            //TODO: Make a decision about time freeze multiplier
+            powerUp.percentRemaining = 1 - ((gameTimeTotal - powerUp.startTime) / (powerUp.duration));
             if (powerUp.percentRemaining < EPSILON_NUMBER) { /*This deactivates powerups... it's sooo powerful muwahahahha*/
                 /*Can one class function handle all that power?!?!*/
                 if (callback) {

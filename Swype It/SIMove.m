@@ -9,8 +9,23 @@
 
 @implementation SIMove
 
-- (instancetype)initWithRandomMoveForGameMode:(SIGameMode)gameMode powerUpArray:(NSArray *)array {
+- (NSString *)description {
+    NSString *moveType = [SIGame stringForMove:_moveCommand];
+    return [NSString stringWithFormat:@"%@\n Command: %@\nStart Time: %0.2f\nEnd time: %0.2f\nMove Score:%0.2f",[super description],moveType,_timeStart,_timeEnd,_moveScore];
+}
+
+- (instancetype)init {
     self = [super init];
+    if (self) {
+        _moveCommand        = SIMoveCommandSwype;
+        _moveCommandAction  = SIMoveCommandActionSwypeNone;
+        _moveScore          = 0.0f;
+    }
+    return self;
+}
+
+- (instancetype)initWithRandomMoveForGameMode:(SIGameMode)gameMode powerUpArray:(NSArray *)array {
+    self = [self init];
     if (self) {
         _moveCommand = [SIMove randomMoveForGameMode:gameMode withPowerUpArray:array];
     }

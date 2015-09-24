@@ -10,6 +10,7 @@
 #import "SIGameController.h"
 // Framework Import
 // Drop-In Class Imports (CocoaPods/GitHub/Guru)
+#import "SoundManager.h"
 // Category Import
 #import "UIColor+Additions.h"
 // Support/Data Class Imports
@@ -19,19 +20,16 @@
 
 #define FALLING_MONKEY_Z_POSITION_INCREMENTER 0.01
 static const uint32_t SIFallingMonkeySceneCategoryZero          = 0x0;      // 00000000000000000000000000000000
-static const uint32_t SIFallingMonkeySceneCategoryMonkey        = 0x1;      // 00000000000000000000000000000001
-static const uint32_t SIFallingMonkeySceneCategoryUIControl     = 0x1 << 1; // 00000000000000000000000000000010
-static const uint32_t SIFallingMonkeySceneCategoryEdgeBottom    = 0x1 << 2; // 00000000000000000000000000000100
-static const uint32_t SIFallingMonkeySceneCategoryEdgeSide      = 0x1 << 3; // 00000000000000000000000000001000
+static const uint32_t SIFallingMonkeySceneCategoryBananaBunch   = 0x1;      // 00000000000000000000000000000001
+static const uint32_t SIFallingMonkeySceneCategoryMonkey        = 0x1 << 1; // 00000000000000000000000000000010
+static const uint32_t SIFallingMonkeySceneCategoryBanana        = 0x1 << 2; // 00000000000000000000000000000100
+static const uint32_t SIFallingMonkeySceneCategoryUIControl     = 0x1 << 3; // 00000000000000000000000000001000
+static const uint32_t SIFallingMonkeySceneCategoryEdgeBottom    = 0x1 << 4; // 00000000000000000000000000010000
+static const uint32_t SIFallingMonkeySceneCategoryEdgeSide      = 0x1 << 5; // 00000000000000000000000000100000
 
-enum {
-    SIFallingMonkeySceneZPositionBackground = 0,
-    SIFallingMonkeySceneZPositionTotalScore,
-    SIFallingMonkeySceneZPositionFallingMonkey,
-    SIFallingMonkeySceneZPositionCount
-};
 
-@implementation SIFallingMonkeyScene {
+
+@implementation SIFallingMonkeyScene  {
     
     float                                _monkeySpeed;
     
@@ -71,10 +69,18 @@ enum {
     [super didMoveToView:view];
     /**Do any setup post self.view creation*/
     [self viewSetup:view];
+
 }
 
 - (void)willMoveFromView:(nonnull SKView *)view {
     /**Do any breakdown prior to the view being unloaded*/
+    for (SKNode *node in _backgroundNode.children) {
+        if ([node.name isEqualToString:kSINodeFallingMonkey]) {
+            [node removeFromParent];
+        }
+    }
+
+//    self.physicsWorld.gravity                       = CGVectorMake(0, 0);
     
     /*Resume move from view*/
     [super willMoveFromView:view];
@@ -97,9 +103,9 @@ enum {
 #pragma mark Scene Setup
 - (void)createConstantsWithSize:(CGSize)size {
     /**Configure any constants*/
-    _numberOfMonkeysLaunched                = 0;
-    _fallingMonkeyZPosition                 = 0.1f;
-    _monkeySpeed                            = 1.0f;
+    _numberOfMonkeysLaunched                        = 0;
+    _fallingMonkeyZPosition                         = [SIGameController floatZPositionFallingMonkeyForContent:SIZPositionFallingMonkeyFallingMonkey];
+    _monkeySpeed                                    = 1.0f;
     
 }
 
@@ -107,16 +113,25 @@ enum {
     /**Preform all your alloc/init's here*/
     
     /*Create Background Node*/
-    _backgroundNode                         = [SKSpriteNode spriteNodeWithColor:[SKColor simplstMainColor] size:_sceneSize];
+    _backgroundNode                                 = [SKSpriteNode spriteNodeWithColor:[SKColor simplstMainColor] size:_sceneSize];
     
     /*Edges for physics*/
-    _edgeBottom                             = [SKNode node];
-    _edgeLeft                               = [SKNode node];
-    _edgeRight                              = [SKNode node];
+    _edgeBottom                                     = [SKNode node];
+    _edgeLeft                                       = [SKNode node];
+    _edgeRight                                      = [SKNode node];
+    
+    // the toal score label
+    _scoreLabelNode                                 = [SIGameController SILabelHeader_x3:@"0.00"];
         
 }
 
 - (void)setupControlsWithSize:(CGSize)size {
+    self.backgroundColor                            = [SKColor mainColor];
+    
+    self.physicsWorld.contactDelegate               = self;
+    
+    self.physicsWorld.gravity                       = CGVectorMake(0, 0);
+
     /**Configrue the labels, nodes and what ever else you can*/
     _backgroundNode.anchorPoint                     = CGPointMake(0.0f, 0.0f);
     
@@ -129,7 +144,10 @@ enum {
     _edgeRight.physicsBody.categoryBitMask          = SIFallingMonkeySceneCategoryEdgeSide;
     _edgeRight.physicsBody.collisionBitMask         = SIFallingMonkeySceneCategoryEdgeSide;
     
-
+    //configure dat label
+    _scoreLabelNode.horizontalAlignmentMode         = SKLabelHorizontalAlignmentModeCenter;
+    _scoreLabelNode.verticalAlignmentMode           = SKLabelVerticalAlignmentModeTop;
+    _scoreLabelNode.physicsBody.categoryBitMask     = SIFallingMonkeySceneCategoryUIControl;
     
 }
 
@@ -143,6 +161,8 @@ enum {
     [_backgroundNode addChild:_edgeLeft];
 
     [_backgroundNode addChild:_edgeRight];
+    
+    [_backgroundNode addChild:_scoreLabelNode];
 
 }
 /**
@@ -168,9 +188,23 @@ enum {
  */
 - (void)layoutXY {
     
-    _backgroundNode.size                            = CGSizeMake(_sceneSize.width, _sceneSize.height - _adContentNode.size.height);
+    CGSize newBackgroundSize = CGSizeMake(_sceneSize.width, _sceneSize.height - _adContentNode.size.height);
+    
+    _backgroundNode.size                            = newBackgroundSize;
     _backgroundNode.position                        = CGPointMake(0.0f, _adContentNode.size.height);
     
+    if (_scoreLabelNode) {
+        _scoreLabelNode.position                    = CGPointMake(newBackgroundSize.width / 2.0f, newBackgroundSize.height - VERTICAL_SPACING_8);
+    }
+    
+}
+
+- (void)layoutZ {
+    _backgroundNode.zPosition                       = [SIGameController floatZPositionFallingMonkeyForContent:SIZPositionFallingMonkeyBackground];
+    
+    if (_scoreLabelNode) {
+        _scoreLabelNode.zPosition                   = [SIGameController floatZPositionFallingMonkeyForContent:SIZPositionFallingMonkeyUIContent];
+    }
 }
 
 #pragma mark -
@@ -187,9 +221,9 @@ enum {
         [_adContentNode removeFromParent];
     }
     if (adBannerNode) {
-        _adContentNode                      = adBannerNode;
-        _adContentNode.name                 = kSINodeAdBannerNode;
-        _adContentNode.position             = CGPointMake(0.0f, 0.0f);
+        _adContentNode                              = adBannerNode;
+        _adContentNode.name                         = kSINodeAdBannerNode;
+        _adContentNode.position                     = CGPointMake(0.0f, 0.0f);
         [self addChild:_adContentNode];
         [_adContentNode hlSetGestureTarget:_adContentNode];
         [self registerDescendant:_adContentNode withOptions:[NSSet setWithObject:HLSceneChildGestureTarget]];
@@ -203,7 +237,7 @@ enum {
  */
 - (void)setBackgroundColor:(UIColor * __nonnull)backgroundColor {
     if (_backgroundNode) {
-        _backgroundNode.color               = backgroundColor;
+        _backgroundNode.color                       = backgroundColor;
     }
 }
 
@@ -214,132 +248,151 @@ enum {
     _monkeySpeed                                    = 1.0f;
 }
 
-- (void)sceneFallingMonkeyWillLaunchMonkey:(SKSpriteNode *)monkey withWorldGravitySpeed:(CGFloat)worldGravitySpeed {
-    monkey.physicsBody.categoryBitMask          = SIFallingMonkeySceneCategoryMonkey;
-    monkey.physicsBody.contactTestBitMask       = SIFallingMonkeySceneCategoryEdgeBottom;
-    monkey.physicsBody.collisionBitMask         = SIFallingMonkeySceneCategoryEdgeSide;
-    monkey.zPosition                            = _fallingMonkeyZPosition;
-    
-    [self addChild:monkey];
-    
-    /*Update the gravity*/
-    self.physicsWorld.gravity                   = CGVectorMake(0.0f, -1.0f * worldGravitySpeed);
-    
-    /*Apply impulse to the monkey*/
-    CGVector monkeyVector                       = CGVectorMake(0, -1.0);
-    [monkey.physicsBody applyImpulse:monkeyVector];
-    
-    /*Increase the zPosition for the next one...*/
-    _fallingMonkeyZPosition                     = _fallingMonkeyZPosition + FALLING_MONKEY_Z_POSITION_INCREMENTER;
-}
 
 #pragma mark Custom Touch Methods
--(void)touchesBegan:(nonnull NSSet<UITouch *> *)touches withEvent:(nullable UIEvent *)event {
-    UITouch *touch = [touches anyObject];
-    CGPoint touchLocation = [touch locationInNode:self];
-    NSArray  *nodes    = [self nodesAtPoint:touchLocation];
+//-(void)touchesBegan:(nonnull NSSet<UITouch *> *)touches withEvent:(nullable UIEvent *)event {
+//    UITouch *touch                                              = [touches anyObject];
+//    CGPoint touchLocation                                       = [touch locationInNode:self];
+//    NSArray  *nodes                                             = [self nodesAtPoint:touchLocation];
+//    
+//    for (SKNode *node in nodes) {
+//        if ([node.name isEqualToString:kSINodeFallingMonkey]) {
+//            if ([_sceneDelegate respondsToSelector:@selector(sceneFallingMonkeyWasNailed:)]) {
+//                [_sceneDelegate sceneFallingMonkeyWasNailed:node];
+//            }
+//        }
+//    }
+//}
+
+- (void)touchesEnded:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
+    // 1 - Get location of the touch
+    UITouch *touch                                              = [touches anyObject];
+    CGPoint touchLocation                                       = [touch locationInNode:self];
+
+    // 2 - Set up node to fire
+    SKSpriteNode *bananaBunch                                   = [SIGameController SISpriteNodeBananaBunch];
+    bananaBunch.position                                        = CGPointMake(_sceneSize.width /2.0f, 0.0f);
+    bananaBunch.physicsBody                                     = [SKPhysicsBody bodyWithCircleOfRadius:bananaBunch.size.width / 2.0f];
+    bananaBunch.physicsBody.dynamic                             = YES;
+    bananaBunch.physicsBody.categoryBitMask                     = SIFallingMonkeySceneCategoryBananaBunch;
+    bananaBunch.physicsBody.contactTestBitMask                  = SIFallingMonkeySceneCategoryMonkey;
+    bananaBunch.physicsBody.collisionBitMask                    = SIFallingMonkeySceneCategoryZero;
+    bananaBunch.physicsBody.usesPreciseCollisionDetection       = YES;
     
-    for (SKNode *node in nodes) {
-        if ([node.name isEqualToString:kSINodeFallingMonkey]) {
-            if ([_sceneDelegate respondsToSelector:@selector(sceneFallingMonkeyWasTappedMonkey:)]) {
-                [_sceneDelegate sceneFallingMonkeyWasTappedMonkey:node];
-            }
-        }
+    
+    // 3- Determine offset of location to projectile
+    CGPoint offset = vectorSubtraction(touchLocation, bananaBunch.position);
+    
+    // 4 - Bail out if you are shooting down or backwards
+    if (offset.x <= 0) return;
+    
+    // 5 - OK to add now - we've double checked position
+    [self addChild:bananaBunch];
+    
+    // 6 - Get the direction of where to shoot
+    CGPoint direction = vectorNormalize(offset);
+    
+    // 7 - Make it shoot far enough to be guaranteed off screen
+    CGPoint shootAmount = vectorMultiplication(direction, 1000);
+    
+    // 8 - Add the shoot amount to the current position
+    CGPoint realDest = vectorAddition(shootAmount, bananaBunch.position);
+    
+    // 9 - Create the actions
+    float velocity = 480.0/1.0;
+    float realMoveDuration = self.size.width / velocity;
+    SKAction * actionMove = [SKAction moveTo:realDest duration:realMoveDuration];
+    SKAction * actionMoveDone = [SKAction removeFromParent];
+    [bananaBunch runAction:[SKAction sequence:@[actionMove, actionMoveDone]]];
+    
+    if ([SIConstants isFXAllowed]) {
+        [[SoundManager sharedManager] playSound:kSISoundFXSceneWoosh];
     }
 }
 
 
 #pragma mark Monkey Methods!
+//- (void)launchMonkeyFromLocation:(CGPoint)location {
+//    SKSpriteNode *monkey                            = [SIGameController SISpriteNodeFallingMonkey];
+//    
+//    monkey.position                                 = location;
+//    
+//    //create the vector
+//    NSLog(@"Launching Monkey with speed of: %0.1f",_monkeySpeed);
+//    CGVector monkeyVector                           = CGVectorMake(0, -1.0);
+//    [monkey.physicsBody applyImpulse:monkeyVector];
+//    
+//    /*Call Function again*/
+//    
+//    CGFloat randomDelay                             = (float)arc4random_uniform(75) / 100.0f;
+//    
+//    _monkeySpeed                                    = _monkeySpeed + MONKEY_SPEED_INCREASE;
+//    
+//    [self performSelector:@selector(launchMonkey) withObject:nil afterDelay:randomDelay];
+//}
 - (void)launchMonkey {
     /*Get Random Number Max... based of width of screen and monkey*/
     CGFloat validMax                                = self.frame.size.width - ([SIGameController SIFallingMonkeySize].width / 2.0f);
     CGFloat xLocation                               = arc4random_uniform(validMax); /*This will be the y axis launch point*/
     while (xLocation < [SIGameController SIFallingMonkeySize].width / 2.0) {
-        xLocation                               = arc4random_uniform(validMax);
+        xLocation                                   = arc4random_uniform(validMax);
     }
-    CGFloat yLocation                           = self.frame.size.height + [SIGameController SIFallingMonkeySize].height;
+    CGFloat yLocation                               = self.frame.size.height + [SIGameController SIFallingMonkeySize].height;
     
     /*Make Monkey*/
     
-    SKSpriteNode *monkey                        = [SIGameController SISpriteNodeFallingMonkey];
+    SKSpriteNode *monkey                            = [SIGameController SISpriteNodeFallingMonkey];
     
-    monkey.position                             = CGPointMake(xLocation, yLocation);
+    monkey.position                                 = CGPointMake(xLocation, yLocation);
+    
+    monkey.physicsBody.categoryBitMask              = SIFallingMonkeySceneCategoryMonkey;
+    monkey.physicsBody.contactTestBitMask           = SIFallingMonkeySceneCategoryEdgeBottom | SIFallingMonkeySceneCategoryBananaBunch;
+    monkey.physicsBody.collisionBitMask             = SIFallingMonkeySceneCategoryEdgeSide;
+    monkey.physicsBody.dynamic                      = YES;
+    monkey.zPosition                                = _fallingMonkeyZPosition;
     
     
+    [self addChild:monkey];
     
-    //create the vector
-    NSLog(@"Launching Monkey with speed of: %0.1f",_monkeySpeed);
-    CGVector monkeyVector                       = CGVectorMake(0, -1.0);
+    /*Update the gravity*/
+    
+    /*Apply impulse to the monkey*/
+    CGVector monkeyVector                           = CGVectorMake(0, -_monkeySpeed);
     [monkey.physicsBody applyImpulse:monkeyVector];
+    
+    /*Increase the zPosition for the next one...*/
+    _fallingMonkeyZPosition                         = _fallingMonkeyZPosition + FALLING_MONKEY_Z_POSITION_INCREMENTER;
+
     
     /*Call Function again*/
     
-    CGFloat randomDelay                         = (float)arc4random_uniform(75) / 100.0f;
+    CGFloat randomDelay                             = (float)arc4random_uniform(75) / 100.0f;
     
-    _monkeySpeed                                = _monkeySpeed + MONKEY_SPEED_INCREASE;
+    _monkeySpeed                                    = _monkeySpeed + MONKEY_SPEED_INCREASE;
     
     [self performSelector:@selector(launchMonkey) withObject:nil afterDelay:randomDelay];
     
 }
-//+ (SKSpriteNode *)newMonkey {
-//    SKSpriteNode *monkey                        = [SKSpriteNode spriteNodeWithTexture:[SIGameController sharedMonkeyFace]  size:SIGameScene fallingMonkeySize]];
-//    monkey.name                                 = kSINodeFallingMonkey;
-//    monkey.physicsBody                          = [SKPhysicsBody bodyWithRectangleOfSize:SIGameScene fallingMonkeySize]];
-//    monkey.physicsBody.linearDamping            = 0.0f;
-//    monkey.physicsBody.categoryBitMask          = monkeyCategory;
-//    monkey.physicsBody.contactTestBitMask       = bottomEdgeCategory;
-//    monkey.physicsBody.collisionBitMask         = sideEdgeCategory;
-//    monkey.zPosition                            = SIGameNodeZPositionLayerFallingMonkey / SIGameNodeZPositionLayerCount;
-//    monkey.userInteractionEnabled               = YES;
-//    return monkey;
-//}
-///**Called when a monkey is tapped...*/
-//- (void)monkeyWasTapped:(SKNode *)monkey {
-//    /*Remove that monkey*/
-//    if ([monkey.name isEqualToString:kSINodeFallingMonkey]) {
-//        [monkey removeFromParent];
-//        [AppSingleton singleton].currentGame.totalScore = [AppSingleton singleton].currentGame.totalScore + VALUE_OF_MONKEY;
-//        
-//        [[AppSingleton singleton] setAndCheckDefaults:VALUE_OF_MONKEY];
-//        
-//        _totalScoreLabel.text                       = [NSString stringWithFormat:@"%0.2f",[AppSingleton singleton].currentGame.totalScore];
-//        
-//        self.view.backgroundColor                       = [[AppSingleton singleton] newBackgroundColor];
-//        
-//    }
-//}
 
 -(void)didBeginContact:(SKPhysicsContact *)contact {
     
-    SKPhysicsBody *notTheBottomEdge;
+    SKPhysicsBody *firstBody, *secondBody;
     
     if (contact.bodyA.categoryBitMask < contact.bodyB.categoryBitMask) {
-        notTheBottomEdge                = contact.bodyA;
-    } else {
-        notTheBottomEdge                = contact.bodyB;
+        firstBody = contact.bodyA;
+        secondBody = contact.bodyB;
+    }
+    else {
+        firstBody = contact.bodyB;
+        secondBody = contact.bodyA;
     }
     
-    if (notTheBottomEdge.categoryBitMask == SIFallingMonkeySceneCategoryUIControl) { /*Label*/
-        /*Remove the label*/
-        SKNode *moveLabelNode = notTheBottomEdge.node;
-        
-        SKAction *fadeOut               = [SKAction fadeOutWithDuration:0.3];
-        SKAction *removeNode            = [SKAction removeFromParent];
-        
-        SKAction *removeNodeSequence    = [SKAction sequence:@[fadeOut, removeNode]];
-        
-        [moveLabelNode runAction:removeNodeSequence];
-        
-    }
-    
-    if (notTheBottomEdge.categoryBitMask == SIFallingMonkeySceneCategoryMonkey) {
-        /*Remove the Monkey*/
-        for (SKNode *node in _backgroundNode.children) {
-            if ([node.name isEqualToString:kSINodeFallingMonkey]) {
-                [node removeFromParent];
-            }
-        }
-        
+    if ((firstBody.categoryBitMask & SIFallingMonkeySceneCategoryBananaBunch) != 0 &&
+        (secondBody.categoryBitMask & SIFallingMonkeySceneCategoryMonkey) != 0) {
+        [self bananaBunch:(SKSpriteNode *)firstBody.node didCollideWithMonkey:(SKSpriteNode *)secondBody.node];
+
+    } else if ((firstBody.categoryBitMask & SIFallingMonkeySceneCategoryMonkey) != 0 &&
+               (secondBody.categoryBitMask & SIFallingMonkeySceneCategoryEdgeBottom) != 0) {
         /**End The Powerup*/
         /*Cancel any monkeys that */
         [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(launchMonkey) object:nil];
@@ -348,11 +401,19 @@ enum {
         if ([_sceneDelegate respondsToSelector:@selector(sceneFallingMonkeyDidCollideWithBottomEdge)]) {
             [_sceneDelegate sceneFallingMonkeyDidCollideWithBottomEdge];
         }
-
-        self.physicsWorld.gravity       = CGVectorMake(0, -9.8);
-        
     }
     
 }
+
+- (void)bananaBunch:(SKSpriteNode *)bananaBunch didCollideWithMonkey:(SKSpriteNode *)monkey {
+    NSLog(@"Nailed!");
+    [bananaBunch removeFromParent];
+    [monkey removeFromParent];
+    if ([_sceneDelegate respondsToSelector:@selector(sceneFallingMonkeyWasNailed)]) {
+        [_sceneDelegate sceneFallingMonkeyWasNailed];
+    }
+}
+#pragma mark -
+#pragma mark - Class Methods
 
 @end

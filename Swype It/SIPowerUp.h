@@ -63,7 +63,7 @@
     Uses properties to do with start time too and duration of power up
     Callback returns any powerup with a percentage less than 0.01 to be deactivated
  */
-+ (float)powerUpPercentRemaining:(NSArray *)powerUpArray gameStartTime:(NSTimeInterval)gameStartTime timeFreezeMultiplier:(float)timeFreezeMultiplier withCallback:(void (^)(SIPowerUp *powerUpToDeactivate))callback;
++ (float)powerUpPercentRemaining:(NSArray *)powerUpArray gameTimeTotal:(NSTimeInterval)gameTimeTotal timeFreezeMultiplier:(float)timeFreezeMultiplier withCallback:(void (^)(SIPowerUp *powerUpToDeactivate))callback;
 
 /**
  Gets the SIPowerUp given a string...

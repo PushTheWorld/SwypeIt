@@ -86,7 +86,8 @@
             return nil;
     }
 }
-+ (BOOL)canAffordContinue:(int)continueCost {
++ (BOOL)canAffordContinueNumberOfTimesContinued:(int)numberOfTimesContinued {
+    int continueCost    = [SIGame lifeCostForNumberOfTimesContinued:numberOfTimesContinued];
     int numberOfItCoins = [[[MKStoreKit sharedKit] availableCreditsForConsumable:kSIIAPConsumableIDCoins] intValue];
     if (continueCost <= numberOfItCoins) {
         return YES;

@@ -52,7 +52,7 @@
 + (NSString *)          productIDForSIIAPPack:(SIIAPPack)siiapPack;
 + (NSString *)          soundNameForSIBackgroundSound:(SIBackgroundSound)siBackgroundSound;
 + (NSString *)          stringForMove:(SIMoveCommand)move;
-+ (NSString *)userMessageForScore:(float)score isHighScore:(BOOL)isHighScore highScore:(float)highScore;
++ (NSString *)          userMessageForScore:(float)score isHighScore:(BOOL)isHighScore highScore:(float)highScore;
 
 /**
  Gets the title for the type of menu

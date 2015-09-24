@@ -8,19 +8,7 @@
 
 #import "SIGameModel.h"
 
-@implementation SIGameModel {
-    TKEvent                                 *_gameEventEndGame;
-    TKEvent                                 *_gameEventFallingMonkeyEnd;
-    TKEvent                                 *_gameEventFallingMonkeyStart;
-    TKEvent                                 *_gameEventLoad;
-    TKEvent                                 *_gameEventMoveEntered;
-    TKEvent                                 *_gameEventPause;
-    TKEvent                                 *_gameEventPayForContinue;
-    TKEvent                                 *_gameEventStartGame;
-    TKEvent                                 *_gameEventWaitForMove;
-    TKEvent                                 *_gameEventWrongMoveEntered;
-    
-}
+@implementation SIGameModel
 
 - (instancetype)init {
     self = [super init];
@@ -39,11 +27,12 @@
     TKState *gameStateIdle                                  = [TKState stateWithName:kSITKStateMachineStateGameIdle];
     TKState *gameStateEnd                                   = [TKState stateWithName:kSITKStateMachineStateGameEnd];
     TKState *gameStateFallingMonkey                         = [TKState stateWithName:kSITKStateMachineStateGameFallingMonkey];
-    TKState *gameStateLoading                               = [TKState stateWithName:kSITKStateMachineStateGameFallingMonkey];
-    TKState *gameStatePaused                                = [TKState stateWithName:kSITKStateMachineStateGamePause];
+    TKState *gameStateLoading                               = [TKState stateWithName:kSITKStateMachineStateGameLoading];
+    TKState *gameStatePaused                                = [TKState stateWithName:kSITKStateMachineStateGamePaused];
     TKState *gameStatePayingForContinue                     = [TKState stateWithName:kSITKStateMachineStateGamePayingForContinue];
     TKState *gameStatePopupContinue                         = [TKState stateWithName:kSITKStateMachineStateGamePopupContinue];
     TKState *gameStateProcessingMove                        = [TKState stateWithName:kSITKStateMachineStateGameProcessingMove];
+    TKState *gameStateStart                                 = [TKState stateWithName:kSITKStateMachineStateGameStart];
     
     //enters
     [gameStateIdle setDidEnterStateBlock:^(TKState *state, TKTransition *transition) {
@@ -115,56 +104,55 @@
         }
     }];
     
+    [gameStateStart setDidEnterStateBlock:^(TKState *state, TKTransition *transition) {
+        [self didEnterState:SIGameStateStart];
+    }];
+    
     //add
-    [stateMachine addStates:@[ gameStateIdle,gameStateEnd,gameStateFallingMonkey,gameStateLoading,gameStatePaused,gameStatePayingForContinue,gameStatePopupContinue,gameStateProcessingMove]];
+    [stateMachine addStates:@[ gameStateIdle,gameStateEnd,gameStateFallingMonkey,gameStateLoading,gameStatePaused,gameStatePayingForContinue,gameStatePopupContinue,gameStateProcessingMove, gameStateStart]];
     
     // Set the inital state to start... this way we get fresh new data!!!
-    stateMachine.initialState       = gameStateEnd;
+    stateMachine.initialState               = gameStateLoading;
     
     //transition rules
-    _gameEventEndGame               = [TKEvent eventWithName:kSITKStateMachineEventGameEndGame
-                                     transitioningFromStates:@[gameStateIdle,gameStatePaused,gameStatePayingForContinue,gameStatePopupContinue,gameStateProcessingMove,gameStateFallingMonkey,gameStateLoading]
-                                                     toState:gameStateEnd];
+    TKEvent *gameEventFallingMonkeyStart    = [TKEvent eventWithName:kSITKStateMachineEventGameFallingMonkeyStart
+                                             transitioningFromStates:@[gameStateProcessingMove]
+                                                             toState:gameStateFallingMonkey];
     
-    _gameEventFallingMonkeyEnd      = [TKEvent eventWithName:kSITKStateMachineEventGameFallingMonkeyEnd
-                                     transitioningFromStates:@[gameStateFallingMonkey]
-                                                     toState:gameStateIdle];
+    TKEvent *gameEventLoad                  = [TKEvent eventWithName:kSITKStateMachineEventGameLoad
+                                             transitioningFromStates:@[gameStateLoading]
+                                                             toState:gameStateLoading];
     
-    _gameEventFallingMonkeyStart    = [TKEvent eventWithName:kSITKStateMachineEventGameFallingMonkeyStart
-                                     transitioningFromStates:@[gameStateProcessingMove]
-                                                     toState:gameStateFallingMonkey];
+    TKEvent *gameEventMoveEntered           = [TKEvent eventWithName:kSITKStateMachineEventGameMoveEntered
+                                             transitioningFromStates:@[gameStateIdle]
+                                                             toState:gameStateProcessingMove];
     
-    _gameEventLoad                  = [TKEvent eventWithName:kSITKStateMachineEventGameLoad
-                                     transitioningFromStates:@[gameStateEnd]
-                                                     toState:gameStateLoading];
+    TKEvent *gameEventPause                 = [TKEvent eventWithName:kSITKStateMachineEventGamePause
+                                             transitioningFromStates:@[gameStateIdle]
+                                                             toState:gameStatePaused];
+
+    TKEvent *gameEventPayForContinue        = [TKEvent eventWithName:kSITKStateMachineEventGamePayForContinue
+                                             transitioningFromStates:@[gameStatePopupContinue]
+                                                             toState:gameStatePayingForContinue];
+
+    TKEvent *gameEventMenuEnd               = [TKEvent eventWithName:kSITKStateMachineEventGameMenuEnd
+                                             transitioningFromStates:@[gameStateIdle,gameStatePaused,gameStatePayingForContinue,gameStatePopupContinue,gameStateProcessingMove,gameStateFallingMonkey,gameStateLoading, gameStateStart, gameStateEnd]
+                                                             toState:gameStateEnd];
+    TKEvent *gameEventMenuStart             = [TKEvent eventWithName:kSITKStateMachineEventGameMenuStart
+                                             transitioningFromStates:@[gameStateLoading, gameStateEnd]
+                                                             toState:gameStateStart];
+
+    TKEvent *gameEventWaitForMove           = [TKEvent eventWithName:kSITKStateMachineEventGameWaitForMove
+                                             transitioningFromStates:@[gameStateFallingMonkey, gameStatePaused, gameStateStart, gameStateEnd,gameStatePayingForContinue, gameStateProcessingMove]
+                                                             toState:gameStateIdle];
     
-    _gameEventMoveEntered           = [TKEvent eventWithName:kSITKStateMachineEventGameMoveEntered
-                                     transitioningFromStates:@[gameStateIdle]
-                                                     toState:gameStateProcessingMove];
+    TKEvent *gameEventWrongMoveEntered      = [TKEvent eventWithName:kSITKStateMachineEventGameWrongMoveEntered
+                                             transitioningFromStates:@[gameStateProcessingMove]
+                                                             toState:gameStatePopupContinue];
     
-    _gameEventPause                 = [TKEvent eventWithName:kSITKStateMachineEventGamePause
-                                     transitioningFromStates:@[gameStateIdle]
-                                                     toState:gameStatePaused];
-    
-    _gameEventPayForContinue        = [TKEvent eventWithName:kSITKStateMachineEventGamePayForContinue
-                                     transitioningFromStates:@[gameStatePayingForContinue]
-                                                     toState:gameStatePayingForContinue];
-    
-    _gameEventStartGame             = [TKEvent eventWithName:kSITKStateMachineEventGameStartGame
-                                     transitioningFromStates:@[gameStateEnd]
-                                                     toState:gameStateIdle];
-    
-    
-    _gameEventWaitForMove           = [TKEvent eventWithName:kSITKStateMachineEventGameWaitForMove
-                                     transitioningFromStates:@[gameStatePayingForContinue, gameStateEnd, gameStatePaused, gameStateProcessingMove]
-                                                     toState:gameStateIdle];
-    
-    _gameEventWrongMoveEntered      = [TKEvent eventWithName:kSITKStateMachineEventGameWrongMoveEntered
-                                     transitioningFromStates:@[gameStateProcessingMove]
-                                                     toState:gameStatePopupContinue];
     
     //add event rules
-    [stateMachine addEvents:@[_gameEventEndGame, _gameEventFallingMonkeyEnd, _gameEventFallingMonkeyStart, _gameEventMoveEntered, _gameEventPause, _gameEventPayForContinue, _gameEventStartGame, _gameEventWaitForMove, _gameEventWrongMoveEntered]];
+    [stateMachine addEvents:@[gameEventFallingMonkeyStart, gameEventLoad, gameEventMoveEntered, gameEventPause, gameEventPayForContinue, gameEventMenuEnd, gameEventMenuStart, gameEventWaitForMove, gameEventWrongMoveEntered]];
     
     
     return stateMachine;
@@ -182,11 +170,6 @@
                 [_delegate gameModelStatePauseEntered];
             }
             break;
-        case SIGameStatePayingForContinue:
-            if ([_delegate respondsToSelector:@selector(gameModelStatePayingForContinueEntered)]) {
-                [_delegate gameModelStatePayingForContinueEntered];
-            }
-            break;
         case SIGameStatePopupContinue:
             if ([_delegate respondsToSelector:@selector(gameModelStatePopupContinueEntered)]) {
                 [_delegate gameModelStatePopupContinueEntered];
@@ -195,6 +178,11 @@
         case SIGameStateFallingMonkey:
             if ([_delegate respondsToSelector:@selector(gameModelStateFallingMonkeyEntered)]) {
                 [_delegate gameModelStateFallingMonkeyEntered];
+            }
+            break;
+        case SIGameStateStart:
+            if ([_delegate respondsToSelector:@selector(gameModelStateStartEntered)]) {
+                [_delegate gameModelStateStartEntered];
             }
             break;
         case SIGameStateEnd:

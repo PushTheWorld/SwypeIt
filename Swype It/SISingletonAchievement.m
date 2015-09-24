@@ -169,7 +169,7 @@
         return;
     }
     
-    achievement.currentAmount = achievement.currentAmount + (int)floorf(move.totalScore);
+    achievement.currentAmount = achievement.currentAmount + (int)floorf(move.moveScore);
     /*Check if this increase pushed you over into a new level*/
     [self checkIfNewLevelAndNotifyUserForAchievement:achievement];
 

@@ -231,9 +231,14 @@
  */
 @property (nonatomic, assign) CGPoint dismissButtonPosition;
 
+/**
+ A nice little runtime bool incase you are not feeling the dismiss button you na mean g
+ */
+@property (nonatomic, assign) BOOL dismissButtonVisible;
+
 /**Use to launch a node such as a coin*/
 - (void)launchNode:(SKSpriteNode *)node;
 
-
+- (void)layoutXYZ;
 
 @end

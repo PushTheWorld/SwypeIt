@@ -69,6 +69,8 @@
 + (float)floatZPositionMenuForContent:(SIZPositionMenu)layer;
 /**Quick zPosition for popup content*/
 + (float)floatZPositionPopupForContent:(SIZPositionPopup)layer;
+/**Quick zPosition for falling monkey scene content*/
++ (float)floatZPositionFallingMonkeyForContent:(SIZPositionFallingMonkey)layer;
 
 /**Called when creating the grid for the start menu*/
 //+ (HLGridNode *)SIHLGridNodeMenuSceneStartSize:(CGSize)size;
@@ -98,6 +100,18 @@
     Utilize static variables to reduce overhead and reuseability
  */
 + (SKSpriteNode *)SISpriteNodeFallingMonkey;
+
+
++ (SKSpriteNode *)SISpriteNodeBanana;
++ (SKSpriteNode *)SISpriteNodeBananaBunch;
+
+#pragma mark UIGestureRecognizers
++ (UIPinchGestureRecognizer *)SIGesturePinch;
++ (UISwipeGestureRecognizer *)SIGestureSwypeDown;
++ (UISwipeGestureRecognizer *)SIGestureSwypeLeft;
++ (UISwipeGestureRecognizer *)SIGestureSwypeUp;
++ (UISwipeGestureRecognizer *)SIGestureSwypeRight;
++ (UITapGestureRecognizer   *)SIGestureTap;
 
 //+ (void)SILoaderEmitters;
 

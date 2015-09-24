@@ -330,6 +330,21 @@ enum {
     [self layoutXY];
 }
 
+- (void)setDismissButtonVisible:(BOOL)dismissButtonVisible {
+    if (dismissButtonVisible) {
+        if (_dismissButton == nil) {
+            _dismissButton                  = [SKSpriteNode spriteNodeWithTexture:[[SIConstants buttonAtlas] textureNamed:kSIImageButtonDismiss] size:CGSizeMake(_backgroundNode.size.width / 10.0f, _backgroundNode.size.width / 10.0f)];
+            _dismissButton.zPosition        = SIPopUpNodeZPositionLayerContent * self.zPositionScale / SIPopUpNodeZPositionLayerCount;
+            [_backgroundNode addChild:_dismissButton];
+        }
+    } else {
+        if (_dismissButton) {
+            [_dismissButton removeFromParent];
+        }
+    }
+    [self layoutXYZ];
+}
+
 - (void)layoutXYZ {
     [self layoutXY];
     [self layoutZ];

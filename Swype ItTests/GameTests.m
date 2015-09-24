@@ -412,7 +412,7 @@
     XCTAssertEqualObjects(kSITKStateMachineStateGameIdle, [SIGame stateStringNameForGameState:SIGameStateIdle]);
     
     /*Pause*/
-    XCTAssertEqualObjects(kSITKStateMachineStateGamePause, [SIGame stateStringNameForGameState:SIGameStatePause]);
+    XCTAssertEqualObjects(kSITKStateMachineStateGamePaused, [SIGame stateStringNameForGameState:SIGameStatePause]);
 
     /*Paying For Life*/
     XCTAssertEqualObjects(kSITKStateMachineStateGamePayingForContinue, [SIGame stateStringNameForGameState:SIGameStatePayingForContinue]);
@@ -439,7 +439,7 @@
     XCTAssertEqual(SIGameStateIdle, [SIGame gameStateForStringName:kSITKStateMachineStateGameIdle]);
     
     /*Pause*/
-    XCTAssertEqual(SIGameStatePause, [SIGame gameStateForStringName:kSITKStateMachineStateGamePause]);
+    XCTAssertEqual(SIGameStatePause, [SIGame gameStateForStringName:kSITKStateMachineStateGamePaused]);
     
     /*Paying For Life*/
     XCTAssertEqual(SIGameStatePayingForContinue, [SIGame gameStateForStringName:kSITKStateMachineStateGamePayingForContinue]);

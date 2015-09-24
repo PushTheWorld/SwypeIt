@@ -638,52 +638,25 @@
             return kSISoundBackgroundMenu;
     }
 }
+
 + (NSString *)userMessageForScore:(float)score isHighScore:(BOOL)isHighScore highScore:(float)highScore {
+    float scorePercent = score / highScore;
+    NSUInteger randomNumber = 0;
     if (isHighScore) {
-        NSUInteger randomNumber = arc4random_uniform(3);
-        switch (randomNumber) {
-            case 0:
-                return @"You did it!";
-            case 1:
-                return @"Can you beat that?";
-            default:
-                return @"Your Awesome! 👍";
-        }    }
-    
-    if (score / highScore > 0.8) { /*Give user a encourage to keep going... maybe spend money?*/
-        NSUInteger randomNumber = arc4random_uniform(5);
-        switch (randomNumber) {
-            case 0:
-                return @"Continue Now!";
-            case 1:
-                return @"So Close!!!";
-            case 2:
-                return @"Use IT Coins!";
-            case 3:
-                return @"Nooo! You had it!";
-            default:
-                return @"Use Monkeys!";
-        }
+        randomNumber = arc4random_uniform((int)[[SIConstants userMessageHighScore] count]);
+        return [SIConstants userMessageHighScore][randomNumber];
+    } else if (scorePercent > 0.9) {
+        randomNumber = arc4random_uniform((int)[[SIConstants userMessageHighScoreClose] count]);
+        return [SIConstants userMessageHighScoreClose][randomNumber];
+    } else if (scorePercent > 0.4) {
+        randomNumber = arc4random_uniform((int)[[SIConstants userMessageHighScoreMedian] count]);
+        return [SIConstants userMessageHighScoreMedian][randomNumber];
     } else {
-        NSUInteger randomNumber = arc4random_uniform(7);
-        switch (randomNumber) {
-            case 0:
-                return @"🙅 NO HIGH SCORE!";
-            case 1:
-                return @"You Can Do Better";
-            case 2:
-                return @"You're The Best 😊";
-            case 3:
-                return @"Try Again";
-            case 4:
-                return @"Swype Faster";
-            case 5:
-                return @"You Are Awesome 😊";
-            default:
-                return @"😭 Game over 😭";
-        }
+        randomNumber = arc4random_uniform((int)[[SIConstants userMessageHighScoreBad] count]);
+        return [SIConstants userMessageHighScoreBad][randomNumber];
     }
 }
+
 #pragma mark - Private Class Methods
 + (float)levelSpeedForScore:(float)score {
     if (score < MAX_MOVE_SCORE) {
@@ -941,9 +914,9 @@
     game.moveScorePercentRemaining      = 1.0f;
     game.currentBackgroundSound         = SIBackgroundSoundMenu;
     game.currentLevel                   = [SIGame currentLevelStringForScore:0.0f];
-    game.currentMove                    = [[SIMove alloc] init];
-    game.currentMove.moveCommand        = SIMoveCommandSwype;
-    game.currentContinueLifeCost        = SIContinueLifeCost1;
+//    game.currentMove                    = [[SIMove alloc] init];
+//    game.currentMove.moveCommand        = SIMoveCommandSwype;
+//    game.currentContinueLifeCost        = SIContinueLifeCost1;
     game.currentNumberOfTimesContinued  = 0;
     game.totalScore                     = 0.0f;
     game.moveScore                      = 0.0f;
@@ -953,8 +926,8 @@
     
     /*Booleans*/
     game.isHighScore                    = NO;
-    game.isPaused                       = NO;
-    game.isStarted                      = NO;
+//    game.isPaused                       = NO;
+//    game.isStarted                      = NO;
     
     [game.powerUpArray removeAllObjects];
 }
@@ -1013,7 +986,7 @@
             return kSITKStateMachineStateGameIdle;
             
         case SIGameStatePause:
-            return kSITKStateMachineStateGamePause;
+            return kSITKStateMachineStateGamePaused;
             
         case SIGameStatePayingForContinue:
             return kSITKStateMachineStateGamePayingForContinue;
@@ -1039,7 +1012,7 @@
  Default return is SIGameStateStartEnd
  */
 + (SIGameState)gameStateForStringName:(NSString *)gameStateString {
-    if ([gameStateString isEqualToString:kSITKStateMachineStateGamePause]) {
+    if ([gameStateString isEqualToString:kSITKStateMachineStateGamePaused]) {
         return SIGameStatePause;
     } else if ([gameStateString isEqualToString:kSITKStateMachineStateGamePayingForContinue]) {
         return SIGameStatePayingForContinue;

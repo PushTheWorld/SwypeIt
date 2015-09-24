@@ -61,7 +61,7 @@
 @end
 
 
-@interface SIGameScene : HLScene <SIGameNodeDelegate>
+@interface SIGameScene : HLScene <UIGestureRecognizerDelegate> //<SIGameNodeDelegate>
 
 /**
  The delegate for the scene

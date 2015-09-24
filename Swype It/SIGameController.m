@@ -44,7 +44,7 @@
 #import "SIIAPUtility.h"
 // Other Imports
 
-@interface SIGameController () <ADBannerViewDelegate, ADInterstitialAdDelegate, GKGameCenterControllerDelegate, SIGameSceneDelegate, SISingletonAchievementDelegate, SIMenuSceneDelegate, SIFallingMonkeySceneDelegate, HLMenuNodeDelegate, HLGridNodeDelegate, HLRingNodeDelegate, HLToolbarNodeDelegate, SIPopUpNodeDelegate, SIAdBannerNodeDelegate, SIGameModelDelegate>
+@interface SIGameController () <ADBannerViewDelegate, ADInterstitialAdDelegate, GKGameCenterControllerDelegate, SIGameSceneDelegate, SISingletonAchievementDelegate, SIMenuSceneDelegate, SIFallingMonkeySceneDelegate, HLMenuNodeDelegate, HLGridNodeDelegate, HLRingNodeDelegate, HLToolbarNodeDelegate, SIPopUpNodeDelegate, SIAdBannerNodeDelegate, SIGameModelDelegate, SIMenuNodeDelegate>
 
 @property (strong, nonatomic) UIButton          *closeButton;
 @end
@@ -56,6 +56,7 @@
     
     ADInterstitialAd                         *_interstitialAd;
     
+    BOOL                                     _loadComplete;
     BOOL                                     _interstitialAdPresentationIsLive;
     
     /**
@@ -119,8 +120,10 @@
     NSTimeInterval                           _gameTimePauseStart;
     NSTimeInterval                           _gameTimeStart;
     NSTimeInterval                           _gameTimeTotal;
+    NSTimeInterval                           _loadTimeStart;
     
     NSTimer                                 *_gameTimer;
+    NSTimer                                 *_loadTimer;
     
     SIAdBannerNode                          *_adBannerNode;
     
@@ -139,6 +142,7 @@
     SIMenuNode                              *_menuNodeSettings;
     SIMenuNode                              *_menuNodeStart;
     SIMenuNode                              *_menuNodeStore;
+    SIMenuNode                              *_sceneGamePopupContinueSIMenuNodeStore;
     
     SIMenuScene                             *_sceneMenu;
     
@@ -263,13 +267,14 @@
 - (void)createConstants {
     _isPurchaseInProgress               = NO;
     _highScoreShowing                   = NO;
+    _loadComplete                       = NO;
     _sceneSize                          = self.view.frame.size;
     _interstitialAdPresentationIsLive   = NO;
     _monkeyFaceTexture                  = [[SIConstants buttonAtlas] textureNamed:kSIImageFallingMonkeys];
     _loadingPointsCurrent               = 0;
     _verbose                            = YES;
     _premiumUser                        = [SIGameController premiumUser];
-    _testMode                           = YES;
+    _testMode                           = NO;
     
     _sceneGameSpacingHorizontalToolbar  = 10.0f;
     CGFloat toolBarNodeWidth            = (SCREEN_WIDTH - (4.0f * _sceneGameSpacingHorizontalToolbar)) / 5.0f;
@@ -281,9 +286,14 @@
 
     [self authenticateLocalPlayer];
     
-    _gameModel = [[SIGameModel alloc] init]; //starts in the end scene
+    _currentMove                                        = [[SIMove alloc] init];
+
     
-    _timerStateMachine = [self createTimeStateMachine];
+    _gameModel                                          = [[SIGameModel alloc] init];
+    _gameModel.delegate                                 = self;
+    [self gameFireEvent:kSITKStateMachineEventGameLoad userInfo:nil];
+    
+    _timerStateMachine                                  = [self createTimeStateMachine];
     
     /*Start your singletons*/
     [SISingletonAchievement singleton].delegate         = self;;
@@ -305,15 +315,6 @@
 }
 #pragma mark -
 #pragma mark - Scene Loading
-- (void)loadingIncrementWillOverrideAndKill:(BOOL)overrideAndKillLoadingScreen {
-    _loadingPointsCurrent = _loadingPointsCurrent + 1;
-    if (_loadingPointsCurrent == (int)SIGameControllerSceneCount || overrideAndKillLoadingScreen) {
-        [self gameFireEvent:kSITKStateMachineEventGameEndGame userInfo:nil];
-//        [self presentScene:SIGameControllerSceneMenu];
-    }
-    [_sceneLoading sceneLoadingSetProgressPercent:(float)_loadingPointsCurrent / (float)SIGameControllerSceneCount];
-}
-
 - (void)presentScene:(SIGameControllerScene)sceneType {
     NSNumber *highScore;
     if (_adBannerNode) {
@@ -334,16 +335,17 @@
             
         // GAME
         case SIGameControllerSceneGame:
+            _sceneGame.adBannerNode = [SIGameController premiumUser] ? nil : _adBannerNode;
             switch (_currentSceneType) {
                 case SIGameControllerSceneFallingMonkey:
-                    _sceneGame.adBannerNode = [SIGameController premiumUser] ? nil : _adBannerNode;
                     _currentScene = [SIGameController viewController:[self fastSKView] transisitionToSKScene:_sceneGame duration:SCENE_TRANSISTION_DURATION_NORMAL];
-//                    [self gameFireState:kSITKStateMachineEventGameWaitForMove userInfo:nil inDelay:SCENE_TRANSISTION_DURATION_NORMAL];
                     break;
-                    
+                case SIGameControllerSceneLoading:
+                    [self controllerSceneMenuShowMenu:_menuNodeStart menuNodeAnimiation:SIMenuNodeAnimationSlideOut delay:SCENE_TRANSISTION_DURATION_FAST];
+                    _currentScene = [SIGameController viewController:[self fastSKView] transisitionToSKScene:_sceneGame duration:SCENE_TRANSISTION_DURATION_NORMAL];
+                    break;
                 default:
                     _currentScene = [SIGameController viewController:[self fastSKView] transisitionToSKScene:_sceneGame duration:SCENE_TRANSISTION_DURATION_NORMAL];
-//                    [self gameFireState:kSITKStateMachineEventGameWaitForMove userInfo:nil inDelay:SCENE_TRANSISTION_DURATION_NORMAL];
                     break;
             }
             break;
@@ -428,6 +430,9 @@
 
 - (void)loadAllScenes {
     
+    _loadTimer      = [NSTimer scheduledTimerWithTimeInterval:TIMER_INTERVAL target:self selector:@selector(loadSmoothSynch) userInfo:nil repeats:YES];
+    _loadTimeStart  = [NSDate timeIntervalSinceReferenceDate];
+
     /*Start loading Menu Scene*/
     _sceneMenu = [self loadMenuScene];
     [self loadingIncrementWillOverrideAndKill:NO];
@@ -442,39 +447,61 @@
 
 }
 
+- (void)loadingIncrementWillOverrideAndKill:(BOOL)overrideAndKillLoadingScreen {
+    _loadingPointsCurrent = _loadingPointsCurrent + 1;
+    if (_loadingPointsCurrent == (int)SIGameControllerSceneCount || overrideAndKillLoadingScreen) {
+        _loadComplete = YES;
+    }
+}
+
+- (void)loadSmoothSynch {
+    NSTimeInterval currentTime                              = [NSDate timeIntervalSinceReferenceDate];
+    
+    NSTimeInterval totalTimePassed                          = currentTime - _loadTimeStart;
+    
+    if (totalTimePassed > 1 && _loadComplete == YES) {
+        [self gameFireEvent:kSITKStateMachineEventGameMenuStart userInfo:nil];
+    } else {
+        [_sceneLoading sceneLoadingSetProgressPercent:totalTimePassed];
+    }
+}
+
 - (SIGameScene *)loadGameScene {
     NSDate *startDate = [NSDate date];
     
 //    [SIGameController BMGLabelSceneGameSwypeItCoins];
     
-    SIGameScene *sceneGame              = [[SIGameScene alloc] initWithSize:_sceneSize];
+    SIGameScene *sceneGame                  = [[SIGameScene alloc] initWithSize:_sceneSize];
     
-    sceneGame.sceneDelegate             = self;
+    sceneGame.sceneDelegate                 = self;
     
-    _sceneGamePopupContinue             = [SIGameController SIPopupSceneGameContinue];
+    _sceneGamePopupContinue                 = [SIGameController SIPopupSceneGameContinue];
     
-    _sceneGamePopupContinueMenuNode     = [SIGameController SIHLMenuNodeSceneGamePopup:_sceneGamePopupContinue];
+    _sceneGamePopupContinueMenuNode         = [SIGameController SIHLMenuNodeSceneGamePopup:_sceneGamePopupContinue];
     
-    _sceneGameRingNodePause             = [SIGameController SIHLRingNodeSceneGamePause];
+    _sceneGamePopupContinueSIMenuNodeStore  = [self SIMenuNodeStoreSize:_sceneGamePopupContinue.backgroundSize];
+
+    
+    _sceneGameRingNodePause                 = [SIGameController SIHLRingNodeSceneGamePause];
     [_sceneGameRingNodePause hlSetGestureTarget:_sceneGameRingNodePause];
     [sceneGame registerDescendant:_sceneGameRingNodePause withOptions:[NSSet setWithObject:HLSceneChildGestureTarget]];
 
     
-    _sceneGameToolbarPowerUp            = [SIGameController SIHLToolbarGamePowerUpToolbarSize:_sceneGameToolbarSize toolbarNodeSize:_sceneGameToolbarNodeSize horizontalSpacing:_sceneGameSpacingHorizontalToolbar];
-    _sceneGameToolbarPowerUp.delegate   = self;
+    _sceneGameToolbarPowerUp                = [SIGameController SIHLToolbarGamePowerUpToolbarSize:_sceneGameToolbarSize toolbarNodeSize:_sceneGameToolbarNodeSize horizontalSpacing:_sceneGameSpacingHorizontalToolbar];
+    _sceneGameToolbarPowerUp.delegate       = self;
     
     [_sceneGameToolbarPowerUp hlSetGestureTarget:_sceneGameToolbarPowerUp];
     [sceneGame registerDescendant:_sceneGameToolbarPowerUp withOptions:[NSSet setWithObject:HLSceneChildGestureTarget]];
-    sceneGame.powerUpToolbarNode        = _sceneGameToolbarPowerUp;
+    sceneGame.powerUpToolbarNode            = _sceneGameToolbarPowerUp;
     
     
-    sceneGame.progressBarFreeCoin       = [SIGameController SIProgressBarSceneGameFreeCoinSceneSize:_sceneSize];
+    sceneGame.progressBarFreeCoin           = [SIGameController SIProgressBarSceneGameFreeCoinSceneSize:_sceneSize];
     sceneGame.progressBarFreeCoin.userInteractionEnabled = YES;
     
-    sceneGame.progressBarMove           = [SIGameController SIProgressBarSceneGameMoveSceneSize:_sceneSize];
+    sceneGame.progressBarMove               = [SIGameController SIProgressBarSceneGameMoveSceneSize:_sceneSize];
     sceneGame.progressBarMove.userInteractionEnabled = YES;
     
-    sceneGame.progressBarPowerUp        = [SIGameController SIProgressBarSceneGamePowerUpSceneSize:_sceneSize];
+    sceneGame.progressBarPowerUp            = [SIGameController SIProgressBarSceneGamePowerUpSceneSize:_sceneSize];
     sceneGame.progressBarPowerUp.userInteractionEnabled = YES;
     
 //    sceneGame.adBannerNode              = _adBannerNode;
@@ -596,6 +623,17 @@
     
     [self presentViewController:gameCenterVC animated:YES completion:nil];
 }
+
+#pragma mark Sound
+- (void)updateBackgroundSound {
+    if ([SIConstants isBackgroundSoundAllowed]) {
+        _gameModel.game.currentBackgroundSound = [SIGame checkBackgroundSound:_gameModel.game.currentBackgroundSound forTotalScore:_gameModel.game.totalScore withCallback:^(BOOL updatedBackgroundSound, SIBackgroundSound backgroundSoundNew) {
+            if (updatedBackgroundSound) {
+                [[SoundManager sharedManager] playMusic:[SIGame soundNameForSIBackgroundSound:backgroundSoundNew] looping:YES fadeIn:YES];
+            }
+        }];
+    }
+}
 #pragma mark Banner Ads
 
 - (void)configureBannerAds {
@@ -656,7 +694,7 @@
             BOOL success = [self gameFireEvent:kSITKStateMachineEventGameWaitForMove userInfo:nil];
             NSLog(@"When back to idle from ad watching state: %@",success ? @"YES" : @"NO");
             if (!success) {
-                [self gameFireEvent:kSITKStateMachineEventGameEndGame userInfo:nil];
+                [self gameFireEvent:kSITKStateMachineEventGameMenuEnd userInfo:nil];
             }
         } else {
             [self interstitialAdPresent];
@@ -1245,6 +1283,28 @@
     }
 }
 
+#pragma mark SIGame Helpers
+- (void)gameProcessAndApplyCorrectMove:(SIMove *)move {
+    
+    _gameModel.game.totalScore              = _gameModel.game.totalScore + move.moveScore;
+    
+    _gameModel.game.isHighScore             = [SIGame isDevieHighScore:_gameModel.game.totalScore];
+    
+    _gameModel.game.freeCoinInPoints        = [SIGame updatePointsTillFreeCoinMoveScore:_gameModel.game.totalScore withCallback:^(BOOL willAwardFreeCoin) {
+        if (willAwardFreeCoin) {
+            _gameModel.game.freeCoinsEarned = _gameModel.game.freeCoinsEarned + 1;
+            if (_currentScene == _sceneGame) {
+                [_sceneGame sceneGameShowFreeCoinEarned];
+            }
+            if ([SIConstants isFXAllowed]) {
+                [[SoundManager sharedManager] playSound:kSISoundFXChaChing];
+            }
+        }
+    }];
+    
+    [SIGame updateLifetimePointsScore:_gameModel.game.totalScore];
+}
+
 #pragma mark -
 #pragma mark - Delegate Handlers
 #pragma mark SISingletonGameDelegate
@@ -1253,121 +1313,121 @@
  Called when the model is ready for a new move to be
  loaded by the controller to the view
  */
-- (void)controllerSingletonGameLoadNewMove {
-    
-    if ([SISingletonGame singleton].currentGame.moveScore > EPSILON_NUMBER) {
-        SKLabelNode *moveLabel = [SIGameController moveScoreLabel:[SISingletonGame singleton].currentGame.moveScore];
-        moveLabel.position = [SISingletonGame singleton].currentGame.currentMove.touchPoint;
-
-        [_sceneGame sceneGameWillShowMoveScore:moveLabel];
-        
-        SIMove *moveForBackground = [SISingletonGame singleton].currentGame.currentMove;
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-            [[SISingletonAchievement singleton] singletonAchievementWillProcessMove:moveForBackground];
-        });
-        
-        [_sceneGame sceneGameLaunchMoveCommandLabelWithCommandAction:moveForBackground.moveCommandAction];
-
-    }
-    
-    
-    
-    
-    if ([SISingletonGame singleton].currentGame.isHighScore) {
-        _sceneGame.highScore = YES;
-    }
-    
-    _sceneGame.backgroundColor              = [SISingletonGame singleton].currentGame.currentBackgroundColor;
-    _sceneGame.progressBarMove.fillColor    = [SISingletonGame singleton].currentGame.currentBackgroundColor;
-    _sceneGame.progressBarPowerUp.fillColor = [SISingletonGame singleton].currentGame.currentBackgroundColor;
-    _sceneGame.scoreTotalLabel.text         = [NSString stringWithFormat:@"%0.2f",[SISingletonGame singleton].currentGame.totalScore];
-    _sceneGame.progressBarFreeCoin.progress = [SISingletonGame singleton].currentGame.freeCoinPercentRemaining;
-    SKLabelNode *label                      = [SKLabelNode labelNodeWithFontNamed:kSISFFontDisplayHeavy];
-    label.fontSize                          = [SIGameController SIFontSizeMoveCommand];
-    label.text                              = [SIGame stringForMove:[SISingletonGame singleton].currentGame.currentMove.moveCommand];
-    label.userInteractionEnabled            = YES;
-    _sceneGame.moveCommandLabel             = label;
-
-}
+//- (void)controllerSingletonGameLoadNewMove {
+//    
+//    if ([SISingletonGame singleton].currentGame.moveScore > EPSILON_NUMBER) {
+//        SKLabelNode *moveLabel = [SIGameController moveScoreLabel:[SISingletonGame singleton].currentGame.moveScore];
+//        moveLabel.position = [SISingletonGame singleton].currentGame.currentMove.touchPoint;
+//
+//        [_sceneGame sceneGameWillShowMoveScore:moveLabel];
+//        
+//        SIMove *moveForBackground = [SISingletonGame singleton].currentGame.currentMove;
+//        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+//            [[SISingletonAchievement singleton] singletonAchievementWillProcessMove:moveForBackground];
+//        });
+//        
+//        [_sceneGame sceneGameLaunchMoveCommandLabelWithCommandAction:moveForBackground.moveCommandAction];
+//
+//    }
+//    
+//    
+//    
+//    
+//    if ([SISingletonGame singleton].currentGame.isHighScore) {
+//        _sceneGame.highScore = YES;
+//    }
+//    
+//    _sceneGame.backgroundColor              = [SISingletonGame singleton].currentGame.currentBackgroundColor;
+//    _sceneGame.progressBarMove.fillColor    = [SISingletonGame singleton].currentGame.currentBackgroundColor;
+//    _sceneGame.progressBarPowerUp.fillColor = [SISingletonGame singleton].currentGame.currentBackgroundColor;
+//    _sceneGame.scoreTotalLabel.text         = [NSString stringWithFormat:@"%0.2f",[SISingletonGame singleton].currentGame.totalScore];
+//    _sceneGame.progressBarFreeCoin.progress = [SISingletonGame singleton].currentGame.freeCoinPercentRemaining;
+//    SKLabelNode *label                      = [SKLabelNode labelNodeWithFontNamed:kSISFFontDisplayHeavy];
+//    label.fontSize                          = [SIGameController SIFontSizeMoveCommand];
+//    label.text                              = [SIGame stringForMove:[SISingletonGame singleton].currentGame.currentMove.moveCommand];
+//    label.userInteractionEnabled            = YES;
+//    _sceneGame.moveCommandLabel             = label;
+//
+//}
 
 /**
  Called when the user should be prompted to continue
  the game
  */
-- (void)controllerSingletonGameShowContinue {
-
-}
-
-/**
- Called when a free coin is earned
- Handle the sound for this in the controller?
- */
-- (void)controllerSingletonGameShowFreeCoinEarned {
-    [_sceneGame sceneGameShowFreeCoinEarned];
-}
-
-/**
- Called by model to alert controller when sound is ready to be played...
- */
-- (void)controllerSingletonGamePlayFXSoundNamed:(NSString *)soundName {
-    if ([SIConstants isFXAllowed]) {
-        [[SoundManager sharedManager] playSound:soundName];
-    }
-}
+//- (void)controllerSingletonGameShowContinue {
+//
+//}
+//
+///**
+// Called when a free coin is earned
+// Handle the sound for this in the controller?
+// */
+//- (void)controllerSingletonGameShowFreeCoinEarned {
+//    [_sceneGame sceneGameShowFreeCoinEarned];
+//}
+//
+///**
+// Called by model to alert controller when sound is ready to be played...
+// */
+//- (void)controllerSingletonGamePlayFXSoundNamed:(NSString *)soundName {
+//    if ([SIConstants isFXAllowed]) {
+//        [[SoundManager sharedManager] playSound:soundName];
+//    }
+//}
 
 /**
  Called when the model is ready for the powerup to start
  */
-- (void)controllerSingletonGameActivatePowerUp:(SIPowerUpType)powerUp {
-    switch (powerUp) {
-        case SIPowerUpTypeFallingMonkeys:
-            /*pause the singleton*/
-            [[SISingletonGame singleton] singletonGameWillPause];
-            /*launch the other scene with no delay*/
-            [self presentScene:SIGameControllerSceneFallingMonkey];
-            break;
-        case SIPowerUpTypeRapidFire:
-            /*Bring out progress bar*/
-            
-            /*Activate Fire Emmiters*/
-            break;
-        case SIPowerUpTypeTimeFreeze:
-            /*Bring out progress bar*/
-            
-            /*Avtivate snow*/
-            break;
-        default: //SIPowerUpTypeNone
-            NSLog(@"Error");
-            break;
-    }
-}
-
-/**
- Called when the powerup is deactived
- */
-- (void)controllerSingletonGameDeactivatePowerUp:(SIPowerUpType)powerUp {
-    switch (powerUp) {
-        case SIPowerUpTypeFallingMonkeys:
-            /*pause the singleton*/
-            [self presentScene:SIGameControllerSceneGame];
-            /*launch the other scene with no delay*/
-            
-            break;
-        case SIPowerUpTypeRapidFire:
-            /*Hide Progress Barr*/
-            
-            /*Remove Fire Emmiter*/
-            break;
-        case SIPowerUpTypeTimeFreeze:
-            /*Hide Progress Barr*/
-            
-            /*Deactivate Snow Emitter*/
-            break;
-        default: //SIPowerUpTypeNone
-            NSLog(@"Error");
-            break;
-    }
-}
+//- (void)controllerSingletonGameActivatePowerUp:(SIPowerUpType)powerUp {
+//    switch (powerUp) {
+//        case SIPowerUpTypeFallingMonkeys:
+//            /*pause the singleton*/
+//            [[SISingletonGame singleton] singletonGameWillPause];
+//            /*launch the other scene with no delay*/
+//            [self presentScene:SIGameControllerSceneFallingMonkey];
+//            break;
+//        case SIPowerUpTypeRapidFire:
+//            /*Bring out progress bar*/
+//            
+//            /*Activate Fire Emmiters*/
+//            break;
+//        case SIPowerUpTypeTimeFreeze:
+//            /*Bring out progress bar*/
+//            
+//            /*Avtivate snow*/
+//            break;
+//        default: //SIPowerUpTypeNone
+//            NSLog(@"Error");
+//            break;
+//    }
+//}
+//
+///**
+// Called when the powerup is deactived
+// */
+//- (void)controllerSingletonGameDeactivatePowerUp:(SIPowerUpType)powerUp {
+//    switch (powerUp) {
+//        case SIPowerUpTypeFallingMonkeys:
+//            /*pause the singleton*/
+//            [self presentScene:SIGameControllerSceneGame];
+//            /*launch the other scene with no delay*/
+//            
+//            break;
+//        case SIPowerUpTypeRapidFire:
+//            /*Hide Progress Barr*/
+//            
+//            /*Remove Fire Emmiter*/
+//            break;
+//        case SIPowerUpTypeTimeFreeze:
+//            /*Hide Progress Barr*/
+//            
+//            /*Deactivate Snow Emitter*/
+//            break;
+//        default: //SIPowerUpTypeNone
+//            NSLog(@"Error");
+//            break;
+//    }
+//}
 
 #pragma mark SISingletonAchievement
 /**
@@ -1408,7 +1468,7 @@
  Fires when the pause button is pressed
  */
 - (void)controllerSceneGamePauseButtonTapped {
-    [self fireEvent:kSITKStateMachineEventGamePause userInfo:nil];
+    [self gameFireEvent:kSITKStateMachineEventGamePause userInfo:nil];
 }
 
 ///**
@@ -1442,8 +1502,12 @@
  Powerup tool bar was tapped
  */
 - (void)controllerSceneGameToolbar:(HLToolbarNode *)toolbar powerUpWasTapped:(SIPowerUpType)powerUp {
-    if ([_gameModel.stateMachine isInState:kSITKStateMachineStateGamePause] == NO) {
-        [[SISingletonGame singleton] singletonGameWillActivatePowerUp:powerUp];
+    if ([_gameModel.stateMachine isInState:kSITKStateMachineStateGamePaused] == NO) {
+        BOOL canStartPowerUp = [SIPowerUp canStartPowerUp:powerUp powerUpArray:_gameModel.powerUpArray];
+        if (canStartPowerUp) {
+            SIPowerUp *newPowerUp = [[SIPowerUp alloc] initWithPowerUp:powerUp startTime:_gameTimeTotal];
+            [self powerUpActivatePowerUp:newPowerUp];
+        }
     }
 }
 
@@ -1461,12 +1525,11 @@
     
     progressBarUpdate.percentMove                   = _currentMove.moveScore / MAX_MOVE_SCORE;
     
-    progressBarUpdate.percentPowerUp                = [SIPowerUp powerUpPercentRemaining:_gameModel.powerUpArray compositeTime:_gameTimeStart timeFreezeMultiplier:<#(float)#> withCallback:<#^(SIPowerUp *powerUpToDeactivate)callback#>]
-    
-    progressBarUpdate.percentPowerUp                = [_currentGame.powerUpPercentRemaining [SIPowerUp powerUpPercentRemaining:_gameModel.powerUpArray compositeTime:_gameTimeStart withCallback:^(SIPowerUp *powerUpToDeactivate) {
+    progressBarUpdate.percentPowerUp = [SIPowerUp powerUpPercentRemaining:_gameModel.powerUpArray gameTimeTotal:_gameTimeTotal timeFreezeMultiplier:_timeFreezeMultiplier withCallback:^(SIPowerUp *powerUpToDeactivate) {
         [self powerUpDectivatePowerUp:powerUpToDeactivate];
-    }]];
-    progressBarUpdate.pointsMove                    = _currentGame.currentPointsRemainingThisRound;
+    }];
+    
+    progressBarUpdate.pointsMove                    = _gameModel.game.currentPointsRemainingThisRound;
     progressBarUpdate.hasStarted                    = [_gameModel.stateMachine isInState:kSITKStateMachineStateGameFallingMonkey];
     return progressBarUpdate;
 }
@@ -1585,20 +1648,24 @@
 /**
  Called when the scene registers a monkey tap
  */
-- (void)sceneFallingMonkeyWasTappedMonkey:(SKNode *)monkey {
-    SIMove *moveFallingMonkey        = [[SIMove alloc] init];
+- (void)sceneFallingMonkeyWasNailed {
+    //make a move to send for processing
+    SIMove *moveFallingMonkey           = [[SIMove alloc] init];
+    moveFallingMonkey.moveCommand       = SIMoveCommandFallingMonkey;
+    moveFallingMonkey.moveScore         = VALUE_OF_MONKEY;
     
-    moveFallingMonkey.moveCommand    = SIMoveCommandFallingMonkey;
-    
-    [[SISingletonGame singleton] singletonGameDidEnterMove:moveFallingMonkey];
+    //process the move
+    [self gameProcessAndApplyCorrectMove:moveFallingMonkey];
+
 }
 
 /**
  Called when a monkey has hit the bottom of the screen
  */
 - (void)sceneFallingMonkeyDidCollideWithBottomEdge {
-    SIPowerUp *powerUp = [[SIPowerUp alloc] initWithPowerUp:SIPowerUpTypeFallingMonkeys atTime:0.0f];
-    [[SISingletonGame singleton] singletonGameWillDectivatePowerUp:powerUp];
+    SIPowerUp *powerUp = [[SIPowerUp alloc] initWithPowerUp:SIPowerUpTypeFallingMonkeys startTime:0.0f];
+    [self powerUpDectivatePowerUp:powerUp];
+    [self gameFireEvent:kSITKStateMachineEventGameWaitForMove userInfo:nil];
 }
 
 #pragma mark HLGridNodeDelegate
@@ -1643,11 +1710,10 @@
 }
 /**Called to launch an actual game*/
 - (void)launchSceneGameWithGameMode:(SIGameMode)gameMode {
-    _currentGame.gameMode = gameMode;
+    _gameModel.game.gameMode = gameMode;
     //pulse the game to the start
     NSError *error = nil;
-    BOOL success                                        = [_gameModel.stateMachine fireEvent:kSITKStateMachineEventGameStartGame userInfo:nil error:&error];
-    _gameModel.delegate                                 = self;
+    BOOL success                                        = [_gameModel.stateMachine fireEvent:kSITKStateMachineEventGameWaitForMove userInfo:nil error:&error];
     if (_verbose) {
         NSLog(@"Able to Start engine: %@", success ? @"YES" : @"NO");
     }
@@ -1656,19 +1722,26 @@
 - (void)menuNode:(HLMenuNode *)menuNode didTapMenuItem:(HLMenuItem *)menuItem itemIndex:(NSUInteger)itemIndex {
     if (menuNode == _sceneGamePopupContinueMenuNode) {
         if ([menuItem.text isEqualToString:_sceneGamePopupMenuItemTextContinueWithCoin]) {
-            BOOL success = [self gameFireEvent:kSITKStateMachineEventGamePayForContinue userInfo:@{kSINSDictionaryKeyPayToContinueMethod : @(SISceneGamePopupContinueMenuItemCoin)}];
-            if (!success) {
-                [self gameFireEvent:kSITKStateMachineEventGameEndGame userInfo:nil];
+            if ([menuItem.text isEqualToString:kSIMenuTextPopUpBuyCoins]) {
+                _sceneGamePopupContinueSIMenuNodeStore.delegate = self;
+                _sceneGamePopupContinue.backgroundSize = CGSizeMake(_sceneSize.width - VERTICAL_SPACING_16, _sceneSize.width - VERTICAL_SPACING_16);
+                _sceneGamePopupContinue.popupContentNode = _sceneGamePopupContinueSIMenuNodeStore;
+                [_sceneGamePopupContinue layoutXYZ];
+            } else {
+                BOOL success = [self gameFireEvent:kSITKStateMachineEventGamePayForContinue userInfo:@{kSINSDictionaryKeyPayToContinueMethod : @(SISceneGamePopupContinueMenuItemCoin)}];
+                if (!success) {
+                    [self gameFireEvent:kSITKStateMachineEventGameMenuEnd userInfo:nil];
+                }
             }
             
         }  else if ([menuItem.text isEqualToString:_sceneGamePopupMenuItemTextContinueWithAd]) {
             BOOL success = [self gameFireEvent:kSITKStateMachineEventGamePayForContinue userInfo:@{kSINSDictionaryKeyPayToContinueMethod : @(SISceneGamePopupContinueMenuItemAd)}];
             if (!success) {
-                [self gameFireEvent:kSITKStateMachineEventGameEndGame userInfo:nil];
+                [self gameFireEvent:kSITKStateMachineEventGameMenuEnd userInfo:nil];
             }
             
         } else if ([menuItem.text isEqualToString:kSIMenuTextPopUpEndGame]) {
-            BOOL success = [self gameFireEvent:kSITKStateMachineEventGameEndGame userInfo:nil];
+            BOOL success = [self gameFireEvent:kSITKStateMachineEventGameMenuEnd userInfo:nil];
             if (!success) { //this is a critical failure...
                 [self presentScene:SIGameControllerSceneMenu];
             }
@@ -1683,7 +1756,7 @@
         } else if ([menuItem.text isEqualToString:kSIMenuTextSettingsToggleSoundOffFX] || [menuItem.text isEqualToString:kSIMenuTextSettingsToggleSoundOnFX]) {
             [self changeFXSoundIsAllowed:menuItem];
         }
-    } else if (menuNode == _sceneMenuStoreMenuNode) {
+    } else if (menuNode == _sceneMenuStoreMenuNode || menuNode == (HLMenuNode*)_sceneGamePopupContinueSIMenuNodeStore.centerNode) {
         if ([menuItem.text isEqualToString:[SIGame buttonNodeNameNodeForSIIAPPack:SIIAPPackSmall]]) {
             [self requestPurchaseForPack:SIIAPPackSmall];
         } else if ([menuItem.text isEqualToString:[SIGame buttonNodeNameNodeForSIIAPPack:SIIAPPackMedium]]) {
@@ -1705,9 +1778,9 @@
 #pragma mark HLToolBarNodeDelegate
 - (void)toolbarNode:(HLToolbarNode *)toolbarNode didTapTool:(NSString *)toolTag {
     if (toolbarNode == _sceneGameToolbarPowerUp) {
-        if ([_gameModel.stateMachine isInState:kSITKStateMachineStateGamePause] == NO) {
+        if ([_gameModel.stateMachine isInState:kSITKStateMachineStateGamePaused] == NO) {
             if ([SIPowerUp canStartPowerUp:[SIPowerUp powerUpForString:toolTag] powerUpArray:_gameModel.powerUpArray]) {
-                SIPowerUp *newPowerUp = [[SIPowerUp alloc] initWithPowerUp:[SIPowerUp powerUpForString:toolTag] atTime:_gameTimeTotal];
+                SIPowerUp *newPowerUp = [[SIPowerUp alloc] initWithPowerUp:[SIPowerUp powerUpForString:toolTag] startTime:_gameTimeTotal];
                 [self powerUpActivatePowerUp:newPowerUp];
             }
         }
@@ -1753,12 +1826,12 @@
 - (void)ringNode:(HLRingNode *)ringNode didTapItem:(int)itemIndex {
     switch (itemIndex) {
         case SISceneGameRingNodeEndGame:
-            [self fireEvent:kSITKStateMachineEventGameEndGame userInfo:nil];
+            [self gameFireEvent:kSITKStateMachineEventGameMenuEnd userInfo:nil];
 //            [[SISingletonGame singleton] singletonGameDidEnd];
 //            [self presentScene:SIGameControllerSceneMenu];
             break;
         case SISceneGameRingNodePlay:
-            [self fireEvent:kSITKStateMachineEventGameWaitForMove userInfo:nil];
+            [self gameFireEvent:kSITKStateMachineEventGameWaitForMove userInfo:nil];
 //            [[SISingletonGame singleton] singletonGameWillResumeAndContinue:NO];
             break;
         case SISceneGameRingNodeSoundBackground:
@@ -1794,7 +1867,7 @@
     if (popupNode == _sceneMenuPopupFreePrize) {
         [_sceneMenu dismissModalNodeAnimation:HLScenePresentationAnimationFade];
     } else if (popupNode == _sceneGamePopupContinue) {
-        [self presentScene:SIGameControllerSceneMenu];
+        [self gameFireEvent:kSITKStateMachineEventGameMenuEnd userInfo:nil];
     } else {
         HLScene *currentHLSceen                         = (HLScene *)_currentScene;
         [currentHLSceen dismissModalNodeAnimation:HLScenePresentationAnimationFade];
@@ -1826,11 +1899,39 @@
 
 
 #pragma mark SIGameModelDelegate
+
+/**
+ Called when the game wants to load
+ */
+- (void)gameModelStateLoadingEntered {
+    _sceneLoading = [SIGameController SILoaderSceneLoadingSize:_sceneSize];
+    [self loadingIncrementWillOverrideAndKill:NO];
+    [self presentScene:SIGameControllerSceneLoading];
+    /*Load the scenes*/
+    [self loadAllScenes];
+}
+
+/**
+ Called when the game is done loading
+ */
+- (void)gameModelStateLoadingExited {
+    NSLog(@"Load State Exited");
+    [_loadTimer invalidate];
+    _loadTimer = nil;
+}
+- (void)gameModelStateStartEntered {
+    if (_sceneMenu == nil) {
+        _sceneMenu = [self loadMenuScene];
+    }
+    
+    [self presentScene:SIGameControllerSceneMenu];
+}
+
 /**
  update screen
  */
 - (void)gameModelStateIdleEntered {
-    if (_sceneGame) {
+    if (_sceneGame == nil) {
         _sceneGame = [self loadGameScene];
     }
     
@@ -1866,25 +1967,107 @@
     label.text                                          = [SIGame stringForMove:_currentMove.moveCommand];
     label.userInteractionEnabled                        = YES;
     _sceneGame.moveCommandLabel                         = label;
+    
+    [self updateBackgroundSound];
+}
+
+- (void)gameModelStateProcessingMoveEnteredWithMove:(SIMove *)move {
+    
+    //if correctMove
+    if (move.moveCommand == _currentMove.moveCommand) {
+        SIMove *moveForBackground                       = _currentMove;
+        
+        [self gameProcessAndApplyCorrectMove:_currentMove];
+        
+        //  launch the move command and such
+        SKLabelNode *moveLabel                          = [SIGameController moveScoreLabel:_gameModel.game.moveScore];
+        moveLabel.position                              = _currentMove.touchPoint;
+        [_sceneGame sceneGameWillShowMoveScore:moveLabel];
+        [_sceneGame sceneGameLaunchMoveCommandLabelWithCommandAction:moveForBackground.moveCommandAction];
+        
+        //  send move to achievement
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+            [[SISingletonAchievement singleton] singletonAchievementWillProcessMove:moveForBackground];
+        });
+        //  get new move data
+        _currentMove                                        = [[SIMove alloc] initWithRandomMoveForGameMode:_gameModel.game.gameMode powerUpArray:[_gameModel.powerUpArray copy]];
+
+        //  show new move data
+        BOOL success = [self gameFireEvent:kSITKStateMachineEventGameWaitForMove userInfo:nil];
+        if (!success) {
+            [self gameFireEvent:kSITKStateMachineEventGameMenuEnd userInfo:nil];
+        }
+        
+    } else {
+        //else notCorrectMove
+        [self gameFireEvent:kSITKStateMachineEventGameWrongMoveEntered userInfo:nil];
+        //  load start/end scene
+        if (_sceneMenu == nil) {
+            _sceneMenu                                  = [self loadMenuScene];
+        }
+    }
 }
 
 /**
- Called when the game wants to load
+ Always get new data when you leave the processing move screen, even if they enter
+ the wrong move, because there is always the oppertunity the user continues with
+ coins.
  */
-- (void)gameModelStateLoadingEntered {
-    _sceneLoading = [SIGameController SILoaderSceneLoadingSize:_sceneSize];
-    [self loadingIncrementWillOverrideAndKill:NO];
-    [self presentScene:SIGameControllerSceneLoading];
-    /*Load the scenes*/
-    [self loadAllScenes];
+- (void)gameModelStateProcessingMoveExited {
+    //where is total score being updated?
+    
+    //check if high score here?
+    if (_gameModel.game.isHighScore) {
+        _sceneGame.highScore = YES;
+    }
+    
+    _sceneGame.scoreTotalLabel.text                     = [NSString stringWithFormat:@"%0.2f",_gameModel.game.totalScore];
+    _sceneGame.progressBarFreeCoin.progress             = _gameModel.game.freeCoinPercentRemaining;
+    
 }
 
 /**
- Called when the game is done loading
+ //pause time
+ 
+ //display blur screen
+ 
+ //present continue popup
+ 
+ //connect it's gesture target!
  */
-- (void)gameModelStateLoadingExited {
-    NSLog(@"Load State Exited");
+- (void)gameModelStatePopupContinueEntered {
+    [self timerFireEvent:kSITKStateMachineEventTimerPause userInfo:nil];
+    
+    
+    if ([SIIAPUtility canAffordContinueNumberOfTimesContinued:_gameModel.game.currentNumberOfTimesContinued]) {
+        _sceneGamePopupMenuItemTextContinueWithCoin     = [NSString stringWithFormat:@"Use %d Coins!",(int)[SIGame lifeCostForNumberOfTimesContinued:_gameModel.game.currentNumberOfTimesContinued]];
+        [[[_sceneGamePopupContinueMenuNode menu] itemAtIndex:SISceneGamePopupContinueMenuItemCoin] setText:_sceneGamePopupMenuItemTextContinueWithCoin];
+    } else {
+        _sceneGamePopupMenuItemTextContinueWithCoin     = kSIMenuTextPopUpBuyCoins;
+        [[[_sceneGamePopupContinueMenuNode menu] itemAtIndex:SISceneGamePopupContinueMenuItemCoin] setText:_sceneGamePopupMenuItemTextContinueWithCoin];
+
+    }
+    
+    _sceneGamePopupMenuItemTextContinueWithAd           = [NSString stringWithFormat:@"Watch %d Ads!",(int)[SIGame adCountForNumberOfTimesContinued:_gameModel.game.currentNumberOfTimesContinued]];
+    [[[_sceneGamePopupContinueMenuNode menu] itemAtIndex:SISceneGamePopupContinueMenuItemAd] setText:_sceneGamePopupMenuItemTextContinueWithAd];
+    
+    [_sceneGamePopupContinueMenuNode redisplayMenuAnimation:HLMenuNodeAnimationNone];
+    
+    /*Configure mwnu on popup*/
+    _sceneGamePopupContinueMenuNode.delegate            = self;
+    [_sceneGamePopupContinueMenuNode hlSetGestureTarget:_sceneGamePopupContinueMenuNode];
+    [_sceneGame registerDescendant:_sceneGamePopupContinueMenuNode withOptions:[NSSet setWithObject:HLSceneChildGestureTarget]];
+    
+    /*configure the popup*/
+    _sceneGamePopupContinue.delegate                    = self;
+    _sceneGamePopupContinue.popupContentNode            = _sceneGamePopupContinueMenuNode;
+    [_sceneGamePopupContinue hlSetGestureTarget:_sceneGamePopupContinue];
+    [_sceneGame registerDescendant:_sceneGamePopupContinue withOptions:[NSSet setWithObject:HLSceneChildGestureTarget]];
+    
+    /*This is all you need to set to make the game scene display a popup because it will relayout the z*/
+    _sceneGame.popupNode                                = _sceneGamePopupContinue;
 }
+
 
 
 /**
@@ -1921,122 +2104,25 @@
     BOOL success = YES;
     switch (paymentMethod) {
         case SISceneGamePopupContinueMenuItemAd:
-            _interstitialAdPresentationIsLive = YES;
+            _interstitialAdPresentationIsLive           = YES;
             [self interstitialAdPresent];
             break;
+            
         case SISceneGamePopupContinueMenuItemCoin:
-            if ([SIIAPUtility canAffordContinue:_gameModel.game.currentContinueLifeCost]) {
-                [[MKStoreKit sharedKit] consumeCredits:[NSNumber numberWithInt:_gameModel.game.currentContinueLifeCost] identifiedByConsumableIdentifier:kSIIAPConsumableIDCoins];
-                
-            }
-            break;
         default:
-            success = [self gameFireEvent:kSITKStateMachineEventGameWaitForMove userInfo:nil];
+            if ([SIIAPUtility canAffordContinueNumberOfTimesContinued:_gameModel.game.currentNumberOfTimesContinued]) {
+                [[MKStoreKit sharedKit] consumeCredits:[NSNumber numberWithInteger:[SIGame lifeCostForNumberOfTimesContinued:_gameModel.game.currentNumberOfTimesContinued]] identifiedByConsumableIdentifier:kSIIAPConsumableIDCoins];
+            }
+            _currentMove                                = [[SIMove alloc] initWithRandomMoveForGameMode:_gameModel.game.gameMode powerUpArray:[_gameModel.powerUpArray copy]];
+            success                                     = [self gameFireEvent:kSITKStateMachineEventGameWaitForMove userInfo:nil];
             break;
     }
     if (!success) {
-        [self gameFireEvent:kSITKStateMachineEventGameEndGame userInfo:nil];
+        [self gameFireEvent:kSITKStateMachineEventGameMenuEnd userInfo:nil];
     }
     
 }
-- (void)gameModelStatePayingForContinueEntered {
-    
-}
 
-/**
- //pause time
- 
- //display blur screen
- 
- //present continue popup
- 
- //connect it's gesture target!
- */
-- (void)gameModelStatePopupContinueEntered {
-    [self gameTimerPause];
-    
-    
-    if ([SIIAPUtility canAffordContinue:_currentGame.currentContinueLifeCost]) {
-        _sceneGamePopupMenuItemTextContinueWithCoin     = [NSString stringWithFormat:@"Use %d Coins!",(int)[SIGame lifeCostForNumberOfTimesContinued:_currentGame.currentNumberOfTimesContinued]];
-        [[[_sceneGamePopupContinueMenuNode menu] itemAtIndex:SISceneGamePopupContinueMenuItemCoin] setText:_sceneGamePopupMenuItemTextContinueWithCoin];
-    }
-    
-    _sceneGamePopupMenuItemTextContinueWithAd           = [NSString stringWithFormat:@"Watch %d Ads!",(int)(int)[SIGame adCountForNumberOfTimesContinued:_currentGame.currentNumberOfTimesContinued]];
-    [[[_sceneGamePopupContinueMenuNode menu] itemAtIndex:SISceneGamePopupContinueMenuItemAd] setText:_sceneGamePopupMenuItemTextContinueWithAd];
-    
-    [_sceneGamePopupContinueMenuNode redisplayMenuAnimation:HLMenuNodeAnimationNone];
-    
-    /*Configure mwnu on popup*/
-    _sceneGamePopupContinueMenuNode.delegate            = self;
-    [_sceneGamePopupContinueMenuNode hlSetGestureTarget:_sceneGamePopupContinueMenuNode];
-    [_sceneGame registerDescendant:_sceneGamePopupContinueMenuNode withOptions:[NSSet setWithObject:HLSceneChildGestureTarget]];
-    
-    /*configure the popup*/
-    _sceneGamePopupContinue.delegate                    = self;
-    _sceneGamePopupContinue.popupContentNode            = _sceneGamePopupContinueMenuNode;
-    [_sceneGamePopupContinue hlSetGestureTarget:_sceneGamePopupContinue];
-    [_sceneGame registerDescendant:_sceneGamePopupContinue withOptions:[NSSet setWithObject:HLSceneChildGestureTarget]];
-    
-    /*This is all you need to set to make the game scene display a popup because it will relayout the z*/
-    _sceneGame.popupNode                                = _sceneGamePopupContinue;
-}
-
-/**
- Happens right as
- */
-
-- (void)gameModelStateProcessingMoveEnteredWithMove:(SIMove *)move {
-    
-    //if correctMove
-    if (move.moveCommand == _currentGame.currentMove.moveCommand) {
-        SIMove *moveForBackground                       = _currentGame.currentMove;
-        
-        //  launch the move command and such
-        SKLabelNode *moveLabel                          = [SIGameController moveScoreLabel:_currentGame.moveScore];
-        moveLabel.position                              = _currentGame.currentMove.touchPoint;
-        [_sceneGame sceneGameWillShowMoveScore:moveLabel];
-        [_sceneGame sceneGameLaunchMoveCommandLabelWithCommandAction:moveForBackground.moveCommandAction];
-
-        //  send move to achievement
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-            [[SISingletonAchievement singleton] singletonAchievementWillProcessMove:moveForBackground];
-        });
-        
-        //  show new move data
-        [self fireEvent:kSITKStateMachineEventGameWaitForMove userInfo:nil];
-        
-    } else {
-        //else notCorrectMove
-        //  display pop up
-        [self fireEvent:kSITKStateMachineEventGamePayForContinue userInfo:nil];
-        //  load start/end scene
-        if (_sceneMenu == nil) {
-            _sceneMenu                                  = [self loadMenuScene];
-        }
-    }
-}
-
-/**
- Always get new data when you leave the processing move screen, even if they enter
-    the wrong move, because there is always the oppertunity the user continues with
-    coins.
- */
-- (void)gameModelStateProcessingMoveExited {
-    //  get new move data
-    SIMove *newMove                                     = [[SIMove alloc] initWithRandomMoveForGameMode:_currentGame.gameMode powerUpArray:[_gameModel.powerUpArray copy]];
-    _currentMove                                        = newMove;
-    
-    //where is total score being updated?
-    
-    //check if high score here?
-    if (_currentGame.isHighScore) {
-        _sceneGame.highScore = YES;
-    }
-    
-    _sceneGame.scoreTotalLabel.text                     = [NSString stringWithFormat:@"%0.2f",_currentGame.totalScore];
-    _sceneGame.progressBarFreeCoin.progress             = _currentGame.freeCoinPercentRemaining;
-
-}
 /**
  //show menu with end configuration
  
@@ -2060,7 +2146,7 @@
     _gameModel.game.moveScorePercentRemaining           = 1.0f;
     _gameModel.game.currentBackgroundSound              = SIBackgroundSoundMenu;
     _gameModel.game.currentLevel                        = [SIGame currentLevelStringForScore:0.0f];
-    _gameModel.game.currentNumberOfTimesContinued       = 0;
+    _gameModel.game.currentNumberOfTimesContinued       = 1;
     _gameModel.game.totalScore                          = 0.0f;
     _gameModel.game.freeCoinsEarned                     = 0;
     _gameModel.game.currentBackgroundColorNumber        = arc4random_uniform(NUMBER_OF_MOVES);
@@ -2071,9 +2157,6 @@
         _currentMove = nil;
     }
     _currentMove                                        = [[SIMove alloc] init];
-    _currentMove.moveCommand                            = SIMoveCommandSwype;
-    _currentMove.moveScore                              = 0.0f;
-
     
     [_gameModel.powerUpArray removeAllObjects];
 
@@ -2095,6 +2178,7 @@
     if (_sceneFallingMonkey == nil) {
         _sceneFallingMonkey = [self loadFallingMonkeyScene];
     }
+    _sceneFallingMonkey.sceneDelegate = self;
     [self presentScene:SIGameControllerSceneFallingMonkey];
 }
 
@@ -2279,6 +2363,12 @@
         return CGSizeMake(200.0, 200.0);
         
     }
+}
++ (CGSize)SIBananaSize {
+    return CGSizeMake([SIGameController SIFallingMonkeySize].width / 4.0f, [SIGameController SIFallingMonkeySize].height / 4.0f);
+}
++ (CGSize)SIBananaBunchSize {
+    return CGSizeMake([SIGameController SIFallingMonkeySize].width / 2.0f, [SIGameController SIFallingMonkeySize].height / 2.0f);
 }
 + (CGSize)SIChestSize {
     return SCREEN_WIDTH > SCREEN_HEIGHT ? CGSizeMake(SCREEN_HEIGHT * 0.2f, SCREEN_HEIGHT * 0.2f) : CGSizeMake(SCREEN_WIDTH * 0.2f, SCREEN_WIDTH * 0.2f);
@@ -2480,6 +2570,29 @@
     }
     return monkey;
 }
+
++ (SKSpriteNode *)SISpriteNodeBanana {
+    static SKSpriteNode *node = nil;
+    if (!node) {
+        node                                    = [SKSpriteNode spriteNodeWithTexture:[[SIConstants atlasSceneFallingMonkey]
+                                                                                       textureNamed:kSIAtlasSceneFallingMonkeyBanana]
+                                                                                 size:[SIGameController SIBananaSize]];
+    }
+    return node;
+
+}
+
++ (SKSpriteNode *)SISpriteNodeBananaBunch {
+    static SKSpriteNode *node = nil;
+    if (!node) {
+        node                                    = [SKSpriteNode spriteNodeWithTexture:[[SIConstants atlasSceneFallingMonkey]
+                                                                                       textureNamed:kSIAtlasSceneFallingMonkeyBananaBunch]
+                                                                                 size:[SIGameController SIBananaBunchSize]];
+    }
+    return node;
+
+}
+
 + (SKSpriteNode *)SISpriteNodeCoinLargeFront {
     static SKSpriteNode *coinNode = nil;
     if (!coinNode) {
@@ -2487,6 +2600,7 @@
     }
     return coinNode;
 }
+
 #pragma mark SKTextures
 + (SKTexture *)SITextureMonkeyFace {
     static SKTexture *monkeyFace = nil;
@@ -3041,6 +3155,59 @@
 + (float)floatZPositionPopupForContent:(SIZPositionPopup)layer {
     return (float)layer / (float)SIZPositionPopupCount;
 }
++ (float)floatZPositionFallingMonkeyForContent:(SIZPositionFallingMonkey)layer {
+    return (float)layer / (float)SIZPositionFallingMonkeyCount;
+}
+
+#pragma mark UIGestureRecognizers 
++ (UISwipeGestureRecognizer *)SIGestureSwypeUp {
+    static UISwipeGestureRecognizer *swipeUp = nil;
+    if (!swipeUp) {
+        swipeUp = [[UISwipeGestureRecognizer alloc] init];
+        swipeUp.direction = UISwipeGestureRecognizerDirectionUp;
+    }
+    return swipeUp;
+}
++ (UISwipeGestureRecognizer *)SIGestureSwypeDown {
+    static UISwipeGestureRecognizer *swipeDown = nil;
+    if (!swipeDown) {
+        swipeDown = [[UISwipeGestureRecognizer alloc] init];
+        swipeDown.direction = UISwipeGestureRecognizerDirectionDown;
+    }
+    return swipeDown;
+}
++ (UISwipeGestureRecognizer *)SIGestureSwypeLeft {
+    static UISwipeGestureRecognizer *swipeLeft = nil;
+    if (!swipeLeft) {
+        swipeLeft = [[UISwipeGestureRecognizer alloc] init];
+        swipeLeft.direction = UISwipeGestureRecognizerDirectionLeft;
+    }
+    return swipeLeft;
+}
++ (UISwipeGestureRecognizer *)SIGestureSwypeRight {
+    static UISwipeGestureRecognizer *swipeRight = nil;
+    if (!swipeRight) {
+        swipeRight = [[UISwipeGestureRecognizer alloc] init];
+        swipeRight.direction = UISwipeGestureRecognizerDirectionRight;
+    }
+    return swipeRight;
+}
++ (UIPinchGestureRecognizer *)SIGesturePinch {
+    static UIPinchGestureRecognizer *gesture = nil;
+    if (!gesture) {
+        gesture = [[UIPinchGestureRecognizer alloc] init];
+    }
+    return gesture;
+}
++ (UITapGestureRecognizer *)SIGestureTap {
+    static UITapGestureRecognizer *gesture = nil;
+    if (!gesture) {
+        gesture                         = [[UITapGestureRecognizer alloc] init];
+        gesture.numberOfTapsRequired    = 1;
+    }
+    return gesture;
+}
+
 #pragma mark -
 #pragma mark - IAP Stuff
 - (void)registerForNotifications {

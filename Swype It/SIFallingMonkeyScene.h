@@ -13,7 +13,7 @@
 /**
  Called when the scene registers a monkey tap
  */
-- (void)sceneFallingMonkeyWasTappedMonkey:(SKNode *)monkey;
+- (void)sceneFallingMonkeyWasNailed;
 
 /**
  Called when a monkey has hit the bottom of the screen
@@ -22,7 +22,7 @@
 
 @end
 
-@interface SIFallingMonkeyScene : HLScene
+@interface SIFallingMonkeyScene : HLScene <SKPhysicsContactDelegate>
 
 /**
  The delegate for the scene
@@ -37,12 +37,12 @@
 /**
  Called to launch a monkey from the scene
  */
-- (void)launchMonkeyFromLocation:(CGPoint)location;
+//- (void)launchMonkeyFromLocation:(CGPoint)location;
 
 /**
  This is the score label.. you can change
  */
-@property (strong, nonatomic) NSString *scoreString;
+@property (nonatomic, assign) float *totalScore;
 
 /**
  The ad content

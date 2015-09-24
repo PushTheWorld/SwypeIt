@@ -29,7 +29,8 @@
  Input the currentNumberOfTimesContiued and get back
     whether or not the person can afford it...
  */
-+ (BOOL)canAffordContinue:(int)continueCost;
++ (BOOL)canAffordContinueNumberOfTimesContinued:(int)numberOfTimesContinued;
+
 /**
  Retuns nil if the product cannot be found
  */

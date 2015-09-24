@@ -34,7 +34,7 @@
 /**
  The total score at this point
  */
-@property (nonatomic, assign) float totalScore;
+//@property (nonatomic, assign) float totalScore;
 
 /**
  The time the move started at
