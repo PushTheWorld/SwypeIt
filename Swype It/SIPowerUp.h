@@ -54,6 +54,7 @@
  Checks to see if the powerUpArray has 0 objects or is nil
  */
 + (BOOL)isPowerUpArrayEmpty:(NSArray *)powerUpArray;
+
 /**
  Returns the maximum percent found in the powerup array
  */

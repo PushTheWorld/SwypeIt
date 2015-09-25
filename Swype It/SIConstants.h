@@ -173,7 +173,6 @@ typedef NS_ENUM(NSInteger, SIBackgroundSound) {
 };
 
 typedef NS_ENUM(NSInteger, SIContinueLifeCost) {
-    SIContinueLifeCost0                     = 0,
     SIContinueLifeCost1                     = 5,
     SIContinueLifeCost2                     = 10,
     SIContinueLifeCost3                     = 20,
@@ -197,7 +196,6 @@ typedef NS_ENUM(NSInteger, SIContinueLifeCost) {
     SIContinueLifeCost21                    = 10000000
 };
 typedef NS_ENUM(NSInteger, SIContinueAdCount) {
-    SIContinueAdCount0                      = 0,
     SIContinueAdCount1                      = 1,
     SIContinueAdCount2                      = 2,
     SIContinueAdCount3                      = 4,

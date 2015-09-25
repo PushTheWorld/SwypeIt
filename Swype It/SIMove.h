@@ -5,7 +5,7 @@
 //  Copyright © 2015 Push The World LLC. All rights reserved.
 //
 #import <UIKit/UIKit.h>
-#import "SIGame.h"
+
 @interface SIMove : NSObject
 
 - (instancetype)initWithRandomMoveForGameMode:(SIGameMode)gameMode powerUpArray:(NSArray *)array;

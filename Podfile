@@ -15,5 +15,3 @@ pod 'iVersion'
 pod 'FXBlurView'
 
 pod 'JCNotificationBannerPresenter'
-
-pod 'TransitionKit', '~> 2.0.0'

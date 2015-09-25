@@ -1288,9 +1288,9 @@
     
     _gameModel.game.totalScore              = _gameModel.game.totalScore + move.moveScore;
     
-    _gameModel.game.isHighScore             = [SIGame isDevieHighScore:_gameModel.game.totalScore];
+    _gameModel.game.isHighScore             = [SIGame isDevieHighScore:_gameModel.game.totalScore withNSUserDefaults:[NSUserDefaults standardUserDefaults]];
     
-    _gameModel.game.freeCoinInPoints        = [SIGame updatePointsTillFreeCoinMoveScore:_gameModel.game.totalScore withCallback:^(BOOL willAwardFreeCoin) {
+    _gameModel.game.freeCoinInPoints        = [SIGame updatePointsTillFreeCoinMoveScore:_gameModel.game.totalScore withNSUserDefaults:[NSUserDefaults standardUserDefaults] withCallback:^(BOOL willAwardFreeCoin) {
         if (willAwardFreeCoin) {
             _gameModel.game.freeCoinsEarned = _gameModel.game.freeCoinsEarned + 1;
             if (_currentScene == _sceneGame) {
@@ -1302,7 +1302,7 @@
         }
     }];
     
-    [SIGame updateLifetimePointsScore:_gameModel.game.totalScore];
+    [SIGame updateLifetimePointsScore:_gameModel.game.totalScore withNSUserDefaults:[NSUserDefaults standardUserDefaults]];
 }
 
 #pragma mark -
@@ -1757,15 +1757,7 @@
             [self changeFXSoundIsAllowed:menuItem];
         }
     } else if (menuNode == _sceneMenuStoreMenuNode || menuNode == (HLMenuNode*)_sceneGamePopupContinueSIMenuNodeStore.centerNode) {
-        if ([menuItem.text isEqualToString:[SIGame buttonNodeNameNodeForSIIAPPack:SIIAPPackSmall]]) {
-            [self requestPurchaseForPack:SIIAPPackSmall];
-        } else if ([menuItem.text isEqualToString:[SIGame buttonNodeNameNodeForSIIAPPack:SIIAPPackMedium]]) {
-            [self requestPurchaseForPack:SIIAPPackMedium];
-        }  else if ([menuItem.text isEqualToString:[SIGame buttonNodeNameNodeForSIIAPPack:SIIAPPackLarge]]) {
-            [self requestPurchaseForPack:SIIAPPackLarge];
-        }  else if ([menuItem.text isEqualToString:[SIGame buttonNodeNameNodeForSIIAPPack:SIIAPPackExtraLarge]]) {
-            [self requestPurchaseForPack:SIIAPPackExtraLarge];
-        }
+        [self requestPurchaseForPack:[SIIAPUtility siiapPackForNameNodeNode:menuItem.text]];
     }
 }
 - (void)menuNode:(HLMenuNode *)menuNode willDisplayButton:(SKNode *)buttonNode forMenuItem:(HLMenuItem *)menuItem itemIndex:(NSUInteger)itemIndex {
@@ -2144,23 +2136,8 @@
  clear data
  */
 - (void)gameModelStateEndExited {
-
-    _gameModel.game.moveScorePercentRemaining           = 1.0f;
-    _gameModel.game.currentBackgroundSound              = SIBackgroundSoundMenu;
-    _gameModel.game.currentLevel                        = [SIGame currentLevelStringForScore:0.0f];
-    _gameModel.game.currentNumberOfTimesContinued       = 1;
-    _gameModel.game.totalScore                          = 0.0f;
-    _gameModel.game.freeCoinsEarned                     = 0;
-    _gameModel.game.currentBackgroundColorNumber        = arc4random_uniform(NUMBER_OF_MOVES);
-    _gameModel.game.currentBackgroundColor              = [SKColor mainColor];
-    _gameModel.game.isHighScore                         = NO;
     
-    if (_currentMove) {
-        _currentMove = nil;
-    }
-    _currentMove                                        = [[SIMove alloc] init];
-    
-    [_gameModel.powerUpArray removeAllObjects];
+    [SIGameController setGameModel:_gameModel forGame:_gameModel.game withCurrentMove:_currentMove];
 
 }
 
@@ -2716,24 +2693,24 @@
     HLMenuNode *menuNode                = [[HLMenuNode alloc] init];
     menuNode.itemAnimation              = HLMenuNodeAnimationNone;
     menuNode.itemAnimationDuration      = SCENE_TRANSISTION_DURATION_FAST;
-    menuNode.itemButtonPrototype        = [[SIStoreButtonNode alloc] initWithSize:[SIGameController SIButtonSize:size] buttonName:[SIGame buttonNodeNameNodeForSIIAPPack:SIIAPPackExtraLarge] SIIAPPack:SIIAPPackExtraLarge];
+    menuNode.itemButtonPrototype        = [[SIStoreButtonNode alloc] initWithSize:[SIGameController SIButtonSize:size] buttonName:[SIIAPUtility buttonNodeNameNodeForSIIAPPack:SIIAPPackExtraLarge] SIIAPPack:SIIAPPackExtraLarge];
     menuNode.backItemButtonPrototype    = [SIGameController SIHLLabelButtonMenuPrototypeBack:[SIGameController SIButtonSize:size]];
     menuNode.itemSeparatorSize          = [SIGameController SIButtonSize:size].height;
 
     HLMenu *menu                        = [[HLMenu alloc] init];
     
     /*Add the regular buttons*/
-    HLMenuItem *item1                   = [HLMenuItem menuItemWithText:[SIGame buttonNodeNameNodeForSIIAPPack:SIIAPPackExtraLarge]];
-    item1.buttonPrototype               = [[SIStoreButtonNode alloc] initWithSize:[SIGameController SIButtonSize:size] buttonName:[SIGame buttonNodeNameNodeForSIIAPPack:SIIAPPackExtraLarge] SIIAPPack:SIIAPPackExtraLarge];
+    HLMenuItem *item1                   = [HLMenuItem menuItemWithText:[SIIAPUtility buttonNodeNameNodeForSIIAPPack:SIIAPPackExtraLarge]];
+    item1.buttonPrototype               = [[SIStoreButtonNode alloc] initWithSize:[SIGameController SIButtonSize:size] buttonName:[SIIAPUtility buttonNodeNameNodeForSIIAPPack:SIIAPPackExtraLarge] SIIAPPack:SIIAPPackExtraLarge];
     
-    HLMenuItem *item2                   = [HLMenuItem menuItemWithText:[SIGame buttonNodeNameNodeForSIIAPPack:SIIAPPackLarge]];
-    item2.buttonPrototype               = [[SIStoreButtonNode alloc] initWithSize:[SIGameController SIButtonSize:size] buttonName:[SIGame buttonNodeNameNodeForSIIAPPack:SIIAPPackLarge] SIIAPPack:SIIAPPackLarge];
+    HLMenuItem *item2                   = [HLMenuItem menuItemWithText:[SIIAPUtility buttonNodeNameNodeForSIIAPPack:SIIAPPackLarge]];
+    item2.buttonPrototype               = [[SIStoreButtonNode alloc] initWithSize:[SIGameController SIButtonSize:size] buttonName:[SIIAPUtility buttonNodeNameNodeForSIIAPPack:SIIAPPackLarge] SIIAPPack:SIIAPPackLarge];
     
-    HLMenuItem *item3                   = [HLMenuItem menuItemWithText:[SIGame buttonNodeNameNodeForSIIAPPack:SIIAPPackMedium]];
-    item3.buttonPrototype               = [[SIStoreButtonNode alloc] initWithSize:[SIGameController SIButtonSize:size] buttonName:[SIGame buttonNodeNameNodeForSIIAPPack:SIIAPPackMedium] SIIAPPack:SIIAPPackMedium];
+    HLMenuItem *item3                   = [HLMenuItem menuItemWithText:[SIIAPUtility buttonNodeNameNodeForSIIAPPack:SIIAPPackMedium]];
+    item3.buttonPrototype               = [[SIStoreButtonNode alloc] initWithSize:[SIGameController SIButtonSize:size] buttonName:[SIIAPUtility buttonNodeNameNodeForSIIAPPack:SIIAPPackMedium] SIIAPPack:SIIAPPackMedium];
     
-    HLMenuItem *item4                   = [HLMenuItem menuItemWithText:[SIGame buttonNodeNameNodeForSIIAPPack:SIIAPPackSmall]];
-    item4.buttonPrototype               = [[SIStoreButtonNode alloc] initWithSize:[SIGameController SIButtonSize:size] buttonName:[SIGame buttonNodeNameNodeForSIIAPPack:SIIAPPackSmall] SIIAPPack:SIIAPPackSmall];
+    HLMenuItem *item4                   = [HLMenuItem menuItemWithText:[SIIAPUtility buttonNodeNameNodeForSIIAPPack:SIIAPPackSmall]];
+    item4.buttonPrototype               = [[SIStoreButtonNode alloc] initWithSize:[SIGameController SIButtonSize:size] buttonName:[SIIAPUtility buttonNodeNameNodeForSIIAPPack:SIIAPPackSmall] SIIAPPack:SIIAPPackSmall];
     
     [menu addItem:item4];
     [menu addItem:item3];
@@ -3267,5 +3244,15 @@
                                                       [self hudWillHideWithTitle:@"Error" info:@"Failed to restore" willShowCheckMark:NO holdDuration:1.0f animate:YES];
 
                                                   }];
+}
++ (void)setGameModel:(SIGameModel *)gameModel forGame:(SIGame *)game withCurrentMove:(SIMove *)move {
+    [gameModel.powerUpArray removeAllObjects];
+    
+    [SIGame setStartGameProperties:game];
+    
+    if (move) {
+        move    = nil;
+    }
+    move        = [[SIMove alloc] init];
 }
 @end

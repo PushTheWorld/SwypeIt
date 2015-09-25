@@ -30,7 +30,7 @@
  When a state machine is activated, the following callbacks are invoked:
  
  1. Initial State: willEnterState - The block set with `setWillEnterStateBlock:` on the `initialState` is invoked.
- 1. The `initialState` changes from `nil` to `self.initialState`
+ 1. The `currentState` changes from `nil` to `initialState`
  1. Initial State: didEnterState - The block set with `setDidEnterStateBlock:` on the `initialState` is invoked.
  
  Each time an event is fired, the following callbacks are invoked:
@@ -95,7 +95,7 @@
         [self addState:state];
     }
  
- @param arrayOfStates An array of `TKState` objets to be added to the receiver.
+ @param arrayOfStates An array of `TKState` objects to be added to the receiver.
  */
 - (void)addStates:(NSArray *)arrayOfStates;
 
@@ -148,7 +148,7 @@
         [self addEvent:event];
     }
  
- @param arrayOfEvents An array of `TKEvent` objets to be added to the receiver.
+ @param arrayOfEvents An array of `TKEvent` objects to be added to the receiver.
  */
 - (void)addEvents:(NSArray *)arrayOfEvents;
 
@@ -200,6 +200,17 @@
  */
 - (BOOL)fireEvent:(id)eventOrEventName userInfo:(NSDictionary *)userInfo error:(NSError **)error;
 
+///------------------
+/// @name Description
+///------------------
+
+/**
+ A description of the state machine in the DOT graph description language.
+ 
+ @see http://en.wikipedia.org/wiki/DOT_(graph_description_language)
+ */
+@property (readonly) NSString *dotDescription;
+
 @end
 
 ///----------------
@@ -217,19 +228,24 @@ extern NSString *const TKErrorDomain;
 extern NSString *const TKStateMachineDidChangeStateNotification;
 
 /**
- A key in the `userInfo` dictionary of a `TKStateMachineDidChangeStateNotification` notification specifying the state of the machine before the transition occured.
+ A key in the `userInfo` dictionary of a `TKStateMachineDidChangeStateNotification` notification specifying the state of the machine before the transition occurred.
  */
-extern NSString *const TKStateMachineDidChangeStateOldStateUserInfoKey;
+extern NSString *const TKStateMachineDidChangeStateOldStateUserInfoKey DEPRECATED_MSG_ATTRIBUTE("Use TKStateMachineDidChangeStateTransitionUserInfoKey instead (transition.sourceState).");
 
 /**
- A key in the `userInfo` dictionary of a `TKStateMachineDidChangeStateNotification` notification specifying the state of the machine after the transition occured.
+ A key in the `userInfo` dictionary of a `TKStateMachineDidChangeStateNotification` notification specifying the state of the machine after the transition occurred.
  */
-extern NSString *const TKStateMachineDidChangeStateNewStateUserInfoKey;
+extern NSString *const TKStateMachineDidChangeStateNewStateUserInfoKey DEPRECATED_MSG_ATTRIBUTE("Use TKStateMachineDidChangeStateTransitionUserInfoKey instead (transition.destinationState).");
 
 /**
  A key in the `userInfo` dictionary of a `TKStateMachineDidChangeStateNotification` notification specifying the event that triggered the transition between states.
  */
-extern NSString *const TKStateMachineDidChangeStateEventUserInfoKey;
+extern NSString *const TKStateMachineDidChangeStateEventUserInfoKey DEPRECATED_MSG_ATTRIBUTE("Use TKStateMachineDidChangeStateTransitionUserInfoKey instead (transition.event).");
+
+/**
+ A key in the `userInfo` dictionary of a `TKStateMachineDidChangeStateNotification` notification specifying the transition (TKTransition) between states.
+ */
+extern NSString *const TKStateMachineDidChangeStateTransitionUserInfoKey;
 
 /**
  An exception raised when an attempt is made to mutate an immutable `TKStateMachine` object.

@@ -14,6 +14,7 @@
 #import <UIKit/UIKit.h>
 #import <XCTest/XCTest.h>
 // Drop-In Class Imports (CocoaPods/GitHub/Guru)
+#import "CCTestingUserDefaults.h"
 // Category Import
 // Support/Data Class Imports
 #import "SIConstants.h"
@@ -24,11 +25,15 @@
 
 @end
 
-@implementation GameTests
+@implementation GameTests {
+    NSUserDefaults *_defaults;
+}
 
 - (void)setUp {
     [super setUp];
     // Put setup code here. This method is called before the invocation of each test method in the class.
+    _defaults    = [NSUserDefaults transientDefaults];
+
 }
 
 - (void)tearDown {
@@ -220,73 +225,8 @@
         XCTAssertNotEqual(move, SIMoveCommandShake);
     }
 }
-- (void)testIAPButtonStringForSIIAPPack {
-    /*Bag of Coins*/
-    XCTAssertEqualObjects(@"Pile of Coins", [SIGame buttonTextForSIIAPPack:SIIAPPackSmall]);
 
-    /*Pile of Coins*/
-    XCTAssertEqualObjects(@"Bucket of Coins", [SIGame buttonTextForSIIAPPack:SIIAPPackMedium]);
-
-    /*Bucket of Coins*/
-    XCTAssertEqualObjects(@"Bag of Coins", [SIGame buttonTextForSIIAPPack:SIIAPPackLarge]);
-
-    /*Chest of Coins*/
-    XCTAssertEqualObjects(@"Chest of Coins", [SIGame buttonTextForSIIAPPack:SIIAPPackExtraLarge]);
-}
-- (void)testIAPButtonNodeNameForSIIAPPack {
-    /*Bag of Coins*/
-    XCTAssertEqualObjects(kSINodeNodePile, [SIGame buttonNodeNameNodeForSIIAPPack:SIIAPPackSmall]);
-    
-    /*Pile of Coins*/
-    XCTAssertEqualObjects(kSINodeNodeBucket, [SIGame buttonNodeNameNodeForSIIAPPack:SIIAPPackMedium]);
-    
-    /*Bucket of Coins*/
-    XCTAssertEqualObjects(kSINodeNodeBag, [SIGame buttonNodeNameNodeForSIIAPPack:SIIAPPackLarge]);
-    
-    /*Chest of Coins*/
-    XCTAssertEqualObjects(kSINodeNodeChest, [SIGame buttonNodeNameNodeForSIIAPPack:SIIAPPackExtraLarge]);
-}
-- (void)testIAPButtonNodeLabelDescriptionForSIIAPPack {
-    /*Bag of Coins*/
-    XCTAssertEqualObjects(kSINodeLabelDescriptionPile, [SIGame buttonNodeNameLabelDescriptionForSIIAPPack:SIIAPPackSmall]);
-    
-    /*Pile of Coins*/
-    XCTAssertEqualObjects(kSINodeLabelDescriptionBucket, [SIGame buttonNodeNameLabelDescriptionForSIIAPPack:SIIAPPackMedium]);
-    
-    /*Bucket of Coins*/
-    XCTAssertEqualObjects(kSINodeLabelDescriptionBag, [SIGame buttonNodeNameLabelDescriptionForSIIAPPack:SIIAPPackLarge]);
-    
-    /*Chest of Coins*/
-    XCTAssertEqualObjects(kSINodeLabelDescriptionChest, [SIGame buttonNodeNameLabelDescriptionForSIIAPPack:SIIAPPackExtraLarge]);
-}
-- (void)testIAPButtonNodeLabelPriceForSIIAPPack {
-    /*Bag of Coins*/
-    XCTAssertEqualObjects(kSINodeLabelPriceBag, [SIGame buttonNodeNameLabelPriceForSIIAPPack:SIIAPPackLarge]);
-    
-    /*Pile of Coins*/
-    XCTAssertEqualObjects(kSINodeLabelPricePile, [SIGame buttonNodeNameLabelPriceForSIIAPPack:SIIAPPackSmall]);
-    
-    /*Bucket of Coins*/
-    XCTAssertEqualObjects(kSINodeLabelPriceBucket, [SIGame buttonNodeNameLabelPriceForSIIAPPack:SIIAPPackMedium]);
-    
-    /*Chest of Coins*/
-    XCTAssertEqualObjects(kSINodeLabelPriceChest, [SIGame buttonNodeNameLabelPriceForSIIAPPack:SIIAPPackExtraLarge]);
-}
-- (void)testIAPProductIDForSIIAPPack {
-    /*Bag of Coins*/
-    XCTAssertEqualObjects(kSIIAPProductIDCoinPackSmall, [SIGame productIDForSIIAPPack:SIIAPPackSmall]);
-    
-    /*Pile of Coins*/
-    XCTAssertEqualObjects(kSIIAPProductIDCoinPackMedium,[SIGame productIDForSIIAPPack:SIIAPPackMedium]);
-    
-    /*Bucket of Coins*/
-    XCTAssertEqualObjects(kSIIAPProductIDCoinPackLarge, [SIGame productIDForSIIAPPack:SIIAPPackLarge]);
-    
-    /*Chest of Coins*/
-    XCTAssertEqualObjects(kSIIAPProductIDCoinPackExtraLarge, [SIGame productIDForSIIAPPack:SIIAPPackExtraLarge]);
-}
 - (void)testLifeCostForNumberOfTimesContinued {
-    XCTAssertEqual(SIContinueLifeCost0, [SIGame lifeCostForNumberOfTimesContinued:0]);
     XCTAssertEqual(SIContinueLifeCost1, [SIGame lifeCostForNumberOfTimesContinued:1]);
     XCTAssertEqual(SIContinueLifeCost2, [SIGame lifeCostForNumberOfTimesContinued:2]);
     XCTAssertEqual(SIContinueLifeCost3, [SIGame lifeCostForNumberOfTimesContinued:3]);
@@ -310,7 +250,6 @@
     XCTAssertEqual(SIContinueLifeCost21, [SIGame lifeCostForNumberOfTimesContinued:21]);
 }
 - (void)testAdCountForNumberOfTimesContinued {
-    XCTAssertEqual(SIContinueAdCount0, [SIGame adCountForNumberOfTimesContinued:0]);
     XCTAssertEqual(SIContinueAdCount1, [SIGame adCountForNumberOfTimesContinued:1]);
     XCTAssertEqual(SIContinueAdCount2, [SIGame adCountForNumberOfTimesContinued:2]);
     XCTAssertEqual(SIContinueAdCount3, [SIGame adCountForNumberOfTimesContinued:3]);
@@ -461,6 +400,166 @@
     
 }
 
+- (void)testUpdateLifeTimeHighScore {
+    float lifeTimeHighScore         = 69.0f;
+    float newScore                  = 100.0f;
 
+    [_defaults setFloat:lifeTimeHighScore forKey:kSINSUserDefaultLifetimePointsEarned];
+    
+    //Function under test
+    [SIGame updateLifetimePointsScore:newScore withNSUserDefaults:_defaults];
+
+    float newLifeTimeHighScore      = [_defaults floatForKey:kSINSUserDefaultLifetimePointsEarned];
+    
+    XCTAssertEqualWithAccuracy(newScore + lifeTimeHighScore, newLifeTimeHighScore, 0.01f);
+}
+
+- (void)testUpdateLifeTimeHighScoreNil {
+    float newScore                  = 100.0f;
+    
+    //Function under test
+    [SIGame updateLifetimePointsScore:newScore withNSUserDefaults:_defaults];
+    
+    float newLifeTimeHighScore      = [_defaults floatForKey:kSINSUserDefaultLifetimePointsEarned];
+    
+    XCTAssertEqualWithAccuracy(newScore, newLifeTimeHighScore, 0.01f);
+}
+
+- (void)testIsDeviceHighScoreYes {
+    float deviceHighScore       = 1000.0f;
+    float newScore              = 1001.0f;
+    
+    [_defaults setFloat:deviceHighScore forKey:kSINSUserDefaultLifetimeHighScore];
+    
+    BOOL isHighScore = [SIGame isDevieHighScore:newScore withNSUserDefaults:_defaults];
+    
+    XCTAssertEqual(isHighScore, YES);
+    
+    XCTAssertEqualWithAccuracy([_defaults floatForKey:kSINSUserDefaultLifetimeHighScore], newScore, 0.01f);
+}
+
+- (void)testIsDeviceHighScoreNoUnder {
+    float deviceHighScore       = 1000.0f;
+    float newScore              = 999.0f;
+    
+    [_defaults setFloat:deviceHighScore forKey:kSINSUserDefaultLifetimeHighScore];
+    
+    BOOL isHighScore = [SIGame isDevieHighScore:newScore withNSUserDefaults:_defaults];
+    
+    XCTAssertEqual(isHighScore, NO);
+    
+    XCTAssertEqualWithAccuracy([_defaults floatForKey:kSINSUserDefaultLifetimeHighScore], deviceHighScore, 0.01f);
+}
+
+- (void)testIsDeviceHighScoreNoSame {
+    float deviceHighScore       = 1000.0f;
+    float newScore              = 1000.0f;
+    
+    [_defaults setFloat:deviceHighScore forKey:kSINSUserDefaultLifetimeHighScore];
+    
+    BOOL isHighScore = [SIGame isDevieHighScore:newScore withNSUserDefaults:_defaults];
+    
+    XCTAssertEqual(isHighScore, NO);
+    
+    XCTAssertEqualWithAccuracy([_defaults floatForKey:kSINSUserDefaultLifetimeHighScore], deviceHighScore, 0.01f);
+}
+
+- (void)testIsDeviceHighScoreYesNil {
+    float newScore              = 1000.0f;
+    
+    BOOL isHighScore = [SIGame isDevieHighScore:newScore withNSUserDefaults:_defaults];
+    
+    XCTAssertEqual(isHighScore, YES);
+    
+    XCTAssertEqualWithAccuracy([_defaults floatForKey:kSINSUserDefaultLifetimeHighScore], newScore, 0.01f);
+}
+
+- (void)testUpdatePointsTillFreeCoinMoveScoreNoFreeCoin {
+    float moveScore             = MAX_MOVE_SCORE - 1;
+    float pointsTillFreeCoin    = POINTS_NEEDED_FOR_FREE_COIN - MAX_MOVE_SCORE;
+    
+    [_defaults setFloat:pointsTillFreeCoin forKey:kSINSUserDefaultPointsTowardsFreeCoin];
+    
+    float newPointsTillFreeCoin = [SIGame updatePointsTillFreeCoinMoveScore:moveScore withNSUserDefaults:_defaults withCallback:^(BOOL willAwardFreeCoin) {
+        XCTAssertEqual(willAwardFreeCoin, NO);
+    }];
+    
+    XCTAssertEqualWithAccuracy(newPointsTillFreeCoin, moveScore + pointsTillFreeCoin, 0.01f);
+    
+    XCTAssertEqualWithAccuracy(newPointsTillFreeCoin, [_defaults floatForKey:kSINSUserDefaultPointsTowardsFreeCoin], 0.01f);
+    
+}
+
+- (void)testUpdatePointsTillFreeCoinMoveScoreFreeCoin {
+    float moveScore             = MAX_MOVE_SCORE;
+    float pointsTillFreeCoin    = POINTS_NEEDED_FOR_FREE_COIN - 1;
+    
+    [_defaults setFloat:pointsTillFreeCoin forKey:kSINSUserDefaultPointsTowardsFreeCoin];
+    
+    float newPointsTillFreeCoin = [SIGame updatePointsTillFreeCoinMoveScore:moveScore withNSUserDefaults:_defaults withCallback:^(BOOL willAwardFreeCoin) {
+        XCTAssertEqual(willAwardFreeCoin, YES);
+    }];
+    
+    //we are going to erol over on this entry so lets thin kwhat shoudl this look like
+    //  we know that we will take the sum of pointsTillFreeCoin & moveScore then subtract POINTS_NEEDED_FOR_FREE_COIN
+    float expectedOutput = (pointsTillFreeCoin + moveScore) - POINTS_NEEDED_FOR_FREE_COIN;
+    
+    
+    XCTAssertEqualWithAccuracy(newPointsTillFreeCoin, expectedOutput, 0.01f);
+    
+    XCTAssertEqualWithAccuracy(newPointsTillFreeCoin, [_defaults floatForKey:kSINSUserDefaultPointsTowardsFreeCoin], 0.01f);
+    
+}
+
+- (void)testUpdatePointsTillFreeCoinMoveScoreSuperBigMoveScoreNoFreeCoin {
+    float moveScore             = MAX_MOVE_SCORE * POINTS_NEEDED_FOR_FREE_COIN;
+    float pointsTillFreeCoin    = POINTS_NEEDED_FOR_FREE_COIN - MAX_MOVE_SCORE - 1;
+    
+    [_defaults setFloat:pointsTillFreeCoin forKey:kSINSUserDefaultPointsTowardsFreeCoin];
+    
+    float newPointsTillFreeCoin = [SIGame updatePointsTillFreeCoinMoveScore:moveScore withNSUserDefaults:_defaults withCallback:^(BOOL willAwardFreeCoin) {
+        XCTAssertEqual(willAwardFreeCoin, NO);
+    }];
+    
+    XCTAssertEqualWithAccuracy(newPointsTillFreeCoin, MAX_MOVE_SCORE + pointsTillFreeCoin, 0.01f);
+    
+    XCTAssertEqualWithAccuracy(newPointsTillFreeCoin, [_defaults floatForKey:kSINSUserDefaultPointsTowardsFreeCoin], 0.01f);
+}
+
+- (void)testUpdatePointsTillFreeCoinMoveScoreSuperBigMoveScoreFreeCoin {
+    float moveScore             = MAX_MOVE_SCORE * POINTS_NEEDED_FOR_FREE_COIN;
+    float pointsTillFreeCoin    = POINTS_NEEDED_FOR_FREE_COIN - 1;
+    
+    [_defaults setFloat:pointsTillFreeCoin forKey:kSINSUserDefaultPointsTowardsFreeCoin];
+    
+    float newPointsTillFreeCoin = [SIGame updatePointsTillFreeCoinMoveScore:moveScore withNSUserDefaults:_defaults withCallback:^(BOOL willAwardFreeCoin) {
+        XCTAssertEqual(willAwardFreeCoin, YES);
+    }];
+    
+    //we are going to erol over on this entry so lets thin kwhat shoudl this look like
+    //  we know that we will take the sum of pointsTillFreeCoin & moveScore then subtract POINTS_NEEDED_FOR_FREE_COIN
+    float expectedOutput = (pointsTillFreeCoin + MAX_MOVE_SCORE) - POINTS_NEEDED_FOR_FREE_COIN;
+    
+    
+    XCTAssertEqualWithAccuracy(newPointsTillFreeCoin, expectedOutput, 0.01f);
+    
+    XCTAssertEqualWithAccuracy(newPointsTillFreeCoin, [_defaults floatForKey:kSINSUserDefaultPointsTowardsFreeCoin], 0.01f);
+    
+}
+
+- (void)testUpdatePointsTillFreeCoinMoveScoreNilDefault {
+    float moveScore             = MAX_MOVE_SCORE;
+    float pointsTillFreeCoin    = 0.0f;
+    
+//    [_defaults setFloat:pointsTillFreeCoin forKey:kSINSUserDefaultPointsTowardsFreeCoin];
+    
+    float newPointsTillFreeCoin = [SIGame updatePointsTillFreeCoinMoveScore:moveScore withNSUserDefaults:_defaults withCallback:^(BOOL willAwardFreeCoin) {
+        XCTAssertEqual(willAwardFreeCoin, NO);
+    }];
+    
+    XCTAssertEqualWithAccuracy(newPointsTillFreeCoin, moveScore + pointsTillFreeCoin, 0.01f);
+    
+    XCTAssertEqualWithAccuracy(newPointsTillFreeCoin, [_defaults floatForKey:kSINSUserDefaultPointsTowardsFreeCoin], 0.01f);
+}
 
 @end

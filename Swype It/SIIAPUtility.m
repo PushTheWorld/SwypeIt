@@ -44,7 +44,7 @@
     BOOL productNotFound    = YES;
     for (SKProduct *product in productArray) {
         NSString *productID = product.productIdentifier;
-        if ([productID isEqualToString:[SIGame productIDForSIIAPPack:siiapPack]]) {
+        if ([productID isEqualToString:[SIIAPUtility productIDForSIIAPPack:siiapPack]]) {
             productNotFound = NO;
             if (completionBlock) {
                 completionBlock(YES,product);
@@ -67,9 +67,8 @@
         case SIIAPPackLarge:
             return [NSDecimalNumber decimalNumberWithString:[NSString stringWithFormat:@"%0.2f",IAP_PACK_PRICE_LARGE]];
         case SIIAPPackExtraLarge:
-            return [NSDecimalNumber decimalNumberWithString:[NSString stringWithFormat:@"%0.2f",IAP_PACK_PRICE_EXTRA_LARGE]];
         default:
-            return [NSDecimalNumber decimalNumberWithString:@"0.00"];
+            return [NSDecimalNumber decimalNumberWithString:[NSString stringWithFormat:@"%0.2f",IAP_PACK_PRICE_EXTRA_LARGE]];
     }
 }
 + (NSString *)imageNameForSIIAPPack:(SIIAPPack)siiapPack {
@@ -153,7 +152,124 @@
     
     return backgroundNode;
 }
++ (NSString *)buttonNodeNameLabelDescriptionForSIIAPPack:(SIIAPPack)siiapPack {
+    switch (siiapPack) {
+        case SIIAPPackSmall:
+            return kSINodeLabelDescriptionPile;
+        case SIIAPPackMedium:
+            return kSINodeLabelDescriptionBucket;
+        case SIIAPPackLarge:
+            return kSINodeLabelDescriptionBag;
+        case SIIAPPackExtraLarge:
+            return kSINodeLabelDescriptionChest;
+        default:
+            return nil;
+    }
+}
++ (NSString *)buttonNodeNameLabelPriceForSIIAPPack:(SIIAPPack)siiapPack {
+    switch (siiapPack) {
+        case SIIAPPackSmall:
+            return kSINodeLabelPricePile;
+        case SIIAPPackMedium:
+            return kSINodeLabelPriceBucket;
+        case SIIAPPackLarge:
+            return kSINodeLabelPriceBag;
+        case SIIAPPackExtraLarge:
+            return kSINodeLabelPriceChest;
+        default:
+            return nil;
+    }
+}
++ (NSString *)buttonNodeNameNodeForSIIAPPack:(SIIAPPack)siiapPack {
+    switch (siiapPack) {
+        case SIIAPPackSmall:
+            return kSINodeNodePile;
+        case SIIAPPackMedium:
+            return kSINodeNodeBucket;
+        case SIIAPPackLarge:
+            return kSINodeNodeBag;
+        case SIIAPPackExtraLarge:
+            return kSINodeNodeChest;
+        default:
+            return nil;
+    }
+}
++ (NSString *)buttonTextForSIIAPPack:(SIIAPPack)siiapPack {
+    NSString *prefix;
+    switch (siiapPack) {
+        case SIIAPPackSmall:
+            prefix = kSIIAPPackNameSmall;
+            break;
+        case SIIAPPackMedium:
+            prefix = kSIIAPPackNameMedium;
+            break;
+        case SIIAPPackLarge:
+            prefix = kSIIAPPackNameLarge;
+            break;
+        case SIIAPPackExtraLarge:
+            prefix = kSIIAPPackNameExtraLarge;
+            break;
+        default:
+            prefix = nil;
+            break;
+    }
+    return [NSString stringWithFormat:@"%@ of Coins",prefix];
+}
++ (NSString *)productIDForSIIAPPack:(SIIAPPack)siiapPack {
+    switch (siiapPack) {
+        case SIIAPPackSmall:
+            return kSIIAPProductIDCoinPackSmall;
+        case SIIAPPackMedium:
+            return kSIIAPProductIDCoinPackMedium;
+        case SIIAPPackLarge:
+            return kSIIAPProductIDCoinPackLarge;
+        case SIIAPPackExtraLarge:
+            return kSIIAPProductIDCoinPackExtraLarge;
+        default:
+            return nil;
+    }
+}
++ (SIIAPPack)siiapPackForNameNodeNode:(NSString *)nodeName {
+    if ([nodeName isEqualToString:kSINodeNodeBag]) {
+        return SIIAPPackSmall;
+    } else if ([nodeName isEqualToString:kSINodeNodePile]) {
+        return SIIAPPackMedium;
+    } else if ([nodeName isEqualToString:kSINodeNodeBucket]) {
+        return SIIAPPackLarge;
+    } else if ([nodeName isEqualToString:kSINodeNodeChest]) {
+        return SIIAPPackExtraLarge;
+    } else {
+        return NUMBER_OF_IAP_PACKS;
+    }
+}
 
++ (SIIAPPack)siiapPackForNameNodeLabel:(NSString *)nodeLabelName {
+    if ([nodeLabelName isEqualToString:kSINodeLabelDescriptionBag]) {
+        return SIIAPPackSmall;
+    } else if ([nodeLabelName isEqualToString:kSINodeLabelDescriptionPile]) {
+        return SIIAPPackMedium;
+    } else if ([nodeLabelName isEqualToString:kSINodeLabelDescriptionBucket]) {
+        return SIIAPPackLarge;
+    } else if ([nodeLabelName isEqualToString:kSINodeLabelDescriptionChest]) {
+        return SIIAPPackExtraLarge;
+    } else {
+        return NUMBER_OF_IAP_PACKS;
+    }
+}
++ (int)numberOfCoinsForSIIAPPack:(SIIAPPack)siiapPack {
+    switch (siiapPack) {
+        case SIIAPPackSmall:
+            return 30;
+        case SIIAPPackMedium:
+            return 200;
+        case SIIAPPackLarge:
+            return 500;
+        case SIIAPPackExtraLarge:
+            return 1500;
+        default:
+            return 0;
+    }
+}
 #pragma mark Daily Prize Methods
 + (NSDate *)getDateFromInternet {
     NSDate *currentDate = nil;
@@ -184,6 +300,8 @@
 + (int)numberOfCoinsForUser {
     return [[[MKStoreKit sharedKit] availableCreditsForConsumable:kSIIAPConsumableIDCoins] intValue];
 }
+
+
 
 
 @end

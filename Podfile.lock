@@ -9,7 +9,6 @@ PODS:
   - iVersion (1.11.4)
   - JCNotificationBannerPresenter (1.1.2)
   - SoundManager (1.4.2)
-  - TransitionKit (2.0.0)
 
 DEPENDENCIES:
   - Crashlytics
@@ -20,7 +19,6 @@ DEPENDENCIES:
   - iVersion
   - JCNotificationBannerPresenter
   - SoundManager
-  - TransitionKit (~> 2.0.0)
 
 SPEC CHECKSUMS:
   Crashlytics: 0e61bdda9def51f1e99720f804eebe94865442b2
@@ -31,6 +29,5 @@ SPEC CHECKSUMS:
   iVersion: 2b6ffe708672cb494ba3cab150a94800c2892e81
   JCNotificationBannerPresenter: f40150961943048ed3b1d2628d29dbf66a959e21
   SoundManager: 99ae328a3ec9b259db774c9851a65feeceba8183
-  TransitionKit: c150629869b0eab9d270f914aad2d1a088a8c19d
 
 COCOAPODS: 0.38.2

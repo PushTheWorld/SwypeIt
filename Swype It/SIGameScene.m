@@ -685,6 +685,7 @@ static const uint32_t SIGameSceneCategoryMoveScore     = 0x1 << 3; // 0000000000
  Use this to launch the move score label
  */
 - (void)sceneGameLaunchMoveCommandLabelWithCommandAction:(SIMoveCommandAction)commandAction {
+    _moveCommandLabel.physicsBody.categoryBitMask = SIGameSceneCategoryUIControl;
     [_moveCommandLabel runAction:[SIGame actionForSIMoveCommandAction:commandAction]];
 }
 

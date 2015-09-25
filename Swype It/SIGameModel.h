@@ -10,12 +10,12 @@
 // Framework Import
 #import <Foundation/Foundation.h>
 // Drop-In Class Imports (CocoaPods/GitHub/Guru)
-#import "TransitionKit.h"
 // Category Import
 // Support/Data Class Imports
 #import "SIGame.h"
 #import "SIMove.h"
 // Other Imports
+#import "TransitionKit.h"
 
 
 @protocol SIGameModelDelegate <NSObject>

@@ -8,6 +8,7 @@
 #import "SIConstants.h"
 #import "SIMove.h"
 
+
 @interface SIGame : NSObject {
     
 }
@@ -36,20 +37,14 @@
 @property (strong, nonatomic) UIColor           *currentBackgroundColor;
 
 #pragma mark - Public Class Methods
-+ (BOOL)                isDevieHighScore:(float)totalScore;
++ (BOOL)                isDevieHighScore:(float)totalScore withNSUserDefaults:(NSUserDefaults *)defaults;
 //+ (CGPoint)             emitterLocationFromGestureRecognizer:(UIGestureRecognizer *)gestureRecognizer;
 + (float)               scoreForMoveDuration:(NSTimeInterval)durationOfLastMove withLevelSpeedDivider:(float)levelSpeedDivider;
 + (float)               levelSpeedForScore:(float)score;
-+ (float)               updatePointsTillFreeCoinMoveScore:(float)moveScore withCallback:(void (^)(BOOL willAwardFreeCoin))callback;
++ (float)               updatePointsTillFreeCoinMoveScore:(float)moveScore withNSUserDefaults:(NSUserDefaults *)defaults withCallback:(void (^)(BOOL willAwardFreeCoin))callback;
 + (int)newBackgroundColorNumberCurrentNumber:(int)currentColorNumber totalScore:(float)totalScore;
 + (int)                 nextLevelForScore:(float)score;
-+ (int)                 numberOfCoinsForSIIAPPack:(SIIAPPack)siiapPack;
-+ (NSString *)          buttonNodeNameLabelDescriptionForSIIAPPack:(SIIAPPack)siiapPack;
-+ (NSString *)          buttonNodeNameLabelPriceForSIIAPPack:(SIIAPPack)siiapPack;
-+ (NSString *)          buttonNodeNameNodeForSIIAPPack:(SIIAPPack)siiapPack;
-+ (NSString *)          buttonTextForSIIAPPack:(SIIAPPack)siiapPack;
 + (NSString *)          currentLevelStringForScore:(float)score;
-+ (NSString *)          productIDForSIIAPPack:(SIIAPPack)siiapPack;
 + (NSString *)          soundNameForSIBackgroundSound:(SIBackgroundSound)siBackgroundSound;
 + (NSString *)          stringForMove:(SIMoveCommand)move;
 + (NSString *)          userMessageForScore:(float)score isHighScore:(BOOL)isHighScore highScore:(float)highScore;
@@ -75,8 +70,6 @@
  SIGameFreePrizeYesConsecutive -> give prize, increment days since last launch..
  */
 + (SIFreePrizeType)gamePrizeForCurrentDate:(NSDate *)currentDate lastPrizeGivenDate:(NSDate *)lastPrizeGivenDate;
-+ (SIIAPPack)           siiapPackForNameNodeLabel:(NSString *)nodeName;
-+ (SIIAPPack)           siiapPackForNameNodeNode:(NSString *)nodeName;
 + (SIMoveCommand)       getRandomMoveForGameMode:(SIGameMode)gameMode;
 + (SKAction *)          actionForSIMoveCommandAction:(SIMoveCommandAction)siMoveCommandAction;
 + (SKTexture *)         textureBackgroundColor:(SKColor *)backgroundColor size:(CGSize)size;
@@ -84,8 +77,8 @@
 + (SKTexture *)         textureForSIPowerUp:(SIPowerUpType)powerUp;
 + (UIColor *)           backgroundColorForScore:(float)score forRandomNumber:(NSInteger)randomNumber;
 + (UIImage *)           getBluredScreenshot:(SKView *)view;
-+ (void)                incrementGamesPlayed;
-+ (void)                updateLifetimePointsScore:(float)totalScore;
++ (void)incrementGamesPlayedWithNSUserDefaults:(NSUserDefaults *)defaults;
++ (void)                updateLifetimePointsScore:(float)totalScore withNSUserDefaults:(NSUserDefaults *)defaults;
 
 /**
  Configures game properties for new game

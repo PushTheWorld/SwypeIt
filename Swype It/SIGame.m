@@ -37,24 +37,6 @@
 }
 
 #pragma mark - Class Methods
-+ (float)levelSpeedForScoreOriginal:(float)score {
-    if (score < LEVEL1) {
-        return 4.0f;
-    } else if (score < LEVEL2) {
-        return 3.0f;
-    } else if (score < LEVEL3) {
-        return 2.5f;
-    } else if (score < LEVEL4) {
-        return 2.0f;
-    } else if (score < LEVEL5) {
-        return 1.5f;
-    } else if (score < LEVEL8) {
-        return 1.0f;
-    } else {
-        return 0.9f;
-    }
-}
-
 + (float)scoreForMoveDuration:(NSTimeInterval)durationOfLastMove withLevelSpeedDivider:(float)levelSpeedDivider {
 //    NSLog(@"Duration of last move: %0.2f",durationOfLastMove);
     return MAX_MOVE_SCORE * exp(SCORE_EXP_POWER_WEIGHT * (durationOfLastMove * MILI_SECS_IN_SEC) / levelSpeedDivider);
@@ -113,69 +95,6 @@
     numberLevel     = numberLevel * 1000;
     return numberLevel;
 }
-+ (NSString *)buttonNodeNameLabelDescriptionForSIIAPPack:(SIIAPPack)siiapPack {
-    switch (siiapPack) {
-        case SIIAPPackSmall:
-            return kSINodeLabelDescriptionPile;
-        case SIIAPPackMedium:
-            return kSINodeLabelDescriptionBucket;
-        case SIIAPPackLarge:
-            return kSINodeLabelDescriptionBag;
-        case SIIAPPackExtraLarge:
-            return kSINodeLabelDescriptionChest;
-        default:
-            return nil;
-    }
-}
-+ (NSString *)buttonNodeNameLabelPriceForSIIAPPack:(SIIAPPack)siiapPack {
-    switch (siiapPack) {
-        case SIIAPPackSmall:
-            return kSINodeLabelPricePile;
-        case SIIAPPackMedium:
-            return kSINodeLabelPriceBucket;
-        case SIIAPPackLarge:
-            return kSINodeLabelPriceBag;
-        case SIIAPPackExtraLarge:
-            return kSINodeLabelPriceChest;
-        default:
-            return nil;
-    }
-}
-+ (NSString *)buttonNodeNameNodeForSIIAPPack:(SIIAPPack)siiapPack {
-    switch (siiapPack) {
-        case SIIAPPackSmall:
-            return kSINodeNodePile;
-        case SIIAPPackMedium:
-            return kSINodeNodeBucket;
-        case SIIAPPackLarge:
-            return kSINodeNodeBag;
-        case SIIAPPackExtraLarge:
-            return kSINodeNodeChest;
-        default:
-            return nil;
-    }
-}
-+ (NSString *)buttonTextForSIIAPPack:(SIIAPPack)siiapPack {
-    NSString *prefix;
-    switch (siiapPack) {
-        case SIIAPPackSmall:
-            prefix = kSIIAPPackNameSmall;
-            break;
-        case SIIAPPackMedium:
-            prefix = kSIIAPPackNameMedium;
-            break;
-        case SIIAPPackLarge:
-            prefix = kSIIAPPackNameLarge;
-            break;
-        case SIIAPPackExtraLarge:
-            prefix = kSIIAPPackNameExtraLarge;
-            break;
-        default:
-            prefix = nil;
-            break;
-    }
-    return [NSString stringWithFormat:@"%@ of Coins",prefix];
-}
 + (NSString *)currentLevelStringForScore:(float)score {
     int numberLevel = 0;
     if (score < LEVEL1) {
@@ -224,20 +143,7 @@
     
     return [NSString stringWithFormat:@"Level %d",numberLevel];
 }
-+ (NSString *)productIDForSIIAPPack:(SIIAPPack)siiapPack {
-    switch (siiapPack) {
-        case SIIAPPackSmall:
-            return kSIIAPProductIDCoinPackSmall;
-        case SIIAPPackMedium:
-            return kSIIAPProductIDCoinPackMedium;
-        case SIIAPPackLarge:
-            return kSIIAPProductIDCoinPackLarge;
-        case SIIAPPackExtraLarge:
-            return kSIIAPProductIDCoinPackExtraLarge;
-        default:
-            return nil;
-    }
-}
+
 /*AUTO TESTED*/
 + (NSString *)stringForMove:(SIMoveCommand)move {
     switch (move) {
@@ -404,53 +310,8 @@
             }
     }
 }
-
-/*AUTO TESTED*/
-+ (SIIAPPack)siiapPackForNameNodeNode:(NSString *)nodeName {
-    if ([nodeName isEqualToString:kSINodeNodeBag]) {
-        return SIIAPPackSmall;
-    } else if ([nodeName isEqualToString:kSINodeNodePile]) {
-        return SIIAPPackMedium;
-    } else if ([nodeName isEqualToString:kSINodeNodeBucket]) {
-        return SIIAPPackLarge;
-    } else if ([nodeName isEqualToString:kSINodeNodeChest]) {
-        return SIIAPPackExtraLarge;
-    } else {
-        return NUMBER_OF_IAP_PACKS;
-    }
-}
-/*AUTO TESTED*/
-+ (SIIAPPack)siiapPackForNameNodeLabel:(NSString *)nodeName {
-    if ([nodeName isEqualToString:kSINodeLabelDescriptionBag]) {
-        return SIIAPPackSmall;
-    } else if ([nodeName isEqualToString:kSINodeLabelDescriptionPile]) {
-        return SIIAPPackMedium;
-    } else if ([nodeName isEqualToString:kSINodeLabelDescriptionBucket]) {
-        return SIIAPPackLarge;
-    } else if ([nodeName isEqualToString:kSINodeLabelDescriptionChest]) {
-        return SIIAPPackExtraLarge;
-    } else {
-        return NUMBER_OF_IAP_PACKS;
-    }
-}
-+ (int)numberOfCoinsForSIIAPPack:(SIIAPPack)siiapPack {
-    switch (siiapPack) {
-        case SIIAPPackSmall:
-            return 30;
-        case SIIAPPackMedium:
-            return 200;
-        case SIIAPPackLarge:
-            return 500;
-        case SIIAPPackExtraLarge:
-            return 1500;
-        default:
-            return 0;
-    }
-}
 + (SIContinueLifeCost)lifeCostForNumberOfTimesContinued:(int)numberOfTimesContinued {
     switch (numberOfTimesContinued) {
-        case 0:
-            return SIContinueLifeCost0;
         case 1:
             return SIContinueLifeCost1;
         case 2:
@@ -494,13 +355,11 @@
         case 21:
             return SIContinueLifeCost21;
         default:
-            return SIContinueLifeCost0;
+            return SIContinueLifeCost1;
     }
 }
 + (SIContinueAdCount)adCountForNumberOfTimesContinued:(int)numberOfTimesContinued {
     switch (numberOfTimesContinued) {
-        case 0:
-            return SIContinueAdCount0;
         case 1:
             return SIContinueAdCount1;
         case 2:
@@ -544,59 +403,16 @@
         case 21:
             return SIContinueAdCount21;
         default:
-            return SIContinueAdCount0;
+            return SIContinueAdCount1;
     }
 }
-//+ (SIContinueLifeCost)lifeCostForCurrentContinueLevel:(SIContinueLifeCost)siContinuedLifeCost {
-//    if (siContinuedLifeCost < SIContinueLifeCost1) {
-//        return SIContinueLifeCost1;
-//    } else if (siContinuedLifeCost < SIContinueLifeCost2) {
-//        return SIContinueLifeCost2;
-//    } else if (siContinuedLifeCost < SIContinueLifeCost3) {
-//        return SIContinueLifeCost3;
-//    } else if (siContinuedLifeCost < SIContinueLifeCost4) {
-//        return SIContinueLifeCost4;
-//    } else if (siContinuedLifeCost < SIContinueLifeCost5) {
-//        return SIContinueLifeCost5;
-//    } else if (siContinuedLifeCost < SIContinueLifeCost6) {
-//        return SIContinueLifeCost6;
-//    } else if (siContinuedLifeCost < SIContinueLifeCost7) {
-//        return SIContinueLifeCost7;
-//    } else if (siContinuedLifeCost < SIContinueLifeCost8) {
-//        return SIContinueLifeCost8;
-//    } else if (siContinuedLifeCost < SIContinueLifeCost9) {
-//        return SIContinueLifeCost9;
-//    } else if (siContinuedLifeCost < SIContinueLifeCost10) {
-//        return SIContinueLifeCost10;
-//    } else if (siContinuedLifeCost < SIContinueLifeCost11) {
-//        return SIContinueLifeCost11;
-//    } else if (siContinuedLifeCost < SIContinueLifeCost12) {
-//        return SIContinueLifeCost12;
-//    } else if (siContinuedLifeCost < SIContinueLifeCost13) {
-//        return SIContinueLifeCost13;
-//    } else if (siContinuedLifeCost < SIContinueLifeCost14) {
-//        return SIContinueLifeCost14;
-//    } else if (siContinuedLifeCost < SIContinueLifeCost15) {
-//        return SIContinueLifeCost15;
-//    } else if (siContinuedLifeCost < SIContinueLifeCost16) {
-//        return SIContinueLifeCost16;
-//    } else if (siContinuedLifeCost < SIContinueLifeCost17) {
-//        return SIContinueLifeCost17;
-//    } else if (siContinuedLifeCost < SIContinueLifeCost18) {
-//        return SIContinueLifeCost18;
-//    } else if (siContinuedLifeCost < SIContinueLifeCost19) {
-//        return SIContinueLifeCost19;
-//    } else if (siContinuedLifeCost < SIContinueLifeCost20) {
-//        return SIContinueLifeCost20;
-//    } else {
-//        return SIContinueLifeCost0;
-//    }
-//}
-+ (void)incrementGamesPlayed {
-    NSInteger gamesPlayed = [[NSUserDefaults standardUserDefaults] integerForKey:kSINSUserDefaultLifetimeGamesPlayed];
-    [[NSUserDefaults standardUserDefaults] setInteger:gamesPlayed + 1 forKey:kSINSUserDefaultLifetimeGamesPlayed];
-    [[NSUserDefaults standardUserDefaults] synchronize];
+
++ (void)incrementGamesPlayedWithNSUserDefaults:(NSUserDefaults *)defaults {
+    NSInteger gamesPlayed = [defaults integerForKey:kSINSUserDefaultLifetimeGamesPlayed];
+    [defaults setInteger:gamesPlayed + 1 forKey:kSINSUserDefaultLifetimeGamesPlayed];
+    [defaults synchronize];
 }
+
 + (SIBackgroundSound)backgroundSoundForScore:(float)score {
     if (score < SOUNDLEVEL1) {
         return SIBackgroundSoundOne;
@@ -616,6 +432,7 @@
         }
     }
 }
+
 + (NSString *)soundNameForSIBackgroundSound:(SIBackgroundSound)siBackgroundSound {
     switch (siBackgroundSound) {
         case SIBackgroundSoundMenu:
@@ -837,16 +654,16 @@
 /**
  High score is separated from lifetime points to allow for the user to reset their 'Device High Score'
  */
-+ (BOOL)isDevieHighScore:(float)totalScore {
-    NSNumber *deviceHighScore                 = [[NSUserDefaults standardUserDefaults] objectForKey:kSINSUserDefaultLifetimeHighScore];
++ (BOOL)isDevieHighScore:(float)totalScore withNSUserDefaults:(NSUserDefaults *)defaults {
+    NSNumber *deviceHighScore                 = [defaults objectForKey:kSINSUserDefaultLifetimeHighScore];
     if (deviceHighScore == nil) {
-        [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithFloat:totalScore] forKey:kSINSUserDefaultLifetimeHighScore];
-        [[NSUserDefaults standardUserDefaults] synchronize];
+        [defaults setObject:[NSNumber numberWithFloat:totalScore] forKey:kSINSUserDefaultLifetimeHighScore];
+        [defaults synchronize];
         return YES;
     } else {
         if (totalScore > [deviceHighScore floatValue]) {
-            [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithFloat:totalScore] forKey:kSINSUserDefaultLifetimeHighScore];
-            [[NSUserDefaults standardUserDefaults] synchronize];
+            [defaults setObject:[NSNumber numberWithFloat:totalScore] forKey:kSINSUserDefaultLifetimeHighScore];
+            [defaults synchronize];
             return YES;
         }
     }
@@ -857,18 +674,20 @@
  Total points ever played
  this cannot be reset by the user
  */
-+ (void)updateLifetimePointsScore:(float)totalScore {
-    NSNumber *lifeTimePointsEarned              = [[NSUserDefaults standardUserDefaults] objectForKey:kSINSUserDefaultLifetimePointsEarned];
++ (void)updateLifetimePointsScore:(float)totalScore withNSUserDefaults:(NSUserDefaults *)defaults {
+    NSLog(@"%@",[defaults objectForKey:kSINSUserDefaultLifetimePointsEarned]);
+    NSNumber *lifeTimePointsEarned              = [defaults objectForKey:kSINSUserDefaultLifetimePointsEarned];
     if (lifeTimePointsEarned == nil) {
-        [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithFloat:totalScore] forKey:kSINSUserDefaultLifetimePointsEarned];
+        [defaults setObject:[NSNumber numberWithFloat:totalScore] forKey:kSINSUserDefaultLifetimePointsEarned];
     } else {
         lifeTimePointsEarned                    = [NSNumber numberWithFloat: [lifeTimePointsEarned floatValue] + totalScore];
-        [[NSUserDefaults standardUserDefaults] setObject:lifeTimePointsEarned forKey:kSINSUserDefaultLifetimePointsEarned];
+        [defaults setObject:lifeTimePointsEarned forKey:kSINSUserDefaultLifetimePointsEarned];
     }
+    [defaults synchronize];
 }
 
-+ (float)updatePointsTillFreeCoinMoveScore:(float)moveScore withCallback:(void (^)(BOOL willAwardFreeCoin))callback {
-    NSNumber *pointsTillFreeCoinNumber  = [[NSUserDefaults standardUserDefaults] objectForKey:kSINSUserDefaultPointsTowardsFreeCoin];
++ (float)updatePointsTillFreeCoinMoveScore:(float)moveScore withNSUserDefaults:(NSUserDefaults *)defaults withCallback:(void (^)(BOOL willAwardFreeCoin))callback {
+    NSNumber *pointsTillFreeCoinNumber  = [defaults objectForKey:kSINSUserDefaultPointsTowardsFreeCoin];
     
     if (pointsTillFreeCoinNumber == nil) {
         pointsTillFreeCoinNumber        = [NSNumber numberWithFloat:0.0f];
@@ -901,29 +720,28 @@
     }
     
     /*Update the nsuserdefaults with new points till score*/
-    [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithFloat:pointsTillFreeCoin] forKey:kSINSUserDefaultPointsTowardsFreeCoin];
-    [[NSUserDefaults standardUserDefaults] synchronize];
+    [defaults setObject:[NSNumber numberWithFloat:pointsTillFreeCoin] forKey:kSINSUserDefaultPointsTowardsFreeCoin];
+    [defaults synchronize];
     
     return pointsTillFreeCoin;
 }
+
+
+
 
 /**
  Configures game properties for new game
  */
 + (void)setStartGameProperties:(SIGame *)game {
-    game.moveScorePercentRemaining      = 1.0f;
-    game.currentBackgroundSound         = SIBackgroundSoundMenu;
-    game.currentLevel                   = [SIGame currentLevelStringForScore:0.0f];
-    game.currentNumberOfTimesContinued  = 0;
-    game.totalScore                     = 0.0f;
-    game.freeCoinsEarned                = 0;
-    game.currentBackgroundColorNumber   = arc4random_uniform(NUMBER_OF_MOVES);
-    game.currentBackgroundColor         = [SKColor mainColor];
-    
-    /*Booleans*/
-    game.isHighScore                    = NO;
-    
-    [game.powerUpArray removeAllObjects];
+    game.moveScorePercentRemaining           = 1.0f;
+    game.currentBackgroundSound              = SIBackgroundSoundMenu;
+    game.currentLevel                        = [SIGame currentLevelStringForScore:0.0f];
+    game.currentNumberOfTimesContinued       = 1;
+    game.totalScore                          = 0.0f;
+    game.freeCoinsEarned                     = 0;
+    game.currentBackgroundColorNumber        = arc4random_uniform(NUMBER_OF_MOVES);
+    game.currentBackgroundColor              = [SKColor mainColor];
+    game.isHighScore                         = NO;
 }
 /**
  Determine prize to give based off when the last time a prize was given... either:
