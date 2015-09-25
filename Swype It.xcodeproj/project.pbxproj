@@ -86,6 +86,7 @@
 		09568C311BB5920D00156DDF /* TKStateMachine.m in Sources */ = {isa = PBXBuildFile; fileRef = 09568C271BB5920D00156DDF /* TKStateMachine.m */; settings = {ASSET_TAGS = (); }; };
 		09568C321BB5920D00156DDF /* TKTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = 09568C291BB5920D00156DDF /* TKTransition.m */; settings = {ASSET_TAGS = (); }; };
 		09568C331BB5920D00156DDF /* TKTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = 09568C291BB5920D00156DDF /* TKTransition.m */; settings = {ASSET_TAGS = (); }; };
+		09568C371BB5BE2300156DDF /* SISpriteButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 09568C361BB5BE2300156DDF /* SISpriteButton.m */; settings = {ASSET_TAGS = (); }; };
 		0957AB771BA7034200D3FDF5 /* SIPopupContentNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 0957AB761BA7034200D3FDF5 /* SIPopupContentNode.m */; };
 		0957AB7A1BA7626600D3FDF5 /* SIMenuNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 0957AB791BA7626600D3FDF5 /* SIMenuNode.m */; };
 		096ABDCA1B6AF83A005B2F12 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 096ABDC91B6AF83A005B2F12 /* MessageUI.framework */; };
@@ -330,6 +331,8 @@
 		09568C291BB5920D00156DDF /* TKTransition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TKTransition.m; sourceTree = "<group>"; };
 		09568C2A1BB5920D00156DDF /* TransitionKit-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "TransitionKit-Prefix.pch"; sourceTree = "<group>"; };
 		09568C2B1BB5920D00156DDF /* TransitionKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TransitionKit.h; sourceTree = "<group>"; };
+		09568C351BB5BE2300156DDF /* SISpriteButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SISpriteButton.h; sourceTree = "<group>"; };
+		09568C361BB5BE2300156DDF /* SISpriteButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SISpriteButton.m; sourceTree = "<group>"; };
 		0957AB751BA7034200D3FDF5 /* SIPopupContentNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SIPopupContentNode.h; sourceTree = "<group>"; };
 		0957AB761BA7034200D3FDF5 /* SIPopupContentNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SIPopupContentNode.m; sourceTree = "<group>"; };
 		0957AB781BA7626600D3FDF5 /* SIMenuNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SIMenuNode.h; sourceTree = "<group>"; };
@@ -755,6 +758,8 @@
 				09D5ED4E1B8B205B00E84179 /* SISegmentControl.m */,
 				0988CC921B70C82300BF429D /* SIStoreButtonNode.h */,
 				0988CC931B70C82300BF429D /* SIStoreButtonNode.m */,
+				09568C351BB5BE2300156DDF /* SISpriteButton.h */,
+				09568C361BB5BE2300156DDF /* SISpriteButton.m */,
 			);
 			name = CustomUIClasses;
 			sourceTree = "<group>";
@@ -1256,6 +1261,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				09568C371BB5BE2300156DDF /* SISpriteButton.m in Sources */,
 				092E9CD41BAA05410022E644 /* UIImage+BlurredFrame.m in Sources */,
 				09A488B11B9B7B860075F41C /* SIMove.m in Sources */,
 				09552DE61BA2296A00D275A9 /* SIGameScene.m in Sources */,

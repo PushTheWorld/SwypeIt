@@ -285,4 +285,5 @@
     _animationDuration = animationDuration;
     [self showMenuNode:menuNode menuNodeAnimation:menuNodeAnimation];
 }
+
 @end
