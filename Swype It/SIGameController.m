@@ -1519,7 +1519,7 @@
     
     float levelSpeedDivider                         = [SIGame levelSpeedForScore:_gameModel.game.totalScore];
     
-    float durationOfMove                            = [NSDate timeIntervalSinceReferenceDate] - _currentMove.timeStart;
+    NSTimeInterval durationOfMove                   = _gameTimeTotal - _currentMove.timeStart;
     
     _currentMove.moveScore                          = [SIGame scoreForMoveDuration:durationOfMove withLevelSpeedDivider:levelSpeedDivider];
     
@@ -1975,13 +1975,14 @@
     
     //if correctMove
     if (move.moveCommand == _currentMove.moveCommand) {
+        _currentMove.timeEnd                            = _gameTimeTotal;
         SIMove *moveForBackground                       = _currentMove;
         
         [self gameProcessAndApplyCorrectMove:_currentMove];
         
         //  launch the move command and such
-        SKLabelNode *moveLabel                          = [SIGameController moveScoreLabel:_gameModel.game.moveScore];
-        moveLabel.position                              = _currentMove.touchPoint;
+        SKLabelNode *moveLabel                          = [SIGameController moveScoreLabel:_currentMove.moveScore];
+        moveLabel.position                              = CGPointMake(_sceneSize.width / 2.0f, _sceneSize.height / 2.0f);
         [_sceneGame sceneGameWillShowMoveScore:moveLabel];
         [_sceneGame sceneGameLaunchMoveCommandLabelWithCommandAction:moveForBackground.moveCommandAction];
         
@@ -1991,7 +1992,8 @@
         });
         //  get new move data
         _currentMove                                        = [[SIMove alloc] initWithRandomMoveForGameMode:_gameModel.game.gameMode powerUpArray:[_gameModel.powerUpArray copy]];
-
+        _currentMove.timeStart                              = _gameTimeTotal;
+        
         //  show new move data
         BOOL success = [self gameFireEvent:kSITKStateMachineEventGameWaitForMove userInfo:nil];
         if (!success) {

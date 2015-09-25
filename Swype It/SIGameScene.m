@@ -107,11 +107,14 @@ static const uint32_t SIGameSceneCategoryMoveScore     = 0x1 << 3; // 0000000000
     [super didMoveToView:view];
     /**Do any setup post self.view creation*/
     [self viewSetup:view];
-    self.gestureTargetHitTestMode                       = HLSceneGestureTargetHitTestModeDeepestThenParent;
+    self.gestureTargetHitTestMode                       = HLSceneGestureTargetHitTestModeZPositionThenParent;
     
-//    [_backgroundNode hlSetGestureTarget:_backgroundNode];
-//    [self registerDescendant:_backgroundNode withOptions:[NSSet setWithObject:HLSceneChildGestureTarget]];
-
+    [self needSharedGestureRecognizers:@[[SIGameController SIGesturePinch],
+                                         [SIGameController SIGestureTap],
+                                         [SIGameController SIGestureSwypeDown],
+                                         [SIGameController SIGestureSwypeLeft],
+                                         [SIGameController SIGestureSwypeRight],
+                                         [SIGameController SIGestureSwypeUp]]];
 }
 - (void)willMoveFromView:(nonnull SKView *)view {
     /**Do any breakdown prior to the view being unloaded*/
@@ -173,7 +176,7 @@ static const uint32_t SIGameSceneCategoryMoveScore     = 0x1 << 3; // 0000000000
     
     _backgroundNode.anchorPoint                             = CGPointMake(0.0f, 0.0f);
     _backgroundNode.zPosition                               = [SIGameController floatZPositionGameForContent:SIZPositionGameBackground];
-    
+    _backgroundNode.userInteractionEnabled                  = YES;
 //    _backgroundNode.delegate                                = self;
 //    [_backgroundNode hlSetGestureTarget:_backgroundNode];
     
@@ -886,7 +889,7 @@ static const uint32_t SIGameSceneCategoryMoveScore     = 0x1 << 3; // 0000000000
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch {
     CGPoint viewLocation = [touch locationInView:self.view];
     CGPoint sceneLocation = [self convertPointFromView:viewLocation];
-
+    
     if ([self modalNodePresented]) {
         return [super gestureRecognizer:gestureRecognizer shouldReceiveTouch:touch];
     }

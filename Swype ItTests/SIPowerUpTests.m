@@ -206,6 +206,25 @@
     //clean up the mock
     [mockMKStoreKit stopMocking];
 }
+//- (void)testConsumePowerUp {
+//    NSNumber *numberOfCoins = [NSNumber numberWithInt:[SIPowerUp costForPowerUp:SIPowerUpTypeFallingMonkeys]];
+//    //given a mock MKStoreKit
+//    id mockMKStoreKit = [OCMockObject niceMockForClass:[MKStoreKit class]];
+//    [[[mockMKStoreKit stub] andReturn:mockMKStoreKit] sharedKit];
+//    
+//    [[[mockMKStoreKit expect] andReturn:numberOfCoins] availableCreditsForConsumable:kSIIAPConsumableIDCoins];
+//    
+//    
+//    
+//    
+//    //verify the return value
+//    [mockMKStoreKit verify];
+//    
+//    //clean up the mock
+//    [mockMKStoreKit stopMocking];
+//
+//}
+
 - (void)testCanStartPowerUpPerfectAmountOfMoney {
     NSNumber *numberOfCoins = [NSNumber numberWithInt:[SIPowerUp costForPowerUp:SIPowerUpTypeFallingMonkeys]];
     //given a mock MKStoreKit

@@ -19,7 +19,7 @@
 @property (assign, nonatomic) BOOL               isHighScore;
 @property (assign, nonatomic) int                freeCoinsEarned;
 @property (assign, nonatomic) int                currentNumberOfTimesContinued;
-@property (assign, nonatomic) float              moveScore;
+//@property (assign, nonatomic) float              moveScore;
 @property (assign, nonatomic) float              freeCoinPercentRemaining;
 @property (assign, nonatomic) float              freeCoinInPoints;
 @property (assign, nonatomic) float              moveScorePercentRemaining;
@@ -38,7 +38,7 @@
 #pragma mark - Public Class Methods
 + (BOOL)                isDevieHighScore:(float)totalScore;
 //+ (CGPoint)             emitterLocationFromGestureRecognizer:(UIGestureRecognizer *)gestureRecognizer;
-+ (float)               scoreForMoveDuration:(float)durationOfLastMove withLevelSpeedDivider:(float)levelSpeedDivider;
++ (float)               scoreForMoveDuration:(NSTimeInterval)durationOfLastMove withLevelSpeedDivider:(float)levelSpeedDivider;
 + (float)               levelSpeedForScore:(float)score;
 + (float)               updatePointsTillFreeCoinMoveScore:(float)moveScore withCallback:(void (^)(BOOL willAwardFreeCoin))callback;
 + (int)newBackgroundColorNumberCurrentNumber:(int)currentColorNumber totalScore:(float)totalScore;

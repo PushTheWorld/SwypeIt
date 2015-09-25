@@ -55,9 +55,9 @@
     }
 }
 
-+ (float)scoreForMoveDuration:(float)durationOfLastMove withLevelSpeedDivider:(float)levelSpeedDivider {
++ (float)scoreForMoveDuration:(NSTimeInterval)durationOfLastMove withLevelSpeedDivider:(float)levelSpeedDivider {
 //    NSLog(@"Duration of last move: %0.2f",durationOfLastMove);
-    return MAX_MOVE_SCORE * exp(SCORE_EXP_POWER_WEIGHT * durationOfLastMove / levelSpeedDivider);
+    return MAX_MOVE_SCORE * exp(SCORE_EXP_POWER_WEIGHT * (durationOfLastMove * MILI_SECS_IN_SEC) / levelSpeedDivider);
 }
 + (int)nextLevelForScore:(float)score {
     int levelScore = 0;
@@ -914,20 +914,14 @@
     game.moveScorePercentRemaining      = 1.0f;
     game.currentBackgroundSound         = SIBackgroundSoundMenu;
     game.currentLevel                   = [SIGame currentLevelStringForScore:0.0f];
-//    game.currentMove                    = [[SIMove alloc] init];
-//    game.currentMove.moveCommand        = SIMoveCommandSwype;
-//    game.currentContinueLifeCost        = SIContinueLifeCost1;
     game.currentNumberOfTimesContinued  = 0;
     game.totalScore                     = 0.0f;
-    game.moveScore                      = 0.0f;
     game.freeCoinsEarned                = 0;
     game.currentBackgroundColorNumber   = arc4random_uniform(NUMBER_OF_MOVES);
     game.currentBackgroundColor         = [SKColor mainColor];
     
     /*Booleans*/
     game.isHighScore                    = NO;
-//    game.isPaused                       = NO;
-//    game.isStarted                      = NO;
     
     [game.powerUpArray removeAllObjects];
 }
