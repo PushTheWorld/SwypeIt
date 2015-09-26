@@ -669,6 +669,45 @@
     }
 }
 
+- (void)testLevelScoreNewGame {
+    float score             = 0.0f;
+    
+    float levelScore = [SIGame levelSpeedForScore:score];
+    
+    XCTAssertEqualWithAccuracy(levelScore, INITIAL_LEVEL_SPEED, 0.01f);
+}
 
+- (void)testLevelScoreEquationExpo {
+    float score         = MAX_MOVE_SCORE + 1;
+    float levelScore    = 0.0f;
+    while (score < SPEED_TRANSISTION_SCORE) {
+        levelScore      = [SIGame levelSpeedForScore:score];
+        XCTAssertEqualWithAccuracy(levelScore, SPEED_POWER_MULTIPLIER * pow(score,SPEED_POWER_EXPONENT), 0.1f);
+        score           = score + 200;
+    }
+}
+
+- (void)testLevelScoreEquationLog {
+    float score         = SPEED_TRANSISTION_SCORE;
+    float levelScore    = 0.0f;
+    float maxScore      = SPEED_TRANSISTION_SCORE * 2;
+    
+    while (score < maxScore) {
+        levelScore      = [SIGame levelSpeedForScore:score];
+        XCTAssertEqualWithAccuracy(levelScore, SPEED_LOG_MULTIPLIER * log(score) + SPEED_LOG_INTERCEPT, 0.1f);
+        score           = score + 200;
+    }
+}
+
+- (void)testGetBlurredScreenShot {
+    SKView *dummyView = [[SKView alloc] initWithFrame:CGRectMake(0, 0, 100, 100)];
+    
+    UIImage *blurredScreen = [SIGame getBluredScreenshot:dummyView];
+    
+    XCTAssertNotNil(blurredScreen);
+    
+    XCTAssertEqual(dummyView.frame.size.height, blurredScreen.size.height);
+    XCTAssertEqual(dummyView.frame.size.width, blurredScreen.size.width);
+}
 
 @end

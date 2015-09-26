@@ -1717,7 +1717,7 @@
 				09CAF9AD1B64A60100466606 /* Beta */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Debug;
 		};
 		091FED661B37283E0071F8DC /* Build configuration list for PBXNativeTarget "Swype It" */ = {
 			isa = XCConfigurationList;
@@ -1727,7 +1727,7 @@
 				09CAF9AE1B64A60100466606 /* Beta */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Debug;
 		};
 		091FED691B37283E0071F8DC /* Build configuration list for PBXNativeTarget "Swype ItTests" */ = {
 			isa = XCConfigurationList;
@@ -1737,7 +1737,7 @@
 				09CAF9AF1B64A60100466606 /* Beta */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Debug;
 		};
 /* End XCConfigurationList section */
 	};

@@ -192,6 +192,7 @@
 - (void)pushMenuNode:(SIMenuNode *)menuNode {
     [self showMenuNode:menuNode menuNodeAnimation:SIMenuNodeAnimationPush];
 }
+
 - (void)menuScenePopMenuNode {
     [self showMenuNode:_rootSceneMenuNode menuNodeAnimation:SIMenuNodeAnimationPop];
 }

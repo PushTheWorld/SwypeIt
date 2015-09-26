@@ -104,6 +104,8 @@
 #define USER_MSG_LEVEL_MEDIAN               0.9
 #define USER_MSG_LEVEL_CLOSE                1.0
 
+#define INITIAL_LEVEL_SPEED                 4.0
+
 /**
  Creates a monkey face to be reused all over the app
  */
@@ -112,6 +114,10 @@ FOUNDATION_EXPORT SKTexture                 *monkeyFaceTexture();
  The move command label that is used on the gmae
  */
 FOUNDATION_EXPORT SKLabelNode               *moveCommandLabelNode();
+/**
+ The move command label that is used on the gmae
+ */
+FOUNDATION_EXPORT SKLabelNode               *moveScoreLabelNode();
 /**
  The ring node for the pause menu
  */

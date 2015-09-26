@@ -38,7 +38,6 @@
 
 #pragma mark - Class Methods
 + (float)scoreForMoveDuration:(NSTimeInterval)durationOfLastMove withLevelSpeedDivider:(float)levelSpeedDivider {
-//    NSLog(@"Duration of last move: %0.2f",durationOfLastMove);
     return MAX_MOVE_SCORE * exp(SCORE_EXP_POWER_WEIGHT * (durationOfLastMove * MILI_SECS_IN_SEC) / levelSpeedDivider);
 }
 + (int)nextLevelForScore:(float)score {
@@ -469,7 +468,7 @@
 #pragma mark - Private Class Methods
 + (float)levelSpeedForScore:(float)score {
     if (score < MAX_MOVE_SCORE) {
-        return 4.0f;
+        return INITIAL_LEVEL_SPEED;
     } else if (score < SPEED_TRANSISTION_SCORE) {
         return SPEED_POWER_MULTIPLIER * pow(score,SPEED_POWER_EXPONENT);
     } else {
@@ -483,21 +482,6 @@
     UIGraphicsEndImageContext();
     
     return [ss applyLightEffectAtFrame:view.frame];
-//    CIFilter *gaussianBlurFilter = [CIFilter filterWithName:@"CIGaussianBlur"];
-//    [gaussianBlurFilter setDefaults];
-//    [gaussianBlurFilter setValue:[CIImage imageWithCGImage:[ss CGImage]] forKey:kCIInputImageKey];
-//    [gaussianBlurFilter setValue:@10 forKey:kCIInputRadiusKey];
-//    
-//    CIImage *outputImage = [gaussianBlurFilter outputImage];
-//    CIContext *context   = [CIContext contextWithOptions:nil];
-//    CGRect rect          = [outputImage extent];
-//    rect.origin.x        += (rect.size.width  - ss.size.width ) / 2;
-//    rect.origin.y        += (rect.size.height - ss.size.height) / 2;
-//    rect.size            = ss.size;
-//    CGImageRef cgimg     = [context createCGImage:outputImage fromRect:rect];
-//    UIImage *image       = [UIImage imageWithCGImage:cgimg];
-//    CGImageRelease(cgimg);
-//    return image;
 }
 
 #pragma mark - Public Methods

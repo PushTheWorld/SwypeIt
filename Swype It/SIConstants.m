@@ -20,6 +20,16 @@ SKLabelNode *moveCommandLabelNode() {
     return label;
 }
 
+SKLabelNode *moveScoreLabelNode() {
+    SKLabelNode *label;
+    label                                                                       = [SKLabelNode labelNodeWithFontNamed:kSISFFontDisplayHeavy];
+    label.fontColor                                                             = [SKColor whiteColor];
+    label.userInteractionEnabled                                                = YES;
+    label.horizontalAlignmentMode                                               = SKLabelHorizontalAlignmentModeCenter;
+    label.verticalAlignmentMode                                                 = SKLabelVerticalAlignmentModeCenter;
+    return label;
+}
+
 HLRingNode *sceneGamePauseRingNode() {
     HLRingNode *ringNode;
     

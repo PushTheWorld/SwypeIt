@@ -495,17 +495,15 @@
     sceneGame.powerUpToolbarNode            = _sceneGameToolbarPowerUp;
     
     
-    sceneGame.progressBarFreeCoin           = [SIGameController SIProgressBarSceneGameFreeCoinSceneSize:_sceneSize];
-    sceneGame.progressBarFreeCoin.userInteractionEnabled = YES;
+    sceneGame.progressBarFreeCoin                           = [SIGameController SIProgressBarSceneGameFreeCoinSceneSize:_sceneSize];
+    sceneGame.progressBarFreeCoin.userInteractionEnabled    = YES;
     
-    sceneGame.progressBarMove               = [SIGameController SIProgressBarSceneGameMoveSceneSize:_sceneSize];
-    sceneGame.progressBarMove.userInteractionEnabled = YES;
+//    sceneGame.scoreMoveLabel                                = [SIGameController SILabelSceneGameMoveCommand];
+//    sceneGame.scoreMoveLabel.userInteractionEnabled         = YES;
     
     sceneGame.progressBarPowerUp            = [SIGameController SIProgressBarSceneGamePowerUpSceneSize:_sceneSize];
     sceneGame.progressBarPowerUp.userInteractionEnabled = YES;
-    
-//    sceneGame.adBannerNode              = _adBannerNode;
-    
+
     [SIGameController SILoaderEmitters];
     
     if (_verbose) {
@@ -1501,14 +1499,15 @@
 /**
  Powerup tool bar was tapped
  */
-- (void)controllerSceneGameToolbar:(HLToolbarNode *)toolbar powerUpWasTapped:(SIPowerUpType)powerUp {
+- (void)controllerSceneGamePowerUpToolbarTappedWithToolTag:(NSString *)toolTag {
+    
     if ([_gameModel.stateMachine isInState:kSITKStateMachineStateGamePaused] == NO) {
-        BOOL canStartPowerUp = [SIPowerUp canStartPowerUp:powerUp powerUpArray:_gameModel.powerUpArray];
-        if (canStartPowerUp) {
-            SIPowerUp *newPowerUp = [[SIPowerUp alloc] initWithPowerUp:powerUp startTime:_gameTimeTotal];
+        if ([SIPowerUp canStartPowerUp:[SIPowerUp powerUpForString:toolTag] powerUpArray:_gameModel.powerUpArray]) {
+            SIPowerUp *newPowerUp = [[SIPowerUp alloc] initWithPowerUp:[SIPowerUp powerUpForString:toolTag] startTime:_gameTimeTotal];
             [self powerUpActivatePowerUp:newPowerUp];
         }
     }
+
 }
 
 /**
@@ -1530,7 +1529,7 @@
     }];
     
     progressBarUpdate.pointsMove                    = _gameModel.game.currentPointsRemainingThisRound;
-    progressBarUpdate.hasStarted                    = [_gameModel.stateMachine isInState:kSITKStateMachineStateGameFallingMonkey];
+    progressBarUpdate.hasStarted                    = [_gameModel.stateMachine isInState:kSITKStateMachineStateGameIdle] || [_gameModel.stateMachine isInState:kSITKStateMachineStateGameProcessingMove];
     return progressBarUpdate;
 }
 
@@ -1769,14 +1768,7 @@
 
 #pragma mark HLToolBarNodeDelegate
 - (void)toolbarNode:(HLToolbarNode *)toolbarNode didTapTool:(NSString *)toolTag {
-    if (toolbarNode == _sceneGameToolbarPowerUp) {
-        if ([_gameModel.stateMachine isInState:kSITKStateMachineStateGamePaused] == NO) {
-            if ([SIPowerUp canStartPowerUp:[SIPowerUp powerUpForString:toolTag] powerUpArray:_gameModel.powerUpArray]) {
-                SIPowerUp *newPowerUp = [[SIPowerUp alloc] initWithPowerUp:[SIPowerUp powerUpForString:toolTag] startTime:_gameTimeTotal];
-                [self powerUpActivatePowerUp:newPowerUp];
-            }
-        }
-    } else if (toolbarNode == _sceneMenuStartToolbarNode) {
+    if (toolbarNode == _sceneMenuStartToolbarNode) {
         if ([_sceneMenu modalNodePresented]) {
             [_sceneMenu dismissModalNodeAnimation:HLScenePresentationAnimationFade];
             return;
@@ -1949,7 +1941,7 @@
     }
     
     _sceneGame.backgroundColor                          = _gameModel.game.currentBackgroundColor;
-    _sceneGame.progressBarMove.fillColor                = _gameModel.game.currentBackgroundColor;
+//    _sceneGame.progressBarMove.fillColor                = _gameModel.game.currentBackgroundColor;
     _sceneGame.progressBarPowerUp.fillColor             = _gameModel.game.currentBackgroundColor;
     _sceneGame.scoreTotalLabel.text                     = [NSString stringWithFormat:@"%0.2f",_gameModel.game.totalScore];
     _sceneGame.progressBarFreeCoin.progress             = _gameModel.game.freeCoinPercentRemaining;
@@ -1973,9 +1965,7 @@
         [self gameProcessAndApplyCorrectMove:_currentMove];
         
         //  launch the move command and such
-        SKLabelNode *moveLabel                          = [SIGameController moveScoreLabel:_currentMove.moveScore];
-        moveLabel.position                              = CGPointMake(_sceneSize.width / 2.0f, _sceneSize.height / 2.0f);
-        [_sceneGame sceneGameWillShowMoveScore:moveLabel];
+        _sceneGame.scoreMoveLabel                       = [SIGameController SILabelSceneGameMoveScoreLabel];
         [_sceneGame sceneGameLaunchMoveCommandLabelWithCommandAction:moveForBackground.moveCommandAction];
         
         //  send move to achievement
@@ -2204,19 +2194,6 @@
     }
 }
 
-+ (CGFloat)SIFontSizeMoveCommand {
-    if (IS_IPHONE_4) {
-        return 40.0f;
-    } else if (IS_IPHONE_5) {
-        return 50.0f;
-    } else if (IS_IPHONE_6) {
-        return 60.0f;
-    } else if (IS_IPHONE_6_PLUS) {
-        return 70.0f;
-    } else {
-        return 100.0f;
-    }
-}
 + (CGFloat)SIFontSizeHeader {
     if (IS_IPHONE_4) {
         return 36.0f;
@@ -2235,6 +2212,22 @@
 }
 + (CGFloat)SIFontSizeHeader_x3 {
     return [SIGameController SIFontSizeHeader] + 8.0f;
+}
++ (CGFloat)SIFontSizeMoveCommand {
+    if (IS_IPHONE_4) {
+        return 40.0f;
+    } else if (IS_IPHONE_5) {
+        return 50.0f;
+    } else if (IS_IPHONE_6) {
+        return 60.0f;
+    } else if (IS_IPHONE_6_PLUS) {
+        return 70.0f;
+    } else {
+        return 100.0f;
+    }
+}
++ (CGFloat)SIFontSizeMoveScore {
+    return [SIGameController SIFontSizeMoveCommand] * 1.5f;
 }
 + (CGFloat)SIFontSizeParagraph {
     if (IS_IPHONE_4) {
@@ -2375,7 +2368,12 @@
 }
 
 + (CGSize)SIProgressBarGameMoveSize:(CGSize)size {
-    return CGSizeMake(size.width, (size.height / 2.0f) - [SIGameController SIButtonSize:size].height - ([SIGameController SIFontSizeMoveCommand] / 2.0f) - VERTICAL_SPACING_16);
+    if ([SIGameController premiumUser]) {
+        return CGSizeMake(size.width, (size.height / 2.0f) - [SIGameController SIButtonSize:size].height - ([SIGameController SIFontSizeMoveCommand] / 2.0f) - VERTICAL_SPACING_16);
+    } else {
+        return CGSizeMake(size.width, (size.height / 2.0f) - [SIGameController SIButtonSize:size].height - ([SIGameController SIFontSizeMoveCommand] / 2.0f) - VERTICAL_SPACING_16 - [SIGameController SIAdBannerViewHeight]);
+
+    }
 
 }
 
@@ -2536,6 +2534,12 @@
         moveLabel = moveCommandLabelNode();
     }
     return moveLabel;
+}
+
++ (SKLabelNode *)SILabelSceneGameMoveScoreLabel {
+    SKLabelNode *labelNode              = moveCommandLabelNode();
+    labelNode.fontSize                  = [SIGameController SIFontSizeMoveScore];
+    return labelNode;
 }
 #pragma mark SKSpriteNodes
 + (SKSpriteNode *)SISpriteNodeFallingMonkey {
@@ -3001,11 +3005,14 @@
 + (TCProgressBarNode *)SIProgressBarSceneGameMoveSceneSize:(CGSize)size {
     TCProgressBarNode *progressBar      = [[TCProgressBarNode alloc]
                                            initWithSize:[SIGameController SIProgressBarGameMoveSize:size]
-                                           backgroundColor:[UIColor clearColor]
+                                           backgroundColor:[UIColor blackColor]
                                            fillColor:[UIColor redColor]
                                            borderColor:[UIColor clearColor]
                                            borderWidth:0.0f
                                            cornerRadius:0.0f];
+    progressBar.titleLabelNode.fontName = kSISFFontDisplayBold;
+    progressBar.titleLabelNode.fontSize = [SIGameController SIFontSizeHeader];
+    
     return progressBar;
 }
 /**Progress Bar for Power Up*/
@@ -3185,6 +3192,12 @@
         gesture.numberOfTapsRequired    = 1;
     }
     return gesture;
+}
+
++ (void)SIFXNamed:(NSString *)name {
+    if ([SIConstants isFXAllowed]) {
+        [[SoundManager sharedManager] playSound:name];
+    }
 }
 
 #pragma mark -

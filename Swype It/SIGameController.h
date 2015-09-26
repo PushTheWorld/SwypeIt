@@ -38,6 +38,7 @@
 + (CGFloat)             SIFontSizeHeader_x2;
 + (CGFloat)             SIFontSizeHeader_x3;
 + (CGFloat)             SIFontSizeMoveCommand;
++ (CGFloat)             SIFontSizeMoveScore;
 + (CGFloat)             SIFontSizeParagraph;
 + (CGFloat)             SIFontSizeParagraph_x2;
 + (CGFloat)             SIFontSizeParagraph_x3;
@@ -94,6 +95,7 @@
 + (SKLabelNode *)       SILabelParagraph_x4:(NSString *)text;
 + (SKLabelNode *)       SILabelInterfaceFontSize:(CGFloat)fontSize;
 + (SKLabelNode *)       SILabelSceneGameMoveCommand;
++ (SKLabelNode *)       SILabelSceneGameMoveScoreLabel;
 
 /**
  This a spritenode made from falling monkey
@@ -104,6 +106,7 @@
 
 + (SKSpriteNode *)SISpriteNodeBanana;
 + (SKSpriteNode *)SISpriteNodeBananaBunch;
++ (void)SIFXNamed:(NSString *)name;
 
 #pragma mark UIGestureRecognizers
 + (UIPinchGestureRecognizer *)SIGesturePinch;
@@ -127,6 +130,7 @@
 #pragma mark - Public Methods for Testing
 - (void)launchSceneGameWithGameMode:(SIGameMode)gameMode;
 - (void)sceneGameDidRecieveMove:(SIMove *)move;
+
 - (SIGameScene *)loadGameScene;
 
 @end
