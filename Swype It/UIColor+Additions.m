@@ -342,4 +342,20 @@
     });
     return color;
 }
++ (UIColor *)simplstMainColor {
+    static UIColor *color = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        color = [UIColor colorWithRed:240.0/255.0 green:085.0/255.0 blue:020.0/255.0 alpha:1.0];
+    });
+    return color;
+}
++ (UIColor *)royalBlueColor {
+    static UIColor *color = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        color = [UIColor colorWithRed:000.0/255.0 green:035.0/255.0 blue:02.0/255.0 alpha:1.0];
+    });
+    return color;
+}
 @end

@@ -1,7 +1,19 @@
 platform :ios, '7.0'
 
-pod 'YLProgressBar', '~> 3.6.1'
 
-pod 'Fabric'
+target 'Swype It' do
+    pod 'SoundManager'
+    pod 'Fabric'
+    pod 'Crashlytics'
+    pod 'Instabug'
+    pod 'iRate'
+    pod 'iVersion'
+    pod 'FXBlurView'
+    pod 'JCNotificationBannerPresenter'
+    pod 'TransitionKit'
+    pod 'INSpriteKit'
+end
 
-pod 'Crashlytics'
+target 'Swype ItTests', :exclusive => true do
+    pod 'TransitionKit'
+end

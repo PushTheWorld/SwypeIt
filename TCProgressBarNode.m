@@ -20,18 +20,16 @@
 @property (nonatomic, strong) SKTexture *overlayTexture;
 
 @property (nonatomic, strong) UIColor *backgroundColor;
-@property (nonatomic, strong) UIColor *fillColor;
 @property (nonatomic, strong) UIColor *borderColor;
 
 @property (nonatomic, strong) SKLabelNode *titleLabelNode;;
 
-@property (nonatomic) CGSize size;
 @property (nonatomic) CGFloat cornerRadius;
 @property (nonatomic) CGFloat borderWidth;
 
 @end
 
-@implementation TCProgressBarNode
+@implementation TCProgressBarNode 
 
 #pragma mark - Properties
 
@@ -40,6 +38,10 @@
     if (_progress != progress)
     {
         _progress = MIN(MAX(progress, 0.0), 1.0);
+        
+        if (_colorDoesChange) {
+            _fillSpriteNode.color   = [UIColor colorWithHue:_progress saturation:1.0 brightness:1.0 alpha:1.0];
+        }
         
         [self progressDidChange];
     }
@@ -73,11 +75,12 @@
     if (self)
     {
         _size = size;
-        _backgroundColor = backgroundColor;
-        _fillColor = fillColor;
-        _borderColor = borderColor;
-        _cornerRadius = cornerRadius;
-        _borderWidth = borderWidth;
+        _backgroundColor    = backgroundColor;
+        _fillColor          = fillColor;
+        _borderColor        = borderColor;
+        _cornerRadius       = cornerRadius;
+        _borderWidth        = borderWidth;
+        _colorDoesChange    = NO;
         
         [self progressBarNodeCommonInit];
     }
@@ -107,6 +110,11 @@
     return self;
 }
 
+- (void)setFillColor:(UIColor *)fillColor {
+    _fillColor              = fillColor;
+    _fillSpriteNode.color   = _fillColor;
+}
+
 #pragma mark - Initialization
 
 - (void)progressBarNodeCommonInit
@@ -130,7 +138,9 @@
         [self initializeBackgroundTexture];
     }
     
-    _backgroundSpriteNode = [SKSpriteNode spriteNodeWithTexture:_backgroundTexture];
+    _backgroundSpriteNode                           = [SKSpriteNode spriteNodeWithTexture:_backgroundTexture];
+    _backgroundSpriteNode.userInteractionEnabled    = YES;
+
     
     [self addChild:_backgroundSpriteNode];
 }
@@ -141,6 +151,7 @@
     
     backgroundLayer.lineWidth = 0.0f;
     backgroundLayer.fillColor = _backgroundColor.CGColor;
+
     
     _backgroundTexture = [self textureFromLayer:backgroundLayer];
 }
@@ -153,6 +164,8 @@
     
     // mask to background texture
     _fillCropNode.maskNode = [SKSpriteNode spriteNodeWithTexture:_backgroundTexture];
+    _fillCropNode.userInteractionEnabled   = YES;
+
     
     [self addChild:_fillCropNode];
 }
@@ -172,6 +185,8 @@
     
     _fillSpriteNode.anchorPoint = CGPointMake(0.0f, 0.5f);
     _fillSpriteNode.position = CGPointMake(-round(_size.width / 2.0), 0.0);
+    _fillSpriteNode.userInteractionEnabled   = YES;
+
     
     [_fillCropNode addChild:_fillSpriteNode];
 }
@@ -187,7 +202,8 @@
         [self initializeOverlayTexture];
     }
     
-    _overlaySpriteNode = [SKSpriteNode spriteNodeWithTexture:_overlayTexture];
+    _overlaySpriteNode                          = [SKSpriteNode spriteNodeWithTexture:_overlayTexture];
+    _overlaySpriteNode.userInteractionEnabled   = YES;
     
     [self addChild:_overlaySpriteNode];
 }
@@ -235,12 +251,12 @@
  textures if you just want a basic progress bar */
 - (SKTexture *)textureFromLayer:(CALayer *)layer
 {
-    CGFloat width = layer.frame.size.width;
-    CGFloat height = layer.frame.size.height;
+    CGFloat width               = layer.frame.size.width;
+    CGFloat height              = layer.frame.size.height;
     
     // value of 0 for scale will use device's main screen scale
     UIGraphicsBeginImageContextWithOptions(CGSizeMake(width, height), NO, 0.0);
-    CGContextRef context = UIGraphicsGetCurrentContext();
+    CGContextRef context        = UIGraphicsGetCurrentContext();
     
     CGContextSetAllowsAntialiasing(context, YES);
     CGContextSetFillColorWithColor(context, [UIColor clearColor].CGColor);
@@ -248,11 +264,11 @@
     
     [layer renderInContext:context];
     
-    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+    UIImage *image              = UIGraphicsGetImageFromCurrentImageContext();
     
     UIGraphicsEndImageContext();
     
-    SKTexture *texture = [SKTexture textureWithImage:image];
+    SKTexture *texture          = [SKTexture textureWithImage:image];
     
     return texture;
 }

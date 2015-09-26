@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import <XCTest/XCTest.h>
-#import "Game.h"
+#import "SIGame.h"
 
 @interface Swype_ItTests : XCTestCase
 

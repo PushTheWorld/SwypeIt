@@ -1,0 +1,30 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "8C9D1F444126AAD33B016F22D9487FFC4A7007B5",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "C587EBAD7D0DFB5AE1E2F6F5ED0AB60C909ED07D" : 0,
+    "8C9D1F444126AAD33B016F22D9487FFC4A7007B5" : 0
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "A51BDD70-EB9F-4375-8701-2B374489754B",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "C587EBAD7D0DFB5AE1E2F6F5ED0AB60C909ED07D" : "Documents\/HLSpriteKit\/",
+    "8C9D1F444126AAD33B016F22D9487FFC4A7007B5" : "SwypeIt"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "Swype It",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 203,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "Swype It.xcworkspace",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/pushtheworldllc\/SwypeIt.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "8C9D1F444126AAD33B016F22D9487FFC4A7007B5"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/hilogames\/HLSpriteKit.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "C587EBAD7D0DFB5AE1E2F6F5ED0AB60C909ED07D"
+    }
+  ]
+}

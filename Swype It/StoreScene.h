@@ -5,12 +5,13 @@
 //  Copyright © 2015 Push The World LLC. All rights reserved.
 #import <SpriteKit/SpriteKit.h>
 
-@interface StoreScene : SKScene
+@interface StoreScene : HLScene
+
+- (instancetype)initWithSize:(CGSize)size willAwardPrize:(BOOL)willAwardPrize;
 
 @property (assign, nonatomic) BOOL     isInTestMode;
 @property (assign, nonatomic) BOOL     wasLaunchedFromMainMenu;
 
 
-//- (instancetype)initFromMainMenuWithSize:(CGSize)size;
 
 @end

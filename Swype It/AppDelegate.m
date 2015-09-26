@@ -7,11 +7,13 @@
 // Local Controller Import
 #import "AppDelegate.h"
 #import "BaseNavigationViewController.h"
-#import "MainViewController.h"
+#import "SIGameController.h"
 // Framework Import
-#import <Fabric/Fabric.h>
 #import <Crashlytics/Crashlytics.h>
+#import <Fabric/Fabric.h>
+#import <Instabug/Instabug.h>
 // Drop-In Class Imports (CocoaPods/GitHub/Guru)
+#import "FXReachability.h"
 #import "MKStoreKit.h"
 // Category Import
 #import "UIColor+Additions.h"
@@ -33,11 +35,20 @@ static BOOL isRunningTests(void) __attribute__((const));
     }
     /*RUN LOGIC*/
     [Fabric with:@[CrashlyticsKit]];
+    
+    /*Start Instabug*/
+    [Instabug startWithToken:@"dd30ee11bb2fde9bf61f850ba2d73b30" captureSource:IBGCaptureSourceUIKit invocationEvent:IBGInvocationEventTwoFingersSwipeLeft];
+    
+    /*FXReachability*/
+    [FXReachability sharedInstance].host = @"google.com";
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateStatus) name:FXReachabilityStatusDidChangeNotification object:nil];
+    
+
     /*Init window*/
 //    self.window                             = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
 //    
 //    
-//    MainViewController       *vc1    = [[MainViewController alloc] init];
+//    SIGameController       *vc1    = [[SIGameController alloc] init];
 ////    BaseNavigationViewController    *nav    = [[BaseNavigationViewController alloc] initWithRootViewController:vc1];
 //    
 //    self.window.rootViewController          = vc1;
@@ -48,6 +59,9 @@ static BOOL isRunningTests(void) __attribute__((const));
     
     /*Get In App Purcahses Up and Running*/
     [self configureMKStoreKit];
+    
+    /*Setup Sound Manager*/
+    
     
     return YES;
 }
@@ -78,12 +92,20 @@ static BOOL isRunningTests(void) __attribute__((const));
     BOOL isThisTheFirstLaunch = [[NSUserDefaults standardUserDefaults] boolForKey:kSINSUserDefaultFirstLaunch];
     if (isThisTheFirstLaunch == NO) {
         //set to no
-        [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithInt:0] forKey:kSINSUserDefaultPointsTowardsFreeCoin];
+        [[NSUserDefaults standardUserDefaults] setBool:NO                           forKey:kSINSUserDefaultPremiumUser];
+        [[NSUserDefaults standardUserDefaults] setBool:YES                          forKey:kSINSUserDefaultFirstLaunch];
+        [[NSUserDefaults standardUserDefaults] setBool:YES                          forKey:kSINSUserDefaultSoundIsAllowedBackground];
+        [[NSUserDefaults standardUserDefaults] setBool:YES                          forKey:kSINSUserDefaultSoundIsAllowedFX];
+        [[NSUserDefaults standardUserDefaults] setInteger:SIGameModeTwoHand         forKey:kSINSUserDefaultGameMode];
         [[NSUserDefaults standardUserDefaults] setInteger:0                         forKey:kSINSUserDefaultLifetimeGamesPlayed];
-        [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithInt:0] forKey:kSINSUserDefaultLifetimePointsEarned];
         [[NSUserDefaults standardUserDefaults] setInteger:0                         forKey:kSINSUserDefaultGameMode];
         [[NSUserDefaults standardUserDefaults] setInteger:NUMBER_OF_MONKEYS_INIT    forKey:kSINSUserDefaultNumberOfMonkeys];
-        [[NSUserDefaults standardUserDefaults] setBool:YES                          forKey:kSINSUserDefaultFirstLaunch];
+        [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithInt:0] forKey:kSINSUserDefaultLifetimeHighScore];
+        [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithInt:0] forKey:kSINSUserDefaultPointsTowardsFreeCoin];
+        [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithInt:0] forKey:kSINSUserDefaultLifetimePointsEarned];
+        [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithInt:0] forKey:kSINSUserDefaultNumberConsecutiveAppLaunches];
+        [[NSUserDefaults standardUserDefaults] setObject:[NSDate date]              forKey:kSINSUserDefaultLastLaunchDate];
+        [[NSUserDefaults standardUserDefaults] setObject:[NSDate date]              forKey:kSINSUserDefaultLastPrizeAwardedDate];
         [[NSUserDefaults standardUserDefaults] synchronize];
     }
 }
@@ -104,5 +126,43 @@ static BOOL isRunningTests(void) {
     NSString* injectBundle = environment[@"XCInjectBundle"];
     return [[injectBundle pathExtension] isEqualToString:@"octest"];
 }
+#pragma mark - FXReachability Methods
+- (void)updateStatus {
+    NSLog(@"Internet Status:\n\n%@\n\n",[self statusText]);
+}
+- (NSString *)statusText
+{
+    switch ([FXReachability sharedInstance].status)
+    {
+        case FXReachabilityStatusUnknown:
+        {
+            return @"Status Unknown";
+        }
+        case FXReachabilityStatusNotReachable:
+        {
+            return @"Not reachable";
+        }
+        case FXReachabilityStatusReachableViaWWAN:
+        {
+            return @"Reachable via WWAN";
+        }
+        case FXReachabilityStatusReachableViaWiFi:
+        {
+            return @"Reachable via WiFi";
+        }
+    }
+}
 
+
++ (void)showFontsInResources {
+    for (NSString* family in [UIFont familyNames])
+    {
+        NSLog(@"%@", family);
+        
+        for (NSString* name in [UIFont fontNamesForFamilyName: family])
+        {
+            NSLog(@"  %@", name);
+        }
+    }
+}
 @end

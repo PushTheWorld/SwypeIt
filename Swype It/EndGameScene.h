@@ -7,7 +7,8 @@
 //
 
 #import <SpriteKit/SpriteKit.h>
+#import "HLSpriteKit.h"
 
-@interface EndGameScene : SKScene
+@interface EndGameScene : HLScene
 
 @end
