@@ -1,0 +1,30 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "8C9D1F444126AAD33B016F22D9487FFC4A7007B5",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "C587EBAD7D0DFB5AE1E2F6F5ED0AB60C909ED07D" : 0,
+    "8C9D1F444126AAD33B016F22D9487FFC4A7007B5" : 0
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "7837978D-BE33-4527-BD34-DB846D2E6F5D",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "C587EBAD7D0DFB5AE1E2F6F5ED0AB60C909ED07D" : "Documents\/HLSpriteKit-PTW\/",
+    "8C9D1F444126AAD33B016F22D9487FFC4A7007B5" : "SwypeIt\/"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "Swype It",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "Swype It.xcodeproj",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/pushtheworldllc\/SwypeIt.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "8C9D1F444126AAD33B016F22D9487FFC4A7007B5"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/pushtheworldllc\/HLSpriteKit.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "C587EBAD7D0DFB5AE1E2F6F5ED0AB60C909ED07D"
+    }
+  ]
+}

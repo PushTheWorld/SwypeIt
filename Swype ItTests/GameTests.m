@@ -8,15 +8,15 @@
 //  Purpose: This is the test file for Game
 //
 // Local Controller Import
-#import "Game.h"
+#import "SIGame.h"
 // Framework Import
 #import <OCMock/OCMock.h>
 #import <UIKit/UIKit.h>
 #import <XCTest/XCTest.h>
 // Drop-In Class Imports (CocoaPods/GitHub/Guru)
+#import "CCTestingUserDefaults.h"
 // Category Import
 // Support/Data Class Imports
-#import "AppSingleton.h"
 #import "SIConstants.h"
 // Other Imports
 
@@ -25,11 +25,15 @@
 
 @end
 
-@implementation GameTests
+@implementation GameTests {
+    NSUserDefaults *_defaults;
+}
 
 - (void)setUp {
     [super setUp];
     // Put setup code here. This method is called before the invocation of each test method in the class.
+    _defaults    = [NSUserDefaults transientDefaults];
+
 }
 
 - (void)tearDown {
@@ -43,7 +47,7 @@
     
     while (score < 11999.0f) {
         
-        float levelscore = [Game nextLevelForScore:score];
+        float levelscore = [SIGame nextLevelForScore:score];
         
         if (score < LEVEL1) {
             XCTAssertEqual(levelscore, LEVEL1);
@@ -122,7 +126,7 @@
     
     while (score < 11999.0f) {
         
-        NSString *levelString = [Game currentLevelStringForScore:score];
+        NSString *levelString = [SIGame currentLevelStringForScore:score];
         
         if (score < LEVEL1) {
             XCTAssertEqualObjects(levelString, @"Level 1");
@@ -195,187 +199,367 @@
     }
 }
 - (void)testStringForMove {
-    XCTAssertEqualObjects(kSIMoveCommandPinch, [Game stringForMove:SIMovePinch]);
+    XCTAssertEqualObjects(kSIMoveCommandPinch, [SIGame stringForMove:SIMoveCommandPinch]);
     
-    XCTAssertEqualObjects(kSIMoveCommandTap, [Game stringForMove:SIMoveTap]);
+    XCTAssertEqualObjects(kSIMoveCommandTap, [SIGame stringForMove:SIMoveCommandTap]);
     
-    XCTAssertEqualObjects(kSIMoveCommandSwype, [Game stringForMove:SIMoveSwype]);
+    XCTAssertEqualObjects(kSIMoveCommandSwype, [SIGame stringForMove:SIMoveCommandSwype]);
     
-    XCTAssertEqualObjects(kSIMoveCommandShake, [Game stringForMove:SIMoveShake]);
+    XCTAssertEqualObjects(kSIMoveCommandShake, [SIGame stringForMove:SIMoveCommandShake]);
 }
-- (void)testStringForPowerUp {
-    XCTAssertEqualObjects(kSIPowerUpNone, [Game stringForPowerUp:SIPowerUpNone]);
 
-    XCTAssertEqualObjects(kSIPowerUpFallingMonkeys, [Game stringForPowerUp:SIPowerUpFallingMonkeys]);
-
-    XCTAssertEqualObjects(kSIPowerUpTimeFreeze, [Game stringForPowerUp:SIPowerUpTimeFreeze]);
-
-    XCTAssertEqualObjects(kSIPowerUpRapidFire, [Game stringForPowerUp:SIPowerUpRapidFire]);
-}
-- (void)testDurationForPowerUp {
-    /*Power Up None*/
-    XCTAssertEqual(SIPowerUpDurationNone, [Game durationForPowerUp:SIPowerUpNone]);
-    
-    /*Power Up Time Freeze*/
-    XCTAssertEqual(SIPowerUpDurationTimeFreeze, [Game durationForPowerUp:SIPowerUpTimeFreeze]);
-    
-    /*Power Up Rapid Fire*/
-    XCTAssertEqual(SIPowerUpDurationRapidFire, [Game durationForPowerUp:SIPowerUpRapidFire]);
-}
-- (void)testCostForPowerUp {
-    /*Power Up None*/
-    XCTAssertEqual(SIPowerUpCostNone, [Game costForPowerUp:SIPowerUpNone]);
-    
-    /*Power Up Double Points*/
-    XCTAssertEqual(SIPowerUpCostFallingMonkeys, [Game costForPowerUp:SIPowerUpFallingMonkeys]);
-    
-    /*Power Up Time Freeze*/
-    XCTAssertEqual(SIPowerUpCostTimeFreeze, [Game costForPowerUp:SIPowerUpTimeFreeze]);
-    
-    /*Power Up Rapid Fire*/
-    XCTAssertEqual(SIPowerUpCostRapidFire, [Game costForPowerUp:SIPowerUpRapidFire]);
-}
-- (void)testTypeDefForPowerUpDuration {
-    /*Power Up None*/
-    XCTAssertEqual(0, SIPowerUpDurationNone);
-    /*Power Up Time Freeze*/
-    XCTAssertEqual(8, SIPowerUpDurationTimeFreeze);
-    /*Power Up Rapid Fire*/
-    XCTAssertEqual(3, SIPowerUpDurationRapidFire);
-}
-- (void)testTypeDefForPowerUpCost {
-    /*Power Up None*/
-    XCTAssertEqual(0, SIPowerUpCostNone);
-    /*Power Up Double Points*/
-    XCTAssertEqual(5, SIPowerUpCostFallingMonkeys);
-    /*Power Up Time Freeze*/
-    XCTAssertEqual(1, SIPowerUpCostTimeFreeze);
-    /*Power Up Rapid Fire*/
-    XCTAssertEqual(3, SIPowerUpCostRapidFire);
-}
-- (void)testGetRandomMoveForRapidFire {
-    /*Check to make the Rapid Fire Returns Tap*/
-    SIMove move = [Game getRandomMoveForGameMode:SIGameModeOneHand isRapidFireActiviated:YES];
-    XCTAssertEqual(move, SIMoveTap);
-}
+//- (void)testGetRandomMoveForRapidFire {
+//    /*Check to make the Rapid Fire Returns Tap*/
+//    SIMoveCommand move = [SIGame getRandomMoveForGameMode:SIGameModeOneHand];
+//    XCTAssertEqual(move, SIMoveCommandTap);
+//}
 - (void)testGetRandomMoveForOneHandGameMode {
     for (int i = 0; i < 50; i++) {
-        SIMove move = [Game getRandomMoveForGameMode:SIGameModeOneHand isRapidFireActiviated:NO];
-        XCTAssertNotEqual(move, SIMovePinch);
+        SIMoveCommand move = [SIGame getRandomMoveForGameMode:SIGameModeOneHand];
+        XCTAssertNotEqual(move, SIMoveCommandPinch);
     }
 }
 - (void)testGetRandomMoveForTwoHandGameMode {
     for (int i = 0; i < 50; i++) {
-        SIMove move = [Game getRandomMoveForGameMode:SIGameModeTwoHand isRapidFireActiviated:NO];
-        XCTAssertNotEqual(move, SIMoveShake);
+        SIMoveCommand move = [SIGame getRandomMoveForGameMode:SIGameModeTwoHand];
+        XCTAssertNotEqual(move, SIMoveCommandShake);
     }
 }
-- (void)testIAPButtonStringForSIIAPPack {
-    /*Bag of Coins*/
-    XCTAssertEqualObjects(@"Bag of Coins", [Game buttonTextForSIIAPPack:SIIAPPackSmall]);
 
-    /*Pile of Coins*/
-    XCTAssertEqualObjects(@"Pile of Coins", [Game buttonTextForSIIAPPack:SIIAPPackMedium]);
+- (void)testLifeCostForNumberOfTimesContinued {
+    XCTAssertEqual(SIContinueLifeCost1, [SIGame lifeCostForNumberOfTimesContinued:1]);
+    XCTAssertEqual(SIContinueLifeCost2, [SIGame lifeCostForNumberOfTimesContinued:2]);
+    XCTAssertEqual(SIContinueLifeCost3, [SIGame lifeCostForNumberOfTimesContinued:3]);
+    XCTAssertEqual(SIContinueLifeCost4, [SIGame lifeCostForNumberOfTimesContinued:4]);
+    XCTAssertEqual(SIContinueLifeCost5, [SIGame lifeCostForNumberOfTimesContinued:5]);
+    XCTAssertEqual(SIContinueLifeCost6, [SIGame lifeCostForNumberOfTimesContinued:6]);
+    XCTAssertEqual(SIContinueLifeCost7, [SIGame lifeCostForNumberOfTimesContinued:7]);
+    XCTAssertEqual(SIContinueLifeCost8, [SIGame lifeCostForNumberOfTimesContinued:8]);
+    XCTAssertEqual(SIContinueLifeCost9, [SIGame lifeCostForNumberOfTimesContinued:9]);
+    XCTAssertEqual(SIContinueLifeCost10, [SIGame lifeCostForNumberOfTimesContinued:10]);
+    XCTAssertEqual(SIContinueLifeCost11, [SIGame lifeCostForNumberOfTimesContinued:11]);
+    XCTAssertEqual(SIContinueLifeCost12, [SIGame lifeCostForNumberOfTimesContinued:12]);
+    XCTAssertEqual(SIContinueLifeCost13, [SIGame lifeCostForNumberOfTimesContinued:13]);
+    XCTAssertEqual(SIContinueLifeCost14, [SIGame lifeCostForNumberOfTimesContinued:14]);
+    XCTAssertEqual(SIContinueLifeCost15, [SIGame lifeCostForNumberOfTimesContinued:15]);
+    XCTAssertEqual(SIContinueLifeCost16, [SIGame lifeCostForNumberOfTimesContinued:16]);
+    XCTAssertEqual(SIContinueLifeCost17, [SIGame lifeCostForNumberOfTimesContinued:17]);
+    XCTAssertEqual(SIContinueLifeCost18, [SIGame lifeCostForNumberOfTimesContinued:18]);
+    XCTAssertEqual(SIContinueLifeCost19, [SIGame lifeCostForNumberOfTimesContinued:19]);
+    XCTAssertEqual(SIContinueLifeCost20, [SIGame lifeCostForNumberOfTimesContinued:20]);
+    XCTAssertEqual(SIContinueLifeCost21, [SIGame lifeCostForNumberOfTimesContinued:21]);
+}
+- (void)testAdCountForNumberOfTimesContinued {
+    XCTAssertEqual(SIContinueAdCount1, [SIGame adCountForNumberOfTimesContinued:1]);
+    XCTAssertEqual(SIContinueAdCount2, [SIGame adCountForNumberOfTimesContinued:2]);
+    XCTAssertEqual(SIContinueAdCount3, [SIGame adCountForNumberOfTimesContinued:3]);
+    XCTAssertEqual(SIContinueAdCount4, [SIGame adCountForNumberOfTimesContinued:4]);
+    XCTAssertEqual(SIContinueAdCount5, [SIGame adCountForNumberOfTimesContinued:5]);
+    XCTAssertEqual(SIContinueAdCount6, [SIGame adCountForNumberOfTimesContinued:6]);
+    XCTAssertEqual(SIContinueAdCount7, [SIGame adCountForNumberOfTimesContinued:7]);
+    XCTAssertEqual(SIContinueAdCount8, [SIGame adCountForNumberOfTimesContinued:8]);
+    XCTAssertEqual(SIContinueAdCount9, [SIGame adCountForNumberOfTimesContinued:9]);
+    XCTAssertEqual(SIContinueAdCount10, [SIGame adCountForNumberOfTimesContinued:10]);
+    XCTAssertEqual(SIContinueAdCount11, [SIGame adCountForNumberOfTimesContinued:11]);
+    XCTAssertEqual(SIContinueAdCount12, [SIGame adCountForNumberOfTimesContinued:12]);
+    XCTAssertEqual(SIContinueAdCount13, [SIGame adCountForNumberOfTimesContinued:13]);
+    XCTAssertEqual(SIContinueAdCount14, [SIGame adCountForNumberOfTimesContinued:14]);
+    XCTAssertEqual(SIContinueAdCount15, [SIGame adCountForNumberOfTimesContinued:15]);
+    XCTAssertEqual(SIContinueAdCount16, [SIGame adCountForNumberOfTimesContinued:16]);
+    XCTAssertEqual(SIContinueAdCount17, [SIGame adCountForNumberOfTimesContinued:17]);
+    XCTAssertEqual(SIContinueAdCount18, [SIGame adCountForNumberOfTimesContinued:18]);
+    XCTAssertEqual(SIContinueAdCount19, [SIGame adCountForNumberOfTimesContinued:19]);
+    XCTAssertEqual(SIContinueAdCount20, [SIGame adCountForNumberOfTimesContinued:20]);
+    XCTAssertEqual(SIContinueAdCount21, [SIGame adCountForNumberOfTimesContinued:21]);
+}
+- (void)testGameFreePrizeNoQuick {
+    NSDate *currentDate = [NSDate date];
+    
+    NSDate *lastPrizeGivenDate = [currentDate dateByAddingTimeInterval:-1 * (1)]; //1 second ago
+    
+    SIFreePrizeType freePrize  = [SIGame gamePrizeForCurrentDate:currentDate lastPrizeGivenDate:lastPrizeGivenDate];
+    
+    XCTAssertEqual(freePrize, SIFreePrizeTypeNone);
+}
 
-    /*Bucket of Coins*/
-    XCTAssertEqualObjects(@"Bucket of Coins", [Game buttonTextForSIIAPPack:SIIAPPackLarge]);
+- (void)testGameFreePrizeNo {
+    NSDate *currentDate = [NSDate date];
+    
+    NSDate *lastPrizeGivenDate = [currentDate dateByAddingTimeInterval:-1 * (60 * 60 * 23)]; //23 hours ago
+    
+    SIFreePrizeType freePrize  = [SIGame gamePrizeForCurrentDate:currentDate lastPrizeGivenDate:lastPrizeGivenDate];
+    
+    XCTAssertEqual(freePrize, SIFreePrizeTypeNone);
+}
 
-    /*Chest of Coins*/
-    XCTAssertEqualObjects(@"Chest of Coins", [Game buttonTextForSIIAPPack:SIIAPPackExtraLarge]);
+- (void)testGameFreePrizeYesConsecutiveBorderFront {
+    NSDate *currentDate = [NSDate date];
+    
+    NSDate *lastPrizeGivenDate = [currentDate dateByAddingTimeInterval:-1 * (60 * 60 * 24)]; //24 hours ago
+    
+    SIFreePrizeType freePrize  = [SIGame gamePrizeForCurrentDate:currentDate lastPrizeGivenDate:lastPrizeGivenDate];
+    
+    XCTAssertEqual(freePrize, SIFreePrizeTypeConsecutive);
 }
-- (void)testIAPButtonNodeNameForSIIAPPack {
-    /*Bag of Coins*/
-    XCTAssertEqualObjects(kSINodeNodeBag, [Game buttonNodeNameNodeForSIIAPPack:SIIAPPackSmall]);
-    
-    /*Pile of Coins*/
-    XCTAssertEqualObjects(kSINodeNodePile, [Game buttonNodeNameNodeForSIIAPPack:SIIAPPackMedium]);
-    
-    /*Bucket of Coins*/
-    XCTAssertEqualObjects(kSINodeNodeBucket, [Game buttonNodeNameNodeForSIIAPPack:SIIAPPackLarge]);
-    
-    /*Chest of Coins*/
-    XCTAssertEqualObjects(kSINodeNodeChest, [Game buttonNodeNameNodeForSIIAPPack:SIIAPPackExtraLarge]);
-}
-- (void)testIAPButtonNodeLabelDescriptionForSIIAPPack {
-    /*Bag of Coins*/
-    XCTAssertEqualObjects(kSINodeLabelDescriptionBag, [Game buttonNodeNameLabelDescriptionForSIIAPPack:SIIAPPackSmall]);
-    
-    /*Pile of Coins*/
-    XCTAssertEqualObjects(kSINodeLabelDescriptionPile, [Game buttonNodeNameLabelDescriptionForSIIAPPack:SIIAPPackMedium]);
-    
-    /*Bucket of Coins*/
-    XCTAssertEqualObjects(kSINodeLabelDescriptionBucket, [Game buttonNodeNameLabelDescriptionForSIIAPPack:SIIAPPackLarge]);
-    
-    /*Chest of Coins*/
-    XCTAssertEqualObjects(kSINodeLabelDescriptionChest, [Game buttonNodeNameLabelDescriptionForSIIAPPack:SIIAPPackExtraLarge]);
-}
-- (void)testIAPButtonNodeLabelPriceForSIIAPPack {
-    /*Bag of Coins*/
-    XCTAssertEqualObjects(kSINodeLabelPriceBag, [Game buttonNodeNameLabelPriceForSIIAPPack:SIIAPPackSmall]);
-    
-    /*Pile of Coins*/
-    XCTAssertEqualObjects(kSINodeLabelPricePile, [Game buttonNodeNameLabelPriceForSIIAPPack:SIIAPPackMedium]);
-    
-    /*Bucket of Coins*/
-    XCTAssertEqualObjects(kSINodeLabelPriceBucket, [Game buttonNodeNameLabelPriceForSIIAPPack:SIIAPPackLarge]);
-    
-    /*Chest of Coins*/
-    XCTAssertEqualObjects(kSINodeLabelPriceChest, [Game buttonNodeNameLabelPriceForSIIAPPack:SIIAPPackExtraLarge]);
-}
-- (void)testIAPProductIDForSIIAPPack {
-    /*Bag of Coins*/
-    XCTAssertEqualObjects(kSIIAPProductIDCoinPackSmall, [Game productIDForSIIAPPack:SIIAPPackSmall]);
-    
-    /*Pile of Coins*/
-    XCTAssertEqualObjects(kSIIAPProductIDCoinPackMedium, [Game productIDForSIIAPPack:SIIAPPackMedium]);
-    
-    /*Bucket of Coins*/
-    XCTAssertEqualObjects(kSIIAPProductIDCoinPackLarge, [Game productIDForSIIAPPack:SIIAPPackLarge]);
-    
-    /*Chest of Coins*/
-    XCTAssertEqualObjects(kSIIAPProductIDCoinPackExtraLarge, [Game productIDForSIIAPPack:SIIAPPackExtraLarge]);
-}
-- (void)testContinueCost {
-    
-    XCTAssertEqual(SIContinueLifeCost1, [Game lifeCostForCurrentContinueLeve:SIContinueLifeCost0]);
 
-    XCTAssertEqual(SIContinueLifeCost2, [Game lifeCostForCurrentContinueLeve:SIContinueLifeCost1]);
-
-    XCTAssertEqual(SIContinueLifeCost3, [Game lifeCostForCurrentContinueLeve:SIContinueLifeCost2]);
+- (void)testGameFreePrizeYesConsecutiveMiddle {
+    NSDate *currentDate = [NSDate date];
     
-    XCTAssertEqual(SIContinueLifeCost4, [Game lifeCostForCurrentContinueLeve:SIContinueLifeCost3]);
+    NSDate *lastPrizeGivenDate = [currentDate dateByAddingTimeInterval:-1 * (60 * 60 * 36)]; //36 hours ago
     
-    XCTAssertEqual(SIContinueLifeCost5, [Game lifeCostForCurrentContinueLeve:SIContinueLifeCost4]);
+    SIFreePrizeType freePrize  = [SIGame gamePrizeForCurrentDate:currentDate lastPrizeGivenDate:lastPrizeGivenDate];
     
-    XCTAssertEqual(SIContinueLifeCost6, [Game lifeCostForCurrentContinueLeve:SIContinueLifeCost5]);
-    
-    XCTAssertEqual(SIContinueLifeCost7, [Game lifeCostForCurrentContinueLeve:SIContinueLifeCost6]);
-    
-    XCTAssertEqual(SIContinueLifeCost8, [Game lifeCostForCurrentContinueLeve:SIContinueLifeCost7]);
-    
-    XCTAssertEqual(SIContinueLifeCost9, [Game lifeCostForCurrentContinueLeve:SIContinueLifeCost8]);
-    
-    XCTAssertEqual(SIContinueLifeCost10, [Game lifeCostForCurrentContinueLeve:SIContinueLifeCost9]);
-    
-    XCTAssertEqual(SIContinueLifeCost11, [Game lifeCostForCurrentContinueLeve:SIContinueLifeCost10]);
-    
-    XCTAssertEqual(SIContinueLifeCost12, [Game lifeCostForCurrentContinueLeve:SIContinueLifeCost11]);
-    
-    XCTAssertEqual(SIContinueLifeCost13, [Game lifeCostForCurrentContinueLeve:SIContinueLifeCost12]);
-    
-    XCTAssertEqual(SIContinueLifeCost14, [Game lifeCostForCurrentContinueLeve:SIContinueLifeCost13]);
-    
-    XCTAssertEqual(SIContinueLifeCost15, [Game lifeCostForCurrentContinueLeve:SIContinueLifeCost14]);
-    
-    XCTAssertEqual(SIContinueLifeCost16, [Game lifeCostForCurrentContinueLeve:SIContinueLifeCost15]);
-    
-    XCTAssertEqual(SIContinueLifeCost17, [Game lifeCostForCurrentContinueLeve:SIContinueLifeCost16]);
-    
-    XCTAssertEqual(SIContinueLifeCost18, [Game lifeCostForCurrentContinueLeve:SIContinueLifeCost17]);
-    
-    XCTAssertEqual(SIContinueLifeCost19, [Game lifeCostForCurrentContinueLeve:SIContinueLifeCost18]);
-    
-    XCTAssertEqual(SIContinueLifeCost20, [Game lifeCostForCurrentContinueLeve:SIContinueLifeCost19]);
-
+    XCTAssertEqual(freePrize, SIFreePrizeTypeConsecutive);
 }
+
+- (void)testGameFreePrizeYesConsecutiveBorderEnd {
+    NSDate *currentDate = [NSDate date];
+    
+    NSDate *lastPrizeGivenDate = [currentDate dateByAddingTimeInterval:-1 * ((60 * 60 * 47) + (60 * 59))]; //47 hours 59 minutes ago
+    
+    SIFreePrizeType freePrize  = [SIGame gamePrizeForCurrentDate:currentDate lastPrizeGivenDate:lastPrizeGivenDate];
+    
+    XCTAssertEqual(freePrize, SIFreePrizeTypeConsecutive);
+}
+
+- (void)testGameFreePrizeYesBorderFront {
+    NSDate *currentDate = [NSDate date];
+    
+    NSDate *lastPrizeGivenDate = [currentDate dateByAddingTimeInterval:-1 * (60 * 60 * 48)]; //48 hours ago
+    
+    SIFreePrizeType freePrize  = [SIGame gamePrizeForCurrentDate:currentDate lastPrizeGivenDate:lastPrizeGivenDate];
+    
+    XCTAssertEqual(freePrize, SIFreePrizeTypeNonConsecutive);
+}
+
+- (void)testGameFreePrizeYesClear {
+    NSDate *currentDate = [NSDate date];
+    
+    NSDate *lastPrizeGivenDate = [currentDate dateByAddingTimeInterval:-1 * (60 * 60 * 100)]; //100 hours ago
+    
+    SIFreePrizeType freePrize  = [SIGame gamePrizeForCurrentDate:currentDate lastPrizeGivenDate:lastPrizeGivenDate];
+    
+    XCTAssertEqual(freePrize, SIFreePrizeTypeNonConsecutive);
+}
+
+- (void)testSecondsInDay {
+    XCTAssertEqual(SECONDS_IN_DAY, 60*60*24);
+}
+
+- (void)testStateStringNameForGameState {
+    /*Idle*/
+    XCTAssertEqualObjects(kSITKStateMachineStateGameIdle, [SIGame stateStringNameForGameState:SIGameStateIdle]);
+    
+    /*Pause*/
+    XCTAssertEqualObjects(kSITKStateMachineStateGamePaused, [SIGame stateStringNameForGameState:SIGameStatePause]);
+
+    /*Paying For Life*/
+    XCTAssertEqualObjects(kSITKStateMachineStateGamePayingForContinue, [SIGame stateStringNameForGameState:SIGameStatePayingForContinue]);
+    
+    /*Popup Continue*/
+    XCTAssertEqualObjects(kSITKStateMachineStateGamePopupContinue, [SIGame stateStringNameForGameState:SIGameStatePopupContinue]);
+    
+    /*Processing Move*/
+    XCTAssertEqualObjects(kSITKStateMachineStateGameProcessingMove, [SIGame stateStringNameForGameState:SIGameStateProcessingMove]);
+    
+    /*Start*/
+    XCTAssertEqualObjects(kSITKStateMachineStateGameStart, [SIGame stateStringNameForGameState:SIGameStateStart]);
+
+    /*End*/
+    XCTAssertEqualObjects(kSITKStateMachineStateGameEnd, [SIGame stateStringNameForGameState:SIGameStateEnd]);
+    
+    /*Falling Monkey*/
+    XCTAssertEqualObjects(kSITKStateMachineStateGameFallingMonkey, [SIGame stateStringNameForGameState:SIGameStateFallingMonkey]);
+    
+}
+
+- (void)testGameStateForString {
+    /*Idle*/
+    XCTAssertEqual(SIGameStateIdle, [SIGame gameStateForStringName:kSITKStateMachineStateGameIdle]);
+    
+    /*Pause*/
+    XCTAssertEqual(SIGameStatePause, [SIGame gameStateForStringName:kSITKStateMachineStateGamePaused]);
+    
+    /*Paying For Life*/
+    XCTAssertEqual(SIGameStatePayingForContinue, [SIGame gameStateForStringName:kSITKStateMachineStateGamePayingForContinue]);
+    
+    /*Popup Continue*/
+    XCTAssertEqual(SIGameStatePopupContinue, [SIGame gameStateForStringName:kSITKStateMachineStateGamePopupContinue]);
+    
+    /*Processing Move*/
+    XCTAssertEqual(SIGameStateProcessingMove, [SIGame gameStateForStringName:kSITKStateMachineStateGameProcessingMove]);
+    
+    /*Start*/
+    XCTAssertEqual(SIGameStateStart, [SIGame gameStateForStringName:kSITKStateMachineStateGameStart]);
+
+    /*End*/
+    XCTAssertEqual(SIGameStateEnd, [SIGame gameStateForStringName:kSITKStateMachineStateGameEnd]);
+    
+    /*Falling Monkey*/
+    XCTAssertEqual(SIGameStateFallingMonkey, [SIGame gameStateForStringName:kSITKStateMachineStateGameFallingMonkey]);
+    
+}
+
+- (void)testUpdateLifeTimeHighScore {
+    float lifeTimeHighScore         = 69.0f;
+    float newScore                  = 100.0f;
+
+    [_defaults setFloat:lifeTimeHighScore forKey:kSINSUserDefaultLifetimePointsEarned];
+    
+    //Function under test
+    [SIGame updateLifetimePointsScore:newScore withNSUserDefaults:_defaults];
+
+    float newLifeTimeHighScore      = [_defaults floatForKey:kSINSUserDefaultLifetimePointsEarned];
+    
+    XCTAssertEqualWithAccuracy(newScore + lifeTimeHighScore, newLifeTimeHighScore, 0.01f);
+}
+
+- (void)testUpdateLifeTimeHighScoreNil {
+    float newScore                  = 100.0f;
+    
+    //Function under test
+    [SIGame updateLifetimePointsScore:newScore withNSUserDefaults:_defaults];
+    
+    float newLifeTimeHighScore      = [_defaults floatForKey:kSINSUserDefaultLifetimePointsEarned];
+    
+    XCTAssertEqualWithAccuracy(newScore, newLifeTimeHighScore, 0.01f);
+}
+
+- (void)testIsDeviceHighScoreYes {
+    float deviceHighScore       = 1000.0f;
+    float newScore              = 1001.0f;
+    
+    [_defaults setFloat:deviceHighScore forKey:kSINSUserDefaultLifetimeHighScore];
+    
+    BOOL isHighScore = [SIGame isDevieHighScore:newScore withNSUserDefaults:_defaults];
+    
+    XCTAssertEqual(isHighScore, YES);
+    
+    XCTAssertEqualWithAccuracy([_defaults floatForKey:kSINSUserDefaultLifetimeHighScore], newScore, 0.01f);
+}
+
+- (void)testIsDeviceHighScoreNoUnder {
+    float deviceHighScore       = 1000.0f;
+    float newScore              = 999.0f;
+    
+    [_defaults setFloat:deviceHighScore forKey:kSINSUserDefaultLifetimeHighScore];
+    
+    BOOL isHighScore = [SIGame isDevieHighScore:newScore withNSUserDefaults:_defaults];
+    
+    XCTAssertEqual(isHighScore, NO);
+    
+    XCTAssertEqualWithAccuracy([_defaults floatForKey:kSINSUserDefaultLifetimeHighScore], deviceHighScore, 0.01f);
+}
+
+- (void)testIsDeviceHighScoreNoSame {
+    float deviceHighScore       = 1000.0f;
+    float newScore              = 1000.0f;
+    
+    [_defaults setFloat:deviceHighScore forKey:kSINSUserDefaultLifetimeHighScore];
+    
+    BOOL isHighScore = [SIGame isDevieHighScore:newScore withNSUserDefaults:_defaults];
+    
+    XCTAssertEqual(isHighScore, NO);
+    
+    XCTAssertEqualWithAccuracy([_defaults floatForKey:kSINSUserDefaultLifetimeHighScore], deviceHighScore, 0.01f);
+}
+
+- (void)testIsDeviceHighScoreYesNil {
+    float newScore              = 1000.0f;
+    
+    BOOL isHighScore = [SIGame isDevieHighScore:newScore withNSUserDefaults:_defaults];
+    
+    XCTAssertEqual(isHighScore, YES);
+    
+    XCTAssertEqualWithAccuracy([_defaults floatForKey:kSINSUserDefaultLifetimeHighScore], newScore, 0.01f);
+}
+
+- (void)testUpdatePointsTillFreeCoinMoveScoreNoFreeCoin {
+    float moveScore             = MAX_MOVE_SCORE - 1;
+    float pointsTillFreeCoin    = POINTS_NEEDED_FOR_FREE_COIN - MAX_MOVE_SCORE;
+    
+    [_defaults setFloat:pointsTillFreeCoin forKey:kSINSUserDefaultPointsTowardsFreeCoin];
+    
+    float newPointsTillFreeCoin = [SIGame updatePointsTillFreeCoinMoveScore:moveScore withNSUserDefaults:_defaults withCallback:^(BOOL willAwardFreeCoin) {
+        XCTAssertEqual(willAwardFreeCoin, NO);
+    }];
+    
+    XCTAssertEqualWithAccuracy(newPointsTillFreeCoin, moveScore + pointsTillFreeCoin, 0.01f);
+    
+    XCTAssertEqualWithAccuracy(newPointsTillFreeCoin, [_defaults floatForKey:kSINSUserDefaultPointsTowardsFreeCoin], 0.01f);
+    
+}
+
+- (void)testUpdatePointsTillFreeCoinMoveScoreFreeCoin {
+    float moveScore             = MAX_MOVE_SCORE;
+    float pointsTillFreeCoin    = POINTS_NEEDED_FOR_FREE_COIN - 1;
+    
+    [_defaults setFloat:pointsTillFreeCoin forKey:kSINSUserDefaultPointsTowardsFreeCoin];
+    
+    float newPointsTillFreeCoin = [SIGame updatePointsTillFreeCoinMoveScore:moveScore withNSUserDefaults:_defaults withCallback:^(BOOL willAwardFreeCoin) {
+        XCTAssertEqual(willAwardFreeCoin, YES);
+    }];
+    
+    //we are going to erol over on this entry so lets thin kwhat shoudl this look like
+    //  we know that we will take the sum of pointsTillFreeCoin & moveScore then subtract POINTS_NEEDED_FOR_FREE_COIN
+    float expectedOutput = (pointsTillFreeCoin + moveScore) - POINTS_NEEDED_FOR_FREE_COIN;
+    
+    
+    XCTAssertEqualWithAccuracy(newPointsTillFreeCoin, expectedOutput, 0.01f);
+    
+    XCTAssertEqualWithAccuracy(newPointsTillFreeCoin, [_defaults floatForKey:kSINSUserDefaultPointsTowardsFreeCoin], 0.01f);
+    
+}
+
+- (void)testUpdatePointsTillFreeCoinMoveScoreSuperBigMoveScoreNoFreeCoin {
+    float moveScore             = MAX_MOVE_SCORE * POINTS_NEEDED_FOR_FREE_COIN;
+    float pointsTillFreeCoin    = POINTS_NEEDED_FOR_FREE_COIN - MAX_MOVE_SCORE - 1;
+    
+    [_defaults setFloat:pointsTillFreeCoin forKey:kSINSUserDefaultPointsTowardsFreeCoin];
+    
+    float newPointsTillFreeCoin = [SIGame updatePointsTillFreeCoinMoveScore:moveScore withNSUserDefaults:_defaults withCallback:^(BOOL willAwardFreeCoin) {
+        XCTAssertEqual(willAwardFreeCoin, NO);
+    }];
+    
+    XCTAssertEqualWithAccuracy(newPointsTillFreeCoin, MAX_MOVE_SCORE + pointsTillFreeCoin, 0.01f);
+    
+    XCTAssertEqualWithAccuracy(newPointsTillFreeCoin, [_defaults floatForKey:kSINSUserDefaultPointsTowardsFreeCoin], 0.01f);
+}
+
+- (void)testUpdatePointsTillFreeCoinMoveScoreSuperBigMoveScoreFreeCoin {
+    float moveScore             = MAX_MOVE_SCORE * POINTS_NEEDED_FOR_FREE_COIN;
+    float pointsTillFreeCoin    = POINTS_NEEDED_FOR_FREE_COIN - 1;
+    
+    [_defaults setFloat:pointsTillFreeCoin forKey:kSINSUserDefaultPointsTowardsFreeCoin];
+    
+    float newPointsTillFreeCoin = [SIGame updatePointsTillFreeCoinMoveScore:moveScore withNSUserDefaults:_defaults withCallback:^(BOOL willAwardFreeCoin) {
+        XCTAssertEqual(willAwardFreeCoin, YES);
+    }];
+    
+    //we are going to erol over on this entry so lets thin kwhat shoudl this look like
+    //  we know that we will take the sum of pointsTillFreeCoin & moveScore then subtract POINTS_NEEDED_FOR_FREE_COIN
+    float expectedOutput = (pointsTillFreeCoin + MAX_MOVE_SCORE) - POINTS_NEEDED_FOR_FREE_COIN;
+    
+    
+    XCTAssertEqualWithAccuracy(newPointsTillFreeCoin, expectedOutput, 0.01f);
+    
+    XCTAssertEqualWithAccuracy(newPointsTillFreeCoin, [_defaults floatForKey:kSINSUserDefaultPointsTowardsFreeCoin], 0.01f);
+    
+}
+
+- (void)testUpdatePointsTillFreeCoinMoveScoreNilDefault {
+    float moveScore             = MAX_MOVE_SCORE;
+    float pointsTillFreeCoin    = 0.0f;
+    
+//    [_defaults setFloat:pointsTillFreeCoin forKey:kSINSUserDefaultPointsTowardsFreeCoin];
+    
+    float newPointsTillFreeCoin = [SIGame updatePointsTillFreeCoinMoveScore:moveScore withNSUserDefaults:_defaults withCallback:^(BOOL willAwardFreeCoin) {
+        XCTAssertEqual(willAwardFreeCoin, NO);
+    }];
+    
+    XCTAssertEqualWithAccuracy(newPointsTillFreeCoin, moveScore + pointsTillFreeCoin, 0.01f);
+    
+    XCTAssertEqualWithAccuracy(newPointsTillFreeCoin, [_defaults floatForKey:kSINSUserDefaultPointsTowardsFreeCoin], 0.01f);
+}
+
 @end

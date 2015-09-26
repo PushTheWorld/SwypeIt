@@ -55,5 +55,7 @@
 
 + (UIColor *)goldColor;
 + (UIColor *)mainColor;
++ (UIColor *)royalBlueColor;
 + (UIColor *)sandColor;
++ (UIColor *)simplstMainColor;
 @end
