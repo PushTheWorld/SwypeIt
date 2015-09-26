@@ -4,6 +4,7 @@ PODS:
     - Fabric/Base (= 1.5.1)
   - Fabric/Base (1.5.1)
   - FXBlurView (1.6.4)
+  - INSpriteKit (1.2.1)
   - Instabug (4.1.7)
   - iRate (1.11.4)
   - iVersion (1.11.4)
@@ -15,6 +16,7 @@ DEPENDENCIES:
   - Crashlytics
   - Fabric
   - FXBlurView
+  - INSpriteKit
   - Instabug
   - iRate
   - iVersion
@@ -26,6 +28,7 @@ SPEC CHECKSUMS:
   Crashlytics: 0e61bdda9def51f1e99720f804eebe94865442b2
   Fabric: 03c3b3fe77e11a2bc31421b989a9c7adaa4779a5
   FXBlurView: db786c2561cb49a09ae98407f52460096ab8a44f
+  INSpriteKit: 90943665f8ea4590989eb4eeb6cad4eb32b3d248
   Instabug: 58f773fcefe0dec9b1bd3fcf09c6e46560353f5d
   iRate: 599ed07c854e0695f3c605d1b2a64c67d912acb7
   iVersion: 2b6ffe708672cb494ba3cab150a94800c2892e81

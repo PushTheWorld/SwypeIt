@@ -11,10 +11,9 @@ target 'Swype It' do
     pod 'FXBlurView'
     pod 'JCNotificationBannerPresenter'
     pod 'TransitionKit'
+    pod 'INSpriteKit'
 end
 
 target 'Swype ItTests', :exclusive => true do
-    pod 'FXBlurView'
-    pod 'JCNotificationBannerPresenter'
     pod 'TransitionKit'
 end
