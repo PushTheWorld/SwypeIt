@@ -7,16 +7,21 @@
 //
 
 #import <XCTest/XCTest.h>
+#import "SIGameModel.h"
+#import "TransitionKit.h"
 
 @interface GameSceneTests : XCTestCase
 
 @end
 
-@implementation GameSceneTests
+@implementation GameSceneTests {
+    SIGameModel *_gameModel;
+}
 
 - (void)setUp {
     [super setUp];
     // Put setup code here. This method is called before the invocation of each test method in the class.
+    _gameModel = [[SIGameModel alloc] init];
 }
 
 - (void)tearDown {
@@ -24,16 +29,12 @@
     [super tearDown];
 }
 
-- (void)testExample {
-    // This is an example of a functional test case.
-    // Use XCTAssert and related functions to verify your tests produce the correct results.
+- (void)testDoesStartInCorrectState {
+    BOOL success = [_gameModel.stateMachine fireEvent:kSITKStateMachineEventGameLoad userInfo:nil error:nil];
+    XCTAssert(success);
+    XCTAssert([_gameModel.stateMachine isInState:kSITKStateMachineStateGameLoading]);
 }
 
-- (void)testPerformanceExample {
-    // This is an example of a performance test case.
-    [self measureBlock:^{
-        // Put the code you want to measure the time of here.
-    }];
-}
+
 
 @end

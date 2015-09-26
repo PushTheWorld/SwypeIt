@@ -1,17 +1,20 @@
 platform :ios, '7.0'
 
-pod 'SoundManager'
 
-pod 'Fabric'
+target 'Swype It' do
+    pod 'SoundManager'
+    pod 'Fabric'
+    pod 'Crashlytics'
+    pod 'Instabug'
+    pod 'iRate'
+    pod 'iVersion'
+    pod 'FXBlurView'
+    pod 'JCNotificationBannerPresenter'
+    pod 'TransitionKit'
+end
 
-pod 'Crashlytics'
-
-pod 'Instabug'
-
-pod 'iRate'
-
-pod 'iVersion'
-
-pod 'FXBlurView'
-
-pod 'JCNotificationBannerPresenter'
+target 'Swype ItTests', :exclusive => true do
+    pod 'FXBlurView'
+    pod 'JCNotificationBannerPresenter'
+    pod 'TransitionKit'
+end
