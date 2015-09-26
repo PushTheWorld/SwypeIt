@@ -413,8 +413,6 @@ NSString *const kSISoundBackgroundTwo                                           
 NSString *const kSISoundBackgroundThree                                         = @"swypeItSound3";
 NSString *const kSISoundBackgroundFour                                          = @"swypeItSound4";
 NSString *const kSISoundBackgroundFive                                          = @"swypeItSound5";
-NSString *const kSISoundBackgroundSix                                           = @"swypeItSound6";
-NSString *const kSISoundBackgroundSeven                                         = @"swypeItSound7";
 NSString *const kSISoundFXCoinNoise                                             = @"coinNoise";
 NSString *const kSISoundFXChaChing                                              = @"swypeItFXChaChing";
 NSString *const kSISoundFXGameOver                                              = @"swypeItGameOver";

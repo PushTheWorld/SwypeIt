@@ -149,14 +149,13 @@
     switch (move) {
         case SIMoveCommandTap:
             return kSIMoveCommandTap;
-        case SIMoveCommandSwype:
-            return kSIMoveCommandSwype;
         case SIMoveCommandPinch:
             return kSIMoveCommandPinch;
         case SIMoveCommandShake:
             return kSIMoveCommandShake;
+        case SIMoveCommandSwype:
         default:
-            return nil;
+            return kSIMoveCommandSwype;
     }
 }
 
@@ -353,9 +352,8 @@
         case 20:
             return SIContinueLifeCost20;
         case 21:
-            return SIContinueLifeCost21;
         default:
-            return SIContinueLifeCost1;
+            return SIContinueLifeCost21;
     }
 }
 + (SIContinueAdCount)adCountForNumberOfTimesContinued:(int)numberOfTimesContinued {
@@ -401,9 +399,8 @@
         case 20:
             return SIContinueAdCount20;
         case 21:
-            return SIContinueAdCount21;
         default:
-            return SIContinueAdCount1;
+            return SIContinueAdCount21;
     }
 }
 
@@ -435,8 +432,6 @@
 
 + (NSString *)soundNameForSIBackgroundSound:(SIBackgroundSound)siBackgroundSound {
     switch (siBackgroundSound) {
-        case SIBackgroundSoundMenu:
-            return kSISoundBackgroundMenu;
         case SIBackgroundSoundOne:
             return kSISoundBackgroundOne;
         case SIBackgroundSoundTwo:
@@ -447,10 +442,7 @@
             return kSISoundBackgroundFour;
         case SIBackgroundSoundFive:
             return kSISoundBackgroundFive;
-        case SIBackgroundSoundSix:
-            return kSISoundBackgroundSix;
-        case SIBackgroundSoundSeven:
-            return kSISoundBackgroundSeven;
+        case SIBackgroundSoundMenu:
         default:
             return kSISoundBackgroundMenu;
     }
@@ -462,10 +454,10 @@
     if (isHighScore) {
         randomNumber = arc4random_uniform((int)[[SIConstants userMessageHighScore] count]);
         return [SIConstants userMessageHighScore][randomNumber];
-    } else if (scorePercent > 0.9) {
+    } else if (scorePercent > USER_MSG_LEVEL_MEDIAN) {
         randomNumber = arc4random_uniform((int)[[SIConstants userMessageHighScoreClose] count]);
         return [SIConstants userMessageHighScoreClose][randomNumber];
-    } else if (scorePercent > 0.4) {
+    } else if (scorePercent > USER_MSG_LEVEL_BAD) {
         randomNumber = arc4random_uniform((int)[[SIConstants userMessageHighScoreMedian] count]);
         return [SIConstants userMessageHighScoreMedian][randomNumber];
     } else {

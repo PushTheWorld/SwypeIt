@@ -32,13 +32,12 @@
 #define LEVEL21                             11000
 #define LEVEL22                             12000
 
-#define SOUNDLEVEL1                         100
-#define SOUNDLEVEL2                         200
-#define SOUNDLEVEL3                         300
-#define SOUNDLEVEL4                         400
-#define SOUNDLEVEL5                         500
-#define SOUNDLEVEL6                         600
-#define SOUNDLEVEL7                         700
+#define SOUNDLEVEL1                         200
+#define SOUNDLEVEL2                         400
+#define SOUNDLEVEL3                         600
+#define SOUNDLEVEL4                         800
+#define SOUNDLEVEL5                         10000
+
 
 #define VERTICAL_SPACING_4                  4
 #define VERTICAL_SPACING_8                  8
@@ -100,6 +99,10 @@
 #define FREE_COINS_PER_DAY                  5
 #define EPSILON_NUMBER                      0.01
 #define ACHIEVEMENT_PERCENT_PER_LEVEL       33
+
+#define USER_MSG_LEVEL_BAD                  0.4
+#define USER_MSG_LEVEL_MEDIAN               0.9
+#define USER_MSG_LEVEL_CLOSE                1.0
 
 /**
  Creates a monkey face to be reused all over the app
@@ -167,9 +170,7 @@ typedef NS_ENUM(NSInteger, SIBackgroundSound) {
     SIBackgroundSoundTwo,
     SIBackgroundSoundThree,
     SIBackgroundSoundFour,
-    SIBackgroundSoundFive,
-    SIBackgroundSoundSix,
-    SIBackgroundSoundSeven
+    SIBackgroundSoundFive
 };
 
 typedef NS_ENUM(NSInteger, SIContinueLifeCost) {
@@ -779,8 +780,6 @@ extern NSString *const kSISoundBackgroundTwo;
 extern NSString *const kSISoundBackgroundThree;
 extern NSString *const kSISoundBackgroundFour;
 extern NSString *const kSISoundBackgroundFive;
-extern NSString *const kSISoundBackgroundSix;
-extern NSString *const kSISoundBackgroundSeven;
 extern NSString *const kSISoundFXCoinNoise;
 extern NSString *const kSISoundFXChaChing;
 extern NSString *const kSISoundFXGameOver;

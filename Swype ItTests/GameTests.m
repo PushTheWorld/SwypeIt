@@ -551,8 +551,6 @@
     float moveScore             = MAX_MOVE_SCORE;
     float pointsTillFreeCoin    = 0.0f;
     
-//    [_defaults setFloat:pointsTillFreeCoin forKey:kSINSUserDefaultPointsTowardsFreeCoin];
-    
     float newPointsTillFreeCoin = [SIGame updatePointsTillFreeCoinMoveScore:moveScore withNSUserDefaults:_defaults withCallback:^(BOOL willAwardFreeCoin) {
         XCTAssertEqual(willAwardFreeCoin, NO);
     }];
@@ -561,5 +559,116 @@
     
     XCTAssertEqualWithAccuracy(newPointsTillFreeCoin, [_defaults floatForKey:kSINSUserDefaultPointsTowardsFreeCoin], 0.01f);
 }
+
+- (void)testIncrementGamesPlayedWithNSUserDefaults {
+    
+    NSInteger initalGamesPlayed = 0;
+    
+    [_defaults setInteger:initalGamesPlayed forKey:kSINSUserDefaultLifetimeGamesPlayed];
+    
+    [SIGame incrementGamesPlayedWithNSUserDefaults:_defaults];
+    
+    XCTAssertEqual(initalGamesPlayed + 1, [_defaults integerForKey:kSINSUserDefaultLifetimeGamesPlayed]);
+    
+}
+
+- (void)testBackgroundSoundForScoreNegativeScore {
+    float score = -10.0f;
+    
+    XCTAssertEqual(SIBackgroundSoundOne, [SIGame backgroundSoundForScore:score]);
+}
+
+- (void)testBackgroundSoundForScore {
+    float score = SOUNDLEVEL1 - 1;
+    XCTAssertEqual(SIBackgroundSoundOne, [SIGame backgroundSoundForScore:score]);
+    
+    score = SOUNDLEVEL1;
+    XCTAssertEqual(SIBackgroundSoundTwo, [SIGame backgroundSoundForScore:score]);
+    
+    score = SOUNDLEVEL2;
+    XCTAssertEqual(SIBackgroundSoundThree, [SIGame backgroundSoundForScore:score]);
+    
+    score = SOUNDLEVEL3;
+    XCTAssertEqual(SIBackgroundSoundFour, [SIGame backgroundSoundForScore:score]);
+    
+    score = SOUNDLEVEL4;
+    XCTAssertEqual(SIBackgroundSoundFive, [SIGame backgroundSoundForScore:score]);
+    
+    score = SOUNDLEVEL5;
+    XCTAssertEqual(SIBackgroundSoundFour, [SIGame backgroundSoundForScore:score]);
+    
+    score = SOUNDLEVEL5 + (SOUNDLEVEL5 / 2);
+    XCTAssertEqual(SIBackgroundSoundFive, [SIGame backgroundSoundForScore:score]);
+   
+}
+- (void)testSoundNameForSIBackgroundSound {
+    
+    XCTAssertEqualObjects(kSISoundBackgroundMenu, [SIGame soundNameForSIBackgroundSound:SIBackgroundSoundMenu]);
+    
+    XCTAssertEqualObjects(kSISoundBackgroundOne, [SIGame soundNameForSIBackgroundSound:SIBackgroundSoundOne]);
+
+    XCTAssertEqualObjects(kSISoundBackgroundTwo, [SIGame soundNameForSIBackgroundSound:SIBackgroundSoundTwo]);
+    
+    XCTAssertEqualObjects(kSISoundBackgroundThree, [SIGame soundNameForSIBackgroundSound:SIBackgroundSoundThree]);
+    
+    XCTAssertEqualObjects(kSISoundBackgroundFour, [SIGame soundNameForSIBackgroundSound:SIBackgroundSoundFour]);
+    
+    XCTAssertEqualObjects(kSISoundBackgroundFive, [SIGame soundNameForSIBackgroundSound:SIBackgroundSoundFive]);
+    
+}
+
+- (void)testUserMessageForScoreBadScore {
+    BOOL isHighScore        = NO;
+    float score             = 1.0f;
+    float highScore         = 1000.0f;
+    NSString *userMessage   = @"taco";
+    
+    while (score < (highScore * USER_MSG_LEVEL_BAD)) {
+        userMessage = [SIGame userMessageForScore:score isHighScore:isHighScore highScore:highScore];
+        XCTAssert([[SIConstants userMessageHighScoreBad] containsObject:userMessage]);
+        score       = score + 25.0f;
+    }
+}
+
+- (void)testUserMessageForScoreMedianScore {
+    BOOL isHighScore        = NO;
+    float highScore         = 1000.0f;
+    float score             = highScore * USER_MSG_LEVEL_BAD + 1;
+    NSString *userMessage   = @"taco";
+    
+    while (score < (highScore * USER_MSG_LEVEL_MEDIAN)) {
+        userMessage = [SIGame userMessageForScore:score isHighScore:isHighScore highScore:highScore];
+        XCTAssert([[SIConstants userMessageHighScoreMedian] containsObject:userMessage]);
+        score       = score + 25.0f;
+    }
+}
+
+- (void)testUserMessageForScoreCloseScore {
+    BOOL isHighScore        = NO;
+    float highScore         = 1000.0f;
+    float score             = highScore * USER_MSG_LEVEL_MEDIAN + 1;
+    NSString *userMessage   = @"taco";
+    
+    while (score < (highScore * USER_MSG_LEVEL_CLOSE)) {
+        userMessage = [SIGame userMessageForScore:score isHighScore:isHighScore highScore:highScore];
+        XCTAssert([[SIConstants userMessageHighScoreClose] containsObject:userMessage]);
+        score       = score + 5.0f;
+    }
+}
+
+- (void)testUserMessageForScoreHighScore {
+    BOOL isHighScore        = YES;
+    float highScore         = 1000.0f;
+    float score             = highScore * USER_MSG_LEVEL_BAD;
+    NSString *userMessage   = @"taco";
+    
+    while (score < (highScore * USER_MSG_LEVEL_CLOSE * 1.5)) {
+        userMessage = [SIGame userMessageForScore:score isHighScore:isHighScore highScore:highScore];
+        XCTAssert([[SIConstants userMessageHighScore] containsObject:userMessage]);
+        score       = score + 25.0f;
+    }
+}
+
+
 
 @end
