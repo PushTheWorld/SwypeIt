@@ -334,6 +334,14 @@
     });
     return color;
 }
++ (UIColor *)royalBlueColor {
+    static UIColor *color = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        color = [UIColor colorWithRed:000.0/255.0 green:035.0/255.0 blue:02.0/255.0 alpha:1.0];
+    });
+    return color;
+}
 + (UIColor *)sandColor {
     static UIColor *color = nil;
     static dispatch_once_t onceToken;
@@ -350,11 +358,30 @@
     });
     return color;
 }
-+ (UIColor *)royalBlueColor {
+
++ (UIColor *)SIBackgroundColorLevel1A {
     static UIColor *color = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        color = [UIColor colorWithRed:000.0/255.0 green:035.0/255.0 blue:02.0/255.0 alpha:1.0];
+        color = [UIColor colorWithRed:027.0/255.0 green:147.0/255.0 blue:255.0/255.0 alpha:1.0];
+    });
+    return color;
+}
+
++ (UIColor *)SIBackgroundColorLevel1B {
+    static UIColor *color = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        color = [UIColor colorWithRed:073.0/255.0 green:169.0/255.0 blue:255.0/255.0 alpha:1.0];
+    });
+    return color;
+}
+
++ (UIColor *)SIBackgroundColorLevel1C {
+    static UIColor *color = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        color = [UIColor colorWithRed:118.0/255.0 green:190.0/255.0 blue:255.0/255.0 alpha:1.0];
     });
     return color;
 }

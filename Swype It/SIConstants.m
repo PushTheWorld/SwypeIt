@@ -365,6 +365,7 @@ NSString *const kSINodeNodeChest                                                
 NSString *const kSINodeNodeBag                                                  = @"bagOfCoinsNode";
 NSString *const kSINodeNodeBucket                                               = @"bucketOfCoinsNode";
 NSString *const kSINodeNodePile                                                 = @"pileOfCoinsNode";
+NSString *const kSINodePopupButton                                              = @"popupButtonNode";
 NSString *const kSINodePopupContent                                             = @"content";
 NSString *const kSINodePopupTitle                                               = @"title";
 

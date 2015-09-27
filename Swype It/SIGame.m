@@ -162,11 +162,11 @@
     if (score < LEVEL1) {
         switch (randomNumber) {
             case 0:
-                return [UIColor backgroundColorForLevelOneA];
+                return [UIColor SIBackgroundColorLevel1A];
             case 1:
-                return [UIColor backgroundColorForLevelOneB];
+                return [UIColor SIBackgroundColorLevel1B];
             default:
-                return [UIColor backgroundColorForLevelOneC];
+                return [UIColor SIBackgroundColorLevel1C];
         }
     } else if (score < LEVEL2) {
         switch (randomNumber) {
@@ -715,8 +715,8 @@
     game.currentNumberOfTimesContinued       = 1;
     game.totalScore                          = 0.0f;
     game.freeCoinsEarned                     = 0;
-    game.currentBackgroundColorNumber        = arc4random_uniform(NUMBER_OF_MOVES);
-    game.currentBackgroundColor              = [SKColor mainColor];
+    game.currentBackgroundColorNumber        = 0;
+    game.currentBackgroundColor              = [SKColor SIBackgroundColorLevel1A];
     game.isHighScore                         = NO;
 }
 /**

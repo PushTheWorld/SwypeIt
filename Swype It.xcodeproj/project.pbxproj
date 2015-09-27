@@ -101,6 +101,8 @@
 		0979E6581B77A614002FC2F2 /* LongIsland-Shadow.otf in Resources */ = {isa = PBXBuildFile; fileRef = 0979E6571B77A614002FC2F2 /* LongIsland-Shadow.otf */; };
 		0979E65A1B77A74E002FC2F2 /* LongIslandContour.otf in Resources */ = {isa = PBXBuildFile; fileRef = 0979E6591B77A74E002FC2F2 /* LongIslandContour.otf */; };
 		0979E65C1B77C0F2002FC2F2 /* diamondPlate3.png in Resources */ = {isa = PBXBuildFile; fileRef = 0979E65B1B77C0F2002FC2F2 /* diamondPlate3.png */; };
+		097FF7101BB731BB009DF538 /* Level1.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 097FF70F1BB731BB009DF538 /* Level1.xcassets */; settings = {ASSET_TAGS = (); }; };
+		097FF7131BB754F4009DF538 /* SIMenuEndNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 097FF7121BB754F4009DF538 /* SIMenuEndNode.m */; settings = {ASSET_TAGS = (); }; };
 		0988CC941B70C82300BF429D /* SIStoreButtonNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 0988CC931B70C82300BF429D /* SIStoreButtonNode.m */; };
 		0988CC961B7203CA00BF429D /* Ultra.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0988CC951B7203CA00BF429D /* Ultra.ttf */; };
 		0988CC9B1B720F3B00BF429D /* images.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 0988CC9A1B720F3B00BF429D /* images.atlas */; };
@@ -342,6 +344,9 @@
 		0979E6571B77A614002FC2F2 /* LongIsland-Shadow.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "LongIsland-Shadow.otf"; sourceTree = "<group>"; };
 		0979E6591B77A74E002FC2F2 /* LongIslandContour.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = LongIslandContour.otf; sourceTree = "<group>"; };
 		0979E65B1B77C0F2002FC2F2 /* diamondPlate3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = diamondPlate3.png; sourceTree = "<group>"; };
+		097FF70F1BB731BB009DF538 /* Level1.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Level1.xcassets; sourceTree = "<group>"; };
+		097FF7111BB754F4009DF538 /* SIMenuEndNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SIMenuEndNode.h; sourceTree = "<group>"; };
+		097FF7121BB754F4009DF538 /* SIMenuEndNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SIMenuEndNode.m; sourceTree = "<group>"; };
 		0988CC921B70C82300BF429D /* SIStoreButtonNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SIStoreButtonNode.h; sourceTree = "<group>"; };
 		0988CC931B70C82300BF429D /* SIStoreButtonNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SIStoreButtonNode.m; sourceTree = "<group>"; };
 		0988CC951B7203CA00BF429D /* Ultra.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Ultra.ttf; sourceTree = "<group>"; };
@@ -589,6 +594,7 @@
 		091FED451B37283E0071F8DC /* Swype It */ = {
 			isa = PBXGroup;
 			children = (
+				097FF7061BB72FF0009DF538 /* Assest */,
 				094CECD01BAD1C7F00BD3AD6 /* 000 - Model */,
 				098B3B441B378B8F000D4702 /* 001 - Singletons */,
 				091FED6C1B3729040071F8DC /* 002 - AppDelegate */,
@@ -754,6 +760,8 @@
 				0988CC931B70C82300BF429D /* SIStoreButtonNode.m */,
 				09568C351BB5BE2300156DDF /* SISpriteButton.h */,
 				09568C361BB5BE2300156DDF /* SISpriteButton.m */,
+				097FF7111BB754F4009DF538 /* SIMenuEndNode.h */,
+				097FF7121BB754F4009DF538 /* SIMenuEndNode.m */,
 			);
 			name = CustomUIClasses;
 			sourceTree = "<group>";
@@ -848,6 +856,30 @@
 				0979E6521B76AA30002FC2F2 /* MSSAlertViewController.m */,
 			);
 			name = MSSAlertViewController;
+			sourceTree = "<group>";
+		};
+		097FF7061BB72FF0009DF538 /* Assest */ = {
+			isa = PBXGroup;
+			children = (
+				097FF70A1BB7302C009DF538 /* Scenes */,
+			);
+			name = Assest;
+			sourceTree = "<group>";
+		};
+		097FF7091BB73023009DF538 /* Level1 */ = {
+			isa = PBXGroup;
+			children = (
+				097FF70F1BB731BB009DF538 /* Level1.xcassets */,
+			);
+			name = Level1;
+			sourceTree = "<group>";
+		};
+		097FF70A1BB7302C009DF538 /* Scenes */ = {
+			isa = PBXGroup;
+			children = (
+				097FF7091BB73023009DF538 /* Level1 */,
+			);
+			name = Scenes;
 			sourceTree = "<group>";
 		};
 		098B3B441B378B8F000D4702 /* 001 - Singletons */ = {
@@ -1167,6 +1199,7 @@
 				09E4D80A1BAB584C00994E8E /* SF-UI-Text-Medium.otf in Resources */,
 				09E4D8061BAB584C00994E8E /* SF-UI-Text-Heavy.otf in Resources */,
 				0938C2C11BA8483200B69FC2 /* tapNoise.caf in Resources */,
+				097FF7101BB731BB009DF538 /* Level1.xcassets in Resources */,
 				09CAF9AC1B646F4C00466606 /* buttons.atlas in Resources */,
 				09E4D7FC1BAB584C00994E8E /* SF-UI-Display-Bold.otf in Resources */,
 				0979E6581B77A614002FC2F2 /* LongIsland-Shadow.otf in Resources */,
@@ -1349,6 +1382,7 @@
 				099302FC1B7CB50600D2CCE4 /* SIPopupNode.m in Sources */,
 				092720DF1B5EF1C30005A6B6 /* StoreScene.m in Sources */,
 				0917D4F51B6DD8240046B5FF /* HLScene.m in Sources */,
+				097FF7131BB754F4009DF538 /* SIMenuEndNode.m in Sources */,
 				094CECCF1BAD1C7300BD3AD6 /* SIGameModel.m in Sources */,
 				0917D4F61B6DD8240046B5FF /* HLScrollNode.m in Sources */,
 				0917D4EF1B6DD8240046B5FF /* HLMath.m in Sources */,

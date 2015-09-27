@@ -91,7 +91,7 @@ static const uint32_t SIGameSceneCategoryEdge          = 0x1 << 2; // 0000000000
         _animationDuration                              = 1.0f;
         _blurScreenDuration                             = 0.25f;
         _moveCommandRandomLocation                      = NO;
-        _scoreTotalLabelTopPadding                      = VERTICAL_SPACING_8;
+        _scoreTotalLabelTopPadding                      = VERTICAL_SPACING_16;
         _swypeItCoins                                   = 0;
     }
     return self;
@@ -142,7 +142,6 @@ static const uint32_t SIGameSceneCategoryEdge          = 0x1 << 2; // 0000000000
     _backgroundSize                                         = size;
     _pauseButtonSize                                        = CGSizeMake(size.width / 8.0f, size.width / 8.0f);
     
-
     _moveScoreDuration                                      = 1.0f;
 //    SKAction *grow                                          = [SKAction scaleTo:2.0f duration:_moveScoreDuration / 2.0f];
     SKAction *shrink                                        = [SKAction scaleTo:0.0f duration:_moveScoreDuration];
@@ -157,7 +156,7 @@ static const uint32_t SIGameSceneCategoryEdge          = 0x1 << 2; // 0000000000
     /**Preform all your alloc/init's here*/
     
     /*Create Background Node*/
-    _backgroundNode                                         = [SKSpriteNode spriteNodeWithColor:[SKColor mainColor] size:_sceneSize];  // [[SIGameNode alloc] initWithSize:_sceneSize gameMode:SIGameModeTwoHand];
+    _backgroundNode                                         = [SKSpriteNode spriteNodeWithColor:[SKColor SIBackgroundColorLevel1A] size:_sceneSize];  // [[SIGameNode alloc] initWithSize:_sceneSize gameMode:SIGameModeTwoHand];
 
     _edge                                                   = [SKNode node];
     
@@ -179,7 +178,7 @@ static const uint32_t SIGameSceneCategoryEdge          = 0x1 << 2; // 0000000000
     
     _highScoreLabelNode                                     = [SIGameController SILabelParagraph_x2:@"HIGH SCORE!"];
     
-    _scoreTotalLabel                                        = [SIGameController SILabelHeader:@"0.00"];
+    _scoreTotalLabel                                        = [SIGameController SILabelHeader_x3:@"0.00"];
     
     _scoreMoveLabel                                         = [SIGameController SILabelSceneGameMoveScoreLabel];
 }
@@ -392,6 +391,7 @@ static const uint32_t SIGameSceneCategoryEdge          = 0x1 << 2; // 0000000000
     }
     if (progressBarPowerUp) {
         _progressBarPowerUp = progressBarPowerUp;
+        _progressBarPowerUp.userInteractionEnabled = YES;
         _progressBarPowerUp.physicsBody.categoryBitMask = SIGameSceneCategoryUIControl;
         [self addChild:_progressBarPowerUp];
         _progressBarPowerUp.progress = 1.0f;
@@ -546,8 +546,8 @@ static const uint32_t SIGameSceneCategoryEdge          = 0x1 << 2; // 0000000000
     }
     
     if (_progressBarPowerUp) {
-        positionHidden      = CGPointMake(sceneMidX, sceneMidY - _progressBarPowerUp.size.height);
-        positionVisible     = CGPointMake(sceneMidX,sceneMidY + (_progressBarPowerUp.size.height / 2.0f) + (_moveCommandLabelSize.height / 2.0f) + VERTICAL_SPACING_8);
+        positionHidden      = CGPointMake(sceneMidX,sceneMidY + (-1.0f * ((_progressBarPowerUp.size.height / 2.0f) + (_moveCommandLabelSize.height / 2.0f) + VERTICAL_SPACING_8)));
+        positionVisible     = positionHidden;
         [SIGameController SIControllerNode:_progressBarPowerUp
                                  animation:animation
                             animationStyle:SISceneContentAnimationStyleGrow
@@ -559,9 +559,6 @@ static const uint32_t SIGameSceneCategoryEdge          = 0x1 << 2; // 0000000000
     if (_moveCommandLabel) {
         positionHidden      = CGPointMake(sceneMidX, sceneMidY);
         positionVisible     = CGPointMake(sceneMidX,sceneMidY);
-
-//        CGFloat progressBarYOffset                  = _scoreTotalContentLabel.frame.origin.y + (_scoreTotalContentLabel.frame.size.height / 2.0f) + VERTICAL_SPACING_8;
-//        _moveCommandLabel.position = CGPointMake(_sceneSize.width / 2.0f, progressBarYOffset + (_moveCommandLabel.size.height / 2.0f));
         [SIGameController SIControllerNode:_moveCommandLabel
                                  animation:animation
                             animationStyle:SISceneContentAnimationStyleGrow

@@ -9,7 +9,7 @@
 #define IDIOM                               UI_USER_INTERFACE_IDIOM()
 #define IPAD                                UIUserInterfaceIdiomPad
 
-#define LEVEL1                              100
+#define LEVEL1                              1000
 #define LEVEL2                              250
 #define LEVEL3                              500
 #define LEVEL4                              750
@@ -729,6 +729,7 @@ extern NSString *const kSINodeNodeChest;
 extern NSString *const kSINodeNodeBag;
 extern NSString *const kSINodeNodeBucket;
 extern NSString *const kSINodeNodePile;
+extern NSString *const kSINodePopupButton;
 extern NSString *const kSINodePopupContent;
 extern NSString *const kSINodePopupTitle;
 
