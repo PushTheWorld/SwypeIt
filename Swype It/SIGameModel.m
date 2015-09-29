@@ -47,11 +47,11 @@
         [self didEnterState:SIGameStateFallingMonkey];
     }];
 
-    [gameStateLoading setDidEnterStateBlock:^(TKState *state, TKTransition *transition) {
-        if ([_delegate respondsToSelector:@selector(gameModelStateLoadingEntered)]) {
-            [_delegate gameModelStateLoadingEntered];
-        }
-    }];
+//    [gameStateLoading setDidEnterStateBlock:^(TKState *state, TKTransition *transition) {
+//        if ([_delegate respondsToSelector:@selector(gameModelStateLoadingEntered)]) {
+//            [_delegate gameModelStateLoadingEntered];
+//        }
+//    }];
     
     [gameStateLoading setDidExitStateBlock:^(TKState *state, TKTransition *transition) {
         if ([_delegate respondsToSelector:@selector(gameModelStateLoadingExited)]) {
@@ -119,10 +119,6 @@
                                              transitioningFromStates:@[gameStateProcessingMove]
                                                              toState:gameStateFallingMonkey];
     
-    TKEvent *gameEventLoad                  = [TKEvent eventWithName:kSITKStateMachineEventGameLoad
-                                             transitioningFromStates:@[gameStateLoading]
-                                                             toState:gameStateLoading];
-    
     TKEvent *gameEventMoveEntered           = [TKEvent eventWithName:kSITKStateMachineEventGameMoveEntered
                                              transitioningFromStates:@[gameStateIdle]
                                                              toState:gameStateProcessingMove];
@@ -139,7 +135,7 @@
                                              transitioningFromStates:@[gameStateIdle,gameStatePaused,gameStatePayingForContinue,gameStatePopupContinue,gameStateProcessingMove,gameStateFallingMonkey,gameStateLoading, gameStateStart, gameStateEnd]
                                                              toState:gameStateEnd];
     TKEvent *gameEventMenuStart             = [TKEvent eventWithName:kSITKStateMachineEventGameMenuStart
-                                             transitioningFromStates:@[gameStateLoading, gameStateEnd]
+                                             transitioningFromStates:@[gameStateLoading,gameStateEnd]
                                                              toState:gameStateStart];
 
     TKEvent *gameEventWaitForMove           = [TKEvent eventWithName:kSITKStateMachineEventGameWaitForMove
@@ -152,7 +148,7 @@
     
     
     //add event rules
-    [stateMachine addEvents:@[gameEventFallingMonkeyStart, gameEventLoad, gameEventMoveEntered, gameEventPause, gameEventPayForContinue, gameEventMenuEnd, gameEventMenuStart, gameEventWaitForMove, gameEventWrongMoveEntered]];
+    [stateMachine addEvents:@[gameEventFallingMonkeyStart, gameEventMoveEntered, gameEventPause, gameEventPayForContinue, gameEventMenuEnd, gameEventMenuStart, gameEventWaitForMove, gameEventWrongMoveEntered]];
     
     
     return stateMachine;

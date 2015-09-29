@@ -179,6 +179,9 @@ typedef NS_ENUM(NSInteger, SIBackgroundSound) {
     SIBackgroundSoundFive
 };
 
+/**
+ If you have no continued, then you ask how much it would be to continue
+ */
 typedef NS_ENUM(NSInteger, SIContinueLifeCost) {
     SIContinueLifeCost1                     = 5,
     SIContinueLifeCost2                     = 10,
@@ -483,6 +486,7 @@ extern NSString *const kSINSUserDefaultLifetimeHighScore;
 extern NSString *const kSINSUserDefaultLifetimeGamesPlayed;
 extern NSString *const kSINSUserDefaultLifetimePointsEarned;
 extern NSString *const kSINSUserDefaultGameMode;
+extern NSString *const kSINSUserDefaultOneHandMode;
 extern NSString *const kSINSUserDefaultPremiumUser;
 extern NSString *const kSINSUserDefaultPointsTowardsFreeCoin;
 extern NSString *const kSINSUserDefaultPowerUpReadyFallingMonkeys;
@@ -491,6 +495,7 @@ extern NSString *const kSINSUserDefaultPowerUpReadyTimeFreeze;
 extern NSString *const kSINSUserDefaultNumberOfMonkeys;
 extern NSString *const kSINSUserDefaultSoundIsAllowedBackground;
 extern NSString *const kSINSUserDefaultSoundIsAllowedFX;
+
 
 #pragma mark - Power Ups
 extern NSString *const kSIPowerUpTypeFallingMonkeys;
@@ -610,17 +615,16 @@ extern NSString *const kSIAtlasSceneFallingMonkey;
 extern NSString *const kSIAtlasSceneMenu;
 extern NSString *const kSIAtlasShapes;
 
+
+
+
 #pragma mark - Images in Menu Scene Atlas
 extern NSString *const kSIAtlasSceneMenuAchievements;
 extern NSString *const kSIAtlasSceneMenuAdFree;
 extern NSString *const kSIAtlasSceneMenuBackButton;
 extern NSString *const kSIAtlasSceneMenuHelp;
 extern NSString *const kSIAtlasSceneMenuLeaderboard;
-extern NSString *const kSIAtlasSceneMenuPlayClassic;
-extern NSString *const kSIAtlasSceneMenuPlayOneHand;
 extern NSString *const kSIAtlasSceneMenuSettings;
-extern NSString *const kSIAtlasSceneMenuShareFacebook;
-extern NSString *const kSIAtlasSceneMenuShareTwitter;
 extern NSString *const kSIAtlasSceneMenuShop;
 extern NSString *const kSIAtlasSceneMenuSoundBackground;
 extern NSString *const kSIAtlasSceneMenuSoundFX;
@@ -705,6 +709,7 @@ extern NSString *const kSINodeButtonNoAd;
 extern NSString *const kSINodeButtonOneHand;
 extern NSString *const kSINodeButtonPause;
 extern NSString *const kSINodeButtonPlay;
+extern NSString *const kSINodeButtonText;
 extern NSString *const kSINodeButtonTwoHand;
 extern NSString *const kSINodeButtonTimeFreeze;
 extern NSString *const kSINodeButtonRapidFire;
@@ -733,7 +738,11 @@ extern NSString *const kSINodePopupButton;
 extern NSString *const kSINodePopupContent;
 extern NSString *const kSINodePopupTitle;
 
-#pragma mark - San Fran Fonts
+#pragma mark -
+#pragma mark - Fonts
+#pragma mark -
+
+#pragma mark San Fran
 extern NSString *const kSISFFontDisplayLight;
 extern NSString *const kSISFFontDisplayHeavy;
 extern NSString *const kSISFFontDisplayRegular;
@@ -756,26 +765,67 @@ extern NSString *const kSISFFontTextSemiboldItalic;
 extern NSString *const kSISFFontTextMedium;
 extern NSString *const kSISFFontTextHeavy;
 
-#pragma mark - Menu Button Texts
-extern NSString *const kSIMenuTextBack;
-extern NSString *const kSIMenuTextEndGameContinue;
-extern NSString *const kSIMenuTextEndGameReplay;
-extern NSString *const kSIMenuTextEndGameStore;
-extern NSString *const kSIMenuTextEndGameMainMenu;
-extern NSString *const kSIMenuTextPopUpBuyCoins;
-extern NSString *const kSIMenuTextPopUpEndGame;
-extern NSString *const kSIMenuTextPopUpWatchAd;
-extern NSString *const kSIMenuTextSettingsBugReport;
-extern NSString *const kSIMenuTextSettingsResetHighScore;
-extern NSString *const kSIMenuTextSettingsRestorePurchases;
-extern NSString *const kSIMenuTextSettingsToggleSoundOffBackground;
-extern NSString *const kSIMenuTextSettingsToggleSoundOffFX;
-extern NSString *const kSIMenuTextSettingsToggleSoundOnBackground;
-extern NSString *const kSIMenuTextSettingsToggleSoundOnFX;
-extern NSString *const kSIMenuTextStartScreenOneHand;
-extern NSString *const kSIMenuTextStartScreenTwoHand;
-extern NSString *const kSIMenuTextStartScreenSettings;
-extern NSString *const kSIMenuTextStartScreenStore;
+#pragma mark -
+#pragma mark - Texts
+#pragma mark -
+
+#pragma mark Bools
+extern NSString *const kSITextBoolOff;
+extern NSString *const kSITextBoolOFF;
+extern NSString *const kSITextBoolOn;
+extern NSString *const kSITextBoolON;
+
+#pragma mark Menu Buttons
+extern NSString *const kSITextMenuEndGameFreeCoinsEarned;
+extern NSString *const kSITextMenuEndGameHighScore;
+extern NSString *const kSITextMenuEndGameHighScoreNew;
+extern NSString *const kSITextMenuEndGameScore;
+extern NSString *const kSITextMenuEndGameStore;
+extern NSString *const kSITextMenuSettingsBugReport;
+extern NSString *const kSITextMenuSettingsResetHighScore;
+extern NSString *const kSITextMenuSettingsRestorePurchases;
+extern NSString *const kSITextMenuSettingsTitle;
+extern NSString *const kSITextMenuSettingsToggleSoundOffBackground;
+extern NSString *const kSITextMenuSettingsToggleSoundOffFX;
+extern NSString *const kSITextMenuSettingsToggleSoundOnBackground;
+extern NSString *const kSITextMenuSettingsToggleSoundOnFX;
+extern NSString *const kSITextMenuStartScreenOneHandMode;
+extern NSString *const kSITextMenuStartScreenTapToPlay;
+extern NSString *const kSITextMenuStartScreenTapToStart;
+extern NSString *const kSITextMenuStoreTitle;
+
+#pragma mark Pop Ups
+extern NSString *const kSITextPopupEndGameBuyCoins;
+extern NSString *const kSITextPopupEndGameContinue;
+extern NSString *const kSITextPopupEndGameEnd;
+extern NSString *const kSITextPopupEndGameGameOver;
+extern NSString *const kSITextPopupEndGameMainMenu;
+extern NSString *const kSITextPopupEndGameUseCoins;
+extern NSString *const kSITextPopupEndGameWatchAdPlural;
+extern NSString *const kSITextPopupEndGameWatchAdSingular;
+extern NSString *const kSITextPopupFreePrizeClaim;
+extern NSString *const kSITextPopupFreePrizeDaily;
+extern NSString *const kSITextPopupFreePrizeFree;
+extern NSString *const kSITextPopupFreePrizePrize;
+
+
+#pragma mark -
+#pragma mark - Image Assests
+#pragma mark -
+
+#pragma mark Menu
+extern NSString *const kSIAssestMenuButtonOneHandModeOff;
+extern NSString *const kSIAssestMenuButtonOneHandModeOn;
+extern NSString *const kSIAssestMenuButtonShareFacebook;
+extern NSString *const kSIAssestMenuButtonShareTwitter;
+
+#pragma mark Popups
+extern NSString *const kSIAssestPopupButtonClaim;
+extern NSString *const kSIAssestPopupButtonDismissNormal;
+extern NSString *const kSIAssestPopupButtonEndGame;
+extern NSString *const kSIAssestPopupButtonFreeStar;
+extern NSString *const kSIAssestPopupButtonWatchAd;
+
 
 #pragma mark - Emails
 extern NSString *const kSIEmailBugReportReciever;
@@ -842,7 +892,6 @@ extern NSString *const kSITKStateMachineStateTimerStopped;
 
 #pragma mark - State Machine Events
 extern NSString *const kSITKStateMachineEventGameFallingMonkeyStart;
-extern NSString *const kSITKStateMachineEventGameLoad;
 extern NSString *const kSITKStateMachineEventGameMenuEnd;
 extern NSString *const kSITKStateMachineEventGameMenuStart;
 extern NSString *const kSITKStateMachineEventGameMoveEntered;

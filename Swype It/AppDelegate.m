@@ -92,6 +92,7 @@ static BOOL isRunningTests(void) __attribute__((const));
     BOOL isThisTheFirstLaunch = [[NSUserDefaults standardUserDefaults] boolForKey:kSINSUserDefaultFirstLaunch];
     if (isThisTheFirstLaunch == NO) {
         //set to no
+        [[NSUserDefaults standardUserDefaults] setBool:NO                           forKey:kSINSUserDefaultOneHandMode];
         [[NSUserDefaults standardUserDefaults] setBool:NO                           forKey:kSINSUserDefaultPremiumUser];
         [[NSUserDefaults standardUserDefaults] setBool:YES                          forKey:kSINSUserDefaultFirstLaunch];
         [[NSUserDefaults standardUserDefaults] setBool:YES                          forKey:kSINSUserDefaultSoundIsAllowedBackground];

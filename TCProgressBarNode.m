@@ -19,7 +19,6 @@
 @property (nonatomic, strong) SKTexture *fillTexture;
 @property (nonatomic, strong) SKTexture *overlayTexture;
 
-@property (nonatomic, strong) UIColor *backgroundColor;
 @property (nonatomic, strong) UIColor *borderColor;
 
 @property (nonatomic, strong) SKLabelNode *titleLabelNode;;
@@ -278,6 +277,21 @@
 - (void)progressDidChange
 {
     _fillSpriteNode.size = CGSizeMake(round(_size.width * _progress), _size.height);
+}
+
+- (void)setBackgroundColor:(UIColor *)backgroundColor {
+    _backgroundColor = backgroundColor;
+    _backgroundSpriteNode.texture = [self textureFromBoundsWithColor:backgroundColor];
+}
+
+- (SKTexture *)textureFromBoundsWithColor:(UIColor *)color {
+    CAShapeLayer *backgroundLayer = [self newShapeLayerWithBoundsPath];
+    
+    backgroundLayer.lineWidth = 0.0f;
+    backgroundLayer.fillColor = color.CGColor;
+    
+    
+    return [self textureFromLayer:backgroundLayer];
 }
 
 @end

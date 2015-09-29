@@ -17,6 +17,6 @@
 #import "SIGame.h"
 // Other Imports
 
-@interface SITestScene : HLScene
+@interface SIPopupTestScene : HLScene
 
 @end

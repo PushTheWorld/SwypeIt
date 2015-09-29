@@ -74,6 +74,11 @@
 + (SIPowerUpType)powerUpForString:(NSString *)powerUpString;
 
 /**
+ Returns a power up type for the tool tag!
+ */
++ (SIPowerUpType)powerUpForPowerUpToolTag:(NSString *)toolTag;
+
+/**
  Simply gets the cost
  */
 + (SIPowerUpCost)costForPowerUp:(SIPowerUpType)powerUp;

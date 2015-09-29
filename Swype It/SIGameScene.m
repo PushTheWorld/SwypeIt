@@ -23,15 +23,11 @@
 static const uint32_t SIGameSceneCategoryZero          = 0x0;      // 00000000000000000000000000000000
 static const uint32_t SIGameSceneCategoryUIControl     = 0x1 << 1; // 00000000000000000000000000000010
 static const uint32_t SIGameSceneCategoryEdge          = 0x1 << 2; // 00000000000000000000000000000100
-//static const uint32_t SIGameSceneCategoryMoveScore     = 0x1 << 3; // 00000000000000000000000000001000
 
 
 
 @implementation SIGameScene {
-    
-    
     CGFloat                                              _moveScoreDuration;
-
 
     CGSize                                               _backgroundSize;
     CGSize                                               _coinSize;
@@ -182,14 +178,13 @@ static const uint32_t SIGameSceneCategoryEdge          = 0x1 << 2; // 0000000000
     
     _scoreMoveLabel                                         = [SIGameController SILabelSceneGameMoveScoreLabel];
 }
+
 - (void)setupControlsWithSize:(CGSize)size {
     /**Configrue the labels, nodes and what ever else you can*/
     
     _backgroundNode.anchorPoint                             = CGPointMake(0.0f, 0.0f);
     _backgroundNode.zPosition                               = [SIGameController floatZPositionGameForContent:SIZPositionGameBackground];
     _backgroundNode.userInteractionEnabled                  = YES;
-//    _backgroundNode.delegate                                = self;
-//    [_backgroundNode hlSetGestureTarget:_backgroundNode];
     
     _edge.physicsBody.categoryBitMask                       = SIGameSceneCategoryEdge;
     _edge.physicsBody.collisionBitMask                      = SIGameSceneCategoryZero;
@@ -210,8 +205,6 @@ static const uint32_t SIGameSceneCategoryEdge          = 0x1 << 2; // 0000000000
     _swypeItCoinsLabelNode.physicsBody.categoryBitMask      = SIGameSceneCategoryUIControl;
     _swypeItCoinsLabelNode.horizontalAlignmentMode          = SKLabelHorizontalAlignmentModeLeft;
     _swypeItCoinsLabelNode.verticalAlignmentMode            = SKLabelVerticalAlignmentModeTop;
-//    [_swypeItCoinsLabelNode runAction:[SKAction scaleBy:[SIGameScene SIGameSceneSwypeItCoinsLabelScale] duration:0.0f]];
-
     
     _highScoreLabelNode.zPosition                           = [SIGameController floatZPositionGameForContent:SIZPositionGameContent];
     _highScoreLabelNode.physicsBody.categoryBitMask         = SIGameSceneCategoryUIControl;
@@ -371,27 +364,13 @@ static const uint32_t SIGameSceneCategoryEdge          = 0x1 << 2; // 0000000000
     [self layoutXYZAnimation:SISceneContentAnimationNone];
 }
 
-//- (void)setProgressBarMove:(TCProgressBarNode *)progressBarMove {
-//    if (_progressBarMove) {
-//        [_progressBarMove removeFromParent];
-//    }
-//    if (progressBarMove) {
-//        _progressBarMove = progressBarMove;
-//        _progressBarMove.physicsBody.categoryBitMask    = SIGameSceneCategoryUIControl;
-//        _progressBarMove.userInteractionEnabled         = YES;
-//        _progressBarMove.progress                       = 1.0f;
-//        [self addChild:_progressBarMove];
-//    }
-//    [self layoutXYZAnimation:SISceneContentAnimationNone];
-//}
-
 - (void)setProgressBarPowerUp:(TCProgressBarNode *)progressBarPowerUp {
     if (_progressBarPowerUp) {
         [_progressBarPowerUp removeFromParent];
     }
     if (progressBarPowerUp) {
         _progressBarPowerUp = progressBarPowerUp;
-        _progressBarPowerUp.userInteractionEnabled = YES;
+//        _progressBarPowerUp.userInteractionEnabled = YES;
         _progressBarPowerUp.physicsBody.categoryBitMask = SIGameSceneCategoryUIControl;
         [self addChild:_progressBarPowerUp];
         _progressBarPowerUp.progress = 1.0f;
@@ -504,9 +483,7 @@ static const uint32_t SIGameSceneCategoryEdge          = 0x1 << 2; // 0000000000
         sparkEmitter.position                           = CGPointMake(0.0f, -1.0f * (_scoreTotalLabel.frame.size.height / 2.0f));
         sparkEmitter.zPosition                          = [SIGameController floatZPositionGameForContent:SIZPositionGameContentMoveScoreEmitter];
         [_scoreTotalLabel addChild:sparkEmitter];
-        
-        [SIGameController SIFXNamed:kSISoundFXMoveTap];
-        
+                
     }]]]];
     
 }
@@ -702,11 +679,11 @@ static const uint32_t SIGameSceneCategoryEdge          = 0x1 << 2; // 0000000000
             }
             if (_progressBarPowerUp) {
                 _progressBarPowerUp.progress                = progressBarUpdate.percentPowerUp;
+                NSLog(@"Power up percent: %0.2f", progressBarUpdate.percentPowerUp);
             }
         } else {
             _scoreMoveLabel.text                            = @"";
             _progressBarPowerUp.progress                    = 1.0f;
-            
             
         }
     }

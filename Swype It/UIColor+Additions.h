@@ -62,4 +62,5 @@
 + (UIColor *)SIBackgroundColorLevel1A;
 + (UIColor *)SIBackgroundColorLevel1B;
 + (UIColor *)SIBackgroundColorLevel1C;
++ (UIColor *)SIPopupNodeBackground;
 @end

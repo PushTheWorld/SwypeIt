@@ -7,14 +7,15 @@
 //
 
 #import <XCTest/XCTest.h>
+#import "SIGame.h"
 #import "SIGameModel.h"
 #import "TransitionKit.h"
 
-@interface GameSceneTests : XCTestCase
+@interface SIGameModelTests : XCTestCase
 
 @end
 
-@implementation GameSceneTests {
+@implementation SIGameModelTests {
     SIGameModel *_gameModel;
 }
 
@@ -30,9 +31,16 @@
 }
 
 - (void)testDoesStartInCorrectState {
-    BOOL success = [_gameModel.stateMachine fireEvent:kSITKStateMachineEventGameLoad userInfo:nil error:nil];
+    BOOL success = [_gameModel.stateMachine fireEvent:kSITKStateMachineEventGameMenuStart userInfo:nil error:nil];
     XCTAssert(success);
-    XCTAssert([_gameModel.stateMachine isInState:kSITKStateMachineStateGameLoading]);
+    XCTAssert([_gameModel.stateMachine isInState:kSITKStateMachineStateGameStart]);
+    
+}
+
+- (void)testCostToContinueInitial {
+    XCTAssertEqual(_gameModel.game.currentNumberOfTimesContinued,0);
+    XCTAssertEqual([SIGame lifeCostForNumberOfTimesContinued:_gameModel.game.currentNumberOfTimesContinued], SIContinueLifeCost1);
+    XCTAssertEqual([SIGame adCountForNumberOfTimesContinued:_gameModel.game.currentNumberOfTimesContinued], SIContinueAdCount1);
 }
 
 

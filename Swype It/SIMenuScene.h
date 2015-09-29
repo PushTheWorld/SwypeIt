@@ -26,11 +26,15 @@
 //    notifies that the scene is ready to animate in the buttons and 
 //    such
 // */
-//- (void)controllerSceneMenuDidLoadType:(SISceneMenuType)type;
+- (void)menuSceneDidLoadMenuType:(SISceneMenuType)type;
+
+/**
+ Called to invoked the start of the game
+ */
 - (void)menuSceneShopNodeWasTapped;
 
 
-
+- (void)menuSceneWasTappedToStart;
 
 @end
 @interface SIMenuScene : HLScene <SIMenuNodeDelegate>

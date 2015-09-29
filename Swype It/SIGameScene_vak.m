@@ -29,7 +29,7 @@
 //#import "SIPowerUp.h"
 //// Other Imports
 //
-//@interface SIGameScene_vak () <HLToolbarNodeDelegate, SIGameNodeDelegate, HLRingNodeDelegate, SIPopUpNodeDelegate, HLMenuNodeDelegate> {
+//@interface SIGameScene_vak () <HLToolbarNodeDelegate, SIGameNodeDelegate, HLRingNodeDelegate, SIPopupNodeDelegate, HLMenuNodeDelegate> {
 //    
 //}
 //#pragma mark - Private Properties
@@ -646,7 +646,7 @@
 ////}
 //
 ////- (void)createPopup {
-////    _popUpNode                                      = [SIGameController SISharedPopUpNodeTitle:@"Continue?" SceneSize:self.size];
+////    _popUpNode                                      = [SIGameController SISharedPopupNodeTitle:@"Continue?" SceneSize:self.size];
 ////    _popupNode.delegate                             = self;
 ////
 ////    HLMenuNode *menuNode                            = [self menuCreate:_popUpNode.backgroundSize];
@@ -1284,7 +1284,7 @@
 //        }  else if ([menuItem.text isEqualToString:_adMenuItemText]) {
 //            [_sceneDelegate controllerSceneGameWillDismissPopupContinueWithPayMethod:SISceneGamePopupContinueMenuItemAd];
 //            
-//        } else if ([menuItem.text isEqualToString:kSIMenuTextPopUpEndGame]) {
+//        } else if ([menuItem.text isEqualToString:kSITextPopupEndGameEnd]) {
 //            [_sceneDelegate controllerSceneGameWillDismissPopupContinueWithPayMethod:SISceneGamePopupContinueMenuItemNo];
 //        }
 //    }

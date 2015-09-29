@@ -11,6 +11,7 @@
 // Framework Import
 #import <math.h>
 // Drop-In Class Imports (CocoaPods/GitHub/Guru)
+#import "SoundManager.h"
 // Category Import
 #import "UIImage+BlurredFrame.h"
 #import "UIColor+Additions.h"
@@ -310,94 +311,94 @@
 }
 + (SIContinueLifeCost)lifeCostForNumberOfTimesContinued:(int)numberOfTimesContinued {
     switch (numberOfTimesContinued) {
-        case 1:
+        case 0:
             return SIContinueLifeCost1;
-        case 2:
+        case 1:
             return SIContinueLifeCost2;
-        case 3:
+        case 2:
             return SIContinueLifeCost3;
-        case 4:
+        case 3:
             return SIContinueLifeCost4;
-        case 5:
+        case 4:
             return SIContinueLifeCost5;
-        case 6:
+        case 5:
             return SIContinueLifeCost6;
-        case 7:
+        case 6:
             return SIContinueLifeCost7;
-        case 8:
+        case 7:
             return SIContinueLifeCost8;
-        case 9:
+        case 8:
             return SIContinueLifeCost9;
-        case 10:
+        case 9:
             return SIContinueLifeCost10;
-        case 11:
+        case 10:
             return SIContinueLifeCost11;
-        case 12:
+        case 11:
             return SIContinueLifeCost12;
-        case 13:
+        case 12:
             return SIContinueLifeCost13;
-        case 14:
+        case 13:
             return SIContinueLifeCost14;
-        case 15:
+        case 14:
             return SIContinueLifeCost15;
-        case 16:
+        case 15:
             return SIContinueLifeCost16;
-        case 17:
+        case 16:
             return SIContinueLifeCost17;
-        case 18:
+        case 17:
             return SIContinueLifeCost18;
-        case 19:
+        case 18:
             return SIContinueLifeCost19;
-        case 20:
+        case 19:
             return SIContinueLifeCost20;
-        case 21:
+        case 20:
         default:
             return SIContinueLifeCost21;
     }
 }
 + (SIContinueAdCount)adCountForNumberOfTimesContinued:(int)numberOfTimesContinued {
     switch (numberOfTimesContinued) {
-        case 1:
+        case 0:
             return SIContinueAdCount1;
-        case 2:
+        case 1:
             return SIContinueAdCount2;
-        case 3:
+        case 2:
             return SIContinueAdCount3;
-        case 4:
+        case 3:
             return SIContinueAdCount4;
-        case 5:
+        case 4:
             return SIContinueAdCount5;
-        case 6:
+        case 5:
             return SIContinueAdCount6;
-        case 7:
+        case 6:
             return SIContinueAdCount7;
-        case 8:
+        case 7:
             return SIContinueAdCount8;
-        case 9:
+        case 8:
             return SIContinueAdCount9;
-        case 10:
+        case 9:
             return SIContinueAdCount10;
-        case 11:
+        case 10:
             return SIContinueAdCount11;
-        case 12:
+        case 11:
             return SIContinueAdCount12;
-        case 13:
+        case 12:
             return SIContinueAdCount13;
-        case 14:
+        case 13:
             return SIContinueAdCount14;
-        case 15:
+        case 14:
             return SIContinueAdCount15;
-        case 16:
+        case 15:
             return SIContinueAdCount16;
-        case 17:
+        case 16:
             return SIContinueAdCount17;
-        case 18:
+        case 17:
             return SIContinueAdCount18;
-        case 19:
+        case 18:
             return SIContinueAdCount19;
-        case 20:
+        case 19:
             return SIContinueAdCount20;
-        case 21:
+        case 20:
         default:
             return SIContinueAdCount21;
     }
@@ -841,4 +842,88 @@
     currentColorNumber = randomNumber;
     return currentColorNumber;
 }
+
+
+#pragma mark - 
+#pragma mark - SoundManager
++ (void)playMusic:(NSString *)name {
+    [SIGame playMusic:name looping:NO fadeIn:NO];
+}
+
+/**
+ Use SoundManager to play music
+ Resposible for checking with nsuserdefaults
+ */
++ (void)playMusic:(NSString *)name looping:(BOOL)looping fadeIn:(BOOL)fadeIn {
+    if ([SIConstants isFXAllowed]) {
+        [[SoundManager sharedManager] playSound:name looping:looping fadeIn:fadeIn];
+    }
+}
+
++ (void)playSound:(NSString *)name {
+    [SIGame playSound:name looping:NO fadeIn:NO];
+}
+
+/**
+ Use SoundManager to play sound
+ Resposible for checking with nsuserdefaults
+ */
++ (void)playSound:(NSString *)name looping:(BOOL)looping fadeIn:(BOOL)fadeIn {
+    if ([SIConstants isBackgroundSoundAllowed]) {
+        [[SoundManager sharedManager] playMusic:name looping:looping fadeIn:fadeIn];
+    }
+}
+
+/**
+ Stops music if any is started
+ */
++ (void)stopAllMusic {
+    [[SoundManager sharedManager] stopMusic];
+}
+
+/**
+ Stops sounds if any are started
+ */
++ (void)stopAllSounds {
+    [[SoundManager sharedManager] stopAllSounds];
+}
+
++ (void)initalizeSoundManager {
+    [SoundManager sharedManager].allowsBackgroundMusic  = YES;
+    [SoundManager sharedManager].soundFadeDuration      = 1.0f;
+    [SoundManager sharedManager].musicFadeDuration      = 2.0f;
+    [[SoundManager sharedManager] prepareToPlayWithSound:[Sound soundNamed:kSISoundFXInitalize]];
+}
+
+/**
+ Configures background sound state with nsuserdefaults
+ */
++ (void)setBackgroundSoundActive:(BOOL)active {
+    [[NSUserDefaults standardUserDefaults] setBool:active forKey:kSINSUserDefaultSoundIsAllowedBackground];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
+/**
+ Configures fx sound state with nsuserdefaults
+ */
++ (void)setFXSoundActive:(BOOL)active {
+    [[NSUserDefaults standardUserDefaults] setBool:active forKey:kSINSUserDefaultSoundIsAllowedFX];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
+- (BOOL)oneHandMode {
+    NSNumber *oneHandModeNum = [[NSUserDefaults standardUserDefaults] objectForKey:kSINSUserDefaultOneHandMode];
+    if (oneHandModeNum == nil) {
+        oneHandModeNum = @(NO);
+        [[NSUserDefaults standardUserDefaults] setBool:NO forKey:kSINSUserDefaultOneHandMode];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+    }
+    return [oneHandModeNum boolValue];
+}
+
+- (void)setOneHandMode:(BOOL)oneHandMode {
+    [[NSUserDefaults standardUserDefaults] setBool:oneHandMode forKey:kSINSUserDefaultOneHandMode];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
 @end

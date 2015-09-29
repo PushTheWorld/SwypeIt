@@ -166,22 +166,22 @@
 //    
 //    /*Add the regular buttons*/
 //    _userCanAffordContinue                  = [self userCanContinue];
-//    HLMenuItem *continueGameMenuItem        = [HLMenuItem menuItemWithText:kSIMenuTextEndGameContinue];
+//    HLMenuItem *continueGameMenuItem        = [HLMenuItem menuItemWithText:kSITextPopupEndGameContinue];
 //    continueGameMenuItem.buttonPrototype    = [SIGameController SI_sharedMenuButtonPrototypeBasic:[SIGameController buttonSize:size] backgroundColor:[SKColor orangeColor] fontColor:[UIColor whiteColor]];
 //    [menu addItem:continueGameMenuItem];
 ////    if (_userCanAffordContinue) {
-////        [menu addItem:[HLMenuItem menuItemWithText:kSIMenuTextEndGameContinue]];
+////        [menu addItem:[HLMenuItem menuItemWithText:kSITextPopupEndGameContinue]];
 ////    } else {
-////        HLMenuItem *continueGameMenuItem = [HLMenuItem menuItemWithText:kSIMenuTextEndGameContinue];
+////        HLMenuItem *continueGameMenuItem = [HLMenuItem menuItemWithText:kSITextPopupEndGameContinue];
 ////        continueGameMenuItem.buttonPrototype = [SIGameController SI_sharedMenuButtonPrototypeBasic:[SIGameController buttonSize:size] fontSize:[SIGameController fontSizeButton] backgroundColor:[SKColor grayColor] fontColor:[UIColor blackColor]];
 ////        [menu addItem:continueGameMenuItem];
 ////    }
 //    
-//    [menu addItem:[HLMenuItem menuItemWithText:kSIMenuTextEndGameReplay]];
+//    [menu addItem:[HLMenuItem menuItemWithText:kSITextMenuEndGameReplay]];
 //    
-//    [menu addItem:[HLMenuItem menuItemWithText:kSIMenuTextEndGameStore]];
+//    [menu addItem:[HLMenuItem menuItemWithText:kSITextMenuEndGameStore]];
 //    
-//    HLMenuItem *mainMenuItem = [HLMenuItem menuItemWithText:kSIMenuTextEndGameMainMenu];
+//    HLMenuItem *mainMenuItem = [HLMenuItem menuItemWithText:kSITextMenuEndGameMainMenu];
 //    mainMenuItem.buttonPrototype = [SIGameController SI_sharedMenuButtonPrototypeBack:[SIGameController buttonSize:size]];
 //    [menu addItem:mainMenuItem];
 //    
@@ -191,7 +191,7 @@
 //#pragma mark - HLMenuNodeDelegate
 //- (void)menuNode:(HLMenuNode *)menuNode didTapMenuItem:(HLMenuItem *)menuItem itemIndex:(NSUInteger)itemIndex {
 //    NSLog(@"Tapped Menu Item [%@] at index %u",menuItem.text,(unsigned)itemIndex);
-//    if ([menuItem.text isEqualToString:kSIMenuTextEndGameContinue]) {
+//    if ([menuItem.text isEqualToString:kSITextPopupEndGameContinue]) {
 //        /*Continue Game Button*/
 //        NSDictionary *userInfo          = @{kSINSDictionaryKeyCanAfford     : @(_userCanAffordContinue),
 //                                            kSINSDictionaryKeyCanAffordCost : @([AppSingleton singleton].currentGame.currentContinueLifeCost)};
@@ -211,19 +211,19 @@
 //////            SIGame transisitionToSKScene:storeScene toSKView:self.view DoorsOpen:YES pausesIncomingScene:NO pausesOutgoingScene:NO duration:SCENE_TRANSISTION_DURATION];
 ////        }
 //
-//    } else if ([menuItem.text isEqualToString:kSIMenuTextEndGameReplay]) {
+//    } else if ([menuItem.text isEqualToString:kSITextMenuEndGameReplay]) {
 //        /*Replay Button*/
 //        [[AppSingleton singleton] endGame];
 //        SIGame incrementGamesPlayed];
 //        GameScene *firstScene               = [SIGameScene alloc] initWithSize:self.size gameMode:[AppSingleton singleton].currentGame.gameMode];
 //        SIGame transisitionToSKScene:firstScene toSKView:self.view DoorsOpen:NO pausesIncomingScene:YES pausesOutgoingScene:NO duration:SCENE_TRANSISTION_DURATION];
 //
-//    } else if ([menuItem.text isEqualToString:kSIMenuTextEndGameStore]) {
+//    } else if ([menuItem.text isEqualToString:kSITextMenuEndGameStore]) {
 //        /*Store Button*/
 //        StoreScene *storeScene              = [StoreScene sceneWithSize:self.size];
 //        SIGame transisitionToSKScene:storeScene toSKView:self.view DoorsOpen:YES pausesIncomingScene:YES pausesOutgoingScene:YES duration:SCENE_TRANSISTION_DURATION];
 //        
-//    } else if ([menuItem.text isEqualToString:kSIMenuTextEndGameMainMenu]) {
+//    } else if ([menuItem.text isEqualToString:kSITextMenuEndGameMainMenu]) {
 //        /*Main Menu Button*/
 //        [[AppSingleton singleton] endGame];
 //        [SIGame incrementGamesPlayed];

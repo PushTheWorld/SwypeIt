@@ -17,6 +17,7 @@
 // Drop-In Class Imports (CocoaPods/GitHub/Guru)
 #import "BMGlyphLabel.h"
 #import "HLSpriteKit.h"
+#import "INSpriteKit.h"
 #import "TCProgressBarNode.h"
 // Category Import
 // Support/Data Class Imports
@@ -46,6 +47,7 @@
 + (CGFloat)             SIFontSizeText;
 + (CGFloat)             SIFontSizeText_x2;
 + (CGFloat)             SIFontSizeText_x3;
++ (CGFloat)xPaddingPopupContinue;
 
 + (CGSize)              SIButtonSize:(CGSize)size;
 + (CGSize)              SIFallingMonkeySize;
@@ -73,40 +75,39 @@
 /**Quick zPosition for falling monkey scene content*/
 + (float)floatZPositionFallingMonkeyForContent:(SIZPositionFallingMonkey)layer;
 
+
++ (HLMenuNode *)SIHLMenuNodeSceneGamePopupContinue;
+
++ (INSKButtonNode *)SIINButtonNamed:(NSString *)name;
++ (INSKButtonNode *)SIINButtonPopupButtonImageNamed:(NSString *)imageName text:(NSString *)text;
+
 /**Called when creating the grid for the start menu*/
-//+ (HLGridNode *)SIHLGridNodeMenuSceneStartSize:(CGSize)size;
-//+ (HLMenuNode *)SIHLMenuNodeSceneGamePopup:(SIPopupNode *)popupNode;
-//+ (HLRingNode *)SIHLRingNodeSceneGamePause;
-//+ (HLToolbarNode *)SIHLToolbarGamePowerUpToolbarSize:(CGSize)toolbarSize toolbarNodeSize:(CGSize)toolbarNodeSize horizontalSpacing:(CGFloat)horizontalSpacing;
-//+ (SIPopupNode *)SIPopupSceneGameContinue;
++ (SIPopupNode *)SIPopupSceneGameContinueSize:(CGSize)size;
 + (SIPopupNode *)SIPopupNodeTitle:(NSString *)title SceneSize:(CGSize)sceneSize;
-//+ (TCProgressBarNode *)SIProgressBarSceneGameFreeCoinSceneSize:(CGSize)size;
-//+ (TCProgressBarNode *)SIProgressBarSceneGameMoveSceneSize:(CGSize)size;
-//+ (TCProgressBarNode *)SIProgressBarSceneGamePowerUpSceneSize:(CGSize)size;
 
 + (SKTexture *)         SITextureMonkeyFace;
 
-+ (SKLabelNode *)       SILabelHeader:(NSString *)text;
-+ (SKLabelNode *)       SILabelHeader_x2:(NSString *)text;
-+ (SKLabelNode *)       SILabelHeader_x3:(NSString *)text;
-+ (SKLabelNode *)       SILabelParagraph:(NSString *)text;
-+ (SKLabelNode *)       SILabelParagraph_x2:(NSString *)text;
-+ (SKLabelNode *)       SILabelParagraph_x3:(NSString *)text;
-+ (SKLabelNode *)       SILabelParagraph_x4:(NSString *)text;
-+ (SKLabelNode *)       SILabelInterfaceFontSize:(CGFloat)fontSize;
-+ (SKLabelNode *)       SILabelSceneGameMoveCommand;
-+ (SKLabelNode *)       SILabelSceneGameMoveScoreLabel;
++ (SKLabelNode *)SILabelHeader:(NSString *)text;
++ (SKLabelNode *)SILabelHeader_x2:(NSString *)text;
++ (SKLabelNode *)SILabelHeader_x3:(NSString *)text;
++ (SKLabelNode *)SILabelParagraph:(NSString *)text;
++ (SKLabelNode *)SILabelParagraph_x2:(NSString *)text;
++ (SKLabelNode *)SILabelParagraph_x3:(NSString *)text;
++ (SKLabelNode *)SILabelParagraph_x4:(NSString *)text;
++ (SKLabelNode *)SILabelInterfaceFontSize:(CGFloat)fontSize;
++ (SKLabelNode *)SILabelSceneGameMoveCommand;
++ (SKLabelNode *)SILabelSceneGameMoveScoreLabel;
++ (SKLabelNode *)SILabelSceneGamePopupTitle;
 
 /**
  This a spritenode made from falling monkey
     Utilize static variables to reduce overhead and reuseability
  */
 + (SKSpriteNode *)SISpriteNodeFallingMonkey;
-
++ (SKSpriteNode *)SISpriteNodePopupContinueCenterNode;
 
 + (SKSpriteNode *)SISpriteNodeBanana;
 + (SKSpriteNode *)SISpriteNodeBananaBunch;
-+ (void)SIFXNamed:(NSString *)name;
 
 #pragma mark UIGestureRecognizers
 + (UIPinchGestureRecognizer *)SIGesturePinch;

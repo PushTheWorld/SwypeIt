@@ -10,9 +10,9 @@
 //
 // Local Controller Import
 #import "SIGameController.h"
-#import "SIGameScene.h"
+#import "SIPopupNode.h"
 //#import "SISingletonGame.h"
-#import "SITestScene.h"
+#import "SIPopupTestScene.h"
 // Framework Import
 //#import <Instabug/Instabug.h>
 // Drop-In Class Imports (CocoaPods/GitHub/Guru)
@@ -21,45 +21,26 @@
 // Support/Data Class Imports
 // Other Imports
 
-@interface SITestScene ()
-
-#pragma mark - Private Constraints
-@property (assign, nonatomic) CGFloat        buttonSpacing;
-@property (assign, nonatomic) CGFloat        buttonAnimationDuration;
-
-#pragma mark - Private Properties
-@property (strong, nonatomic) HLMenuNode    *menuNode;
-@property (strong, nonatomic) SKLabelNode   *titleLabel;
+@interface SIPopupTestScene ()
 
 @end
 
-@implementation SITestScene {
-    BOOL         _contentCreated;
-    BOOL         _shouldRespondToTap;
-    
-    CGFloat      _fontSize;
-    CGFloat                     _sceneGameSpacingHorizontalToolbar;
+@implementation SIPopupTestScene {
+    CGFloat                                  _fontSize;
     
     CGSize                                   _sceneSize;
-    CGSize                                   _sceneGameToolbarSize;
-    CGSize                                   _sceneGameToolbarNodeSize;
-
-    NSString    *_buttonSoundBackgroundText;
-    NSString    *_buttonSoundFXText;
     
-    SIGameScene                             *_sceneGame;
-    HLMenuNode                              *_sceneGamePopupContinueMenuNode;
-    HLRingNode                              *_sceneGameRingNodePause;
-    HLToolbarNode                           *_sceneGameToolbarPowerUp;
-    SIPopupNode                             *_sceneGamePopupContinue;
+    HLMenuNode                              *_menuNodeEnd;
+    HLMenuNode                              *_menuNodeStore;
 
+    SIPopupNode                             *_popupNode;
 }
 
 #pragma mark - Scene Life Cycle
 - (instancetype)initWithSize:(CGSize)size {
     if (self = [super initWithSize:size]) {
         /**Do any setup before self.view is loaded*/
-//        [self initSetup:size];
+        [self initSetup:size];
     }
     return self;
 }
@@ -107,21 +88,10 @@
         
     }
     _sceneSize = size;
-    //    _buttonSize                     = CGSizeMake(size.width / buttonSizeDivder, (size.width / buttonSizeDivder) * 0.25);
-    _buttonSpacing                  = [SIGameController SIButtonSize:size].height * 0.25;
-    _buttonAnimationDuration        = 0.25f;
-    
-    _shouldRespondToTap             = YES;
-    
-    _sceneGameSpacingHorizontalToolbar  = 10.0f;
-    CGFloat toolBarNodeWidth            = (SCREEN_WIDTH - (4.0f * _sceneGameSpacingHorizontalToolbar)) / 5.0f;
-    _sceneGameToolbarNodeSize           = CGSizeMake(toolBarNodeWidth, toolBarNodeWidth);
-    _sceneGameToolbarSize               = CGSizeMake(_sceneSize.width, _sceneGameToolbarNodeSize.height + VERTICAL_SPACING_8);
 
 }
 - (void)createControlsWithSize:(CGSize)size {
     /**Preform all your alloc/init's here*/
-    _titleLabel = [SIGameController SILabelHeader:kSIMenuTextStartScreenSettings];
     
 }
 - (void)setupControlsWithSize:(CGSize)size {
@@ -133,24 +103,46 @@
 - (void)layoutControlsWithSize:(CGSize)size {
     /**Layout those controls*/
     /*Title Label*/
-    _titleLabel.position       = CGPointMake((size.width / 2.0f),
-                                             size.height - _titleLabel.frame.size.height - VERTICAL_SPACING_8);
-    [self addChild:_titleLabel];
 }
 
 - (void)viewSetup:(SKView *)view {
     /**Preform setup post-view load*/
-    self.backgroundColor                    = [SKColor sandColor]; /*Maybe add a convience method*/
+    self.backgroundColor                    = [SKColor mainColor]; /*Maybe add a convience method*/
     
     
     
-    SIGameScene *gameScene;
-    [view presentScene:gameScene];
-    
-    
+    _popupNode                              = [SIGameController SIPopupSceneGameContinueSize:_sceneSize];
 
+    [((INSKButtonNode *)_popupNode.bottomNode) setTouchUpInsideTarget:self selector:@selector(makePopupBigger)];
+    
+    [self presentModalNode:_popupNode animation:HLScenePresentationAnimationFade];
 }
 
+- (void)makePopupBigger {
+    _popupNode.backgroundSize = CGSizeMake(_sceneSize.width - [SIGameController xPaddingPopupContinue], _sceneSize.height - [SIGameController xPaddingPopupContinue]);
+    _popupNode.dismissButtonVisible = YES;
+    
+    for (SKNode *node in ((INSKButtonNode *)_popupNode.bottomNode).nodeNormal.children) {
+        if ([node isKindOfClass:[SKLabelNode class]]) {
+            ((SKLabelNode *)node).text = NSLocalizedString(kSITextPopupEndGameMainMenu, nil);
+        }
+    }
+    for (SKNode *node in ((INSKButtonNode *)_popupNode.bottomNode).nodeHighlighted.children) {
+        if ([node isKindOfClass:[SKLabelNode class]]) {
+            ((SKLabelNode *)node).text = NSLocalizedString(kSITextPopupEndGameMainMenu, nil);
+        }
+    }
+    
+    [((INSKButtonNode *)_popupNode.bottomNode) setTouchUpInsideTarget:self selector:@selector(goToMainMenu)];
 
+    ((SKLabelNode *)_popupNode.titleContentNode).text = NSLocalizedString(kSITextPopupEndGameGameOver, nil);
+    
+    _popupNode.popupContentNode = nil;
+    
+}
+
+- (void)goToMainMenu {
+    NSLog(@"wahooo going to the main menu");
+}
 
 @end

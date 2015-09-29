@@ -16,7 +16,7 @@
 #import "SIGame.h"
 // Other Imports
 @class SIPopupNode;
-@protocol SIPopUpNodeDelegate <NSObject>
+@protocol SIPopupNodeDelegate <NSObject>
 @optional
 
 /// @name Managing Interaction
@@ -29,14 +29,14 @@
 
 @end
 
-@interface SIPopupNode : HLComponentNode <HLGestureTarget>
+@interface SIPopupNode : HLComponentNode 
 
 /// @name Optional Delegate Method
 
 /**
  Delegate methods
  */
-@property (nonatomic, weak) id <SIPopUpNodeDelegate> delegate;
+@property (nonatomic, weak) id <SIPopupNodeDelegate> delegate;
 
 /// @name Creating a pop up
 
@@ -92,6 +92,11 @@
  Default value `grayColor`.
  */
 @property (nonatomic, strong) SKColor *backgroundColor;
+
+/**
+ The background node
+ */
+@property (nonatomic, strong) SKSpriteNode *backgroundNode;
 
 /**
  The corner radius of the button.
@@ -235,6 +240,13 @@
  A nice little runtime bool incase you are not feeling the dismiss button you na mean g
  */
 @property (nonatomic, assign) BOOL dismissButtonVisible;
+
+/**
+ A node that when set to enable runs around the outside of the node
+ */
+@property (nonatomic, strong) SKLightNode *lightNodeEdge;
+
+
 
 /**Use to launch a node such as a coin*/
 - (void)launchNode:(SKSpriteNode *)node;

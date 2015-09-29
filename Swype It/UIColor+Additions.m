@@ -385,4 +385,13 @@
     });
     return color;
 }
+
++ (UIColor *)SIPopupNodeBackground {
+    static UIColor *color = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        color = [UIColor colorWithRed:240.0/255.0 green:240.0/255.0 blue:255.0/255.0 alpha:1.0];
+    });
+    return color;
+}
 @end

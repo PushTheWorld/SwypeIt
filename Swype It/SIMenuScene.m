@@ -11,7 +11,7 @@
 #import "SIMenuScene.h"
 // Framework Import
 // Drop-In Class Imports (CocoaPods/GitHub/Guru)
-#import "SoundManager.h"
+//#import "SoundManager.h"
 // Category Import
 #import "UIColor+Additions.h"
 // Support/Data Class Imports
@@ -29,7 +29,7 @@
     SIMenuNode                                      *_currentMenuNode;
     SIMenuNode                                      *_rootSceneMenuNode;
     
-    SIPopupNode                                     *_popupContentNode;
+//    SIPopupNode                                     *_popupContentNode;
     
     SKSpriteNode                                    *_backgroundNode;
 
@@ -74,7 +74,7 @@
 }
 - (void)viewSetup:(SKView *)view {
     /**Preform setup post-view load*/
-    
+
 }
 #pragma mark Scene Setup
 - (void)createConstantsWithSize:(CGSize)size {
@@ -83,12 +83,14 @@
 - (void)createControlsWithSize:(CGSize)size {
     /**Preform all your alloc/init's here*/
     _backgroundNode                                 = [SKSpriteNode spriteNodeWithColor:[SKColor mainColor] size:_sceneSize];
-     
 }
 - (void)setupControlsWithSize:(CGSize)size {
     /**Configrue the labels, nodes and what ever else you can*/
     /*Create Background Node*/
     _backgroundNode.anchorPoint                     = CGPointMake(0.0f, 0.0f);
+    
+    [self addChild:_backgroundNode];
+
     self.backgroundColor                           = [SKColor mainColor]; //this sets color for everything muwahah
 
 }
@@ -118,29 +120,29 @@
     [self layoutXYAnimation:SISceneContentAnimationNone];
 }
 
-- (SIPopupNode *)popupNode {
-    if (_popupContentNode) {
-        return _popupContentNode;
-    } else {
-        return nil;
-    }
-}
+//- (SIPopupNode *)popupNode {
+//    if (_popupContentNode) {
+//        return _popupContentNode;
+//    } else {
+//        return nil;
+//    }
+//}
 
 /**
  A popup node to be displayed modally
  */
 - (void)setPopupNode:(SIPopupNode *)popupNode {
-    if (_popupContentNode) {
+    if (_popupNode) {
         if ([self modalNodePresented]) {
             [self dismissModalNodeAnimation:HLScenePresentationAnimationFade];
         }
-        [_popupContentNode removeFromParent];
+        [_popupNode removeFromParent];
     }
     if (popupNode) {
-        _popupContentNode                           = popupNode;
-        [self addChild:_popupContentNode];
-        [_popupContentNode hlSetGestureTarget:_popupContentNode];
-        [self registerDescendant:_popupContentNode withOptions:[NSSet setWithObject:HLSceneChildGestureTarget]];
+        _popupNode                           = popupNode;
+        [self addChild:_popupNode];
+        [_popupNode hlSetGestureTarget:_popupNode];
+        [self registerDescendant:_popupNode withOptions:[NSSet setWithObject:HLSceneChildGestureTarget]];
 
     }
     [self layoutZ];
@@ -173,8 +175,8 @@
 }
 
 - (void)layoutZ {
-    if (_popupContentNode) {
-        [self presentModalNode:_popupContentNode
+    if (_popupNode) {
+        [self presentModalNode:_popupNode
                      animation:HLScenePresentationAnimationFade
                   zPositionMin:[SIGameController floatZPositionGameForContent:SIZPositionGameModalMin]
                   zPositionMax:[SIGameController floatZPositionGameForContent:SIZPositionGameModalMax]];
@@ -198,8 +200,11 @@
 }
 
 - (void)showMenuNode:(SIMenuNode *)menuNode menuNodeAnimation:(SIMenuNodeAnimation)menuNodeAnimation {
+    if (menuNode.parent) { //this means that we are re laying out the scene
+        [menuNode removeFromParent];
+    }
     [self addChild:menuNode];
-    menuNode.animationDuration                      = SCENE_TRANSISTION_DURATION_FAST;
+//    menuNode.animationDuration                      = SCENE_TRANSISTION_DURATION_FAST;
     
     
     SKAction *blockAction = [SKAction runBlock:^{
@@ -207,13 +212,14 @@
             [_currentMenuNode removeFromParent];
         }
         _currentMenuNode                            = menuNode;
+        if ([_sceneDelegate respondsToSelector:@selector(menuSceneDidLoadMenuType:)]) {
+            [_sceneDelegate menuSceneDidLoadMenuType:_currentMenuNode.type];
+        }
     }];
     
     SKAction *moveAction;
     if (menuNodeAnimation == SIMenuNodeAnimationPush) {
-        if ([SIConstants isFXAllowed]) {
-            [[SoundManager sharedManager] playSound:kSISoundFXSceneWoosh];
-        }
+        [SIGame playSound:kSISoundFXSceneWoosh];
         menuNode.position                           = CGPointMake(_currentMenuNode.position.x + menuNode.size.width, _currentMenuNode.position.y);
         [menuNode layoutXYZAnimation:SIMenuNodeAnimationStaticVisible];
         moveAction                                  = [SKAction moveByX:-1.0f * menuNode.size.width y:0.0f duration:menuNode.animationDuration]; //SCENE_TRANSISTION_DURATION_FAST];
@@ -226,9 +232,7 @@
 
         
     } else if (menuNodeAnimation == SIMenuNodeAnimationPop) {
-        if ([SIConstants isFXAllowed]) {
-            [[SoundManager sharedManager] playSound:kSISoundFXSceneWoosh];
-        }
+        [SIGame playSound:kSISoundFXSceneWoosh];
         menuNode.position                           = CGPointMake(-1.0f * menuNode.size.width, 0.0f);
         [menuNode layoutXYZAnimation:SIMenuNodeAnimationStaticVisible];
         moveAction                                  = [SKAction moveByX:menuNode.size.width y:0.0f duration:menuNode.animationDuration]; //SCENE_TRANSISTION_DURATION_FAST];
@@ -242,7 +246,9 @@
             [_currentMenuNode removeFromParent];
         }
         _currentMenuNode                            = menuNode;
-//        _currentMenuNode.animationDuration          = 5;
+        if ([_sceneDelegate respondsToSelector:@selector(menuSceneDidLoadMenuType:)]) {
+            [_sceneDelegate menuSceneDidLoadMenuType:_currentMenuNode.type];
+        }
         [_currentMenuNode layoutXYZAnimation:menuNodeAnimation];
     }
 
@@ -286,5 +292,19 @@
     _animationDuration = animationDuration;
     [self showMenuNode:menuNode menuNodeAnimation:menuNodeAnimation];
 }
+
+-(void)touchesBegan:(nonnull NSSet<UITouch *> *)touches withEvent:(nullable UIEvent *)event {
+    UITouch *touch                                              = [touches anyObject];
+    CGPoint touchLocation                                       = [touch locationInNode:self];
+    SKNode *node                                                = [self nodeAtPoint:touchLocation];
+    
+    if ([node.name isEqualToString:@"b"]) {
+        if ([_sceneDelegate respondsToSelector:@selector(menuSceneWasTappedToStart)]) {
+            [_sceneDelegate menuSceneWasTappedToStart];
+        }
+    }
+    
+}
+
 
 @end

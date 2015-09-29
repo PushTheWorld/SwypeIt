@@ -48,7 +48,7 @@
 /**
  Called when the game wants to load
  */
-- (void)gameModelStateLoadingEntered;
+//- (void)gameModelStateLoadingEntered;
 
 /**
  Called when the game is done loading

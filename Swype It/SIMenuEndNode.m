@@ -22,6 +22,11 @@
     
     DSMultilineLabelNode    *_labelMultilineUserMessage;
     
+    NSNumberFormatter       *_numberFormatter;
+    
+    SKLabelNode             *_labelCoinsEarnedText;
+    SKLabelNode             *_labelTotalScoreText;
+    SKLabelNode             *_labelHighScoreText;
     SKLabelNode             *_labelCoinsEarned;
     SKLabelNode             *_labelTotalScore;
     SKLabelNode             *_labelHighScore;
@@ -50,6 +55,8 @@
  Configure any constants
  */
 - (void)createConstantsWithSize:(CGSize)size {
+    _numberFormatter                                    = [[NSNumberFormatter alloc] init];
+    [_numberFormatter setNumberStyle:NSNumberFormatterDecimalStyle];
 
 }
 
@@ -57,39 +64,56 @@
  Preform all your alloc/init's here
  */
 - (void)createControlsWithSize:(CGSize)size {
+    _backgroundNode.anchorPoint                         = CGPointMake(0.5f, 0.5f);
     _backgroundNode                                     = [SKSpriteNode spriteNodeWithColor:[SKColor clearColor] size:size];
-
-    _labelHighScore                                     = [SIGameController SILabelParagraph:@"High Score: 0.00"];
-    _labelHighScore.horizontalAlignmentMode             = SKLabelHorizontalAlignmentModeCenter;
-    _labelHighScore.verticalAlignmentMode               = SKLabelVerticalAlignmentModeBottom;
     
-    _labelTotalScore                                    = [SIGameController SILabelHeader:@"Score: 0.00"];
-    _labelTotalScore.horizontalAlignmentMode            = SKLabelHorizontalAlignmentModeCenter;
+    _labelCoinsEarnedText                               = [SIGameController SILabelParagraph:NSLocalizedString(kSITextMenuEndGameFreeCoinsEarned, nil)];
+    _labelCoinsEarnedText.horizontalAlignmentMode       = SKLabelHorizontalAlignmentModeLeft;
+    _labelCoinsEarnedText.verticalAlignmentMode         = SKLabelVerticalAlignmentModeTop;
+
+    _labelCoinsEarned                                   = [SIGameController SILabelParagraph:@"0"];
+    _labelCoinsEarned.horizontalAlignmentMode           = SKLabelHorizontalAlignmentModeRight;
+    _labelCoinsEarned.verticalAlignmentMode             = SKLabelVerticalAlignmentModeTop;
+    
+    _labelTotalScoreText                                = [SIGameController SILabelParagraph:NSLocalizedString(kSITextMenuEndGameScore, nil)];
+    _labelTotalScoreText.horizontalAlignmentMode        = SKLabelHorizontalAlignmentModeLeft;
+    _labelTotalScoreText.verticalAlignmentMode          = SKLabelVerticalAlignmentModeBottom;
+    
+    _labelTotalScore                                    = [SIGameController SILabelParagraph:@"0.0f"];
+    _labelTotalScore.horizontalAlignmentMode            = SKLabelHorizontalAlignmentModeRight;
     _labelTotalScore.verticalAlignmentMode              = SKLabelVerticalAlignmentModeBottom;
+
+    _labelHighScoreText                                 = [SIGameController SILabelParagraph:NSLocalizedString(kSITextMenuEndGameHighScore, nil)];
+    _labelHighScoreText.horizontalAlignmentMode         = SKLabelHorizontalAlignmentModeLeft;
+    _labelHighScoreText.verticalAlignmentMode           = SKLabelVerticalAlignmentModeBottom;
+    
+    _labelHighScore                                     = [SIGameController SILabelParagraph:@"0.0"];
+    _labelHighScore.horizontalAlignmentMode             = SKLabelHorizontalAlignmentModeRight;
+    _labelHighScore.verticalAlignmentMode               = SKLabelVerticalAlignmentModeBottom;
     
     _labelMultilineUserMessage                          = [[DSMultilineLabelNode alloc] initWithFontNamed:_labelCoinsEarned.fontName];
     _labelMultilineUserMessage.fontColor                = [SKColor whiteColor];
-    _labelMultilineUserMessage.verticalAlignmentMode    = SKLabelVerticalAlignmentModeCenter;
+    _labelMultilineUserMessage.verticalAlignmentMode    = SKLabelVerticalAlignmentModeTop;
     _labelMultilineUserMessage.horizontalAlignmentMode  = SKLabelHorizontalAlignmentModeCenter;
     
-    _labelCoinsEarned                                   = [SIGameController SILabelParagraph:@"Free Coins Earned: 0"];
-    _labelCoinsEarned.horizontalAlignmentMode           = SKLabelHorizontalAlignmentModeCenter;
-    _labelCoinsEarned.verticalAlignmentMode             = SKLabelVerticalAlignmentModeTop;
+    
 }
 
 /**
  Configrue the labels, nodes and what ever else you can
  */
 - (void)setupControlsWithSize:(CGSize)size {
-    _backgroundNode.anchorPoint                         = CGPointMake(0.5f, 0.5f);
     [self addChild:_backgroundNode];
 
     [_backgroundNode addChild:_labelHighScore];
+    [_backgroundNode addChild:_labelHighScoreText];
     
     [_backgroundNode addChild:_labelTotalScore];
+    [_backgroundNode addChild:_labelTotalScoreText];
     
     [_backgroundNode addChild:_labelCoinsEarned];
-    
+    [_backgroundNode addChild:_labelCoinsEarnedText];
+
     [_backgroundNode addChild:_labelMultilineUserMessage];
     
 }
@@ -106,11 +130,20 @@
  Layout the XY
  */
 - (void)layoutXY {
-    _labelMultilineUserMessage.position                 = CGPointMake(0.0f, 0.0f);
-    _labelTotalScore.position                           = CGPointMake(0.0f, (_labelMultilineUserMessage.frame.size.height / 2.0f) + VERTICAL_SPACING_8);
-    _labelHighScore.position                            = CGPointMake(0.0f, _labelTotalScore.position.y + (_labelTotalScore.frame.size.height / 2.0f) + VERTICAL_SPACING_8);
-    _labelCoinsEarned.position                          = CGPointMake(0.0f, -1.0f * ((_labelMultilineUserMessage.frame.size.height / 2.0f) + VERTICAL_SPACING_8));
+    CGFloat topY                                        = _backgroundNode.size.height / 2.0f;
+    CGFloat leftX                                       = -1.0f * (_backgroundNode.size.height / 2.0f);
+    CGFloat rightX                                      = _backgroundNode.size.height / 2.0f;
 
+    _labelTotalScoreText.position                       = CGPointMake(leftX, topY);
+    _labelTotalScore.position                           = CGPointMake(rightX, _labelTotalScoreText.position.y);
+    
+    _labelHighScoreText.position                        = CGPointMake(leftX, _labelTotalScoreText.position.y + _labelTotalScoreText.frame.size.height + VERTICAL_SPACING_8);
+    _labelHighScore.position                            = CGPointMake(leftX, _labelHighScoreText.position.y);
+    
+    _labelCoinsEarnedText.position                      = CGPointMake(leftX, _labelHighScore.position.y + _labelHighScore.frame.size.height + VERTICAL_SPACING_8);
+    _labelCoinsEarned.position                          = CGPointMake(rightX, _labelCoinsEarnedText.position.y);
+    
+    _labelMultilineUserMessage.position                 = CGPointMake(0.0f, _labelCoinsEarnedText.position.y + _labelCoinsEarnedText.frame.size.height + VERTICAL_SPACING_8);
 }
 
 /**
@@ -119,8 +152,11 @@
 - (void)layoutZ {
     _labelMultilineUserMessage.zPosition                = [SIGameController floatZPositionMenuForContent:SIZPositionMenuContent];
     _labelTotalScore.zPosition                          = [SIGameController floatZPositionMenuForContent:SIZPositionMenuContent];
+    _labelTotalScoreText.zPosition                      = [SIGameController floatZPositionMenuForContent:SIZPositionMenuContent];
     _labelHighScore.zPosition                           = [SIGameController floatZPositionMenuForContent:SIZPositionMenuContent];
+    _labelHighScoreText.zPosition                       = [SIGameController floatZPositionMenuForContent:SIZPositionMenuContent];
     _labelCoinsEarned.zPosition                         = [SIGameController floatZPositionMenuForContent:SIZPositionMenuContent];
+    _labelCoinsEarnedText.zPosition                     = [SIGameController floatZPositionMenuForContent:SIZPositionMenuContent];
     
 }
 
@@ -128,12 +164,18 @@
 #pragma mark - Public Accessors
 - (void)setGame:(SIGame *)game {
     float highScore                                     = [[NSUserDefaults standardUserDefaults] floatForKey:kSINSUserDefaultLifetimeHighScore];
-    _labelCoinsEarned.text                              = [NSString stringWithFormat:@"Free Coins Earned: %d",game.freeCoinsEarned];
-    _labelTotalScore.text                               = [NSString stringWithFormat:@"Score: %0.2f",game.totalScore];
+    
+    _labelTotalScore.text                               = [_numberFormatter stringFromNumber:[NSNumber numberWithFloat:game.totalScore]];
+    
+    _labelCoinsEarned.text                              = [NSString stringWithFormat:@"%d",game.freeCoinsEarned];
+    
     if (game.isHighScore) {
-        _labelHighScore.text                            = @"New High Score!";
+        _labelHighScoreText.text                        = NSLocalizedString(kSITextMenuEndGameHighScoreNew, nil);
+        _labelHighScore.text                            = @"";
+        
     } else {
-        _labelHighScore.text                            = [NSString stringWithFormat:@"%0.2f",highScore];
+        _labelHighScoreText.text                        = NSLocalizedString(kSITextMenuEndGameHighScore, nil);
+        _labelHighScore.text                            = [_numberFormatter stringFromNumber:@(highScore)];
     }
     
     _labelMultilineUserMessage.text                     = [SIGame userMessageForScore:game.totalScore isHighScore:game.isHighScore highScore:highScore];

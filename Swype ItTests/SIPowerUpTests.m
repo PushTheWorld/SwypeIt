@@ -80,6 +80,18 @@
 
     XCTAssertEqual(SIPowerUpTypeRapidFire, [SIPowerUp powerUpForString:kSIPowerUpTypeRapidFire]);
 }
+
+- (void)testPowerUpForToolTag {
+    XCTAssertEqual(SIPowerUpTypeNone, [SIPowerUp powerUpForPowerUpToolTag:@"blah"]);
+    
+    XCTAssertEqual(SIPowerUpTypeFallingMonkeys, [SIPowerUp powerUpForPowerUpToolTag:kSIImageButtonFallingMonkey]);
+    
+    XCTAssertEqual(SIPowerUpTypeTimeFreeze, [SIPowerUp powerUpForPowerUpToolTag:kSIImageButtonTimeFreeze]);
+    
+    XCTAssertEqual(SIPowerUpTypeRapidFire, [SIPowerUp powerUpForPowerUpToolTag:kSIImageButtonRapidFire]);
+
+}
+
 - (void)testTypeDefForPowerUpDuration {
     /*Power Up None*/
     XCTAssertEqual(0, SIPowerUpDurationNone);

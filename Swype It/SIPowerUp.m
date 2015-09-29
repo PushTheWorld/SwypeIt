@@ -195,5 +195,16 @@
         return SIPowerUpTypeNone;
     }
 }
-
+/*AUTO TESTED*/
++ (SIPowerUpType)powerUpForPowerUpToolTag:(NSString *)toolTag {
+    if ([toolTag isEqualToString:kSIImageButtonFallingMonkey]) {
+        return SIPowerUpTypeFallingMonkeys;
+    } else if ([toolTag isEqualToString:kSIImageButtonRapidFire]) {
+        return SIPowerUpTypeRapidFire;
+    } else if ([toolTag isEqualToString:kSIImageButtonTimeFreeze]) {
+        return SIPowerUpTypeTimeFreeze;
+    } else {
+        return SIPowerUpTypeNone;
+    }
+}
 @end
