@@ -198,15 +198,21 @@
 /**
  The content that is displayed by the popup
  */
-@property (nonatomic, strong) SKNode *popupContentNode;
+@property (nonatomic, strong) SKNode *centerNode;
+
+/**
+ Set to make the center node "stick" to the bottom
+ Default is `NO` (so it goes to the center)
+ */
+//@property (nonatomic, assign) BOOL centerNodeSticksToBottomNode;
 
 /**
  The postion of the content node
  
  See `dissmissButtonPosition` for reference.
- Default value `(0.5, 0.5)`.
+ Default value `(0.0, 0.0)`.
  */
-@property (nonatomic, assign) CGPoint contentPostion;
+@property (nonatomic, assign) CGPoint centerNodePosition;
 
 /**
  The size of the dismiss button.
@@ -246,7 +252,20 @@
  */
 @property (nonatomic, strong) SKLightNode *lightNodeEdge;
 
+/**
+ The start time for using a count down timer and such
+ */
+@property (nonatomic, assign) NSTimeInterval startTime;
 
+/**
+ The start time for using a count down timer and such
+ */
+@property (nonatomic, assign) BOOL countDownStarted;
+
+/**
+ By default lands below the title
+ */
+@property (nonatomic, strong) SKNode *topNode;
 
 /**Use to launch a node such as a coin*/
 - (void)launchNode:(SKSpriteNode *)node;

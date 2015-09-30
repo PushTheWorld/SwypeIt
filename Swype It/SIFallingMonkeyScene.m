@@ -125,7 +125,7 @@ static const uint32_t SIFallingMonkeySceneCategoryEdgeSide      = 0x1 << 5; // 0
 }
 
 - (void)setupControlsWithSize:(CGSize)size {
-    self.backgroundColor                            = [SKColor mainColor];
+    self.backgroundColor                            = [SKColor SIColorPrimary];
     
     self.physicsWorld.contactDelegate               = self;
     

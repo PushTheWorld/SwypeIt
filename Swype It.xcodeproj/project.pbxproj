@@ -103,7 +103,7 @@
 		0979E65A1B77A74E002FC2F2 /* LongIslandContour.otf in Resources */ = {isa = PBXBuildFile; fileRef = 0979E6591B77A74E002FC2F2 /* LongIslandContour.otf */; };
 		0979E65C1B77C0F2002FC2F2 /* diamondPlate3.png in Resources */ = {isa = PBXBuildFile; fileRef = 0979E65B1B77C0F2002FC2F2 /* diamondPlate3.png */; };
 		097FF7101BB731BB009DF538 /* Level1.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 097FF70F1BB731BB009DF538 /* Level1.xcassets */; settings = {ASSET_TAGS = (); }; };
-		097FF7131BB754F4009DF538 /* SIMenuEndNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 097FF7121BB754F4009DF538 /* SIMenuEndNode.m */; settings = {ASSET_TAGS = (); }; };
+		097FF7131BB754F4009DF538 /* SIPopupGameOverDetailsNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 097FF7121BB754F4009DF538 /* SIPopupGameOverDetailsNode.m */; settings = {ASSET_TAGS = (); }; };
 		0984E21C1BB8894800E4C58B /* Menu.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0984E21B1BB8894800E4C58B /* Menu.xcassets */; settings = {ASSET_TAGS = (); }; };
 		0984E21E1BB8895D00E4C58B /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 0984E2201BB8895D00E4C58B /* Localizable.strings */; };
 		0988CC941B70C82300BF429D /* SIStoreButtonNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 0988CC931B70C82300BF429D /* SIStoreButtonNode.m */; };
@@ -345,8 +345,8 @@
 		0979E6591B77A74E002FC2F2 /* LongIslandContour.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = LongIslandContour.otf; sourceTree = "<group>"; };
 		0979E65B1B77C0F2002FC2F2 /* diamondPlate3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = diamondPlate3.png; sourceTree = "<group>"; };
 		097FF70F1BB731BB009DF538 /* Level1.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Level1.xcassets; sourceTree = "<group>"; };
-		097FF7111BB754F4009DF538 /* SIMenuEndNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SIMenuEndNode.h; sourceTree = "<group>"; };
-		097FF7121BB754F4009DF538 /* SIMenuEndNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SIMenuEndNode.m; sourceTree = "<group>"; };
+		097FF7111BB754F4009DF538 /* SIPopupGameOverDetailsNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SIPopupGameOverDetailsNode.h; sourceTree = "<group>"; };
+		097FF7121BB754F4009DF538 /* SIPopupGameOverDetailsNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SIPopupGameOverDetailsNode.m; sourceTree = "<group>"; };
 		0984E21B1BB8894800E4C58B /* Menu.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Menu.xcassets; sourceTree = "<group>"; };
 		0984E21F1BB8895D00E4C58B /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		0988CC921B70C82300BF429D /* SIStoreButtonNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SIStoreButtonNode.h; sourceTree = "<group>"; };
@@ -745,8 +745,8 @@
 				0988CC931B70C82300BF429D /* SIStoreButtonNode.m */,
 				09568C351BB5BE2300156DDF /* SISpriteButton.h */,
 				09568C361BB5BE2300156DDF /* SISpriteButton.m */,
-				097FF7111BB754F4009DF538 /* SIMenuEndNode.h */,
-				097FF7121BB754F4009DF538 /* SIMenuEndNode.m */,
+				097FF7111BB754F4009DF538 /* SIPopupGameOverDetailsNode.h */,
+				097FF7121BB754F4009DF538 /* SIPopupGameOverDetailsNode.m */,
 			);
 			name = CustomUIClasses;
 			sourceTree = "<group>";
@@ -1385,7 +1385,7 @@
 				099302FC1B7CB50600D2CCE4 /* SIPopupNode.m in Sources */,
 				092720DF1B5EF1C30005A6B6 /* StoreScene.m in Sources */,
 				0917D4F51B6DD8240046B5FF /* HLScene.m in Sources */,
-				097FF7131BB754F4009DF538 /* SIMenuEndNode.m in Sources */,
+				097FF7131BB754F4009DF538 /* SIPopupGameOverDetailsNode.m in Sources */,
 				094CECCF1BAD1C7300BD3AD6 /* SIGameModel.m in Sources */,
 				0917D4F61B6DD8240046B5FF /* HLScrollNode.m in Sources */,
 				0917D4EF1B6DD8240046B5FF /* HLMath.m in Sources */,

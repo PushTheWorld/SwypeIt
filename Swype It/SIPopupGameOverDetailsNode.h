@@ -1,4 +1,4 @@
-//  SIMenuEndNode.h
+//  SIPopupGameOverDetailsNode.h
 //  Swype It
 //
 //  Created by Andrew Keller on 9/26/15.
@@ -16,7 +16,7 @@
 // Other Imports
 
 
-@interface SIMenuEndNode : HLComponentNode
+@interface SIPopupGameOverDetailsNode : HLComponentNode
 
 
 - (instancetype)initWithSize:(CGSize)size;

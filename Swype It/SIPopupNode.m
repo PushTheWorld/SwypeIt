@@ -35,7 +35,7 @@ static const uint32_t SIPopupNodeCategoryLight          = 0x1 << 1; // 000000000
     
     SKNode                          *_bottomContentNode;
     SKNode                          *_titleContentNode;
-    SKNode                          *_popupContentContentNode;
+//    SKNode                          *_popupContentContentNode;
     
     SKLabelNode                     *_titleLabelNode;
     
@@ -47,15 +47,18 @@ static const uint32_t SIPopupNodeCategoryLight          = 0x1 << 1; // 000000000
 - (nonnull instancetype)init {
     self = [super init];
     if (self) {
-        _cornerRadius               = 0.0f;
-        _borderColor                = nil;
-        _borderWidth                = 0.0f;
-        _xPadding                   = VERTICAL_SPACING_16;
-        _yPadding                   = VERTICAL_SPACING_16;
-        _titleLabelTopPading        = VERTICAL_SPACING_16;
-        _titleAutomaticYPosition    = NO;
-        _contentPostion             = CGPointMake(0.5f, 0.5f);
-        _bottomNodeBottomSpacing    = VERTICAL_SPACING_8;
+        _cornerRadius                   = 0.0f;
+        _borderColor                    = nil;
+        _borderWidth                    = 0.0f;
+        _xPadding                       = VERTICAL_SPACING_16;
+        _yPadding                       = VERTICAL_SPACING_16;
+        _titleLabelTopPading            = VERTICAL_SPACING_16;
+        _titleAutomaticYPosition        = NO;
+        _centerNodePosition             = CGPointMake(0.0f, 0.0f);
+        _bottomNodeBottomSpacing        = VERTICAL_SPACING_8;
+        _countDownStarted               = NO;
+        _startTime                      = 0;
+//        _centerNodeSticksToBottomNode   = NO;
     }
     return self;
 }
@@ -322,14 +325,14 @@ static const uint32_t SIPopupNodeCategoryLight          = 0x1 << 1; // 000000000
 
 }
 
-- (void)setPopupContentNode:(SKNode *)popupContentNode {
-    if (_popupContentContentNode) {
-        [_popupContentContentNode removeFromParent];
+- (void)setCenterNode:(SKNode *)centerNode {
+    if (_centerNode) {
+        [_centerNode removeFromParent];
     }
-    if (popupContentNode) {
-        _popupContentContentNode                    = popupContentNode;
-        _popupContentContentNode.name               = kSINodePopupContent;
-        [_backgroundNode addChild:_popupContentContentNode];
+    if (centerNode) {
+        _centerNode                                 = centerNode;
+        _centerNode.name                            = kSINodePopupContent;
+        [_backgroundNode addChild:_centerNode];
     }
     [self layoutXYZ];
 }
@@ -359,10 +362,15 @@ static const uint32_t SIPopupNodeCategoryLight          = 0x1 << 1; // 000000000
 
 }
 
-- (void)setContentPostion:(CGPoint)contentPostion {
-    _contentPostion                     = contentPostion;
+- (void)setCenterNodePosition:(CGPoint)centerNodePosition {
+    _centerNodePosition = centerNodePosition;
     [self layoutXY];
 }
+
+//- (void)setCenterNodeSticksToBottomNode:(BOOL)centerNodeSticksToBottomNode {
+//    _centerNodeSticksToBottomNode = centerNodeSticksToBottomNode;
+//    [self layoutXY];
+//}
 
 - (void)setDismissButtonVisible:(BOOL)dismissButtonVisible {
     if (dismissButtonVisible) {
@@ -378,6 +386,17 @@ static const uint32_t SIPopupNodeCategoryLight          = 0x1 << 1; // 000000000
         }
     }
     _dismissButtonVisible = dismissButtonVisible;
+    [self layoutXYZ];
+}
+
+- (void)setTopNode:(SKNode *)topNode {
+    if (_topNode) {
+        [_topNode removeFromParent];
+    }
+    if (topNode) {
+        _topNode    = topNode;
+        [_backgroundNode addChild:_topNode];
+    }
     [self layoutXYZ];
 }
 
@@ -422,13 +441,17 @@ static const uint32_t SIPopupNodeCategoryLight          = 0x1 << 1; // 000000000
         _dismissButton.position         = dismissButtonPosition;
     }
     
-    if (_popupContentContentNode) {
-        _popupContentContentNode.position   = CGPointMake(0.0f, 0.0f);
-    }
-    
     if (_bottomContentNode) {
         _bottomContentNode.position         = CGPointMake(0.0f, -1.0f * (_backgroundNode.size.height / 2.0f) + _bottomNodeBottomSpacing);
     }
+    
+    if (_centerNode && _centerNode.parent) {
+        _centerNode.position                = _centerNodePosition;
+    }
+    
+//    if (_topNode && _topNode.parent) {
+//        _topNode.position
+//    }
     
     _backgroundNode.texture                 = [SIGame textureBackgroundColor:_backgroundNode.color size:_backgroundNode.size cornerRadius:_cornerRadius borderWidth:_borderWidth borderColor:_borderColor];
 
@@ -440,8 +463,8 @@ static const uint32_t SIPopupNodeCategoryLight          = 0x1 << 1; // 000000000
     
     _backgroundNode.zPosition               = SIPopupNodeZPositionLayerBackground * zPositionLayerIncrement;
     
-    if (_popupContentContentNode) {
-        _popupContentContentNode.zPosition  = SIZPositionPopupContent * zPositionLayerIncrement;
+    if (_centerNode) {
+        _centerNode.zPosition               = SIZPositionPopupContentTop * zPositionLayerIncrement;
     }
     
     if (_dismissButton) {
@@ -456,6 +479,10 @@ static const uint32_t SIPopupNodeCategoryLight          = 0x1 << 1; // 000000000
         _titleContentNode.zPosition         = SIZPositionPopupContent * zPositionLayerIncrement;
     } else {
         _titleLabelNode.zPosition           = SIZPositionPopupContent * zPositionLayerIncrement;
+    }
+    
+    if (_topNode) {
+        _topNode.zPosition                  = SIZPositionPopupContent * zPositionLayerIncrement;
     }
     
 }

@@ -736,6 +736,7 @@ extern NSString *const kSINodeNodeBucket;
 extern NSString *const kSINodeNodePile;
 extern NSString *const kSINodePopupButton;
 extern NSString *const kSINodePopupContent;
+extern NSString *const kSINodePopupCountdown;
 extern NSString *const kSINodePopupTitle;
 
 #pragma mark -
@@ -795,14 +796,15 @@ extern NSString *const kSITextMenuStartScreenTapToStart;
 extern NSString *const kSITextMenuStoreTitle;
 
 #pragma mark Pop Ups
-extern NSString *const kSITextPopupEndGameBuyCoins;
-extern NSString *const kSITextPopupEndGameContinue;
-extern NSString *const kSITextPopupEndGameEnd;
-extern NSString *const kSITextPopupEndGameGameOver;
-extern NSString *const kSITextPopupEndGameMainMenu;
-extern NSString *const kSITextPopupEndGameUseCoins;
-extern NSString *const kSITextPopupEndGameWatchAdPlural;
-extern NSString *const kSITextPopupEndGameWatchAdSingular;
+extern NSString *const kSITextPopupContinueBuyCoins;
+extern NSString *const kSITextPopupContinueContinue;
+extern NSString *const kSITextPopupContinueEnd;
+extern NSString *const kSITextPopupContinueFree;
+extern NSString *const kSITextPopupContinueGameOver;
+extern NSString *const kSITextPopupContinueMainMenu;
+extern NSString *const kSITextPopupContinueUseCoins;
+extern NSString *const kSITextPopupContinueWatchAdPlural;
+extern NSString *const kSITextPopupContinueWatchAdSingular;
 extern NSString *const kSITextPopupFreePrizeClaim;
 extern NSString *const kSITextPopupFreePrizeDaily;
 extern NSString *const kSITextPopupFreePrizeFree;
@@ -823,8 +825,9 @@ extern NSString *const kSIAssestMenuButtonShareTwitter;
 extern NSString *const kSIAssestPopupButtonClaim;
 extern NSString *const kSIAssestPopupButtonDismissNormal;
 extern NSString *const kSIAssestPopupButtonEndGame;
-extern NSString *const kSIAssestPopupButtonFreeStar;
+extern NSString *const kSIAssestPopupButtonUseCoins;
 extern NSString *const kSIAssestPopupButtonWatchAd;
+extern NSString *const kSIAssestPopupFreeStar;
 
 
 #pragma mark - Emails

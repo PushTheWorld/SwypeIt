@@ -1,4 +1,4 @@
-//  SIMenuEndNode.m
+//  SIPopupGameOverDetailsNode.m
 //  Swype It
 //
 //  Created by Andrew Keller on 9/26/15.
@@ -8,7 +8,7 @@
 //
 // Local Controller Import
 #import "SIGameController.h"
-#import "SIMenuEndNode.h"
+#import "SIPopupGameOverDetailsNode.h"
 // Framework Import
 // Drop-In Class Imports (CocoaPods/GitHub/Guru)
 #import "DSMultilineLabelNode.h"
@@ -18,7 +18,7 @@
 // Other Imports
 
 
-@implementation SIMenuEndNode {
+@implementation SIPopupGameOverDetailsNode {
     
     DSMultilineLabelNode    *_labelMultilineUserMessage;
     

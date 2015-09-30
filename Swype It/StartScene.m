@@ -376,7 +376,7 @@
 //    aboutLabelNode.fontColor                    = [SKColor blackColor];
 //    aboutLabelNode.zPosition                    = SIStartScreenZPositionLayerPopupContent / SIStartScreenZPositionLayerCount;
 //    
-//    popUpNode.popupContentNode                  = [self createPopupNodeContent:popUpNode.backgroundSize];
+//    popUpNode.centerNode                  = [self createPopupNodeContent:popUpNode.backgroundSize];
 ////    [self registerDescendant:menuNode withOptions:[NSSet setWithObject:HLSceneChildGestureTarget]];
 //    
 //    popUpNode.delegate                          = self;

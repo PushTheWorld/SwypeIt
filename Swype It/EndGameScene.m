@@ -166,13 +166,13 @@
 //    
 //    /*Add the regular buttons*/
 //    _userCanAffordContinue                  = [self userCanContinue];
-//    HLMenuItem *continueGameMenuItem        = [HLMenuItem menuItemWithText:kSITextPopupEndGameContinue];
+//    HLMenuItem *continueGameMenuItem        = [HLMenuItem menuItemWithText:kSITextPopupContinueContinue];
 //    continueGameMenuItem.buttonPrototype    = [SIGameController SI_sharedMenuButtonPrototypeBasic:[SIGameController buttonSize:size] backgroundColor:[SKColor orangeColor] fontColor:[UIColor whiteColor]];
 //    [menu addItem:continueGameMenuItem];
 ////    if (_userCanAffordContinue) {
-////        [menu addItem:[HLMenuItem menuItemWithText:kSITextPopupEndGameContinue]];
+////        [menu addItem:[HLMenuItem menuItemWithText:kSITextPopupContinueContinue]];
 ////    } else {
-////        HLMenuItem *continueGameMenuItem = [HLMenuItem menuItemWithText:kSITextPopupEndGameContinue];
+////        HLMenuItem *continueGameMenuItem = [HLMenuItem menuItemWithText:kSITextPopupContinueContinue];
 ////        continueGameMenuItem.buttonPrototype = [SIGameController SI_sharedMenuButtonPrototypeBasic:[SIGameController buttonSize:size] fontSize:[SIGameController fontSizeButton] backgroundColor:[SKColor grayColor] fontColor:[UIColor blackColor]];
 ////        [menu addItem:continueGameMenuItem];
 ////    }
@@ -191,7 +191,7 @@
 //#pragma mark - HLMenuNodeDelegate
 //- (void)menuNode:(HLMenuNode *)menuNode didTapMenuItem:(HLMenuItem *)menuItem itemIndex:(NSUInteger)itemIndex {
 //    NSLog(@"Tapped Menu Item [%@] at index %u",menuItem.text,(unsigned)itemIndex);
-//    if ([menuItem.text isEqualToString:kSITextPopupEndGameContinue]) {
+//    if ([menuItem.text isEqualToString:kSITextPopupContinueContinue]) {
 //        /*Continue Game Button*/
 //        NSDictionary *userInfo          = @{kSINSDictionaryKeyCanAfford     : @(_userCanAffordContinue),
 //                                            kSINSDictionaryKeyCanAffordCost : @([AppSingleton singleton].currentGame.currentContinueLifeCost)};

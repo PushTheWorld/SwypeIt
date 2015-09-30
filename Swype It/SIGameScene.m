@@ -44,7 +44,7 @@ static const uint32_t SIGameSceneCategoryEdge          = 0x1 << 2; // 0000000000
     
     SIAdBannerNode                                      *_adContentNode;
     
-    SIPopupNode                                         *_popupContentNode;
+    SIPopupNode                                         *_centerNode;
     
     SKAction                                            *_actionOldMoveScore;
     SKAction                                            *_actionNewMoveScore;
@@ -312,8 +312,8 @@ static const uint32_t SIGameSceneCategoryEdge          = 0x1 << 2; // 0000000000
 }
 
 - (SIPopupNode *)popupNode {
-    if (_popupContentNode) {
-        return _popupContentNode;
+    if (_centerNode) {
+        return _centerNode;
     } else {
         return nil;
     }
@@ -322,15 +322,15 @@ static const uint32_t SIGameSceneCategoryEdge          = 0x1 << 2; // 0000000000
  A popup node to be displayed modally
  */
 - (void)setPopupNode:(SIPopupNode *)popupNode {
-    if (_popupContentNode) {
+    if (_centerNode) {
         if ([self modalNodePresented]) {
             [self dismissModalNodeAnimation:HLScenePresentationAnimationFade];
         }
-        [_popupContentNode removeFromParent];
+        [_centerNode removeFromParent];
     }
     if (popupNode) {
-        _popupContentNode                                   = popupNode;
-        [self addChild:_popupContentNode];
+        _centerNode                                   = popupNode;
+        [self addChild:_centerNode];
     }
     [self layoutXYZAnimation:SISceneContentAnimationNone];
 }
@@ -635,8 +635,8 @@ static const uint32_t SIGameSceneCategoryEdge          = 0x1 << 2; // 0000000000
 
 
 - (void)layoutZ {
-    if (_popupContentNode) {
-        [self presentModalNode:_popupContentNode
+    if (_centerNode) {
+        [self presentModalNode:_centerNode
                      animation:HLScenePresentationAnimationFade
                   zPositionMin:[SIGameController floatZPositionGameForContent:SIZPositionGameModalMin]
                   zPositionMax:[SIGameController floatZPositionGameForContent:SIZPositionGameModalMax]];
@@ -960,7 +960,7 @@ static const uint32_t SIGameSceneCategoryEdge          = 0x1 << 2; // 0000000000
         return NO;
     }
     
-    if (_popupContentNode && _popupContentNode.parent && [_popupContentNode containsPoint:sceneLocation]) {
+    if (_centerNode && _centerNode.parent && [_centerNode containsPoint:sceneLocation]) {
         return NO;
     }
     

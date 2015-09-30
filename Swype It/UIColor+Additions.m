@@ -326,14 +326,7 @@
     });
     return color;
 }
-+ (UIColor *)mainColor {
-    static UIColor *color = nil;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        color = [UIColor colorWithRed:025.0/255.0 green:147.0/255.0 blue:255.0/255.0 alpha:1.0];
-    });
-    return color;
-}
+
 + (UIColor *)royalBlueColor {
     static UIColor *color = nil;
     static dispatch_once_t onceToken;
@@ -385,13 +378,21 @@
     });
     return color;
 }
-
-+ (UIColor *)SIPopupNodeBackground {
++ (UIColor *)SIColorPrimary {
     static UIColor *color = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        color = [UIColor colorWithRed:240.0/255.0 green:240.0/255.0 blue:255.0/255.0 alpha:1.0];
+        color = [UIColor colorWithRed:025.0/255.0 green:147.0/255.0 blue:255.0/255.0 alpha:1.0];
     });
     return color;
 }
++ (UIColor *)SIColorSecondary {
+    static UIColor *color = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        color = [UIColor colorWithRed:020.0/255.0 green:110.0/255.0 blue:191.0/255.0 alpha:1.0];
+    });
+    return color;
+}
+
 @end

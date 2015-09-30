@@ -365,6 +365,7 @@ NSString *const kSINodeNodeBucket                                               
 NSString *const kSINodeNodePile                                                 = @"pileOfCoinsNode";
 NSString *const kSINodePopupButton                                              = @"popupButtonNode";
 NSString *const kSINodePopupContent                                             = @"content";
+NSString *const kSINodePopupCountdown                                           = @"countdown";
 NSString *const kSINodePopupTitle                                               = @"title";
 
 
@@ -382,13 +383,15 @@ NSString *const kSIAssestMenuButtonShareTwitter                                 
 NSString *const kSIAssestPopupButtonClaim                                       = @"claimButton";
 NSString *const kSIAssestPopupButtonDismissNormal                               = @"dismissButtonNormal";
 NSString *const kSIAssestPopupButtonEndGame                                     = @"popupEndGameButton";
-NSString *const kSIAssestPopupButtonFreeStar                                    = @"freeStar";
+NSString *const kSIAssestPopupButtonUseCoins                                    = @"useCoinsButton";
 NSString *const kSIAssestPopupButtonWatchAd                                     = @"watchAdButton";
+NSString *const kSIAssestPopupFreeStar                                          = @"freeStar";
+
 
 #pragma mark -
 #pragma mark - Fonts
 #pragma mark -
-#pragma mark - San Fran
+#pragma mark San Fran
 NSString *const kSISFFontDisplayLight                                           = @"SFUIDisplay-Light";
 NSString *const kSISFFontDisplayHeavy                                           = @"SFUIDisplay-Heavy";
 NSString *const kSISFFontDisplayRegular                                         = @"SFUIDisplay-Regular";
@@ -442,14 +445,15 @@ NSString *const kSITextMenuStartScreenTapToStart                                
 NSString *const kSITextMenuStoreTitle                                           = @"Store";
 
 #pragma mark - Pop Ups
-NSString *const kSITextPopupEndGameBuyCoins                                     = @"Buy Coins!";
-NSString *const kSITextPopupEndGameContinue                                     = @"Continue?";
-NSString *const kSITextPopupEndGameEnd                                          = @"End Game";
-NSString *const kSITextPopupEndGameGameOver                                     = @"Game Over";
-NSString *const kSITextPopupEndGameMainMenu                                     = @"Main Menu";
-NSString *const kSITextPopupEndGameUseCoins                                     = @"Use %d Coins!";
-NSString *const kSITextPopupEndGameWatchAdPlural                                = @"Watch %d Ads!";
-NSString *const kSITextPopupEndGameWatchAdSingular                              = @"Watch %d Ad!";
+NSString *const kSITextPopupContinueBuyCoins                                    = @"buyCoins";
+NSString *const kSITextPopupContinueContinue                                    = @"continueTitle";
+NSString *const kSITextPopupContinueEnd                                         = @"End Game";
+NSString *const kSITextPopupContinueFree                                        = @"freeLabel";
+NSString *const kSITextPopupContinueGameOver                                    = @"Game Over";
+NSString *const kSITextPopupContinueMainMenu                                    = @"Main Menu";
+NSString *const kSITextPopupContinueUseCoins                                    = @"Use %d Coins!";
+NSString *const kSITextPopupContinueWatchAdPlural                               = @"Watch %d Ads!";
+NSString *const kSITextPopupContinueWatchAdSingular                             = @"Watch %d Ad!";
 NSString *const kSITextPopupFreePrizeClaim                                      = @"Claim";
 NSString *const kSITextPopupFreePrizeDaily                                      = @"Daily";
 NSString *const kSITextPopupFreePrizeFree                                       = @"Free";

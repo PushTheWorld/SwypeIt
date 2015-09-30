@@ -29,7 +29,7 @@
     SIMenuNode                                      *_currentMenuNode;
     SIMenuNode                                      *_rootSceneMenuNode;
     
-//    SIPopupNode                                     *_popupContentNode;
+//    SIPopupNode                                     *_centerNode;
     
     SKSpriteNode                                    *_backgroundNode;
 
@@ -82,7 +82,7 @@
 }
 - (void)createControlsWithSize:(CGSize)size {
     /**Preform all your alloc/init's here*/
-    _backgroundNode                                 = [SKSpriteNode spriteNodeWithColor:[SKColor mainColor] size:_sceneSize];
+    _backgroundNode                                 = [SKSpriteNode spriteNodeWithColor:[SKColor SIColorPrimary] size:_sceneSize];
 }
 - (void)setupControlsWithSize:(CGSize)size {
     /**Configrue the labels, nodes and what ever else you can*/
@@ -91,7 +91,7 @@
     
     [self addChild:_backgroundNode];
 
-    self.backgroundColor                           = [SKColor mainColor]; //this sets color for everything muwahah
+    self.backgroundColor                           = [SKColor SIColorPrimary]; //this sets color for everything muwahah
 
 }
 
@@ -121,8 +121,8 @@
 }
 
 //- (SIPopupNode *)popupNode {
-//    if (_popupContentNode) {
-//        return _popupContentNode;
+//    if (_centerNode) {
+//        return _centerNode;
 //    } else {
 //        return nil;
 //    }
@@ -141,8 +141,8 @@
     if (popupNode) {
         _popupNode                           = popupNode;
         [self addChild:_popupNode];
-        [_popupNode hlSetGestureTarget:_popupNode];
-        [self registerDescendant:_popupNode withOptions:[NSSet setWithObject:HLSceneChildGestureTarget]];
+//        [_popupNode hlSetGestureTarget:_popupNode];
+//        [self registerDescendant:_popupNode withOptions:[NSSet setWithObject:HLSceneChildGestureTarget]];
 
     }
     [self layoutZ];

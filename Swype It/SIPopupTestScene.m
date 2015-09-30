@@ -32,7 +32,7 @@
     
     HLMenuNode                              *_menuNodeEnd;
     HLMenuNode                              *_menuNodeStore;
-
+    
     SIPopupNode                             *_popupNode;
 }
 
@@ -107,7 +107,7 @@
 
 - (void)viewSetup:(SKView *)view {
     /**Preform setup post-view load*/
-    self.backgroundColor                    = [SKColor mainColor]; /*Maybe add a convience method*/
+    self.backgroundColor                    = [SKColor SIColorPrimary]; /*Maybe add a convience method*/
     
     
     
@@ -124,25 +124,44 @@
     
     for (SKNode *node in ((INSKButtonNode *)_popupNode.bottomNode).nodeNormal.children) {
         if ([node isKindOfClass:[SKLabelNode class]]) {
-            ((SKLabelNode *)node).text = NSLocalizedString(kSITextPopupEndGameMainMenu, nil);
+            ((SKLabelNode *)node).text = NSLocalizedString(kSITextPopupContinueMainMenu, nil);
         }
     }
     for (SKNode *node in ((INSKButtonNode *)_popupNode.bottomNode).nodeHighlighted.children) {
         if ([node isKindOfClass:[SKLabelNode class]]) {
-            ((SKLabelNode *)node).text = NSLocalizedString(kSITextPopupEndGameMainMenu, nil);
+            ((SKLabelNode *)node).text = NSLocalizedString(kSITextPopupContinueMainMenu, nil);
         }
     }
     
     [((INSKButtonNode *)_popupNode.bottomNode) setTouchUpInsideTarget:self selector:@selector(goToMainMenu)];
 
-    ((SKLabelNode *)_popupNode.titleContentNode).text = NSLocalizedString(kSITextPopupEndGameGameOver, nil);
+    ((SKLabelNode *)_popupNode.titleContentNode).text = NSLocalizedString(kSITextPopupContinueGameOver, nil);
     
-    _popupNode.popupContentNode = nil;
+    _popupNode.centerNode = nil;
+    _popupNode.topNode = nil;
     
 }
 
 - (void)goToMainMenu {
     NSLog(@"wahooo going to the main menu");
+}
+
+- (void)update:(NSTimeInterval)currentTime {
+    if ([self modalNodePresented]) {
+        if (_popupNode && _popupNode.parent && [_popupNode.topNode isKindOfClass:[SKLabelNode class]]) {
+            if (_popupNode.countDownStarted == NO) {
+                _popupNode.startTime = currentTime;
+                _popupNode.countDownStarted = YES;
+            } else {
+                NSTimeInterval remainingTime = 11.0f - (currentTime - _popupNode.startTime);
+                if (remainingTime < (EPSILON_NUMBER + 1.0f)) {
+                    [self makePopupBigger];
+                }
+                ((SKLabelNode *)_popupNode.topNode).text = [NSString stringWithFormat:@"%i",(int)remainingTime];
+                [_popupNode.topNode runAction:[SKAction scaleTo:remainingTime - floorf(remainingTime) duration:0.0f]];
+            }
+        }
+    }
 }
 
 @end

@@ -452,7 +452,7 @@
 //    [self registerDescendant:claimButton withOptions:[NSSet setWithObject:HLSceneChildGestureTarget]];
 //    [mainNode addChild:claimButton];
 //    
-//    _popupNode.popupContentNode                 = mainNode;
+//    _popupNode.centerNode                 = mainNode;
 //}
 //- (void)launchCoins:(int)totalCoins coinsLaunched:(int)coinsLaunched {
 //    if (coinsLaunched == totalCoins) {

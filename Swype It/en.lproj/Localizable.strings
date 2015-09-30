@@ -61,15 +61,15 @@
 /**
  Pop Ups
 */
-"Buy Coins"                 = "Buy Coins!";
-"Continue?"                 = "Continue?";
+"buyCoins"                  = "Quick, Buy Coins!";
+"continueTitle"             = "Keep Going!";
 "End Game"                  = "End Game";
 "Use %d Coins!"             = "Use %d Coins!";
 "Watch %d Ad!"              = "Watch %d Ad!";
 "Watch %d Ads!"             = "Watch %d Ads!";
 "Claim"                     = "Claim";
 "Daily"                     = "Daily";
-"Free"                      = "Free";
+"freeLabel"                 = "Free!";
 "Prize"                     = "Prize";
 "Game Over"                 = "Game Over";
 "Main Menu"                 = "Main Menu";
