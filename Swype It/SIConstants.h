@@ -429,6 +429,12 @@ typedef NS_ENUM(NSInteger, SIGameEvent) {
     SIGameEventWrongMoveEntered
 };
 
+typedef NS_ENUM(NSInteger, SIPopupCountDownTimer) {
+    SIPopupCountDownTimerNotStarted = 0,
+    SIPopupCountDownTimerRunning,
+    SIPopupCountDownTimerFinished
+};
+
 typedef NS_ENUM(NSInteger, SIMenuNodeAnimation) {
     /**
      Menu node appears to pop off and pop the current node to the right
@@ -738,6 +744,9 @@ extern NSString *const kSINodePopupButton;
 extern NSString *const kSINodePopupContent;
 extern NSString *const kSINodePopupCountdown;
 extern NSString *const kSINodePopupTitle;
+extern NSString *const kSINodePopupRowHighScore;
+extern NSString *const kSINodePopupRowTotalScore;
+extern NSString *const kSINodePopupRowFreeCoins;
 
 #pragma mark -
 #pragma mark - Fonts

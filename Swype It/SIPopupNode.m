@@ -56,7 +56,7 @@ static const uint32_t SIPopupNodeCategoryLight          = 0x1 << 1; // 000000000
         _titleAutomaticYPosition        = NO;
         _centerNodePosition             = CGPointMake(0.0f, 0.0f);
         _bottomNodeBottomSpacing        = VERTICAL_SPACING_8;
-        _countDownStarted               = NO;
+        _countDownTimerState            = SIPopupCountDownTimerNotStarted;
         _startTime                      = 0;
 //        _centerNodeSticksToBottomNode   = NO;
     }
@@ -373,20 +373,9 @@ static const uint32_t SIPopupNodeCategoryLight          = 0x1 << 1; // 000000000
 //}
 
 - (void)setDismissButtonVisible:(BOOL)dismissButtonVisible {
-    if (dismissButtonVisible) {
-        if (_dismissButton == nil) {
-            _dismissButton                  = [SIGameController SIINButtonNamed:kSIAssestPopupButtonDismissNormal];
-            _dismissButton.zPosition        = SIPopupNodeZPositionLayerContent * self.zPositionScale / SIPopupNodeZPositionLayerCount;
-            [_dismissButton setTouchUpInsideTarget:self selector:@selector(dismissButtonTapped:)];
-            [_backgroundNode addChild:_dismissButton];
-        }
-    } else {
-        if (_dismissButton) {
-            [_dismissButton removeFromParent];
-        }
-    }
-    _dismissButtonVisible = dismissButtonVisible;
-    [self layoutXYZ];
+    _dismissButton.hidden = !dismissButtonVisible;
+    _dismissButtonVisible           = dismissButtonVisible;
+//    [self layoutXYZ];
 }
 
 - (void)setTopNode:(SKNode *)topNode {
@@ -449,10 +438,6 @@ static const uint32_t SIPopupNodeCategoryLight          = 0x1 << 1; // 000000000
         _centerNode.position                = _centerNodePosition;
     }
     
-//    if (_topNode && _topNode.parent) {
-//        _topNode.position
-//    }
-    
     _backgroundNode.texture                 = [SIGame textureBackgroundColor:_backgroundNode.color size:_backgroundNode.size cornerRadius:_cornerRadius borderWidth:_borderWidth borderColor:_borderColor];
 
     [self makeLightNodeFollowTheBackgroundOfThePopup];
@@ -495,50 +480,9 @@ static const uint32_t SIPopupNodeCategoryLight          = 0x1 << 1; // 000000000
 
 #pragma mark - HLGestureTarget
 
-//- (NSArray *)addsToGestureRecognizers {
-//    return @[ [[UITapGestureRecognizer alloc] init] ];
-//}
-//
-//- (BOOL)addToGesture:(UIGestureRecognizer *)gestureRecognizer firstTouch:(UITouch *)touch isInside:(BOOL *)isInside
-//{
-//    CGPoint location    = [touch locationInNode:self];
-//    
-//    *isInside           = NO;
-//    
-//    if ([_dismissButton containsPoint:location]) {
-//        *isInside       = YES;
-//        if ([gestureRecognizer isKindOfClass:[UITapGestureRecognizer class]]) {
-//            NSLog(@"Dismiss Pop Up View");
-//            if ([_delegate respondsToSelector:@selector(dismissPopup:)]) {
-//                [_delegate dismissPopup:self];
-//            }
-//            return YES;
-//        }
-//    }
-////    if ([_contentNode containsPoint:location]) {
-////        if ([gestureRecognizer isKindOfClass:[UITapGestureRecognizer class]]) {
-////            NSLog(@"Content Node Tapped");
-////            *isInside       = YES;
-////            return YES;
-////        }
-////
-////    }
-//    
-//    return NO;
-//}
 
 #pragma mark - Launch Coins
-//- (void)launchCoins:(int)totalCoins coinsLaunched:(int)coinsLaunched {
-//    if (coinsLaunched == totalCoins) {
-//        [self finishPrize];
-//    } else {
-//        _prizeAmountLabelNode.text  = [NSString stringWithFormat:@"%d",totalCoins - coinsLaunched - 1];
-//        [self lauchCoin];
-//        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(((CGFloat)(totalCoins - coinsLaunched) / (CGFloat)totalCoins) / 2.0f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-//            [self launchCoins:totalCoins coinsLaunched:coinsLaunched + 1];
-//        });
-//    }
-//}
+
 - (void)launchNode:(SKSpriteNode *)node {
     
     CGFloat zPositionLayerIncrement             = self.zPositionScale / (float)SIPopupNodeZPositionLayerCount;
@@ -570,25 +514,5 @@ static const uint32_t SIPopupNodeCategoryLight          = 0x1 << 1; // 000000000
     
 
 }
-//- (void)finishPrize {
-//    if ([SIConstants isFXAllowed]) {
-//        [[SoundManager sharedManager] playSound:kSISoundFXChaChing];
-//    }
-//    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-//        NSDate *currentDate = [SIGameController getDateFromInternet];
-//        if (currentDate) {
-//            [[MKStoreKit sharedKit] addFreeCredits:[NSNumber numberWithInt:[self getPrizeAmount]] identifiedByConsumableIdentifier:kSIIAPConsumableIDCoins];
-//            
-//            [[NSUserDefaults standardUserDefaults] setObject:currentDate forKey:kSINSUserDefaultLastPrizeAwardedDate];
-//            [[NSUserDefaults standardUserDefaults] synchronize];
-//            
-//            [self changeCoinValue];
-//        }
-//        [self increaseConsecutiveDaysLaunched];
-//        [self dismissModalNodeAnimation:HLScenePresentationAnimationFade];
-//    });
-//}
-
-
 
 @end

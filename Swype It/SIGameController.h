@@ -11,6 +11,7 @@
 #import "BaseViewController.h"
 #import "SIGameScene.h"
 #import "SIPopupNode.h"
+#import "SIPopupGameOverOverDetailsRowNode.h"
 // Framework Import
 #import <UIKit/UIKit.h>
 #import <SpriteKit/SpriteKit.h>
@@ -84,9 +85,10 @@
 /**Called when creating the grid for the start menu*/
 + (SIPopupNode *)SIPopupSceneGameContinueSize:(CGSize)size;
 + (SIPopupNode *)SIPopupNodeTitle:(NSString *)title SceneSize:(CGSize)sceneSize;
++ (SIPopupGameOverOverDetailsRowNode *)SIPopupGameOverDetailsRowNodeWithSize:(CGSize)size;
++ (SKTexture *)SITextureMonkeyFace;
 
-+ (SKTexture *)         SITextureMonkeyFace;
-
++ (SKLabelNode *)SILabelText:(NSString *)text;
 + (SKLabelNode *)SILabelHeader:(NSString *)text;
 + (SKLabelNode *)SILabelHeader_x2:(NSString *)text;
 + (SKLabelNode *)SILabelHeader_x3:(NSString *)text;
@@ -108,6 +110,7 @@
 
 + (SKSpriteNode *)SISpriteNodeBanana;
 + (SKSpriteNode *)SISpriteNodeBananaBunch;
++ (SKSpriteNode *)SISpriteNodePopupGameOverEndNode;
 
 #pragma mark UIGestureRecognizers
 + (UIPinchGestureRecognizer *)SIGesturePinch;

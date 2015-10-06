@@ -367,6 +367,9 @@ NSString *const kSINodePopupButton                                              
 NSString *const kSINodePopupContent                                             = @"content";
 NSString *const kSINodePopupCountdown                                           = @"countdown";
 NSString *const kSINodePopupTitle                                               = @"title";
+NSString *const kSINodePopupRowHighScore                                        = @"highScore";
+NSString *const kSINodePopupRowTotalScore                                       = @"totalScore";
+NSString *const kSINodePopupRowFreeCoins                                        = @"freeCoins";
 
 
 #pragma mark -

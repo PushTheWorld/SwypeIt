@@ -2541,6 +2541,12 @@
     label.fontName      = kSISFFontDisplayMedium;
     return label;
 }
++ (SKLabelNode *)SILabelText:(NSString *)text {
+    SKLabelNode *label  = [SIGameController SILabelInterfaceFontSize:[SIGameController SIFontSizeText]];
+    label.text          = text;
+    label.fontName      = kSISFFontTextMedium;
+    return label;
+}
 + (SKLabelNode *)SILabelParagraph_x4:(NSString *)text {
     SKLabelNode *label  = [SIGameController SILabelInterfaceFontSize:[SIGameController SIFontSizeParagraph_x4]];
     label.text          = text;
@@ -2674,6 +2680,32 @@
 
     return node;
 }
+
++ (SKSpriteNode *)SISpriteNodePopupGameOverEndNode {
+    CGSize nodeSize = [SIGameController SIINButtonPopupButtonImageNamed:kSIAssestPopupButtonWatchAd text:NSLocalizedString(kSITextPopupContinueWatchAdPlural, nil)].size;
+    
+    SKSpriteNode *bgNode = [SKSpriteNode spriteNodeWithColor:[SKColor clearColor] size:CGSizeMake(nodeSize.width, nodeSize.height * 3)];
+
+    SIPopupGameOverOverDetailsRowNode *row1 = [SIGameController SIPopupGameOverDetailsRowNodeWithSize:nodeSize];
+    row1.name                               = kSINodePopupRowTotalScore;
+    SIPopupGameOverOverDetailsRowNode *row2 = [SIGameController SIPopupGameOverDetailsRowNodeWithSize:nodeSize];
+    row2.name                               = kSINodePopupRowHighScore;
+    SIPopupGameOverOverDetailsRowNode *row3 = [SIGameController SIPopupGameOverDetailsRowNodeWithSize:nodeSize];
+    row3.name                               = kSINodePopupRowFreeCoins;
+    
+    CGFloat yPosInit = nodeSize.height;
+    
+    row1.position                           = CGPointMake(0.0f, yPosInit + VERTICAL_SPACING_4);
+    row2.position                           = CGPointMake(0.0f, 0.0f);
+    row3.position                           = CGPointMake(0.0f, (-1.0f * yPosInit) - VERTICAL_SPACING_4);
+    
+    [bgNode addChild:row1];
+    [bgNode addChild:row2];
+    [bgNode addChild:row3];
+
+    return bgNode;
+}
+
 
 #pragma mark SKTextures
 + (SKTexture *)SITextureMonkeyFace {
@@ -2994,17 +3026,17 @@
     
     return popUpNode;
 }
+
 + (SIPopupNode *)SIPopupSceneGameContinueSize:(CGSize)size {
     SKLabelNode *titleLabel = [SIGameController SILabelSceneGamePopupTitle];
     titleLabel.text = NSLocalizedString(kSITextPopupContinueContinue, nil);
 
     INSKButtonNode *bottomButton            = [SIGameController SIINButtonPopupButtonImageNamed:kSIAssestPopupButtonEndGame text:NSLocalizedString(kSITextPopupContinueEnd, nil)];
     SKSpriteNode *centerSprite              = [SIGameController SISpriteNodePopupContinueCenterNode];
-    SIPopupNode *popupNode                  = [[SIPopupNode alloc] initWithSceneSize:CGSizeMake(size.width - [SIGameController xPaddingPopupContinue], size.width - [SIGameController xPaddingPopupContinue])];
+    SIPopupNode *popupNode                  = [[SIPopupNode alloc] initWithSceneSize:size];
     SKLabelNode *countDownLabelNode         = [SIGameController SILabelSceneGamePopupCountdown];
-    
-    
-    
+
+    popupNode.backgroundSize                = CGSizeMake(size.width - [SIGameController xPaddingPopupContinue], size.width - [SIGameController xPaddingPopupContinue]);
     popupNode.backgroundColor               = [UIColor SIColorPrimary];
     popupNode.titleContentNode              = titleLabel;
     popupNode.cornerRadius                  = 8.0f;
@@ -3300,6 +3332,11 @@
     label.verticalAlignmentMode     = SKLabelVerticalAlignmentModeCenter;
     label.horizontalAlignmentMode   = SKLabelHorizontalAlignmentModeCenter;
     return label;
+}
+
+#pragma mark SIPopupGameOverOverDetailsRowNode
++ (SIPopupGameOverOverDetailsRowNode *)SIPopupGameOverDetailsRowNodeWithSize:(CGSize)size {
+    return [[SIPopupGameOverOverDetailsRowNode alloc] initWithSize:size];;
 }
 
 #pragma mark -

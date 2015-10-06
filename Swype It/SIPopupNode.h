@@ -260,7 +260,7 @@
 /**
  The start time for using a count down timer and such
  */
-@property (nonatomic, assign) BOOL countDownStarted;
+@property (nonatomic, assign) SIPopupCountDownTimer countDownTimerState;
 
 /**
  By default lands below the title

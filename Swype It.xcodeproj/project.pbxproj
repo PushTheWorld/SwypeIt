@@ -145,6 +145,7 @@
 		09AB99321BB012EE006BC50E /* rapidFireRevA.sks in Resources */ = {isa = PBXBuildFile; fileRef = 09AB99311BB012EE006BC50E /* rapidFireRevA.sks */; };
 		09AB99341BB01904006BC50E /* snowTimeFreezeRevA.sks in Resources */ = {isa = PBXBuildFile; fileRef = 09AB99331BB01904006BC50E /* snowTimeFreezeRevA.sks */; };
 		09B1E35A1B97A33B00EDF051 /* explosionTouch.sks in Resources */ = {isa = PBXBuildFile; fileRef = 09B1E3591B97A33B00EDF051 /* explosionTouch.sks */; };
+		09B83CBD1BBC33C500F86563 /* SIPopupGameOverOverDetailsRowNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 09B83CBC1BBC33C500F86563 /* SIPopupGameOverOverDetailsRowNode.m */; settings = {ASSET_TAGS = (); }; };
 		09CAF9A91B646BE100466606 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 09CAF9A81B646BE100466606 /* MBProgressHUD.m */; };
 		09CAF9AC1B646F4C00466606 /* buttons.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 09CAF9AB1B646F4C00466606 /* buttons.atlas */; };
 		09CB158E1B7E85DC00F9A956 /* SIPopupTestScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 09CB158D1B7E85DC00F9A956 /* SIPopupTestScene.m */; };
@@ -404,6 +405,8 @@
 		09AB99311BB012EE006BC50E /* rapidFireRevA.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = rapidFireRevA.sks; sourceTree = "<group>"; };
 		09AB99331BB01904006BC50E /* snowTimeFreezeRevA.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = snowTimeFreezeRevA.sks; sourceTree = "<group>"; };
 		09B1E3591B97A33B00EDF051 /* explosionTouch.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = explosionTouch.sks; sourceTree = "<group>"; };
+		09B83CBB1BBC33C500F86563 /* SIPopupGameOverOverDetailsRowNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SIPopupGameOverOverDetailsRowNode.h; sourceTree = "<group>"; };
+		09B83CBC1BBC33C500F86563 /* SIPopupGameOverOverDetailsRowNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SIPopupGameOverOverDetailsRowNode.m; sourceTree = "<group>"; };
 		09CAF9A71B646BE100466606 /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = "<group>"; };
 		09CAF9A81B646BE100466606 /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
 		09CAF9AB1B646F4C00466606 /* buttons.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = buttons.atlas; sourceTree = "<group>"; };
@@ -735,18 +738,20 @@
 				0938C2BD1BA835D900B69FC2 /* SIMenuNodeContent.m */,
 				0957AB751BA7034200D3FDF5 /* SIPopupContentNode.h */,
 				0957AB761BA7034200D3FDF5 /* SIPopupContentNode.m */,
+				097FF7111BB754F4009DF538 /* SIPopupGameOverDetailsNode.h */,
+				097FF7121BB754F4009DF538 /* SIPopupGameOverDetailsNode.m */,
 				099302FA1B7CB50600D2CCE4 /* SIPopupNode.h */,
 				099302FB1B7CB50600D2CCE4 /* SIPopupNode.m */,
 				0914D7A81B81C22400911DD8 /* SIPowerUpToolbarNode.h */,
 				0914D7A91B81C22400911DD8 /* SIPowerUpToolbarNode.m */,
 				09D5ED4D1B8B205B00E84179 /* SISegmentControl.h */,
 				09D5ED4E1B8B205B00E84179 /* SISegmentControl.m */,
-				0988CC921B70C82300BF429D /* SIStoreButtonNode.h */,
-				0988CC931B70C82300BF429D /* SIStoreButtonNode.m */,
 				09568C351BB5BE2300156DDF /* SISpriteButton.h */,
 				09568C361BB5BE2300156DDF /* SISpriteButton.m */,
-				097FF7111BB754F4009DF538 /* SIPopupGameOverDetailsNode.h */,
-				097FF7121BB754F4009DF538 /* SIPopupGameOverDetailsNode.m */,
+				0988CC921B70C82300BF429D /* SIStoreButtonNode.h */,
+				0988CC931B70C82300BF429D /* SIStoreButtonNode.m */,
+				09B83CBB1BBC33C500F86563 /* SIPopupGameOverOverDetailsRowNode.h */,
+				09B83CBC1BBC33C500F86563 /* SIPopupGameOverOverDetailsRowNode.m */,
 			);
 			name = CustomUIClasses;
 			sourceTree = "<group>";
@@ -1350,6 +1355,7 @@
 				0988CC941B70C82300BF429D /* SIStoreButtonNode.m in Sources */,
 				098B3B471B378C27000D4702 /* SIGame.m in Sources */,
 				0917D4F11B6DD8240046B5FF /* HLMessageNode.m in Sources */,
+				09B83CBD1BBC33C500F86563 /* SIPopupGameOverOverDetailsRowNode.m in Sources */,
 				09E3527F1B96E78D00B53F7A /* SIAdBannerNode.m in Sources */,
 				097375461B57A97500BE1BCA /* BaseViewController.m in Sources */,
 				092E9CD81BAA05710022E644 /* UIImage+ImageEffects.m in Sources */,

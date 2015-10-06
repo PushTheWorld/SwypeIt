@@ -69,11 +69,11 @@
     
     _labelCoinsEarnedText                               = [SIGameController SILabelParagraph:NSLocalizedString(kSITextMenuEndGameFreeCoinsEarned, nil)];
     _labelCoinsEarnedText.horizontalAlignmentMode       = SKLabelHorizontalAlignmentModeLeft;
-    _labelCoinsEarnedText.verticalAlignmentMode         = SKLabelVerticalAlignmentModeTop;
+    _labelCoinsEarnedText.verticalAlignmentMode         = SKLabelVerticalAlignmentModeBottom;
 
     _labelCoinsEarned                                   = [SIGameController SILabelParagraph:@"0"];
     _labelCoinsEarned.horizontalAlignmentMode           = SKLabelHorizontalAlignmentModeRight;
-    _labelCoinsEarned.verticalAlignmentMode             = SKLabelVerticalAlignmentModeTop;
+    _labelCoinsEarned.verticalAlignmentMode             = SKLabelVerticalAlignmentModeBottom;
     
     _labelTotalScoreText                                = [SIGameController SILabelParagraph:NSLocalizedString(kSITextMenuEndGameScore, nil)];
     _labelTotalScoreText.horizontalAlignmentMode        = SKLabelHorizontalAlignmentModeLeft;
@@ -137,13 +137,13 @@
     _labelTotalScoreText.position                       = CGPointMake(leftX, topY);
     _labelTotalScore.position                           = CGPointMake(rightX, _labelTotalScoreText.position.y);
     
-    _labelHighScoreText.position                        = CGPointMake(leftX, _labelTotalScoreText.position.y + _labelTotalScoreText.frame.size.height + VERTICAL_SPACING_8);
-    _labelHighScore.position                            = CGPointMake(leftX, _labelHighScoreText.position.y);
+    _labelHighScoreText.position                        = CGPointMake(leftX, _labelTotalScoreText.position.y  + (-1.0f * (_labelTotalScoreText.frame.size.height + VERTICAL_SPACING_8)));
+    _labelHighScore.position                            = CGPointMake(rightX, _labelHighScoreText.position.y);
     
-    _labelCoinsEarnedText.position                      = CGPointMake(leftX, _labelHighScore.position.y + _labelHighScore.frame.size.height + VERTICAL_SPACING_8);
+    _labelCoinsEarnedText.position                      = CGPointMake(leftX, _labelHighScoreText.position.y + (-1.0f * (_labelHighScoreText.frame.size.height + VERTICAL_SPACING_8)));
     _labelCoinsEarned.position                          = CGPointMake(rightX, _labelCoinsEarnedText.position.y);
     
-    _labelMultilineUserMessage.position                 = CGPointMake(0.0f, _labelCoinsEarnedText.position.y + _labelCoinsEarnedText.frame.size.height + VERTICAL_SPACING_8);
+    _labelMultilineUserMessage.position                 = CGPointMake(0.0f, _labelCoinsEarnedText.position.y + (-1.0F * (_labelCoinsEarnedText.frame.size.height + VERTICAL_SPACING_8)));
 }
 
 /**
@@ -193,5 +193,14 @@
 }
 #pragma mark -
 #pragma mark - Class Functions
++ (void)reelNumbersForLabel:(SKLabelNode *)labelNode numberFormatter:(NSNumberFormatter *)numberFormatter score:(float)score totalScore:(float)totalScore {
+    if (score > totalScore) {
+        return;
+    }
+    
+    labelNode.text = [numberFormatter stringFromNumber:[NSNumber numberWithFloat:score]];
+}
+
+
 
 @end
