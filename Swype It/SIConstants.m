@@ -330,6 +330,7 @@ NSString *const kSINodeButtonAchievement                                        
 NSString *const kSINodeButtonBack                                               = @"backButtonNode";
 NSString *const kSINodeButtonContinue                                           = @"continueButton";
 NSString *const kSINodeButtonDone                                               = @"doneButton";
+NSString *const kSINodeButtonEndGame                                            = @"endGameButton";
 NSString *const kSINodeButtonFallingMonkey                                      = @"fallingMonkeyButton";
 NSString *const kSINodeButtonInstructions                                       = @"instructionsButton";
 NSString *const kSINodeButtonLeaderBoard                                        = @"leaderBoardButton";
@@ -338,6 +339,7 @@ NSString *const kSINodeButtonNoAd                                               
 NSString *const kSINodeButtonOneHand                                            = @"oneHand";
 NSString *const kSINodeButtonPause                                              = @"pause";
 NSString *const kSINodeButtonPlay                                               = @"play";
+NSString *const kSINodeButtonPlayAgain                                          = @"playAgain";
 NSString *const kSINodeButtonRapidFire                                          = @"rapidFire";
 NSString *const kSINodeButtonReplay                                             = @"replay";
 NSString *const kSINodeButtonSettings                                           = @"settings";
@@ -454,6 +456,7 @@ NSString *const kSITextPopupContinueEnd                                         
 NSString *const kSITextPopupContinueFree                                        = @"freeLabel";
 NSString *const kSITextPopupContinueGameOver                                    = @"Game Over";
 NSString *const kSITextPopupContinueMainMenu                                    = @"Main Menu";
+NSString *const kSITextPopupContinuePlayAgain                                   = @"Play Again!";
 NSString *const kSITextPopupContinueUseCoins                                    = @"Use %d Coins!";
 NSString *const kSITextPopupContinueWatchAdPlural                               = @"Watch %d Ads!";
 NSString *const kSITextPopupContinueWatchAdSingular                             = @"Watch %d Ad!";

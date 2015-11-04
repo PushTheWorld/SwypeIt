@@ -1,4 +1,4 @@
-//
+
 //  SITestScene.m
 //  Swype It
 //
@@ -175,6 +175,7 @@
                 ((SKLabelNode *)_popupNode.topNode).text = [NSString stringWithFormat:@"%i",(int)remainingTime];
                 [_popupNode.topNode runAction:[SKAction scaleTo:remainingTime - floorf(remainingTime) duration:0.0f]];
                 if (remainingTime < (EPSILON_NUMBER + 1.0f)) {
+                    //Call to go to end game
                     [self makePopupBigger];
                     
                 }

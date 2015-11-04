@@ -1,5 +1,5 @@
 PODS:
-  - Crashlytics (3.3.1)
+  - Crashlytics (3.3.4)
   - Fabric (1.5.1):
     - Fabric/Base (= 1.5.1)
   - Fabric/Base (1.5.1)
@@ -25,7 +25,7 @@ DEPENDENCIES:
   - TransitionKit
 
 SPEC CHECKSUMS:
-  Crashlytics: 0e61bdda9def51f1e99720f804eebe94865442b2
+  Crashlytics: 41c082440d2e14da444186fff65e79c0b4b35d4c
   Fabric: 03c3b3fe77e11a2bc31421b989a9c7adaa4779a5
   FXBlurView: db786c2561cb49a09ae98407f52460096ab8a44f
   INSpriteKit: 90943665f8ea4590989eb4eeb6cad4eb32b3d248
@@ -36,4 +36,4 @@ SPEC CHECKSUMS:
   SoundManager: 99ae328a3ec9b259db774c9851a65feeceba8183
   TransitionKit: 9ceccda4cd0cdc0a05ef85eb235e5a3292c3c250
 
-COCOAPODS: 0.38.2
+COCOAPODS: 0.39.0

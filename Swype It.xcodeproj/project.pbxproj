@@ -38,7 +38,7 @@
 		0917D4FD1B6DD8240046B5FF /* SKNode+HLLayoutManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0917D4E11B6DD8240046B5FF /* SKNode+HLLayoutManager.m */; };
 		0917D4FE1B6DD8240046B5FF /* SKSpriteNode+HLSpriteNodeAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 0917D4E31B6DD8240046B5FF /* SKSpriteNode+HLSpriteNodeAdditions.m */; };
 		0917D4FF1B6DD8240046B5FF /* UIImage+HLImageAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 0917D4E51B6DD8240046B5FF /* UIImage+HLImageAdditions.m */; };
-		0918F52D1BBAB565006D33A9 /* SIPopupNodeTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 0918F52C1BBAB565006D33A9 /* SIPopupNodeTests.m */; settings = {ASSET_TAGS = (); }; };
+		0918F52D1BBAB565006D33A9 /* SIPopupNodeTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 0918F52C1BBAB565006D33A9 /* SIPopupNodeTests.m */; };
 		0919ABE21B91FC83009ACFF1 /* sparkRevA.sks in Resources */ = {isa = PBXBuildFile; fileRef = 0919ABE01B91FC83009ACFF1 /* sparkRevA.sks */; };
 		0919ABE31B91FC83009ACFF1 /* spark.png in Resources */ = {isa = PBXBuildFile; fileRef = 0919ABE11B91FC83009ACFF1 /* spark.png */; };
 		091FED491B37283E0071F8DC /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 091FED481B37283E0071F8DC /* main.m */; };
@@ -64,7 +64,7 @@
 		092E9CD91BAA05710022E644 /* UIImage+ImageEffects.m in Sources */ = {isa = PBXBuildFile; fileRef = 092E9CD71BAA05710022E644 /* UIImage+ImageEffects.m */; };
 		092E9CDA1BAA05770022E644 /* UIImage+BlurredFrame.m in Sources */ = {isa = PBXBuildFile; fileRef = 092E9CD31BAA05410022E644 /* UIImage+BlurredFrame.m */; };
 		09343DAA1B44BB1C00D1C707 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 09343DA91B44BB1C00D1C707 /* QuartzCore.framework */; };
-		093690191BBB0A60006A239C /* SIPopupNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 099302FB1B7CB50600D2CCE4 /* SIPopupNode.m */; settings = {ASSET_TAGS = (); }; };
+		093690191BBB0A60006A239C /* SIPopupNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 099302FB1B7CB50600D2CCE4 /* SIPopupNode.m */; };
 		0938C2BB1BA7AACF00B69FC2 /* SIAchievementNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 0938C2BA1BA7AACF00B69FC2 /* SIAchievementNode.m */; };
 		0938C2BE1BA835D900B69FC2 /* SIMenuNodeContent.m in Sources */ = {isa = PBXBuildFile; fileRef = 0938C2BD1BA835D900B69FC2 /* SIMenuNodeContent.m */; };
 		0938C2C11BA8483200B69FC2 /* tapNoise.caf in Resources */ = {isa = PBXBuildFile; fileRef = 0938C2BF1BA8483200B69FC2 /* tapNoise.caf */; };
@@ -102,9 +102,9 @@
 		0979E6581B77A614002FC2F2 /* LongIsland-Shadow.otf in Resources */ = {isa = PBXBuildFile; fileRef = 0979E6571B77A614002FC2F2 /* LongIsland-Shadow.otf */; };
 		0979E65A1B77A74E002FC2F2 /* LongIslandContour.otf in Resources */ = {isa = PBXBuildFile; fileRef = 0979E6591B77A74E002FC2F2 /* LongIslandContour.otf */; };
 		0979E65C1B77C0F2002FC2F2 /* diamondPlate3.png in Resources */ = {isa = PBXBuildFile; fileRef = 0979E65B1B77C0F2002FC2F2 /* diamondPlate3.png */; };
-		097FF7101BB731BB009DF538 /* Level1.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 097FF70F1BB731BB009DF538 /* Level1.xcassets */; settings = {ASSET_TAGS = (); }; };
-		097FF7131BB754F4009DF538 /* SIPopupGameOverDetailsNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 097FF7121BB754F4009DF538 /* SIPopupGameOverDetailsNode.m */; settings = {ASSET_TAGS = (); }; };
-		0984E21C1BB8894800E4C58B /* Menu.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0984E21B1BB8894800E4C58B /* Menu.xcassets */; settings = {ASSET_TAGS = (); }; };
+		097FF7101BB731BB009DF538 /* Level1.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 097FF70F1BB731BB009DF538 /* Level1.xcassets */; };
+		097FF7131BB754F4009DF538 /* SIPopupGameOverDetailsNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 097FF7121BB754F4009DF538 /* SIPopupGameOverDetailsNode.m */; };
+		0984E21C1BB8894800E4C58B /* Menu.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0984E21B1BB8894800E4C58B /* Menu.xcassets */; };
 		0984E21E1BB8895D00E4C58B /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 0984E2201BB8895D00E4C58B /* Localizable.strings */; };
 		0988CC941B70C82300BF429D /* SIStoreButtonNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 0988CC931B70C82300BF429D /* SIStoreButtonNode.m */; };
 		0988CC961B7203CA00BF429D /* Ultra.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0988CC951B7203CA00BF429D /* Ultra.ttf */; };
@@ -145,7 +145,7 @@
 		09AB99321BB012EE006BC50E /* rapidFireRevA.sks in Resources */ = {isa = PBXBuildFile; fileRef = 09AB99311BB012EE006BC50E /* rapidFireRevA.sks */; };
 		09AB99341BB01904006BC50E /* snowTimeFreezeRevA.sks in Resources */ = {isa = PBXBuildFile; fileRef = 09AB99331BB01904006BC50E /* snowTimeFreezeRevA.sks */; };
 		09B1E35A1B97A33B00EDF051 /* explosionTouch.sks in Resources */ = {isa = PBXBuildFile; fileRef = 09B1E3591B97A33B00EDF051 /* explosionTouch.sks */; };
-		09B83CBD1BBC33C500F86563 /* SIPopupGameOverOverDetailsRowNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 09B83CBC1BBC33C500F86563 /* SIPopupGameOverOverDetailsRowNode.m */; settings = {ASSET_TAGS = (); }; };
+		09B83CBD1BBC33C500F86563 /* SIPopupGameOverOverDetailsRowNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 09B83CBC1BBC33C500F86563 /* SIPopupGameOverOverDetailsRowNode.m */; };
 		09CAF9A91B646BE100466606 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 09CAF9A81B646BE100466606 /* MBProgressHUD.m */; };
 		09CAF9AC1B646F4C00466606 /* buttons.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 09CAF9AB1B646F4C00466606 /* buttons.atlas */; };
 		09CB158E1B7E85DC00F9A956 /* SIPopupTestScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 09CB158D1B7E85DC00F9A956 /* SIPopupTestScene.m */; };
@@ -181,7 +181,7 @@
 		09E4D80D1BAB584C00994E8E /* SF-UI-Text-RegularItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 09E4D7F81BAB584C00994E8E /* SF-UI-Text-RegularItalic.otf */; };
 		09E4D80E1BAB584C00994E8E /* SF-UI-Text-Semibold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 09E4D7F91BAB584C00994E8E /* SF-UI-Text-Semibold.otf */; };
 		09E4D80F1BAB584C00994E8E /* SF-UI-Text-SemiboldItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 09E4D7FA1BAB584C00994E8E /* SF-UI-Text-SemiboldItalic.otf */; };
-		09E611BD1BBACB3C00A3DE19 /* Popup.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 09E611BC1BBACB3C00A3DE19 /* Popup.xcassets */; settings = {ASSET_TAGS = (); }; };
+		09E611BD1BBACB3C00A3DE19 /* Popup.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 09E611BC1BBACB3C00A3DE19 /* Popup.xcassets */; };
 		0B86920528B4DE06FEB543D7 /* libPods-Swype It.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 56AEAA31FA19BFA93E5C5A6E /* libPods-Swype It.a */; };
 		F3621592DB76B0996F2AAC26 /* libPods-Swype ItTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3530280704151866977B6067 /* libPods-Swype ItTests.a */; };
 /* End PBXBuildFile section */
@@ -1094,6 +1094,7 @@
 				091FED411B37283E0071F8DC /* Resources */,
 				C6CE4681C1A3381F1E73A368 /* Copy Pods Resources */,
 				09CAF9A61B63F12C00466606 /* ShellScript */,
+				9C236E85CF57E04F5CF48020 /* Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -1113,6 +1114,7 @@
 				091FED591B37283E0071F8DC /* Frameworks */,
 				091FED5A1B37283E0071F8DC /* Resources */,
 				2488271B1A3F362B69787D45 /* Copy Pods Resources */,
+				FD13C7C5C72CA49DA3926A2F /* Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -1282,6 +1284,21 @@
 			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
+		9C236E85CF57E04F5CF48020 /* Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Swype It/Pods-Swype It-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		AA23FA67938786C98319F44E /* Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -1310,6 +1327,21 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Swype It/Pods-Swype It-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		FD13C7C5C72CA49DA3926A2F /* Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Swype ItTests/Pods-Swype ItTests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */

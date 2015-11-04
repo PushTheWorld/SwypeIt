@@ -687,6 +687,24 @@ static const uint32_t SIGameSceneCategoryEdge          = 0x1 << 2; // 0000000000
             
         }
     }
+    
+//    if ([self modalNodePresented]) {
+//        if (_popupNode && _popupNode.parent && [_popupNode.topNode isKindOfClass:[SKLabelNode class]]) {
+//            if (_popupNode.countDownTimerState == SIPopupCountDownTimerNotStarted) {
+//                _popupNode.startTime = currentTime;
+//                _popupNode.countDownTimerState = SIPopupCountDownTimerRunning;
+//            } else if (_popupNode.countDownTimerState == SIPopupCountDownTimerRunning) {
+//                NSTimeInterval remainingTime = 11.0f - (currentTime - _popupNode.startTime);
+//                ((SKLabelNode *)_popupNode.topNode).text = [NSString stringWithFormat:@"%i",(int)remainingTime];
+//                [_popupNode.topNode runAction:[SKAction scaleTo:remainingTime - floorf(remainingTime) duration:0.0f]];
+//                if (remainingTime < (EPSILON_NUMBER + 1.0f)) {
+//                    //Call to go to end game
+//                    [self makePopupBigger];
+//                    
+//                }
+//            }
+//        }
+//    }
 }
 
 #pragma mark Physics

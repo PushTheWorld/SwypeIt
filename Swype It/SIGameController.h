@@ -48,6 +48,7 @@
 + (CGFloat)             SIFontSizeText;
 + (CGFloat)             SIFontSizeText_x2;
 + (CGFloat)             SIFontSizeText_x3;
++ (CGFloat)             SIFontSizeText_x4;
 + (CGFloat)xPaddingPopupContinue;
 
 + (CGSize)              SIButtonSize:(CGSize)size;

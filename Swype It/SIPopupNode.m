@@ -317,8 +317,8 @@ static const uint32_t SIPopupNodeCategoryLight          = 0x1 << 1; // 000000000
     }
     
     if (titleContentNode) {
-        _titleContentNode           = titleContentNode;
-        _titleContentNode.name         = kSINodePopupTitle;
+        _titleContentNode               = titleContentNode;
+        _titleContentNode.name          = kSINodePopupTitle;
         [_backgroundNode addChild:_titleContentNode];
     }
     [self layoutXY];

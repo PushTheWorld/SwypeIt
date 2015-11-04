@@ -855,8 +855,9 @@
  Resposible for checking with nsuserdefaults
  */
 + (void)playMusic:(NSString *)name looping:(BOOL)looping fadeIn:(BOOL)fadeIn {
-    if ([SIConstants isFXAllowed]) {
-        [[SoundManager sharedManager] playSound:name looping:looping fadeIn:fadeIn];
+    if ([SIConstants isBackgroundSoundAllowed]) {
+        [[SoundManager sharedManager] playMusic:name looping:looping fadeIn:fadeIn];
+
     }
 }
 
@@ -869,8 +870,8 @@
  Resposible for checking with nsuserdefaults
  */
 + (void)playSound:(NSString *)name looping:(BOOL)looping fadeIn:(BOOL)fadeIn {
-    if ([SIConstants isBackgroundSoundAllowed]) {
-        [[SoundManager sharedManager] playMusic:name looping:looping fadeIn:fadeIn];
+    if ([SIConstants isFXAllowed]) {
+        [[SoundManager sharedManager] playSound:name looping:looping fadeIn:fadeIn];
     }
 }
 
