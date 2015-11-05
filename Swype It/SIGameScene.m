@@ -84,7 +84,7 @@ static const uint32_t SIGameSceneCategoryEdge          = 0x1 << 2; // 0000000000
 - (nonnull instancetype)init {
     self = [super init];
     if (self) {
-        _animationDuration                              = 1.0f;
+        _animationDuration                              = 0.25f;
         _blurScreenDuration                             = 0.25f;
         _moveCommandRandomLocation                      = NO;
         _scoreTotalLabelTopPadding                      = VERTICAL_SPACING_16;

@@ -82,6 +82,7 @@
 
 + (INSKButtonNode *)SIINButtonNamed:(NSString *)name;
 + (INSKButtonNode *)SIINButtonPopupButtonImageNamed:(NSString *)imageName text:(NSString *)text;
++ (INSKButtonNode *)SIINButtonPopupButtonImageNamed:(NSString *)imageName text:(NSString *)text withFontSize:(float)fontSize;
 
 /**Called when creating the grid for the start menu*/
 + (SIPopupNode *)SIPopupSceneGameContinueSize:(CGSize)size;

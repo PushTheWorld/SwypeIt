@@ -38,7 +38,6 @@
 #define SOUNDLEVEL4                         800
 #define SOUNDLEVEL5                         10000
 
-
 #define VERTICAL_SPACING_4                  4
 #define VERTICAL_SPACING_8                  8
 #define VERTICAL_SPACING_16                 16
@@ -364,7 +363,6 @@ typedef NS_ENUM(NSInteger, SISceneMenuToolBarNode) {
 
 typedef NS_ENUM(NSInteger, SISceneMenuType) {
     SISceneMenuTypeStart                    = 0,
-    SISceneMenuTypeEnd,
     SISceneMenuTypeAchievements,
     SISceneMenuTypeHelp,
     SISceneMenuTypeSettings,
@@ -501,7 +499,6 @@ extern NSString *const kSINSUserDefaultPowerUpReadyTimeFreeze;
 extern NSString *const kSINSUserDefaultNumberOfMonkeys;
 extern NSString *const kSINSUserDefaultSoundIsAllowedBackground;
 extern NSString *const kSINSUserDefaultSoundIsAllowedFX;
-
 
 #pragma mark - Power Ups
 extern NSString *const kSIPowerUpTypeFallingMonkeys;
@@ -723,6 +720,7 @@ extern NSString *const kSINodeButtonTimeFreeze;
 extern NSString *const kSINodeButtonRapidFire;
 extern NSString *const kSINodeButtonReplay;
 extern NSString *const kSINodeButtonSettings;
+extern NSString *const kSINodeButtonShare;
 extern NSString *const kSINodeButtonStore;
 extern NSString *const kSINodeEmitterFire;
 extern NSString *const kSINodeEmitterSnow;
@@ -802,6 +800,7 @@ extern NSString *const kSITextMenuSettingsToggleSoundOffFX;
 extern NSString *const kSITextMenuSettingsToggleSoundOnBackground;
 extern NSString *const kSITextMenuSettingsToggleSoundOnFX;
 extern NSString *const kSITextMenuStartScreenOneHandMode;
+extern NSString *const kSITextMenuStartScreenStore;
 extern NSString *const kSITextMenuStartScreenTapToPlay;
 extern NSString *const kSITextMenuStartScreenTapToStart;
 extern NSString *const kSITextMenuStoreTitle;
@@ -814,6 +813,7 @@ extern NSString *const kSITextPopupContinueFree;
 extern NSString *const kSITextPopupContinueGameOver;
 extern NSString *const kSITextPopupContinueMainMenu;
 extern NSString *const kSITextPopupContinuePlayAgain;
+extern NSString *const kSITextPopupContinueShare;
 extern NSString *const kSITextPopupContinueUseCoins;
 extern NSString *const kSITextPopupContinueWatchAdPlural;
 extern NSString *const kSITextPopupContinueWatchAdSingular;
@@ -832,11 +832,13 @@ extern NSString *const kSIAssestMenuButtonOneHandModeOff;
 extern NSString *const kSIAssestMenuButtonOneHandModeOn;
 extern NSString *const kSIAssestMenuButtonShareFacebook;
 extern NSString *const kSIAssestMenuButtonShareTwitter;
+extern NSString *const kSIAssestMenuButtonShop;
 
 #pragma mark Popups
 extern NSString *const kSIAssestPopupButtonClaim;
 extern NSString *const kSIAssestPopupButtonDismissNormal;
 extern NSString *const kSIAssestPopupButtonEndGame;
+extern NSString *const kSIAssestPopupButtonShare;
 extern NSString *const kSIAssestPopupButtonUseCoins;
 extern NSString *const kSIAssestPopupButtonWatchAd;
 extern NSString *const kSIAssestPopupFreeStar;

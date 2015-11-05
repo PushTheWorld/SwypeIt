@@ -343,6 +343,7 @@ NSString *const kSINodeButtonPlayAgain                                          
 NSString *const kSINodeButtonRapidFire                                          = @"rapidFire";
 NSString *const kSINodeButtonReplay                                             = @"replay";
 NSString *const kSINodeButtonSettings                                           = @"settings";
+NSString *const kSINodeButtonShare                                              = @"share";
 NSString *const kSINodeButtonStore                                              = @"store";
 NSString *const kSINodeButtonText                                               = @"text";
 NSString *const kSINodeButtonTwoHand                                            = @"twoHand";
@@ -383,11 +384,13 @@ NSString *const kSIAssestMenuButtonOneHandModeOff                               
 NSString *const kSIAssestMenuButtonOneHandModeOn                                = @"oneHandModeOn";
 NSString *const kSIAssestMenuButtonShareFacebook                                = @"shareFacebook";
 NSString *const kSIAssestMenuButtonShareTwitter                                 = @"shareTwitter";
+NSString *const kSIAssestMenuButtonShop                                         = @"shopButton";
 
 #pragma mark Popups
 NSString *const kSIAssestPopupButtonClaim                                       = @"claimButton";
 NSString *const kSIAssestPopupButtonDismissNormal                               = @"dismissButtonNormal";
 NSString *const kSIAssestPopupButtonEndGame                                     = @"popupEndGameButton";
+NSString *const kSIAssestPopupButtonShare                                       = @"shareButton";
 NSString *const kSIAssestPopupButtonUseCoins                                    = @"useCoinsButton";
 NSString *const kSIAssestPopupButtonWatchAd                                     = @"watchAdButton";
 NSString *const kSIAssestPopupFreeStar                                          = @"freeStar";
@@ -445,6 +448,7 @@ NSString *const kSITextMenuSettingsToggleSoundOffFX                             
 NSString *const kSITextMenuSettingsToggleSoundOnBackground                      = @"Turn Music On";
 NSString *const kSITextMenuSettingsToggleSoundOnFX                              = @"Turn Sound FX On";
 NSString *const kSITextMenuStartScreenOneHandMode                               = @"One Hand Mode";
+NSString *const kSITextMenuStartScreenStore                                     = @"Store";
 NSString *const kSITextMenuStartScreenTapToPlay                                 = @"Tap To Play!";
 NSString *const kSITextMenuStartScreenTapToStart                                = @"Tap To Start!";
 NSString *const kSITextMenuStoreTitle                                           = @"Store";
@@ -457,6 +461,7 @@ NSString *const kSITextPopupContinueFree                                        
 NSString *const kSITextPopupContinueGameOver                                    = @"Game Over";
 NSString *const kSITextPopupContinueMainMenu                                    = @"Main Menu";
 NSString *const kSITextPopupContinuePlayAgain                                   = @"Play Again!";
+NSString *const kSITextPopupContinueShare                                       = @"Share";
 NSString *const kSITextPopupContinueUseCoins                                    = @"Use %d Coins!";
 NSString *const kSITextPopupContinueWatchAdPlural                               = @"Watch %d Ads!";
 NSString *const kSITextPopupContinueWatchAdSingular                             = @"Watch %d Ad!";

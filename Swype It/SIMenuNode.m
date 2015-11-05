@@ -41,7 +41,7 @@
         _size = size;
         _topTitleYPadding                           = VERTICAL_SPACING_8;
         _bottomToolbarYPadding                      = VERTICAL_SPACING_8;
-        _animationDuration                          = SCENE_TRANSISTION_DURATION_NORMAL;
+        _animationDuration                          = SCENE_TRANSISTION_DURATION_FAST;
         _bottomCenterNodeYPadding                   = 0.0f;
     }
     return self;
@@ -245,9 +245,6 @@
     
     switch (_type) {
         case SISceneMenuTypeStart:
-            [_backButtonNode runAction:[SKAction fadeAlphaTo:0.0f duration:0.0f]];
-            break;
-        case SISceneMenuTypeEnd:
             [_backButtonNode runAction:[SKAction fadeAlphaTo:0.0f duration:0.0f]];
             break;
         default:

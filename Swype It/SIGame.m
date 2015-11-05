@@ -751,8 +751,6 @@
 
 + (NSString *)titleForMenuType:(SISceneMenuType)type {
     switch (type) {
-        case SISceneMenuTypeEnd:
-            return @"Swype It";
         case SISceneMenuTypeStart:
             return @"Swype It";
         case SISceneMenuTypeSettings:
@@ -762,7 +760,7 @@
         case SISceneMenuTypeStore:
             return @"Shop";
         default: //SISceneMenuTypeNone
-            return nil;
+            return @"Error";
     }
 }
 /**
