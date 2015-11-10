@@ -69,7 +69,7 @@
 /**
  The shop node
  */
-@property (nonatomic, strong) SKSpriteNode *shopNode;
+@property (nonatomic, strong) SKSpriteNode *freeNode;
 
 /**
  The main node of info to be displayed

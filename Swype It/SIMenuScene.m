@@ -31,7 +31,7 @@
     
 //    SIPopupNode                                     *_centerNode;
     
-    SKSpriteNode                                    *_backgroundNode;
+//    SKSpriteNode                                    *_backgroundNode;
 
 }
 - (nonnull instancetype)init {
@@ -82,14 +82,14 @@
 }
 - (void)createControlsWithSize:(CGSize)size {
     /**Preform all your alloc/init's here*/
-    _backgroundNode                                 = [SKSpriteNode spriteNodeWithColor:[SKColor SIColorPrimary] size:_sceneSize];
+//    _backgroundNode                                 = [SKSpriteNode spriteNodeWithColor:[SKColor SIColorPrimary] size:_sceneSize];
 }
 - (void)setupControlsWithSize:(CGSize)size {
     /**Configrue the labels, nodes and what ever else you can*/
     /*Create Background Node*/
-    _backgroundNode.anchorPoint                     = CGPointMake(0.0f, 0.0f);
+//    _backgroundNode.anchorPoint                     = CGPointMake(0.0f, 0.0f);
     
-    [self addChild:_backgroundNode];
+//    [self addChild:_backgroundNode];
 
     self.backgroundColor                           = [SKColor SIColorPrimary]; //this sets color for everything muwahah
 
@@ -158,18 +158,18 @@
 }
 
 - (void)layoutXYAnimation:(SISceneContentAnimation)animation {
-    if (!_backgroundNode) {
-        return;
-    }
+//    if (!_backgroundNode) {
+//        return;
+//    }
     CGFloat sceneMidX                                   = _sceneSize.width /2.0f;
     CGFloat sceneMidY                                   = _sceneSize.height /2.0f;
     
-    _backgroundNode.size                                = CGSizeMake(sceneMidX, sceneMidY - _adContentNode.size.height);
-    
-    _backgroundNode.position                            = CGPointMake(0.0f, _adContentNode.size.height);
+//    _backgroundNode.size                                = CGSizeMake(_sceneSize.width, _sceneSize.height - _adContentNode.size.height);
+//    
+//    _backgroundNode.position                            = CGPointMake(0.0f, sceneMidY + _adContentNode.size.height);
     if (_currentMenuNode) {
-        _currentMenuNode.size                           = _backgroundNode.size;
-        _currentMenuNode.position                       = CGPointMake(sceneMidX, _adContentNode.size.height + (_backgroundNode.size.height / 2.0f));
+        _currentMenuNode.size                           = CGSizeMake(_sceneSize.width, _sceneSize.height - _adContentNode.size.height);
+        _currentMenuNode.position                       = CGPointMake(sceneMidX, _adContentNode.size.height + (_currentMenuNode.size.height / 2.0f));
     }
     
 }
@@ -233,7 +233,7 @@
         
     } else if (menuNodeAnimation == SIMenuNodeAnimationPop) {
         [SIGame playSound:kSISoundFXSceneWoosh];
-        menuNode.position                           = CGPointMake(-1.0f * menuNode.size.width, 0.0f);
+        menuNode.position                           = CGPointMake(-1.0f * (_currentMenuNode.size.width / 2.0f), _currentMenuNode.position.y);
         [menuNode layoutXYZAnimation:SIMenuNodeAnimationStaticVisible];
         moveAction                                  = [SKAction moveByX:menuNode.size.width y:0.0f duration:menuNode.animationDuration]; //SCENE_TRANSISTION_DURATION_FAST];
         [menuNode runAction:moveAction];
@@ -241,8 +241,9 @@
 
         
     } else {
-        menuNode.position = CGPointZero;
-        if (_currentMenuNode) {
+        menuNode.position = CGPointMake(_sceneSize.width / 2.0f, _sceneSize.height / 2.0f); //CGPointZero;
+        //if the menuNode is not the currentM
+        if (_currentMenuNode != menuNode) {
             [_currentMenuNode removeFromParent];
         }
         _currentMenuNode                            = menuNode;
@@ -276,14 +277,14 @@
             [self registerDescendant:newToolbarNode withOptions:[NSSet setWithObject:HLSceneChildGestureTarget]];
         }
     }
-    if (menuNode.shopNode) {
-        [menuNode.shopNode hlSetGestureTarget:[HLTapGestureTarget tapGestureTargetWithHandleGestureBlock:^(UIGestureRecognizer *jerry) {
+    if (menuNode.freeNode) {
+        [menuNode.freeNode hlSetGestureTarget:[HLTapGestureTarget tapGestureTargetWithHandleGestureBlock:^(UIGestureRecognizer *jerry) {
             if ([_sceneDelegate respondsToSelector:@selector(menuSceneShopNodeWasTapped)]) {
                 [_sceneDelegate menuSceneShopNodeWasTapped];
             }
             
         }]];
-        [self registerDescendant:menuNode.shopNode withOptions:[NSSet setWithObject:HLSceneChildGestureTarget]];
+        [self registerDescendant:menuNode.freeNode withOptions:[NSSet setWithObject:HLSceneChildGestureTarget]];
 
     }
 }
@@ -298,11 +299,14 @@
     CGPoint touchLocation                                       = [touch locationInNode:self];
     SKNode *node                                                = [self nodeAtPoint:touchLocation];
     
-    if ([node.name isEqualToString:@"b"]) {
-        if ([_sceneDelegate respondsToSelector:@selector(menuSceneWasTappedToStart)]) {
-            [_sceneDelegate menuSceneWasTappedToStart];
+    if (_currentMenuNode.type == SISceneMenuTypeStart) {
+        if ([node.name isEqualToString:@"b"]) {
+            if ([_sceneDelegate respondsToSelector:@selector(menuSceneWasTappedToStart)]) {
+                [_sceneDelegate menuSceneWasTappedToStart];
+            }
         }
     }
+
     
 }
 

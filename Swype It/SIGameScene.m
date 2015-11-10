@@ -331,6 +331,10 @@ static const uint32_t SIGameSceneCategoryEdge          = 0x1 << 2; // 0000000000
     if (popupNode) {
         _centerNode                                   = popupNode;
         [self addChild:_centerNode];
+    } else {
+        if (_centerNode) {
+            _centerNode = nil;
+        }
     }
     [self layoutXYZAnimation:SISceneContentAnimationNone];
 }
@@ -353,7 +357,7 @@ static const uint32_t SIGameSceneCategoryEdge          = 0x1 << 2; // 0000000000
 }
 
 - (void)setProgressBarFreeCoin:(TCProgressBarNode *)progressBarFreeCoin {
-    if (_progressBarFreeCoin) {
+    if (progressBarFreeCoin) {
         [_progressBarFreeCoin removeFromParent];
     }
     if (progressBarFreeCoin) {
@@ -391,6 +395,10 @@ static const uint32_t SIGameSceneCategoryEdge          = 0x1 << 2; // 0000000000
     if (ringNode) {
         _ringContentNode                            = ringNode;
         [self addChild:_ringContentNode];
+    } else {
+        if (_ringContentNode) {
+            _ringContentNode = nil;
+        }
     }
     [self layoutXYZAnimation:SISceneContentAnimationNone];
 }
@@ -679,7 +687,7 @@ static const uint32_t SIGameSceneCategoryEdge          = 0x1 << 2; // 0000000000
             }
             if (_progressBarPowerUp) {
                 _progressBarPowerUp.progress                = progressBarUpdate.percentPowerUp;
-                NSLog(@"Power up percent: %0.2f", progressBarUpdate.percentPowerUp);
+                NSLog(@"Power up percent: %0.2f", _progressBarPowerUp.progress);
             }
         } else {
             _scoreMoveLabel.text                            = @"";

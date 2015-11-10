@@ -722,6 +722,8 @@ extern NSString *const kSINodeButtonReplay;
 extern NSString *const kSINodeButtonSettings;
 extern NSString *const kSINodeButtonShare;
 extern NSString *const kSINodeButtonStore;
+extern NSString *const kSINodeButtonUseCoins;
+extern NSString *const kSINodeButtonWatchAds;
 extern NSString *const kSINodeEmitterFire;
 extern NSString *const kSINodeEmitterSnow;
 extern NSString *const kSINodeFallingMonkey;

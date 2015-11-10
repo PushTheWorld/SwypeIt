@@ -348,6 +348,8 @@ NSString *const kSINodeButtonStore                                              
 NSString *const kSINodeButtonText                                               = @"text";
 NSString *const kSINodeButtonTwoHand                                            = @"twoHand";
 NSString *const kSINodeButtonTimeFreeze                                         = @"timeFreeze";
+NSString *const kSINodeButtonUseCoins                                           = @"useCoins";
+NSString *const kSINodeButtonWatchAds                                           = @"watchAds";
 NSString *const kSINodeEmitterFire                                              = @"fireEmitterNode";
 NSString *const kSINodeEmitterSnow                                              = @"snowEmitterNode";
 NSString *const kSINodeFallingMonkey                                            = @"fallingMonkey";
