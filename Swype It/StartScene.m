@@ -38,7 +38,7 @@
 //    SIStartZPositionLayerCount
 //};
 //
-//@interface StartScene () <HLToolbarNodeDelegate, SISegmentControlDelegate, SIPopUpNodeDelegate, SIAdBannerNodeDelegate>
+//@interface StartScene () <HLToolbarNodeDelegate, SISegmentControlDelegate, SIPopupNodeDelegate, SIAdBannerNodeDelegate>
 //
 //
 //@end
@@ -356,14 +356,14 @@
 //    return toolbarNode;
 //}
 //
-//#pragma mark - SIPopUpDelegate Methods
-//- (void)dismissPopUp:(SIPopupNode *)popUpNode {
+//#pragma mark - SIPopupDelegate Methods
+//- (void)dismissPopup:(SIPopupNode *)popUpNode {
 //    [self dismissModalNodeAnimation:HLScenePresentationAnimationFade];
 //}
 //
-//#pragma mark - SIPopUpNode Helper Methods
+//#pragma mark - SIPopupNode Helper Methods
 //- (void)launchHelp {
-//    SIPopupNode *popUpNode                      = [SIGameController SIPopUpNodeTitle:@"Help" SceneSize:self.size];
+//    SIPopupNode *popUpNode                      = [SIGameController SIPopupNodeTitle:@"Help" SceneSize:self.size];
 //    popUpNode.zPosition                         = SIStartScreenZPositionLayerPopup / SIStartScreenZPositionLayerCount;
 //    popUpNode.titleFontName                     = kSIFontFuturaMedium;
 //    
@@ -376,7 +376,7 @@
 //    aboutLabelNode.fontColor                    = [SKColor blackColor];
 //    aboutLabelNode.zPosition                    = SIStartScreenZPositionLayerPopupContent / SIStartScreenZPositionLayerCount;
 //    
-//    popUpNode.popupContentNode                  = [self createPopupNodeContent:popUpNode.backgroundSize];
+//    popUpNode.centerNode                  = [self createPopupNodeContent:popUpNode.backgroundSize];
 ////    [self registerDescendant:menuNode withOptions:[NSSet setWithObject:HLSceneChildGestureTarget]];
 //    
 //    popUpNode.delegate                          = self;
@@ -391,14 +391,14 @@
 ////    menuNode.delegate                   = self;
 ////    menuNode.itemAnimation              = HLMenuNodeAnimationSlideLeft;
 ////    menuNode.itemAnimationDuration      = 0.25;
-////    menuNode.itemButtonPrototype        = [SIGameController SI_sharedMenuButtonPrototypePopUp:[SIGameController buttonSize:size]];
+////    menuNode.itemButtonPrototype        = [SIGameController SI_sharedMenuButtonPrototypePopup:[SIGameController buttonSize:size]];
 ////    menuNode.backItemButtonPrototype    = [SIGameController SI_sharedMenuButtonPrototypeBack:[SIGameController buttonSize:size]];
 ////    menuNode.itemSeparatorSize          = 20;
 ////    
 ////    HLMenu *menu                        = [[HLMenu alloc] init];
 ////    
 ////    /*Add the Back Button... Need to change the prototype*/
-////    HLMenuItem *endGameItem             = [HLMenuItem menuItemWithText:kSIMenuTextBack];
+////    HLMenuItem *endGameItem             = [HLMenuItem menuItemWithText:kSITextMenuBack];
 ////    endGameItem.buttonPrototype         = [SIGameController SI_sharedMenuButtonPrototypeBack:[SIGameController buttonSize:size]];
 ////    [menu addItem:endGameItem];
 ////    

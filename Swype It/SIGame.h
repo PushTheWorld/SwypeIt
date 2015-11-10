@@ -16,7 +16,7 @@
 
 #pragma mark - Public Properties
 //@property (assign, nonatomic) BOOL               isPaused;
-//@property (assign, nonatomic) BOOL               isStarted;
+@property (assign, nonatomic) BOOL               oneHandMode;
 @property (assign, nonatomic) BOOL               isHighScore;
 @property (assign, nonatomic) int                freeCoinsEarned;
 @property (assign, nonatomic) int                currentNumberOfTimesContinued;
@@ -38,16 +38,22 @@
 
 #pragma mark - Public Class Methods
 + (BOOL)                isDevieHighScore:(float)totalScore withNSUserDefaults:(NSUserDefaults *)defaults;
-//+ (CGPoint)             emitterLocationFromGestureRecognizer:(UIGestureRecognizer *)gestureRecognizer;
-+ (float)               scoreForMoveDuration:(NSTimeInterval)durationOfLastMove withLevelSpeedDivider:(float)levelSpeedDivider;
-+ (float)               levelSpeedForScore:(float)score;
-+ (float)               updatePointsTillFreeCoinMoveScore:(float)moveScore withNSUserDefaults:(NSUserDefaults *)defaults withCallback:(void (^)(BOOL willAwardFreeCoin))callback;
+/**
+ Checks NSUserDefaults to see if one hand mode is active...
+ */
++ (float)scoreForMoveDuration:(NSTimeInterval)durationOfLastMove withLevelSpeedDivider:(float)levelSpeedDivider;
++ (float)levelSpeedForScore:(float)score;
++ (float)updatePointsTillFreeCoinMoveScore:(float)moveScore withNSUserDefaults:(NSUserDefaults *)defaults withCallback:(void (^)(BOOL willAwardFreeCoin))callback;
+
+
 + (int)newBackgroundColorNumberCurrentNumber:(int)currentColorNumber totalScore:(float)totalScore;
-+ (int)                 nextLevelForScore:(float)score;
-+ (NSString *)          currentLevelStringForScore:(float)score;
-+ (NSString *)          soundNameForSIBackgroundSound:(SIBackgroundSound)siBackgroundSound;
-+ (NSString *)          stringForMove:(SIMoveCommand)move;
-+ (NSString *)          userMessageForScore:(float)score isHighScore:(BOOL)isHighScore highScore:(float)highScore;
++ (int)nextLevelForScore:(float)score;
+
+
++ (NSString *)currentLevelStringForScore:(float)score;
++ (NSString *)soundNameForSIBackgroundSound:(SIBackgroundSound)siBackgroundSound;
++ (NSString *)stringForMove:(SIMoveCommand)move;
++ (NSString *)userMessageForScore:(float)score isHighScore:(BOOL)isHighScore highScore:(float)highScore;
 
 /**
  Gets the title for the type of menu
@@ -70,15 +76,15 @@
  SIGameFreePrizeYesConsecutive -> give prize, increment days since last launch..
  */
 + (SIFreePrizeType)gamePrizeForCurrentDate:(NSDate *)currentDate lastPrizeGivenDate:(NSDate *)lastPrizeGivenDate;
-+ (SIMoveCommand)       getRandomMoveForGameMode:(SIGameMode)gameMode;
-+ (SKAction *)          actionForSIMoveCommandAction:(SIMoveCommandAction)siMoveCommandAction;
-+ (SKTexture *)         textureBackgroundColor:(SKColor *)backgroundColor size:(CGSize)size;
-+ (SKTexture *)         textureBackgroundColor:(SKColor *)backgroundColor size:(CGSize)size cornerRadius:(CGFloat)cornerRadius borderWidth:(CGFloat)borderWidth borderColor:(UIColor *)borderColor;
-+ (SKTexture *)         textureForSIPowerUp:(SIPowerUpType)powerUp;
-+ (UIColor *)           backgroundColorForScore:(float)score forRandomNumber:(NSInteger)randomNumber;
-+ (UIImage *)           getBluredScreenshot:(SKView *)view;
++ (SIMoveCommand)getRandomMoveForGameMode:(SIGameMode)gameMode;
++ (SKAction *)actionForSIMoveCommandAction:(SIMoveCommandAction)siMoveCommandAction;
++ (SKTexture *)textureBackgroundColor:(SKColor *)backgroundColor size:(CGSize)size;
++ (SKTexture *)textureBackgroundColor:(SKColor *)backgroundColor size:(CGSize)size cornerRadius:(CGFloat)cornerRadius borderWidth:(CGFloat)borderWidth borderColor:(UIColor *)borderColor;
++ (SKTexture *)textureForSIPowerUp:(SIPowerUpType)powerUp;
++ (UIColor *)backgroundColorForScore:(float)score forRandomNumber:(NSInteger)randomNumber;
++ (UIImage *)getBluredScreenshot:(SKView *)view;
 + (void)incrementGamesPlayedWithNSUserDefaults:(NSUserDefaults *)defaults;
-+ (void)                updateLifetimePointsScore:(float)totalScore withNSUserDefaults:(NSUserDefaults *)defaults;
++ (void)updateLifetimePointsScore:(float)totalScore withNSUserDefaults:(NSUserDefaults *)defaults;
 
 /**
  Configures game properties for new game
@@ -96,6 +102,58 @@
  Default is Start End
  */
 + (NSString *)stateStringNameForGameState:(SIGameState)gameState;
+
+/**
+ Use SoundManager to play music
+ Resposible for checking with nsuserdefaults
+ No looping no fade in
+ */
++ (void)playMusic:(NSString *)name;
+
+/**
+ Use SoundManager to play music
+ Resposible for checking with nsuserdefaults
+ */
++ (void)playMusic:(NSString *)name looping:(BOOL)looping fadeIn:(BOOL)fadeIn;
+
+/**
+ Use SoundManager to play sound
+ Resposible for checking with nsuserdefaults
+ No looping no fade in
+ */
++ (void)playSound:(NSString *)name;
+
+/**
+ Use SoundManager to play music
+ Resposible for checking with nsuserdefaults
+ */
++ (void)playSound:(NSString *)name looping:(BOOL)looping fadeIn:(BOOL)fadeIn;
+
+/**
+ Stops music if any is started
+ */
++ (void)stopAllMusic;
+
+/**
+ Stops sounds if any are started
+ */
++ (void)stopAllSounds;
+
+/**
+ Called to setup the sound manager
+ */
++ (void)initalizeSoundManager;
+
+/**
+ Configures background sound state with nsuserdefaults
+ */
++ (void)setBackgroundSoundActive:(BOOL)active;
+
+/**
+ Configures fx sound state with nsuserdefaults
+ */
++ (void)setFXSoundActive:(BOOL)active;
+
 
 #pragma mark - Public Methods
 - (NSString *)getCurrentLevelString;

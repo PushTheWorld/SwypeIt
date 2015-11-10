@@ -1,5 +1,4 @@
-platform :ios, '7.0'
-
+platform :ios, '8.0'
 
 target 'Swype It' do
     pod 'SoundManager'
@@ -10,10 +9,11 @@ target 'Swype It' do
     pod 'iVersion'
     pod 'FXBlurView'
     pod 'JCNotificationBannerPresenter'
-    pod 'TransitionKit'
     pod 'INSpriteKit'
+    pod 'TransitionKit'
 end
 
 target 'Swype ItTests', :exclusive => true do
+    pod 'SoundManager'
     pod 'TransitionKit'
 end

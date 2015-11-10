@@ -102,7 +102,7 @@
 //}
 //- (void)createControlsWithSize:(CGSize)size {
 //    /**Preform all your alloc/init's here*/
-//    _titleLabel = [SIGameController SI_sharedLabelHeader:kSIMenuTextStartScreenSettings];
+//    _titleLabel = [SIGameController SI_sharedLabelHeader:kSITextMenuSettingsTitle];
 //    
 //    /*Menu Node*/
 //    _menuNode   = [[HLMenuNode alloc] init];
@@ -141,18 +141,18 @@
 //    HLMenu *menu = [[HLMenu alloc] init];
 //    
 //    /*Add the regular buttons*/
-//    [menu addItem:[HLMenuItem menuItemWithText:kSIMenuTextSettingsResetHighScore]];
+//    [menu addItem:[HLMenuItem menuItemWithText:kSITextMenuSettingsResetHighScore]];
 //    
-//    _buttonSoundBackgroundText = [[NSUserDefaults standardUserDefaults] boolForKey:kSINSUserDefaultSoundIsAllowedBackground] ? kSIMenuTextSettingsToggleSoundOffBackground : kSIMenuTextSettingsToggleSoundOnBackground;
+//    _buttonSoundBackgroundText = [[NSUserDefaults standardUserDefaults] boolForKey:kSINSUserDefaultSoundIsAllowedBackground] ? kSITextMenuSettingsToggleSoundOffBackground : kSITextMenuSettingsToggleSoundOnBackground;
 //    [menu addItem:[HLMenuItem menuItemWithText:_buttonSoundBackgroundText]];
 //    
-//    _buttonSoundFXText = [[NSUserDefaults standardUserDefaults] boolForKey:kSINSUserDefaultSoundIsAllowedFX] ? kSIMenuTextSettingsToggleSoundOffFX : kSIMenuTextSettingsToggleSoundOnFX;
+//    _buttonSoundFXText = [[NSUserDefaults standardUserDefaults] boolForKey:kSINSUserDefaultSoundIsAllowedFX] ? kSITextMenuSettingsToggleSoundOffFX : kSITextMenuSettingsToggleSoundOnFX;
 //    [menu addItem:[HLMenuItem menuItemWithText:_buttonSoundFXText]];
 //    
-//    [menu addItem:[HLMenuItem menuItemWithText:kSIMenuTextSettingsBugReport]];
+//    [menu addItem:[HLMenuItem menuItemWithText:kSITextMenuSettingsBugReport]];
 //    
 //    /*Add the Back Button... Need to change the prototype*/
-//    HLMenuItem *resumeItem = [HLMenuItem menuItemWithText:kSIMenuTextBack];
+//    HLMenuItem *resumeItem = [HLMenuItem menuItemWithText:kSITextMenuBack];
 //    resumeItem.buttonPrototype = [SIGameController SI_sharedMenuButtonPrototypeBack:[SIGameController buttonSize:size]];
 //    [menu addItem:resumeItem];
 //    
@@ -161,12 +161,12 @@
 //#pragma mark - HLMenuNodeDelegate
 //- (void)menuNode:(HLMenuNode *)menuNode didTapMenuItem:(HLMenuItem *)menuItem itemIndex:(NSUInteger)itemIndex {
 //    NSLog(@"Tapped Menu Item [%@] at index %u",menuItem.text,(unsigned)itemIndex);
-//    if ([menuItem.text isEqualToString:kSIMenuTextBack]) {
+//    if ([menuItem.text isEqualToString:kSITextMenuBack]) {
 //        [self goBack];
-//    } else if ([menuItem.text isEqualToString:kSIMenuTextSettingsBugReport]) {
+//    } else if ([menuItem.text isEqualToString:kSITextMenuSettingsBugReport]) {
 //        NSNotification *notification        = [[NSNotification alloc] initWithName:kSINotificationSettingsLaunchBugReport object:nil userInfo:nil];
 //        [[NSNotificationCenter defaultCenter] postNotification:notification];
-//    } else if ([menuItem.text isEqualToString:kSIMenuTextSettingsResetHighScore]) {
+//    } else if ([menuItem.text isEqualToString:kSITextMenuSettingsResetHighScore]) {
 //        [self resetHighScore];
 //    } else if ([menuItem.text isEqualToString:_buttonSoundBackgroundText]) {
 //        [self changeBackgroundSoundIsAllowed:menuItem];
@@ -209,14 +209,14 @@
 //
 //}
 //- (void)changeBackgroundSoundIsAllowed:(HLMenuItem *)menuItem {
-//    if ([menuItem.text isEqualToString:kSIMenuTextSettingsToggleSoundOffBackground]) {
+//    if ([menuItem.text isEqualToString:kSITextMenuSettingsToggleSoundOffBackground]) {
 //        /*Turn Background Sound Off*/
-//        _buttonSoundBackgroundText = kSIMenuTextSettingsToggleSoundOnBackground;
+//        _buttonSoundBackgroundText = kSITextMenuSettingsToggleSoundOnBackground;
 //        [[NSUserDefaults standardUserDefaults] setBool:NO forKey:kSINSUserDefaultSoundIsAllowedBackground];
 //        [[SoundManager sharedManager] stopMusic];
 //    } else {
 //        /*Turn Sound On*/
-//        _buttonSoundBackgroundText = kSIMenuTextSettingsToggleSoundOffBackground;
+//        _buttonSoundBackgroundText = kSITextMenuSettingsToggleSoundOffBackground;
 //        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:kSINSUserDefaultSoundIsAllowedBackground];
 //        [[SoundManager sharedManager] playMusic:kSISoundBackgroundMenu looping:YES fadeIn:YES];
 //    }
@@ -225,15 +225,15 @@
 //    [_menuNode redisplayMenuAnimation:HLMenuNodeAnimationNone];
 //}
 //- (void)changeFXSoundIsAllowed:(HLMenuItem *)menuItem {
-//    if ([menuItem.text isEqualToString:kSIMenuTextSettingsToggleSoundOffFX]) {
+//    if ([menuItem.text isEqualToString:kSITextMenuSettingsToggleSoundOffFX]) {
 //        /*Turn Background Sound Off*/
-//        _buttonSoundFXText = kSIMenuTextSettingsToggleSoundOnFX;
+//        _buttonSoundFXText = kSITextMenuSettingsToggleSoundOnFX;
 //        [[NSUserDefaults standardUserDefaults] setBool:NO forKey:kSINSUserDefaultSoundIsAllowedFX];
 //        [[SoundManager sharedManager] stopAllSounds];
 //    } else {
 //        /*Turn Sound On*/
-//        _buttonSoundFXText = kSIMenuTextSettingsToggleSoundOffFX;
-//        menuItem.text = kSIMenuTextSettingsToggleSoundOffFX;
+//        _buttonSoundFXText = kSITextMenuSettingsToggleSoundOffFX;
+//        menuItem.text = kSITextMenuSettingsToggleSoundOffFX;
 //        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:kSINSUserDefaultSoundIsAllowedFX];
 //    }
 //    menuItem.text = _buttonSoundFXText;

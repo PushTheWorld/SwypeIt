@@ -54,8 +54,13 @@
 + (UIColor *)backgroundColorForLevelThirteenC;
 
 + (UIColor *)goldColor;
-+ (UIColor *)mainColor;
 + (UIColor *)royalBlueColor;
 + (UIColor *)sandColor;
 + (UIColor *)simplstMainColor;
+
++ (UIColor *)SIBackgroundColorLevel1A;
++ (UIColor *)SIBackgroundColorLevel1B;
++ (UIColor *)SIBackgroundColorLevel1C;
++ (UIColor *)SIColorPrimary;
++ (UIColor *)SIColorSecondary;
 @end

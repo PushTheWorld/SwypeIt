@@ -41,7 +41,7 @@
 //    SIStoreSceneZPositionPopupContent,
 //    SIStoreSceneZPositionPopupCount
 //};
-//@interface StoreScene () <HLMenuNodeDelegate, SIPopUpNodeDelegate> {
+//@interface StoreScene () <HLMenuNodeDelegate, SIPopupNodeDelegate> {
 //
 //}
 //
@@ -252,7 +252,7 @@
 //    
 //    
 //    /*Add the Back Button... Need to change the prototype*/
-//    HLMenuItem *resumeItem      = [HLMenuItem menuItemWithText:kSIMenuTextBack];
+//    HLMenuItem *resumeItem      = [HLMenuItem menuItemWithText:kSITextMenuBack];
 //    resumeItem.buttonPrototype  = [SIGameController SI_sharedMenuButtonPrototypeBack:[SIGameController buttonSize:size]];
 //    [menu addItem:resumeItem];
 //    
@@ -273,7 +273,7 @@
 //        [self requestPurchaseForPack:SIIAPPackLarge];
 //    }  else if ([menuItem.text isEqualToString:SIGame buttonNodeNameNodeForSIIAPPack:SIIAPPackExtraLarge]]) {
 //        [self requestPurchaseForPack:SIIAPPackExtraLarge];
-//    } else if ([menuItem.text isEqualToString:kSIMenuTextBack]) {
+//    } else if ([menuItem.text isEqualToString:kSITextMenuBack]) {
 //        [self goBack];
 //    }
 //}
@@ -406,7 +406,7 @@
 //
 //#pragma mark - SIPopupNode methods
 //- (void)createPopup:(CGSize)size {
-//    _popupNode                                  = [SIGameController SIPopUpNodeTitle:@"DAILY FREE PRIZE!" SceneSize:size];
+//    _popupNode                                  = [SIGameController SIPopupNodeTitle:@"DAILY FREE PRIZE!" SceneSize:size];
 //    _popupNode.zPosition                        = (float)SIStoreSceneZPositionPopupBackground / (float)SIStoreSceneZPositionPopupCount;
 //    _popupNode.delegate                         = self;
 //    
@@ -452,7 +452,7 @@
 //    [self registerDescendant:claimButton withOptions:[NSSet setWithObject:HLSceneChildGestureTarget]];
 //    [mainNode addChild:claimButton];
 //    
-//    _popupNode.popupContentNode                 = mainNode;
+//    _popupNode.centerNode                 = mainNode;
 //}
 //- (void)launchCoins:(int)totalCoins coinsLaunched:(int)coinsLaunched {
 //    if (coinsLaunched == totalCoins) {
@@ -524,7 +524,7 @@
 //    });
 //}
 //
-//- (void)dismissPopUp:(SIPopupNode *)popUpNode {
+//- (void)dismissPopup:(SIPopupNode *)popUpNode {
 //    [self dismissModalNodeAnimation:HLScenePresentationAnimationFade];
 //}
 //

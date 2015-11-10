@@ -11,6 +11,7 @@
 // Framework Import
 #import <math.h>
 // Drop-In Class Imports (CocoaPods/GitHub/Guru)
+#import "SoundManager.h"
 // Category Import
 #import "UIImage+BlurredFrame.h"
 #import "UIColor+Additions.h"
@@ -38,7 +39,6 @@
 
 #pragma mark - Class Methods
 + (float)scoreForMoveDuration:(NSTimeInterval)durationOfLastMove withLevelSpeedDivider:(float)levelSpeedDivider {
-//    NSLog(@"Duration of last move: %0.2f",durationOfLastMove);
     return MAX_MOVE_SCORE * exp(SCORE_EXP_POWER_WEIGHT * (durationOfLastMove * MILI_SECS_IN_SEC) / levelSpeedDivider);
 }
 + (int)nextLevelForScore:(float)score {
@@ -149,14 +149,13 @@
     switch (move) {
         case SIMoveCommandTap:
             return kSIMoveCommandTap;
-        case SIMoveCommandSwype:
-            return kSIMoveCommandSwype;
         case SIMoveCommandPinch:
             return kSIMoveCommandPinch;
         case SIMoveCommandShake:
             return kSIMoveCommandShake;
+        case SIMoveCommandSwype:
         default:
-            return nil;
+            return kSIMoveCommandSwype;
     }
 }
 
@@ -164,11 +163,11 @@
     if (score < LEVEL1) {
         switch (randomNumber) {
             case 0:
-                return [UIColor backgroundColorForLevelOneA];
+                return [UIColor SIBackgroundColorLevel1A];
             case 1:
-                return [UIColor backgroundColorForLevelOneB];
+                return [UIColor SIBackgroundColorLevel1B];
             default:
-                return [UIColor backgroundColorForLevelOneC];
+                return [UIColor SIBackgroundColorLevel1C];
         }
     } else if (score < LEVEL2) {
         switch (randomNumber) {
@@ -312,98 +311,96 @@
 }
 + (SIContinueLifeCost)lifeCostForNumberOfTimesContinued:(int)numberOfTimesContinued {
     switch (numberOfTimesContinued) {
+        case 0:
+            return SIContinueLifeCost1;
         case 1:
-            return SIContinueLifeCost1;
-        case 2:
             return SIContinueLifeCost2;
-        case 3:
+        case 2:
             return SIContinueLifeCost3;
-        case 4:
+        case 3:
             return SIContinueLifeCost4;
-        case 5:
+        case 4:
             return SIContinueLifeCost5;
-        case 6:
+        case 5:
             return SIContinueLifeCost6;
-        case 7:
+        case 6:
             return SIContinueLifeCost7;
-        case 8:
+        case 7:
             return SIContinueLifeCost8;
-        case 9:
+        case 8:
             return SIContinueLifeCost9;
-        case 10:
+        case 9:
             return SIContinueLifeCost10;
-        case 11:
+        case 10:
             return SIContinueLifeCost11;
-        case 12:
+        case 11:
             return SIContinueLifeCost12;
-        case 13:
+        case 12:
             return SIContinueLifeCost13;
-        case 14:
+        case 13:
             return SIContinueLifeCost14;
-        case 15:
+        case 14:
             return SIContinueLifeCost15;
-        case 16:
+        case 15:
             return SIContinueLifeCost16;
-        case 17:
+        case 16:
             return SIContinueLifeCost17;
-        case 18:
+        case 17:
             return SIContinueLifeCost18;
-        case 19:
+        case 18:
             return SIContinueLifeCost19;
-        case 20:
+        case 19:
             return SIContinueLifeCost20;
-        case 21:
-            return SIContinueLifeCost21;
+        case 20:
         default:
-            return SIContinueLifeCost1;
+            return SIContinueLifeCost21;
     }
 }
 + (SIContinueAdCount)adCountForNumberOfTimesContinued:(int)numberOfTimesContinued {
     switch (numberOfTimesContinued) {
+        case 0:
+            return SIContinueAdCount1;
         case 1:
-            return SIContinueAdCount1;
-        case 2:
             return SIContinueAdCount2;
-        case 3:
+        case 2:
             return SIContinueAdCount3;
-        case 4:
+        case 3:
             return SIContinueAdCount4;
-        case 5:
+        case 4:
             return SIContinueAdCount5;
-        case 6:
+        case 5:
             return SIContinueAdCount6;
-        case 7:
+        case 6:
             return SIContinueAdCount7;
-        case 8:
+        case 7:
             return SIContinueAdCount8;
-        case 9:
+        case 8:
             return SIContinueAdCount9;
-        case 10:
+        case 9:
             return SIContinueAdCount10;
-        case 11:
+        case 10:
             return SIContinueAdCount11;
-        case 12:
+        case 11:
             return SIContinueAdCount12;
-        case 13:
+        case 12:
             return SIContinueAdCount13;
-        case 14:
+        case 13:
             return SIContinueAdCount14;
-        case 15:
+        case 14:
             return SIContinueAdCount15;
-        case 16:
+        case 15:
             return SIContinueAdCount16;
-        case 17:
+        case 16:
             return SIContinueAdCount17;
-        case 18:
+        case 17:
             return SIContinueAdCount18;
-        case 19:
+        case 18:
             return SIContinueAdCount19;
-        case 20:
+        case 19:
             return SIContinueAdCount20;
-        case 21:
-            return SIContinueAdCount21;
+        case 20:
         default:
-            return SIContinueAdCount1;
+            return SIContinueAdCount21;
     }
 }
 
@@ -435,8 +432,6 @@
 
 + (NSString *)soundNameForSIBackgroundSound:(SIBackgroundSound)siBackgroundSound {
     switch (siBackgroundSound) {
-        case SIBackgroundSoundMenu:
-            return kSISoundBackgroundMenu;
         case SIBackgroundSoundOne:
             return kSISoundBackgroundOne;
         case SIBackgroundSoundTwo:
@@ -447,10 +442,7 @@
             return kSISoundBackgroundFour;
         case SIBackgroundSoundFive:
             return kSISoundBackgroundFive;
-        case SIBackgroundSoundSix:
-            return kSISoundBackgroundSix;
-        case SIBackgroundSoundSeven:
-            return kSISoundBackgroundSeven;
+        case SIBackgroundSoundMenu:
         default:
             return kSISoundBackgroundMenu;
     }
@@ -462,10 +454,10 @@
     if (isHighScore) {
         randomNumber = arc4random_uniform((int)[[SIConstants userMessageHighScore] count]);
         return [SIConstants userMessageHighScore][randomNumber];
-    } else if (scorePercent > 0.9) {
+    } else if (scorePercent > USER_MSG_LEVEL_MEDIAN) {
         randomNumber = arc4random_uniform((int)[[SIConstants userMessageHighScoreClose] count]);
         return [SIConstants userMessageHighScoreClose][randomNumber];
-    } else if (scorePercent > 0.4) {
+    } else if (scorePercent > USER_MSG_LEVEL_BAD) {
         randomNumber = arc4random_uniform((int)[[SIConstants userMessageHighScoreMedian] count]);
         return [SIConstants userMessageHighScoreMedian][randomNumber];
     } else {
@@ -477,7 +469,7 @@
 #pragma mark - Private Class Methods
 + (float)levelSpeedForScore:(float)score {
     if (score < MAX_MOVE_SCORE) {
-        return 4.0f;
+        return INITIAL_LEVEL_SPEED;
     } else if (score < SPEED_TRANSISTION_SCORE) {
         return SPEED_POWER_MULTIPLIER * pow(score,SPEED_POWER_EXPONENT);
     } else {
@@ -491,21 +483,6 @@
     UIGraphicsEndImageContext();
     
     return [ss applyLightEffectAtFrame:view.frame];
-//    CIFilter *gaussianBlurFilter = [CIFilter filterWithName:@"CIGaussianBlur"];
-//    [gaussianBlurFilter setDefaults];
-//    [gaussianBlurFilter setValue:[CIImage imageWithCGImage:[ss CGImage]] forKey:kCIInputImageKey];
-//    [gaussianBlurFilter setValue:@10 forKey:kCIInputRadiusKey];
-//    
-//    CIImage *outputImage = [gaussianBlurFilter outputImage];
-//    CIContext *context   = [CIContext contextWithOptions:nil];
-//    CGRect rect          = [outputImage extent];
-//    rect.origin.x        += (rect.size.width  - ss.size.width ) / 2;
-//    rect.origin.y        += (rect.size.height - ss.size.height) / 2;
-//    rect.size            = ss.size;
-//    CGImageRef cgimg     = [context createCGImage:outputImage fromRect:rect];
-//    UIImage *image       = [UIImage imageWithCGImage:cgimg];
-//    CGImageRelease(cgimg);
-//    return image;
 }
 
 #pragma mark - Public Methods
@@ -739,8 +716,8 @@
     game.currentNumberOfTimesContinued       = 1;
     game.totalScore                          = 0.0f;
     game.freeCoinsEarned                     = 0;
-    game.currentBackgroundColorNumber        = arc4random_uniform(NUMBER_OF_MOVES);
-    game.currentBackgroundColor              = [SKColor mainColor];
+    game.currentBackgroundColorNumber        = 0;
+    game.currentBackgroundColor              = [SKColor SIBackgroundColorLevel1A];
     game.isHighScore                         = NO;
 }
 /**
@@ -774,8 +751,6 @@
 
 + (NSString *)titleForMenuType:(SISceneMenuType)type {
     switch (type) {
-        case SISceneMenuTypeEnd:
-            return @"Swype It";
         case SISceneMenuTypeStart:
             return @"Swype It";
         case SISceneMenuTypeSettings:
@@ -785,7 +760,7 @@
         case SISceneMenuTypeStore:
             return @"Shop";
         default: //SISceneMenuTypeNone
-            return nil;
+            return @"Error";
     }
 }
 /**
@@ -865,4 +840,89 @@
     currentColorNumber = randomNumber;
     return currentColorNumber;
 }
+
+
+#pragma mark - 
+#pragma mark - SoundManager
++ (void)playMusic:(NSString *)name {
+    [SIGame playMusic:name looping:NO fadeIn:NO];
+}
+
+/**
+ Use SoundManager to play music
+ Resposible for checking with nsuserdefaults
+ */
++ (void)playMusic:(NSString *)name looping:(BOOL)looping fadeIn:(BOOL)fadeIn {
+    if ([SIConstants isBackgroundSoundAllowed]) {
+        [[SoundManager sharedManager] playMusic:name looping:looping fadeIn:fadeIn];
+
+    }
+}
+
++ (void)playSound:(NSString *)name {
+    [SIGame playSound:name looping:NO fadeIn:NO];
+}
+
+/**
+ Use SoundManager to play sound
+ Resposible for checking with nsuserdefaults
+ */
++ (void)playSound:(NSString *)name looping:(BOOL)looping fadeIn:(BOOL)fadeIn {
+    if ([SIConstants isFXAllowed]) {
+        [[SoundManager sharedManager] playSound:name looping:looping fadeIn:fadeIn];
+    }
+}
+
+/**
+ Stops music if any is started
+ */
++ (void)stopAllMusic {
+    [[SoundManager sharedManager] stopMusic];
+}
+
+/**
+ Stops sounds if any are started
+ */
++ (void)stopAllSounds {
+    [[SoundManager sharedManager] stopAllSounds];
+}
+
++ (void)initalizeSoundManager {
+    [SoundManager sharedManager].allowsBackgroundMusic  = YES;
+    [SoundManager sharedManager].soundFadeDuration      = 1.0f;
+    [SoundManager sharedManager].musicFadeDuration      = 2.0f;
+    [[SoundManager sharedManager] prepareToPlayWithSound:[Sound soundNamed:kSISoundFXInitalize]];
+}
+
+/**
+ Configures background sound state with nsuserdefaults
+ */
++ (void)setBackgroundSoundActive:(BOOL)active {
+    [[NSUserDefaults standardUserDefaults] setBool:active forKey:kSINSUserDefaultSoundIsAllowedBackground];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
+/**
+ Configures fx sound state with nsuserdefaults
+ */
++ (void)setFXSoundActive:(BOOL)active {
+    [[NSUserDefaults standardUserDefaults] setBool:active forKey:kSINSUserDefaultSoundIsAllowedFX];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
+- (BOOL)oneHandMode {
+    NSNumber *oneHandModeNum = [[NSUserDefaults standardUserDefaults] objectForKey:kSINSUserDefaultOneHandMode];
+    if (oneHandModeNum == nil) {
+        oneHandModeNum = @(NO);
+        [[NSUserDefaults standardUserDefaults] setBool:NO forKey:kSINSUserDefaultOneHandMode];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+    }
+    return [oneHandModeNum boolValue];
+}
+
+- (void)setOneHandMode:(BOOL)oneHandMode {
+    [[NSUserDefaults standardUserDefaults] setBool:oneHandMode forKey:kSINSUserDefaultOneHandMode];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
 @end

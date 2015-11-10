@@ -23,14 +23,11 @@
 static const uint32_t SIGameSceneCategoryZero          = 0x0;      // 00000000000000000000000000000000
 static const uint32_t SIGameSceneCategoryUIControl     = 0x1 << 1; // 00000000000000000000000000000010
 static const uint32_t SIGameSceneCategoryEdge          = 0x1 << 2; // 00000000000000000000000000000100
-static const uint32_t SIGameSceneCategoryMoveScore     = 0x1 << 3; // 00000000000000000000000000001000
 
 
 
 @implementation SIGameScene {
-    
-//    BMGlyphLabel                                        *_scoreTotalContentLabel;
-    SKLabelNode                                         *_swypeItCoinsLabelNode;
+    CGFloat                                              _moveScoreDuration;
 
     CGSize                                               _backgroundSize;
     CGSize                                               _coinSize;
@@ -47,22 +44,21 @@ static const uint32_t SIGameSceneCategoryMoveScore     = 0x1 << 3; // 0000000000
     
     SIAdBannerNode                                      *_adContentNode;
     
-    SIPopupNode                                         *_popupContentNode;
+    SIPopupNode                                         *_centerNode;
+    
+    SKAction                                            *_actionOldMoveScore;
+    SKAction                                            *_actionNewMoveScore;
     
     SKLabelNode                                         *_highScoreLabelNode;
-    
+    SKLabelNode                                         *_swypeItCoinsLabelNode;
+
     SKNode                                              *_edge;
     
-//    SIGameNode                                          *_backgroundNode;
-
     SKSpriteNode                                        *_backgroundNode;
     SKSpriteNode                                        *_coinNode;
     SKSpriteNode                                        *_overlayContentNode;
     SKSpriteNode                                        *_swypeItCoinsBackgroundNode;
     
-//    TCProgressBarNode                                   *_progressBarFreeCoinContent;
-//    TCProgressBarNode                                   *_progressBarMoveContent;
-//    TCProgressBarNode                                   *_progressBarPowerUpContent;
 }
 
 #pragma mark -
@@ -88,10 +84,10 @@ static const uint32_t SIGameSceneCategoryMoveScore     = 0x1 << 3; // 0000000000
 - (nonnull instancetype)init {
     self = [super init];
     if (self) {
-        _animationDuration                              = 1.0f;
+        _animationDuration                              = 0.25f;
         _blurScreenDuration                             = 0.25f;
         _moveCommandRandomLocation                      = NO;
-        _scoreTotalLabelTopPadding                      = VERTICAL_SPACING_8;
+        _scoreTotalLabelTopPadding                      = VERTICAL_SPACING_16;
         _swypeItCoins                                   = 0;
     }
     return self;
@@ -141,13 +137,22 @@ static const uint32_t SIGameSceneCategoryMoveScore     = 0x1 << 3; // 0000000000
     _sceneSize                                              = size;
     _backgroundSize                                         = size;
     _pauseButtonSize                                        = CGSizeMake(size.width / 8.0f, size.width / 8.0f);
+    
+    _moveScoreDuration                                      = 1.0f;
+//    SKAction *grow                                          = [SKAction scaleTo:2.0f duration:_moveScoreDuration / 2.0f];
+    SKAction *shrink                                        = [SKAction scaleTo:0.0f duration:_moveScoreDuration];
+    _actionOldMoveScore                                     = [SKAction sequence:@[shrink]];
+    
+    SKAction *instaShrink                                   = [SKAction scaleTo:0.0f duration:0.0f];
+    SKAction *growIn                                        = [SKAction scaleTo:1.0f duration:_moveScoreDuration / 4.0f];
+    _actionNewMoveScore                                     = [SKAction sequence:@[instaShrink, growIn]];
         
 }
 - (void)createControlsWithSize:(CGSize)size {
     /**Preform all your alloc/init's here*/
     
     /*Create Background Node*/
-    _backgroundNode                                         = [SKSpriteNode spriteNodeWithColor:[SKColor mainColor] size:_sceneSize];  // [[SIGameNode alloc] initWithSize:_sceneSize gameMode:SIGameModeTwoHand];
+    _backgroundNode                                         = [SKSpriteNode spriteNodeWithColor:[SKColor SIBackgroundColorLevel1A] size:_sceneSize];  // [[SIGameNode alloc] initWithSize:_sceneSize gameMode:SIGameModeTwoHand];
 
     _edge                                                   = [SKNode node];
     
@@ -169,16 +174,17 @@ static const uint32_t SIGameSceneCategoryMoveScore     = 0x1 << 3; // 0000000000
     
     _highScoreLabelNode                                     = [SIGameController SILabelParagraph_x2:@"HIGH SCORE!"];
     
-    _scoreTotalLabel                                        = [SIGameController SILabelHeader:@"0.00"];
+    _scoreTotalLabel                                        = [SIGameController SILabelHeader_x3:@"0.00"];
+    
+    _scoreMoveLabel                                         = [SIGameController SILabelSceneGameMoveScoreLabel];
 }
+
 - (void)setupControlsWithSize:(CGSize)size {
     /**Configrue the labels, nodes and what ever else you can*/
     
     _backgroundNode.anchorPoint                             = CGPointMake(0.0f, 0.0f);
     _backgroundNode.zPosition                               = [SIGameController floatZPositionGameForContent:SIZPositionGameBackground];
     _backgroundNode.userInteractionEnabled                  = YES;
-//    _backgroundNode.delegate                                = self;
-//    [_backgroundNode hlSetGestureTarget:_backgroundNode];
     
     _edge.physicsBody.categoryBitMask                       = SIGameSceneCategoryEdge;
     _edge.physicsBody.collisionBitMask                      = SIGameSceneCategoryZero;
@@ -199,8 +205,6 @@ static const uint32_t SIGameSceneCategoryMoveScore     = 0x1 << 3; // 0000000000
     _swypeItCoinsLabelNode.physicsBody.categoryBitMask      = SIGameSceneCategoryUIControl;
     _swypeItCoinsLabelNode.horizontalAlignmentMode          = SKLabelHorizontalAlignmentModeLeft;
     _swypeItCoinsLabelNode.verticalAlignmentMode            = SKLabelVerticalAlignmentModeTop;
-//    [_swypeItCoinsLabelNode runAction:[SKAction scaleBy:[SIGameScene SIGameSceneSwypeItCoinsLabelScale] duration:0.0f]];
-
     
     _highScoreLabelNode.zPosition                           = [SIGameController floatZPositionGameForContent:SIZPositionGameContent];
     _highScoreLabelNode.physicsBody.categoryBitMask         = SIGameSceneCategoryUIControl;
@@ -213,8 +217,12 @@ static const uint32_t SIGameSceneCategoryMoveScore     = 0x1 << 3; // 0000000000
     _scoreTotalLabel.horizontalAlignmentMode                = SKLabelHorizontalAlignmentModeCenter;
     _scoreTotalLabel.verticalAlignmentMode                  = SKLabelVerticalAlignmentModeTop;
     
+    _scoreMoveLabel.zPosition                               = [SIGameController floatZPositionGameForContent:SIZPositionGameContent];
+    _scoreMoveLabel.physicsBody.categoryBitMask             = SIGameSceneCategoryUIControl;
+    _scoreMoveLabel.horizontalAlignmentMode                 = SKLabelHorizontalAlignmentModeCenter;
+    _scoreMoveLabel.verticalAlignmentMode                   = SKLabelVerticalAlignmentModeCenter;
+    _scoreMoveLabel.text                                    = [NSString stringWithFormat:@"%0.2f",MAX_MOVE_SCORE];
     
-
 }
 
 - (void)layoutControlsWithSize:(CGSize)size {
@@ -230,6 +238,8 @@ static const uint32_t SIGameSceneCategoryMoveScore     = 0x1 << 3; // 0000000000
     
     [self addChild:_scoreTotalLabel];
     
+    [self addChild:_scoreMoveLabel];
+
     [self addChild:_swypeItCoinsBackgroundNode];
     
 //    _swypeItCoinsLabelNode.position                         = CGPointMake(VERTICAL_SPACING_8, 0);
@@ -302,8 +312,8 @@ static const uint32_t SIGameSceneCategoryMoveScore     = 0x1 << 3; // 0000000000
 }
 
 - (SIPopupNode *)popupNode {
-    if (_popupContentNode) {
-        return _popupContentNode;
+    if (_centerNode) {
+        return _centerNode;
     } else {
         return nil;
     }
@@ -312,15 +322,19 @@ static const uint32_t SIGameSceneCategoryMoveScore     = 0x1 << 3; // 0000000000
  A popup node to be displayed modally
  */
 - (void)setPopupNode:(SIPopupNode *)popupNode {
-    if (_popupContentNode) {
+    if (_centerNode) {
         if ([self modalNodePresented]) {
             [self dismissModalNodeAnimation:HLScenePresentationAnimationFade];
         }
-        [_popupContentNode removeFromParent];
+        [_centerNode removeFromParent];
     }
     if (popupNode) {
-        _popupContentNode                                   = popupNode;
-        [self addChild:_popupContentNode];
+        _centerNode                                   = popupNode;
+        [self addChild:_centerNode];
+    } else {
+        if (_centerNode) {
+            _centerNode = nil;
+        }
     }
     [self layoutXYZAnimation:SISceneContentAnimationNone];
 }
@@ -343,7 +357,7 @@ static const uint32_t SIGameSceneCategoryMoveScore     = 0x1 << 3; // 0000000000
 }
 
 - (void)setProgressBarFreeCoin:(TCProgressBarNode *)progressBarFreeCoin {
-    if (_progressBarFreeCoin) {
+    if (progressBarFreeCoin) {
         [_progressBarFreeCoin removeFromParent];
     }
     if (progressBarFreeCoin) {
@@ -354,26 +368,13 @@ static const uint32_t SIGameSceneCategoryMoveScore     = 0x1 << 3; // 0000000000
     [self layoutXYZAnimation:SISceneContentAnimationNone];
 }
 
-- (void)setProgressBarMove:(TCProgressBarNode *)progressBarMove {
-    if (_progressBarMove) {
-        [_progressBarMove removeFromParent];
-    }
-    if (progressBarMove) {
-        _progressBarMove = progressBarMove;
-        _progressBarMove.physicsBody.categoryBitMask    = SIGameSceneCategoryUIControl;
-        _progressBarMove.userInteractionEnabled         = YES;
-        _progressBarMove.progress                       = 1.0f;
-        [self addChild:_progressBarMove];
-    }
-    [self layoutXYZAnimation:SISceneContentAnimationNone];
-}
-
 - (void)setProgressBarPowerUp:(TCProgressBarNode *)progressBarPowerUp {
     if (_progressBarPowerUp) {
         [_progressBarPowerUp removeFromParent];
     }
     if (progressBarPowerUp) {
         _progressBarPowerUp = progressBarPowerUp;
+//        _progressBarPowerUp.userInteractionEnabled = YES;
         _progressBarPowerUp.physicsBody.categoryBitMask = SIGameSceneCategoryUIControl;
         [self addChild:_progressBarPowerUp];
         _progressBarPowerUp.progress = 1.0f;
@@ -394,6 +395,10 @@ static const uint32_t SIGameSceneCategoryMoveScore     = 0x1 << 3; // 0000000000
     if (ringNode) {
         _ringContentNode                            = ringNode;
         [self addChild:_ringContentNode];
+    } else {
+        if (_ringContentNode) {
+            _ringContentNode = nil;
+        }
     }
     [self layoutXYZAnimation:SISceneContentAnimationNone];
 }
@@ -437,7 +442,59 @@ static const uint32_t SIGameSceneCategoryMoveScore     = 0x1 << 3; // 0000000000
         _highScoreLabelNode.hidden = YES;
     }
 }
-
+- (UIColor *)backgroundColor {
+    return _backgroundNode.color;
+}
+- (void)setBackgroundColor:(UIColor *)backgroundColor {
+    _backgroundNode.color   = backgroundColor;
+}
+- (void)setScoreMoveLabel:(SKLabelNode *)scoreMoveLabel {
+    SKLabelNode *labelHolder = _scoreMoveLabel;
+    _scoreMoveLabel                                     = scoreMoveLabel;
+    _scoreMoveLabel.zPosition                           = [SIGameController floatZPositionGameForContent:SIZPositionGameContent];
+    _scoreMoveLabel.position                            = labelHolder.position;
+    [self addChild:_scoreMoveLabel];
+    [_scoreMoveLabel runAction:_actionNewMoveScore];
+    
+    CGMutablePathRef cgpath                             = CGPathCreateMutable();
+    
+    CGPoint startingPoint                               = labelHolder.position;
+    
+    CGPoint endingPoint                                 = _scoreTotalLabel.position;
+    
+    CGFloat randomDx                                    = arc4random_uniform(_sceneSize.width / 4.0f);
+    
+    int randomDirection                                 = arc4random_uniform(2);
+    if (randomDirection == 1) { /*Negative Direction*/
+        randomDx                                        = -1.0f * randomDx;
+    }
+    CGFloat totalDistance                               = (endingPoint.y - startingPoint.y) / 3.0f;
+    CGPoint controlPoint1                               = CGPointMake((_sceneSize.width / 2.0f) + randomDx, startingPoint.y + totalDistance);
+    CGPoint controlPoint2                               = CGPointMake((_sceneSize.width / 2.0f) + (randomDx / 2), startingPoint.y + (totalDistance * 2.0f));
+    
+    CGPathMoveToPoint(cgpath, NULL, startingPoint.x, startingPoint.y);
+    CGPathAddCurveToPoint(cgpath, NULL, controlPoint1.x, controlPoint1.y,
+                          controlPoint2.x, controlPoint2.y,
+                          endingPoint.x, endingPoint.y);
+    
+    SKAction *scoreCurve                                = [SKAction followPath:cgpath asOffset:NO orientToPath:NO duration:_moveScoreDuration];
+    
+    SKAction *groupAction                               = [SKAction group:@[scoreCurve, [SKAction scaleTo:0.0f duration:_moveScoreDuration]]];
+    
+    labelHolder.zPosition                               = [SIGameController floatZPositionGameForContent:SIZPositionGameContentMoveScore];
+    [labelHolder runAction:[SKAction sequence:@[groupAction,[SKAction removeFromParent],[SKAction runBlock:^{
+        HLEmitterStore *emitterStore                    = [HLEmitterStore sharedStore];
+        SKEmitterNode *sparkEmitter                     = [emitterStore emitterCopyForKey:kSIEmitterSpark];
+        
+        NSLog(@"Height of total score label: %0.2f",_scoreTotalLabel.frame.size.height);
+        
+        sparkEmitter.position                           = CGPointMake(0.0f, -1.0f * (_scoreTotalLabel.frame.size.height / 2.0f));
+        sparkEmitter.zPosition                          = [SIGameController floatZPositionGameForContent:SIZPositionGameContentMoveScoreEmitter];
+        [_scoreTotalLabel addChild:sparkEmitter];
+                
+    }]]]];
+    
+}
 #pragma mark Layout
 - (void)layoutScene {
     [self layoutXYZAnimation:SISceneContentAnimationNone];
@@ -474,8 +531,8 @@ static const uint32_t SIGameSceneCategoryMoveScore     = 0x1 << 3; // 0000000000
     }
     
     if (_progressBarPowerUp) {
-        positionHidden      = CGPointMake(sceneMidX, sceneMidY - _progressBarPowerUp.size.height);
-        positionVisible     = CGPointMake(sceneMidX,sceneMidY + (_progressBarPowerUp.size.height / 2.0f) + (_moveCommandLabelSize.height / 2.0f) + VERTICAL_SPACING_8);
+        positionHidden      = CGPointMake(sceneMidX,sceneMidY + (-1.0f * ((_progressBarPowerUp.size.height / 2.0f) + (_moveCommandLabelSize.height / 2.0f) + VERTICAL_SPACING_8)));
+        positionVisible     = positionHidden;
         [SIGameController SIControllerNode:_progressBarPowerUp
                                  animation:animation
                             animationStyle:SISceneContentAnimationStyleGrow
@@ -487,9 +544,6 @@ static const uint32_t SIGameSceneCategoryMoveScore     = 0x1 << 3; // 0000000000
     if (_moveCommandLabel) {
         positionHidden      = CGPointMake(sceneMidX, sceneMidY);
         positionVisible     = CGPointMake(sceneMidX,sceneMidY);
-
-//        CGFloat progressBarYOffset                  = _scoreTotalContentLabel.frame.origin.y + (_scoreTotalContentLabel.frame.size.height / 2.0f) + VERTICAL_SPACING_8;
-//        _moveCommandLabel.position = CGPointMake(_sceneSize.width / 2.0f, progressBarYOffset + (_moveCommandLabel.size.height / 2.0f));
         [SIGameController SIControllerNode:_moveCommandLabel
                                  animation:animation
                             animationStyle:SISceneContentAnimationStyleGrow
@@ -499,16 +553,13 @@ static const uint32_t SIGameSceneCategoryMoveScore     = 0x1 << 3; // 0000000000
     }
 
     
-    if (_progressBarMove) {
-        _progressBarMove.userInteractionEnabled = YES;
-        positionHidden      = CGPointMake(sceneMidX, sceneMidY - _progressBarMove.size.height);
-        positionVisible     = CGPointMake(sceneMidX,sceneMidY - (_progressBarMove.size.height / 2.0f) - (_moveCommandLabelSize.height / 2.0f) - VERTICAL_SPACING_8);
-
-//        positionHidden      = CGPointMake(sceneMidX, -1.0f * _powerUpToolbarContentNode.frame.size.height);
-//        positionVisible     = CGPointMake(0.0f,_adContentNode.size.height + VERTICAL_SPACING_4 + ((_powerUpToolbarContentNode.frame.size.height / 2.0f)));
-        [SIGameController SIControllerNode:_progressBarMove
+    if (_scoreMoveLabel) {
+        _scoreMoveLabel.userInteractionEnabled  = YES;
+        positionHidden      = CGPointMake(sceneMidX, sceneMidY + ([SIGameController SIFontSizeMoveCommand] / 2.0f) + VERTICAL_SPACING_8 + ([SIGameController SIFontSizeMoveScore] / 2.0f));
+        positionVisible     = positionHidden;
+        [SIGameController SIControllerNode:_scoreMoveLabel
                                  animation:animation
-                            animationStyle:SISceneContentAnimationStyleSlide
+                            animationStyle:SISceneContentAnimationStyleGrow
                          animationDuration:_animationDuration
                            positionVisible:positionVisible
                             positionHidden:positionHidden];
@@ -592,8 +643,8 @@ static const uint32_t SIGameSceneCategoryMoveScore     = 0x1 << 3; // 0000000000
 
 
 - (void)layoutZ {
-    if (_popupContentNode) {
-        [self presentModalNode:_popupContentNode
+    if (_centerNode) {
+        [self presentModalNode:_centerNode
                      animation:HLScenePresentationAnimationFade
                   zPositionMin:[SIGameController floatZPositionGameForContent:SIZPositionGameModalMin]
                   zPositionMax:[SIGameController floatZPositionGameForContent:SIZPositionGameModalMax]];
@@ -619,8 +670,8 @@ static const uint32_t SIGameSceneCategoryMoveScore     = 0x1 << 3; // 0000000000
         _coinNode.zPosition                                 = [SIGameController floatZPositionGameForContent:SIZPositionGameContentMoveScore];
     }
     
-    if (_progressBarMove) {
-        _progressBarMove.zPosition                          = [SIGameController floatZPositionGameForContent:SIZPositionGameContent];
+    if (_scoreMoveLabel) {
+        _scoreMoveLabel.zPosition                           = [SIGameController floatZPositionGameForContent:SIZPositionGameContent];
     }
     
     if (_progressBarPowerUp) {
@@ -631,21 +682,37 @@ static const uint32_t SIGameSceneCategoryMoveScore     = 0x1 << 3; // 0000000000
     if ([_sceneDelegate respondsToSelector:@selector(sceneGameWillUpdateProgressBars)]) {
         SISceneGameProgressBarUpdate *progressBarUpdate     = [_sceneDelegate sceneGameWillUpdateProgressBars];
         if (progressBarUpdate.hasStarted) {
-            if (_progressBarMove) {
-                _progressBarMove.titleLabelNode.text        = progressBarUpdate.textMove;
-                _progressBarMove.progress                   = progressBarUpdate.percentMove;
+            if (_scoreMoveLabel) {
+                _scoreMoveLabel.text                        = [NSString stringWithFormat:@"%0.2f",progressBarUpdate.percentMove * MAX_MOVE_SCORE];
             }
             if (_progressBarPowerUp) {
                 _progressBarPowerUp.progress                = progressBarUpdate.percentPowerUp;
+                NSLog(@"Power up percent: %0.2f", _progressBarPowerUp.progress);
             }
         } else {
-            _progressBarMove.progress                       = 1.0f;
-            _progressBarMove.titleLabelNode.text            = @"";
+            _scoreMoveLabel.text                            = @"";
             _progressBarPowerUp.progress                    = 1.0f;
-            
             
         }
     }
+    
+//    if ([self modalNodePresented]) {
+//        if (_popupNode && _popupNode.parent && [_popupNode.topNode isKindOfClass:[SKLabelNode class]]) {
+//            if (_popupNode.countDownTimerState == SIPopupCountDownTimerNotStarted) {
+//                _popupNode.startTime = currentTime;
+//                _popupNode.countDownTimerState = SIPopupCountDownTimerRunning;
+//            } else if (_popupNode.countDownTimerState == SIPopupCountDownTimerRunning) {
+//                NSTimeInterval remainingTime = 11.0f - (currentTime - _popupNode.startTime);
+//                ((SKLabelNode *)_popupNode.topNode).text = [NSString stringWithFormat:@"%i",(int)remainingTime];
+//                [_popupNode.topNode runAction:[SKAction scaleTo:remainingTime - floorf(remainingTime) duration:0.0f]];
+//                if (remainingTime < (EPSILON_NUMBER + 1.0f)) {
+//                    //Call to go to end game
+//                    [self makePopupBigger];
+//                    
+//                }
+//            }
+//        }
+//    }
 }
 
 #pragma mark Physics
@@ -713,62 +780,70 @@ static const uint32_t SIGameSceneCategoryMoveScore     = 0x1 << 3; // 0000000000
 /**
  Called to show an exploding move score
  */
-- (void)sceneGameWillShowMoveScore:(SKLabelNode *)moveLabel {
-    //Had to create a node for scaling the moveLabel
-    SKSpriteNode *moveLabelNode = [SKSpriteNode spriteNodeWithColor:[SKColor clearColor] size:CGSizeMake(200.0f, 100.0f)];
-
-    //    moveLabelNode.position                          = launchPoint; //CGPointMake(self.frame.size.width / 2.0f, (self.frame.size.height / 2.0f) - _moveCommandLabel.frame.size.height);
-    moveLabelNode.physicsBody                       = [SKPhysicsBody bodyWithRectangleOfSize:CGSizeMake(50.0f, 50.0f)];  //CGSizeMake(moveLabel.frame.size.width, moveLabel.frame.size.height)];
-    moveLabelNode.physicsBody.categoryBitMask       = SIGameSceneCategoryUIControl;
-    moveLabelNode.physicsBody.contactTestBitMask    = SIGameSceneCategoryEdge;
-    moveLabelNode.physicsBody.collisionBitMask      = 0;
-    moveLabelNode.physicsBody.linearDamping         = 0.0f;
-    moveLabelNode.zPosition                         = [SIGameController floatZPositionGameForContent:SIZPositionGameContentMoveScore];
-    moveLabelNode.userInteractionEnabled            = YES;
-    
-    SKAction *animateIn                             = [SKAction fadeInWithDuration:0.5];
-    [moveLabelNode runAction:animateIn];
-    
-    // add the sprite node to the scene
-    if (_backgroundNode == nil) {
-        return;
-    }
-    [_backgroundNode addChild:moveLabelNode];
-    
-    SKAction *scale;
-    if (IDIOM == IPAD) {
-        scale                                       = [SKAction scaleBy:3.0 duration:1.0f];
-    } else {
-        scale                                       = [SKAction scaleBy:2.0 duration:1.0f];
-    }
-    
-    [moveLabel runAction:scale];
-    
-    [moveLabelNode addChild:moveLabel];
-    
-    HLEmitterStore *emitterStore = [HLEmitterStore sharedStore];
-    SKEmitterNode *sparkEmitter = [emitterStore emitterCopyForKey:kSIEmitterSpark];
-    
-    sparkEmitter.position                           = CGPointMake(0.0f, 0.0f);
-    sparkEmitter.zPosition                          = [SIGameController floatZPositionGameForContent:SIZPositionGameContentMoveScoreEmitter];
-    [moveLabelNode addChild:sparkEmitter];
-    
-    CGFloat randomDx                                = arc4random_uniform(LAUNCH_DX_VECTOR_MAX);
-    while (randomDx < LAUNCH_DX_VECTOR_MIX) {
-        randomDx                                    = arc4random_uniform(LAUNCH_DX_VECTOR_MAX);
-    }
-    int randomDirection                             = arc4random_uniform(2);
-    if (randomDirection == 1) { /*Negative Direction*/
-        randomDx                                    = -1.0f * randomDx;
-    }
-    
-    CGFloat randomDy                                = (arc4random_uniform(8)/10 + 0.1) * LAUNCH_DY_MULTIPLIER;
-    
-    //    NSLog(@"Vector... dX = %0.2f | Y = %0.2f",randomDx,randomDy);
-    CGVector moveScoreVector                        = CGVectorMake(randomDx, randomDy);
-    [moveLabelNode.physicsBody applyImpulse:moveScoreVector];
-    
-}
+//- (void)sceneGameWillShowMoveScore:(SKLabelNode *)moveLabel {
+//    [moveLabel runAction:[SKAction scaleTo:1.0f duration:0.0f]];
+////    moveLabel.position = CGPointMake(0.0f, 0.0f);
+//    //Had to create a node for scaling the moveLabel
+//    SKSpriteNode *moveLabelNode = [SKSpriteNode spriteNodeWithColor:[SKColor clearColor] size:CGSizeMake(200.0f, 100.0f)];
+//
+//    //    moveLabelNode.position                          = launchPoint; //CGPointMake(self.frame.size.width / 2.0f, (self.frame.size.height / 2.0f) - _moveCommandLabel.frame.size.height);
+//    moveLabelNode.physicsBody                       = [SKPhysicsBody bodyWithRectangleOfSize:CGSizeMake(50.0f, 50.0f)];  //CGSizeMake(moveLabel.frame.size.width, moveLabel.frame.size.height)];
+//    moveLabelNode.physicsBody.categoryBitMask       = SIGameSceneCategoryUIControl;
+//    moveLabelNode.physicsBody.contactTestBitMask    = SIGameSceneCategoryEdge;
+//    moveLabelNode.physicsBody.collisionBitMask      = 0;
+//    moveLabelNode.physicsBody.linearDamping         = 0.0f;
+//    moveLabelNode.zPosition                         = [SIGameController floatZPositionGameForContent:SIZPositionGameContentMoveScore];
+//    moveLabelNode.userInteractionEnabled            = YES;
+//    
+//    if (_progressBarMove) {
+//        moveLabelNode.position                      = _progressBarMove.position;
+//    } else {
+//        moveLabelNode.position                      = CGPointMake(_sceneSize.width / 2.0f, _sceneSize.height / 2.0f);
+//    }
+//    
+//    SKAction *animateIn                             = [SKAction fadeInWithDuration:0.5];
+//    [moveLabelNode runAction:animateIn];
+//    
+//    // add the sprite node to the scene
+//    if (_backgroundNode == nil) {
+//        return;
+//    }
+//    [_backgroundNode addChild:moveLabelNode];
+//    
+//    SKAction *scale;
+//    if (IDIOM == IPAD) {
+//        scale                                       = [SKAction scaleBy:3.0 duration:1.0f];
+//    } else {
+//        scale                                       = [SKAction scaleBy:2.0 duration:1.0f];
+//    }
+//    
+//    [moveLabel runAction:scale];
+//    
+//    [moveLabelNode addChild:moveLabel];
+//    
+//    HLEmitterStore *emitterStore = [HLEmitterStore sharedStore];
+//    SKEmitterNode *sparkEmitter = [emitterStore emitterCopyForKey:kSIEmitterSpark];
+//    
+//    sparkEmitter.position                           = CGPointMake(0.0f, 0.0f);
+//    sparkEmitter.zPosition                          = [SIGameController floatZPositionGameForContent:SIZPositionGameContentMoveScoreEmitter];
+//    [moveLabelNode addChild:sparkEmitter];
+//    
+//    CGFloat randomDx                                = arc4random_uniform(LAUNCH_DX_VECTOR_MAX);
+//    while (randomDx < LAUNCH_DX_VECTOR_MIX) {
+//        randomDx                                    = arc4random_uniform(LAUNCH_DX_VECTOR_MAX);
+//    }
+//    int randomDirection                             = arc4random_uniform(2);
+//    if (randomDirection == 1) { /*Negative Direction*/
+//        randomDx                                    = -1.0f * randomDx;
+//    }
+//    
+//    CGFloat randomDy                                = (arc4random_uniform(8)/10 + 0.1) * LAUNCH_DY_MULTIPLIER;
+//    
+//    //    NSLog(@"Vector... dX = %0.2f | Y = %0.2f",randomDx,randomDy);
+//    CGVector moveScoreVector                        = CGVectorMake(randomDx, randomDy);
+//    [moveLabelNode.physicsBody applyImpulse:moveScoreVector];
+//    
+//}
 
 
 #pragma mark -
@@ -875,6 +950,18 @@ static const uint32_t SIGameSceneCategoryMoveScore     = 0x1 << 3; // 0000000000
 
 - (void)handlePowerUpToolBarTap:(UITapGestureRecognizer *)gestureRecognizer {
     NSLog(@"Toolbar tapped");
+    CGPoint viewLocation = [gestureRecognizer locationInView:self.view];
+    CGPoint sceneLocation = [self convertPointFromView:viewLocation];
+    CGPoint toolbarLocation = [_powerUpToolbarContentNode convertPoint:sceneLocation fromNode:self];
+    NSString *toolTag = [_powerUpToolbarContentNode toolAtLocation:toolbarLocation];
+    if (!toolTag) {
+        return;
+    }
+    
+    if ([_sceneDelegate respondsToSelector:@selector(controllerSceneGamePowerUpToolbarTappedWithToolTag:)]) {
+        [_sceneDelegate controllerSceneGamePowerUpToolbarTappedWithToolTag:toolTag];
+    }
+
 }
 
 - (void)handlePauseButtonTap:(UITapGestureRecognizer *)gestureRecognizer {
@@ -899,7 +986,7 @@ static const uint32_t SIGameSceneCategoryMoveScore     = 0x1 << 3; // 0000000000
         return NO;
     }
     
-    if (_popupContentNode && _popupContentNode.parent && [_popupContentNode containsPoint:sceneLocation]) {
+    if (_centerNode && _centerNode.parent && [_centerNode containsPoint:sceneLocation]) {
         return NO;
     }
     

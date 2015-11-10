@@ -34,6 +34,12 @@
  */
 - (void)controllerSceneGamePauseButtonTapped;
 
+
+/**
+ The toolbar 'toolTag' node of the powerup
+ */
+- (void)controllerSceneGamePowerUpToolbarTappedWithToolTag:(NSString *)toolTag;
+
 ///**
 // Fires after the continue meny node has been pressed...
 // If coins -> PayMethod - Coin
@@ -91,7 +97,7 @@
 /**
  Called to show an exploding move score
  */
-- (void)sceneGameWillShowMoveScore:(SKLabelNode *)moveLabel;
+//- (void)sceneGameWillShowMoveScore:(SKLabelNode *)moveLabel;
 
 /**
  Layout the Scene
@@ -157,7 +163,7 @@
 /**
  The progress bar for the move
  */
-@property (nonatomic, strong) TCProgressBarNode *progressBarMove;
+//@property (nonatomic, strong) TCProgressBarNode *progressBarMove;
 
 /**
  A ring node to display
@@ -168,6 +174,11 @@
  The total score label
  */
 @property (nonatomic, strong) SKLabelNode *scoreTotalLabel;
+
+/**
+ The move score label
+ */
+@property (nonatomic, strong) SKLabelNode *scoreMoveLabel;
 
 /**
  Pading of the top label

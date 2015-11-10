@@ -51,7 +51,7 @@
     
     [aCoder encodeObject:_helpString        forKey:kEDKeyAchievementDetailsHelpString];
     [aCoder encodeObject:_prefixString      forKey:kEDKeyAchievementDetailsPrefixString];
-    [aCoder encodeObject:_postfixString     forKey:kEDKeyAchievementDetailsHelpString];
+    [aCoder encodeObject:_postfixString     forKey:kEDKeyAchievementDetailsPostfixString];
     [aCoder encodeInteger:_type             forKey:kEDKeyAchievementDetailsType];
     [aCoder encodeBool:_completed           forKey:kEDKeyAchievementDetailsCompleted];
     [aCoder encodeObject:_moveSequenceArray forKey:kEDKeyAchievementDetailsMoveSequenceArray];

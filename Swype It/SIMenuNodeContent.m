@@ -55,7 +55,7 @@
 // Preform all your alloc/init's here
 // */
 //- (void)createControlsWithSize:(CGSize)size {
-//    _backgroundNode = [SKSpriteNode spriteNodeWithColor:[SKColor mainColor] size:size];
+//    _backgroundNode = [SKSpriteNode spriteNodeWithColor:[SKColor SIColorPrimary] size:size];
 //    
 //}
 //

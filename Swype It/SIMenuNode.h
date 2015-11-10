@@ -56,6 +56,12 @@
 @property (nonatomic, assign) CGFloat bottomToolbarYPadding;
 
 /**
+ When center node is positioned on the bottom we offeset by this bottom y padding
+ Default is `0.0`
+ */
+@property (nonatomic, assign) CGFloat bottomCenterNodeYPadding;
+
+/**
  The main node of info to be displayed
  */
 @property (nonatomic, strong) SKNode *topNode;
@@ -63,7 +69,7 @@
 /**
  The shop node
  */
-@property (nonatomic, strong) SKSpriteNode *shopNode;
+@property (nonatomic, strong) SKSpriteNode *freeNode;
 
 /**
  The main node of info to be displayed

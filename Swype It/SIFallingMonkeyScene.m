@@ -10,7 +10,6 @@
 #import "SIGameController.h"
 // Framework Import
 // Drop-In Class Imports (CocoaPods/GitHub/Guru)
-#import "SoundManager.h"
 // Category Import
 #import "UIColor+Additions.h"
 // Support/Data Class Imports
@@ -22,7 +21,7 @@
 static const uint32_t SIFallingMonkeySceneCategoryZero          = 0x0;      // 00000000000000000000000000000000
 static const uint32_t SIFallingMonkeySceneCategoryBananaBunch   = 0x1;      // 00000000000000000000000000000001
 static const uint32_t SIFallingMonkeySceneCategoryMonkey        = 0x1 << 1; // 00000000000000000000000000000010
-static const uint32_t SIFallingMonkeySceneCategoryBanana        = 0x1 << 2; // 00000000000000000000000000000100
+//static const uint32_t SIFallingMonkeySceneCategoryBanana        = 0x1 << 2; // 00000000000000000000000000000100
 static const uint32_t SIFallingMonkeySceneCategoryUIControl     = 0x1 << 3; // 00000000000000000000000000001000
 static const uint32_t SIFallingMonkeySceneCategoryEdgeBottom    = 0x1 << 4; // 00000000000000000000000000010000
 static const uint32_t SIFallingMonkeySceneCategoryEdgeSide      = 0x1 << 5; // 00000000000000000000000000100000
@@ -126,7 +125,7 @@ static const uint32_t SIFallingMonkeySceneCategoryEdgeSide      = 0x1 << 5; // 0
 }
 
 - (void)setupControlsWithSize:(CGSize)size {
-    self.backgroundColor                            = [SKColor mainColor];
+    self.backgroundColor                            = [SKColor SIColorPrimary];
     
     self.physicsWorld.contactDelegate               = self;
     
@@ -305,9 +304,7 @@ static const uint32_t SIFallingMonkeySceneCategoryEdgeSide      = 0x1 << 5; // 0
     SKAction * actionMoveDone = [SKAction removeFromParent];
     [bananaBunch runAction:[SKAction sequence:@[actionMove, actionMoveDone]]];
     
-    if ([SIConstants isFXAllowed]) {
-        [[SoundManager sharedManager] playSound:kSISoundFXSceneWoosh];
-    }
+    [SIGame playSound:kSISoundFXSceneWoosh];
 }
 
 

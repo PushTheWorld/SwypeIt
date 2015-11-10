@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "8DA38A771BD1CEF62C641C3483E43805"
+               BlueprintIdentifier = "87615458A2AA0288AE19963DF99787E0"
                BuildableName = "libPods-Swype It.a"
                BlueprintName = "Pods-Swype It"
                ReferencedContainer = "container:Pods/Pods.xcodeproj">

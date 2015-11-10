@@ -38,6 +38,7 @@
 		0917D4FD1B6DD8240046B5FF /* SKNode+HLLayoutManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0917D4E11B6DD8240046B5FF /* SKNode+HLLayoutManager.m */; };
 		0917D4FE1B6DD8240046B5FF /* SKSpriteNode+HLSpriteNodeAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 0917D4E31B6DD8240046B5FF /* SKSpriteNode+HLSpriteNodeAdditions.m */; };
 		0917D4FF1B6DD8240046B5FF /* UIImage+HLImageAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 0917D4E51B6DD8240046B5FF /* UIImage+HLImageAdditions.m */; };
+		0918F52D1BBAB565006D33A9 /* SIPopupNodeTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 0918F52C1BBAB565006D33A9 /* SIPopupNodeTests.m */; };
 		0919ABE21B91FC83009ACFF1 /* sparkRevA.sks in Resources */ = {isa = PBXBuildFile; fileRef = 0919ABE01B91FC83009ACFF1 /* sparkRevA.sks */; };
 		0919ABE31B91FC83009ACFF1 /* spark.png in Resources */ = {isa = PBXBuildFile; fileRef = 0919ABE11B91FC83009ACFF1 /* spark.png */; };
 		091FED491B37283E0071F8DC /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 091FED481B37283E0071F8DC /* main.m */; };
@@ -63,13 +64,13 @@
 		092E9CD91BAA05710022E644 /* UIImage+ImageEffects.m in Sources */ = {isa = PBXBuildFile; fileRef = 092E9CD71BAA05710022E644 /* UIImage+ImageEffects.m */; };
 		092E9CDA1BAA05770022E644 /* UIImage+BlurredFrame.m in Sources */ = {isa = PBXBuildFile; fileRef = 092E9CD31BAA05410022E644 /* UIImage+BlurredFrame.m */; };
 		09343DAA1B44BB1C00D1C707 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 09343DA91B44BB1C00D1C707 /* QuartzCore.framework */; };
+		093690191BBB0A60006A239C /* SIPopupNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 099302FB1B7CB50600D2CCE4 /* SIPopupNode.m */; };
 		0938C2BB1BA7AACF00B69FC2 /* SIAchievementNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 0938C2BA1BA7AACF00B69FC2 /* SIAchievementNode.m */; };
 		0938C2BE1BA835D900B69FC2 /* SIMenuNodeContent.m in Sources */ = {isa = PBXBuildFile; fileRef = 0938C2BD1BA835D900B69FC2 /* SIMenuNodeContent.m */; };
 		0938C2C11BA8483200B69FC2 /* tapNoise.caf in Resources */ = {isa = PBXBuildFile; fileRef = 0938C2BF1BA8483200B69FC2 /* tapNoise.caf */; };
 		0938C2C21BA8483200B69FC2 /* swypeNoise.caf in Resources */ = {isa = PBXBuildFile; fileRef = 0938C2C01BA8483200B69FC2 /* swypeNoise.caf */; };
 		0938C2C41BA84A1900B69FC2 /* wooshNoise.caf in Resources */ = {isa = PBXBuildFile; fileRef = 0938C2C31BA84A1900B69FC2 /* wooshNoise.caf */; };
 		094CECCF1BAD1C7300BD3AD6 /* SIGameModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 094CECCE1BAD1C7300BD3AD6 /* SIGameModel.m */; };
-		094D10A11BA0BCBC00392587 /* SIGameControllerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 094D10A01BA0BCBC00392587 /* SIGameControllerTests.m */; };
 		094D10A31BA18D5A00392587 /* SISingletonAchievementTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 094D10A21BA18D5A00392587 /* SISingletonAchievementTests.m */; };
 		094D10A41BA18DA200392587 /* SISingletonAchievement.m in Sources */ = {isa = PBXBuildFile; fileRef = 09A488BF1B9D8D770075F41C /* SISingletonAchievement.m */; };
 		094F22A51B95916E00968FB5 /* BMGlyphFont.m in Sources */ = {isa = PBXBuildFile; fileRef = 094F22A21B95916E00968FB5 /* BMGlyphFont.m */; };
@@ -101,6 +102,10 @@
 		0979E6581B77A614002FC2F2 /* LongIsland-Shadow.otf in Resources */ = {isa = PBXBuildFile; fileRef = 0979E6571B77A614002FC2F2 /* LongIsland-Shadow.otf */; };
 		0979E65A1B77A74E002FC2F2 /* LongIslandContour.otf in Resources */ = {isa = PBXBuildFile; fileRef = 0979E6591B77A74E002FC2F2 /* LongIslandContour.otf */; };
 		0979E65C1B77C0F2002FC2F2 /* diamondPlate3.png in Resources */ = {isa = PBXBuildFile; fileRef = 0979E65B1B77C0F2002FC2F2 /* diamondPlate3.png */; };
+		097FF7101BB731BB009DF538 /* Level1.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 097FF70F1BB731BB009DF538 /* Level1.xcassets */; };
+		097FF7131BB754F4009DF538 /* SIPopupGameOverDetailsNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 097FF7121BB754F4009DF538 /* SIPopupGameOverDetailsNode.m */; };
+		0984E21C1BB8894800E4C58B /* Menu.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0984E21B1BB8894800E4C58B /* Menu.xcassets */; };
+		0984E21E1BB8895D00E4C58B /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 0984E2201BB8895D00E4C58B /* Localizable.strings */; };
 		0988CC941B70C82300BF429D /* SIStoreButtonNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 0988CC931B70C82300BF429D /* SIStoreButtonNode.m */; };
 		0988CC961B7203CA00BF429D /* Ultra.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0988CC951B7203CA00BF429D /* Ultra.ttf */; };
 		0988CC9B1B720F3B00BF429D /* images.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 0988CC9A1B720F3B00BF429D /* images.atlas */; };
@@ -126,14 +131,12 @@
 		09A488A21B9A77FE0075F41C /* SILoadingScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 09A488A11B9A77FE0075F41C /* SILoadingScene.m */; };
 		09A488A51B9A7F490075F41C /* SIFallingMonkeyScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 09A488A41B9A7F490075F41C /* SIFallingMonkeyScene.m */; };
 		09A488A71B9B49950075F41C /* SIAdBannerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 09A488A61B9B49950075F41C /* SIAdBannerTests.m */; };
-		09A488A91B9B4B5C0075F41C /* GameSceneTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 09A488A81B9B4B5C0075F41C /* GameSceneTests.m */; };
+		09A488A91B9B4B5C0075F41C /* SIGameModelTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 09A488A81B9B4B5C0075F41C /* SIGameModelTests.m */; };
 		09A488AB1B9B61660075F41C /* SIPowerUpTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 09A488AA1B9B61660075F41C /* SIPowerUpTests.m */; };
 		09A488AE1B9B65DB0075F41C /* SISceneGameProgressBarUpdate.m in Sources */ = {isa = PBXBuildFile; fileRef = 09A488AD1B9B65DB0075F41C /* SISceneGameProgressBarUpdate.m */; };
 		09A488B11B9B7B860075F41C /* SIMove.m in Sources */ = {isa = PBXBuildFile; fileRef = 09A488B01B9B7B860075F41C /* SIMove.m */; };
 		09A488B61B9C78FA0075F41C /* SIMenuScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 09A488B51B9C78FA0075F41C /* SIMenuScene.m */; };
 		09A488B81B9C7D0A0075F41C /* sceneMenu.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 09A488B71B9C7D0A0075F41C /* sceneMenu.atlas */; };
-		09A488BB1B9D7D850075F41C /* SIMenuContent.m in Sources */ = {isa = PBXBuildFile; fileRef = 09A488BA1B9D7D850075F41C /* SIMenuContent.m */; };
-		09A488BD1B9D877D0075F41C /* SIMenuContentTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 09A488BC1B9D877D0075F41C /* SIMenuContentTests.m */; };
 		09A488C01B9D8D770075F41C /* SISingletonAchievement.m in Sources */ = {isa = PBXBuildFile; fileRef = 09A488BF1B9D8D770075F41C /* SISingletonAchievement.m */; };
 		09A57ABB1B788BEF003B6F08 /* SIGameNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 09A57ABA1B788BEF003B6F08 /* SIGameNode.m */; };
 		09A904061B6616C300C48A9B /* SIConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 091FED751B3733AF0071F8DC /* SIConstants.m */; };
@@ -142,10 +145,10 @@
 		09AB99321BB012EE006BC50E /* rapidFireRevA.sks in Resources */ = {isa = PBXBuildFile; fileRef = 09AB99311BB012EE006BC50E /* rapidFireRevA.sks */; };
 		09AB99341BB01904006BC50E /* snowTimeFreezeRevA.sks in Resources */ = {isa = PBXBuildFile; fileRef = 09AB99331BB01904006BC50E /* snowTimeFreezeRevA.sks */; };
 		09B1E35A1B97A33B00EDF051 /* explosionTouch.sks in Resources */ = {isa = PBXBuildFile; fileRef = 09B1E3591B97A33B00EDF051 /* explosionTouch.sks */; };
+		09B83CBD1BBC33C500F86563 /* SIPopupGameOverOverDetailsRowNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 09B83CBC1BBC33C500F86563 /* SIPopupGameOverOverDetailsRowNode.m */; };
 		09CAF9A91B646BE100466606 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 09CAF9A81B646BE100466606 /* MBProgressHUD.m */; };
 		09CAF9AC1B646F4C00466606 /* buttons.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 09CAF9AB1B646F4C00466606 /* buttons.atlas */; };
-		09CB158E1B7E85DC00F9A956 /* SITestScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 09CB158D1B7E85DC00F9A956 /* SITestScene.m */; };
-		09D256E91B9D8EFF00F6BD14 /* SIMenuContent.m in Sources */ = {isa = PBXBuildFile; fileRef = 09A488BA1B9D7D850075F41C /* SIMenuContent.m */; };
+		09CB158E1B7E85DC00F9A956 /* SIPopupTestScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 09CB158D1B7E85DC00F9A956 /* SIPopupTestScene.m */; };
 		09D256EC1B9D978900F6BD14 /* SIAchievement.m in Sources */ = {isa = PBXBuildFile; fileRef = 09D256EB1B9D978900F6BD14 /* SIAchievement.m */; };
 		09D256F11B9E631700F6BD14 /* SIAchievements.plist in Resources */ = {isa = PBXBuildFile; fileRef = 09D256F01B9E631700F6BD14 /* SIAchievements.plist */; };
 		09D256F21B9E631700F6BD14 /* SIAchievements.plist in Resources */ = {isa = PBXBuildFile; fileRef = 09D256F01B9E631700F6BD14 /* SIAchievements.plist */; };
@@ -178,9 +181,9 @@
 		09E4D80D1BAB584C00994E8E /* SF-UI-Text-RegularItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 09E4D7F81BAB584C00994E8E /* SF-UI-Text-RegularItalic.otf */; };
 		09E4D80E1BAB584C00994E8E /* SF-UI-Text-Semibold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 09E4D7F91BAB584C00994E8E /* SF-UI-Text-Semibold.otf */; };
 		09E4D80F1BAB584C00994E8E /* SF-UI-Text-SemiboldItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 09E4D7FA1BAB584C00994E8E /* SF-UI-Text-SemiboldItalic.otf */; };
-		7D80B4B17FB2B3C57CE9EAA8 /* libPods-Swype It.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 56AEAA31FA19BFA93E5C5A6E /* libPods-Swype It.a */; };
-		F91BB9396F4CAAE0BC65B477 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 769385628457ECC646BCC3FE /* libPods.a */; };
-		FB90F5669859E2C67A6B4C1B /* libPods-Swype ItTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 52659F4BDBBC2400C5525340 /* libPods-Swype ItTests.a */; };
+		09E611BD1BBACB3C00A3DE19 /* Popup.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 09E611BC1BBACB3C00A3DE19 /* Popup.xcassets */; };
+		0B86920528B4DE06FEB543D7 /* libPods-Swype It.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 56AEAA31FA19BFA93E5C5A6E /* libPods-Swype It.a */; };
+		F3621592DB76B0996F2AAC26 /* libPods-Swype ItTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3530280704151866977B6067 /* libPods-Swype ItTests.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -255,6 +258,7 @@
 		0917D4E31B6DD8240046B5FF /* SKSpriteNode+HLSpriteNodeAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "SKSpriteNode+HLSpriteNodeAdditions.m"; sourceTree = "<group>"; };
 		0917D4E41B6DD8240046B5FF /* UIImage+HLImageAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+HLImageAdditions.h"; sourceTree = "<group>"; };
 		0917D4E51B6DD8240046B5FF /* UIImage+HLImageAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+HLImageAdditions.m"; sourceTree = "<group>"; };
+		0918F52C1BBAB565006D33A9 /* SIPopupNodeTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SIPopupNodeTests.m; sourceTree = "<group>"; };
 		0919ABE01B91FC83009ACFF1 /* sparkRevA.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = sparkRevA.sks; sourceTree = "<group>"; };
 		0919ABE11B91FC83009ACFF1 /* spark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = spark.png; sourceTree = "<group>"; };
 		091FED431B37283E0071F8DC /* Swype It.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Swype It.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -302,7 +306,6 @@
 		0938FD501B92124E00ACD99C /* libSSBitmapFont.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSSBitmapFont.a; path = ../Downloads/libSSBitmapFont/libSSBitmapFont.a; sourceTree = "<group>"; };
 		094CECCD1BAD1C7300BD3AD6 /* SIGameModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SIGameModel.h; sourceTree = "<group>"; };
 		094CECCE1BAD1C7300BD3AD6 /* SIGameModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SIGameModel.m; sourceTree = "<group>"; };
-		094D10A01BA0BCBC00392587 /* SIGameControllerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SIGameControllerTests.m; sourceTree = "<group>"; };
 		094D10A21BA18D5A00392587 /* SISingletonAchievementTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SISingletonAchievementTests.m; sourceTree = "<group>"; };
 		094F22A11B95916E00968FB5 /* BMGlyphFont.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BMGlyphFont.h; sourceTree = "<group>"; };
 		094F22A21B95916E00968FB5 /* BMGlyphFont.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BMGlyphFont.m; sourceTree = "<group>"; };
@@ -342,6 +345,11 @@
 		0979E6571B77A614002FC2F2 /* LongIsland-Shadow.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "LongIsland-Shadow.otf"; sourceTree = "<group>"; };
 		0979E6591B77A74E002FC2F2 /* LongIslandContour.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = LongIslandContour.otf; sourceTree = "<group>"; };
 		0979E65B1B77C0F2002FC2F2 /* diamondPlate3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = diamondPlate3.png; sourceTree = "<group>"; };
+		097FF70F1BB731BB009DF538 /* Level1.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Level1.xcassets; sourceTree = "<group>"; };
+		097FF7111BB754F4009DF538 /* SIPopupGameOverDetailsNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SIPopupGameOverDetailsNode.h; sourceTree = "<group>"; };
+		097FF7121BB754F4009DF538 /* SIPopupGameOverDetailsNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SIPopupGameOverDetailsNode.m; sourceTree = "<group>"; };
+		0984E21B1BB8894800E4C58B /* Menu.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Menu.xcassets; sourceTree = "<group>"; };
+		0984E21F1BB8895D00E4C58B /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		0988CC921B70C82300BF429D /* SIStoreButtonNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SIStoreButtonNode.h; sourceTree = "<group>"; };
 		0988CC931B70C82300BF429D /* SIStoreButtonNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SIStoreButtonNode.m; sourceTree = "<group>"; };
 		0988CC951B7203CA00BF429D /* Ultra.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Ultra.ttf; sourceTree = "<group>"; };
@@ -381,7 +389,7 @@
 		09A488A31B9A7F490075F41C /* SIFallingMonkeyScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SIFallingMonkeyScene.h; sourceTree = "<group>"; };
 		09A488A41B9A7F490075F41C /* SIFallingMonkeyScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SIFallingMonkeyScene.m; sourceTree = "<group>"; };
 		09A488A61B9B49950075F41C /* SIAdBannerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SIAdBannerTests.m; sourceTree = "<group>"; };
-		09A488A81B9B4B5C0075F41C /* GameSceneTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameSceneTests.m; sourceTree = "<group>"; };
+		09A488A81B9B4B5C0075F41C /* SIGameModelTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SIGameModelTests.m; sourceTree = "<group>"; };
 		09A488AA1B9B61660075F41C /* SIPowerUpTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SIPowerUpTests.m; sourceTree = "<group>"; };
 		09A488AC1B9B65DB0075F41C /* SISceneGameProgressBarUpdate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SISceneGameProgressBarUpdate.h; sourceTree = "<group>"; };
 		09A488AD1B9B65DB0075F41C /* SISceneGameProgressBarUpdate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SISceneGameProgressBarUpdate.m; sourceTree = "<group>"; };
@@ -390,9 +398,6 @@
 		09A488B41B9C78FA0075F41C /* SIMenuScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SIMenuScene.h; sourceTree = "<group>"; };
 		09A488B51B9C78FA0075F41C /* SIMenuScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SIMenuScene.m; sourceTree = "<group>"; };
 		09A488B71B9C7D0A0075F41C /* sceneMenu.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = sceneMenu.atlas; sourceTree = "<group>"; };
-		09A488B91B9D7D850075F41C /* SIMenuContent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SIMenuContent.h; sourceTree = "<group>"; };
-		09A488BA1B9D7D850075F41C /* SIMenuContent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SIMenuContent.m; sourceTree = "<group>"; };
-		09A488BC1B9D877D0075F41C /* SIMenuContentTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SIMenuContentTests.m; sourceTree = "<group>"; };
 		09A488BE1B9D8D770075F41C /* SISingletonAchievement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SISingletonAchievement.h; sourceTree = "<group>"; };
 		09A488BF1B9D8D770075F41C /* SISingletonAchievement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SISingletonAchievement.m; sourceTree = "<group>"; };
 		09A57AB91B788BEF003B6F08 /* SIGameNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SIGameNode.h; sourceTree = "<group>"; };
@@ -400,11 +405,13 @@
 		09AB99311BB012EE006BC50E /* rapidFireRevA.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = rapidFireRevA.sks; sourceTree = "<group>"; };
 		09AB99331BB01904006BC50E /* snowTimeFreezeRevA.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = snowTimeFreezeRevA.sks; sourceTree = "<group>"; };
 		09B1E3591B97A33B00EDF051 /* explosionTouch.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = explosionTouch.sks; sourceTree = "<group>"; };
+		09B83CBB1BBC33C500F86563 /* SIPopupGameOverOverDetailsRowNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SIPopupGameOverOverDetailsRowNode.h; sourceTree = "<group>"; };
+		09B83CBC1BBC33C500F86563 /* SIPopupGameOverOverDetailsRowNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SIPopupGameOverOverDetailsRowNode.m; sourceTree = "<group>"; };
 		09CAF9A71B646BE100466606 /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = "<group>"; };
 		09CAF9A81B646BE100466606 /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
 		09CAF9AB1B646F4C00466606 /* buttons.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = buttons.atlas; sourceTree = "<group>"; };
-		09CB158C1B7E85DC00F9A956 /* SITestScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SITestScene.h; sourceTree = "<group>"; };
-		09CB158D1B7E85DC00F9A956 /* SITestScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SITestScene.m; sourceTree = "<group>"; };
+		09CB158C1B7E85DC00F9A956 /* SIPopupTestScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SIPopupTestScene.h; sourceTree = "<group>"; };
+		09CB158D1B7E85DC00F9A956 /* SIPopupTestScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SIPopupTestScene.m; sourceTree = "<group>"; };
 		09D256EA1B9D978900F6BD14 /* SIAchievement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SIAchievement.h; sourceTree = "<group>"; };
 		09D256EB1B9D978900F6BD14 /* SIAchievement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SIAchievement.m; sourceTree = "<group>"; };
 		09D256F01B9E631700F6BD14 /* SIAchievements.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = SIAchievements.plist; sourceTree = "<group>"; };
@@ -443,17 +450,15 @@
 		09E4D7F81BAB584C00994E8E /* SF-UI-Text-RegularItalic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-UI-Text-RegularItalic.otf"; sourceTree = "<group>"; };
 		09E4D7F91BAB584C00994E8E /* SF-UI-Text-Semibold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-UI-Text-Semibold.otf"; sourceTree = "<group>"; };
 		09E4D7FA1BAB584C00994E8E /* SF-UI-Text-SemiboldItalic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-UI-Text-SemiboldItalic.otf"; sourceTree = "<group>"; };
-		250606D5461711E9FC89BC0E /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
+		09E611BC1BBACB3C00A3DE19 /* Popup.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Popup.xcassets; sourceTree = "<group>"; };
+		245AA1DB08104D3BE9C797BC /* Pods-Swype ItTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Swype ItTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Swype ItTests/Pods-Swype ItTests.debug.xcconfig"; sourceTree = "<group>"; };
 		30ED76FB39BF998E0E317052 /* Pods-Swype It.beta.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Swype It.beta.xcconfig"; path = "Pods/Target Support Files/Pods-Swype It/Pods-Swype It.beta.xcconfig"; sourceTree = "<group>"; };
-		3E82F7EBECB66ACCBA26530D /* Pods-Swype ItTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Swype ItTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-Swype ItTests/Pods-Swype ItTests.release.xcconfig"; sourceTree = "<group>"; };
-		515AAE4709C37B6475D12AF4 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
-		52659F4BDBBC2400C5525340 /* libPods-Swype ItTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Swype ItTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		3530280704151866977B6067 /* libPods-Swype ItTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Swype ItTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		56AEAA31FA19BFA93E5C5A6E /* libPods-Swype It.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Swype It.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		769385628457ECC646BCC3FE /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		9DA67FDDF2048F2EE110C92B /* Pods-Swype It.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Swype It.release.xcconfig"; path = "Pods/Target Support Files/Pods-Swype It/Pods-Swype It.release.xcconfig"; sourceTree = "<group>"; };
 		9DDA8D676AA522487B9497FC /* Pods-Swype It.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Swype It.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Swype It/Pods-Swype It.debug.xcconfig"; sourceTree = "<group>"; };
-		E5B6660C04F46F2B9CF8FFF1 /* Pods-Swype ItTests.beta.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Swype ItTests.beta.xcconfig"; path = "Pods/Target Support Files/Pods-Swype ItTests/Pods-Swype ItTests.beta.xcconfig"; sourceTree = "<group>"; };
-		F616971953518AF3FFD651EF /* Pods-Swype ItTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Swype ItTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Swype ItTests/Pods-Swype ItTests.debug.xcconfig"; sourceTree = "<group>"; };
+		C0948092AFD0C89E3AD4155F /* Pods-Swype ItTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Swype ItTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-Swype ItTests/Pods-Swype ItTests.release.xcconfig"; sourceTree = "<group>"; };
+		E7FF19E4A2D77272F87B8802 /* Pods-Swype ItTests.beta.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Swype ItTests.beta.xcconfig"; path = "Pods/Target Support Files/Pods-Swype ItTests/Pods-Swype ItTests.beta.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -478,8 +483,7 @@
 				098B3B521B379C8D000D4702 /* GameKit.framework in Frameworks */,
 				098B3B501B379C87000D4702 /* iAd.framework in Frameworks */,
 				098B3B4E1B379C82000D4702 /* CoreMotion.framework in Frameworks */,
-				F91BB9396F4CAAE0BC65B477 /* libPods.a in Frameworks */,
-				7D80B4B17FB2B3C57CE9EAA8 /* libPods-Swype It.a in Frameworks */,
+				0B86920528B4DE06FEB543D7 /* libPods-Swype It.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -489,20 +493,13 @@
 			files = (
 				092B47101B52273A00AFE43C /* libOCMock.a in Frameworks */,
 				09343DAA1B44BB1C00D1C707 /* QuartzCore.framework in Frameworks */,
-				FB90F5669859E2C67A6B4C1B /* libPods-Swype ItTests.a in Frameworks */,
+				F3621592DB76B0996F2AAC26 /* libPods-Swype ItTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		0906AAF61B552180008F28C1 /* Views */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = Views;
-			sourceTree = "<group>";
-		};
 		0917D4AF1B6DD8240046B5FF /* HLSpriteKit */ = {
 			isa = PBXGroup;
 			children = (
@@ -592,6 +589,7 @@
 				094CECD01BAD1C7F00BD3AD6 /* 000 - Model */,
 				098B3B441B378B8F000D4702 /* 001 - Singletons */,
 				091FED6C1B3729040071F8DC /* 002 - AppDelegate */,
+				097FF7061BB72FF0009DF538 /* Assest */,
 				091FED7A1B37362A0071F8DC /* Categories */,
 				09AB99351BB0191A006BC50E /* Custom Fonts */,
 				091FED7E1B374C520071F8DC /* CustomUIClasses */,
@@ -606,7 +604,6 @@
 				09DB638B1B564DAF00387C13 /* TableViewControllers */,
 				091FED701B37296E0071F8DC /* UserInterface */,
 				091FED711B37298D0071F8DC /* ViewControllers */,
-				0906AAF61B552180008F28C1 /* Views */,
 			);
 			path = "Swype It";
 			sourceTree = "<group>";
@@ -624,11 +621,10 @@
 		091FED5F1B37283E0071F8DC /* Swype ItTests */ = {
 			isa = PBXGroup;
 			children = (
+				0918F52C1BBAB565006D33A9 /* SIPopupNodeTests.m */,
 				094D10A21BA18D5A00392587 /* SISingletonAchievementTests.m */,
-				094D10A01BA0BCBC00392587 /* SIGameControllerTests.m */,
-				09A488BC1B9D877D0075F41C /* SIMenuContentTests.m */,
 				09A488AA1B9B61660075F41C /* SIPowerUpTests.m */,
-				09A488A81B9B4B5C0075F41C /* GameSceneTests.m */,
+				09A488A81B9B4B5C0075F41C /* SIGameModelTests.m */,
 				09A488A61B9B49950075F41C /* SIAdBannerTests.m */,
 				092720E61B60F2790005A6B6 /* SIIAPUtilityTests.m */,
 				092B470D1B521B7900AFE43C /* GameTests.m */,
@@ -700,8 +696,6 @@
 				098B3B461B378C27000D4702 /* SIGame.m */,
 				092720E31B60D3CB0005A6B6 /* SIIAPUtility.h */,
 				092720E41B60D3CB0005A6B6 /* SIIAPUtility.m */,
-				09A488B91B9D7D850075F41C /* SIMenuContent.h */,
-				09A488BA1B9D7D850075F41C /* SIMenuContent.m */,
 				09A488AF1B9B7B860075F41C /* SIMove.h */,
 				09A488B01B9B7B860075F41C /* SIMove.m */,
 				09A488991B99D92B0075F41C /* SIPowerUp.h */,
@@ -744,16 +738,20 @@
 				0938C2BD1BA835D900B69FC2 /* SIMenuNodeContent.m */,
 				0957AB751BA7034200D3FDF5 /* SIPopupContentNode.h */,
 				0957AB761BA7034200D3FDF5 /* SIPopupContentNode.m */,
+				097FF7111BB754F4009DF538 /* SIPopupGameOverDetailsNode.h */,
+				097FF7121BB754F4009DF538 /* SIPopupGameOverDetailsNode.m */,
 				099302FA1B7CB50600D2CCE4 /* SIPopupNode.h */,
 				099302FB1B7CB50600D2CCE4 /* SIPopupNode.m */,
 				0914D7A81B81C22400911DD8 /* SIPowerUpToolbarNode.h */,
 				0914D7A91B81C22400911DD8 /* SIPowerUpToolbarNode.m */,
 				09D5ED4D1B8B205B00E84179 /* SISegmentControl.h */,
 				09D5ED4E1B8B205B00E84179 /* SISegmentControl.m */,
-				0988CC921B70C82300BF429D /* SIStoreButtonNode.h */,
-				0988CC931B70C82300BF429D /* SIStoreButtonNode.m */,
 				09568C351BB5BE2300156DDF /* SISpriteButton.h */,
 				09568C361BB5BE2300156DDF /* SISpriteButton.m */,
+				0988CC921B70C82300BF429D /* SIStoreButtonNode.h */,
+				0988CC931B70C82300BF429D /* SIStoreButtonNode.m */,
+				09B83CBB1BBC33C500F86563 /* SIPopupGameOverOverDetailsRowNode.h */,
+				09B83CBC1BBC33C500F86563 /* SIPopupGameOverOverDetailsRowNode.m */,
 			);
 			name = CustomUIClasses;
 			sourceTree = "<group>";
@@ -850,6 +848,41 @@
 			name = MSSAlertViewController;
 			sourceTree = "<group>";
 		};
+		097FF7061BB72FF0009DF538 /* Assest */ = {
+			isa = PBXGroup;
+			children = (
+				09E611BE1BBACB4100A3DE19 /* Popup */,
+				097FF70A1BB7302C009DF538 /* Scenes */,
+				0984E2201BB8895D00E4C58B /* Localizable.strings */,
+			);
+			name = Assest;
+			sourceTree = "<group>";
+		};
+		097FF7091BB73023009DF538 /* Level1 */ = {
+			isa = PBXGroup;
+			children = (
+				097FF70F1BB731BB009DF538 /* Level1.xcassets */,
+			);
+			name = Level1;
+			sourceTree = "<group>";
+		};
+		097FF70A1BB7302C009DF538 /* Scenes */ = {
+			isa = PBXGroup;
+			children = (
+				097FF7091BB73023009DF538 /* Level1 */,
+				0984E21D1BB8894F00E4C58B /* Menu */,
+			);
+			name = Scenes;
+			sourceTree = "<group>";
+		};
+		0984E21D1BB8894F00E4C58B /* Menu */ = {
+			isa = PBXGroup;
+			children = (
+				0984E21B1BB8894800E4C58B /* Menu.xcassets */,
+			);
+			name = Menu;
+			sourceTree = "<group>";
+		};
 		098B3B441B378B8F000D4702 /* 001 - Singletons */ = {
 			isa = PBXGroup;
 			children = (
@@ -904,8 +937,8 @@
 				09A488A11B9A77FE0075F41C /* SILoadingScene.m */,
 				09A488B41B9C78FA0075F41C /* SIMenuScene.h */,
 				09A488B51B9C78FA0075F41C /* SIMenuScene.m */,
-				09CB158C1B7E85DC00F9A956 /* SITestScene.h */,
-				09CB158D1B7E85DC00F9A956 /* SITestScene.m */,
+				09CB158C1B7E85DC00F9A956 /* SIPopupTestScene.h */,
+				09CB158D1B7E85DC00F9A956 /* SIPopupTestScene.m */,
 				099A62281B5C6B3B009BF339 /* StartScene.h */,
 				099A62291B5C6B3B009BF339 /* StartScene.m */,
 				092720DD1B5EF1C30005A6B6 /* StoreScene.h */,
@@ -999,6 +1032,14 @@
 			name = "SF-UI";
 			sourceTree = "<group>";
 		};
+		09E611BE1BBACB4100A3DE19 /* Popup */ = {
+			isa = PBXGroup;
+			children = (
+				09E611BC1BBACB3C00A3DE19 /* Popup.xcassets */,
+			);
+			name = Popup;
+			sourceTree = "<group>";
+		};
 		0F880A65ACF3CFF0D72120E8 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -1021,9 +1062,8 @@
 				098B3B511B379C8D000D4702 /* GameKit.framework */,
 				098B3B4F1B379C87000D4702 /* iAd.framework */,
 				098B3B4D1B379C82000D4702 /* CoreMotion.framework */,
-				769385628457ECC646BCC3FE /* libPods.a */,
 				56AEAA31FA19BFA93E5C5A6E /* libPods-Swype It.a */,
-				52659F4BDBBC2400C5525340 /* libPods-Swype ItTests.a */,
+				3530280704151866977B6067 /* libPods-Swype ItTests.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -1031,14 +1071,12 @@
 		ECB9464B15A462D7C2750659 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				515AAE4709C37B6475D12AF4 /* Pods.debug.xcconfig */,
-				250606D5461711E9FC89BC0E /* Pods.release.xcconfig */,
-				F616971953518AF3FFD651EF /* Pods-Swype ItTests.debug.xcconfig */,
-				3E82F7EBECB66ACCBA26530D /* Pods-Swype ItTests.release.xcconfig */,
-				E5B6660C04F46F2B9CF8FFF1 /* Pods-Swype ItTests.beta.xcconfig */,
 				9DDA8D676AA522487B9497FC /* Pods-Swype It.debug.xcconfig */,
 				9DA67FDDF2048F2EE110C92B /* Pods-Swype It.release.xcconfig */,
 				30ED76FB39BF998E0E317052 /* Pods-Swype It.beta.xcconfig */,
+				245AA1DB08104D3BE9C797BC /* Pods-Swype ItTests.debug.xcconfig */,
+				C0948092AFD0C89E3AD4155F /* Pods-Swype ItTests.release.xcconfig */,
+				E7FF19E4A2D77272F87B8802 /* Pods-Swype ItTests.beta.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -1056,6 +1094,7 @@
 				091FED411B37283E0071F8DC /* Resources */,
 				C6CE4681C1A3381F1E73A368 /* Copy Pods Resources */,
 				09CAF9A61B63F12C00466606 /* ShellScript */,
+				9C236E85CF57E04F5CF48020 /* Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -1070,11 +1109,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 091FED691B37283E0071F8DC /* Build configuration list for PBXNativeTarget "Swype ItTests" */;
 			buildPhases = (
-				F92FF5579D8C2C3D7BD49654 /* Check Pods Manifest.lock */,
+				904275691E8988EFD3A17419 /* Check Pods Manifest.lock */,
 				091FED581B37283E0071F8DC /* Sources */,
 				091FED591B37283E0071F8DC /* Frameworks */,
 				091FED5A1B37283E0071F8DC /* Resources */,
 				2488271B1A3F362B69787D45 /* Copy Pods Resources */,
+				FD13C7C5C72CA49DA3926A2F /* Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -1167,13 +1207,16 @@
 				09E4D80A1BAB584C00994E8E /* SF-UI-Text-Medium.otf in Resources */,
 				09E4D8061BAB584C00994E8E /* SF-UI-Text-Heavy.otf in Resources */,
 				0938C2C11BA8483200B69FC2 /* tapNoise.caf in Resources */,
+				097FF7101BB731BB009DF538 /* Level1.xcassets in Resources */,
 				09CAF9AC1B646F4C00466606 /* buttons.atlas in Resources */,
 				09E4D7FC1BAB584C00994E8E /* SF-UI-Display-Bold.otf in Resources */,
 				0979E6581B77A614002FC2F2 /* LongIsland-Shadow.otf in Resources */,
 				092113B11B6B787B005F7D8B /* swypeItFXInitalize.caf in Resources */,
 				091FED541B37283E0071F8DC /* Images.xcassets in Resources */,
 				09E4D8031BAB584C00994E8E /* SF-UI-Display-Ultralight.otf in Resources */,
+				0984E21E1BB8895D00E4C58B /* Localizable.strings in Resources */,
 				09E4D7FD1BAB584C00994E8E /* SF-UI-Display-Heavy.otf in Resources */,
+				0984E21C1BB8894800E4C58B /* Menu.xcassets in Resources */,
 				09E4D80F1BAB584C00994E8E /* SF-UI-Text-SemiboldItalic.otf in Resources */,
 				096ABDF31B6B6ABB005B2F12 /* swypeItSound2.caf in Resources */,
 				09E4D8001BAB584C00994E8E /* SF-UI-Display-Regular.otf in Resources */,
@@ -1182,6 +1225,7 @@
 				09AB99321BB012EE006BC50E /* rapidFireRevA.sks in Resources */,
 				0988CC961B7203CA00BF429D /* Ultra.ttf in Resources */,
 				096ABDF81B6B6ABB005B2F12 /* swypeItSound7.caf in Resources */,
+				09E611BD1BBACB3C00A3DE19 /* Popup.xcassets in Resources */,
 				096ABDF01B6B6ABB005B2F12 /* menuSound.caf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1225,6 +1269,36 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Swype ItTests/Pods-Swype ItTests-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
+		904275691E8988EFD3A17419 /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		9C236E85CF57E04F5CF48020 /* Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Swype It/Pods-Swype It-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		AA23FA67938786C98319F44E /* Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -1255,19 +1329,19 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Swype It/Pods-Swype It-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		F92FF5579D8C2C3D7BD49654 /* Check Pods Manifest.lock */ = {
+		FD13C7C5C72CA49DA3926A2F /* Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Check Pods Manifest.lock";
+			name = "Embed Pods Frameworks";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Swype ItTests/Pods-Swype ItTests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -1298,7 +1372,7 @@
 				0914D7AA1B81C22400911DD8 /* SIPowerUpToolbarNode.m in Sources */,
 				09A488A21B9A77FE0075F41C /* SILoadingScene.m in Sources */,
 				0917D4E71B6DD8240046B5FF /* HLEmitterStore.m in Sources */,
-				09CB158E1B7E85DC00F9A956 /* SITestScene.m in Sources */,
+				09CB158E1B7E85DC00F9A956 /* SIPopupTestScene.m in Sources */,
 				0917D4F91B6DD8240046B5FF /* HLTiledNode.m in Sources */,
 				0938C2BE1BA835D900B69FC2 /* SIMenuNodeContent.m in Sources */,
 				092720EF1B63A62D0005A6B6 /* TCProgressBarNode.m in Sources */,
@@ -1313,12 +1387,12 @@
 				0988CC941B70C82300BF429D /* SIStoreButtonNode.m in Sources */,
 				098B3B471B378C27000D4702 /* SIGame.m in Sources */,
 				0917D4F11B6DD8240046B5FF /* HLMessageNode.m in Sources */,
+				09B83CBD1BBC33C500F86563 /* SIPopupGameOverOverDetailsRowNode.m in Sources */,
 				09E3527F1B96E78D00B53F7A /* SIAdBannerNode.m in Sources */,
 				097375461B57A97500BE1BCA /* BaseViewController.m in Sources */,
 				092E9CD81BAA05710022E644 /* UIImage+ImageEffects.m in Sources */,
 				0917D4F81B6DD8240046B5FF /* HLTextureStore.m in Sources */,
 				0917D4FE1B6DD8240046B5FF /* SKSpriteNode+HLSpriteNodeAdditions.m in Sources */,
-				09A488BB1B9D7D850075F41C /* SIMenuContent.m in Sources */,
 				09DB638E1B564DCA00387C13 /* IAPTableViewCell.m in Sources */,
 				09A488B61B9C78FA0075F41C /* SIMenuScene.m in Sources */,
 				0917D4FC1B6DD8240046B5FF /* SKNode+HLGestureTarget.m in Sources */,
@@ -1349,6 +1423,7 @@
 				099302FC1B7CB50600D2CCE4 /* SIPopupNode.m in Sources */,
 				092720DF1B5EF1C30005A6B6 /* StoreScene.m in Sources */,
 				0917D4F51B6DD8240046B5FF /* HLScene.m in Sources */,
+				097FF7131BB754F4009DF538 /* SIPopupGameOverDetailsNode.m in Sources */,
 				094CECCF1BAD1C7300BD3AD6 /* SIGameModel.m in Sources */,
 				0917D4F61B6DD8240046B5FF /* HLScrollNode.m in Sources */,
 				0917D4EF1B6DD8240046B5FF /* HLMath.m in Sources */,
@@ -1363,21 +1438,20 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				094D10A11BA0BCBC00392587 /* SIGameControllerTests.m in Sources */,
-				09A488BD1B9D877D0075F41C /* SIMenuContentTests.m in Sources */,
+				0918F52D1BBAB565006D33A9 /* SIPopupNodeTests.m in Sources */,
 				092E9CDA1BAA05770022E644 /* UIImage+BlurredFrame.m in Sources */,
 				09A904071B6616DA00C48A9B /* SIGame.m in Sources */,
 				09A488A71B9B49950075F41C /* SIAdBannerTests.m in Sources */,
 				09A904081B6616DE00C48A9B /* SIIAPUtility.m in Sources */,
 				09A488AB1B9B61660075F41C /* SIPowerUpTests.m in Sources */,
-				09D256E91B9D8EFF00F6BD14 /* SIMenuContent.m in Sources */,
+				093690191BBB0A60006A239C /* SIPopupNode.m in Sources */,
 				094D10A41BA18DA200392587 /* SISingletonAchievement.m in Sources */,
 				091FED631B37283E0071F8DC /* Swype_ItTests.m in Sources */,
 				094D10A31BA18D5A00392587 /* SISingletonAchievementTests.m in Sources */,
 				09A904061B6616C300C48A9B /* SIConstants.m in Sources */,
 				09552DE71BA230EE00D275A9 /* SIGameScene.m in Sources */,
 				092720E71B60F2790005A6B6 /* SIIAPUtilityTests.m in Sources */,
-				09A488A91B9B4B5C0075F41C /* GameSceneTests.m in Sources */,
+				09A488A91B9B4B5C0075F41C /* SIGameModelTests.m in Sources */,
 				09568C201BB5611200156DDF /* CCTestingUserDefaults.m in Sources */,
 				092B470E1B521B7900AFE43C /* GameTests.m in Sources */,
 				092E9CD91BAA05710022E644 /* UIImage+ImageEffects.m in Sources */,
@@ -1393,6 +1467,17 @@
 			targetProxy = 091FED5D1B37283E0071F8DC /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		0984E2201BB8895D00E4C58B /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				0984E21F1BB8895D00E4C58B /* en */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		091FED641B37283E0071F8DC /* Debug */ = {
@@ -1502,8 +1587,12 @@
 					"$(inherited)",
 				);
 				INFOPLIST_FILE = "Swype It/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-ObjC",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.pushtheworldllc.swipeit;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "c7ba4f47-45d8-409b-8c87-927ad2b71ff8";
@@ -1526,8 +1615,12 @@
 					"$(inherited)",
 				);
 				INFOPLIST_FILE = "Swype It/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-ObjC",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.pushtheworldllc.swipeit;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "c7ba4f47-45d8-409b-8c87-927ad2b71ff8";
@@ -1536,7 +1629,7 @@
 		};
 		091FED6A1B37283E0071F8DC /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = F616971953518AF3FFD651EF /* Pods-Swype ItTests.debug.xcconfig */;
+			baseConfigurationReference = 245AA1DB08104D3BE9C797BC /* Pods-Swype ItTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_IDENTITY = "iPhone Developer: Andrew Keller (4QBKTXP3K7)";
@@ -1574,7 +1667,7 @@
 		};
 		091FED6B1B37283E0071F8DC /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 3E82F7EBECB66ACCBA26530D /* Pods-Swype ItTests.release.xcconfig */;
+			baseConfigurationReference = C0948092AFD0C89E3AD4155F /* Pods-Swype ItTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_IDENTITY = "iPhone Developer: Andrew Keller (4QBKTXP3K7)";
@@ -1664,8 +1757,12 @@
 					"$(inherited)",
 				);
 				INFOPLIST_FILE = "Swype It/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-ObjC",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.pushtheworldllc.swipeit;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "c7ba4f47-45d8-409b-8c87-927ad2b71ff8";
@@ -1674,7 +1771,7 @@
 		};
 		09CAF9AF1B64A60100466606 /* Beta */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = E5B6660C04F46F2B9CF8FFF1 /* Pods-Swype ItTests.beta.xcconfig */;
+			baseConfigurationReference = E7FF19E4A2D77272F87B8802 /* Pods-Swype ItTests.beta.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_IDENTITY = "iPhone Developer: Andrew Keller (4QBKTXP3K7)";
@@ -1717,7 +1814,7 @@
 				09CAF9AD1B64A60100466606 /* Beta */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Debug;
 		};
 		091FED661B37283E0071F8DC /* Build configuration list for PBXNativeTarget "Swype It" */ = {
 			isa = XCConfigurationList;
@@ -1727,7 +1824,7 @@
 				09CAF9AE1B64A60100466606 /* Beta */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Debug;
 		};
 		091FED691B37283E0071F8DC /* Build configuration list for PBXNativeTarget "Swype ItTests" */ = {
 			isa = XCConfigurationList;
@@ -1737,7 +1834,7 @@
 				09CAF9AF1B64A60100466606 /* Beta */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Debug;
 		};
 /* End XCConfigurationList section */
 	};

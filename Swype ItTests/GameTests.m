@@ -227,50 +227,52 @@
 }
 
 - (void)testLifeCostForNumberOfTimesContinued {
-    XCTAssertEqual(SIContinueLifeCost1, [SIGame lifeCostForNumberOfTimesContinued:1]);
-    XCTAssertEqual(SIContinueLifeCost2, [SIGame lifeCostForNumberOfTimesContinued:2]);
-    XCTAssertEqual(SIContinueLifeCost3, [SIGame lifeCostForNumberOfTimesContinued:3]);
-    XCTAssertEqual(SIContinueLifeCost4, [SIGame lifeCostForNumberOfTimesContinued:4]);
-    XCTAssertEqual(SIContinueLifeCost5, [SIGame lifeCostForNumberOfTimesContinued:5]);
-    XCTAssertEqual(SIContinueLifeCost6, [SIGame lifeCostForNumberOfTimesContinued:6]);
-    XCTAssertEqual(SIContinueLifeCost7, [SIGame lifeCostForNumberOfTimesContinued:7]);
-    XCTAssertEqual(SIContinueLifeCost8, [SIGame lifeCostForNumberOfTimesContinued:8]);
-    XCTAssertEqual(SIContinueLifeCost9, [SIGame lifeCostForNumberOfTimesContinued:9]);
-    XCTAssertEqual(SIContinueLifeCost10, [SIGame lifeCostForNumberOfTimesContinued:10]);
-    XCTAssertEqual(SIContinueLifeCost11, [SIGame lifeCostForNumberOfTimesContinued:11]);
-    XCTAssertEqual(SIContinueLifeCost12, [SIGame lifeCostForNumberOfTimesContinued:12]);
-    XCTAssertEqual(SIContinueLifeCost13, [SIGame lifeCostForNumberOfTimesContinued:13]);
-    XCTAssertEqual(SIContinueLifeCost14, [SIGame lifeCostForNumberOfTimesContinued:14]);
-    XCTAssertEqual(SIContinueLifeCost15, [SIGame lifeCostForNumberOfTimesContinued:15]);
-    XCTAssertEqual(SIContinueLifeCost16, [SIGame lifeCostForNumberOfTimesContinued:16]);
-    XCTAssertEqual(SIContinueLifeCost17, [SIGame lifeCostForNumberOfTimesContinued:17]);
-    XCTAssertEqual(SIContinueLifeCost18, [SIGame lifeCostForNumberOfTimesContinued:18]);
-    XCTAssertEqual(SIContinueLifeCost19, [SIGame lifeCostForNumberOfTimesContinued:19]);
-    XCTAssertEqual(SIContinueLifeCost20, [SIGame lifeCostForNumberOfTimesContinued:20]);
-    XCTAssertEqual(SIContinueLifeCost21, [SIGame lifeCostForNumberOfTimesContinued:21]);
+    XCTAssertEqual(SIContinueLifeCost1, [SIGame lifeCostForNumberOfTimesContinued:0]);
+    XCTAssertEqual(SIContinueLifeCost2, [SIGame lifeCostForNumberOfTimesContinued:1]);
+    XCTAssertEqual(SIContinueLifeCost3, [SIGame lifeCostForNumberOfTimesContinued:2]);
+    XCTAssertEqual(SIContinueLifeCost4, [SIGame lifeCostForNumberOfTimesContinued:3]);
+    XCTAssertEqual(SIContinueLifeCost5, [SIGame lifeCostForNumberOfTimesContinued:4]);
+    XCTAssertEqual(SIContinueLifeCost6, [SIGame lifeCostForNumberOfTimesContinued:5]);
+    XCTAssertEqual(SIContinueLifeCost7, [SIGame lifeCostForNumberOfTimesContinued:6]);
+    XCTAssertEqual(SIContinueLifeCost8, [SIGame lifeCostForNumberOfTimesContinued:7]);
+    XCTAssertEqual(SIContinueLifeCost9, [SIGame lifeCostForNumberOfTimesContinued:8]);
+    XCTAssertEqual(SIContinueLifeCost10, [SIGame lifeCostForNumberOfTimesContinued:9]);
+    XCTAssertEqual(SIContinueLifeCost11, [SIGame lifeCostForNumberOfTimesContinued:10]);
+    XCTAssertEqual(SIContinueLifeCost12, [SIGame lifeCostForNumberOfTimesContinued:11]);
+    XCTAssertEqual(SIContinueLifeCost13, [SIGame lifeCostForNumberOfTimesContinued:12]);
+    XCTAssertEqual(SIContinueLifeCost14, [SIGame lifeCostForNumberOfTimesContinued:13]);
+    XCTAssertEqual(SIContinueLifeCost15, [SIGame lifeCostForNumberOfTimesContinued:14]);
+    XCTAssertEqual(SIContinueLifeCost16, [SIGame lifeCostForNumberOfTimesContinued:15]);
+    XCTAssertEqual(SIContinueLifeCost17, [SIGame lifeCostForNumberOfTimesContinued:16]);
+    XCTAssertEqual(SIContinueLifeCost18, [SIGame lifeCostForNumberOfTimesContinued:17]);
+    XCTAssertEqual(SIContinueLifeCost19, [SIGame lifeCostForNumberOfTimesContinued:18]);
+    XCTAssertEqual(SIContinueLifeCost20, [SIGame lifeCostForNumberOfTimesContinued:19]);
+    XCTAssertEqual(SIContinueLifeCost21, [SIGame lifeCostForNumberOfTimesContinued:20]);
+    XCTAssertEqual(SIContinueLifeCost21, [SIGame lifeCostForNumberOfTimesContinued:69]);
 }
 - (void)testAdCountForNumberOfTimesContinued {
-    XCTAssertEqual(SIContinueAdCount1, [SIGame adCountForNumberOfTimesContinued:1]);
-    XCTAssertEqual(SIContinueAdCount2, [SIGame adCountForNumberOfTimesContinued:2]);
-    XCTAssertEqual(SIContinueAdCount3, [SIGame adCountForNumberOfTimesContinued:3]);
-    XCTAssertEqual(SIContinueAdCount4, [SIGame adCountForNumberOfTimesContinued:4]);
-    XCTAssertEqual(SIContinueAdCount5, [SIGame adCountForNumberOfTimesContinued:5]);
-    XCTAssertEqual(SIContinueAdCount6, [SIGame adCountForNumberOfTimesContinued:6]);
-    XCTAssertEqual(SIContinueAdCount7, [SIGame adCountForNumberOfTimesContinued:7]);
-    XCTAssertEqual(SIContinueAdCount8, [SIGame adCountForNumberOfTimesContinued:8]);
-    XCTAssertEqual(SIContinueAdCount9, [SIGame adCountForNumberOfTimesContinued:9]);
-    XCTAssertEqual(SIContinueAdCount10, [SIGame adCountForNumberOfTimesContinued:10]);
-    XCTAssertEqual(SIContinueAdCount11, [SIGame adCountForNumberOfTimesContinued:11]);
-    XCTAssertEqual(SIContinueAdCount12, [SIGame adCountForNumberOfTimesContinued:12]);
-    XCTAssertEqual(SIContinueAdCount13, [SIGame adCountForNumberOfTimesContinued:13]);
-    XCTAssertEqual(SIContinueAdCount14, [SIGame adCountForNumberOfTimesContinued:14]);
-    XCTAssertEqual(SIContinueAdCount15, [SIGame adCountForNumberOfTimesContinued:15]);
-    XCTAssertEqual(SIContinueAdCount16, [SIGame adCountForNumberOfTimesContinued:16]);
-    XCTAssertEqual(SIContinueAdCount17, [SIGame adCountForNumberOfTimesContinued:17]);
-    XCTAssertEqual(SIContinueAdCount18, [SIGame adCountForNumberOfTimesContinued:18]);
-    XCTAssertEqual(SIContinueAdCount19, [SIGame adCountForNumberOfTimesContinued:19]);
-    XCTAssertEqual(SIContinueAdCount20, [SIGame adCountForNumberOfTimesContinued:20]);
-    XCTAssertEqual(SIContinueAdCount21, [SIGame adCountForNumberOfTimesContinued:21]);
+    XCTAssertEqual(SIContinueAdCount1, [SIGame adCountForNumberOfTimesContinued:0]);
+    XCTAssertEqual(SIContinueAdCount2, [SIGame adCountForNumberOfTimesContinued:1]);
+    XCTAssertEqual(SIContinueAdCount3, [SIGame adCountForNumberOfTimesContinued:2]);
+    XCTAssertEqual(SIContinueAdCount4, [SIGame adCountForNumberOfTimesContinued:3]);
+    XCTAssertEqual(SIContinueAdCount5, [SIGame adCountForNumberOfTimesContinued:4]);
+    XCTAssertEqual(SIContinueAdCount6, [SIGame adCountForNumberOfTimesContinued:5]);
+    XCTAssertEqual(SIContinueAdCount7, [SIGame adCountForNumberOfTimesContinued:6]);
+    XCTAssertEqual(SIContinueAdCount8, [SIGame adCountForNumberOfTimesContinued:7]);
+    XCTAssertEqual(SIContinueAdCount9, [SIGame adCountForNumberOfTimesContinued:8]);
+    XCTAssertEqual(SIContinueAdCount10, [SIGame adCountForNumberOfTimesContinued:9]);
+    XCTAssertEqual(SIContinueAdCount11, [SIGame adCountForNumberOfTimesContinued:10]);
+    XCTAssertEqual(SIContinueAdCount12, [SIGame adCountForNumberOfTimesContinued:11]);
+    XCTAssertEqual(SIContinueAdCount13, [SIGame adCountForNumberOfTimesContinued:12]);
+    XCTAssertEqual(SIContinueAdCount14, [SIGame adCountForNumberOfTimesContinued:13]);
+    XCTAssertEqual(SIContinueAdCount15, [SIGame adCountForNumberOfTimesContinued:14]);
+    XCTAssertEqual(SIContinueAdCount16, [SIGame adCountForNumberOfTimesContinued:15]);
+    XCTAssertEqual(SIContinueAdCount17, [SIGame adCountForNumberOfTimesContinued:16]);
+    XCTAssertEqual(SIContinueAdCount18, [SIGame adCountForNumberOfTimesContinued:17]);
+    XCTAssertEqual(SIContinueAdCount19, [SIGame adCountForNumberOfTimesContinued:18]);
+    XCTAssertEqual(SIContinueAdCount20, [SIGame adCountForNumberOfTimesContinued:19]);
+    XCTAssertEqual(SIContinueAdCount21, [SIGame adCountForNumberOfTimesContinued:20]);
+    XCTAssertEqual(SIContinueAdCount21, [SIGame adCountForNumberOfTimesContinued:69]);
 }
 - (void)testGameFreePrizeNoQuick {
     NSDate *currentDate = [NSDate date];
@@ -551,8 +553,6 @@
     float moveScore             = MAX_MOVE_SCORE;
     float pointsTillFreeCoin    = 0.0f;
     
-//    [_defaults setFloat:pointsTillFreeCoin forKey:kSINSUserDefaultPointsTowardsFreeCoin];
-    
     float newPointsTillFreeCoin = [SIGame updatePointsTillFreeCoinMoveScore:moveScore withNSUserDefaults:_defaults withCallback:^(BOOL willAwardFreeCoin) {
         XCTAssertEqual(willAwardFreeCoin, NO);
     }];
@@ -560,6 +560,156 @@
     XCTAssertEqualWithAccuracy(newPointsTillFreeCoin, moveScore + pointsTillFreeCoin, 0.01f);
     
     XCTAssertEqualWithAccuracy(newPointsTillFreeCoin, [_defaults floatForKey:kSINSUserDefaultPointsTowardsFreeCoin], 0.01f);
+}
+
+- (void)testIncrementGamesPlayedWithNSUserDefaults {
+    
+    NSInteger initalGamesPlayed = 0;
+    
+    [_defaults setInteger:initalGamesPlayed forKey:kSINSUserDefaultLifetimeGamesPlayed];
+    
+    [SIGame incrementGamesPlayedWithNSUserDefaults:_defaults];
+    
+    XCTAssertEqual(initalGamesPlayed + 1, [_defaults integerForKey:kSINSUserDefaultLifetimeGamesPlayed]);
+    
+}
+
+- (void)testBackgroundSoundForScoreNegativeScore {
+    float score = -10.0f;
+    
+    XCTAssertEqual(SIBackgroundSoundOne, [SIGame backgroundSoundForScore:score]);
+}
+
+- (void)testBackgroundSoundForScore {
+    float score = SOUNDLEVEL1 - 1;
+    XCTAssertEqual(SIBackgroundSoundOne, [SIGame backgroundSoundForScore:score]);
+    
+    score = SOUNDLEVEL1;
+    XCTAssertEqual(SIBackgroundSoundTwo, [SIGame backgroundSoundForScore:score]);
+    
+    score = SOUNDLEVEL2;
+    XCTAssertEqual(SIBackgroundSoundThree, [SIGame backgroundSoundForScore:score]);
+    
+    score = SOUNDLEVEL3;
+    XCTAssertEqual(SIBackgroundSoundFour, [SIGame backgroundSoundForScore:score]);
+    
+    score = SOUNDLEVEL4;
+    XCTAssertEqual(SIBackgroundSoundFive, [SIGame backgroundSoundForScore:score]);
+    
+    score = SOUNDLEVEL5;
+    XCTAssertEqual(SIBackgroundSoundFour, [SIGame backgroundSoundForScore:score]);
+    
+    score = SOUNDLEVEL5 + (SOUNDLEVEL5 / 2);
+    XCTAssertEqual(SIBackgroundSoundFive, [SIGame backgroundSoundForScore:score]);
+   
+}
+- (void)testSoundNameForSIBackgroundSound {
+    
+    XCTAssertEqualObjects(kSISoundBackgroundMenu, [SIGame soundNameForSIBackgroundSound:SIBackgroundSoundMenu]);
+    
+    XCTAssertEqualObjects(kSISoundBackgroundOne, [SIGame soundNameForSIBackgroundSound:SIBackgroundSoundOne]);
+
+    XCTAssertEqualObjects(kSISoundBackgroundTwo, [SIGame soundNameForSIBackgroundSound:SIBackgroundSoundTwo]);
+    
+    XCTAssertEqualObjects(kSISoundBackgroundThree, [SIGame soundNameForSIBackgroundSound:SIBackgroundSoundThree]);
+    
+    XCTAssertEqualObjects(kSISoundBackgroundFour, [SIGame soundNameForSIBackgroundSound:SIBackgroundSoundFour]);
+    
+    XCTAssertEqualObjects(kSISoundBackgroundFive, [SIGame soundNameForSIBackgroundSound:SIBackgroundSoundFive]);
+    
+}
+
+- (void)testUserMessageForScoreBadScore {
+    BOOL isHighScore        = NO;
+    float score             = 1.0f;
+    float highScore         = 1000.0f;
+    NSString *userMessage   = @"taco";
+    
+    while (score < (highScore * USER_MSG_LEVEL_BAD)) {
+        userMessage = [SIGame userMessageForScore:score isHighScore:isHighScore highScore:highScore];
+        XCTAssert([[SIConstants userMessageHighScoreBad] containsObject:userMessage]);
+        score       = score + 25.0f;
+    }
+}
+
+- (void)testUserMessageForScoreMedianScore {
+    BOOL isHighScore        = NO;
+    float highScore         = 1000.0f;
+    float score             = highScore * USER_MSG_LEVEL_BAD + 1;
+    NSString *userMessage   = @"taco";
+    
+    while (score < (highScore * USER_MSG_LEVEL_MEDIAN)) {
+        userMessage = [SIGame userMessageForScore:score isHighScore:isHighScore highScore:highScore];
+        XCTAssert([[SIConstants userMessageHighScoreMedian] containsObject:userMessage]);
+        score       = score + 25.0f;
+    }
+}
+
+- (void)testUserMessageForScoreCloseScore {
+    BOOL isHighScore        = NO;
+    float highScore         = 1000.0f;
+    float score             = highScore * USER_MSG_LEVEL_MEDIAN + 1;
+    NSString *userMessage   = @"taco";
+    
+    while (score < (highScore * USER_MSG_LEVEL_CLOSE)) {
+        userMessage = [SIGame userMessageForScore:score isHighScore:isHighScore highScore:highScore];
+        XCTAssert([[SIConstants userMessageHighScoreClose] containsObject:userMessage]);
+        score       = score + 5.0f;
+    }
+}
+
+- (void)testUserMessageForScoreHighScore {
+    BOOL isHighScore        = YES;
+    float highScore         = 1000.0f;
+    float score             = highScore * USER_MSG_LEVEL_BAD;
+    NSString *userMessage   = @"taco";
+    
+    while (score < (highScore * USER_MSG_LEVEL_CLOSE * 1.5)) {
+        userMessage = [SIGame userMessageForScore:score isHighScore:isHighScore highScore:highScore];
+        XCTAssert([[SIConstants userMessageHighScore] containsObject:userMessage]);
+        score       = score + 25.0f;
+    }
+}
+
+- (void)testLevelScoreNewGame {
+    float score             = 0.0f;
+    
+    float levelScore = [SIGame levelSpeedForScore:score];
+    
+    XCTAssertEqualWithAccuracy(levelScore, INITIAL_LEVEL_SPEED, 0.01f);
+}
+
+- (void)testLevelScoreEquationExpo {
+    float score         = MAX_MOVE_SCORE + 1;
+    float levelScore    = 0.0f;
+    while (score < SPEED_TRANSISTION_SCORE) {
+        levelScore      = [SIGame levelSpeedForScore:score];
+        XCTAssertEqualWithAccuracy(levelScore, SPEED_POWER_MULTIPLIER * pow(score,SPEED_POWER_EXPONENT), 0.1f);
+        score           = score + 200;
+    }
+}
+
+- (void)testLevelScoreEquationLog {
+    float score         = SPEED_TRANSISTION_SCORE;
+    float levelScore    = 0.0f;
+    float maxScore      = SPEED_TRANSISTION_SCORE * 2;
+    
+    while (score < maxScore) {
+        levelScore      = [SIGame levelSpeedForScore:score];
+        XCTAssertEqualWithAccuracy(levelScore, SPEED_LOG_MULTIPLIER * log(score) + SPEED_LOG_INTERCEPT, 0.1f);
+        score           = score + 200;
+    }
+}
+
+- (void)testGetBlurredScreenShot {
+    SKView *dummyView = [[SKView alloc] initWithFrame:CGRectMake(0, 0, 100, 100)];
+    
+    UIImage *blurredScreen = [SIGame getBluredScreenshot:dummyView];
+    
+    XCTAssertNotNil(blurredScreen);
+    
+    XCTAssertEqual(dummyView.frame.size.height, blurredScreen.size.height);
+    XCTAssertEqual(dummyView.frame.size.width, blurredScreen.size.width);
 }
 
 @end

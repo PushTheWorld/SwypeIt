@@ -41,7 +41,8 @@
         _size = size;
         _topTitleYPadding                           = VERTICAL_SPACING_8;
         _bottomToolbarYPadding                      = VERTICAL_SPACING_8;
-        _animationDuration                          = SCENE_TRANSISTION_DURATION_NORMAL;
+        _animationDuration                          = SCENE_TRANSISTION_DURATION_FAST;
+        _bottomCenterNodeYPadding                   = 0.0f;
     }
     return self;
 }
@@ -68,18 +69,14 @@
 - (void)createControlsWithSize:(CGSize)size {
     /**Preform all your alloc/init's here*/
     _backgroundNode                                 = [SKSpriteNode spriteNodeWithColor:[SKColor clearColor] size:_size];
+    _backgroundNode.name                            = @"b";
+    
     _backButtonNode                                 = [SKSpriteNode spriteNodeWithTexture:[[SIConstants atlasSceneMenu] textureNamed:kSIAtlasSceneMenuBackButton] size:_backButtonSize];
     _backButtonNode.name                            = kSINodeButtonBack;
- 
-//    [_backButtonNode runAction:[SKAction scaleTo:0.5f duration:0.0f]];
-    
-//    _titleContentNode                               = [SIGameController BMGLabelLongIslandStroked];
-//    _titleContentNode.text                          = [SIGame titleForMenuType:_type];
-    
 }
 - (void)setupControlsWithSize:(CGSize)size {
     /**Configrue the labels, nodes and what ever else you can*/
-    _backgroundNode.anchorPoint                     = CGPointMake(1.0f,1.0f);
+    _backgroundNode.anchorPoint                     = CGPointMake(0.5f, 0.5f); //CGPointMake(1.0f,1.0f);
     [self addChild:_backgroundNode];
 
     
@@ -140,14 +137,13 @@
     }
     [self layoutXYZAnimation:SIMenuNodeAnimationStaticVisible];
 }
-
-- (void)setShopNode:(SKSpriteNode *)shopNode {
-    if (_shopNode) {
-        [_shopNode removeFromParent];
+- (void)setFreeNode:(SKSpriteNode *)freeNode {
+    if (_freeNode) {
+        [_freeNode removeFromParent];
     }
-    if (shopNode) {
-        _shopNode = shopNode;
-        [_backgroundNode addChild:_shopNode];
+    if (freeNode) {
+        _freeNode = freeNode;
+        [_backgroundNode addChild:_freeNode];
     }
     [self layoutXYZAnimation:SIMenuNodeAnimationStaticVisible];
 }
@@ -168,11 +164,20 @@
     CGPoint positionHidden = CGPointZero;
     CGPoint positionVisible = CGPointZero;
     
-    _backgroundNode.position                        = sceneMidPoint;
+    NSLog(@"----------------------------------");
+    NSLog(@"----------------------------------");
+    NSLog(@"NEW ITERATION");
+    NSLog(@"----------------------------------");
+    NSLog(@"----------------------------------");
+    
+//    _backgroundNode.position                        = sceneMidPoint;
+
+    NSLog(@"\nBackground Node -- Position: (%0.0f,%0.0f)",_backgroundNode.position.x,_backgroundNode.position.y);
 
     if (_topNode) {
         positionHidden                              = CGPointMake(0.0f, sceneMidY + _topNode.frame.size.height);
         positionVisible                             = CGPointMake(0.0f, sceneMidY - _titleContentNode.frame.size.height - (_topNode.frame.size.height / 2.0f));
+        NSLog(@"\nTop Node -- \nPosHidden: (%0.2f,%0.2f)\nPosVisible: (%0.2f,%0.2f)",positionHidden.x, positionHidden.y, positionVisible.x, positionVisible.y);
         [SIMenuNode animateMenuContentNode:_titleContentNode
                                  animation:animation
                          animationDuration:_animationDuration
@@ -184,12 +189,13 @@
         positionVisible                             = CGPointZero;
         if (_menuContentPosition == SIMenuNodeContentPositionBottom) {
             if (_bottomNode) {
-                positionVisible = CGPointMake(0.0f, (-1.0f * sceneMidY) + [SIGameController SIToolbarSceneMenuSize:_size].height);
+                positionVisible = CGPointMake(0.0f, (-1.0f * sceneMidY) + [SIGameController SIToolbarSceneMenuSize:_size].height + _bottomCenterNodeYPadding);
             } else {
-                positionVisible = CGPointMake(0.0f, -1.0f * sceneMidY);
+                positionVisible = CGPointMake(0.0f, (-1.0f * sceneMidY) + _bottomCenterNodeYPadding);
             }
         }
         positionHidden                              = CGPointZero;
+        NSLog(@"\nCenter Node -- \nPosHidden: (%0.2f,%0.2f)\nPosVisible: (%0.2f,%0.2f)",positionHidden.x, positionHidden.y, positionVisible.x, positionVisible.y);
         [SIMenuNode animateMenuContentNode:_centerNode
                                  animation:animation
                          animationDuration:_animationDuration
@@ -197,7 +203,7 @@
                             positionHidden:positionHidden];
     }
     
-    if (_shopNode) {
+    if (_freeNode) {
         positionVisible                             = CGPointZero;
         if (_menuContentPosition == SIMenuNodeContentPositionCenter) {
             if (_bottomNode) {
@@ -207,7 +213,8 @@
             }
         }
         positionHidden                              = CGPointZero;
-        [SIMenuNode animateMenuContentNode:_shopNode
+        NSLog(@"\nFree Node -- \nPosHidden: (%0.2f,%0.2f)\nPosVisible: (%0.2f,%0.2f)",positionHidden.x, positionHidden.y, positionVisible.x, positionVisible.y);
+        [SIMenuNode animateMenuContentNode:_freeNode
                                  animation:animation
                          animationDuration:_animationDuration
                            positionVisible:positionVisible
@@ -218,6 +225,7 @@
         //        _bottomToolbarContentNode.position          = CGPointMake(0.0f, (-1.0f * sceneMidY) + _bottomToolbarYPadding);
         positionHidden                              = CGPointMake(0.0f, (-1.0f * sceneMidY) - [SIGameController SIToolbarSceneMenuSize:_size].height);
         positionVisible                             = CGPointMake(0.0f, (-1.0f * sceneMidY) + _bottomToolbarYPadding);
+        NSLog(@"\nBottom Node -- \nPosHidden: (%0.2f,%0.2f)\nPosVisible: (%0.2f,%0.2f)",positionHidden.x, positionHidden.y, positionVisible.x, positionVisible.y);
         [SIMenuNode animateMenuContentNode:_bottomNode
                                  animation:animation
                          animationDuration:_animationDuration
@@ -228,7 +236,8 @@
     if (_titleContentNode) {
         //        _titleContentNode.position                  = CGPointMake(0.0f, sceneMidY - _topTitleYPadding);
         positionHidden                              = CGPointMake(0.0f, sceneMidY + _titleContentNode.frame.size.height + _topTitleYPadding);
-        positionVisible                             = CGPointMake(0.0f, sceneMidY - _topTitleYPadding);;
+        positionVisible                             = CGPointMake(0.0f, sceneMidY - _topTitleYPadding);
+        NSLog(@"\nTitle Content Node -- \nPosHidden: (%0.2f,%0.2f)\nPosVisible: (%0.2f,%0.2f)",positionHidden.x, positionHidden.y, positionVisible.x, positionVisible.y);
         [SIMenuNode animateMenuContentNode:_titleContentNode
                                  animation:animation
                          animationDuration:_animationDuration
@@ -240,6 +249,7 @@
     _backButtonNode.anchorPoint                     = CGPointMake(0.0f,1.0f);
     positionHidden                                  = CGPointMake((-1.0f * sceneMidX) - _backButtonSize.width, sceneMidY - (_backButtonSize.height / 2.0f) - VERTICAL_SPACING_8);
     positionVisible                                 = CGPointMake((-1.0f * sceneMidX) + VERTICAL_SPACING_8, sceneMidY - VERTICAL_SPACING_8);
+    NSLog(@"\nBack Button Node -- \nPosHidden: (%0.2f,%0.2f)\nPosVisible: (%0.2f,%0.2f)",positionHidden.x, positionHidden.y, positionVisible.x, positionVisible.y);
     [SIMenuNode animateMenuContentNode:_backButtonNode
                              animation:animation
                      animationDuration:_animationDuration
@@ -250,14 +260,12 @@
         case SISceneMenuTypeStart:
             [_backButtonNode runAction:[SKAction fadeAlphaTo:0.0f duration:0.0f]];
             break;
-        case SISceneMenuTypeEnd:
-            [_backButtonNode runAction:[SKAction fadeAlphaTo:0.0f duration:0.0f]];
-            break;
         default:
             [_backButtonNode runAction:[SKAction fadeAlphaTo:1.0f duration:0.0f]];
             break;
     }
 }
+
 - (void)layoutZ {
     if (_topNode) {
         _topNode.zPosition                  = [SIGameController floatZPositionMenuForContent:SIZPositionMenuContentToolbar];
@@ -283,27 +291,6 @@
         _backgroundNode.zPosition           = [SIGameController floatZPositionMenuForContent:SIZPositionMenuBackground];
     }
 }
-
-#pragma mark -
-#pragma mark - Private UI Methods
-
-
-//-(NSArray *)addsToGestureRecognizers {
-//    return @[[[UITapGestureRecognizer alloc] init]];
-//}
-//
-//- (BOOL)addToGesture:(UIGestureRecognizer *)gestureRecognizer firstTouch:(UITouch *)touch isInside:(BOOL *)isInside {
-//    if (HLGestureTarget_areEquivalentGestureRecognizers(gestureRecognizer, [[UITapGestureRecognizer alloc] init])) {
-//        if ([_backButtonNode containsPoint:[touch locationInNode:_backgroundNode]]) {
-//            if ([_delegate respondsToSelector:@selector(menuNodeDidTapBackButton:)]) {
-//                [_delegate menuNodeDidTapBackButton:self];
-//            }
-//
-//        }
-//        return YES;
-//    }
-//    return NO;
-//}
 
 #pragma mark -
 #pragma mark - Private Class Functions

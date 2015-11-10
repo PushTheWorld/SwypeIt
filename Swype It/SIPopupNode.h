@@ -16,7 +16,7 @@
 #import "SIGame.h"
 // Other Imports
 @class SIPopupNode;
-@protocol SIPopUpNodeDelegate <NSObject>
+@protocol SIPopupNodeDelegate <NSObject>
 @optional
 
 /// @name Managing Interaction
@@ -29,14 +29,14 @@
 
 @end
 
-@interface SIPopupNode : HLComponentNode <HLGestureTarget>
+@interface SIPopupNode : HLComponentNode 
 
 /// @name Optional Delegate Method
 
 /**
  Delegate methods
  */
-@property (nonatomic, weak) id <SIPopUpNodeDelegate> delegate;
+@property (nonatomic, weak) id <SIPopupNodeDelegate> delegate;
 
 /// @name Creating a pop up
 
@@ -92,6 +92,11 @@
  Default value `grayColor`.
  */
 @property (nonatomic, strong) SKColor *backgroundColor;
+
+/**
+ The background node
+ */
+@property (nonatomic, strong) SKSpriteNode *backgroundNode;
 
 /**
  The corner radius of the button.
@@ -193,15 +198,21 @@
 /**
  The content that is displayed by the popup
  */
-@property (nonatomic, strong) SKNode *popupContentNode;
+@property (nonatomic, strong) SKNode *centerNode;
+
+/**
+ Set to make the center node "stick" to the bottom
+ Default is `NO` (so it goes to the center)
+ */
+//@property (nonatomic, assign) BOOL centerNodeSticksToBottomNode;
 
 /**
  The postion of the content node
  
  See `dissmissButtonPosition` for reference.
- Default value `(0.5, 0.5)`.
+ Default value `(0.0, 0.0)`.
  */
-@property (nonatomic, assign) CGPoint contentPostion;
+@property (nonatomic, assign) CGPoint centerNodePosition;
 
 /**
  The size of the dismiss button.
@@ -235,6 +246,26 @@
  A nice little runtime bool incase you are not feeling the dismiss button you na mean g
  */
 @property (nonatomic, assign) BOOL dismissButtonVisible;
+
+/**
+ A node that when set to enable runs around the outside of the node
+ */
+@property (nonatomic, strong) SKLightNode *lightNodeEdge;
+
+/**
+ The start time for using a count down timer and such
+ */
+@property (nonatomic, assign) NSTimeInterval startTime;
+
+/**
+ The start time for using a count down timer and such
+ */
+@property (nonatomic, assign) SIPopupCountDownTimer countDownTimerState;
+
+/**
+ By default lands below the title
+ */
+@property (nonatomic, strong) SKNode *topNode;
 
 /**Use to launch a node such as a coin*/
 - (void)launchNode:(SKSpriteNode *)node;

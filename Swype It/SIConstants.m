@@ -20,6 +20,16 @@ SKLabelNode *moveCommandLabelNode() {
     return label;
 }
 
+SKLabelNode *moveScoreLabelNode() {
+    SKLabelNode *label;
+    label                                                                       = [SKLabelNode labelNodeWithFontNamed:kSISFFontDisplayHeavy];
+    label.fontColor                                                             = [SKColor whiteColor];
+    label.userInteractionEnabled                                                = YES;
+    label.horizontalAlignmentMode                                               = SKLabelHorizontalAlignmentModeCenter;
+    label.verticalAlignmentMode                                                 = SKLabelVerticalAlignmentModeCenter;
+    return label;
+}
+
 HLRingNode *sceneGamePauseRingNode() {
     HLRingNode *ringNode;
     
@@ -109,6 +119,7 @@ NSString *const kSINSUserDefaultLifetimeHighScore                               
 NSString *const kSINSUserDefaultLifetimeGamesPlayed                             = @"lifetimeGamesPlayed";
 NSString *const kSINSUserDefaultLifetimePointsEarned                            = @"lifetimePointsEarned";
 NSString *const kSINSUserDefaultGameMode                                        = @"gameMode";
+NSString *const kSINSUserDefaultOneHandMode                                     = @"oneHandMode";
 NSString *const kSINSUserDefaultPremiumUser                                     = @"proUser";
 NSString *const kSINSUserDefaultPointsTowardsFreeCoin                           = @"pointsTowardsFreeCoin";
 NSString *const kSINSUserDefaultPowerUpReadyFallingMonkeys                      = @"powerUpReadyTimeFallingMonkeys";
@@ -243,10 +254,6 @@ NSString *const kSIAtlasSceneMenuAdFree                                         
 NSString *const kSIAtlasSceneMenuBackButton                                     = @"backButton";
 NSString *const kSIAtlasSceneMenuHelp                                           = @"helpRevB";
 NSString *const kSIAtlasSceneMenuLeaderboard                                    = @"leaderboardRevB";
-NSString *const kSIAtlasSceneMenuPlayClassic                                    = @"playClassic";
-NSString *const kSIAtlasSceneMenuPlayOneHand                                    = @"playOneHand";
-NSString *const kSIAtlasSceneMenuShareFacebook                                  = @"shareFacebook";
-NSString *const kSIAtlasSceneMenuShareTwitter                                   = @"shareTwitter";
 NSString *const kSIAtlasSceneMenuShop                                           = @"shopRevA";
 NSString *const kSIAtlasSceneMenuSettings                                       = @"settingsRevB";
 NSString *const kSIAtlasSceneMenuSoundBackground                                = @"startBackgroundSound";
@@ -323,6 +330,7 @@ NSString *const kSINodeButtonAchievement                                        
 NSString *const kSINodeButtonBack                                               = @"backButtonNode";
 NSString *const kSINodeButtonContinue                                           = @"continueButton";
 NSString *const kSINodeButtonDone                                               = @"doneButton";
+NSString *const kSINodeButtonEndGame                                            = @"endGameButton";
 NSString *const kSINodeButtonFallingMonkey                                      = @"fallingMonkeyButton";
 NSString *const kSINodeButtonInstructions                                       = @"instructionsButton";
 NSString *const kSINodeButtonLeaderBoard                                        = @"leaderBoardButton";
@@ -331,12 +339,17 @@ NSString *const kSINodeButtonNoAd                                               
 NSString *const kSINodeButtonOneHand                                            = @"oneHand";
 NSString *const kSINodeButtonPause                                              = @"pause";
 NSString *const kSINodeButtonPlay                                               = @"play";
+NSString *const kSINodeButtonPlayAgain                                          = @"playAgain";
 NSString *const kSINodeButtonRapidFire                                          = @"rapidFire";
 NSString *const kSINodeButtonReplay                                             = @"replay";
 NSString *const kSINodeButtonSettings                                           = @"settings";
+NSString *const kSINodeButtonShare                                              = @"share";
 NSString *const kSINodeButtonStore                                              = @"store";
+NSString *const kSINodeButtonText                                               = @"text";
 NSString *const kSINodeButtonTwoHand                                            = @"twoHand";
 NSString *const kSINodeButtonTimeFreeze                                         = @"timeFreeze";
+NSString *const kSINodeButtonUseCoins                                           = @"useCoins";
+NSString *const kSINodeButtonWatchAds                                           = @"watchAds";
 NSString *const kSINodeEmitterFire                                              = @"fireEmitterNode";
 NSString *const kSINodeEmitterSnow                                              = @"snowEmitterNode";
 NSString *const kSINodeFallingMonkey                                            = @"fallingMonkey";
@@ -355,10 +368,40 @@ NSString *const kSINodeNodeChest                                                
 NSString *const kSINodeNodeBag                                                  = @"bagOfCoinsNode";
 NSString *const kSINodeNodeBucket                                               = @"bucketOfCoinsNode";
 NSString *const kSINodeNodePile                                                 = @"pileOfCoinsNode";
+NSString *const kSINodePopupButton                                              = @"popupButtonNode";
 NSString *const kSINodePopupContent                                             = @"content";
+NSString *const kSINodePopupCountdown                                           = @"countdown";
 NSString *const kSINodePopupTitle                                               = @"title";
+NSString *const kSINodePopupRowHighScore                                        = @"highScore";
+NSString *const kSINodePopupRowTotalScore                                       = @"totalScore";
+NSString *const kSINodePopupRowFreeCoins                                        = @"freeCoins";
 
-#pragma mark - San Fran Fonts
+
+#pragma mark -
+#pragma mark - Assests
+#pragma mark -
+
+#pragma mark Menu
+NSString *const kSIAssestMenuButtonOneHandModeOff                               = @"oneHandModeOff";
+NSString *const kSIAssestMenuButtonOneHandModeOn                                = @"oneHandModeOn";
+NSString *const kSIAssestMenuButtonShareFacebook                                = @"shareFacebook";
+NSString *const kSIAssestMenuButtonShareTwitter                                 = @"shareTwitter";
+NSString *const kSIAssestMenuButtonShop                                         = @"shopButton";
+
+#pragma mark Popups
+NSString *const kSIAssestPopupButtonClaim                                       = @"claimButton";
+NSString *const kSIAssestPopupButtonDismissNormal                               = @"dismissButtonNormal";
+NSString *const kSIAssestPopupButtonEndGame                                     = @"popupEndGameButton";
+NSString *const kSIAssestPopupButtonShare                                       = @"shareButton";
+NSString *const kSIAssestPopupButtonUseCoins                                    = @"useCoinsButton";
+NSString *const kSIAssestPopupButtonWatchAd                                     = @"watchAdButton";
+NSString *const kSIAssestPopupFreeStar                                          = @"freeStar";
+
+
+#pragma mark -
+#pragma mark - Fonts
+#pragma mark -
+#pragma mark San Fran
 NSString *const kSISFFontDisplayLight                                           = @"SFUIDisplay-Light";
 NSString *const kSISFFontDisplayHeavy                                           = @"SFUIDisplay-Heavy";
 NSString *const kSISFFontDisplayRegular                                         = @"SFUIDisplay-Regular";
@@ -381,27 +424,55 @@ NSString *const kSISFFontTextSemiboldItalic                                     
 NSString *const kSISFFontTextMedium                                             = @"SFUIText-Medium";
 NSString *const kSISFFontTextHeavy                                              = @"SFUIText-Heavy";
 
+#pragma mark -
+#pragma mark - Texts
+#pragma mark -
+#pragma mark Bools
+NSString *const kSITextBoolOff                                                  = @"Off";
+NSString *const kSITextBoolOFF                                                  = @"OFF";
+NSString *const kSITextBoolOn                                                   = @"On";
+NSString *const kSITextBoolON                                                   = @"ON";
 
-#pragma mark - Menu Button Texts
-NSString *const kSIMenuTextBack                                                 = @"Back";
-NSString *const kSIMenuTextEndGameContinue                                      = @"Continue?";
-NSString *const kSIMenuTextEndGameReplay                                        = @"Replay";
-NSString *const kSIMenuTextEndGameStore                                         = @"IT Store";
-NSString *const kSIMenuTextEndGameMainMenu                                      = @"Main Menu";
-NSString *const kSIMenuTextPopUpBuyCoins                                        = @"Buy Coins!";
-NSString *const kSIMenuTextPopUpEndGame                                         = @"End Game";
-NSString *const kSIMenuTextPopUpWatchAd                                         = @"Watch Ad";
-NSString *const kSIMenuTextSettingsBugReport                                    = @"Report Bug";
-NSString *const kSIMenuTextSettingsResetHighScore                               = @"Reset High Score";
-NSString *const kSIMenuTextSettingsRestorePurchases                             = @"Restore Purchases";
-NSString *const kSIMenuTextSettingsToggleSoundOffBackground                     = @"Turn Music Off";
-NSString *const kSIMenuTextSettingsToggleSoundOffFX                             = @"Turn Sound FX Off";
-NSString *const kSIMenuTextSettingsToggleSoundOnBackground                      = @"Turn Music On";
-NSString *const kSIMenuTextSettingsToggleSoundOnFX                              = @"Turn Sound FX On";
-NSString *const kSIMenuTextStartScreenOneHand                                   = @"Play One Hand";
-NSString *const kSIMenuTextStartScreenTwoHand                                   = @"Play Original";
-NSString *const kSIMenuTextStartScreenSettings                                  = @"Settings";
-NSString *const kSIMenuTextStartScreenStore                                     = @"Store";
+#pragma mark - Menu Button
+NSString *const kSITextMenuEndGameFreeCoinsEarned                               = @"Free Coins Earned";
+NSString *const kSITextMenuEndGameHighScore                                     = @"High Score";
+NSString *const kSITextMenuEndGameHighScoreNew                                  = @"New High Score!";
+NSString *const kSITextMenuEndGameScore                                         = @"Score";
+NSString *const kSITextMenuEndGameStore                                         = @"Store";
+NSString *const kSITextMenuHelpText                                             = @"helpText";
+NSString *const kSITextMenuHelpTitle                                            = @"Help";
+NSString *const kSITextMenuSettingsBugReport                                    = @"Report Bug";
+NSString *const kSITextMenuSettingsResetHighScore                               = @"Reset High Score";
+NSString *const kSITextMenuSettingsRestorePurchases                             = @"Restore Purchases";
+NSString *const kSITextMenuSettingsTitle                                        = @"Settings";
+NSString *const kSITextMenuSettingsToggleSoundOffBackground                     = @"Turn Music Off";
+NSString *const kSITextMenuSettingsToggleSoundOffFX                             = @"Turn Sound FX Off";
+NSString *const kSITextMenuSettingsToggleSoundOnBackground                      = @"Turn Music On";
+NSString *const kSITextMenuSettingsToggleSoundOnFX                              = @"Turn Sound FX On";
+NSString *const kSITextMenuStartScreenOneHandMode                               = @"One Hand Mode";
+NSString *const kSITextMenuStartScreenStore                                     = @"Store";
+NSString *const kSITextMenuStartScreenTapToPlay                                 = @"Tap To Play!";
+NSString *const kSITextMenuStartScreenTapToStart                                = @"Tap To Start!";
+NSString *const kSITextMenuStoreTitle                                           = @"Store";
+
+#pragma mark - Pop Ups
+NSString *const kSITextPopupContinueBuyCoins                                    = @"buyCoins";
+NSString *const kSITextPopupContinueContinue                                    = @"continueTitle";
+NSString *const kSITextPopupContinueEnd                                         = @"End Game";
+NSString *const kSITextPopupContinueFree                                        = @"freeLabel";
+NSString *const kSITextPopupContinueGameOver                                    = @"Game Over";
+NSString *const kSITextPopupContinueMainMenu                                    = @"Main Menu";
+NSString *const kSITextPopupContinuePlayAgain                                   = @"Play Again!";
+NSString *const kSITextPopupContinueShare                                       = @"Share";
+NSString *const kSITextPopupContinueUseCoins                                    = @"Use %d Coins!";
+NSString *const kSITextPopupContinueWatchAdPlural                               = @"Watch %d Ads!";
+NSString *const kSITextPopupContinueWatchAdSingular                             = @"Watch %d Ad!";
+NSString *const kSITextPopupFreePrizeClaim                                      = @"Claim";
+NSString *const kSITextPopupFreePrizeDaily                                      = @"Daily";
+NSString *const kSITextPopupFreePrizeFree                                       = @"Free";
+NSString *const kSITextPopupFreePrizePrize                                      = @"Prize";
+
+
 
 #pragma mark - Emails
 NSString *const kSIEmailBugReportReciever                                       = @"buggy.bug@pushtheworld.us";
@@ -413,8 +484,6 @@ NSString *const kSISoundBackgroundTwo                                           
 NSString *const kSISoundBackgroundThree                                         = @"swypeItSound3";
 NSString *const kSISoundBackgroundFour                                          = @"swypeItSound4";
 NSString *const kSISoundBackgroundFive                                          = @"swypeItSound5";
-NSString *const kSISoundBackgroundSix                                           = @"swypeItSound6";
-NSString *const kSISoundBackgroundSeven                                         = @"swypeItSound7";
 NSString *const kSISoundFXCoinNoise                                             = @"coinNoise";
 NSString *const kSISoundFXChaChing                                              = @"swypeItFXChaChing";
 NSString *const kSISoundFXGameOver                                              = @"swypeItGameOver";
@@ -470,7 +539,7 @@ NSString *const kSITKStateMachineStateTimerStopped                              
 
 #pragma mark - State Machine Events
 NSString *const kSITKStateMachineEventGameFallingMonkeyStart                    = @"fallingMonkeyStart";
-NSString *const kSITKStateMachineEventGameLoad                                  = @"load";
+//NSString *const kSITKStateMachineEventGameLoad                                  = @"load";
 NSString *const kSITKStateMachineEventGameMenuEnd                               = @"menuEnd";
 NSString *const kSITKStateMachineEventGameMenuStart                             = @"menuStart";
 NSString *const kSITKStateMachineEventGameMoveEntered                           = @"moveEntered";

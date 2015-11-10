@@ -5,43 +5,60 @@
 //  Created by Andrew Keller on 8/13/15.
 //  Copyright © 2015 Push The World LLC. All rights reserved.
 //
-#import "SKNode+HLGestureTarget.h"
+//  Purpose: This is the pop up node stuff
+//
+// Local Controller Import
+#import "SIGameController.h"
 #import "SIPopupNode.h"
+// Framework Import
+// Drop-In Class Imports (CocoaPods/GitHub/Guru)
+#import "INSpriteKit.h"
+// Category Import
+#import "UIColor+Additions.h"
+// Support/Data Class Imports
+// Other Imports
+
 enum {
-    SIPopUpNodeZPositionLayerBackground = 0,
-    SIPopUpNodeZPositionLayerContent,
-    SIPopUpNodeZPositionLayerCount
+    SIPopupNodeZPositionLayerBackground = 0,
+    SIPopupNodeZPositionLayerContent,
+    SIPopupNodeZPositionLayerLightNode,
+    SIPopupNodeZPositionLayerCount
 };
 
+static const uint32_t SIPopupNodeCategoryLight          = 0x1 << 1; // 00000000000000000000000000000010
 
 @implementation SIPopupNode {
     
-    CGFloat          _floatThreshold;
+    CGFloat                          _floatThreshold;
     
-    CGSize           _sceneSize;
+    CGSize                           _sceneSize;
     
-//    HLComponentNode *_contentNode;
-    SKNode          *_bottomContentNode;
-    SKNode          *_titleContentNode;
-    SKNode          *_popupContentContentNode;
-    SKSpriteNode    *_backgroundNode;
-    SKSpriteNode    *_dismissButton;
-    SKLabelNode     *_titleLabelNode;
+    SKNode                          *_bottomContentNode;
+    SKNode                          *_titleContentNode;
+//    SKNode                          *_popupContentContentNode;
+    
+    SKLabelNode                     *_titleLabelNode;
+    
+//    SKSpriteNode                    *_backgroundNode;
+    INSKButtonNode                  *_dismissButton;
 }
 
 
 - (nonnull instancetype)init {
     self = [super init];
     if (self) {
-        _cornerRadius               = 0.0f;
-        _borderColor                = nil;
-        _borderWidth                = 0.0f;
-        _xPadding                   = VERTICAL_SPACING_16;
-        _yPadding                   = VERTICAL_SPACING_16;
-        _titleLabelTopPading        = VERTICAL_SPACING_16;
-        _titleAutomaticYPosition    = NO;
-        _contentPostion             = CGPointMake(0.5f, 0.5f);
-        _bottomNodeBottomSpacing    = VERTICAL_SPACING_8;
+        _cornerRadius                   = 0.0f;
+        _borderColor                    = nil;
+        _borderWidth                    = 0.0f;
+        _xPadding                       = VERTICAL_SPACING_16;
+        _yPadding                       = VERTICAL_SPACING_16;
+        _titleLabelTopPading            = VERTICAL_SPACING_16;
+        _titleAutomaticYPosition        = NO;
+        _centerNodePosition             = CGPointMake(0.0f, 0.0f);
+        _bottomNodeBottomSpacing        = VERTICAL_SPACING_8;
+        _countDownTimerState            = SIPopupCountDownTimerNotStarted;
+        _startTime                      = 0;
+//        _centerNodeSticksToBottomNode   = NO;
     }
     return self;
 }
@@ -138,20 +155,40 @@ enum {
     
     _backgroundNode                 = [SKSpriteNode spriteNodeWithColor:[SKColor grayColor] size:CGSizeMake(size.width - VERTICAL_SPACING_16, size.height - VERTICAL_SPACING_16)];
     _backgroundNode.anchorPoint     = CGPointMake(0.5f, 0.5f);
-    _backgroundNode.zPosition       = SIPopUpNodeZPositionLayerBackground * self.zPositionScale / SIPopUpNodeZPositionLayerCount;
+    _backgroundNode.zPosition       = SIPopupNodeZPositionLayerBackground * self.zPositionScale / SIPopupNodeZPositionLayerCount;
     [self addChild:_backgroundNode];
     
     _titleLabelNode                 = [SKLabelNode labelNodeWithFontNamed:kSISFFontDisplayHeavy];
-    _titleLabelNode.zPosition       = SIPopUpNodeZPositionLayerContent * self.zPositionScale / SIPopUpNodeZPositionLayerCount;
+    _titleLabelNode.zPosition       = SIPopupNodeZPositionLayerContent * self.zPositionScale / SIPopupNodeZPositionLayerCount;
     [_backgroundNode addChild:_titleLabelNode];
     
-    _dismissButton                  = [SKSpriteNode spriteNodeWithTexture:[[SIConstants buttonAtlas] textureNamed:kSIImageButtonDismiss] size:CGSizeMake(size.width / 10.0f, size.width / 10.0f)];
-    _dismissButton.zPosition        = SIPopUpNodeZPositionLayerContent * self.zPositionScale / SIPopUpNodeZPositionLayerCount;
+    _dismissButton                  = [SIGameController SIINButtonNamed:kSIAssestPopupButtonDismissNormal];
+    _dismissButton.zPosition        = SIPopupNodeZPositionLayerContent * self.zPositionScale / SIPopupNodeZPositionLayerCount;
+    [_dismissButton setTouchUpInsideTarget:self selector:@selector(dismissButtonTapped:)];
     [_backgroundNode addChild:_dismissButton];
+    
+    _lightNodeEdge                  = [[SKLightNode alloc] init];
+    _lightNodeEdge.categoryBitMask  = SIPopupNodeCategoryLight;
+    _lightNodeEdge.zPosition        = 100;
+    _lightNodeEdge.lightColor       = [SKColor blackColor];
+    _lightNodeEdge.enabled          = YES;
+    [_backgroundNode addChild:_lightNodeEdge];
     
     [self layoutXY];
 }
 
+- (void)makeLightNodeFollowTheBackgroundOfThePopup {
+    UIBezierPath *path = [UIBezierPath bezierPathWithRoundedRect:CGRectMake(0, 0, _backgroundNode.frame.size.width - VERTICAL_SPACING_8, _backgroundNode.frame.size.height - VERTICAL_SPACING_8) cornerRadius:_cornerRadius];
+    SKAction *followBackground = [SKAction followPath:path.CGPath asOffset:NO orientToPath:NO duration:3.0f];
+    
+    for (SKNode *node in _backgroundNode.children) {
+        if ([node.name isEqualToString:@"Temp"]) {
+            [node removeFromParent];
+        }
+    }
+    
+    [_lightNodeEdge runAction:[SKAction repeatActionForever:followBackground]];
+}
 
 - (CGSize)backgroundSize {
     return _backgroundNode.size;
@@ -280,22 +317,22 @@ enum {
     }
     
     if (titleContentNode) {
-        _titleContentNode           = titleContentNode;
-        _titleContentNode.name         = kSINodePopupTitle;
+        _titleContentNode               = titleContentNode;
+        _titleContentNode.name          = kSINodePopupTitle;
         [_backgroundNode addChild:_titleContentNode];
     }
     [self layoutXY];
 
 }
 
-- (void)setPopupContentNode:(SKNode *)popupContentNode {
-    if (_popupContentContentNode) {
-        [_popupContentContentNode removeFromParent];
+- (void)setCenterNode:(SKNode *)centerNode {
+    if (_centerNode) {
+        [_centerNode removeFromParent];
     }
-    if (popupContentNode) {
-        _popupContentContentNode                    = popupContentNode;
-        _popupContentContentNode.name               = kSINodePopupContent;
-        [_backgroundNode addChild:_popupContentContentNode];
+    if (centerNode) {
+        _centerNode                                 = centerNode;
+        _centerNode.name                            = kSINodePopupContent;
+        [_backgroundNode addChild:_centerNode];
     }
     [self layoutXYZ];
 }
@@ -320,27 +357,34 @@ enum {
 }
 
 - (void)setBottomNodeBottomSpacing:(CGFloat)bottomNodeBottomSpacing {
-    if (_bottomContentNode) {
-        [self layoutXY];
-    }
+    _bottomNodeBottomSpacing = bottomNodeBottomSpacing;
+    [self layoutXY];
+
 }
 
-- (void)setContentPostion:(CGPoint)contentPostion {
-    _contentPostion                     = contentPostion;
+- (void)setCenterNodePosition:(CGPoint)centerNodePosition {
+    _centerNodePosition = centerNodePosition;
     [self layoutXY];
 }
 
+//- (void)setCenterNodeSticksToBottomNode:(BOOL)centerNodeSticksToBottomNode {
+//    _centerNodeSticksToBottomNode = centerNodeSticksToBottomNode;
+//    [self layoutXY];
+//}
+
 - (void)setDismissButtonVisible:(BOOL)dismissButtonVisible {
-    if (dismissButtonVisible) {
-        if (_dismissButton == nil) {
-            _dismissButton                  = [SKSpriteNode spriteNodeWithTexture:[[SIConstants buttonAtlas] textureNamed:kSIImageButtonDismiss] size:CGSizeMake(_backgroundNode.size.width / 10.0f, _backgroundNode.size.width / 10.0f)];
-            _dismissButton.zPosition        = SIPopUpNodeZPositionLayerContent * self.zPositionScale / SIPopUpNodeZPositionLayerCount;
-            [_backgroundNode addChild:_dismissButton];
-        }
-    } else {
-        if (_dismissButton) {
-            [_dismissButton removeFromParent];
-        }
+    _dismissButton.hidden = !dismissButtonVisible;
+    _dismissButtonVisible           = dismissButtonVisible;
+//    [self layoutXYZ];
+}
+
+- (void)setTopNode:(SKNode *)topNode {
+    if (_topNode) {
+        [_topNode removeFromParent];
+    }
+    if (topNode) {
+        _topNode    = topNode;
+        [_backgroundNode addChild:_topNode];
     }
     [self layoutXYZ];
 }
@@ -386,24 +430,26 @@ enum {
         _dismissButton.position         = dismissButtonPosition;
     }
     
-    if (_popupContentContentNode) {
-        _popupContentContentNode.position   = CGPointMake(0.0f, 0.0f);
-    }
-    
     if (_bottomContentNode) {
         _bottomContentNode.position         = CGPointMake(0.0f, -1.0f * (_backgroundNode.size.height / 2.0f) + _bottomNodeBottomSpacing);
     }
     
+    if (_centerNode && _centerNode.parent) {
+        _centerNode.position                = _centerNodePosition;
+    }
+    
     _backgroundNode.texture                 = [SIGame textureBackgroundColor:_backgroundNode.color size:_backgroundNode.size cornerRadius:_cornerRadius borderWidth:_borderWidth borderColor:_borderColor];
+
+    [self makeLightNodeFollowTheBackgroundOfThePopup];
 }
 
 - (void)layoutZ {
-    CGFloat zPositionLayerIncrement     = self.zPositionScale / (float)SIPopUpNodeZPositionLayerCount;
+    CGFloat zPositionLayerIncrement     = self.zPositionScale / (float)SIPopupNodeZPositionLayerCount;
     
-    _backgroundNode.zPosition               = SIPopUpNodeZPositionLayerBackground * zPositionLayerIncrement;
+    _backgroundNode.zPosition               = SIPopupNodeZPositionLayerBackground * zPositionLayerIncrement;
     
-    if (_popupContentContentNode) {
-        _popupContentContentNode.zPosition  = SIZPositionPopupContent * zPositionLayerIncrement;
+    if (_centerNode) {
+        _centerNode.zPosition               = SIZPositionPopupContentTop * zPositionLayerIncrement;
     }
     
     if (_dismissButton) {
@@ -420,57 +466,26 @@ enum {
         _titleLabelNode.zPosition           = SIZPositionPopupContent * zPositionLayerIncrement;
     }
     
+    if (_topNode) {
+        _topNode.zPosition                  = SIZPositionPopupContent * zPositionLayerIncrement;
+    }
+    
+}
+
+- (void)dismissButtonTapped:(INSKButtonNode *)button {
+    if ([_delegate respondsToSelector:@selector(dismissPopup:)]) {
+        [_delegate dismissPopup:self];
+    }
 }
 
 #pragma mark - HLGestureTarget
 
-- (NSArray *)addsToGestureRecognizers {
-    return @[ [[UITapGestureRecognizer alloc] init] ];
-}
-
-- (BOOL)addToGesture:(UIGestureRecognizer *)gestureRecognizer firstTouch:(UITouch *)touch isInside:(BOOL *)isInside
-{
-    CGPoint location    = [touch locationInNode:self];
-    
-    *isInside           = NO;
-    
-    if ([_dismissButton containsPoint:location]) {
-        *isInside       = YES;
-        if ([gestureRecognizer isKindOfClass:[UITapGestureRecognizer class]]) {
-            NSLog(@"Dismiss Pop Up View");
-            if ([_delegate respondsToSelector:@selector(dismissPopup:)]) {
-                [_delegate dismissPopup:self];
-            }
-            return YES;
-        }
-    }
-//    if ([_contentNode containsPoint:location]) {
-//        if ([gestureRecognizer isKindOfClass:[UITapGestureRecognizer class]]) {
-//            NSLog(@"Content Node Tapped");
-//            *isInside       = YES;
-//            return YES;
-//        }
-//
-//    }
-    
-    return NO;
-}
 
 #pragma mark - Launch Coins
-//- (void)launchCoins:(int)totalCoins coinsLaunched:(int)coinsLaunched {
-//    if (coinsLaunched == totalCoins) {
-//        [self finishPrize];
-//    } else {
-//        _prizeAmountLabelNode.text  = [NSString stringWithFormat:@"%d",totalCoins - coinsLaunched - 1];
-//        [self lauchCoin];
-//        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(((CGFloat)(totalCoins - coinsLaunched) / (CGFloat)totalCoins) / 2.0f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-//            [self launchCoins:totalCoins coinsLaunched:coinsLaunched + 1];
-//        });
-//    }
-//}
+
 - (void)launchNode:(SKSpriteNode *)node {
     
-    CGFloat zPositionLayerIncrement             = self.zPositionScale / (float)SIPopUpNodeZPositionLayerCount;
+    CGFloat zPositionLayerIncrement             = self.zPositionScale / (float)SIPopupNodeZPositionLayerCount;
     
     node.zPosition                              = SIZPositionPopupContentTop * zPositionLayerIncrement;
     node.position                               = CGPointZero;
@@ -499,25 +514,5 @@ enum {
     
 
 }
-//- (void)finishPrize {
-//    if ([SIConstants isFXAllowed]) {
-//        [[SoundManager sharedManager] playSound:kSISoundFXChaChing];
-//    }
-//    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-//        NSDate *currentDate = [SIGameController getDateFromInternet];
-//        if (currentDate) {
-//            [[MKStoreKit sharedKit] addFreeCredits:[NSNumber numberWithInt:[self getPrizeAmount]] identifiedByConsumableIdentifier:kSIIAPConsumableIDCoins];
-//            
-//            [[NSUserDefaults standardUserDefaults] setObject:currentDate forKey:kSINSUserDefaultLastPrizeAwardedDate];
-//            [[NSUserDefaults standardUserDefaults] synchronize];
-//            
-//            [self changeCoinValue];
-//        }
-//        [self increaseConsecutiveDaysLaunched];
-//        [self dismissModalNodeAnimation:HLScenePresentationAnimationFade];
-//    });
-//}
-
-
 
 @end

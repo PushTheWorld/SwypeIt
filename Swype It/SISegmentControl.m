@@ -64,7 +64,7 @@ enum {
         
         _backgroundColor            = [SKColor clearColor];
         _borderColor                = [SKColor blackColor];
-        _segmentColorSelected       = [SKColor mainColor];
+        _segmentColorSelected       = [SKColor SIColorPrimary];
         _segmentColorUnselected     = [SKColor whiteColor];
         
         _initSelectedSegment        = 0;

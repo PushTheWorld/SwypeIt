@@ -16,10 +16,10 @@
 // Other Imports
 
 enum {
-    SIPopUpNodeContentZPositionLayerBackground = 0,
-    SIPopUpNodeContentZPositionLayerContent,
-    SIPopUpNodeContentZPositionLayerText,
-    SIPopUpNodeContentZPositionLayerCount
+    SIPopupNodeContentZPositionLayerBackground = 0,
+    SIPopupNodeContentZPositionLayerContent,
+    SIPopupNodeContentZPositionLayerText,
+    SIPopupNodeContentZPositionLayerCount
 };
 @implementation SIPopupContentNode {
     
@@ -78,7 +78,7 @@ enum {
 
 - (void)layoutXY {
     if (_labelNode) {
-        _labelNode.position  = CGPointMake(0.0f, -1.0f * _size.height / 2.0f);
+        _labelNode.position  = CGPointZero; // CGPointMake(0.0f, -1.0f * _size.height / 2.0f);
     }
     
     if (_backgroundImageContentNode) {
@@ -88,11 +88,11 @@ enum {
 
 - (void)layoutZ {
     if (_backgroundImageContentNode) {
-        _backgroundImageContentNode.zPosition   = (float)SIPopUpNodeContentZPositionLayerBackground / (float)SIPopUpNodeContentZPositionLayerCount;
+        _backgroundImageContentNode.zPosition   = (float)SIPopupNodeContentZPositionLayerBackground / (float)SIPopupNodeContentZPositionLayerCount;
     }
     
     if (_labelNode) {
-        _labelNode.zPosition             = (float)SIPopUpNodeContentZPositionLayerContent / (float)SIPopUpNodeContentZPositionLayerCount;
+        _labelNode.zPosition             = (float)SIPopupNodeContentZPositionLayerContent / (float)SIPopupNodeContentZPositionLayerCount;
     }
 }
 

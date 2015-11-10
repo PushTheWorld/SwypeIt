@@ -10,6 +10,7 @@
 // Local Controller Import
 #import "SISingletonAchievement.h"
 #import "SIStoreButtonNode.h"
+#import "SIPopupGameOverDetailsNode.h"
 #import "SIMenuNode.h"
 #import "SIGameModel.h"
 #import "SIPowerUpToolbarNode.h"
@@ -19,7 +20,7 @@
 #import "SIFallingMonkeyScene.h"
 #import "SILoadingScene.h"
 #import "SIMenuScene.h"
-#import "SITestScene.h"
+#import "SIPopupTestScene.h"
 #import "SettingsScene.h"
 #import "StoreScene.h"
 // Framework Import
@@ -34,7 +35,7 @@
 #import "MBProgressHud.h"
 #import "MKStoreKit.h"
 #import "MSSAlertViewController.h"
-#import "SoundManager.h"
+//#import "SoundManager.h"
 #import "TransitionKit.h"
 // Category Import
 #import "UIColor+Additions.h"
@@ -44,7 +45,7 @@
 #import "SIIAPUtility.h"
 // Other Imports
 
-@interface SIGameController () <ADBannerViewDelegate, ADInterstitialAdDelegate, GKGameCenterControllerDelegate, SIGameSceneDelegate, SISingletonAchievementDelegate, SIMenuSceneDelegate, SIFallingMonkeySceneDelegate, HLMenuNodeDelegate, HLGridNodeDelegate, HLRingNodeDelegate, HLToolbarNodeDelegate, SIPopUpNodeDelegate, SIAdBannerNodeDelegate, SIGameModelDelegate, SIMenuNodeDelegate>
+@interface SIGameController () <ADBannerViewDelegate, ADInterstitialAdDelegate, GKGameCenterControllerDelegate, SIGameSceneDelegate, SISingletonAchievementDelegate, SIMenuSceneDelegate, SIFallingMonkeySceneDelegate, HLMenuNodeDelegate, HLGridNodeDelegate, HLRingNodeDelegate, HLToolbarNodeDelegate, SIPopupNodeDelegate, SIAdBannerNodeDelegate, SIGameModelDelegate, SIMenuNodeDelegate, INSKButtonNodeDelegate>
 
 @property (strong, nonatomic) UIButton          *closeButton;
 @end
@@ -81,6 +82,10 @@
 
     DSMultilineLabelNode                    *_sceneMenuHelpMultilineNode;
     
+    INSKButtonNode                          *_sceneMenuPopupFreePrizeButton;
+    INSKButtonNode                          *_sceneMenuStartOneHandModeButton;
+    INSKButtonNode                          *_sceneMenuStartShopButton;
+    
     int                                      _loadingPointsCurrent;
     int                                      _loadingPointsTotal;
     int                                      _numberOfAdsToWatch;
@@ -97,7 +102,7 @@
 
     
     HLGridNode                              *_sceneMenuEndGridNode;
-    HLGridNode                              *_sceneMenuStartGridNode;
+//    HLGridNode                              *_sceneMenuStartGridNode;
     
     HLMenuNode                              *_sceneGamePopupContinueMenuNode;
     HLMenuNode                              *_sceneMenuStoreMenuNode;
@@ -121,7 +126,8 @@
     NSTimeInterval                           _gameTimeStart;
     NSTimeInterval                           _gameTimeTotal;
     NSTimeInterval                           _loadTimeStart;
-    
+
+    NSTimer                                 *_continueGameTimer;
     NSTimer                                 *_gameTimer;
     NSTimer                                 *_loadTimer;
     
@@ -137,7 +143,7 @@
     
     SILoadingScene                          *_sceneLoading;
     
-    SIMenuNode                              *_menuNodeEnd;
+//    SIMenuNode                              *_menuNodeEnd;
     SIMenuNode                              *_menuNodeHelp;
     SIMenuNode                              *_menuNodeSettings;
     SIMenuNode                              *_menuNodeStart;
@@ -153,7 +159,12 @@
     
     SIPopupContentNode                      *_sceneMenuPopupContentFreePrize;
     
+    SIPopupGameOverDetailsNode              *_sceneGamePopupGameOverDetailsNode;
+    
     SKLabelNode                             *_sceneMenuLabelEnd;
+    
+    SKSpriteNode                            *_sceneGamePopupGameOverEndNode;
+    SKSpriteNode                            *_sceneGamePopupGameOverBottomNode;
     
     SKTexture                               *_monkeyFaceTexture;
     
@@ -191,7 +202,7 @@
                                                      name:UIApplicationDidReceiveMemoryWarningNotification
                                                    object:nil];
     }
-    [self registerForNotifications];
+
     return self;
 }
 
@@ -213,8 +224,18 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    /*
+     LOAD REAL GAME!
+     */
     [self setupUserInterface];
     
+    /*
+     LOAD TEST SCENE!
+     */
+//    SIFallingMonkeyScene *testScene = [self loadFallingMonkeyScene];
+//    SIPopupTestScene *testScene = [[SIPopupTestScene alloc] initWithSize:self.view.frame.size];
+//    [self presentScene:SIGameControllerSceneFallingMonkey];
+//    [SIGameController viewController:[self fastSKView] transisitionToSKScene:testScene duration:0];
 }
 
 /**This is an attempt to force view to be an skview*/
@@ -226,8 +247,10 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    [self registerForNotifications];
     
-    [self configureBannerAds];
+    //TODO: Uncomment for non test environment
+//    [self configureBannerAds];
 }
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
@@ -262,7 +285,9 @@
 - (void)setupUserInterface {
     [self createConstants];
     [self setupControls];
-    [self mainSceneInitializationMethod];
+    [self gameFireEvent:kSITKStateMachineEventGameMenuStart userInfo:nil];
+
+//    [self mainSceneInitializationMethod];
 }
 - (void)createConstants {
     _isPurchaseInProgress               = NO;
@@ -274,7 +299,7 @@
     _loadingPointsCurrent               = 0;
     _verbose                            = YES;
     _premiumUser                        = [SIGameController premiumUser];
-    _testMode                           = NO;
+    _testMode                           = YES;
     
     _sceneGameSpacingHorizontalToolbar  = 10.0f;
     CGFloat toolBarNodeWidth            = (SCREEN_WIDTH - (4.0f * _sceneGameSpacingHorizontalToolbar)) / 5.0f;
@@ -291,7 +316,6 @@
     
     _gameModel                                          = [[SIGameModel alloc] init];
     _gameModel.delegate                                 = self;
-    [self gameFireEvent:kSITKStateMachineEventGameLoad userInfo:nil];
     
     _timerStateMachine                                  = [self createTimeStateMachine];
     
@@ -299,10 +323,7 @@
     [SISingletonAchievement singleton].delegate         = self;;
     
     /*Start Sounds*/
-    [SoundManager sharedManager].allowsBackgroundMusic  = YES;
-    [SoundManager sharedManager].soundFadeDuration      = 1.0f;
-    [SoundManager sharedManager].musicFadeDuration      = 2.0f;
-    [[SoundManager sharedManager] prepareToPlayWithSound:[Sound soundNamed:kSISoundFXInitalize]];
+    [SIGame initalizeSoundManager];
     
     /*Give those interstitial ads a cycle to get em going*/
     [self interstitialAdCycle];
@@ -312,11 +333,12 @@
         _adBannerNode.position                              = CGPointMake(0.0f, 0.0f);
         _adBannerNode.delegate                              = self;
     }
+    
 }
 #pragma mark -
 #pragma mark - Scene Loading
 - (void)presentScene:(SIGameControllerScene)sceneType {
-    NSNumber *highScore;
+//    NSNumber *highScore;
     if (_adBannerNode) {
         [_adBannerNode removeFromParent];
     }
@@ -341,8 +363,8 @@
                     _currentScene = [SIGameController viewController:[self fastSKView] transisitionToSKScene:_sceneGame duration:SCENE_TRANSISTION_DURATION_NORMAL];
                     break;
                 case SIGameControllerSceneLoading:
-                    [self controllerSceneMenuShowMenu:_menuNodeStart menuNodeAnimiation:SIMenuNodeAnimationSlideOut delay:SCENE_TRANSISTION_DURATION_FAST];
-                    _currentScene = [SIGameController viewController:[self fastSKView] transisitionToSKScene:_sceneGame duration:SCENE_TRANSISTION_DURATION_NORMAL];
+                    _currentScene = [SIGameController transisitionToSKScene:_sceneGame toSKView:[self fastSKView] DoorsOpen:YES pausesIncomingScene:NO pausesOutgoingScene:NO duration:SCENE_TRANSISTION_DURATION_NORMAL];
+//                    [self controllerSceneMenuShowMenu:_menuNodeStart menuNodeAnimiation:SIMenuNodeAnimationSlideOut delay:SCENE_TRANSISTION_DURATION_NORMAL];
                     break;
                 default:
                     _currentScene = [SIGameController viewController:[self fastSKView] transisitionToSKScene:_sceneGame duration:SCENE_TRANSISTION_DURATION_NORMAL];
@@ -351,17 +373,13 @@
             break;
         
         // MENU
-            
         case SIGameControllerSceneMenu:
             _sceneMenu.adBannerNode = [SIGameController premiumUser] ? nil : _adBannerNode;
             switch (_currentSceneType) {
                 case SIGameControllerSceneGame:
-                    _currentScene = [SIGameController transisitionFastOpenToSKScene:_sceneMenu toSKView:[self fastSKView]];
-                    [self controllerSceneMenuShowMenu:_menuNodeEnd menuNodeAnimiation:SIMenuNodeAnimationGrowIn delay:SCENE_TRANSISTION_DURATION_FAST];
-                    highScore                                   = [[NSUserDefaults standardUserDefaults] objectForKey:kSINSUserDefaultLifetimeHighScore];
-                    _sceneMenuLabelEnd        = [SIGameController SILabelHeader:[SIGame userMessageForScore:_gameModel.game.totalScore
-                                                                                                             isHighScore:_gameModel.game.isHighScore
-                                                                                                               highScore:[highScore floatValue]]];
+                    _currentScene = [SIGameController transisitionNormalOpenToSKScene:_sceneMenu toSKView:[self fastSKView]];
+//                    _sceneGamePopupGameOverDetailsNode.game = _gameModel.game;
+                    [self controllerSceneMenuShowMenu:_menuNodeStart menuNodeAnimiation:SIMenuNodeAnimationStaticVisible delay:SCENE_TRANSISTION_DURATION_NORMAL];
                     break;
                 case SIGameControllerSceneLoading:
                     _currentScene = [SIGameController transisitionNormalOpenToSKScene:_sceneMenu toSKView:[self fastSKView]];
@@ -384,9 +402,24 @@
 - (void)controllerSceneMenuShowMenu:(SIMenuNode *)menuNode menuNodeAnimiation:(SIMenuNodeAnimation)menuNodeAnimation delay:(float)delay {
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delay * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         switch (menuNode.type) {
+//            case SISceneMenuTypeEnd:
+//                _sceneMenuEndGridNode.delegate      = self;
+//                if (_menuNodeStart.bottomNode) {
+//                    _menuNodeStart.bottomNode       = nil;
+//                    [_sceneMenuStartToolbarNode removeFromParent];
+//                }
+//                _menuNodeEnd.bottomNode             = _sceneMenuStartToolbarNode;
+//                _sceneMenuStartToolbarNode.delegate = self;
+//                break;
+                
             case SISceneMenuTypeStart:
                 _sceneMenuStartToolbarNode.delegate = self;
-                _sceneMenuStartGridNode.delegate    = self;
+                if (_menuNodeStart.bottomNode) {
+                    _menuNodeStart.bottomNode         = nil;
+                    [_sceneMenuStartToolbarNode removeFromParent];
+                }
+                _menuNodeStart.bottomNode           = _sceneMenuStartToolbarNode;
+//                _sceneMenuStartGridNode.delegate    = self;
                 break;
                 
             case SISceneMenuTypeSettings:
@@ -396,7 +429,6 @@
             case SISceneMenuTypeStore:
                 _sceneMenuStoreMenuNode.delegate    = self;
                 break;
-                
             default:
                 break;
         }
@@ -404,53 +436,29 @@
     });
 }
 
-- (void)mainSceneInitializationMethod {
-    if (_testMode) {
-        _sceneGame = [self loadGameScene];
-        _sceneGame.sceneDelegate = self;
-        [[self fastSKView] presentScene:_sceneGame];
-//        [[SISingletonGame singleton] singletonGameWillStartNewGame];        
-    } else {
-        [self gameFireEvent:kSITKStateMachineEventGameLoad userInfo:nil];
-        
-//        NSDate *startDate = [NSDate date];
-//        /*Init The Loading Scene First and Fire It Up There!*/
-//        _sceneLoading = [SIGameController SILoaderSceneLoadingSize:_sceneSize];
-//        [self loadingIncrementWillOverrideAndKill:NO];
-//        [self presentScene:SIGameControllerSceneLoading];
-//        /*Load the scenes*/
-//        [self loadAllScenes];
-//        
-//        /*Load any pop ups and such remaining*/
-//        if (_verbose) {
-//            NSLog(@"All data initialized in %0.2f seconds", [[NSDate date] timeIntervalSinceDate:startDate]);
-//        }
-    }
-}
-
 - (void)loadAllScenes {
     
-    _loadTimer      = [NSTimer scheduledTimerWithTimeInterval:TIMER_INTERVAL target:self selector:@selector(loadSmoothSynch) userInfo:nil repeats:YES];
-    _loadTimeStart  = [NSDate timeIntervalSinceReferenceDate];
+    _loadTimer                                              = [NSTimer scheduledTimerWithTimeInterval:TIMER_INTERVAL target:self selector:@selector(loadSmoothSynch) userInfo:nil repeats:YES];
+    _loadTimeStart                                          = [NSDate timeIntervalSinceReferenceDate];
 
     /*Start loading Menu Scene*/
-    _sceneMenu = [self loadMenuScene];
+    _sceneMenu                                              = [self loadMenuScene];
     [self loadingIncrementWillOverrideAndKill:NO];
     
     /*Load the game sceen*/
-    _sceneGame = [self loadGameScene];
+    _sceneGame                                              = [self loadGameScene];
     [self loadingIncrementWillOverrideAndKill:NO];
 
     /*Load the falling monkey sceen*/
-    _sceneFallingMonkey = [self loadFallingMonkeyScene];
+    _sceneFallingMonkey                                     = [self loadFallingMonkeyScene];
     [self loadingIncrementWillOverrideAndKill:YES];
 
 }
 
 - (void)loadingIncrementWillOverrideAndKill:(BOOL)overrideAndKillLoadingScreen {
-    _loadingPointsCurrent = _loadingPointsCurrent + 1;
+    _loadingPointsCurrent                                   = _loadingPointsCurrent + 1;
     if (_loadingPointsCurrent == (int)SIGameControllerSceneCount || overrideAndKillLoadingScreen) {
-        _loadComplete = YES;
+        _loadComplete                                       = YES;
     }
 }
 
@@ -467,45 +475,44 @@
 }
 
 - (SIGameScene *)loadGameScene {
-    NSDate *startDate = [NSDate date];
+    NSDate *startDate                                       = [NSDate date];
     
-//    [SIGameController BMGLabelSceneGameSwypeItCoins];
+    SIGameScene *sceneGame                                  = [[SIGameScene alloc] initWithSize:_sceneSize];
     
-    SIGameScene *sceneGame                  = [[SIGameScene alloc] initWithSize:_sceneSize];
+    sceneGame.sceneDelegate                                 = self;
     
-    sceneGame.sceneDelegate                 = self;
+    _sceneGamePopupContinue                                 = [SIGameController SIPopupSceneGameContinueSize:_sceneSize];
     
-    _sceneGamePopupContinue                 = [SIGameController SIPopupSceneGameContinue];
+    _sceneGamePopupContinueMenuNode                         = [SIGameController SIHLMenuNodeSceneGamePopupContinue];
     
-    _sceneGamePopupContinueMenuNode         = [SIGameController SIHLMenuNodeSceneGamePopup:_sceneGamePopupContinue];
-    
-    _sceneGamePopupContinueSIMenuNodeStore  = [self SIMenuNodeStoreSize:_sceneGamePopupContinue.backgroundSize];
+    _sceneGamePopupContinueSIMenuNodeStore                  = [self SIMenuNodeStoreSize:_sceneGamePopupContinue.backgroundSize];
 
+    _sceneGamePopupGameOverEndNode                          = [SIGameController SISpriteNodePopupGameOverEndNode];
+
+    _sceneGamePopupGameOverBottomNode                       = [self SISpriteNodePopupGameOverBottomNode];
     
-    _sceneGameRingNodePause                 = [SIGameController SIHLRingNodeSceneGamePause];
+    _sceneGameRingNodePause                                 = [SIGameController SIHLRingNodeSceneGamePause];
     [_sceneGameRingNodePause hlSetGestureTarget:_sceneGameRingNodePause];
     [sceneGame registerDescendant:_sceneGameRingNodePause withOptions:[NSSet setWithObject:HLSceneChildGestureTarget]];
 
     
-    _sceneGameToolbarPowerUp                = [SIGameController SIHLToolbarGamePowerUpToolbarSize:_sceneGameToolbarSize toolbarNodeSize:_sceneGameToolbarNodeSize horizontalSpacing:_sceneGameSpacingHorizontalToolbar];
-    _sceneGameToolbarPowerUp.delegate       = self;
+    _sceneGameToolbarPowerUp                                = [SIGameController SIHLToolbarGamePowerUpToolbarSize:_sceneGameToolbarSize toolbarNodeSize:_sceneGameToolbarNodeSize horizontalSpacing:_sceneGameSpacingHorizontalToolbar];
+    _sceneGameToolbarPowerUp.delegate                       = self;
     
     [_sceneGameToolbarPowerUp hlSetGestureTarget:_sceneGameToolbarPowerUp];
     [sceneGame registerDescendant:_sceneGameToolbarPowerUp withOptions:[NSSet setWithObject:HLSceneChildGestureTarget]];
-    sceneGame.powerUpToolbarNode            = _sceneGameToolbarPowerUp;
+    sceneGame.powerUpToolbarNode                            = _sceneGameToolbarPowerUp;
     
     
-    sceneGame.progressBarFreeCoin           = [SIGameController SIProgressBarSceneGameFreeCoinSceneSize:_sceneSize];
-    sceneGame.progressBarFreeCoin.userInteractionEnabled = YES;
+    sceneGame.progressBarFreeCoin                           = [SIGameController SIProgressBarSceneGameFreeCoinSceneSize:_sceneSize];
+    sceneGame.progressBarFreeCoin.userInteractionEnabled    = YES;
     
-    sceneGame.progressBarMove               = [SIGameController SIProgressBarSceneGameMoveSceneSize:_sceneSize];
-    sceneGame.progressBarMove.userInteractionEnabled = YES;
+//    sceneGame.scoreMoveLabel                                = [SIGameController SILabelSceneGameMoveCommand];
+//    sceneGame.scoreMoveLabel.userInteractionEnabled         = YES;
     
-    sceneGame.progressBarPowerUp            = [SIGameController SIProgressBarSceneGamePowerUpSceneSize:_sceneSize];
-    sceneGame.progressBarPowerUp.userInteractionEnabled = YES;
-    
-//    sceneGame.adBannerNode              = _adBannerNode;
-    
+    sceneGame.progressBarPowerUp                            = [SIGameController SIProgressBarSceneGamePowerUpSceneSize:_sceneSize];
+    sceneGame.progressBarPowerUp.userInteractionEnabled     = YES;
+
     [SIGameController SILoaderEmitters];
     
     if (_verbose) {
@@ -516,29 +523,28 @@
 }
 
 - (SIMenuScene *)loadMenuScene {
-    NSDate *startDate                           = [NSDate date];
+    NSDate *startDate                                       = [NSDate date];
     
-    SIMenuScene *menuScene                      = [[SIMenuScene alloc] initWithSize:_sceneSize];
+    SIMenuScene *menuScene                                  = [[SIMenuScene alloc] initWithSize:_sceneSize];
     
-    menuScene.sceneDelegate                     = self;
+    menuScene.sceneDelegate                                 = self;
     
-    _sceneMenuPopupFreePrize                    = [SIGameController SIPopupSceneMenuFreePrize];
-    
-    _sceneMenuPopupContentFreePrize             = [SIGameController SIPopupContentSceneMenuFreePrizeSize:_sceneSize];
-    
-    _sceneMenuPopupFreePrize.popupContentNode   = _sceneMenuPopupContentFreePrize;
-    
-    menuScene.adBannerNode                      = _adBannerNode;
+    _sceneMenuPopupFreePrize                                = [self initalizePopupFreePrize];
 
-    CGSize menuNodeSize                         = CGSizeMake(_sceneSize.width, _sceneSize.height - _adBannerNode.size.height);
     
-    _menuNodeStart                              = [self SIMenuNodeStartSize:menuNodeSize];
+    menuScene.adBannerNode                                  = _adBannerNode;
 
-    _menuNodeStore                              = [self SIMenuNodeStoreSize:menuNodeSize];
+    CGSize menuNodeSize                                     = CGSizeMake(_sceneSize.width, _sceneSize.height - _adBannerNode.size.height);
     
-    _menuNodeSettings                           = [self SIMenuNodeSettingsSize:menuNodeSize];
+//    _menuNodeEnd                                            = [self SIMenuNodeEndSize:menuNodeSize];
     
-    _menuNodeHelp                               = [self SIMenuNodeHelpSceneSize:menuNodeSize];
+    _menuNodeStart                                          = [self SIMenuNodeStartSize:menuNodeSize];
+
+    _menuNodeStore                                          = [self SIMenuNodeStoreSize:menuNodeSize];
+    
+    _menuNodeSettings                                       = [self SIMenuNodeSettingsSize:menuNodeSize];
+    
+    _menuNodeHelp                                           = [self SIMenuNodeHelpSceneSize:menuNodeSize];
     
     if (_verbose) {
         NSLog(@"SIMenuScene Initialized: loaded in %0.2f seconds", [[NSDate date] timeIntervalSinceDate:startDate]);
@@ -548,9 +554,9 @@
 }
 
 - (SIFallingMonkeyScene *)loadFallingMonkeyScene {
-    NSDate *startDate                           = [NSDate date];
+    NSDate *startDate                                       = [NSDate date];
     
-    SIFallingMonkeyScene *newScene              = [[SIFallingMonkeyScene alloc] initWithSize:_sceneSize];
+    SIFallingMonkeyScene *newScene                          = [[SIFallingMonkeyScene alloc] initWithSize:_sceneSize];
     
     /*This will init the first monkey node!*/
     [SIGameController SISpriteNodeFallingMonkey];
@@ -559,7 +565,7 @@
         NSLog(@"SIFallingMonkeyScene Initialized: loaded in %0.2f seconds", [[NSDate date] timeIntervalSinceDate:startDate]);
     }
     
-    newScene.sceneDelegate                      = self;
+    newScene.sceneDelegate                                  = self;
     
     return newScene;
 }
@@ -626,13 +632,11 @@
 
 #pragma mark Sound
 - (void)updateBackgroundSound {
-    if ([SIConstants isBackgroundSoundAllowed]) {
-        _gameModel.game.currentBackgroundSound = [SIGame checkBackgroundSound:_gameModel.game.currentBackgroundSound forTotalScore:_gameModel.game.totalScore withCallback:^(BOOL updatedBackgroundSound, SIBackgroundSound backgroundSoundNew) {
-            if (updatedBackgroundSound) {
-                [[SoundManager sharedManager] playMusic:[SIGame soundNameForSIBackgroundSound:backgroundSoundNew] looping:YES fadeIn:YES];
-            }
-        }];
-    }
+    _gameModel.game.currentBackgroundSound = [SIGame checkBackgroundSound:_gameModel.game.currentBackgroundSound forTotalScore:_gameModel.game.totalScore withCallback:^(BOOL updatedBackgroundSound, SIBackgroundSound backgroundSoundNew) {
+        if (updatedBackgroundSound) {
+            [SIGame playMusic:[SIGame soundNameForSIBackgroundSound:backgroundSoundNew] looping:YES fadeIn:YES];
+        }
+    }];
 }
 #pragma mark Banner Ads
 
@@ -821,25 +825,6 @@
     });
 }
 
-#pragma mark Popup Setups
-- (SIPopupNode *)initalizePopupFreePrize {
-    SIPopupNode *popupNode = [SIGameController SIPopupSceneMenuFreePrize];
-    
-    popupNode.delegate = self;
-    
-    HLLabelButtonNode *bottomButtonNode = [SIGameController SIHLButtonClaimFreePrizeSize:CGSizeMake(popupNode.backgroundSize.width / 2.0f, popupNode.backgroundSize.width / 4.0f)];
-    
-    [bottomButtonNode hlSetGestureTarget:[HLTapGestureTarget tapGestureTargetWithHandleGestureBlock:^(UIGestureRecognizer *gestureRecognizer) {
-        [self launchCoinsForDailyFreePrize];
-    }]];
-    [_sceneMenu registerDescendant:bottomButtonNode withOptions:[NSSet setWithObject:HLSceneChildGestureTarget]];
-    
-    popupNode.bottomNode = bottomButtonNode;
-    
-    return popupNode;
-}
-
-
 #pragma mark Daily Free Prize
 /**
  Compares a time from the internet to determine if should give a daily prize
@@ -885,9 +870,7 @@
     if (coinsLaunched == totalCoins) {
         [self finishPrize];
     } else {
-        if ([SIConstants isFXAllowed]) {
-            [[SoundManager sharedManager] playSound:kSISoundFXChaChing];
-        }
+        [SIGame playSound:kSISoundFXCoinNoise];
         _sceneMenuPopupContentFreePrize.labelNode.text = [NSString stringWithFormat:@"%d",totalCoins - coinsLaunched];
         [_sceneMenuPopupFreePrize launchNode:[SIGameController SISpriteNodeCoinLargeFront]];
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(((CGFloat)(totalCoins - coinsLaunched) / (CGFloat)totalCoins) / 2.0f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
@@ -897,9 +880,7 @@
 }
 
 - (void)finishPrize {
-    if ([SIConstants isFXAllowed]) {
-        [[SoundManager sharedManager] playSound:kSISoundFXChaChing];
-    }
+    [SIGame playSound:kSISoundFXChaChing];
     _sceneMenuPopupContentFreePrize.labelNode.text = @"0";
     
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
@@ -914,6 +895,27 @@
         [SIIAPUtility increaseConsecutiveDaysLaunched];
         _sceneMenu.popupNode = nil;
     });
+}
+
+#pragma mark Popup Setups
+- (SIPopupNode *)initalizePopupFreePrize {
+    SIPopupNode *popupNode = [SIGameController SIPopupSceneMenuFreePrize];
+    
+    _sceneMenuPopupContentFreePrize                         = [SIGameController SIPopupContentSceneMenuFreePrizeSize:_sceneSize];
+    
+    popupNode.centerNode                              = _sceneMenuPopupContentFreePrize;
+    
+    _sceneMenuPopupFreePrizeButton                          = [SIGameController SIINButtonPopupButtonImageNamed:kSIAssestPopupButtonClaim text:[NSString stringWithFormat:@"%@!",NSLocalizedString(kSITextPopupFreePrizeClaim, nil)]];
+    popupNode.bottomNode                                    = _sceneMenuPopupFreePrizeButton;
+    popupNode.bottomNodeBottomSpacing                       = (_sceneMenuPopupFreePrizeButton.size.height / 2.0f) + VERTICAL_SPACING_8;
+    _sceneMenuPopupFreePrizeButton.inskButtonNodeDelegate   = self;
+    [_sceneMenuPopupFreePrizeButton setTouchUpInsideTarget:self selector:@selector(launchCoinsForDailyFreePrize)];
+    
+    popupNode.delegate = self;
+    
+    popupNode.lightNodeEdge.enabled = YES;
+    
+    return popupNode;
 }
 
 #pragma mark IIAPMethods
@@ -980,95 +982,116 @@
     [self hudFlashDuration:1.0f title:@"Success" info:@"Reset Device High Score"];
 }
 - (void)changeBackgroundSoundIsAllowed:(HLMenuItem *)menuItem {
-    if ([menuItem.text isEqualToString:kSIMenuTextSettingsToggleSoundOffBackground]) {
+    if ([menuItem.text isEqualToString:kSITextMenuSettingsToggleSoundOffBackground]) {
         /*Turn Background Sound Off*/
-        _sceneSettingsMenuItemTextSoundBackground = kSIMenuTextSettingsToggleSoundOnBackground;
-        [[NSUserDefaults standardUserDefaults] setBool:NO forKey:kSINSUserDefaultSoundIsAllowedBackground];
-        [[SoundManager sharedManager] stopMusic];
+        _sceneSettingsMenuItemTextSoundBackground = kSITextMenuSettingsToggleSoundOnBackground;
+        [SIGame setBackgroundSoundActive:NO];
+        [SIGame stopAllMusic];
+        
     } else {
         /*Turn Sound On*/
-        _sceneSettingsMenuItemTextSoundBackground = kSIMenuTextSettingsToggleSoundOffBackground;
-        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:kSINSUserDefaultSoundIsAllowedBackground];
-        [[SoundManager sharedManager] playMusic:kSISoundBackgroundMenu looping:YES fadeIn:YES];
+        _sceneSettingsMenuItemTextSoundBackground = kSITextMenuSettingsToggleSoundOffBackground;
+        [SIGame setBackgroundSoundActive:YES];
+        [SIGame playMusic:kSISoundBackgroundMenu looping:YES fadeIn:YES];
     }
     menuItem.text = _sceneSettingsMenuItemTextSoundBackground;
-    [[NSUserDefaults standardUserDefaults] synchronize];
     [_sceneMenuSettingsMenuNode redisplayMenuAnimation:HLMenuNodeAnimationNone];
 }
 - (void)changeFXSoundIsAllowed:(HLMenuItem *)menuItem {
-    if ([menuItem.text isEqualToString:kSIMenuTextSettingsToggleSoundOffFX]) {
+    if ([menuItem.text isEqualToString:kSITextMenuSettingsToggleSoundOffFX]) {
         /*Turn Background Sound Off*/
-        _sceneSettingsMenuItemTextSoundFX = kSIMenuTextSettingsToggleSoundOnFX;
-        [[NSUserDefaults standardUserDefaults] setBool:NO forKey:kSINSUserDefaultSoundIsAllowedFX];
-        [[SoundManager sharedManager] stopAllSounds];
+        _sceneSettingsMenuItemTextSoundFX = kSITextMenuSettingsToggleSoundOnFX;
+        [SIGame setFXSoundActive:NO];
+        [SIGame stopAllSounds];
     } else {
         /*Turn Sound On*/
-        _sceneSettingsMenuItemTextSoundFX = kSIMenuTextSettingsToggleSoundOffFX;
-        menuItem.text = kSIMenuTextSettingsToggleSoundOffFX;
-        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:kSINSUserDefaultSoundIsAllowedFX];
+        _sceneSettingsMenuItemTextSoundFX = kSITextMenuSettingsToggleSoundOffFX;
+        menuItem.text = kSITextMenuSettingsToggleSoundOffFX;
+        [SIGame setFXSoundActive:YES];
     }
     menuItem.text = _sceneSettingsMenuItemTextSoundFX;
-    [[NSUserDefaults standardUserDefaults] synchronize];
     [_sceneMenuSettingsMenuNode redisplayMenuAnimation:HLMenuNodeAnimationNone];
 }
 
-
-//- (SIMenuNode *)SIMenuNodeEndSize:(CGSize)size {
-//    SIMenuNode *menuNode                        = [[SIMenuNode alloc] initWithSize:size type:SISceneMenuTypeEnd];
-//    
-//    _sceneMenuEndGridNode                       = [SIGameController SIHLGridNodeMenuSceneEndSize:size];
-//    menuNode.centerNode                         = _sceneMenuEndGridNode;
-//    menuNode.menuContentPosition                = SIMenuNodeContentPositionBottom;
-//    [_sceneMenuEndGridNode hlSetGestureTarget:_sceneMenuEndGridNode];
-//    [_sceneMenu registerDescendant:_sceneMenuEndGridNode withOptions:[NSSet setWithObject:HLSceneChildGestureTarget]];
-//    
-//    _sceneMenuStartToolbarNode                  = [SIGameController SIHLToolbarMenuStartScene:[SIGameController SIToolbarSceneMenuSize:menuNodeSize] isPremiumUser:_premiumUser];
-//    
-//    
-//    
-//    _menuNodeContentStart                       = [SIGameController SIMenuNodeContentStartSize:menuNodeSize];
-//    
-//    [_menuNodeContentStart.gridNode hlSetGestureTarget:_menuNodeContentStart.gridNode];
-//    [menuScene registerDescendant:_menuNodeContentStart.gridNode withOptions:[NSSet setWithObject:HLSceneChildGestureTarget]];
-//    
-//    _menuNodeStart                              = [[SIMenuNode alloc] initWithSize:menuNodeSize Node:_menuNodeContentStart type:SISceneMenuTypeStart];
-//    
-//    _sceneMenuToolbarStart                      =
-//    
-//    _menuNodeStart.bottomToolBarNode            = _sceneMenuToolbarStart;
-//    [_sceneMenuToolbarStart hlSetGestureTarget:_sceneMenuToolbarStart];
-//    [menuScene registerDescendant:_sceneMenuToolbarStart withOptions:[NSSet setWithObject:HLSceneChildGestureTarget]];
-//    _menuNodeStart.mainNode                     = _menuNodeContentStart;
-//
-//    SIMenuNodeContent *menuNodeContent          = [[SIMenuNodeContent alloc] initWithSize:size];
-//    menuNodeContent.gridNode                    = [SIGameController SIHLGridNodeMenuSceneEndSize:menuNodeContent.size];
-//    menuNodeContent.userMessage                 = [SIGameController SILabelParagraph_x2:@"Good for you!"];
-//    return menuNodeContent;
-//}
-
 #pragma mark SIMenuNode
-- (SIMenuNode *)SIMenuNodeStartSize:(CGSize)size {
-    SIMenuNode *menuNode                        = [[SIMenuNode alloc] initWithSize:size type:SISceneMenuTypeStart];
+- (SIMenuNode *)SIMenuNodeEndSize:(CGSize)size {
+    SIMenuNode *menuNode                            = [[SIMenuNode alloc] initWithSize:size type:SISceneMenuTypeStart];
     
-    menuNode.topNode                            = [SKSpriteNode spriteNodeWithTexture:[SIGameController SITextureMonkeyFace] size:[SIGameController SISpriteNodeFallingMonkey].size];
+    _sceneMenuEndGridNode                           = [SIGameController SIHLGridNodeMenuSceneEndSize:size];
+    _sceneMenuEndGridNode.delegate                  = self;
+    menuNode.centerNode                             = _sceneMenuEndGridNode;
+    menuNode.menuContentPosition                    = SIMenuNodeContentPositionBottom;
+    [_sceneMenuEndGridNode hlSetGestureTarget:_sceneMenuEndGridNode];
+    [_sceneMenu registerDescendant:_sceneMenuEndGridNode withOptions:[NSSet setWithObject:HLSceneChildGestureTarget]];
     
-    _sceneMenuStartGridNode                     = [SIGameController SIHLGridNodeMenuSceneStartSize:size];
-    _sceneMenuStartGridNode.delegate            = self;
-    menuNode.centerNode                         = _sceneMenuStartGridNode;
-    menuNode.menuContentPosition                = SIMenuNodeContentPositionBottom;
-    [_sceneMenuStartGridNode hlSetGestureTarget:_sceneMenuStartGridNode];
-    [_sceneMenu registerDescendant:_sceneMenuStartGridNode withOptions:[NSSet setWithObject:HLSceneChildGestureTarget]];
+    
+    _sceneGamePopupGameOverDetailsNode              = [[SIPopupGameOverDetailsNode alloc] initWithSize:_sceneMenuEndGridNode.size];
+    
+    menuNode.topNode                                = _sceneGamePopupGameOverDetailsNode;
 
-    _sceneMenuStartToolbarNode                  = [SIGameController SIHLToolbarMenuStartScene:[SIGameController SIToolbarSceneMenuSize:size] isPremiumUser:[SIGameController premiumUser]];
-    _sceneMenuStartToolbarNode.delegate         = self;
-    menuNode.bottomNode                         = _sceneMenuStartToolbarNode;
+    
+    return menuNode;
+}
+- (SIMenuNode *)SIMenuNodeStartSize:(CGSize)size {
+    SIMenuNode *menuNode                            = [[SIMenuNode alloc] initWithSize:size type:SISceneMenuTypeStart];
+    
+    menuNode.topNode                                = [SKSpriteNode spriteNodeWithTexture:[SIGameController SITextureMonkeyFace] size:CGSizeMake([SIGameController SISpriteNodeFallingMonkey].size.width * 1.5, [SIGameController SISpriteNodeFallingMonkey].size.height * 1.5)];
+    
+    _sceneMenuStartOneHandModeButton                = [SIGameController SIINButtonOneHandMode];
+    if (_gameModel.game.oneHandMode) {
+        _sceneMenuStartOneHandModeButton.selected   = true;
+    }
+    [_sceneMenuStartOneHandModeButton setTouchUpInsideTarget:self selector:@selector(oneHandGameModeButtonTouchedUpInside:)];
+    
+    menuNode.bottomCenterNodeYPadding               = (_sceneMenuStartOneHandModeButton.size.height / 2.0f) + VERTICAL_SPACING_8;
+    
+    if (menuNode.centerNode.parent) {
+        [NSException raise:NSInvalidArgumentException format:@"Center node cannot have a parent here"];
+    }
+    
+    
+    
+    SKSpriteNode *centerSpriteNode                  = [SKSpriteNode spriteNodeWithColor:[SKColor clearColor] size:CGSizeMake(_sceneMenuStartOneHandModeButton.size.width, (_sceneMenuStartOneHandModeButton.size.height * 2.0f) + VERTICAL_SPACING_8)];
+    
+    SKLabelNode *tapToPlay                          = [SIGameController SILabelHeader:@"tap to play"];
+    tapToPlay.verticalAlignmentMode                 = SKLabelVerticalAlignmentModeBottom;
+    tapToPlay.horizontalAlignmentMode               = SKLabelHorizontalAlignmentModeCenter;
+    tapToPlay.fontColor                             = [SKColor whiteColor];
+    
+    _sceneMenuStartOneHandModeButton.position       = CGPointMake(0.0f, 0.0f);
+    
+    _sceneMenuStartShopButton                       = [SIGameController SIINButtonPopupButtonImageNamed:kSIImageButtonStore text:[NSString stringWithFormat:@"%@",NSLocalizedString(kSITextMenuStartScreenStore, nil)] withFontSize:[SIGameController SIFontSizeHeader]];
+    _sceneMenuStartShopButton.position              = CGPointMake(0.0f, 2.0f * (_sceneMenuStartOneHandModeButton.size.height / 2.0f) + VERTICAL_SPACING_8);
+    [_sceneMenuStartShopButton setTouchUpInsideTarget:self selector:@selector(sceneMenuStartShopButtonTouchedUpInside:)];
+
+    
+//    tapToPlay.position                              = CGPointMake(0.0f, 4.0f * (_sceneMenuStartOneHandModeButton.size.height / 2.0f) + VERTICAL_SPACING_8 + VERTICAL_SPACING_8);
+    
+    [centerSpriteNode addChild:_sceneMenuStartOneHandModeButton];
+    [centerSpriteNode addChild:_sceneMenuStartShopButton];
+//    [centerSpriteNode addChild:tapToPlay];
+    
+    
+    menuNode.centerNode                             = centerSpriteNode;
+    menuNode.menuContentPosition                    = SIMenuNodeContentPositionBottom;
+
+    _sceneMenuStartToolbarNode                      = [SIGameController SIHLToolbarMenuStartScene:[SIGameController SIToolbarSceneMenuSize:size] isPremiumUser:[SIGameController premiumUser]];
+    _sceneMenuStartToolbarNode.delegate             = self;
+    menuNode.bottomNode                             = _sceneMenuStartToolbarNode;
     [_sceneMenuStartToolbarNode hlSetGestureTarget:_sceneMenuStartToolbarNode];
     [_sceneMenu registerDescendant:_sceneMenuStartToolbarNode withOptions:[NSSet setWithObject:HLSceneChildGestureTarget]];
 
-    menuNode.shopNode                           = [SKSpriteNode spriteNodeWithTexture:[[SIConstants atlasSceneMenu] textureNamed:kSIAtlasSceneMenuShop] size:CGSizeMake(_sceneMenuStartGridNode.size.width / 2.0f, (_sceneMenuStartGridNode.size.width / 2.0f) * 0.25)];
+//    menuNode.shopNode                               = [SKSpriteNode spriteNodeWithTexture:[[SIConstants atlasSceneMenu] textureNamed:kSIAtlasSceneMenuShop] size:CGSizeMake(_sceneMenuStartOneHandModeButton.size.width / 2.0f, (_sceneMenuStartOneHandModeButton.size.width / 2.0f) * 0.25)];
+//    INSKButtonNode *button                          =[SIGameController SIINButtonPopupButtonImageNamed:kSIImageButtonStore text:[NSString stringWithFormat:@"%@!",NSLocalizedString(kSITextMenuStartScreenStore, nil)] withFontSize:[SIGameController SIFontSizeHeader]];
+    
+    menuNode.freeNode                               = (SKSpriteNode *)tapToPlay;
 
+    
     return menuNode;
 }
+
+
+
 - (SIMenuNode *)SIMenuNodeSettingsSize:(CGSize)size {
     SIMenuNode *menuNode                        = [[SIMenuNode alloc] initWithSize:size type:SISceneMenuTypeSettings];
     
@@ -1225,6 +1248,7 @@
             break;
         case SIPowerUpTypeFallingMonkeys:
             /*Do Falling Monkeys in Setup*/
+            [self presentScene:SIGameControllerSceneFallingMonkey];
             break;
         default:
             break;
@@ -1296,14 +1320,118 @@
             if (_currentScene == _sceneGame) {
                 [_sceneGame sceneGameShowFreeCoinEarned];
             }
-            if ([SIConstants isFXAllowed]) {
-                [[SoundManager sharedManager] playSound:kSISoundFXChaChing];
-            }
+            [SIGame playSound:kSISoundFXChaChing];
         }
     }];
     
     [SIGame updateLifetimePointsScore:_gameModel.game.totalScore withNSUserDefaults:[NSUserDefaults standardUserDefaults]];
 }
+
+- (void)goToStartMenu {
+    _sceneGame.popupNode = nil;
+    [self presentScene:SIGameControllerSceneMenu];
+}
+
+- (void)startNewGame {
+    
+    NSLog(@"Wahoo!! Start a new game!");
+    
+//    [_sceneGame dismissModalNodeAnimation:HLScenePresentationAnimationFade];
+    _sceneGame.popupNode = nil;
+    
+    BOOL success = [self gameFireEvent:kSITKStateMachineEventGameWaitForMove userInfo:nil];
+    if (!success) {
+        [self gameFireEvent:kSITKStateMachineEventGameMenuEnd userInfo:nil];
+    }
+}
+
+- (void)shareScoreButton {
+    NSString *firstPart = [NSString stringWithFormat:@"%@ %0.2f %@",@"YES! I just got ", _gameModel.game.totalScore,@" points in Swype It #SwypeIt https://itunes.apple.com/app/swypeit/id939288788"];
+    NSArray *activityItems = [NSArray arrayWithObjects:firstPart, nil];
+    UIActivityViewController *activityVC = [[UIActivityViewController alloc] initWithActivityItems:activityItems applicationActivities:nil];
+    [self presentViewController:activityVC animated:YES completion:nil];
+}
+
+- (void)continueButtonUseCoins {
+    if ([_sceneGamePopupMenuItemTextContinueWithCoin isEqualToString:kSITextPopupContinueBuyCoins]) {
+        _sceneGamePopupContinueSIMenuNodeStore.delegate = self;
+        _sceneGamePopupContinue.backgroundSize = CGSizeMake(_sceneSize.width - VERTICAL_SPACING_16, _sceneSize.width - VERTICAL_SPACING_16);
+        _sceneGamePopupContinue.centerNode = _sceneGamePopupContinueSIMenuNodeStore;
+        [_sceneGamePopupContinue layoutXYZ];
+    } else {
+        BOOL success = [self gameFireEvent:kSITKStateMachineEventGamePayForContinue userInfo:@{kSINSDictionaryKeyPayToContinueMethod : @(SISceneGamePopupContinueMenuItemCoin)}];
+        if (!success) {
+            [self gameFireEvent:kSITKStateMachineEventGameMenuEnd userInfo:nil];
+        }
+    }
+}
+
+- (void)continueButtonWatchAds {
+    BOOL success = [self gameFireEvent:kSITKStateMachineEventGamePayForContinue userInfo:@{kSINSDictionaryKeyPayToContinueMethod : @(SISceneGamePopupContinueMenuItemAd)}];
+    if (!success) {
+        [self gameFireEvent:kSITKStateMachineEventGameMenuEnd userInfo:nil];
+    }
+}
+
+- (void)oneHandGameModeButtonTouchedUpInside:(INSKButtonNode *)button {
+    _gameModel.game.oneHandMode = button.selected;
+}
+- (void)sceneMenuStartShopButtonTouchedUpInside:(INSKButtonNode *)button {
+    [_sceneMenu pushMenuNode:_menuNodeStore];
+}
+
+/*
+ This is used to configure the details for the node that comes up on the end game popup
+    It has the details such as coing earcned and you know all that fun shit
+ */
+- (void)configureGameOverDetailsSpriteNode:(SKSpriteNode *)spriteNode forGame:(SIGame *)game {
+    for (SIPopupGameOverOverDetailsRowNode *row in spriteNode.children) {
+        if ([row.name isEqualToString:kSINodePopupRowTotalScore]) {
+            row.scoreLabel.text                 = [NSString stringWithFormat:@"%0.2f",game.totalScore];
+            row.textLabel.text                  = NSLocalizedString(kSITextMenuEndGameScore, nil);
+            
+        } else if ([row.name isEqualToString:kSINodePopupRowHighScore]) {
+            if (game.isHighScore) {
+                row.textLabel.text              = NSLocalizedString(kSITextMenuEndGameHighScoreNew, nil);
+                row.scoreLabel.text             = [NSString stringWithFormat:@"%0.2f",game.totalScore];
+                
+            } else {
+                row.textLabel.text              = NSLocalizedString(kSITextMenuEndGameHighScore, nil);
+                row.scoreLabel.text             = [NSString stringWithFormat:@"%0.2f",[[NSUserDefaults standardUserDefaults] floatForKey:kSINSUserDefaultLifetimeHighScore]];
+            }
+            
+        } else if ([row.name isEqualToString:kSINodePopupRowFreeCoins]) {
+            row.scoreLabel.text                 = [NSString stringWithFormat:@"%i",game.freeCoinsEarned];
+            row.textLabel.text                  = NSLocalizedString(kSITextMenuEndGameFreeCoinsEarned, nil);
+            
+        }
+    }
+}
+
+- (SKSpriteNode *)SISpriteNodePopupGameOverBottomNode {
+    INSKButtonNode *playAgainButton         = [SIGameController SIINButtonPopupButtonImageNamed:kSIAssestPopupButtonEndGame text:NSLocalizedString(kSITextPopupContinuePlayAgain, nil)];
+    playAgainButton.name                    = kSINodeButtonPlayAgain;
+    [playAgainButton setTouchUpInsideTarget:self selector:@selector(startNewGame)];
+    INSKButtonNode *shareButton             = [SIGameController SIINButtonPopupButtonImageNamed:kSIAssestPopupButtonShare text:NSLocalizedString(kSITextPopupContinueShare, nil)];
+    shareButton.name                        = kSINodeButtonPlayAgain;
+    [shareButton setTouchUpInsideTarget:self selector:@selector(shareScoreButton)];
+    INSKButtonNode *mainMenuButton          = [SIGameController SIINButtonPopupButtonImageNamed:kSIAssestPopupButtonEndGame text:NSLocalizedString(kSITextPopupContinueMainMenu, nil)];
+    mainMenuButton.name                     = kSINodeButtonEndGame;
+    [mainMenuButton setTouchUpInsideTarget:self selector:@selector(goToStartMenu)];
+    
+    SKSpriteNode *node                      = [SKSpriteNode spriteNodeWithColor:[SKColor clearColor] size:CGSizeMake(mainMenuButton.size.width, (mainMenuButton.size.height * 3.0f) + VERTICAL_SPACING_8)];
+    
+    [node addChild:playAgainButton];
+    [node addChild:shareButton];
+    [node addChild:mainMenuButton];
+    
+    playAgainButton.position                = CGPointMake(0.0f, (5.0f * (playAgainButton.size.height / 2.0f)) + (VERTICAL_SPACING_8));
+    shareButton.position                    = CGPointMake(0.0f, (3.0f * (playAgainButton.size.height / 2.0f)) + (VERTICAL_SPACING_8));
+    mainMenuButton.position                 = CGPointMake(0.0f, (playAgainButton.size.height / 2.0f));
+    
+    return node;
+}
+
 
 #pragma mark -
 #pragma mark - Delegate Handlers
@@ -1444,9 +1572,11 @@
  Called when singleton is unable to pull from internet for sync
  */
 - (void)controllerSingletonAchievementFailedToReachGameCenterWithError:(NSError *)error {
-    [JCNotificationCenter enqueueNotificationWithTitle:@"Dang!" message:@"Can't connect to game center" tapHandler:^{
-        NSLog(@"Tacos!!!!! hehe");
-    }];
+    if (error.code != GKErrorNotAuthenticated) {
+        [JCNotificationCenter enqueueNotificationWithTitle:@"Dang!" message:@"Can't connect to game center" tapHandler:^{
+            NSLog(@"Tacos!!!!! hehe");
+        }];
+    }
 }
 
 #pragma mark SIGameSceneDelegate
@@ -1501,14 +1631,15 @@
 /**
  Powerup tool bar was tapped
  */
-- (void)controllerSceneGameToolbar:(HLToolbarNode *)toolbar powerUpWasTapped:(SIPowerUpType)powerUp {
+- (void)controllerSceneGamePowerUpToolbarTappedWithToolTag:(NSString *)toolTag {
+    
     if ([_gameModel.stateMachine isInState:kSITKStateMachineStateGamePaused] == NO) {
-        BOOL canStartPowerUp = [SIPowerUp canStartPowerUp:powerUp powerUpArray:_gameModel.powerUpArray];
-        if (canStartPowerUp) {
-            SIPowerUp *newPowerUp = [[SIPowerUp alloc] initWithPowerUp:powerUp startTime:_gameTimeTotal];
+        if ([SIPowerUp canStartPowerUp:[SIPowerUp powerUpForString:toolTag] powerUpArray:_gameModel.powerUpArray]) {
+            SIPowerUp *newPowerUp = [[SIPowerUp alloc] initWithPowerUp:[SIPowerUp powerUpForString:toolTag] startTime:_gameTimeTotal];
             [self powerUpActivatePowerUp:newPowerUp];
         }
     }
+
 }
 
 /**
@@ -1528,9 +1659,9 @@
     progressBarUpdate.percentPowerUp = [SIPowerUp powerUpPercentRemaining:_gameModel.powerUpArray gameTimeTotal:_gameTimeTotal timeFreezeMultiplier:_timeFreezeMultiplier withCallback:^(SIPowerUp *powerUpToDeactivate) {
         [self powerUpDectivatePowerUp:powerUpToDeactivate];
     }];
-    
+        
     progressBarUpdate.pointsMove                    = _gameModel.game.currentPointsRemainingThisRound;
-    progressBarUpdate.hasStarted                    = [_gameModel.stateMachine isInState:kSITKStateMachineStateGameFallingMonkey];
+    progressBarUpdate.hasStarted                    = [_gameModel.stateMachine isInState:kSITKStateMachineStateGameIdle] || [_gameModel.stateMachine isInState:kSITKStateMachineStateGameProcessingMove];
     return progressBarUpdate;
 }
 
@@ -1620,19 +1751,22 @@
  notifies that the scene is ready to animate in the buttons and
  such
  */
-- (void)sceneMenuDidLoadType:(SISceneMenuType)type {
+- (void)menuSceneDidLoadMenuType:(SISceneMenuType)type {
     switch (type) {
         case SISceneMenuTypeStart:
-            switch ([self checkForDailyPrize]) {
-                case SIFreePrizeTypeNone:
-                    break;
-                default:
-                    _sceneMenuPopupContentFreePrize.labelNode.text = [NSString stringWithFormat:@"%d",[SIIAPUtility getDailyFreePrizeAmount]];
-                    _sceneMenu.popupNode = _sceneMenuPopupFreePrize;
-                    _sceneMenuPopupFreePrize.delegate = self;
-                    break;
+            // TODO: SWITCH THE FUCK OUT OF TEST MODE
+            if (!_testMode) {
+                switch ([self checkForDailyPrize]) {
+                    case SIFreePrizeTypeNone:
+                        break;
+                    default:
+                        _sceneMenuPopupContentFreePrize.labelNode.text = [NSString stringWithFormat:@"%d",[SIIAPUtility getDailyFreePrizeAmount]];
+                        _sceneMenu.popupNode = _sceneMenuPopupFreePrize;
+                        _sceneMenuPopupFreePrize.delegate = self;
+                        break;
+                }
+                break;
             }
-            break;
             
         default:
             break;
@@ -1668,24 +1802,20 @@
     [self gameFireEvent:kSITKStateMachineEventGameWaitForMove userInfo:nil];
 }
 
+- (void)menuSceneWasTappedToStart {
+    if (_sceneMenuStartOneHandModeButton.selected) {
+        [self launchSceneGameWithGameMode:SIGameModeOneHand];
+    } else {
+        [self launchSceneGameWithGameMode:SIGameModeTwoHand];
+    }
+}
+
 #pragma mark HLGridNodeDelegate
 - (void)gridNode:(HLGridNode *)gridNode didTapSquare:(int)squareIndex {
     if (_verbose) {
         NSLog(@"node at index %d tapped",squareIndex);
     }
-    if (gridNode == _sceneMenuStartGridNode) {
-        switch (squareIndex) {
-            case 0: //Launch Classic `SIGameModeTwoHand`
-                [self launchSceneGameWithGameMode:SIGameModeTwoHand];
-                break;
-            case 1: //Launch One Hand `SIGameModeOneHand`
-                [self launchSceneGameWithGameMode:SIGameModeOneHand];
-                break;
-            default:
-
-                break;
-        }
-    } else if (gridNode == _sceneMenuEndGridNode) {
+    if (gridNode == _sceneMenuEndGridNode) {
         switch (squareIndex) {
             case 0: //Share Facebook
                 // TODO: add facebook integration
@@ -1695,37 +1825,34 @@
                 // TODO: add twitter integration
                 NSLog(@"Twitter share button activated.");
                 break;
-            case 2: //Launch Classic `SIGameModeTwoHand`
-                [self launchSceneGameWithGameMode:SIGameModeTwoHand];
-                break;
-            case 3: //Launch One Hand `SIGameModeOneHand`
-                [self launchSceneGameWithGameMode:SIGameModeOneHand];
-                break;
             default:
-                [_sceneMenu pushMenuNode:_menuNodeStore];
                 break;
         }
     }
-
 }
+
 /**Called to launch an actual game*/
 - (void)launchSceneGameWithGameMode:(SIGameMode)gameMode {
     _gameModel.game.gameMode = gameMode;
     //pulse the game to the start
     NSError *error = nil;
-    BOOL success                                        = [_gameModel.stateMachine fireEvent:kSITKStateMachineEventGameWaitForMove userInfo:nil error:&error];
+    BOOL success = [_gameModel.stateMachine fireEvent:kSITKStateMachineEventGameWaitForMove userInfo:nil error:&error];
+    if (success) {
+//        [self controllerSceneMenuShowMenu:_menuNodeEnd menuNodeAnimiation:SIMenuNodeAnimationSlideOut delay:0.0f];
+    }
     if (_verbose) {
         NSLog(@"Able to Start engine: %@", success ? @"YES" : @"NO");
     }
 }
+
 #pragma mark HLMenuNodeDelegate
 - (void)menuNode:(HLMenuNode *)menuNode didTapMenuItem:(HLMenuItem *)menuItem itemIndex:(NSUInteger)itemIndex {
     if (menuNode == _sceneGamePopupContinueMenuNode) {
         if ([menuItem.text isEqualToString:_sceneGamePopupMenuItemTextContinueWithCoin]) {
-            if ([menuItem.text isEqualToString:kSIMenuTextPopUpBuyCoins]) {
+            if ([menuItem.text isEqualToString:kSITextPopupContinueBuyCoins]) {
                 _sceneGamePopupContinueSIMenuNodeStore.delegate = self;
                 _sceneGamePopupContinue.backgroundSize = CGSizeMake(_sceneSize.width - VERTICAL_SPACING_16, _sceneSize.width - VERTICAL_SPACING_16);
-                _sceneGamePopupContinue.popupContentNode = _sceneGamePopupContinueSIMenuNodeStore;
+                _sceneGamePopupContinue.centerNode = _sceneGamePopupContinueSIMenuNodeStore;
                 [_sceneGamePopupContinue layoutXYZ];
             } else {
                 BOOL success = [self gameFireEvent:kSITKStateMachineEventGamePayForContinue userInfo:@{kSINSDictionaryKeyPayToContinueMethod : @(SISceneGamePopupContinueMenuItemCoin)}];
@@ -1740,20 +1867,20 @@
                 [self gameFireEvent:kSITKStateMachineEventGameMenuEnd userInfo:nil];
             }
             
-        } else if ([menuItem.text isEqualToString:kSIMenuTextPopUpEndGame]) {
+        } else if ([menuItem.text isEqualToString:kSITextPopupContinueEnd]) {
             BOOL success = [self gameFireEvent:kSITKStateMachineEventGameMenuEnd userInfo:nil];
             if (!success) { //this is a critical failure...
                 [self presentScene:SIGameControllerSceneMenu];
             }
         }
     } else if (menuNode == _sceneMenuSettingsMenuNode) {
-        if ([menuItem.text isEqualToString:kSIMenuTextSettingsBugReport]) {
+        if ([menuItem.text isEqualToString:kSITextMenuSettingsBugReport]) {
             [Instabug invoke];
-        } else if ([menuItem.text isEqualToString:kSIMenuTextSettingsResetHighScore]) {
+        } else if ([menuItem.text isEqualToString:kSITextMenuSettingsResetHighScore]) {
             [self resetHighScore];
-        } else if ([menuItem.text isEqualToString:kSIMenuTextSettingsToggleSoundOffBackground] || [menuItem.text isEqualToString:kSIMenuTextSettingsToggleSoundOnBackground]) {
+        } else if ([menuItem.text isEqualToString:kSITextMenuSettingsToggleSoundOffBackground] || [menuItem.text isEqualToString:kSITextMenuSettingsToggleSoundOnBackground]) {
             [self changeBackgroundSoundIsAllowed:menuItem];
-        } else if ([menuItem.text isEqualToString:kSIMenuTextSettingsToggleSoundOffFX] || [menuItem.text isEqualToString:kSIMenuTextSettingsToggleSoundOnFX]) {
+        } else if ([menuItem.text isEqualToString:kSITextMenuSettingsToggleSoundOffFX] || [menuItem.text isEqualToString:kSITextMenuSettingsToggleSoundOnFX]) {
             [self changeFXSoundIsAllowed:menuItem];
         }
     } else if (menuNode == _sceneMenuStoreMenuNode || menuNode == (HLMenuNode*)_sceneGamePopupContinueSIMenuNodeStore.centerNode) {
@@ -1769,14 +1896,7 @@
 
 #pragma mark HLToolBarNodeDelegate
 - (void)toolbarNode:(HLToolbarNode *)toolbarNode didTapTool:(NSString *)toolTag {
-    if (toolbarNode == _sceneGameToolbarPowerUp) {
-        if ([_gameModel.stateMachine isInState:kSITKStateMachineStateGamePaused] == NO) {
-            if ([SIPowerUp canStartPowerUp:[SIPowerUp powerUpForString:toolTag] powerUpArray:_gameModel.powerUpArray]) {
-                SIPowerUp *newPowerUp = [[SIPowerUp alloc] initWithPowerUp:[SIPowerUp powerUpForString:toolTag] startTime:_gameTimeTotal];
-                [self powerUpActivatePowerUp:newPowerUp];
-            }
-        }
-    } else if (toolbarNode == _sceneMenuStartToolbarNode) {
+    if (toolbarNode == _sceneMenuStartToolbarNode) {
         if ([_sceneMenu modalNodePresented]) {
             [_sceneMenu dismissModalNodeAnimation:HLScenePresentationAnimationFade];
             return;
@@ -1829,24 +1949,25 @@
         case SISceneGameRingNodeSoundBackground:
             if ([SIConstants isBackgroundSoundAllowed]) {
                 /*Turn Background Sound Off*/
-                [[SoundManager sharedManager] stopMusic];
+                [SIGame setBackgroundSoundActive:NO];
+                [SIGame stopAllMusic];
             } else {
                 /*Turn Sound Background On*/
-                [[SoundManager sharedManager] playMusic:kSISoundBackgroundMenu looping:YES fadeIn:YES];
+                [SIGame setBackgroundSoundActive:YES];
+                [SIGame playMusic:kSISoundBackgroundMenu looping:YES fadeIn:YES];
             }
             [ringNode setHighlight:[SIConstants isBackgroundSoundAllowed] forItem:itemIndex];
-            [[NSUserDefaults standardUserDefaults] setBool:![SIConstants isBackgroundSoundAllowed] forKey:kSINSUserDefaultSoundIsAllowedBackground];
-            [[NSUserDefaults standardUserDefaults] synchronize];
             break;
         case SISceneGameRingNodeSoundFX:
             /*Change Sound FX State*/
             if ([SIConstants isFXAllowed]) {
                 /*Turn FX Sound Off*/
-                [[SoundManager sharedManager] stopAllSounds];
+                [SIGame setFXSoundActive:NO];
+                [SIGame stopAllSounds];
+            } else {
+                [SIGame setFXSoundActive:YES];
             }
             [ringNode setHighlight:[SIConstants isFXAllowed] forItem:itemIndex];
-            [[NSUserDefaults standardUserDefaults] setBool:![SIConstants isFXAllowed] forKey:kSINSUserDefaultSoundIsAllowedFX];
-            [[NSUserDefaults standardUserDefaults] synchronize];
             break;
         default:
             NSLog(@"Ring Node item tapped out of bounds index error :/");
@@ -1895,24 +2016,30 @@
 /**
  Called when the game wants to load
  */
-- (void)gameModelStateLoadingEntered {
-    _sceneLoading = [SIGameController SILoaderSceneLoadingSize:_sceneSize];
-    [self loadingIncrementWillOverrideAndKill:NO];
-    [self presentScene:SIGameControllerSceneLoading];
-    /*Load the scenes*/
-    [self loadAllScenes];
-}
+//- (void)gameModelStateLoadingEntered {
+//    _sceneLoading = [SIGameController SILoaderSceneLoadingSize:_sceneSize];
+//    [self loadingIncrementWillOverrideAndKill:NO];
+//    [self presentScene:SIGameControllerSceneLoading];
+//    /*Load the scenes*/
+//    [self loadAllScenes];
+//}
 
 /**
  Called when the game is done loading
  */
 - (void)gameModelStateLoadingExited {
     NSLog(@"Load State Exited");
+    _sceneLoading = [SIGameController SILoaderSceneLoadingSize:_sceneSize];
+    [self loadingIncrementWillOverrideAndKill:NO];
+    [self presentScene:SIGameControllerSceneLoading];
+    /*Load the scenes*/
+    [self loadAllScenes];
     [_loadTimer invalidate];
     _loadTimer = nil;
 }
 - (void)gameModelStateStartEntered {
     if (_sceneMenu == nil) {
+        [NSException raise:NSInvalidArgumentException format:@"Menu Scene Cannot be nil here"];
         _sceneMenu = [self loadMenuScene];
     }
     
@@ -1949,8 +2076,8 @@
     }
     
     _sceneGame.backgroundColor                          = _gameModel.game.currentBackgroundColor;
-    _sceneGame.progressBarMove.fillColor                = _gameModel.game.currentBackgroundColor;
-    _sceneGame.progressBarPowerUp.fillColor             = _gameModel.game.currentBackgroundColor;
+//    _sceneGame.progressBarMove.fillColor                = _gameModel.game.currentBackgroundColor;
+    _sceneGame.progressBarPowerUp.backgroundColor       = [SKColor blackColor]; //_gameModel.game.currentBackgroundColor;
     _sceneGame.scoreTotalLabel.text                     = [NSString stringWithFormat:@"%0.2f",_gameModel.game.totalScore];
     _sceneGame.progressBarFreeCoin.progress             = _gameModel.game.freeCoinPercentRemaining;
     
@@ -1973,9 +2100,7 @@
         [self gameProcessAndApplyCorrectMove:_currentMove];
         
         //  launch the move command and such
-        SKLabelNode *moveLabel                          = [SIGameController moveScoreLabel:_currentMove.moveScore];
-        moveLabel.position                              = CGPointMake(_sceneSize.width / 2.0f, _sceneSize.height / 2.0f);
-        [_sceneGame sceneGameWillShowMoveScore:moveLabel];
+        _sceneGame.scoreMoveLabel                       = [SIGameController SILabelSceneGameMoveScoreLabel];
         [_sceneGame sceneGameLaunchMoveCommandLabelWithCommandAction:moveForBackground.moveCommandAction];
         
         //  send move to achievement
@@ -1997,6 +2122,7 @@
         [self gameFireEvent:kSITKStateMachineEventGameWrongMoveEntered userInfo:nil];
         //  load start/end scene
         if (_sceneMenu == nil) {
+            [NSException raise:NSInvalidArgumentException format:@"Menu Scene Cannot be nil here"];
             _sceneMenu                                  = [self loadMenuScene];
         }
     }
@@ -2033,36 +2159,50 @@
     [self timerFireEvent:kSITKStateMachineEventTimerPause userInfo:nil];
     
     
-    if ([SIIAPUtility canAffordContinueNumberOfTimesContinued:_gameModel.game.currentNumberOfTimesContinued]) {
-        _sceneGamePopupMenuItemTextContinueWithCoin     = [NSString stringWithFormat:@"Use %d Coins!",(int)[SIGame lifeCostForNumberOfTimesContinued:_gameModel.game.currentNumberOfTimesContinued]];
-        [[[_sceneGamePopupContinueMenuNode menu] itemAtIndex:SISceneGamePopupContinueMenuItemCoin] setText:_sceneGamePopupMenuItemTextContinueWithCoin];
-    } else {
-        _sceneGamePopupMenuItemTextContinueWithCoin     = kSIMenuTextPopUpBuyCoins;
-        [[[_sceneGamePopupContinueMenuNode menu] itemAtIndex:SISceneGamePopupContinueMenuItemCoin] setText:_sceneGamePopupMenuItemTextContinueWithCoin];
+    for (SKNode *node in _sceneGamePopupContinue.centerNode.children) {
+        if ([node.name isEqualToString:kSINodeButtonUseCoins]) {
+            if ([SIIAPUtility canAffordContinueNumberOfTimesContinued:_gameModel.game.currentNumberOfTimesContinued]) {
+                _sceneGamePopupMenuItemTextContinueWithCoin     = [NSString stringWithFormat:@"Use %d Coins!",(int)[SIGame lifeCostForNumberOfTimesContinued:_gameModel.game.currentNumberOfTimesContinued]];
+            } else {
+                _sceneGamePopupMenuItemTextContinueWithCoin     = kSITextPopupContinueBuyCoins;
+            }
+            ((SKLabelNode *)[((INSKButtonNode *)node).nodeNormal childNodeWithName:kSINodeButtonText]).text = _sceneGamePopupMenuItemTextContinueWithCoin;
+            [((INSKButtonNode *)node) setTouchUpInsideTarget:self selector:@selector(continueButtonUseCoins)];
 
+        } else if ([node.name isEqualToString:kSINodeButtonWatchAds]) {
+            _sceneGamePopupMenuItemTextContinueWithAd           = [NSString stringWithFormat:@"Watch %d Ads!",(int)[SIGame adCountForNumberOfTimesContinued:_gameModel.game.currentNumberOfTimesContinued]];
+            ((SKLabelNode *)[((INSKButtonNode *)node).nodeNormal childNodeWithName:kSINodeButtonText]).text = _sceneGamePopupMenuItemTextContinueWithAd;
+            [((INSKButtonNode *)node) setTouchUpInsideTarget:self selector:@selector(continueButtonWatchAds)];
+
+        }
     }
     
-    _sceneGamePopupMenuItemTextContinueWithAd           = [NSString stringWithFormat:@"Watch %d Ads!",(int)[SIGame adCountForNumberOfTimesContinued:_gameModel.game.currentNumberOfTimesContinued]];
-    [[[_sceneGamePopupContinueMenuNode menu] itemAtIndex:SISceneGamePopupContinueMenuItemAd] setText:_sceneGamePopupMenuItemTextContinueWithAd];
-    
-    [_sceneGamePopupContinueMenuNode redisplayMenuAnimation:HLMenuNodeAnimationNone];
-    
-    /*Configure mwnu on popup*/
-    _sceneGamePopupContinueMenuNode.delegate            = self;
-    [_sceneGamePopupContinueMenuNode hlSetGestureTarget:_sceneGamePopupContinueMenuNode];
-    [_sceneGame registerDescendant:_sceneGamePopupContinueMenuNode withOptions:[NSSet setWithObject:HLSceneChildGestureTarget]];
-    
-    /*configure the popup*/
-    _sceneGamePopupContinue.delegate                    = self;
-    _sceneGamePopupContinue.popupContentNode            = _sceneGamePopupContinueMenuNode;
-    [_sceneGamePopupContinue hlSetGestureTarget:_sceneGamePopupContinue];
-    [_sceneGame registerDescendant:_sceneGamePopupContinue withOptions:[NSSet setWithObject:HLSceneChildGestureTarget]];
-    
     /*This is all you need to set to make the game scene display a popup because it will relayout the z*/
+    _sceneGamePopupContinue.startTime                   = [NSDate timeIntervalSinceReferenceDate];
+    _sceneGamePopupContinue.countDownTimerState         = SIPopupCountDownTimerRunning;
+    _continueGameTimer                                  = [NSTimer scheduledTimerWithTimeInterval:TIMER_INTERVAL target:self selector:@selector(sceneGamePopupContinueGameTimerAsyncUpdate:) userInfo:nil repeats:YES];
+
     _sceneGame.popupNode                                = _sceneGamePopupContinue;
 }
 
+- (void)sceneGamePopupContinueGameTimerAsyncUpdate:(NSTimer *)timer {
+    if (_sceneGamePopupContinue.countDownTimerState == SIPopupCountDownTimerRunning) {
+        NSTimeInterval remainingTime = 4.0f - ([NSDate timeIntervalSinceReferenceDate] - _sceneGamePopupContinue.startTime);
+//        NSTimeInterval remainingTime = 11.0f - (currentTime - _popupNode.startTime);
+        ((SKLabelNode *)_sceneGamePopupContinue.topNode).text = [NSString stringWithFormat:@"%i",(int)remainingTime];
+        [_sceneGamePopupContinue.topNode runAction:[SKAction scaleTo:remainingTime - floorf(remainingTime) duration:0.0f]];
+        if (remainingTime < (EPSILON_NUMBER + 1.0f)) {
+            //Call to go to end game
+            [_sceneGamePopupContinue.topNode runAction:[SKAction scaleTo:1.0f duration:0.0f]];
+            [self gameFireEvent:kSITKStateMachineEventGameMenuEnd userInfo:nil];
 
+//            [self makePopupBigger];
+            [_continueGameTimer invalidate];
+            
+        }
+    }
+    
+}
 
 /**
  //pause time
@@ -2124,11 +2264,31 @@
  */
 - (void)gameModelStateEndEntered {
     if (!_sceneMenu) {
-        _sceneMenu = [self loadMenuScene];
+        [NSException raise:NSInvalidArgumentException format:@"Menu Scene Cannot be nil here"];
+
+        _sceneMenu                                                  = [self loadMenuScene];
     }
     
-    [self presentScene:SIGameControllerSceneMenu];
+//    [self presentScene:SIGameControllerSceneMenu];
     
+    //This alters the state of the popup
+    
+    _sceneGamePopupContinue.backgroundSize                          = CGSizeMake(_sceneSize.width - [SIGameController xPaddingPopupContinue], _sceneSize.height - [SIGameController xPaddingPopupContinue]);
+    _sceneGamePopupContinue.dismissButtonVisible                    = YES;
+    
+    _sceneGamePopupContinue.bottomNode                              = nil;
+    
+    _sceneGamePopupContinue.bottomNode                              = _sceneGamePopupGameOverBottomNode;
+    
+    ((SKLabelNode *)_sceneGamePopupContinue.titleContentNode).text  = NSLocalizedString(kSITextPopupContinueGameOver, nil);
+    
+    _sceneGamePopupContinue.centerNode                              = nil;
+    _sceneGamePopupContinue.topNode                                 = nil;
+    
+    [self configureGameOverDetailsSpriteNode:_sceneGamePopupGameOverEndNode forGame:_gameModel.game];
+    
+    _sceneGamePopupContinue.topNode                                 = _sceneGamePopupGameOverEndNode;
+    _sceneGamePopupContinue.topNode.position                        = CGPointMake(0.0f, ((SKLabelNode *)_sceneGamePopupContinue.titleContentNode).frame.size.height + (_sceneGamePopupGameOverEndNode.size.height / 2.0f));
     
 }
 
@@ -2180,6 +2340,32 @@
 //\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 ////////////////////////////////////////////////////////////////////////////////////
 
+
+#pragma mark INSpriteKitButtonDelegate
+- (void)buttonNode:(INSKButtonNode *)button touchUp:(BOOL)touchUp inside:(BOOL)touchInside {
+    if (touchUp) {
+        if (touchInside) {
+            NSLog(@"'%@' touched up inside", button.name);
+        } else {
+            NSLog(@"'%@' touched up outside", button.name);
+        }
+    } else {
+        NSLog(@"'%@' touched down", button.name);
+    }
+}
+
+- (void)buttonNode:(INSKButtonNode *)button touchMoveUpdatesHighlightState:(BOOL)isHighlighted {
+    if (isHighlighted) {
+        NSLog(@"'%@' highlights again", button.name);
+    } else {
+        NSLog(@"'%@' not highlighted anymore", button.name);
+    }
+}
+
+- (void)buttonNodeTouchCancelled:(INSKButtonNode *)button {
+    NSLog(@"'%@' has all touches get cancelled", button.name);
+}
+
 #pragma mark -
 #pragma mark - Class Functions
 #pragma mark Floats
@@ -2204,19 +2390,6 @@
     }
 }
 
-+ (CGFloat)SIFontSizeMoveCommand {
-    if (IS_IPHONE_4) {
-        return 40.0f;
-    } else if (IS_IPHONE_5) {
-        return 50.0f;
-    } else if (IS_IPHONE_6) {
-        return 60.0f;
-    } else if (IS_IPHONE_6_PLUS) {
-        return 70.0f;
-    } else {
-        return 100.0f;
-    }
-}
 + (CGFloat)SIFontSizeHeader {
     if (IS_IPHONE_4) {
         return 36.0f;
@@ -2235,6 +2408,22 @@
 }
 + (CGFloat)SIFontSizeHeader_x3 {
     return [SIGameController SIFontSizeHeader] + 8.0f;
+}
++ (CGFloat)SIFontSizeMoveCommand {
+    if (IS_IPHONE_4) {
+        return 40.0f;
+    } else if (IS_IPHONE_5) {
+        return 50.0f;
+    } else if (IS_IPHONE_6) {
+        return 60.0f;
+    } else if (IS_IPHONE_6_PLUS) {
+        return 70.0f;
+    } else {
+        return 100.0f;
+    }
+}
++ (CGFloat)SIFontSizeMoveScore {
+    return [SIGameController SIFontSizeMoveCommand] * 1.5f;
 }
 + (CGFloat)SIFontSizeParagraph {
     if (IS_IPHONE_4) {
@@ -2258,7 +2447,7 @@
 + (CGFloat)SIFontSizeParagraph_x4 {
     return [SIGameController SIFontSizeParagraph] + 12.0f;
 }
-+ (CGFloat)SIFontSizePopUp {
++ (CGFloat)SIFontSizePopup {
     if (IS_IPHONE_4) {
         return 26.0f;
     } else if (IS_IPHONE_5) {
@@ -2290,11 +2479,28 @@
 + (CGFloat)SIFontSizeText_x3 {
     return [SIGameController SIFontSizeText] + 4.0f;
 }
++ (CGFloat)SIFontSizeText_x4 {
+    return [SIGameController SIFontSizeText] + 6.0f;
+}
++ (CGFloat)SIFontSizeTextFree {
+    if (IS_IPHONE_4) {
+        return 12.0f;
+    } else if (IS_IPHONE_5) {
+        return 12.0f;
+    } else if (IS_IPHONE_6) {
+        return 12.0f;
+    } else if (IS_IPHONE_6_PLUS) {
+        return 15.0f;
+    } else {
+        return 16.0f;
+    }
+}
+
 + (CGFloat)xPaddingPopupContinue {
     if (IS_IPHONE_4) {
-        return 24.0f;
+        return 8.0f;
     } else if (IS_IPHONE_5) {
-        return 28.0f;
+        return 14.0f;
     } else if (IS_IPHONE_6) {
         return 48.0f;
     } else if (IS_IPHONE_6_PLUS) {
@@ -2375,7 +2581,12 @@
 }
 
 + (CGSize)SIProgressBarGameMoveSize:(CGSize)size {
-    return CGSizeMake(size.width, (size.height / 2.0f) - [SIGameController SIButtonSize:size].height - ([SIGameController SIFontSizeMoveCommand] / 2.0f) - VERTICAL_SPACING_16);
+    if ([SIGameController premiumUser]) {
+        return CGSizeMake(size.width, (size.height / 2.0f) - [SIGameController SIButtonSize:size].height - ([SIGameController SIFontSizeMoveCommand] / 2.0f) - VERTICAL_SPACING_16);
+    } else {
+        return CGSizeMake(size.width, (size.height / 2.0f) - [SIGameController SIButtonSize:size].height - ([SIGameController SIFontSizeMoveCommand] / 2.0f) - VERTICAL_SPACING_16 - [SIGameController SIAdBannerViewHeight]);
+
+    }
 
 }
 
@@ -2476,7 +2687,9 @@
         [[NSUserDefaults standardUserDefaults] synchronize];
     }
     
-    return [premiumUserNumber boolValue];
+//    return [premiumUserNumber boolValue];
+    // TODO: REMOVE THIS LINE HOLY SHIT REMOVE THIS LINE
+    return true;
 }
 
 #pragma mark SKLabelNodes
@@ -2516,6 +2729,12 @@
     label.fontName      = kSISFFontDisplayMedium;
     return label;
 }
++ (SKLabelNode *)SILabelText:(NSString *)text {
+    SKLabelNode *label  = [SIGameController SILabelInterfaceFontSize:[SIGameController SIFontSizeText]];
+    label.text          = text;
+    label.fontName      = kSISFFontTextMedium;
+    return label;
+}
 + (SKLabelNode *)SILabelParagraph_x4:(NSString *)text {
     SKLabelNode *label  = [SIGameController SILabelInterfaceFontSize:[SIGameController SIFontSizeParagraph_x4]];
     label.text          = text;
@@ -2537,6 +2756,39 @@
     }
     return moveLabel;
 }
+
++ (SKLabelNode *)SILabelSceneGamePopupTitle {
+    SKLabelNode *moveLabel = moveCommandLabelNode();
+    moveLabel.fontSize = [SIGameController SIFontSizeHeader];
+    return moveLabel;
+}
+
++ (SKLabelNode *)SILabelSceneGamePopupCountdown {
+    SKLabelNode *label      =  moveCommandLabelNode();
+    
+    label.fontSize          = [SIGameController SIFontSizeHeader_x2];
+    label.name              = kSINodePopupCountdown;
+    label.text              = @"10";
+    
+    return label;
+}
+
++ (SKLabelNode *)SILabelSceneGameMoveScoreLabel {
+    SKLabelNode *labelNode              = moveCommandLabelNode();
+    labelNode.fontSize                  = [SIGameController SIFontSizeMoveScore];
+    return labelNode;
+}
+
++ (SKLabelNode *)SILabelSceneGamePopupFree {
+    SKLabelNode *freeLabel                  = [SKLabelNode labelNodeWithFontNamed:kSISFFontTextSemiboldItalic];
+    freeLabel.text                          = NSLocalizedString(kSITextPopupContinueFree, nil);
+    freeLabel.fontSize                      = [SIGameController SIFontSizeTextFree];
+    freeLabel.color                         = [SKColor whiteColor];
+    freeLabel.verticalAlignmentMode         = SKLabelVerticalAlignmentModeCenter;
+    freeLabel.horizontalAlignmentMode       = SKLabelHorizontalAlignmentModeCenter;
+    return freeLabel;
+}
+
 #pragma mark SKSpriteNodes
 + (SKSpriteNode *)SISpriteNodeFallingMonkey {
     static SKSpriteNode *monkey = nil;
@@ -2551,25 +2803,17 @@
 }
 
 + (SKSpriteNode *)SISpriteNodeBanana {
-    static SKSpriteNode *node = nil;
-    if (!node) {
-        node                                    = [SKSpriteNode spriteNodeWithTexture:[[SIConstants atlasSceneFallingMonkey]
-                                                                                       textureNamed:kSIAtlasSceneFallingMonkeyBanana]
-                                                                                 size:[SIGameController SIBananaSize]];
-    }
+    SKSpriteNode *node = [SKSpriteNode spriteNodeWithTexture:[[SIConstants atlasSceneFallingMonkey]
+                                                              textureNamed:kSIAtlasSceneFallingMonkeyBanana]
+                                                        size:[SIGameController SIBananaSize]];
     return node;
-
 }
 
 + (SKSpriteNode *)SISpriteNodeBananaBunch {
-    static SKSpriteNode *node = nil;
-    if (!node) {
-        node                                    = [SKSpriteNode spriteNodeWithTexture:[[SIConstants atlasSceneFallingMonkey]
-                                                                                       textureNamed:kSIAtlasSceneFallingMonkeyBananaBunch]
-                                                                                 size:[SIGameController SIBananaBunchSize]];
-    }
+    SKSpriteNode *node = [SKSpriteNode spriteNodeWithTexture:[[SIConstants atlasSceneFallingMonkey]
+                                                              textureNamed:kSIAtlasSceneFallingMonkeyBananaBunch]
+                                                        size:[SIGameController SIBananaBunchSize]];
     return node;
-
 }
 
 + (SKSpriteNode *)SISpriteNodeCoinLargeFront {
@@ -2579,6 +2823,69 @@
     }
     return coinNode;
 }
+
++ (SKSpriteNode *)SISpriteNodePopupContinueCenterNode {
+    INSKButtonNode *useCoinsButton          = [SIGameController SIINButtonPopupButtonImageNamed:kSIAssestPopupButtonUseCoins text:NSLocalizedString(kSITextPopupContinueBuyCoins, nil)];
+    useCoinsButton.name                     = kSINodeButtonUseCoins;
+    INSKButtonNode *watchAdButton           = [SIGameController SIINButtonPopupButtonImageNamed:kSIAssestPopupButtonWatchAd text:NSLocalizedString(kSITextPopupContinueWatchAdPlural, nil)];
+    watchAdButton.name                      = kSINodeButtonWatchAds;
+    
+    SKSpriteNode *node = [SKSpriteNode spriteNodeWithColor:[SKColor clearColor] size:CGSizeMake(watchAdButton.size.width, (watchAdButton.size.height * 2.0f) + VERTICAL_SPACING_8)];
+    
+    SKSpriteNode *freeBadge                 = [SKSpriteNode spriteNodeWithImageNamed:kSIAssestPopupFreeStar];
+    SKLabelNode *freeLabel                  = [SIGameController SILabelSceneGamePopupFree];
+    
+    freeBadge.position                      = CGPointMake(watchAdButton.size.width / 2.0f - (freeBadge.size.width / 2.0f) - VERTICAL_SPACING_4, 0.0f);
+    freeLabel.position                      = freeBadge.position;
+    
+    [watchAdButton addChild:freeBadge];
+    [watchAdButton addChild:freeLabel];
+    
+    SKAction *grow                          = [SKAction scaleTo:1.1 duration:0.5];
+    SKAction *shrink                        = [SKAction scaleTo:1.0 duration:0.5];
+    SKAction *seq                           = [SKAction sequence:@[grow, shrink]];
+    SKAction *rotate                        = [SKAction rotateByAngle:-M_2_PI duration:1.0f];
+    SKAction *group                         = [SKAction group:@[seq,rotate]];
+    
+    [freeBadge runAction:[SKAction repeatActionForever:group]];
+    
+    
+    [node addChild:useCoinsButton];
+    [node addChild:watchAdButton];
+    
+    useCoinsButton.position = CGPointMake(0.0f, (useCoinsButton.size.height / 2.0f) + (VERTICAL_SPACING_4 / 2.0f));
+    watchAdButton.position = CGPointMake(0.0f, -1.0f * ((useCoinsButton.size.height / 2.0f) + (VERTICAL_SPACING_4 / 2.0f)));
+
+    return node;
+}
+
++ (SKSpriteNode *)SISpriteNodePopupGameOverEndNode {
+    CGSize nodeSize = [SIGameController SIINButtonPopupButtonImageNamed:kSIAssestPopupButtonWatchAd text:NSLocalizedString(kSITextPopupContinueWatchAdPlural, nil)].size;
+    
+    SKSpriteNode *bgNode = [SKSpriteNode spriteNodeWithColor:[SKColor clearColor] size:CGSizeMake(nodeSize.width, nodeSize.height * 3)];
+
+    SIPopupGameOverOverDetailsRowNode *row1 = [SIGameController SIPopupGameOverDetailsRowNodeWithSize:nodeSize];
+    row1.name                               = kSINodePopupRowTotalScore;
+    SIPopupGameOverOverDetailsRowNode *row2 = [SIGameController SIPopupGameOverDetailsRowNodeWithSize:nodeSize];
+    row2.name                               = kSINodePopupRowHighScore;
+    SIPopupGameOverOverDetailsRowNode *row3 = [SIGameController SIPopupGameOverDetailsRowNodeWithSize:nodeSize];
+    row3.name                               = kSINodePopupRowFreeCoins;
+    
+    CGFloat yPosInit = nodeSize.height;
+    
+    row1.position                           = CGPointMake(0.0f, yPosInit + VERTICAL_SPACING_4);
+    row2.position                           = CGPointMake(0.0f, 0.0f);
+    row3.position                           = CGPointMake(0.0f, (-1.0f * yPosInit) - VERTICAL_SPACING_4);
+    
+    [bgNode addChild:row1];
+    [bgNode addChild:row2];
+    [bgNode addChild:row3];
+
+    return bgNode;
+}
+
+
+
 
 #pragma mark SKTextures
 + (SKTexture *)SITextureMonkeyFace {
@@ -2657,34 +2964,30 @@
 }
 
 #pragma mark HLMenuNodes
-+ (HLMenuNode *)SIHLMenuNodeSceneGamePopup:(SIPopupNode *)popupNode {
+
+
++ (HLMenuNode *)SIHLMenuNodeSceneGamePopupContinue {
     HLMenuNode *menuNode                = [[HLMenuNode alloc] init];
     menuNode.itemAnimation              = HLMenuNodeAnimationSlideLeft;
     menuNode.itemAnimationDuration      = SCENE_TRANSISTION_DURATION_FAST;
-    menuNode.itemButtonPrototype        = [SIGameController SIHLLabelButtonMenuPopup:[SIGameController SIButtonSize:popupNode.backgroundSize]];
-    menuNode.backItemButtonPrototype    = [SIGameController SIHLLabelButtonMenuPrototypeBack:[SIGameController SIButtonSize:popupNode.backgroundSize]];
-    menuNode.itemSeparatorSize          = 20;
+    menuNode.itemButtonPrototype        = [SIGameController SIINButtonNamed:kSIAssestPopupButtonWatchAd];
+    menuNode.backItemButtonPrototype    = [SIGameController SIINButtonNamed:kSIAssestPopupButtonWatchAd];
+    menuNode.itemSeparatorSize          = VERTICAL_SPACING_4;
     
     HLMenu *menu                        = [[HLMenu alloc] init];
     
-    HLMenuItem *item = [HLMenuItem menuItemWithText:kSIMenuTextPopUpBuyCoins];
+    HLMenuItem *item = [HLMenuItem menuItemWithText:kSITextPopupContinueBuyCoins];
     [menu addItem:item];
     
     
-    [menu addItem:[HLMenuItem menuItemWithText:kSIMenuTextPopUpWatchAd]];
+    [menu addItem:[HLMenuItem menuItemWithText:kSITextPopupContinueWatchAdSingular]];
     
     /*Add the Back Button... Need to change the prototype*/
-    HLMenuItem *endGameItem             = [HLMenuItem menuItemWithText:kSIMenuTextPopUpEndGame];
-    endGameItem.buttonPrototype         = [SIGameController SIHLLabelButtonMenuPrototypeBack:[SIGameController SIButtonSize:popupNode.backgroundSize]];
+    HLMenuItem *endGameItem             = [HLMenuItem menuItemWithText:kSITextPopupContinueEnd];
+    endGameItem.buttonPrototype         = [SIGameController SIINButtonNamed:kSIAssestPopupButtonEndGame];
     [menu addItem:endGameItem];
     
     [menuNode setMenu:menu animation:HLMenuNodeAnimationNone];
-    
-    menuNode.position                   = CGPointMake(0.0f, 0.0f);
-    
-    if (popupNode) {
-        popupNode.popupContentNode      = menuNode;
-    }
     
     return menuNode;
 }
@@ -2776,15 +3079,15 @@
     
     SIPowerUpToolbarNode *timeFreezeNode        = [[SIPowerUpToolbarNode alloc] initWithSIPowerUp:SIPowerUpTypeTimeFreeze size:toolbarNodeSize];
     [toolNodes  addObject:timeFreezeNode];
-    [toolTags   addObject:kSINodeButtonTimeFreeze];
+    [toolTags   addObject:kSIPowerUpTypeTimeFreeze];
     
     SIPowerUpToolbarNode *rapidFireNode         = [[SIPowerUpToolbarNode alloc] initWithSIPowerUp:SIPowerUpTypeRapidFire size:toolbarNodeSize];
     [toolNodes addObject:rapidFireNode];
-    [toolTags addObject:kSINodeButtonRapidFire];
+    [toolTags addObject:kSIPowerUpTypeRapidFire];
     
     SIPowerUpToolbarNode *fallingMonkeyNode     = [[SIPowerUpToolbarNode alloc] initWithSIPowerUp:SIPowerUpTypeFallingMonkeys size:toolbarNodeSize];
     [toolNodes addObject:fallingMonkeyNode];
-    [toolTags addObject:kSINodeButtonFallingMonkey];
+    [toolTags addObject:kSIPowerUpTypeFallingMonkeys];
     
     [toolbarNode setTools:toolNodes tags:toolTags animation:HLToolbarNodeAnimationSlideUp];
     
@@ -2804,14 +3107,14 @@
     HLMenu *menu = [[HLMenu alloc] init];
     
     /*Add the regular buttons*/
-    [menu addItem:[HLMenuItem menuItemWithText:kSIMenuTextSettingsResetHighScore]];
+    [menu addItem:[HLMenuItem menuItemWithText:kSITextMenuSettingsResetHighScore]];
     
-    [menu addItem:[HLMenuItem menuItemWithText:kSIMenuTextSettingsBugReport]];
+    [menu addItem:[HLMenuItem menuItemWithText:kSITextMenuSettingsBugReport]];
     
-    NSString *sceneSettingsMenuItemTextSoundBackground = [[NSUserDefaults standardUserDefaults] boolForKey:kSINSUserDefaultSoundIsAllowedBackground] ? kSIMenuTextSettingsToggleSoundOffBackground : kSIMenuTextSettingsToggleSoundOnBackground;
+    NSString *sceneSettingsMenuItemTextSoundBackground = [SIConstants isBackgroundSoundAllowed]? kSITextMenuSettingsToggleSoundOffBackground : kSITextMenuSettingsToggleSoundOnBackground;
     [menu addItem:[HLMenuItem menuItemWithText:sceneSettingsMenuItemTextSoundBackground]];
     
-    NSString *sceneSettingsMenuItemTextSoundFX = [[NSUserDefaults standardUserDefaults] boolForKey:kSINSUserDefaultSoundIsAllowedFX] ? kSIMenuTextSettingsToggleSoundOffFX : kSIMenuTextSettingsToggleSoundOnFX;
+    NSString *sceneSettingsMenuItemTextSoundFX = [SIConstants isFXAllowed] ? kSITextMenuSettingsToggleSoundOffFX : kSITextMenuSettingsToggleSoundOnFX;
     [menu addItem:[HLMenuItem menuItemWithText:sceneSettingsMenuItemTextSoundFX]];
     
     [menuNode setMenu:menu animation:HLMenuNodeAnimationNone];
@@ -2832,19 +3135,47 @@
 /**
  Creates a grid node for menu
  */
-+ (HLGridNode *)SIHLGridNodeMenuSceneStartSize:(CGSize)size {
+//+ (HLGridNode *)SIHLGridNodeMenuSceneStartSize:(CGSize)size {
+//    int gridWidth                       = 2;
+//    int squareCount                     = 2;
+//    
+//    CGFloat squareSeparatorSize         = VERTICAL_SPACING_16;
+//    
+//    CGFloat squareWidth                 = ((size.width * 0.75) - (squareSeparatorSize * 3)) / 2.0f;
+//    CGFloat squareHeight                = squareWidth * 0.8f;
+//    
+//    INSKButtonNode *node1                 = [INSKButtonNode buttonNodeWithImageNamed:kSIAssestMenuButtonPlayClassic];
+//    INSKButtonNode *node2                 = [INSKButtonNode buttonNodeWithImageNamed:kSIAssestMenuButtonPlayOneHand];
+//    
+//    HLGridNode *gridNode                = [[HLGridNode alloc] initWithGridWidth:gridWidth
+//                                                                    squareCount:squareCount
+//                                                                    anchorPoint:CGPointMake(0.5f, 0.0f)
+//                                                                     layoutMode:HLGridNodeLayoutModeFill
+//                                                                     squareSize:CGSizeMake(squareWidth, squareHeight)
+//                                                           backgroundBorderSize:0.0f
+//                                                            squareSeparatorSize:squareSeparatorSize];
+//    
+//    gridNode.backgroundColor            = [SKColor clearColor]; //[SKColor blackColor];
+//    gridNode.squareColor                = [SKColor clearColor];
+//    gridNode.highlightColor             = [SKColor clearColor];
+//    gridNode.content = @[node1,node2];
+//    
+//    return gridNode;
+//}
++ (HLGridNode *)SIHLGridNodeMenuSceneEndSize:(CGSize)size {
     int gridWidth                       = 2;
     int squareCount                     = 2;
     
-    CGFloat squareSeparatorSize         = VERTICAL_SPACING_16;
+    CGFloat squareSeparatorSize         = VERTICAL_SPACING_8;
     
-    CGFloat squareWidth                 = ((size.width * 0.75) - (squareSeparatorSize * 3)) / 2.0f;
+    CGFloat squareWidth                 = (size.width - (squareSeparatorSize * 3)) / 2.0f;
     CGFloat squareHeight                = squareWidth * 0.8f;
-    
-    SKSpriteNode *node1                 = [SKSpriteNode spriteNodeWithTexture:[[SIConstants atlasSceneMenu] textureNamed:kSIAtlasSceneMenuPlayClassic] size:CGSizeMake(squareWidth, squareHeight)];
-    SKSpriteNode *node2                 = [SKSpriteNode spriteNodeWithTexture:[[SIConstants atlasSceneMenu] textureNamed:kSIAtlasSceneMenuPlayOneHand] size:CGSizeMake(squareWidth, squareHeight)];
-//    SKSpriteNode *node3                 = [SKSpriteNode spriteNodeWithTexture:[[SIConstants atlasSceneMenu] textureNamed:kSIAtlasSceneMenuShop] size:CGSizeMake(squareWidth, squareWidth * 0.25)];
-    
+
+//    INSKButtonNode *node1               = [INSKButtonNode buttonNodeWithImageNamed:kSIAssestMenuButtonPlayClassic];
+//    INSKButtonNode *node2               = [INSKButtonNode buttonNodeWithImageNamed:kSIAssestMenuButtonPlayOneHand];
+    INSKButtonNode *node3               = [INSKButtonNode buttonNodeWithImageNamed:kSIAssestMenuButtonShareFacebook];
+    INSKButtonNode *node4               = [INSKButtonNode buttonNodeWithImageNamed:kSIAssestMenuButtonShareTwitter];
+
     HLGridNode *gridNode                = [[HLGridNode alloc] initWithGridWidth:gridWidth
                                                                     squareCount:squareCount
                                                                     anchorPoint:CGPointMake(0.5f, 0.0f)
@@ -2853,40 +3184,10 @@
                                                            backgroundBorderSize:0.0f
                                                             squareSeparatorSize:squareSeparatorSize];
     
-    gridNode.backgroundColor            = [SKColor clearColor]; //[SKColor blackColor];
+    gridNode.backgroundColor            = [SKColor clearColor];
     gridNode.squareColor                = [SKColor clearColor];
     gridNode.highlightColor             = [SKColor clearColor];
-    gridNode.content = @[node1,node2];
-    
-    return gridNode;
-}
-+ (HLGridNode *)SIHLGridNodeMenuSceneEndSize:(CGSize)size {
-    int gridWidth                       = 2;
-    int squareCount                     = 4;
-    
-    CGFloat squareSeparatorSize         = VERTICAL_SPACING_8;
-    
-    CGFloat squareWidth                 = (size.width - (squareSeparatorSize * 3)) / 2.0f;
-    CGFloat squareHeight                = squareWidth * 0.8f;
-
-    SKSpriteNode *node1                 = [SKSpriteNode spriteNodeWithTexture:[[SIConstants atlasSceneMenu] textureNamed:kSIAtlasSceneMenuShareFacebook] size:CGSizeMake(squareWidth, squareHeight)];
-    SKSpriteNode *node2                 = [SKSpriteNode spriteNodeWithTexture:[[SIConstants atlasSceneMenu] textureNamed:kSIAtlasSceneMenuShareTwitter] size:CGSizeMake(squareWidth, squareHeight)];
-    SKSpriteNode *node3                 = [SKSpriteNode spriteNodeWithTexture:[[SIConstants atlasSceneMenu] textureNamed:kSIAtlasSceneMenuPlayClassic] size:CGSizeMake(squareWidth, squareHeight)];
-    SKSpriteNode *node4                 = [SKSpriteNode spriteNodeWithTexture:[[SIConstants atlasSceneMenu] textureNamed:kSIAtlasSceneMenuPlayOneHand] size:CGSizeMake(squareWidth, squareHeight)];
-//    SKSpriteNode *node5                 = [SKSpriteNode spriteNodeWithTexture:[[SIConstants atlasSceneMenu] textureNamed:kSIAtlasSceneMenuShop] size:CGSizeMake(squareWidth, squareHeight)];
-    
-    HLGridNode *gridNode                = [[HLGridNode alloc] initWithGridWidth:gridWidth
-                                                                    squareCount:squareCount
-                                                                    anchorPoint:CGPointMake(0.5f, 1.0f)
-                                                                     layoutMode:HLGridNodeLayoutModeFill
-                                                                     squareSize:CGSizeMake(squareWidth, squareHeight)
-                                                           backgroundBorderSize:0.0f
-                                                            squareSeparatorSize:squareSeparatorSize];
-    
-    gridNode.backgroundColor            = [SKColor clearColor]; //[SKColor blackColor];
-    gridNode.squareColor                = [SKColor clearColor]; //[SKColor colorWithWhite:0.2f alpha:1.0f];
-    gridNode.highlightColor             = [SKColor clearColor]; //[SKColor colorWithWhite:0.8f alpha:1.0f];
-    gridNode.content = @[node1,node2,node3,node4];//,[SKNode node],[SKNode node],node5,[SKNode node]];
+    gridNode.content = @[node3,node4];
     
     return gridNode;
 }
@@ -2895,48 +3196,57 @@
 + (SIPopupNode *)SIPopupNodeTitle:(NSString *)title SceneSize:(CGSize)sceneSize {
     SKLabelNode *titleNode      = [SIGameController SILabelParagraph:title];
     titleNode.fontColor         = [SKColor whiteColor];
-    titleNode.fontSize          = [SIGameController SIFontSizePopUp];
+    titleNode.fontSize          = [SIGameController SIFontSizePopup];
     
     SIPopupNode *popUpNode      = [[SIPopupNode alloc] initWithSceneSize:sceneSize];
     popUpNode.titleContentNode  = titleNode;
     popUpNode.backgroundSize    = CGSizeMake(sceneSize.width - 100.0f, sceneSize.height - 200.0f);
-    popUpNode.backgroundColor   = [SKColor mainColor];
+    popUpNode.backgroundColor   = [SKColor SIColorPrimary];
     popUpNode.cornerRadius      = 8.0f;
     
     return popUpNode;
 }
-+ (SIPopupNode *)SIPopupSceneGameContinue {
-    
-    DSMultilineLabelNode *titleNode         = [DSMultilineLabelNode labelNodeWithFontNamed:kSISFFontTextLight];
-    titleNode.fontColor                     = [SKColor whiteColor];
-    titleNode.fontSize                      = [SIGameController SIFontSizePopUp];
-    
-    
-    SIPopupNode *popupNode                  = [[SIPopupNode alloc] initWithSceneSize:[SIGameController sceneSize]];
-    popupNode.titleContentNode              = titleNode;
-    popupNode.backgroundSize                = CGSizeMake([SIGameController sceneSize].width - [SIGameController xPaddingPopupContinue], [SIGameController sceneSize].width - [SIGameController xPaddingPopupContinue]);
-    popupNode.backgroundColor               = [SKColor mainColor];
+
++ (SIPopupNode *)SIPopupSceneGameContinueSize:(CGSize)size {
+    SKLabelNode *titleLabel = [SIGameController SILabelSceneGamePopupTitle];
+    titleLabel.text = NSLocalizedString(kSITextPopupContinueContinue, nil);
+
+    INSKButtonNode *bottomButton            = [SIGameController SIINButtonPopupButtonImageNamed:kSIAssestPopupButtonEndGame text:NSLocalizedString(kSITextPopupContinueEnd, nil)];
+    SKSpriteNode *centerSprite              = [SIGameController SISpriteNodePopupContinueCenterNode];
+    SIPopupNode *popupNode                  = [[SIPopupNode alloc] initWithSceneSize:size];
+    SKLabelNode *countDownLabelNode         = [SIGameController SILabelSceneGamePopupCountdown];
+
+    popupNode.backgroundSize                = CGSizeMake(size.width - [SIGameController xPaddingPopupContinue], size.width - [SIGameController xPaddingPopupContinue]);
+    popupNode.backgroundColor               = [UIColor SIColorPrimary];
+    popupNode.titleContentNode              = titleLabel;
     popupNode.cornerRadius                  = 8.0f;
     popupNode.userInteractionEnabled        = YES;
-    
+    popupNode.dismissButtonVisible          = NO;
+    popupNode.centerNode                    = centerSprite;
+    popupNode.centerNodePosition            = CGPointMake(0.0f, (-1.0f * (popupNode.backgroundSize.height / 2.0f)) + VERTICAL_SPACING_4 + bottomButton.size.height + (VERTICAL_SPACING_4 / 2.0f) + (centerSprite.size.height / 2.0f));
+    popupNode.bottomNode                    = bottomButton;
+    popupNode.bottomNodeBottomSpacing       = (((INSKButtonNode *)popupNode.bottomNode).size.height / 2.0f) + VERTICAL_SPACING_4;
+    popupNode.topNode                       = countDownLabelNode;
+    CGFloat topNodeYPos                     = CGRectGetMinY(titleLabel.frame) - ((CGRectGetMinY(titleLabel.frame) - CGRectGetMaxY(centerSprite.frame))/2.0f);
+    popupNode.topNode.position              = CGPointMake(0.0f, topNodeYPos);
     return popupNode;
 }
 + (SIPopupNode *)SIPopupSceneMenuFreePrize {
     SIPopupNode *popupNode                  = [[SIPopupNode alloc] initWithSceneSize:[SIGameController sceneSize]];
-    popupNode.titleContentNode              = [SIIAPUtility createTitleNode:CGSizeMake([SIGameController sceneSize].width - VERTICAL_SPACING_16, (popupNode.backgroundSize.height / 2.0f) - ([SIGameController SIChestSize].height / 2.0f))];
     popupNode.backgroundSize                = CGSizeMake([SIGameController sceneSize].width - [SIGameController xPaddingPopupContinue], [SIGameController sceneSize].width - [SIGameController xPaddingPopupContinue]);
-    popupNode.backgroundColor               = [SKColor mainColor];
+    popupNode.titleContentNode              = [SIIAPUtility createTitleNode:CGSizeMake(popupNode.backgroundSize.width - VERTICAL_SPACING_16, (popupNode.backgroundSize.height / 2.0f) - ([SIGameController SIChestSize].height / 2.0f))];
+    popupNode.backgroundColor               = [SKColor SIColorPrimary];
     popupNode.cornerRadius                  = 8.0f;
     popupNode.userInteractionEnabled        = YES;
-
+    
     return popupNode;
 }
 
 + (SIPopupContentNode *)SIPopupContentSceneMenuFreePrizeSize:(CGSize)size {
-    SIPopupContentNode *popupContentNode        = [[SIPopupContentNode alloc] initWithSize:size];
-    popupContentNode.labelNode                  = [SIGameController SILabelHeader_x3:@""];
-    popupContentNode.backgroundImageNode        = [SKSpriteNode spriteNodeWithTexture:[[SIConstants imagesAtlas] textureNamed:kSIImageIAPExtraLarge] size:[SIGameController SIChestSize]];
-    return popupContentNode;
+    SIPopupContentNode *centerNode        = [[SIPopupContentNode alloc] initWithSize:size];
+    centerNode.labelNode                  = [SIGameController SILabelHeader_x3:@""];
+    centerNode.backgroundImageNode        = [SKSpriteNode spriteNodeWithTexture:[[SIConstants imagesAtlas] textureNamed:kSIImageIAPExtraLarge] size:[SIGameController SIChestSize]];
+    return centerNode;
 }
 
 #pragma mark DSMultilineNode
@@ -3001,13 +3311,17 @@
 + (TCProgressBarNode *)SIProgressBarSceneGameMoveSceneSize:(CGSize)size {
     TCProgressBarNode *progressBar      = [[TCProgressBarNode alloc]
                                            initWithSize:[SIGameController SIProgressBarGameMoveSize:size]
-                                           backgroundColor:[UIColor clearColor]
+                                           backgroundColor:[UIColor blackColor]
                                            fillColor:[UIColor redColor]
                                            borderColor:[UIColor clearColor]
                                            borderWidth:0.0f
                                            cornerRadius:0.0f];
+    progressBar.titleLabelNode.fontName = kSISFFontDisplayBold;
+    progressBar.titleLabelNode.fontSize = [SIGameController SIFontSizeHeader];
+    
     return progressBar;
 }
+
 /**Progress Bar for Power Up*/
 + (TCProgressBarNode *)SIProgressBarSceneGamePowerUpSceneSize:(CGSize)size {
     CGSize progressBarSize              = CGSizeMake(size.width, (size.width / 2.0f) * 0.3);
@@ -3057,61 +3371,7 @@
             break;
     }
 }
-#pragma mark BMGlyphFonts
-//+ (BMGlyphFont *)BMGFontHiraginoKakuGothic {
-//    static BMGlyphFont *font = nil;
-//    if (!font) {
-//        font = [BMGlyphFont fontWithName:kSIBGFontHiraginoKakuGothic];
-//    }
-//    return font;
-//}
-//+ (BMGlyphFont *)BMGFontLongIslandStroked {
-//    static BMGlyphFont *font = nil;
-//    if (!font) {
-//        font = [BMGlyphFont fontWithName:kSIBGFontLongIslandStroked];
-//    }
-//    return font;
-//}
-//+ (BMGlyphFont *)BMGFontUltraStroked {
-//    static BMGlyphFont *font = nil;
-//    if (!font) {
-//        font = [BMGlyphFont fontWithName:kSIBGFontUltraStroked];
-//    }
-//    return font;
-//}
-//+ (BMGlyphFont *)BMGFontSceneGameSwypeItCoins {
-//    static BMGlyphFont *font = nil;
-//    if (!font) {
-//        font = [BMGlyphFont fontWithName:kSIBGFontSceneGameSwypeItCoins];
-//    }
-//    return font;
-//}
-#pragma mark BMGLabels
-//+ (BMGlyphLabel *)BMGLabelHiraginoKakuGothicText:(NSString *)text {
-//    BMGlyphLabel *label;
-//    if (!label) {
-//        label                       = [BMGlyphLabel labelWithText:text font:[SIGameController BMGFontHiraginoKakuGothic]];
-//        label.horizontalAlignment   = BMGlyphHorizontalAlignmentCentered;
-//        label.verticalAlignment     = BMGlyphVerticalAlignmentTop;
-//    }
-//    return label;
-//}
-//+ (BMGlyphLabel *)BMGLabelLongIslandStroked {
-//    BMGlyphLabel *label;
-//    if (!label) {
-//        label                       = [BMGlyphLabel labelWithText:@"0.00" font:[SIGameController BMGFontLongIslandStroked]];
-//        label.horizontalAlignment   = BMGlyphHorizontalAlignmentCentered;
-//        label.verticalAlignment     = BMGlyphVerticalAlignmentTop;
-//    }
-//    return label;
-//}
-//+ (BMGlyphLabel *)BMGLabelSceneGameSwypeItCoins {
-//    BMGlyphLabel *label;
-//    if (!label) {
-//        label                       = [BMGlyphLabel labelWithText:@"0" font:[SIGameController BMGFontSceneGameSwypeItCoins]];
-//    }
-//    return label;
-//}
+
 /**
  Called when you need a new move score label and such
  */
@@ -3185,6 +3445,97 @@
         gesture.numberOfTapsRequired    = 1;
     }
     return gesture;
+}
+
+
+#pragma mark INSKButtonNode
++ (INSKButtonNode *)SIINButtonNamed:(NSString *)name {
+    INSKButtonNode *button                                                  = [INSKButtonNode buttonNodeWithImageNamed:name];
+    button.nodeHighlighted                                                  = button.nodeNormal.copy;
+    
+    [((SKSpriteNode *)button.nodeHighlighted) setScale:0.9];
+    ((SKSpriteNode *)button.nodeHighlighted).color                          = [SKColor blackColor];
+    ((SKSpriteNode *)button.nodeHighlighted).colorBlendFactor               = 0.2;
+    return button;
+}
+
++ (INSKButtonNode *)SIINButtonPopupButtonImageNamed:(NSString *)imageName text:(NSString *)text {
+    INSKButtonNode *button                                                  = [SIGameController SIINButtonNamed:imageName];
+    
+    SKLabelNode *claimLabel1                                                = [SIGameController SILabelButtonWithText:text];
+    claimLabel1.name                                                        = kSINodeButtonText;
+    SKLabelNode *claimLabel2                                                = [claimLabel1 copy];
+
+    [button.nodeNormal addChild:claimLabel1];
+    [button.nodeHighlighted addChild:claimLabel2];
+
+    return button;
+}
+
++ (INSKButtonNode *)SIINButtonPopupButtonImageNamed:(NSString *)imageName text:(NSString *)text withFontSize:(float)fontSize {
+    INSKButtonNode *button                                                  = [SIGameController SIINButtonNamed:imageName];
+    
+    SKLabelNode *claimLabel1                                                = [SIGameController SILabelButtonWithText:text];
+    claimLabel1.fontSize                                                    = fontSize;
+    claimLabel1.name                                                        = kSINodeButtonText;
+    SKLabelNode *claimLabel2                                                = [claimLabel1 copy];
+    
+    [button.nodeNormal addChild:claimLabel1];
+    [button.nodeHighlighted addChild:claimLabel2];
+    
+    return button;
+}
+
++ (INSKButtonNode *)SIINButtonOneHandMode {
+    static INSKButtonNode *button = nil;
+    if (!button) {
+        button                                                              = [INSKButtonNode buttonNodeWithToggleImageNamed:kSIAssestMenuButtonOneHandModeOff
+                                                                                                         highlightImageNamed:kSIAssestMenuButtonOneHandModeOff
+                                                                                                          selectedImageNamed:kSIAssestMenuButtonOneHandModeOn
+                                                                                                 selectedHighlightImageNamed:kSIAssestMenuButtonOneHandModeOn];
+        button.name                                                         = kSINodeButtonOneHand;
+        
+        [((SKSpriteNode *)button.nodeHighlighted) setScale:0.9];
+        ((SKSpriteNode *)button.nodeHighlighted).color                      = [SKColor colorWithRed:0 green:0 blue:0 alpha:1];
+        ((SKSpriteNode *)button.nodeHighlighted).colorBlendFactor = 0.2;
+        
+        [((SKSpriteNode *)button.nodeSelectedHighlighted) setScale:0.9];
+        ((SKSpriteNode *)button.nodeSelectedHighlighted).color              = [SKColor colorWithRed:0 green:0 blue:0 alpha:1];
+        ((SKSpriteNode *)button.nodeSelectedHighlighted).colorBlendFactor   = 0.2;
+        
+        
+        SKLabelNode *oneHandModeOn1                                         = [SIGameController SILabelButtonWithText:[NSString stringWithFormat:@"%@: %@",NSLocalizedString(kSITextMenuStartScreenOneHandMode, nil), NSLocalizedString(kSITextBoolON, nil)]];
+        SKLabelNode *oneHandModeOn2                                         = [SIGameController SILabelButtonWithText:[NSString stringWithFormat:@"%@: %@",NSLocalizedString(kSITextMenuStartScreenOneHandMode, nil), NSLocalizedString(kSITextBoolON, nil)]];
+        SKLabelNode *oneHandModeOff1                                        = [SIGameController SILabelButtonWithText:[NSString stringWithFormat:@"%@: %@",NSLocalizedString(kSITextMenuStartScreenOneHandMode, nil), NSLocalizedString(kSITextBoolOFF, nil)]];
+        SKLabelNode *oneHandModeOff2                                        = [SIGameController SILabelButtonWithText:[NSString stringWithFormat:@"%@: %@",NSLocalizedString(kSITextMenuStartScreenOneHandMode, nil), NSLocalizedString(kSITextBoolOFF, nil)]];
+
+        oneHandModeOn1.fontSize                                             = [SIGameController SIFontSizeText_x4];
+        oneHandModeOn2.fontSize                                             = [SIGameController SIFontSizeText_x4];
+        oneHandModeOff1.fontSize                                            = [SIGameController SIFontSizeText_x4];
+        oneHandModeOff2.fontSize                                            = [SIGameController SIFontSizeText_x4];
+        
+        [button.nodeNormal addChild:oneHandModeOff1];
+        [button.nodeHighlighted addChild:oneHandModeOff2];
+        [button.nodeSelectedNormal addChild:oneHandModeOn1];
+        [button.nodeSelectedHighlighted addChild:oneHandModeOn2];
+
+    }
+    return button;
+}
+
++ (SKLabelNode *)SILabelButtonWithText:(NSString *)text {
+    SKLabelNode *label              = [SKLabelNode labelNodeWithFontNamed:kSISFFontDisplayMedium];
+    label.text                      = text;
+    label.fontColor                 = [SKColor whiteColor];
+    label.fontSize                  = [SIGameController SIFontSizeText];
+    label.verticalAlignmentMode     = SKLabelVerticalAlignmentModeCenter;
+    label.horizontalAlignmentMode   = SKLabelHorizontalAlignmentModeCenter;
+    return label;
+}
+
+#pragma mark SIPopupGameOverOverDetailsRowNode
++ (SIPopupGameOverOverDetailsRowNode *)SIPopupGameOverDetailsRowNodeWithSize:(CGSize)size {
+    return [[SIPopupGameOverOverDetailsRowNode alloc] initWithSize:size];;
 }
 
 #pragma mark -
