@@ -31,8 +31,6 @@
 /**
  Called to invoked the start of the game
  */
-- (void)menuSceneShopNodeWasTapped;
-
 
 - (void)menuSceneWasTappedToStart;
 

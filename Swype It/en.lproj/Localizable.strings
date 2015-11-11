@@ -45,7 +45,7 @@
 "Turn Sound FX On"          = "Turn Sound FX On";
 "Tap To Play!"              = "Tap To Play!";
 "Tap To Start!"             = "Tap To Start!";
-"Store"                     = "shop";
+"Store"                     = "Shop";
 "One Hand Mode"             = "One Hand Mode";
 
 /**
@@ -55,7 +55,7 @@
 "High Score"                = "High Score";
 "New High Score!"           = "New High Score!";
 "Score"                     = "Total Score";
-"Share"                     = "share";
+"Share"                     = "Share";
 //HANDELD ABOVE
 //"Store"                     = "Store";
 
@@ -75,4 +75,4 @@
 "Prize"                     = "Prize";
 "Game Over"                 = "Game Over";
 "Main Menu"                 = "Main Menu";
-"Play Again!"               = "Play Again!";
+"Play Again!"               = "New Game";

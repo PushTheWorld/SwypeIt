@@ -344,6 +344,7 @@ NSString *const kSINodeButtonRapidFire                                          
 NSString *const kSINodeButtonReplay                                             = @"replay";
 NSString *const kSINodeButtonSettings                                           = @"settings";
 NSString *const kSINodeButtonShare                                              = @"share";
+NSString *const kSINodeButtonShop                                               = @"shop";
 NSString *const kSINodeButtonStore                                              = @"store";
 NSString *const kSINodeButtonText                                               = @"text";
 NSString *const kSINodeButtonTwoHand                                            = @"twoHand";
@@ -382,6 +383,7 @@ NSString *const kSINodePopupRowFreeCoins                                        
 #pragma mark -
 
 #pragma mark Menu
+NSString *const kSIAssestMenuButtonBack                                         = @"menuBackButton";
 NSString *const kSIAssestMenuButtonOneHandModeOff                               = @"oneHandModeOff";
 NSString *const kSIAssestMenuButtonOneHandModeOn                                = @"oneHandModeOn";
 NSString *const kSIAssestMenuButtonShareFacebook                                = @"shareFacebook";
@@ -393,6 +395,7 @@ NSString *const kSIAssestPopupButtonClaim                                       
 NSString *const kSIAssestPopupButtonDismissNormal                               = @"dismissButtonNormal";
 NSString *const kSIAssestPopupButtonEndGame                                     = @"popupEndGameButton";
 NSString *const kSIAssestPopupButtonShare                                       = @"shareButton";
+NSString *const kSIAssestPopupButtonShop                                        = @"shopButtonForGameOverPopup";
 NSString *const kSIAssestPopupButtonUseCoins                                    = @"useCoinsButton";
 NSString *const kSIAssestPopupButtonWatchAd                                     = @"watchAdButton";
 NSString *const kSIAssestPopupFreeStar                                          = @"freeStar";

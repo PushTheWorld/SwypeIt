@@ -303,7 +303,6 @@ static const uint32_t SIFallingMonkeySceneCategoryEdgeSide      = 0x1 << 5; // 0
     SKAction * actionMove = [SKAction moveTo:realDest duration:realMoveDuration];
     SKAction * actionMoveDone = [SKAction removeFromParent];
     [bananaBunch runAction:[SKAction sequence:@[actionMove, actionMoveDone]]];
-    
     [SIGame playSound:kSISoundFXSceneWoosh];
 }
 

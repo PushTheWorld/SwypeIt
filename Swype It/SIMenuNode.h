@@ -14,6 +14,7 @@
 #import "SIGame.h"
 // Other Imports
 #import "HLSpriteKit.h"
+#import "INSpriteKit.h"
 
 @class SIMenuNode;
 @protocol SIMenuNodeDelegate <NSObject>
@@ -97,8 +98,10 @@
  */
 @property (nonatomic, assign) SISceneMenuType type;
 
-
-@property (nonatomic, strong) SKSpriteNode *backButtonNode;
+/**
+ The back button
+ */
+@property (nonatomic, strong) INSKButtonNode *backButtonNode;
 
 /**
  The placement of the menu content

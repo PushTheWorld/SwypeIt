@@ -591,25 +591,26 @@
     SKAction *pinchRotateCW         = [SKAction rotateByAngle:M_PI duration:MOVE_COMMAND_LAUNCH_DURATION];
     SKAction *pinchRotateCCW        = [SKAction rotateByAngle:-M_PI duration:MOVE_COMMAND_LAUNCH_DURATION];
     
+    SKAction *remove                = [SKAction removeFromParent];
+    
     switch (siMoveCommandAction) {
         case SIMoveCommandActionPinchNegative:
-            return [SKAction group:@[pinchShrink,fadeOut,pinchRotateCCW]];
+            return [SKAction sequence:@[[SKAction group:@[pinchShrink,fadeOut,pinchRotateCCW]],remove]];
         case SIMoveCommandActionPinchPositive:
-            return [SKAction group:@[pinchShrink,fadeOut,pinchRotateCW]];
+            return [SKAction sequence:@[[SKAction group:@[pinchShrink,fadeOut,pinchRotateCW]],remove]];
         case SIMoveCommandActionShake:
-            return [SKAction group:@[shakeRepeat,fadeOut]];
-        case SIMoveCommandActionTap:
-            return [SKAction group:@[tapAction,fadeOut]];
+            return [SKAction sequence:@[[SKAction group:@[shakeRepeat,fadeOut]],remove]];
         case SIMoveCommandActionSwypeUp:
-            return [SKAction group:@[swypeUp,fadeOut]];
+            return [SKAction sequence:@[[SKAction group:@[swypeUp,fadeOut]],remove]];
         case SIMoveCommandActionSwypeDown:
-            return [SKAction group:@[swypeDown,fadeOut]];
+            return [SKAction sequence:@[[SKAction group:@[swypeDown,fadeOut]],remove]];
         case SIMoveCommandActionSwypeLeft:
-            return [SKAction group:@[swypeLeft,fadeOut]];
+            return [SKAction sequence:@[[SKAction group:@[swypeLeft,fadeOut]],remove]];
         case SIMoveCommandActionSwypeRight:
-            return [SKAction group:@[swypeRight,fadeOut]];
+            return [SKAction sequence:@[[SKAction group:@[swypeRight,fadeOut]],remove]];
+        case SIMoveCommandActionTap:
         default:
-            return fadeOut;
+            return [SKAction sequence:@[[SKAction group:@[tapAction,fadeOut]],remove]];
     }
 }
 
@@ -652,7 +653,7 @@
  this cannot be reset by the user
  */
 + (void)updateLifetimePointsScore:(float)totalScore withNSUserDefaults:(NSUserDefaults *)defaults {
-    NSLog(@"%@",[defaults objectForKey:kSINSUserDefaultLifetimePointsEarned]);
+//    NSLog(@"%@",[defaults objectForKey:kSINSUserDefaultLifetimePointsEarned]);
     NSNumber *lifeTimePointsEarned              = [defaults objectForKey:kSINSUserDefaultLifetimePointsEarned];
     if (lifeTimePointsEarned == nil) {
         [defaults setObject:[NSNumber numberWithFloat:totalScore] forKey:kSINSUserDefaultLifetimePointsEarned];

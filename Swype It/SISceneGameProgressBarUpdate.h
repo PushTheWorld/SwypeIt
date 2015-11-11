@@ -21,6 +21,11 @@
 @property (nonatomic, assign) float percentPowerUp;
 
 /**
+ The free coin progress bar percent. 0.0f to 1.0f
+ */
+@property (nonatomic, assign) float percentFreeCoin;
+
+/**
  The amounts of points left
  
  */

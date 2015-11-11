@@ -83,7 +83,7 @@
 #define SCENE_TRANSISTION_DURATION_FAST     0.25
 #define SCENE_TRANSISTION_DURATION_NORMAL   1.00
 
-#define MOVE_COMMAND_LAUNCH_DURATION        0.25
+#define MOVE_COMMAND_LAUNCH_DURATION        0.15
 
 #define SECONDS_IN_DAY                      60 * 60 * 24
 
@@ -721,6 +721,7 @@ extern NSString *const kSINodeButtonRapidFire;
 extern NSString *const kSINodeButtonReplay;
 extern NSString *const kSINodeButtonSettings;
 extern NSString *const kSINodeButtonShare;
+extern NSString *const kSINodeButtonShop;
 extern NSString *const kSINodeButtonStore;
 extern NSString *const kSINodeButtonUseCoins;
 extern NSString *const kSINodeButtonWatchAds;
@@ -830,6 +831,7 @@ extern NSString *const kSITextPopupFreePrizePrize;
 #pragma mark -
 
 #pragma mark Menu
+extern NSString *const kSIAssestMenuButtonBack;
 extern NSString *const kSIAssestMenuButtonOneHandModeOff;
 extern NSString *const kSIAssestMenuButtonOneHandModeOn;
 extern NSString *const kSIAssestMenuButtonShareFacebook;
@@ -841,6 +843,7 @@ extern NSString *const kSIAssestPopupButtonClaim;
 extern NSString *const kSIAssestPopupButtonDismissNormal;
 extern NSString *const kSIAssestPopupButtonEndGame;
 extern NSString *const kSIAssestPopupButtonShare;
+extern NSString *const kSIAssestPopupButtonShop;
 extern NSString *const kSIAssestPopupButtonUseCoins;
 extern NSString *const kSIAssestPopupButtonWatchAd;
 extern NSString *const kSIAssestPopupFreeStar;

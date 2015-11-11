@@ -71,21 +71,21 @@
     _backgroundNode                                 = [SKSpriteNode spriteNodeWithColor:[SKColor clearColor] size:_size];
     _backgroundNode.name                            = @"b";
     
-    _backButtonNode                                 = [SKSpriteNode spriteNodeWithTexture:[[SIConstants atlasSceneMenu] textureNamed:kSIAtlasSceneMenuBackButton] size:_backButtonSize];
+    _backButtonNode                                 = [SIGameController SIINButtonNamed:kSIAssestMenuButtonBack];
     _backButtonNode.name                            = kSINodeButtonBack;
 }
 - (void)setupControlsWithSize:(CGSize)size {
     /**Configrue the labels, nodes and what ever else you can*/
     _backgroundNode.anchorPoint                     = CGPointMake(0.5f, 0.5f); //CGPointMake(1.0f,1.0f);
     [self addChild:_backgroundNode];
-
     
     [_backgroundNode addChild:_backButtonNode];
     [self setType:_type]; //hid the back button node if necessary
     
-    _titleContentNode                           = [SIGameController SILabelHeader_x3:[SIGame titleForMenuType:_type]];
+    _titleContentNode                               = [SIGameController SILabelHeader_x3:[SIGame titleForMenuType:_type]];
     _titleContentNode.verticalAlignmentMode         = SKLabelVerticalAlignmentModeTop;
     _titleContentNode.horizontalAlignmentMode       = SKLabelHorizontalAlignmentModeCenter;
+    _titleContentNode.userInteractionEnabled        = YES;
     [_backgroundNode addChild:_titleContentNode];
     
 }
@@ -163,21 +163,12 @@
     
     CGPoint positionHidden = CGPointZero;
     CGPoint positionVisible = CGPointZero;
-    
-    NSLog(@"----------------------------------");
-    NSLog(@"----------------------------------");
-    NSLog(@"NEW ITERATION");
-    NSLog(@"----------------------------------");
-    NSLog(@"----------------------------------");
-    
-//    _backgroundNode.position                        = sceneMidPoint;
 
-    NSLog(@"\nBackground Node -- Position: (%0.0f,%0.0f)",_backgroundNode.position.x,_backgroundNode.position.y);
+    
 
     if (_topNode) {
         positionHidden                              = CGPointMake(0.0f, sceneMidY + _topNode.frame.size.height);
         positionVisible                             = CGPointMake(0.0f, sceneMidY - _titleContentNode.frame.size.height - (_topNode.frame.size.height / 2.0f));
-        NSLog(@"\nTop Node -- \nPosHidden: (%0.2f,%0.2f)\nPosVisible: (%0.2f,%0.2f)",positionHidden.x, positionHidden.y, positionVisible.x, positionVisible.y);
         [SIMenuNode animateMenuContentNode:_titleContentNode
                                  animation:animation
                          animationDuration:_animationDuration
@@ -195,7 +186,6 @@
             }
         }
         positionHidden                              = CGPointZero;
-        NSLog(@"\nCenter Node -- \nPosHidden: (%0.2f,%0.2f)\nPosVisible: (%0.2f,%0.2f)",positionHidden.x, positionHidden.y, positionVisible.x, positionVisible.y);
         [SIMenuNode animateMenuContentNode:_centerNode
                                  animation:animation
                          animationDuration:_animationDuration
@@ -213,7 +203,6 @@
             }
         }
         positionHidden                              = CGPointZero;
-        NSLog(@"\nFree Node -- \nPosHidden: (%0.2f,%0.2f)\nPosVisible: (%0.2f,%0.2f)",positionHidden.x, positionHidden.y, positionVisible.x, positionVisible.y);
         [SIMenuNode animateMenuContentNode:_freeNode
                                  animation:animation
                          animationDuration:_animationDuration
@@ -225,7 +214,6 @@
         //        _bottomToolbarContentNode.position          = CGPointMake(0.0f, (-1.0f * sceneMidY) + _bottomToolbarYPadding);
         positionHidden                              = CGPointMake(0.0f, (-1.0f * sceneMidY) - [SIGameController SIToolbarSceneMenuSize:_size].height);
         positionVisible                             = CGPointMake(0.0f, (-1.0f * sceneMidY) + _bottomToolbarYPadding);
-        NSLog(@"\nBottom Node -- \nPosHidden: (%0.2f,%0.2f)\nPosVisible: (%0.2f,%0.2f)",positionHidden.x, positionHidden.y, positionVisible.x, positionVisible.y);
         [SIMenuNode animateMenuContentNode:_bottomNode
                                  animation:animation
                          animationDuration:_animationDuration
@@ -237,7 +225,6 @@
         //        _titleContentNode.position                  = CGPointMake(0.0f, sceneMidY - _topTitleYPadding);
         positionHidden                              = CGPointMake(0.0f, sceneMidY + _titleContentNode.frame.size.height + _topTitleYPadding);
         positionVisible                             = CGPointMake(0.0f, sceneMidY - _topTitleYPadding);
-        NSLog(@"\nTitle Content Node -- \nPosHidden: (%0.2f,%0.2f)\nPosVisible: (%0.2f,%0.2f)",positionHidden.x, positionHidden.y, positionVisible.x, positionVisible.y);
         [SIMenuNode animateMenuContentNode:_titleContentNode
                                  animation:animation
                          animationDuration:_animationDuration
@@ -245,11 +232,9 @@
                             positionHidden:positionHidden];
     }
     
-    [_backButtonNode runAction:[SKAction scaleTo:0.5f duration:0.0f]];
     _backButtonNode.anchorPoint                     = CGPointMake(0.0f,1.0f);
-    positionHidden                                  = CGPointMake((-1.0f * sceneMidX) - _backButtonSize.width, sceneMidY - (_backButtonSize.height / 2.0f) - VERTICAL_SPACING_8);
-    positionVisible                                 = CGPointMake((-1.0f * sceneMidX) + VERTICAL_SPACING_8, sceneMidY - VERTICAL_SPACING_8);
-    NSLog(@"\nBack Button Node -- \nPosHidden: (%0.2f,%0.2f)\nPosVisible: (%0.2f,%0.2f)",positionHidden.x, positionHidden.y, positionVisible.x, positionVisible.y);
+    positionHidden                                  = CGPointMake((-1.0f * sceneMidX) - _backButtonNode.size.width, sceneMidY - (_backButtonNode.size.height / 2.0f) - VERTICAL_SPACING_8);
+    positionVisible                                 = CGPointMake((-1.0f * sceneMidX) + (_backButtonNode.size.width / 2.0f) + VERTICAL_SPACING_8, sceneMidY - (_backButtonNode.size.height / 2.0f) - VERTICAL_SPACING_8);
     [SIMenuNode animateMenuContentNode:_backButtonNode
                              animation:animation
                      animationDuration:_animationDuration

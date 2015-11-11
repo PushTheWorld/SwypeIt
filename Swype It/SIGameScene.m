@@ -296,17 +296,19 @@ static const uint32_t SIGameSceneCategoryEdge          = 0x1 << 2; // 0000000000
  */
 - (void)setMoveCommandLabel:(SKLabelNode *)moveCommandLabel {
     //We are not removing the original because it is being launched and handled
-    _moveCommandLabel = moveCommandLabel;
     
     if (moveCommandLabel) {
         SKAction *fadeActionSequenceForNewLabel         = [SKAction sequence:@[[SKAction fadeOutWithDuration:0.0f],
                                                                                [SKAction fadeInWithDuration:MOVE_COMMAND_LAUNCH_DURATION]]];
+        _moveCommandLabel                               = moveCommandLabel;
         [_moveCommandLabel runAction:fadeActionSequenceForNewLabel];
         _moveCommandLabel.horizontalAlignmentMode       = SKLabelHorizontalAlignmentModeCenter;
         _moveCommandLabel.verticalAlignmentMode         = SKLabelVerticalAlignmentModeCenter;
         _moveCommandLabel.userInteractionEnabled        = YES;
         [self addChild:_moveCommandLabel];
         _moveCommandLabelSize                           = _moveCommandLabel.frame.size;
+    } else {
+        [_moveCommandLabel removeFromParent];
     }
     [self layoutXYZAnimation:SISceneContentAnimationNone];
 }
@@ -367,7 +369,6 @@ static const uint32_t SIGameSceneCategoryEdge          = 0x1 << 2; // 0000000000
     }
     [self layoutXYZAnimation:SISceneContentAnimationNone];
 }
-
 - (void)setProgressBarPowerUp:(TCProgressBarNode *)progressBarPowerUp {
     if (_progressBarPowerUp) {
         [_progressBarPowerUp removeFromParent];
@@ -486,7 +487,7 @@ static const uint32_t SIGameSceneCategoryEdge          = 0x1 << 2; // 0000000000
         HLEmitterStore *emitterStore                    = [HLEmitterStore sharedStore];
         SKEmitterNode *sparkEmitter                     = [emitterStore emitterCopyForKey:kSIEmitterSpark];
         
-        NSLog(@"Height of total score label: %0.2f",_scoreTotalLabel.frame.size.height);
+//        NSLog(@"Height of total score label: %0.2f",_scoreTotalLabel.frame.size.height);
         
         sparkEmitter.position                           = CGPointMake(0.0f, -1.0f * (_scoreTotalLabel.frame.size.height / 2.0f));
         sparkEmitter.zPosition                          = [SIGameController floatZPositionGameForContent:SIZPositionGameContentMoveScoreEmitter];
@@ -644,6 +645,9 @@ static const uint32_t SIGameSceneCategoryEdge          = 0x1 << 2; // 0000000000
 
 - (void)layoutZ {
     if (_centerNode) {
+        if ([self modalNodePresented]) {
+            [self dismissModalNodeAnimation:HLScenePresentationAnimationNone];
+        }
         [self presentModalNode:_centerNode
                      animation:HLScenePresentationAnimationFade
                   zPositionMin:[SIGameController floatZPositionGameForContent:SIZPositionGameModalMin]
@@ -651,6 +655,9 @@ static const uint32_t SIGameSceneCategoryEdge          = 0x1 << 2; // 0000000000
     }
     
     if (_ringContentNode) {
+        if ([self modalNodePresented]) {
+            [self dismissModalNodeAnimation:HLScenePresentationAnimationNone];
+        }
         [self presentModalNode:_ringContentNode
                      animation:HLScenePresentationAnimationFade
                   zPositionMin:[SIGameController floatZPositionGameForContent:SIZPositionGameModalMin]
@@ -681,14 +688,19 @@ static const uint32_t SIGameSceneCategoryEdge          = 0x1 << 2; // 0000000000
 - (void)update:(NSTimeInterval)currentTime {
     if ([_sceneDelegate respondsToSelector:@selector(sceneGameWillUpdateProgressBars)]) {
         SISceneGameProgressBarUpdate *progressBarUpdate     = [_sceneDelegate sceneGameWillUpdateProgressBars];
+        
+        if (_progressBarFreeCoin) {
+            _progressBarFreeCoin.progress                   = progressBarUpdate.percentFreeCoin;
+        }
+        
         if (progressBarUpdate.hasStarted) {
             if (_scoreMoveLabel) {
                 _scoreMoveLabel.text                        = [NSString stringWithFormat:@"%0.2f",progressBarUpdate.percentMove * MAX_MOVE_SCORE];
             }
             if (_progressBarPowerUp) {
                 _progressBarPowerUp.progress                = progressBarUpdate.percentPowerUp;
-                NSLog(@"Power up percent: %0.2f", _progressBarPowerUp.progress);
             }
+            
         } else {
             _scoreMoveLabel.text                            = @"";
             _progressBarPowerUp.progress                    = 1.0f;

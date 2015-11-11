@@ -63,4 +63,5 @@
 + (UIColor *)SIBackgroundColorLevel1C;
 + (UIColor *)SIColorPrimary;
 + (UIColor *)SIColorSecondary;
++ (UIColor *)SIColorShopButton;
 @end

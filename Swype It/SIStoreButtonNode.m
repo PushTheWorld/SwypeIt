@@ -100,7 +100,7 @@ enum {
 }
 - (void)createControlsWithSize:(CGSize)size {
     /**Preform all your alloc/init's here*/
-    _backgroundNode                         = [SKSpriteNode spriteNodeWithColor:[UIColor SIColorPrimary] size:size];
+    _backgroundNode                         = [SKSpriteNode spriteNodeWithColor:[UIColor SIColorShopButton] size:size];
     
     _imageNode                              = [SKSpriteNode spriteNodeWithTexture:[[SIConstants imagesAtlas] textureNamed:[SIIAPUtility imageNameForSIIAPPack:_pack]] size:_imageSize];
     
@@ -113,10 +113,10 @@ enum {
 - (void)setupControlsWithSize:(CGSize)size {
     /**Configrue the labels, nodes and what ever else you can*/
     //mmmmmm custom textures
-    _backgroundNode.texture                 = [SIGame textureBackgroundColor:[UIColor SIColorPrimary]
+    _backgroundNode.texture                 = [SIGame textureBackgroundColor:[UIColor SIColorShopButton]
                                                                       size:size
                                                               cornerRadius:[SIStoreButtonNode cornerRadius]
-                                                               borderWidth:8.0
+                                                               borderWidth:4.0
                                                                borderColor:[UIColor blackColor]];
     _backgroundNode.zPosition               = (float)SIStoreButtonNodeZPositionLayerBackground / (float)SIStoreButtonNodeZPositionLayerBackground;
     _backgroundNode.anchorPoint             = CGPointMake(1, 0.5);

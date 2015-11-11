@@ -254,10 +254,7 @@
     }
 
     _currentMenuNode.delegate                       = self;
-    [menuNode.backButtonNode hlSetGestureTarget:[HLTapGestureTarget tapGestureTargetWithHandleGestureBlock:^(UIGestureRecognizer *gr) {
-        [self menuScenePopMenuNode];
-    }]];
-    [self registerDescendant:menuNode.backButtonNode withOptions:[NSSet setWithObject:HLSceneChildGestureTarget]];
+    [menuNode.backButtonNode setTouchUpInsideTarget:self selector:@selector(menuScenePopMenuNode)];
     
     if (menuNode.centerNode) {
         if ([menuNode.centerNode isKindOfClass:[HLMenuNode class]]) {
@@ -277,16 +274,16 @@
             [self registerDescendant:newToolbarNode withOptions:[NSSet setWithObject:HLSceneChildGestureTarget]];
         }
     }
-    if (menuNode.freeNode) {
-        [menuNode.freeNode hlSetGestureTarget:[HLTapGestureTarget tapGestureTargetWithHandleGestureBlock:^(UIGestureRecognizer *jerry) {
-            if ([_sceneDelegate respondsToSelector:@selector(menuSceneShopNodeWasTapped)]) {
-                [_sceneDelegate menuSceneShopNodeWasTapped];
-            }
-            
-        }]];
-        [self registerDescendant:menuNode.freeNode withOptions:[NSSet setWithObject:HLSceneChildGestureTarget]];
-
-    }
+//    if (menuNode.freeNode) {
+//        [menuNode.freeNode hlSetGestureTarget:[HLTapGestureTarget tapGestureTargetWithHandleGestureBlock:^(UIGestureRecognizer *jerry) {
+//            if ([_sceneDelegate respondsToSelector:@selector(menuSceneShopNodeWasTapped)]) {
+//                [_sceneDelegate menuSceneShopNodeWasTapped];
+//            }
+//            
+//        }]];
+//        [self registerDescendant:menuNode.freeNode withOptions:[NSSet setWithObject:HLSceneChildGestureTarget]];
+//
+//    }
 }
 
 - (void)showMenuNode:(SIMenuNode *)menuNode menuNodeAnimation:(SIMenuNodeAnimation)menuNodeAnimation animationDuration:(float)animationDuration {
