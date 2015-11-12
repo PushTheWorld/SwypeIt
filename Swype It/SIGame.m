@@ -559,7 +559,7 @@
 + (SKTexture *)textureForSIPowerUp:(SIPowerUpType)powerUp {
     switch (powerUp) {
         case SIPowerUpTypeFallingMonkeys:
-            return [[SIConstants buttonAtlas] textureNamed:kSIImageFallingMonkeys];
+            return [SKTexture textureWithImageNamed:kSIAssestFallingMonkeyHead];
         case SIPowerUpTypeRapidFire:
             return [[SIConstants imagesAtlas] textureNamed:kSIImageButtonRapidFire];
         case SIPowerUpTypeTimeFreeze:

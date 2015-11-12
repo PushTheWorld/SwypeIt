@@ -6,7 +6,7 @@
 #import "SIConstants.h"
 
 SKTexture *monkeyFaceTexture() {
-    return [[SIConstants buttonAtlas] textureNamed:kSIImageFallingMonkeys];
+    return [SKTexture textureWithImageNamed:kSIAssestFallingMonkeyHead];
 }
 
 SKLabelNode *moveCommandLabelNode() {
@@ -381,6 +381,9 @@ NSString *const kSINodePopupRowFreeCoins                                        
 #pragma mark -
 #pragma mark - Assests
 #pragma mark -
+
+#pragma mark Falling Monkey
+NSString *const kSIAssestFallingMonkeyHead                                      = @"monkeyHead";
 
 #pragma mark Menu
 NSString *const kSIAssestMenuButtonBack                                         = @"menuBackButton";

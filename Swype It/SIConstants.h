@@ -67,7 +67,6 @@
 #define SPEED_POWER_MULTIPLIER              7.07850289
 #define LEVEL_SPEED_DIV_MULT                -0.384
 #define LEVEL_SPEED_INTERCEPT               4.4182
-#define VALUE_OF_MONKEY                     25
 
 #define NUMBER_OF_MOVES                     3
 #define NUMBER_OF_BACKGROUNDS               3
@@ -90,10 +89,12 @@
 #define ACCELEROMETER_UPDATE_INTERVAL       0.05
 #define REST_COUNT_THRESHOLD                2
 #define SHAKE_THRESHOLD                     0.5
+#define VALUE_OF_MONKEY                     10
 #define LAUNCH_DX_VECTOR_MAX                25
 #define LAUNCH_DX_VECTOR_MIX                10
 #define LAUNCH_DY_MULTIPLIER                120
-#define MONKEY_SPEED_INCREASE               0.08
+#define MONKEY_SPEED_INCREASE               10.0
+#define MONKEY_SPEED_INITIAL                250.0
 
 #define FREE_COINS_PER_DAY                  5
 #define EPSILON_NUMBER                      0.01
@@ -400,6 +401,7 @@ typedef NS_ENUM(NSInteger, SIZPositionPopup) {
 typedef NS_ENUM(NSInteger, SIZPositionFallingMonkey) {
     SIZPositionFallingMonkeyBackground       = 0,
     SIZPositionFallingMonkeyUIContent,
+    SIZPositionFallingMonkeyBannana,
     SIZPositionFallingMonkeyFallingMonkey,
     SIZPositionFallingMonkeyCount
 };
@@ -829,6 +831,9 @@ extern NSString *const kSITextPopupFreePrizePrize;
 #pragma mark -
 #pragma mark - Image Assests
 #pragma mark -
+
+#pragma mark Falling Monkey
+extern NSString *const kSIAssestFallingMonkeyHead;
 
 #pragma mark Menu
 extern NSString *const kSIAssestMenuButtonBack;

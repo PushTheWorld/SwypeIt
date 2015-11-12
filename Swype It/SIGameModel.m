@@ -116,7 +116,7 @@
     
     //transition rules
     TKEvent *gameEventFallingMonkeyStart    = [TKEvent eventWithName:kSITKStateMachineEventGameFallingMonkeyStart
-                                             transitioningFromStates:@[gameStateProcessingMove]
+                                             transitioningFromStates:@[gameStateIdle]
                                                              toState:gameStateFallingMonkey];
     
     TKEvent *gameEventMoveEntered           = [TKEvent eventWithName:kSITKStateMachineEventGameMoveEntered

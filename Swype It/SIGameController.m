@@ -574,6 +574,7 @@
     
     /*This will init the first monkey node!*/
     [SIGameController SISpriteNodeFallingMonkey];
+    [SIGameController SISpriteNodeBananaBunch];
     
     if (_verbose) {
         NSLog(@"SIFallingMonkeyScene Initialized: loaded in %0.2f seconds", [[NSDate date] timeIntervalSinceDate:startDate]);
@@ -1259,6 +1260,7 @@
 #pragma mark _ SIPowerUp Shitttt
 - (void)powerUpActivatePowerUp:(SIPowerUp *)powerUp {
     [_gameModel.powerUpArray addObject:powerUp];
+    BOOL success = YES;
     switch (powerUp.type) {
         case SIPowerUpTypeTimeFreeze:
             _timeFreezeMultiplier = 0.1f;
@@ -1271,7 +1273,10 @@
             break;
         case SIPowerUpTypeFallingMonkeys:
             /*Do Falling Monkeys in Setup*/
-            [self presentScene:SIGameControllerSceneFallingMonkey];
+            success = [self gameFireEvent:kSITKStateMachineEventGameFallingMonkeyStart userInfo:nil];
+            if (!success) {
+                [self gameFireEvent:kSITKStateMachineEventGameMenuEnd userInfo:nil];
+            }
             break;
         default:
             break;
@@ -1289,6 +1294,7 @@
             break;
         case SIPowerUpTypeFallingMonkeys:
             /*Do Falling Monkeys Breakdown*/
+            [_gameModel.powerUpArray removeAllObjects];
             break;
         default:
             break;
@@ -1887,6 +1893,9 @@
     
     //process the move
     [self gameProcessAndApplyCorrectMove:moveFallingMonkey];
+    
+    //update the falling monkey score
+    _sceneFallingMonkey.totalScore      = _gameModel.game.totalScore;
 
 }
 
@@ -2395,10 +2404,14 @@
         [self timerFireEvent:kSITKStateMachineEventTimerStopCriticalFailure userInfo:nil];
     }
     if (_sceneFallingMonkey == nil) {
-        _sceneFallingMonkey = [self loadFallingMonkeyScene];
+        _sceneFallingMonkey             = [self loadFallingMonkeyScene];
     }
-    _sceneFallingMonkey.sceneDelegate = self;
+    _sceneFallingMonkey.sceneDelegate   = self;
+    _sceneFallingMonkey.totalScore      = _gameModel.game.totalScore;
     [self presentScene:SIGameControllerSceneFallingMonkey];
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.25 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [_sceneFallingMonkey launchMonkey];
+    });
 }
 
 ////////////////////////////////////////////////////////////////////////////////////
@@ -2911,7 +2924,6 @@
         monkey.name                                 = kSINodeFallingMonkey;
         monkey.physicsBody                          = [SKPhysicsBody bodyWithCircleOfRadius:[SIGameController SIFallingMonkeySize].height / 2.0f];
         monkey.physicsBody.linearDamping            = 0.0f;
-        monkey.userInteractionEnabled               = YES;
     }
     return monkey;
 }
@@ -2924,9 +2936,12 @@
 }
 
 + (SKSpriteNode *)SISpriteNodeBananaBunch {
-    SKSpriteNode *node = [SKSpriteNode spriteNodeWithTexture:[[SIConstants atlasSceneFallingMonkey]
-                                                              textureNamed:kSIAtlasSceneFallingMonkeyBananaBunch]
-                                                        size:[SIGameController SIBananaBunchSize]];
+    static SKSpriteNode *node = nil;
+    if (!node) {
+        node = [SKSpriteNode spriteNodeWithTexture:[[SIConstants atlasSceneFallingMonkey]
+                                                                  textureNamed:kSIAtlasSceneFallingMonkeyBananaBunch]
+                                                            size:[SIGameController SIBananaBunchSize]];
+    }
     return node;
 }
 

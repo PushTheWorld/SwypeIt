@@ -97,6 +97,7 @@
 		096ABDF61B6B6ABB005B2F12 /* swypeItSound5.caf in Resources */ = {isa = PBXBuildFile; fileRef = 096ABDED1B6B6ABB005B2F12 /* swypeItSound5.caf */; };
 		096ABDF71B6B6ABB005B2F12 /* swypeItSound6.caf in Resources */ = {isa = PBXBuildFile; fileRef = 096ABDEE1B6B6ABB005B2F12 /* swypeItSound6.caf */; };
 		096ABDF81B6B6ABB005B2F12 /* swypeItSound7.caf in Resources */ = {isa = PBXBuildFile; fileRef = 096ABDEF1B6B6ABB005B2F12 /* swypeItSound7.caf */; };
+		09702AE51BF4C21A00CF39EC /* FallingMonkey.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 09702AE41BF4C21A00CF39EC /* FallingMonkey.xcassets */; };
 		097375461B57A97500BE1BCA /* BaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 097375451B57A97500BE1BCA /* BaseViewController.m */; };
 		0979E6531B76AA30002FC2F2 /* MSSAlertViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0979E6521B76AA30002FC2F2 /* MSSAlertViewController.m */; };
 		0979E6581B77A614002FC2F2 /* LongIsland-Shadow.otf in Resources */ = {isa = PBXBuildFile; fileRef = 0979E6571B77A614002FC2F2 /* LongIsland-Shadow.otf */; };
@@ -338,6 +339,7 @@
 		096ABDED1B6B6ABB005B2F12 /* swypeItSound5.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = swypeItSound5.caf; sourceTree = "<group>"; };
 		096ABDEE1B6B6ABB005B2F12 /* swypeItSound6.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = swypeItSound6.caf; sourceTree = "<group>"; };
 		096ABDEF1B6B6ABB005B2F12 /* swypeItSound7.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = swypeItSound7.caf; sourceTree = "<group>"; };
+		09702AE41BF4C21A00CF39EC /* FallingMonkey.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = FallingMonkey.xcassets; sourceTree = "<group>"; };
 		097375441B57A97500BE1BCA /* BaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseViewController.h; sourceTree = "<group>"; };
 		097375451B57A97500BE1BCA /* BaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseViewController.m; sourceTree = "<group>"; };
 		0979E6511B76AA30002FC2F2 /* MSSAlertViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSSAlertViewController.h; sourceTree = "<group>"; };
@@ -839,6 +841,14 @@
 			name = Sounds;
 			sourceTree = "<group>";
 		};
+		09702AE31BF4C1EA00CF39EC /* FallingMonkey */ = {
+			isa = PBXGroup;
+			children = (
+				09702AE41BF4C21A00CF39EC /* FallingMonkey.xcassets */,
+			);
+			name = FallingMonkey;
+			sourceTree = "<group>";
+		};
 		0979E6541B76AA37002FC2F2 /* MSSAlertViewController */ = {
 			isa = PBXGroup;
 			children = (
@@ -869,6 +879,7 @@
 		097FF70A1BB7302C009DF538 /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
+				09702AE31BF4C1EA00CF39EC /* FallingMonkey */,
 				097FF7091BB73023009DF538 /* Level1 */,
 				0984E21D1BB8894F00E4C58B /* Menu */,
 			);
@@ -1227,6 +1238,7 @@
 				096ABDF81B6B6ABB005B2F12 /* swypeItSound7.caf in Resources */,
 				09E611BD1BBACB3C00A3DE19 /* Popup.xcassets in Resources */,
 				096ABDF01B6B6ABB005B2F12 /* menuSound.caf in Resources */,
+				09702AE51BF4C21A00CF39EC /* FallingMonkey.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

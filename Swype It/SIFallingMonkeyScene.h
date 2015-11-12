@@ -35,6 +35,11 @@
 - (instancetype)initWithSize:(CGSize)size;
 
 /**
+ Recursive function to start launching monkeys
+ */
+- (void)launchMonkey;
+
+/**
  Called to launch a monkey from the scene
  */
 //- (void)launchMonkeyFromLocation:(CGPoint)location;
@@ -42,7 +47,7 @@
 /**
  This is the score label.. you can change
  */
-@property (nonatomic, assign) float *totalScore;
+@property (nonatomic, assign) float totalScore;
 
 /**
  The ad content
