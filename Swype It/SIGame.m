@@ -31,7 +31,6 @@
     self = [super init];
     if (self != nil) {
         // Do setup here for new game
-        self.gameMode = SIGameModeTwoHand;
         _powerUpArray = [NSMutableArray array];
     }
     return self;

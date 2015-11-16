@@ -78,6 +78,11 @@ static const uint32_t SIFallingMonkeySceneCategoryEdgeSide      = 0x1 << 5; // 0
             [node removeFromParent];
         }
     }
+    
+    _numberOfMonkeysLaunched                        = 0;
+    _fallingMonkeyZPosition                         = [SIGameController floatZPositionFallingMonkeyForContent:SIZPositionFallingMonkeyFallingMonkey];
+    _monkeySpeed                                    = MONKEY_SPEED_INITIAL;
+
 
 //    self.physicsWorld.gravity                       = CGVectorMake(0, 0);
     

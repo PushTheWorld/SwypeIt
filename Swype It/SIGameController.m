@@ -658,6 +658,33 @@
     [self presentViewController:gameCenterVC animated:YES completion:nil];
 }
 
+- (void)gameCenterSubmitScore {
+    if (_gameModel.game.totalScore > EPSILON_NUMBER) {
+        if ([[GKLocalPlayer localPlayer] isAuthenticated]) {
+            GKScore *score;
+            
+            if (_gameModel.game.gameMode == SIGameModeOneHand) {
+                score = [[GKScore alloc] initWithLeaderboardIdentifier:kSIGameCenterLeaderBoardIDHandOne];
+            } else {
+                score = [[GKScore alloc] initWithLeaderboardIdentifier:kSIGameCenterLeaderBoardIDHandTwo];
+            }
+            
+            score.value = (int64_t)(_gameModel.game.totalScore * 100);
+            
+            NSArray *scoreArray = @[score];
+            
+            [GKScore reportScores:scoreArray withCompletionHandler:^(NSError * _Nullable error) {
+                if (error != nil) {
+                    NSLog(@"Error [Sending High Score]: %@",error.localizedDescription);
+                } else {
+                    NSLog(@"Sent high score to game center");
+                }
+            }];
+            
+        }
+    }
+}
+
 #pragma mark Sound
 - (void)updateBackgroundSound {
     _gameModel.game.currentBackgroundSound = [SIGame checkBackgroundSound:_gameModel.game.currentBackgroundSound forTotalScore:_gameModel.game.totalScore withCallback:^(BOOL updatedBackgroundSound, SIBackgroundSound backgroundSoundNew) {
@@ -2059,6 +2086,10 @@
             [self changeBackgroundSoundIsAllowed:menuItem];
         } else if ([menuItem.text isEqualToString:kSITextMenuSettingsToggleSoundOffFX] || [menuItem.text isEqualToString:kSITextMenuSettingsToggleSoundOnFX]) {
             [self changeFXSoundIsAllowed:menuItem];
+        } else if ([menuItem.text isEqualToString:kSITextMenuSettingsRestorePurchases]) {
+            [[MKStoreKit sharedKit] restorePurchases];
+            [self hudWillShowWithTitle:@"Restoring!" info:@"Please wait..." dimBackground:YES animate:YES];
+
         }
     } else if (menuNode == _sceneMenuStoreMenuNode || menuNode == (HLMenuNode*)_sceneGamePopupContinueSIMenuNodeStore.centerNode) {
         [self requestPurchaseForPack:[SIIAPUtility siiapPackForNameNodeNode:menuItem.text]];
@@ -2136,7 +2167,7 @@
                 [SIGame setBackgroundSoundActive:YES];
                 [SIGame playMusic:kSISoundBackgroundMenu looping:YES fadeIn:YES];
             }
-            [ringNode setHighlight:[SIConstants isBackgroundSoundAllowed] forItem:itemIndex];
+            [ringNode setHighlight:![SIConstants isBackgroundSoundAllowed] forItem:itemIndex];
             break;
         case SISceneGameRingNodeSoundFX:
             /*Change Sound FX State*/
@@ -2147,7 +2178,7 @@
             } else {
                 [SIGame setFXSoundActive:YES];
             }
-            [ringNode setHighlight:[SIConstants isFXAllowed] forItem:itemIndex];
+            [ringNode setHighlight:![SIConstants isFXAllowed] forItem:itemIndex];
             break;
         default:
             NSLog(@"Ring Node item tapped out of bounds index error :/");
@@ -2395,6 +2426,10 @@
     if (!success) {
         [self timerFireEvent:kSITKStateMachineEventTimerStopCriticalFailure userInfo:nil];
     }
+    
+
+    [_sceneGameRingNodePause setHighlight:![SIConstants isFXAllowed] forItem:1];
+    [_sceneGameRingNodePause setHighlight:![SIConstants isBackgroundSoundAllowed] forItem:2];
     _sceneGame.blurScreen                               = YES;
     _sceneGameRingNodePause.delegate                    = self;
     _sceneGame.ringNode                                 = _sceneGameRingNodePause;
@@ -2453,6 +2488,7 @@
     //This alters the state of the popup
     
     [self sceneGamePopupGameOver];
+    [self gameCenterSubmitScore];
 }
 
 /**
@@ -3336,6 +3372,8 @@
     
     NSString *sceneSettingsMenuItemTextSoundFX = [SIConstants isFXAllowed] ? kSITextMenuSettingsToggleSoundOffFX : kSITextMenuSettingsToggleSoundOnFX;
     [menu addItem:[HLMenuItem menuItemWithText:sceneSettingsMenuItemTextSoundFX]];
+    
+    [menu addItem:[HLMenuItem menuItemWithText:kSITextMenuSettingsRestorePurchases]];
     
     [menuNode setMenu:menu animation:HLMenuNodeAnimationNone];
     
