@@ -649,6 +649,21 @@
 }
 
 /**
+ High score is separated from lifetime points to allow for the user to reset their 'Device High Score'
+ */
++ (float)devieHighScoreNSUserDefaults:(NSUserDefaults *)defaults {
+    NSNumber *deviceHighScore                 = [defaults objectForKey:kSINSUserDefaultLifetimeHighScore];
+    if (deviceHighScore == nil) {
+        [defaults setFloat:0.0f forKey:kSINSUserDefaultLifetimeHighScore];
+        [defaults synchronize];
+        return YES;
+    } else {
+        return [deviceHighScore floatValue];
+    }
+    return 0.0f;
+}
+
+/**
  Total points ever played
  this cannot be reset by the user
  */
@@ -714,7 +729,7 @@
     game.moveScorePercentRemaining           = 1.0f;
     game.currentBackgroundSound              = SIBackgroundSoundMenu;
     game.currentLevel                        = [SIGame currentLevelStringForScore:0.0f];
-    game.currentNumberOfTimesContinued       = 1;
+    game.currentNumberOfTimesContinued       = 0;
     game.totalScore                          = 0.0f;
     game.freeCoinsEarned                     = 0;
     game.currentBackgroundColorNumber        = 0;
@@ -911,19 +926,46 @@
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
-- (BOOL)oneHandMode {
+#pragma mark -
+#pragma mark - Public Getters/Setters
+- (SIGameMode)gameMode {
     NSNumber *oneHandModeNum = [[NSUserDefaults standardUserDefaults] objectForKey:kSINSUserDefaultOneHandMode];
     if (oneHandModeNum == nil) {
         oneHandModeNum = @(NO);
         [[NSUserDefaults standardUserDefaults] setBool:NO forKey:kSINSUserDefaultOneHandMode];
         [[NSUserDefaults standardUserDefaults] synchronize];
     }
-    return [oneHandModeNum boolValue];
+    if ([oneHandModeNum boolValue]) {
+        return SIGameModeOneHand;
+    } else {
+        return SIGameModeTwoHand;
+    }
 }
-
-- (void)setOneHandMode:(BOOL)oneHandMode {
-    [[NSUserDefaults standardUserDefaults] setBool:oneHandMode forKey:kSINSUserDefaultOneHandMode];
+- (void)setGameMode:(SIGameMode)gameMode {
+    switch (gameMode) {
+        case SIGameModeOneHand:
+            [[NSUserDefaults standardUserDefaults] setBool:YES forKey:kSINSUserDefaultOneHandMode];
+            break;
+        case SIGameModeTwoHand:
+        default:
+            [[NSUserDefaults standardUserDefaults] setBool:NO forKey:kSINSUserDefaultOneHandMode];
+            break;
+    }
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
+//- (BOOL)oneHandMode {
+//    NSNumber *oneHandModeNum = [[NSUserDefaults standardUserDefaults] objectForKey:kSINSUserDefaultOneHandMode];
+//    if (oneHandModeNum == nil) {
+//        oneHandModeNum = @(NO);
+//        [[NSUserDefaults standardUserDefaults] setBool:NO forKey:kSINSUserDefaultOneHandMode];
+//        [[NSUserDefaults standardUserDefaults] synchronize];
+//    }
+//    return [oneHandModeNum boolValue];
+//}
+//
+//- (void)setOneHandMode:(BOOL)oneHandMode {
+//    [[NSUserDefaults standardUserDefaults] setBool:oneHandMode forKey:kSINSUserDefaultOneHandMode];
+//    [[NSUserDefaults standardUserDefaults] synchronize];
+//}
 
 @end

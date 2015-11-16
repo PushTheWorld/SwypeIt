@@ -8,7 +8,9 @@
 SKTexture *monkeyFaceTexture() {
     return [SKTexture textureWithImageNamed:kSIAssestFallingMonkeyHead];
 }
-
+SKTexture *monkeyFaceTextureLarge() {
+    return [SKTexture textureWithImageNamed:kSIAssestFallingMonkeyHeadLarge];
+}
 SKLabelNode *moveCommandLabelNode() {
     SKLabelNode *label;
     label                                                                       = [SKLabelNode labelNodeWithFontNamed:kSISFFontDisplayHeavy];
@@ -384,6 +386,7 @@ NSString *const kSINodePopupRowFreeCoins                                        
 
 #pragma mark Falling Monkey
 NSString *const kSIAssestFallingMonkeyHead                                      = @"monkeyHead";
+NSString *const kSIAssestFallingMonkeyHeadLarge                                 = @"monkeyHeadLarge";
 
 #pragma mark Menu
 NSString *const kSIAssestMenuButtonBack                                         = @"menuBackButton";
@@ -601,7 +604,7 @@ NSString *const kSITKStateMachineEventTimerStopCriticalFailure                  
     if (!msgArray) {
         msgArray = @[@"Are you even trying?",
                      @"Um... try again",
-                     @"Ohhhh no"];
+                     @"Shake it off, go again"];
     }
     return msgArray;
 }

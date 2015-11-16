@@ -24,6 +24,8 @@
 #import "SettingsScene.h"
 #import "StoreScene.h"
 // Framework Import
+#import <AudioToolbox/AudioToolbox.h>
+#import <CoreMotion/CoreMotion.h>
 #import <GameKit/GameKit.h>
 #import <iAd/iAd.h>
 #import <Instabug/Instabug.h>
@@ -71,6 +73,7 @@
     BOOL                                     _verbose;
     BOOL                                     _highScoreShowing;
     BOOL                                     _isPurchaseInProgress;
+    BOOL                                     _sceneGameShakeIsActive;
     BOOL                                     _testMode;
 
     
@@ -79,7 +82,10 @@
     CGSize                                   _sceneSize;
     CGSize                                   _sceneGameToolbarSize;
     CGSize                                   _sceneGameToolbarNodeSize;
+    
+    CMMotionManager                         *_motionManager;
 
+    DSMultilineLabelNode                    *_sceneGamePopupGameOverUserMessageLabelNode;
     DSMultilineLabelNode                    *_sceneMenuHelpMultilineNode;
     
     INSKButtonNode                          *_sceneMenuPopupFreePrizeButton;
@@ -90,6 +96,7 @@
     int                                      _loadingPointsCurrent;
     int                                      _loadingPointsTotal;
     int                                      _numberOfAdsToWatch;
+    int                                      _sceneGameShakeRestCount;
     
     /**
      in mS
@@ -303,6 +310,8 @@
     _verbose                            = YES;
     _premiumUser                        = [SIGameController premiumUser];
     _testMode                           = YES;
+    _sceneGameShakeIsActive             = NO;
+    _sceneGameShakeRestCount            = 0;
     
     _sceneGameSpacingHorizontalToolbar  = 10.0f;
     CGFloat toolBarNodeWidth            = (SCREEN_WIDTH - (4.0f * _sceneGameSpacingHorizontalToolbar)) / 5.0f;
@@ -496,7 +505,9 @@
     
     _sceneGamePopupGameOverBottomNode                       = [self SISpriteNodePopupGameOverBottomNode];
     
-    _sceneGamePopupContinueCountdownLabel                   =  [SIGameController SILabelSceneGamePopupCountdown];
+    _sceneGamePopupContinueCountdownLabel                   = [SIGameController SILabelSceneGamePopupCountdown];
+    
+    _sceneGamePopupGameOverUserMessageLabelNode             = [SIGameController SIMultilineLabelNodePopupSceneSize:_sceneGamePopupContinue.backgroundSize];
 
     _sceneGamePopupGameOverEndGameButton                    = [SIGameController SIINButtonNamed:kSIAssestPopupButtonEndGame label:[SIGameController SILabelParagraph:NSLocalizedString(kSITextPopupContinueEnd, nil)]];
     _sceneGamePopupGameOverEndGameButton.name               = kSINodeButtonEndGame;
@@ -532,6 +543,8 @@
     if (_verbose) {
         NSLog(@"SIGameScene Initialized: loaded in %0.2f seconds", [[NSDate date] timeIntervalSinceDate:startDate]);
     }
+    
+    _motionManager                                          = [[CMMotionManager alloc] init];
     
     return sceneGame;
 }
@@ -1052,12 +1065,13 @@
     SIMenuNode *menuNode                            = [[SIMenuNode alloc] initWithSize:size type:SISceneMenuTypeStart];
     
     
-    SKSpriteNode *monkeyFace                        = [SKSpriteNode spriteNodeWithTexture:[SIGameController SITextureMonkeyFace] size:CGSizeMake([SIGameController SISpriteNodeFallingMonkey].size.width * 1.5, [SIGameController SISpriteNodeFallingMonkey].size.height * 1.5)];
-    monkeyFace.userInteractionEnabled               = YES;
+    SKSpriteNode *monkeyFace                        = [SKSpriteNode spriteNodeWithTexture:[SIGameController SITextureMonkeyFaceLarge]];
+    monkeyFace.name                                 = @"b";
     menuNode.topNode                                = monkeyFace;
     
+    
     _sceneMenuStartOneHandModeButton                = [SIGameController SIINButtonOneHandMode];
-    if (_gameModel.game.oneHandMode) {
+    if (_gameModel.game.gameMode == SIGameModeOneHand) {
         _sceneMenuStartOneHandModeButton.selected   = true;
     }
     [_sceneMenuStartOneHandModeButton setTouchUpInsideTarget:self selector:@selector(oneHandGameModeButtonTouchedUpInside:)];
@@ -1072,12 +1086,11 @@
     
     SKSpriteNode *centerSpriteNode                  = [SKSpriteNode spriteNodeWithColor:[SKColor clearColor] size:CGSizeMake(_sceneMenuStartOneHandModeButton.size.width, (_sceneMenuStartOneHandModeButton.size.height * 2.0f) + VERTICAL_SPACING_8)];
     
-    SKLabelNode *tapToPlay                          = [SIGameController SILabelHeader:@"tap to play"];
+    SKLabelNode *tapToPlay                          = [SIGameController SILabelHeader:NSLocalizedString(kSITextMenuStartScreenTapToPlay, nil)];
     tapToPlay.verticalAlignmentMode                 = SKLabelVerticalAlignmentModeBottom;
     tapToPlay.horizontalAlignmentMode               = SKLabelHorizontalAlignmentModeCenter;
     tapToPlay.fontColor                             = [SKColor whiteColor];
     tapToPlay.name                                  = @"b";
-    tapToPlay.userInteractionEnabled                = YES;
     
     _sceneMenuStartOneHandModeButton.position       = CGPointMake(0.0f, 0.0f);
 
@@ -1265,6 +1278,7 @@
         case SIPowerUpTypeTimeFreeze:
             _timeFreezeMultiplier = 0.1f;
             _sceneGame.progressBarPowerUp.hidden = NO;
+            [self powerUpAddSnowEmitter];
             break;
         case SIPowerUpTypeRapidFire:
             [self gameForceCorrectMove];
@@ -1287,6 +1301,7 @@
         case SIPowerUpTypeTimeFreeze:
             _timeFreezeMultiplier   = 1.0f;
             _sceneGame.progressBarPowerUp.hidden = YES;
+            [self powerUpRemoveSnowEmitter];
             break;
         case SIPowerUpTypeRapidFire:
             [self powerUpRemoveFireEmitter];
@@ -1326,15 +1341,53 @@
         emitterNode                         = [[HLEmitterStore sharedStore] setEmitterWithResource:kSIEmitterSnowTimeFreeze forKey:kSIEmitterSnowTimeFreeze];
     }
     emitterNode.name                        = kSINodeEmitterSnow;
-    emitterNode.targetNode                  = _sceneGame;
+    emitterNode.targetNode                  = _sceneGame.progressBarPowerUp;
+//    emitterNode.position                    = CGPointMake(0.0f, _sceneGame.size.height / 2.0f);
     [_sceneGame.progressBarPowerUp addChild:emitterNode];
     
 }
 - (void)powerUpRemoveSnowEmitter {
-    for (SKNode *node in _sceneGame.children) {
+    for (SKNode *node in _sceneGame.progressBarPowerUp.children) {
         if ([node.name isEqualToString:kSINodeEmitterSnow]) {
             [node removeFromParent];
         }
+    }
+}
+
+#pragma mark Accelerometer Methods
+- (void)startAccelerometerForShake {
+    if ([_motionManager isAccelerometerAvailable]) {
+        _motionManager.accelerometerUpdateInterval = ACCELEROMETER_UPDATE_INTERVAL; /*Get reading 20 times a second*/
+        [_motionManager startAccelerometerUpdatesToQueue:[NSOperationQueue mainQueue] withHandler:^(CMAccelerometerData *accelerometerData, NSError *error) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                double magnitude                        = sqrt(pow(accelerometerData.acceleration.x, 2) + pow(accelerometerData.acceleration.y, 2) + pow(accelerometerData.acceleration.z, 2));
+                
+                /*Adjust the magnititude*/
+                double adjustedMag                      = fabs(magnitude - 1.0);
+                
+                if (adjustedMag > SHAKE_THRESHOLD) { /*Phone is Shaken*/
+                    if (_sceneGameShakeIsActive) {
+                        _sceneGameShakeRestCount        = 0;
+                    } else {
+                        _sceneGameShakeIsActive         = YES;
+                        SIMove *move                    = [[SIMove alloc] init];
+                        move.moveCommand                = SIMoveCommandShake;
+                        move.moveCommandAction          = SIMoveCommandActionShake;
+                        [self sceneGameDidRecieveMove:move];
+                    }
+                } else { /*Phone is at rest*/
+                    if (_sceneGameShakeIsActive) {
+                        _sceneGameShakeRestCount        = _sceneGameShakeRestCount + 1;
+                        if (_sceneGameShakeRestCount > REST_COUNT_THRESHOLD) {
+                            _sceneGameShakeIsActive     = NO;
+                            _sceneGameShakeRestCount    = 0;
+                        }
+                    }
+                }
+            });
+        }];
+    } else {
+        NSLog(@"Accelerometer Not Available!");
     }
 }
 
@@ -1427,6 +1480,10 @@
     
     [self configureGameOverDetailsSpriteNode:_sceneGamePopupGameOverEndNode forGame:_gameModel.game];
     
+    _sceneGamePopupGameOverUserMessageLabelNode.text                = [SIGame userMessageForScore:_gameModel.game.totalScore isHighScore:_gameModel.game.isHighScore highScore:[SIGame devieHighScoreNSUserDefaults:[NSUserDefaults standardUserDefaults]]];
+    _sceneGamePopupContinue.centerNode                              = _sceneGamePopupGameOverUserMessageLabelNode;
+    _sceneGamePopupContinue.centerNodePosition                      = CGPointMake(0.0f, 0.0f);// CGRectGetMaxY(_sceneGamePopupGameOverBottomNode.frame));// + VERTICAL_SPACING_8 + (_sceneGamePopupGameOverUserMessageLabelNode.size.height / 2.0f));
+    
     _sceneGamePopupContinue.topNode                                 = _sceneGamePopupGameOverEndNode;
     _sceneGamePopupContinue.topNode.position                        = CGPointMake(0.0f, ((SKLabelNode *)_sceneGamePopupContinue.titleContentNode).frame.size.height + (_sceneGamePopupGameOverEndNode.size.height / 2.0f));
 }
@@ -1460,7 +1517,11 @@
 }
 
 - (void)oneHandGameModeButtonTouchedUpInside:(INSKButtonNode *)button {
-    _gameModel.game.oneHandMode = button.selected;
+    if (button.selected) {
+        _gameModel.game.gameMode = SIGameModeOneHand;
+    } else {
+        _gameModel.game.gameMode = SIGameModeTwoHand;
+    }
 }
 - (void)sceneMenuStartShopButtonTouchedUpInside:(INSKButtonNode *)button {
     [_sceneMenu pushMenuNode:_menuNodeStore];
@@ -1904,8 +1965,11 @@
  */
 - (void)sceneFallingMonkeyDidCollideWithBottomEdge {
     SIPowerUp *powerUp = [[SIPowerUp alloc] initWithPowerUp:SIPowerUpTypeFallingMonkeys startTime:0.0f];
+    AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
     [self powerUpDectivatePowerUp:powerUp];
-    [self gameFireEvent:kSITKStateMachineEventGameWaitForMove userInfo:nil];
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.25 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [self gameFireEvent:kSITKStateMachineEventGameWaitForMove userInfo:nil];
+    });
 }
 
 - (void)menuSceneWasTappedToStart {
@@ -1940,6 +2004,13 @@
 /**Called to launch an actual game*/
 - (void)launchSceneGameWithGameMode:(SIGameMode)gameMode {
     _gameModel.game.gameMode = gameMode;
+    if (gameMode == SIGameModeOneHand) {
+        [self startAccelerometerForShake];
+    } else {
+        if ([_motionManager isAccelerometerActive]) {
+            [_motionManager stopAccelerometerUpdates];
+        }
+    }
     //pulse the game to the start
     NSError *error = nil;
     BOOL success = [_gameModel.stateMachine fireEvent:kSITKStateMachineEventGameWaitForMove userInfo:nil error:&error];
@@ -2044,6 +2115,9 @@
 - (void)ringNode:(HLRingNode *)ringNode didTapItem:(int)itemIndex {
     switch (itemIndex) {
         case SISceneGameRingNodeEndGame:
+            _sceneGame.blurScreen   = NO;
+            _sceneGame.ringNode     = nil;
+            _sceneGame.popupNode    = _sceneGamePopupContinue;
             [self gameFireEvent:kSITKStateMachineEventGameMenuEnd userInfo:nil];
 //            [[SISingletonGame singleton] singletonGameDidEnd];
 //            [self presentScene:SIGameControllerSceneMenu];
@@ -2212,8 +2286,8 @@
             [[SISingletonAchievement singleton] singletonAchievementWillProcessMove:moveForBackground];
         });
         //  get new move data
-        _currentMove                                        = [[SIMove alloc] initWithRandomMoveForGameMode:_gameModel.game.gameMode powerUpArray:[_gameModel.powerUpArray copy]];
-        _currentMove.timeStart                              = _gameTimeTotal;
+        _currentMove                                    = [[SIMove alloc] initWithRandomMoveForGameMode:_gameModel.game.gameMode powerUpArray:[_gameModel.powerUpArray copy]];
+        _currentMove.timeStart                          = _gameTimeTotal;
         
         //  show new move data
         BOOL success = [self gameFireEvent:kSITKStateMachineEventGameWaitForMove userInfo:nil];
@@ -2927,7 +3001,16 @@
     }
     return monkey;
 }
-
++ (SKSpriteNode *)SISpriteNodeMonkeyFaceLarge {
+    static SKSpriteNode *monkey = nil;
+    if (!monkey) {
+        monkey                                      = [SKSpriteNode spriteNodeWithTexture:[SIGameController SITextureMonkeyFaceLarge]  size:[SIGameController SIFallingMonkeySize]];
+        monkey.name                                 = kSINodeFallingMonkey;
+        monkey.physicsBody                          = [SKPhysicsBody bodyWithCircleOfRadius:[SIGameController SIFallingMonkeySize].height / 2.0f];
+        monkey.physicsBody.linearDamping            = 0.0f;
+    }
+    return monkey;
+}
 + (SKSpriteNode *)SISpriteNodeBanana {
     SKSpriteNode *node = [SKSpriteNode spriteNodeWithTexture:[[SIConstants atlasSceneFallingMonkey]
                                                               textureNamed:kSIAtlasSceneFallingMonkeyBanana]
@@ -3026,7 +3109,13 @@
     }
     return monkeyFace;
 }
-
++ (SKTexture *)SITextureMonkeyFaceLarge {
+    static SKTexture *monkeyFace = nil;
+    if (!monkeyFace) {
+        monkeyFace = monkeyFaceTextureLarge();
+    }
+    return monkeyFace;
+}
 #pragma mark HLLabelButtons
 + (HLLabelButtonNode *)SIHLLabelButtonMenuPrototypeBasic:(CGSize)size {
     HLLabelButtonNode *buttonPrototype;
@@ -3382,7 +3471,13 @@
     multilineNode.text                      = @"Tap the start screen to start a game. A gesture command will appear. Perform the gesture to progress through the game. The faster you enter the next gesture, the more points you score! Points are awesome! Use power ups to get an even higher score! Power ups are purchased with IT Coins. BUY IT Coins in the Store, earn a coin every 500 points and each day you launch the app get free! Opening Swype It every day earns you more and more free coins!!! SWYPE ON!";
     return multilineNode;
 }
-
++ (DSMultilineLabelNode *)SIMultilineLabelNodePopupSceneSize:(CGSize)size {
+    DSMultilineLabelNode *multilineNode     = [[DSMultilineLabelNode alloc] initWithFontNamed:kSISFFontTextRegular];
+    multilineNode.paragraphWidth            = size.width - VERTICAL_SPACING_16;
+    multilineNode.fontColor                 = [SKColor whiteColor];
+    multilineNode.fontSize                  = [SIGameController SIFontSizeText_x3];
+    return multilineNode;
+}
 
 
 

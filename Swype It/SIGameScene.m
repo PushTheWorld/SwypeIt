@@ -36,6 +36,8 @@ static const uint32_t SIGameSceneCategoryEdge          = 0x1 << 2; // 0000000000
     CGSize                                               _sceneSize;
     CGSize                                               _moveCommandLabelSize;
     
+    
+    
     HLLabelButtonNode                                   *_pauseButtonNode;
     
     HLRingNode                                          *_ringContentNode;
@@ -295,7 +297,11 @@ static const uint32_t SIGameSceneCategoryEdge          = 0x1 << 2; // 0000000000
  and will allow us to actually change the color of the background node
  */
 - (void)setMoveCommandLabel:(SKLabelNode *)moveCommandLabel {
-    //We are not removing the original because it is being launched and handled
+    /*
+     If _moveCommandLabel not nil then set pointer to it so it can be removed
+        at a later time in this setter
+     */
+    SKLabelNode *tempLabelNode = _moveCommandLabel;
     
     if (moveCommandLabel) {
         SKAction *fadeActionSequenceForNewLabel         = [SKAction sequence:@[[SKAction fadeOutWithDuration:0.0f],
@@ -307,6 +313,9 @@ static const uint32_t SIGameSceneCategoryEdge          = 0x1 << 2; // 0000000000
         _moveCommandLabel.userInteractionEnabled        = YES;
         [self addChild:_moveCommandLabel];
         _moveCommandLabelSize                           = _moveCommandLabel.frame.size;
+        if (tempLabelNode) { /*Remove node after MOVE_COMMAND_LAUNCH_DURATION*/
+            [tempLabelNode runAction:[SKAction sequence:@[[SKAction waitForDuration:MOVE_COMMAND_LAUNCH_DURATION],[SKAction removeFromParent]]]];
+        }
     } else {
         [_moveCommandLabel removeFromParent];
     }
@@ -332,7 +341,7 @@ static const uint32_t SIGameSceneCategoryEdge          = 0x1 << 2; // 0000000000
     }
     if (popupNode) {
         _centerNode                                   = popupNode;
-        [self addChild:_centerNode];
+//        [self addChild:_centerNode];
     } else {
         if (_centerNode) {
             _centerNode = nil;
@@ -395,7 +404,7 @@ static const uint32_t SIGameSceneCategoryEdge          = 0x1 << 2; // 0000000000
     }
     if (ringNode) {
         _ringContentNode                            = ringNode;
-        [self addChild:_ringContentNode];
+//        [self addChild:_ringContentNode];
     } else {
         if (_ringContentNode) {
             _ringContentNode = nil;
@@ -1009,7 +1018,7 @@ static const uint32_t SIGameSceneCategoryEdge          = 0x1 << 2; // 0000000000
             [gestureRecognizer addTarget:self action:@selector(handlePowerUpToolBarTap:)];
             return YES;
         }
-        return NO;
+//        return NO;
     }
     
     // Pause Button
@@ -1019,7 +1028,6 @@ static const uint32_t SIGameSceneCategoryEdge          = 0x1 << 2; // 0000000000
             [gestureRecognizer addTarget:self action:@selector(handlePauseButtonTap:)];
             return YES;
         }
-        return NO;
     }
     
     // World Info

@@ -85,7 +85,6 @@
     _titleContentNode                               = [SIGameController SILabelHeader_x3:[SIGame titleForMenuType:_type]];
     _titleContentNode.verticalAlignmentMode         = SKLabelVerticalAlignmentModeTop;
     _titleContentNode.horizontalAlignmentMode       = SKLabelHorizontalAlignmentModeCenter;
-    _titleContentNode.userInteractionEnabled        = YES;
     [_backgroundNode addChild:_titleContentNode];
     
 }

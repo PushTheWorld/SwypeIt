@@ -16,7 +16,7 @@
 
 #pragma mark - Public Properties
 //@property (assign, nonatomic) BOOL               isPaused;
-@property (assign, nonatomic) BOOL               oneHandMode;
+//@property (assign, nonatomic) BOOL               oneHandMode;
 @property (assign, nonatomic) BOOL               isHighScore;
 @property (assign, nonatomic) int                freeCoinsEarned;
 @property (assign, nonatomic) int                currentNumberOfTimesContinued;
@@ -38,6 +38,7 @@
 
 #pragma mark - Public Class Methods
 + (BOOL)                isDevieHighScore:(float)totalScore withNSUserDefaults:(NSUserDefaults *)defaults;
++ (float)devieHighScoreNSUserDefaults:(NSUserDefaults *)defaults;
 /**
  Checks NSUserDefaults to see if one hand mode is active...
  */

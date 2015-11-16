@@ -82,7 +82,7 @@
 #define SCENE_TRANSISTION_DURATION_FAST     0.25
 #define SCENE_TRANSISTION_DURATION_NORMAL   1.00
 
-#define MOVE_COMMAND_LAUNCH_DURATION        0.15
+#define MOVE_COMMAND_LAUNCH_DURATION        0.25
 
 #define SECONDS_IN_DAY                      60 * 60 * 24
 
@@ -104,12 +104,17 @@
 #define USER_MSG_LEVEL_MEDIAN               0.9
 #define USER_MSG_LEVEL_CLOSE                1.0
 
-#define INITIAL_LEVEL_SPEED                 4.0
+#define INITIAL_LEVEL_SPEED                 8.0
 
 /**
  Creates a monkey face to be reused all over the app
  */
 FOUNDATION_EXPORT SKTexture                 *monkeyFaceTexture();
+/**
+ Creates a monkey face for the menu
+ */
+FOUNDATION_EXPORT SKTexture                 *monkeyFaceTextureLarge();
+
 /**
  The move command label that is used on the gmae
  */
@@ -834,6 +839,7 @@ extern NSString *const kSITextPopupFreePrizePrize;
 
 #pragma mark Falling Monkey
 extern NSString *const kSIAssestFallingMonkeyHead;
+extern NSString *const kSIAssestFallingMonkeyHeadLarge;
 
 #pragma mark Menu
 extern NSString *const kSIAssestMenuButtonBack;
