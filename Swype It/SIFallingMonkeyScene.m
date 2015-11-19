@@ -9,6 +9,7 @@
 // Local Controller Import
 #import "SIGameController.h"
 // Framework Import
+#import <AudioToolbox/AudioToolbox.h>
 // Drop-In Class Imports (CocoaPods/GitHub/Guru)
 // Category Import
 #import "UIColor+Additions.h"
@@ -39,6 +40,8 @@ static const uint32_t SIFallingMonkeySceneCategoryEdgeSide      = 0x1 << 5; // 0
     CGSize                               _sceneSize;
     
     SIAdBannerNode                      *_adContentNode;
+    
+    SKAction                            *_pulseSequence;
     
     SKLabelNode                         *_scoreLabelNode;
     
@@ -110,6 +113,12 @@ static const uint32_t SIFallingMonkeySceneCategoryEdgeSide      = 0x1 << 5; // 0
     _numberOfMonkeysLaunched                        = 0;
     _fallingMonkeyZPosition                         = [SIGameController floatZPositionFallingMonkeyForContent:SIZPositionFallingMonkeyFallingMonkey];
     _monkeySpeed                                    = MONKEY_SPEED_INITIAL;
+    
+    
+    SKAction *grow                                  = [SKAction scaleTo:1.3 duration:FALLING_MONKEY_END_DELAY/4.0f];
+    SKAction *shrink                                = [SKAction scaleTo:0.9 duration:FALLING_MONKEY_END_DELAY/4.0f];
+    
+    _pulseSequence                                  = [SKAction sequence:@[grow,shrink,grow,shrink]];
     
 }
 
@@ -404,13 +413,36 @@ static const uint32_t SIFallingMonkeySceneCategoryEdgeSide      = 0x1 << 5; // 0
     } else if ((firstBody.categoryBitMask & SIFallingMonkeySceneCategoryMonkey) != 0 &&
                (secondBody.categoryBitMask & SIFallingMonkeySceneCategoryEdgeBottom) != 0) {
         /**End The Powerup*/
+        
+        /*Pause the screen*/
+        self.paused             = YES;
+
         /*Cancel any monkeys that */
         [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(launchMonkey) object:nil];
         
+        /*Add a red circle to the bottom of the screen*/
+        SKSpriteNode *redCircle = [SIGameController SISpriteNodeTarget];
+        redCircle.position      = CGPointMake(firstBody.node.position.x, (redCircle.size.height / 2.0f));
+        redCircle.name          = kSINodeFallingMonkeyTarget;
+        [self addChild:redCircle];
+        
+        /*Vibrate the phone*/
+        AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
+        
         /*Tell delegate that monkey did colide!*/
-        if ([_sceneDelegate respondsToSelector:@selector(sceneFallingMonkeyDidCollideWithBottomEdge)]) {
-            [_sceneDelegate sceneFallingMonkeyDidCollideWithBottomEdge];
-        }
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(FALLING_MONKEY_END_DELAY * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            if ([_sceneDelegate respondsToSelector:@selector(sceneFallingMonkeyDidCollideWithBottomEdge)]) {
+                [_sceneDelegate sceneFallingMonkeyDidCollideWithBottomEdge];
+            }
+            /*Remove the monkeys*/
+            for (SKNode *node in self.children) {
+                if ([node.name isEqualToString:kSINodeFallingMonkey]) {
+                    [node removeFromParent];
+                } else if ([node.name isEqualToString:kSINodeFallingMonkeyTarget]) {
+                    [node removeFromParent];
+                }
+            }
+        });
     }
     
 }

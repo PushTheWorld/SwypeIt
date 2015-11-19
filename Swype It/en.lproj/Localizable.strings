@@ -43,10 +43,11 @@
 "Turn Sound FX Off"         = "Turn Sound FX Off";
 "Turn Music On"             = "Turn Music On";
 "Turn Sound FX On"          = "Turn Sound FX On";
-"Tap To Play!"              = "Tap To Play!";
+"Tap To Play!"              = "tap to play";
 "Tap To Start!"             = "Tap To Start!";
 "Store"                     = "Shop";
 "One Hand Mode"             = "One Hand Mode";
+"startMenuTitle"            = "SWYPE IT";
 
 /**
  Menu End Content

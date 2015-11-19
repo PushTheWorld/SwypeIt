@@ -3,73 +3,73 @@
     {
       "size" : "29x29",
       "idiom" : "iphone",
-      "filename" : "swipeIcon58.png",
+      "filename" : "swypeItIconRevC29@2x-1.png",
       "scale" : "2x"
     },
     {
       "size" : "29x29",
       "idiom" : "iphone",
-      "filename" : "swipeIcon87.png",
+      "filename" : "swypeItIconRevC29@3x.png",
       "scale" : "3x"
     },
     {
       "size" : "40x40",
       "idiom" : "iphone",
-      "filename" : "swipeIcon80.png",
+      "filename" : "swypeItIconRevC40@2x-1.png",
       "scale" : "2x"
     },
     {
       "size" : "40x40",
       "idiom" : "iphone",
-      "filename" : "swipeIcon120.png",
+      "filename" : "swypeItIconRevC40@3x.png",
       "scale" : "3x"
     },
     {
       "size" : "60x60",
       "idiom" : "iphone",
-      "filename" : "swipeIcon120-1.png",
+      "filename" : "swypeItIconRevC60@2x.png",
       "scale" : "2x"
     },
     {
       "size" : "60x60",
       "idiom" : "iphone",
-      "filename" : "swipeIcon180.png",
+      "filename" : "swypeItIconRevC60@3x.png",
       "scale" : "3x"
     },
     {
       "size" : "29x29",
       "idiom" : "ipad",
-      "filename" : "swipeIcon29.png",
+      "filename" : "swypeItIconRevC29.png",
       "scale" : "1x"
     },
     {
       "size" : "29x29",
       "idiom" : "ipad",
-      "filename" : "swipeIcon58-1.png",
+      "filename" : "swypeItIconRevC29@2x.png",
       "scale" : "2x"
     },
     {
       "size" : "40x40",
       "idiom" : "ipad",
-      "filename" : "swipeIcon40.png",
+      "filename" : "swypeItIconRevC40.png",
       "scale" : "1x"
     },
     {
       "size" : "40x40",
       "idiom" : "ipad",
-      "filename" : "swipeIcon80-1.png",
+      "filename" : "swypeItIconRevC40@2x.png",
       "scale" : "2x"
     },
     {
       "size" : "76x76",
       "idiom" : "ipad",
-      "filename" : "swipeIcon76.png",
+      "filename" : "swypeItIconRevC76.png",
       "scale" : "1x"
     },
     {
       "size" : "76x76",
       "idiom" : "ipad",
-      "filename" : "swipeIcon152.png",
+      "filename" : "swypeItIconRevC76@2x.png",
       "scale" : "2x"
     }
   ],

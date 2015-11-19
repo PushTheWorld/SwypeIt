@@ -136,15 +136,9 @@
         if ([self modalNodePresented]) {
             [self dismissModalNodeAnimation:HLScenePresentationAnimationFade];
         }
-        [_popupNode removeFromParent];
     }
-    if (popupNode) {
-        _popupNode                           = popupNode;
-        [self addChild:_popupNode];
-//        [_popupNode hlSetGestureTarget:_popupNode];
-//        [self registerDescendant:_popupNode withOptions:[NSSet setWithObject:HLSceneChildGestureTarget]];
+     _popupNode                           = popupNode;
 
-    }
     [self layoutZ];
 }
 
@@ -178,8 +172,8 @@
     if (_popupNode) {
         [self presentModalNode:_popupNode
                      animation:HLScenePresentationAnimationFade
-                  zPositionMin:[SIGameController floatZPositionGameForContent:SIZPositionGameModalMin]
-                  zPositionMax:[SIGameController floatZPositionGameForContent:SIZPositionGameModalMax]];
+                  zPositionMin:[SIGameController floatZPositionMenuForContent:SIZPositionMenuModalMin]
+                  zPositionMax:[SIGameController floatZPositionMenuForContent:SIZPositionMenuModalMax]];
     }
 }
 #pragma mark -

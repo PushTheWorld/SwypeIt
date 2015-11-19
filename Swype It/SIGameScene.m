@@ -56,7 +56,6 @@ static const uint32_t SIGameSceneCategoryEdge          = 0x1 << 2; // 0000000000
 
     SKNode                                              *_edge;
     
-    SKSpriteNode                                        *_backgroundNode;
     SKSpriteNode                                        *_coinNode;
     SKSpriteNode                                        *_overlayContentNode;
     SKSpriteNode                                        *_swypeItCoinsBackgroundNode;
@@ -216,8 +215,10 @@ static const uint32_t SIGameSceneCategoryEdge          = 0x1 << 2; // 0000000000
     
     _scoreTotalLabel.zPosition                              = [SIGameController floatZPositionGameForContent:SIZPositionGameContent];
     _scoreTotalLabel.physicsBody.categoryBitMask            = SIGameSceneCategoryUIControl;
-    _scoreTotalLabel.horizontalAlignmentMode                = SKLabelHorizontalAlignmentModeCenter;
+    _scoreTotalLabel.horizontalAlignmentMode                = SKLabelHorizontalAlignmentModeLeft;
     _scoreTotalLabel.verticalAlignmentMode                  = SKLabelVerticalAlignmentModeTop;
+    
+    _scoreTotalLabelTopPadding                              = (_swypeItCoinsBackgroundNodeSize.height ) + VERTICAL_SPACING_8;
     
     _scoreMoveLabel.zPosition                               = [SIGameController floatZPositionGameForContent:SIZPositionGameContent];
     _scoreMoveLabel.physicsBody.categoryBitMask             = SIGameSceneCategoryUIControl;
@@ -470,7 +471,7 @@ static const uint32_t SIGameSceneCategoryEdge          = 0x1 << 2; // 0000000000
     
     CGPoint startingPoint                               = labelHolder.position;
     
-    CGPoint endingPoint                                 = _scoreTotalLabel.position;
+    CGPoint endingPoint                                 = CGPointMake(_scoreTotalLabel.position.x + (_scoreTotalLabel.frame.size.width / 2.0f), _scoreTotalLabel.position.y); //_scoreTotalLabel.position;
     
     CGFloat randomDx                                    = arc4random_uniform(_sceneSize.width / 4.0f);
     
@@ -498,7 +499,7 @@ static const uint32_t SIGameSceneCategoryEdge          = 0x1 << 2; // 0000000000
         
 //        NSLog(@"Height of total score label: %0.2f",_scoreTotalLabel.frame.size.height);
         
-        sparkEmitter.position                           = CGPointMake(0.0f, -1.0f * (_scoreTotalLabel.frame.size.height / 2.0f));
+        sparkEmitter.position                           = CGPointMake((_scoreTotalLabel.frame.size.width / 2.0f), -1.0f * (_scoreTotalLabel.frame.size.height / 2.0f));
         sparkEmitter.zPosition                          = [SIGameController floatZPositionGameForContent:SIZPositionGameContentMoveScoreEmitter];
         [_scoreTotalLabel addChild:sparkEmitter];
                 
@@ -530,8 +531,8 @@ static const uint32_t SIGameSceneCategoryEdge          = 0x1 << 2; // 0000000000
     }
     
     if (_scoreTotalLabel) {
-        positionHidden      = CGPointMake(sceneMidX, _sceneSize.height + _scoreTotalLabel.frame.size.height + VERTICAL_SPACING_4);
-        positionVisible     = CGPointMake(sceneMidX, _sceneSize.height - _scoreTotalLabelTopPadding);
+        positionHidden      = CGPointMake(sceneMidX, _sceneSize.height + _scoreTotalLabel.frame.size.height + VERTICAL_SPACING_8);
+        positionVisible     = CGPointMake(VERTICAL_SPACING_8, _sceneSize.height - VERTICAL_SPACING_8); //CGPointMake(sceneMidX - (sceneMidX / 3.0f), _sceneSize.height - _scoreTotalLabelTopPadding);
         [SIGameController SIControllerNode:_scoreTotalLabel
                                  animation:animation
                             animationStyle:SISceneContentAnimationStyleSlide
@@ -541,7 +542,7 @@ static const uint32_t SIGameSceneCategoryEdge          = 0x1 << 2; // 0000000000
     }
     
     if (_progressBarPowerUp) {
-        positionHidden      = CGPointMake(sceneMidX,sceneMidY + (-1.0f * ((_progressBarPowerUp.size.height / 2.0f) + (_moveCommandLabelSize.height / 2.0f) + VERTICAL_SPACING_8)));
+        positionHidden      = CGPointMake(sceneMidX,sceneMidY + (-1.0f * ((_progressBarPowerUp.size.height / 2.0f) + (_moveCommandLabelSize.height) + VERTICAL_SPACING_8)));
         positionVisible     = positionHidden;
         [SIGameController SIControllerNode:_progressBarPowerUp
                                  animation:animation
@@ -596,7 +597,7 @@ static const uint32_t SIGameSceneCategoryEdge          = 0x1 << 2; // 0000000000
         }]];
         [self registerDescendant:_pauseButtonNode withOptions:[NSSet setWithObject:HLSceneChildGestureTarget]];
 
-        positionVisible = CGPointMake(_sceneSize.width - VERTICAL_SPACING_16 - (_pauseButtonSize.width / 2.0f), _sceneSize.height - VERTICAL_SPACING_8 - (_pauseButtonSize.width / 2.0f));
+        positionVisible = CGPointMake(_sceneSize.width - VERTICAL_SPACING_16 - 2.0f - (_pauseButtonSize.width / 2.0f), _sceneSize.height - VERTICAL_SPACING_16 - (_pauseButtonSize.width / 2.0f) - _swypeItCoinsBackgroundNodeSize.height);
         positionHidden = CGPointMake(_sceneSize.width + positionVisible.x, positionVisible.y);
         [SIGameController SIControllerNode:_pauseButtonNode
                                  animation:animation
@@ -609,7 +610,7 @@ static const uint32_t SIGameSceneCategoryEdge          = 0x1 << 2; // 0000000000
     if (_swypeItCoinsBackgroundNode) {
         [_swypeItCoinsBackgroundNode removeFromParent];
         [self addChild:_swypeItCoinsBackgroundNode];
-        positionVisible = CGPointMake(VERTICAL_SPACING_8,_sceneSize.height - VERTICAL_SPACING_8);
+        positionVisible = CGPointMake(_sceneSize.width - VERTICAL_SPACING_8 - (_swypeItCoinsBackgroundNodeSize.width),_sceneSize.height - VERTICAL_SPACING_8);
         positionHidden = CGPointMake(-1.0f * _swypeItCoinsLabelNode.frame.size.width, positionVisible.y);
         [SIGameController SIControllerNode:_swypeItCoinsBackgroundNode
                                  animation:animation
@@ -622,6 +623,7 @@ static const uint32_t SIGameSceneCategoryEdge          = 0x1 << 2; // 0000000000
     
     if (_highScoreLabelNode) {
         positionVisible     = CGPointMake(_sceneSize.width / 2.0f, _sceneSize.height - _scoreTotalLabelTopPadding - _moveCommandLabel.frame.size.height);
+        positionHidden      = CGPointMake(positionVisible.x, _sceneSize.height + _moveCommandLabel.frame.size.height);
         [SIGameController SIControllerNode:_highScoreLabelNode
                                  animation:animation
                             animationStyle:SISceneContentAnimationStyleGrow

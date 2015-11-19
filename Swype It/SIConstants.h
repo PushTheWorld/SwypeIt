@@ -9,7 +9,7 @@
 #define IDIOM                               UI_USER_INTERFACE_IDIOM()
 #define IPAD                                UIUserInterfaceIdiomPad
 
-#define LEVEL1                              1000
+#define LEVEL1                              100
 #define LEVEL2                              250
 #define LEVEL3                              500
 #define LEVEL4                              750
@@ -92,9 +92,10 @@
 #define VALUE_OF_MONKEY                     10
 #define LAUNCH_DX_VECTOR_MAX                25
 #define LAUNCH_DX_VECTOR_MIX                10
-#define LAUNCH_DY_MULTIPLIER                120
+#define LAUNCH_DY_MULTIPLIER                20
 #define MONKEY_SPEED_INCREASE               10.0
 #define MONKEY_SPEED_INITIAL                250.0
+#define FALLING_MONKEY_END_DELAY            1.0
 
 #define FREE_COINS_PER_DAY                  5
 #define EPSILON_NUMBER                      0.01
@@ -380,6 +381,8 @@ typedef NS_ENUM(NSInteger, SIZPositionMenu) {
     SIZPositionMenuBackground       = 0,
     SIZPositionMenuContent,
     SIZPositionMenuContentToolbar,
+    SIZPositionMenuModalMin,
+    SIZPositionMenuModalMax,
     SIZPositionMenuCount
 };
 
@@ -735,6 +738,7 @@ extern NSString *const kSINodeButtonWatchAds;
 extern NSString *const kSINodeEmitterFire;
 extern NSString *const kSINodeEmitterSnow;
 extern NSString *const kSINodeFallingMonkey;
+extern NSString *const kSINodeFallingMonkeyTarget;
 extern NSString *const kSINodeGameMoveCommand;
 extern NSString *const kSINodeGameProgressBarMove;
 extern NSString *const kSINodeGameScoreTotal;
@@ -746,6 +750,7 @@ extern NSString *const kSINodeLabelPriceChest;
 extern NSString *const kSINodeLabelPriceBag;
 extern NSString *const kSINodeLabelPriceBucket;
 extern NSString *const kSINodeLabelPricePile;
+extern NSString *const kSINodeMenuStore;
 extern NSString *const kSINodeNodeChest;
 extern NSString *const kSINodeNodeBag;
 extern NSString *const kSINodeNodeBucket;
@@ -813,6 +818,7 @@ extern NSString *const kSITextMenuStartScreenOneHandMode;
 extern NSString *const kSITextMenuStartScreenStore;
 extern NSString *const kSITextMenuStartScreenTapToPlay;
 extern NSString *const kSITextMenuStartScreenTapToStart;
+extern NSString *const kSITextMenuStartScreenTitle;
 extern NSString *const kSITextMenuStoreTitle;
 
 #pragma mark Pop Ups
@@ -840,6 +846,7 @@ extern NSString *const kSITextPopupFreePrizePrize;
 #pragma mark Falling Monkey
 extern NSString *const kSIAssestFallingMonkeyHead;
 extern NSString *const kSIAssestFallingMonkeyHeadLarge;
+extern NSString *const kSIAssestFallingMonkeyTarget;
 
 #pragma mark Menu
 extern NSString *const kSIAssestMenuButtonBack;

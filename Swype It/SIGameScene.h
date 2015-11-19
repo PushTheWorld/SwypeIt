@@ -195,4 +195,9 @@
  High score
  */
 @property (nonatomic, assign) BOOL highScore;
+
+/*
+ The background node
+ */
+@property (nonatomic, strong) SKSpriteNode *backgroundNode;
 @end

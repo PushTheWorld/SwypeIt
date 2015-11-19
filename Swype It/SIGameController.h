@@ -108,6 +108,7 @@
     Utilize static variables to reduce overhead and reuseability
  */
 + (SKSpriteNode *)SISpriteNodeFallingMonkey;
++ (SKSpriteNode *)SISpriteNodeTarget;
 + (SKSpriteNode *)SISpriteNodePopupContinueCenterNode;
 
 + (SKSpriteNode *)SISpriteNodeBanana;

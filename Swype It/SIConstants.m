@@ -356,6 +356,7 @@ NSString *const kSINodeButtonWatchAds                                           
 NSString *const kSINodeEmitterFire                                              = @"fireEmitterNode";
 NSString *const kSINodeEmitterSnow                                              = @"snowEmitterNode";
 NSString *const kSINodeFallingMonkey                                            = @"fallingMonkey";
+NSString *const kSINodeFallingMonkeyTarget                                      = @"target";
 NSString *const kSINodeGameMoveCommand                                          = @"moveCommand";
 NSString *const kSINodeGameProgressBarMove                                      = @"progressBarMove";
 NSString *const kSINodeGameScoreTotal                                           = @"scoreTotal";
@@ -367,6 +368,7 @@ NSString *const kSINodeLabelPriceChest                                          
 NSString *const kSINodeLabelPriceBag                                            = @"bagOfCoinsLabelPrice";
 NSString *const kSINodeLabelPriceBucket                                         = @"bucketOfCoinsLabelPrice";
 NSString *const kSINodeLabelPricePile                                           = @"pileOfCoinsLabelPrice";
+NSString *const kSINodeMenuStore                                                = @"menuNodeStore";
 NSString *const kSINodeNodeChest                                                = @"chestOfCoinsNode";
 NSString *const kSINodeNodeBag                                                  = @"bagOfCoinsNode";
 NSString *const kSINodeNodeBucket                                               = @"bucketOfCoinsNode";
@@ -387,6 +389,7 @@ NSString *const kSINodePopupRowFreeCoins                                        
 #pragma mark Falling Monkey
 NSString *const kSIAssestFallingMonkeyHead                                      = @"monkeyHead";
 NSString *const kSIAssestFallingMonkeyHeadLarge                                 = @"monkeyHeadLarge";
+NSString *const kSIAssestFallingMonkeyTarget                                    = @"redTarget";
 
 #pragma mark Menu
 NSString *const kSIAssestMenuButtonBack                                         = @"menuBackButton";
@@ -442,7 +445,7 @@ NSString *const kSITextBoolOFF                                                  
 NSString *const kSITextBoolOn                                                   = @"On";
 NSString *const kSITextBoolON                                                   = @"ON";
 
-#pragma mark - Menu Button
+#pragma mark Menu Button
 NSString *const kSITextMenuEndGameFreeCoinsEarned                               = @"Free Coins Earned";
 NSString *const kSITextMenuEndGameHighScore                                     = @"High Score";
 NSString *const kSITextMenuEndGameHighScoreNew                                  = @"New High Score!";
@@ -462,9 +465,12 @@ NSString *const kSITextMenuStartScreenOneHandMode                               
 NSString *const kSITextMenuStartScreenStore                                     = @"Store";
 NSString *const kSITextMenuStartScreenTapToPlay                                 = @"Tap To Play!";
 NSString *const kSITextMenuStartScreenTapToStart                                = @"Tap To Start!";
+NSString *const kSITextMenuStartScreenTitle                                     = @"startMenuTitle";
 NSString *const kSITextMenuStoreTitle                                           = @"Store";
 
-#pragma mark - Pop Ups
+
+
+#pragma mark Pop Ups
 NSString *const kSITextPopupContinueBuyCoins                                    = @"buyCoins";
 NSString *const kSITextPopupContinueContinue                                    = @"continueTitle";
 NSString *const kSITextPopupContinueEnd                                         = @"End Game";
@@ -480,7 +486,6 @@ NSString *const kSITextPopupFreePrizeClaim                                      
 NSString *const kSITextPopupFreePrizeDaily                                      = @"Daily";
 NSString *const kSITextPopupFreePrizeFree                                       = @"Free";
 NSString *const kSITextPopupFreePrizePrize                                      = @"Prize";
-
 
 
 #pragma mark - Emails
@@ -604,7 +609,8 @@ NSString *const kSITKStateMachineEventTimerStopCriticalFailure                  
     if (!msgArray) {
         msgArray = @[@"Are you even trying?",
                      @"Um... try again",
-                     @"Shake it off, go again"];
+                     @"Shake it off, go again",
+                     @"What? Did you drop your phone?"];
     }
     return msgArray;
 }

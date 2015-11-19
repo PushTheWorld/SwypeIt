@@ -767,7 +767,7 @@
 + (NSString *)titleForMenuType:(SISceneMenuType)type {
     switch (type) {
         case SISceneMenuTypeStart:
-            return @"Swype It";
+            return NSLocalizedString(kSITextMenuStartScreenTitle, nil);
         case SISceneMenuTypeSettings:
             return @"Settings";
         case SISceneMenuTypeHelp:
