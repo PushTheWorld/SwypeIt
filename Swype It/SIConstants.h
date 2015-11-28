@@ -440,7 +440,8 @@ typedef NS_ENUM(NSInteger, SIGameEvent) {
 typedef NS_ENUM(NSInteger, SIPopupCountDownTimer) {
     SIPopupCountDownTimerNotStarted = 0,
     SIPopupCountDownTimerRunning,
-    SIPopupCountDownTimerFinished
+    SIPopupCountDownTimerFinished,
+    SIPopupCountDownTimerPaused
 };
 
 typedef NS_ENUM(NSInteger, SIMenuNodeAnimation) {
@@ -509,6 +510,9 @@ extern NSString *const kSINSUserDefaultPowerUpReadyTimeFreeze;
 extern NSString *const kSINSUserDefaultNumberOfMonkeys;
 extern NSString *const kSINSUserDefaultSoundIsAllowedBackground;
 extern NSString *const kSINSUserDefaultSoundIsAllowedFX;
+extern NSString *const kSINSUserDefaultUserTipShownPowerUpFallingMonkey;
+extern NSString *const kSINSUserDefaultUserTipShownPowerUpRapidFire;
+extern NSString *const kSINSUserDefaultUserTipShownPowerUpTimeFreeze;
 
 #pragma mark - Power Ups
 extern NSString *const kSIPowerUpTypeFallingMonkeys;
@@ -838,6 +842,11 @@ extern NSString *const kSITextPopupFreePrizeDaily;
 extern NSString *const kSITextPopupFreePrizeFree;
 extern NSString *const kSITextPopupFreePrizePrize;
 
+#pragma mark User Tips
+extern NSString *const kSITextUserTipPowerUpFallingMonkey;
+extern NSString *const kSITextUserTipPowerUpTimeFreeze;
+extern NSString *const kSITextUserTipPowerUpRapidFire;
+
 
 #pragma mark -
 #pragma mark - Image Assests
@@ -879,6 +888,7 @@ extern NSString *const kSISoundBackgroundFour;
 extern NSString *const kSISoundBackgroundFive;
 extern NSString *const kSISoundFXCoinNoise;
 extern NSString *const kSISoundFXChaChing;
+extern NSString *const kSISoundFXFireBurning;
 extern NSString *const kSISoundFXGameOver;
 extern NSString *const kSISoundFXInitalize;
 extern NSString *const kSISoundFXMoveTap;

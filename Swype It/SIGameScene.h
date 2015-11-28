@@ -11,6 +11,7 @@
 #import "SIAdBannerNode.h"
 #import "SIGameNode.h"
 #import "SIPopupNode.h"
+#import "SIPopTip.h"
 // Framework Import
 // Drop-In Class Imports (CocoaPods/GitHub/Guru)
 #import "BMGlyphLabel.h"
@@ -200,4 +201,10 @@
  The background node
  */
 @property (nonatomic, strong) SKSpriteNode *backgroundNode;
+
+/**
+ The pop tip node
+ */
+@property (nonatomic, strong) SIPopTip *popTip;
+
 @end

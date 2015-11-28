@@ -31,6 +31,7 @@
 #import <Instabug/Instabug.h>
 #import <MessageUI/MessageUI.h>
 // Drop-In Class Imports (CocoaPods/GitHub/Guru)
+#import "SIPopTip.h"
 #import "DSMultilineLabelNode.h"
 #import "FXReachability.h"
 #import "JCNotificationCenter.h"
@@ -47,7 +48,7 @@
 #import "SIIAPUtility.h"
 // Other Imports
 
-@interface SIGameController () <ADBannerViewDelegate, ADInterstitialAdDelegate, GKGameCenterControllerDelegate, SIGameSceneDelegate, SISingletonAchievementDelegate, SIMenuSceneDelegate, SIFallingMonkeySceneDelegate, HLMenuNodeDelegate, HLGridNodeDelegate, HLRingNodeDelegate, HLToolbarNodeDelegate, SIPopupNodeDelegate, SIAdBannerNodeDelegate, SIGameModelDelegate, SIMenuNodeDelegate, INSKButtonNodeDelegate>
+@interface SIGameController () <ADBannerViewDelegate, ADInterstitialAdDelegate, GKGameCenterControllerDelegate, SIGameSceneDelegate, SISingletonAchievementDelegate, SIMenuSceneDelegate, SIFallingMonkeySceneDelegate, HLMenuNodeDelegate, HLGridNodeDelegate, HLRingNodeDelegate, HLToolbarNodeDelegate, SIPopupNodeDelegate, SIAdBannerNodeDelegate, SIGameModelDelegate, SIMenuNodeDelegate, INSKButtonNodeDelegate, SIPopTipDelegate>
 
 @property (strong, nonatomic) UIButton          *closeButton;
 @end
@@ -73,6 +74,7 @@
     BOOL                                     _verbose;
     BOOL                                     _highScoreShowing;
     BOOL                                     _isPurchaseInProgress;
+    BOOL                                     _mutexContinueButtonPressed;
     BOOL                                     _sceneGameShakeIsActive;
     BOOL                                     _testMode;
 
@@ -84,7 +86,7 @@
     CGSize                                   _sceneGameToolbarNodeSize;
     
     CMMotionManager                         *_motionManager;
-
+    
     DSMultilineLabelNode                    *_sceneGamePopupGameOverUserMessageLabelNode;
     DSMultilineLabelNode                    *_sceneMenuHelpMultilineNode;
     
@@ -130,6 +132,8 @@
     NSString                                *_sceneSettingsMenuItemTextSoundBackground;
     NSString                                *_sceneSettingsMenuItemTextSoundFX;
     
+    NSTimeInterval                           _popupTimePauseOffset;
+    NSTimeInterval                           _popupTimePauseStart;
     NSTimeInterval                           _gameTimePauseStart;
     NSTimeInterval                           _gameTimeStart;
     NSTimeInterval                           _gameTimeTotal;
@@ -161,6 +165,8 @@
     SIMenuScene                             *_sceneMenu;
     
     SIMove                                  *_currentMove;
+    
+    SIPopTip                                *_popTipNode;
 
     SIPopupNode                             *_sceneGamePopupContinue;
     SIPopupNode                             *_sceneMenuPopupFreePrize;
@@ -251,9 +257,10 @@
 
 /**This is an attempt to force view to be an skview*/
 - (void)loadView {
-    CGRect applicationFrame = [[UIScreen mainScreen] applicationFrame];
-    SKView *skView = [[SKView alloc] initWithFrame:applicationFrame];
-    self.view = skView;
+    CGRect applicationFrame     = [[UIScreen mainScreen] applicationFrame];
+    SKView *skView              = [[SKView alloc] initWithFrame:applicationFrame];
+    self.view                   = skView;
+    _mutexContinueButtonPressed = NO;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -371,6 +378,7 @@
         // GAME
         case SIGameControllerSceneGame:
             _sceneGame.adBannerNode = [SIGameController premiumUser] ? nil : _adBannerNode;
+            [self checkUserTipPowerUps];
             switch (_currentSceneType) {
                 case SIGameControllerSceneFallingMonkey:
                     _currentScene = [SIGameController viewController:[self fastSKView] transisitionToSKScene:_sceneGame duration:SCENE_TRANSISTION_DURATION_NOW];
@@ -388,6 +396,8 @@
         // MENU
         case SIGameControllerSceneMenu:
             _sceneMenu.adBannerNode = [SIGameController premiumUser] ? nil : _adBannerNode;
+            _gameModel.game.currentBackgroundSound = SIBackgroundSoundMenu;
+            [SIGame playMusic:[SIGame soundNameForSIBackgroundSound:SIBackgroundSoundMenu] looping:YES fadeIn:YES];
             switch (_currentSceneType) {
                 case SIGameControllerSceneGame:
                     _currentScene = [SIGameController transisitionNormalOpenToSKScene:_sceneMenu toSKView:[self fastSKView]];
@@ -528,6 +538,8 @@
     sceneGame.progressBarPowerUp.userInteractionEnabled     = YES;
     
     _timeFreezeMultiplier                                   = 1.0f;
+    
+    _popTipNode                                             = [SIGameController SIPopTipSize:CGSizeMake(_sceneSize.width * 0.66, (_sceneSize.width * 0.66) * 0.25)];
 
     [SIGameController SILoaderEmitters];
     
@@ -876,11 +888,13 @@
 /**
  Compares a time from the internet to determine if should give a daily prize
  */
-- (SIFreePrizeType)checkForDailyPrize {
+- (void)checkForDailyPrizeCallback:(void (^)(SIFreePrizeType prizeType))callback {
     
     NSDate *currentDate = [SIIAPUtility getDateFromInternet];
     if (!currentDate) {
-        return SIFreePrizeTypeNone;
+        if (callback) {
+            callback(SIFreePrizeTypeNone);
+        }
     }
     
     NSDate *lastPrizeGivenDate = [[NSUserDefaults standardUserDefaults] objectForKey:kSINSUserDefaultLastPrizeAwardedDate];
@@ -888,22 +902,30 @@
     if (!lastPrizeGivenDate) {
         [[NSUserDefaults standardUserDefaults] setObject:currentDate forKey:kSINSUserDefaultLastPrizeAwardedDate];
         [[NSUserDefaults standardUserDefaults] synchronize];
-        return SIFreePrizeTypeFirst;
+        if (callback) {
+            callback(SIFreePrizeTypeFirst);
+        }
         
     } else {
         //Consecutive Launch
         NSTimeInterval timeSinceLastLaunch = [currentDate timeIntervalSince1970] - [lastPrizeGivenDate timeIntervalSince1970];
         if (timeSinceLastLaunch > SECONDS_IN_DAY && timeSinceLastLaunch < 2 * SECONDS_IN_DAY) { /*Consecutive launch!!! > 24 < 48*/ //(timeSinceLastLaunch > 60 * 2 && timeSinceLastLaunch < 2 * 60 * 2) {
-            return SIFreePrizeTypeConsecutive;
+            if (callback) {
+                callback(SIFreePrizeTypeConsecutive);
+            }
             
         //Non consecutive launch
         } else if (timeSinceLastLaunch > 2 * SECONDS_IN_DAY) { /*Non consecutive launch.... two days have passed..*/ //(timeSinceLastLaunch > 2 * 60 * 2) {
             [[NSUserDefaults standardUserDefaults] setInteger:1 forKey:kSINSUserDefaultNumberConsecutiveAppLaunches];
-            return SIFreePrizeTypeNonConsecutive;
+            if (callback) {
+                callback(SIFreePrizeTypeNonConsecutive);
+            }
             
         //no prize
         } else {
-            return SIFreePrizeTypeNone;
+            if (callback) {
+                callback(SIFreePrizeTypeNone);
+            }
         }
     }
 }
@@ -1311,6 +1333,7 @@
             [self gameForceCorrectMove];
             [self powerUpAddFireEmitter];
             _sceneGame.progressBarPowerUp.hidden = NO;
+            [SIGame playSound:kSISoundFXFireBurning];
             break;
         case SIPowerUpTypeFallingMonkeys:
             /*Do Falling Monkeys in Setup*/
@@ -1333,6 +1356,7 @@
         case SIPowerUpTypeRapidFire:
             [self powerUpRemoveFireEmitter];
             _sceneGame.progressBarPowerUp.hidden = YES;
+            [SIGame stopSoundNamed:kSISoundFXFireBurning];
             break;
         case SIPowerUpTypeFallingMonkeys:
             /*Do Falling Monkeys Breakdown*/
@@ -1618,8 +1642,7 @@
 }
 - (void)sceneGamePopupContinueGameTimerAsyncUpdate:(NSTimer *)timer {
     if (_sceneGamePopupContinue.countDownTimerState == SIPopupCountDownTimerRunning) {
-        NSTimeInterval remainingTime = 4.0f - ([NSDate timeIntervalSinceReferenceDate] - _sceneGamePopupContinue.startTime);
-        //        NSTimeInterval remainingTime = 11.0f - (currentTime - _popupNode.startTime);
+        NSTimeInterval remainingTime = 6.0f - ([NSDate timeIntervalSinceReferenceDate] - _sceneGamePopupContinue.startTime) + _popupTimePauseOffset;
         ((SKLabelNode *)_sceneGamePopupContinue.topNode).text = [NSString stringWithFormat:@"%i",(int)remainingTime];
         [_sceneGamePopupContinue.topNode runAction:[SKAction scaleTo:remainingTime - floorf(remainingTime) duration:0.0f]];
         if (remainingTime < (EPSILON_NUMBER + 1.0f)) {
@@ -1627,9 +1650,47 @@
             [_continueGameTimer invalidate];
             [self sceneGamePopupContinueButtonEndGame];
         }
+    } else if (_sceneGamePopupContinue.countDownTimerState == SIPopupCountDownTimerPaused) {
+        NSTimeInterval currentTime = [NSDate timeIntervalSinceReferenceDate];
+        NSLog(@"Start Time: %0.2f | Offset = %0.2f | New Start Time: %0.2f",_sceneGamePopupContinue.startTime,currentTime - _popupTimePauseStart, _sceneGamePopupContinue.startTime + (currentTime - _popupTimePauseStart));
+        _popupTimePauseOffset = (currentTime - _popupTimePauseStart);
     }
-    
 }
+
+
+#pragma mark User Tips
+- (void)checkUserTipPowerUps {
+    //Check to see if the Time Freeze user tip has been shown before
+    if ([SIGameController SIBoolFromNSUserDefaults:[NSUserDefaults standardUserDefaults] forKey:kSINSUserDefaultUserTipShownPowerUpTimeFreeze]) {
+        _popTipNode.message  = NSLocalizedString(kSITextUserTipPowerUpTimeFreeze, nil);
+        _sceneGame.popTip = _popTipNode;
+    }
+}
+
+
+
+- (BOOL)userTipShownPowerUpRapidFire {
+    NSNumber *userTipShown = [[NSUserDefaults standardUserDefaults] objectForKey:kSINSUserDefaultUserTipShownPowerUpRapidFire];
+    
+    if (userTipShown == nil) { //never ben set
+        userTipShown = [NSNumber numberWithBool:NO];
+        [[NSUserDefaults standardUserDefaults] setObject:userTipShown forKey:kSINSUserDefaultUserTipShownPowerUpRapidFire];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+    }
+    return [userTipShown boolValue];
+}
+
+- (BOOL)userTipShownPowerUpFallingMonkey {
+    NSNumber *userTipShown = [[NSUserDefaults standardUserDefaults] objectForKey:kSINSUserDefaultUserTipShownPowerUpFallingMonkey];
+    
+    if (userTipShown == nil) { //never ben set
+        userTipShown = [NSNumber numberWithBool:NO];
+        [[NSUserDefaults standardUserDefaults] setObject:userTipShown forKey:kSINSUserDefaultUserTipShownPowerUpFallingMonkey];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+    }
+    return [userTipShown boolValue];
+}
+
 
 
 #pragma mark -
@@ -1953,25 +2014,17 @@
  such
  */
 - (void)menuSceneDidLoadMenuType:(SISceneMenuType)type {
-    switch (type) {
-        case SISceneMenuTypeStart:
-            // TODO: SWITCH THE FUCK OUT OF TEST MODE
-            if (!_testMode) {
-                switch ([self checkForDailyPrize]) {
-                    case SIFreePrizeTypeNone:
-                        break;
-                    default:
-                        _sceneMenuPopupFreePrizeCountLabel.text = [NSString stringWithFormat:@"%d",[SIIAPUtility getDailyFreePrizeAmount]];
-//                        _sceneMenuPopupFreePrize.delegate = self;
-//                        _sceneMenuPopupFreePrize.userInteractionEnabled = YES;
-                        _sceneMenu.popupNode = _sceneMenuPopupFreePrize;
-                        break;
-                }
-                break;
+    if (type == SISceneMenuTypeStart) {
+        [self checkForDailyPrizeCallback:^(SIFreePrizeType prizeType) {
+            switch (prizeType) {
+                case SIFreePrizeTypeNone:
+                    break;
+                default:
+                    _sceneMenuPopupFreePrizeCountLabel.text = [NSString stringWithFormat:@"%d",[SIIAPUtility getDailyFreePrizeAmount]];
+                    _sceneMenu.popupNode = _sceneMenuPopupFreePrize;
+                    break;
             }
-            
-        default:
-            break;
+        }];
     }
 }
 
@@ -1991,6 +2044,9 @@
     
     //update the falling monkey score
     _sceneFallingMonkey.totalScore      = _gameModel.game.totalScore;
+    
+    //update the background music
+    [self updateBackgroundSound];
 
 }
 
@@ -2281,9 +2337,9 @@
         }
     }
     
-    _gameModel.game.currentBackgroundColorNumber           = [SIGame newBackgroundColorNumberCurrentNumber:_gameModel.game.currentBackgroundColorNumber totalScore:_gameModel.game.totalScore];
+    _gameModel.game.currentBackgroundColorNumber        = [SIGame newBackgroundColorNumberCurrentNumber:_gameModel.game.currentBackgroundColorNumber totalScore:_gameModel.game.totalScore];
     
-    _gameModel.game.currentBackgroundColor                 = [SIGame backgroundColorForScore:_gameModel.game.totalScore forRandomNumber:_gameModel.game.currentBackgroundColorNumber];
+    _gameModel.game.currentBackgroundColor              = [SIGame backgroundColorForScore:_gameModel.game.totalScore forRandomNumber:_gameModel.game.currentBackgroundColorNumber];
 
     
     if (_gameModel.game.isHighScore) {
@@ -2332,6 +2388,8 @@
     } else {
         //else notCorrectMove
         _sceneGame.moveCommandLabel = nil;
+        
+        [SIGame playSound:kSISoundFXGameOver];
         
         [self gameFireEvent:kSITKStateMachineEventGameWrongMoveEntered userInfo:nil];
         //  load start/end scene
@@ -2387,12 +2445,16 @@
             } else {
                 _sceneGamePopupMenuItemTextContinueWithCoin     = kSITextPopupContinueBuyCoins;
             }
-            ((SKLabelNode *)[((INSKButtonNode *)node).nodeNormal childNodeWithName:kSINodeButtonText]).text = _sceneGamePopupMenuItemTextContinueWithCoin;
+            ((SKLabelNode *)[((INSKButtonNode *)node).nodeHighlighted childNodeWithName:kSINodeButtonText]).text    = _sceneGamePopupMenuItemTextContinueWithCoin;
+            ((SKLabelNode *)[((INSKButtonNode *)node).nodeNormal childNodeWithName:kSINodeButtonText]).text         = _sceneGamePopupMenuItemTextContinueWithCoin;
+            ((INSKButtonNode *)node).inskButtonNodeDelegate                                                         = self;
             [((INSKButtonNode *)node) setTouchUpInsideTarget:self selector:@selector(sceneGamePopupContinueButtonUseCoins)];
 
         } else if ([node.name isEqualToString:kSINodeButtonWatchAds]) {
             _sceneGamePopupMenuItemTextContinueWithAd           = [NSString stringWithFormat:@"Watch %d Ads!",(int)[SIGame adCountForNumberOfTimesContinued:_gameModel.game.currentNumberOfTimesContinued]];
-            ((SKLabelNode *)[((INSKButtonNode *)node).nodeNormal childNodeWithName:kSINodeButtonText]).text = _sceneGamePopupMenuItemTextContinueWithAd;
+            ((SKLabelNode *)[((INSKButtonNode *)node).nodeHighlighted childNodeWithName:kSINodeButtonText]).text    = _sceneGamePopupMenuItemTextContinueWithAd;
+            ((SKLabelNode *)[((INSKButtonNode *)node).nodeNormal childNodeWithName:kSINodeButtonText]).text         = _sceneGamePopupMenuItemTextContinueWithAd;
+            ((INSKButtonNode *)node).inskButtonNodeDelegate                                                         = self;
             [((INSKButtonNode *)node) setTouchUpInsideTarget:self selector:@selector(sceneGamePopupContinueButtonWatchAds)];
 
         }
@@ -2410,6 +2472,7 @@
     /*This is all you need to set to make the game scene display a popup because it will relayout the z*/
     _sceneGamePopupContinue.startTime                           = [NSDate timeIntervalSinceReferenceDate];
     _sceneGamePopupContinue.countDownTimerState                 = SIPopupCountDownTimerRunning;
+    _popupTimePauseOffset                                       = 0.0f;
     _continueGameTimer                                          = [NSTimer scheduledTimerWithTimeInterval:TIMER_INTERVAL target:self selector:@selector(sceneGamePopupContinueGameTimerAsyncUpdate:) userInfo:nil repeats:YES];
 
     _sceneGame.popupNode                                        = _sceneGamePopupContinue;
@@ -2500,6 +2563,10 @@
         [self powerUpRemoveSnowEmitter];
         _sceneGame.progressBarPowerUp.hidden = YES;
     }
+    
+    _gameModel.game.currentBackgroundSound = SIBackgroundSoundMenu;
+    [SIGame playMusic:[SIGame soundNameForSIBackgroundSound:SIBackgroundSoundMenu] looping:YES fadeIn:YES];
+
 }
 
 /**
@@ -2565,6 +2632,10 @@
         }
     } else {
         NSLog(@"'%@' touched down", button.name);
+        _popupTimePauseOffset                       = 0.0f;
+        _popupTimePauseStart                        = [NSDate timeIntervalSinceReferenceDate];
+        NSLog(@"Popup started at: %0.2f", _popupTimePauseStart);
+        _sceneGamePopupContinue.countDownTimerState = SIPopupCountDownTimerPaused;
     }
 }
 
@@ -2573,12 +2644,23 @@
         NSLog(@"'%@' highlights again", button.name);
     } else {
         NSLog(@"'%@' not highlighted anymore", button.name);
+        _sceneGamePopupContinue.countDownTimerState = SIPopupCountDownTimerRunning;
     }
 }
 
 - (void)buttonNodeTouchCancelled:(INSKButtonNode *)button {
     NSLog(@"'%@' has all touches get cancelled", button.name);
+    _sceneGamePopupContinue.countDownTimerState = SIPopupCountDownTimerRunning;
+
 }
+
+#pragma mark SIPopTip
+- (void)dismissPopTip:(SIPopTip *)popTip {
+    if (_sceneGame.popTip) {
+        _sceneGame.popTip       = nil;
+    }
+}
+
 
 #pragma mark -
 #pragma mark - Class Functions
@@ -3807,6 +3889,30 @@
 #pragma mark SIPopupGameOverOverDetailsRowNode
 + (SIPopupGameOverOverDetailsRowNode *)SIPopupGameOverDetailsRowNodeWithSize:(CGSize)size {
     return [[SIPopupGameOverOverDetailsRowNode alloc] initWithSize:size];;
+}
+
+#pragma mark NSUserDefault
+/**
+ This safely checks for a user default that has a BOOL
+ */
++ (BOOL)SIBoolFromNSUserDefaults:(NSUserDefaults *)defaults forKey:(NSString *)key {
+    NSNumber *entry = [defaults objectForKey:key];
+    
+    if (entry == nil) { //never ben set
+        entry = [NSNumber numberWithBool:NO];
+        [defaults setObject:entry forKey:key];
+        [defaults synchronize];
+    }
+    return [entry boolValue];
+}
+
+#pragma mark SIPopTip
++ (SIPopTip *)SIPopTipSize:(CGSize)size {
+    static SIPopTip *popTip = nil;
+    if (!popTip) {
+        popTip = [[SIPopTip alloc] initWithSize:size withMessage:@"Swype It!"];
+    }
+    return popTip;
 }
 
 #pragma mark -

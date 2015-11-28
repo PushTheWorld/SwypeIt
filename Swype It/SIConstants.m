@@ -130,6 +130,10 @@ NSString *const kSINSUserDefaultPowerUpReadyTimeFreeze                          
 NSString *const kSINSUserDefaultNumberOfMonkeys                                 = @"numberOfMonkeys";
 NSString *const kSINSUserDefaultSoundIsAllowedBackground                        = @"backgroundSoundIsAllowed";
 NSString *const kSINSUserDefaultSoundIsAllowedFX                                = @"fXSoundIsAllowed";
+NSString *const kSINSUserDefaultUserTipShownPowerUpFallingMonkey                = @"userTipShownPowerUpFallingMonkey";
+NSString *const kSINSUserDefaultUserTipShownPowerUpRapidFire                    = @"userTipShownPowerUpRapidFire";
+NSString *const kSINSUserDefaultUserTipShownPowerUpTimeFreeze                   = @"userTipShownPowerUpTimeFreeze";
+
 
 #pragma mark - Power Ups
 NSString *const kSIPowerUpTypeFallingMonkeys                                    = @"Falling Monkeys";
@@ -468,8 +472,6 @@ NSString *const kSITextMenuStartScreenTapToStart                                
 NSString *const kSITextMenuStartScreenTitle                                     = @"startMenuTitle";
 NSString *const kSITextMenuStoreTitle                                           = @"Store";
 
-
-
 #pragma mark Pop Ups
 NSString *const kSITextPopupContinueBuyCoins                                    = @"buyCoins";
 NSString *const kSITextPopupContinueContinue                                    = @"continueTitle";
@@ -487,6 +489,10 @@ NSString *const kSITextPopupFreePrizeDaily                                      
 NSString *const kSITextPopupFreePrizeFree                                       = @"Free";
 NSString *const kSITextPopupFreePrizePrize                                      = @"Prize";
 
+#pragma mark User Tips
+NSString *const kSITextUserTipPowerUpFallingMonkey                              = @"userTipPowerUpFallingMonkey";
+NSString *const kSITextUserTipPowerUpTimeFreeze                                 = @"userTipPowerUpTimeFreeze";
+NSString *const kSITextUserTipPowerUpRapidFire                                  = @"userTipPowerUpRapidFire";
 
 #pragma mark - Emails
 NSString *const kSIEmailBugReportReciever                                       = @"buggy.bug@pushtheworld.us";
@@ -500,6 +506,7 @@ NSString *const kSISoundBackgroundFour                                          
 NSString *const kSISoundBackgroundFive                                          = @"swypeItSound5";
 NSString *const kSISoundFXCoinNoise                                             = @"coinNoise";
 NSString *const kSISoundFXChaChing                                              = @"swypeItFXChaChing";
+NSString *const kSISoundFXFireBurning                                           = @"fireBurning";
 NSString *const kSISoundFXGameOver                                              = @"swypeItGameOver";
 NSString *const kSISoundFXInitalize                                             = @"swypeItFXInitalize";
 NSString *const kSISoundFXMoveTap                                               = @"tapNoise";

@@ -892,7 +892,7 @@
  Stops music if any is started
  */
 + (void)stopAllMusic {
-    [[SoundManager sharedManager] stopMusic];
+    [[SoundManager sharedManager] stopMusic:NO];
 }
 
 /**
@@ -900,6 +900,10 @@
  */
 + (void)stopAllSounds {
     [[SoundManager sharedManager] stopAllSounds];
+}
+
++ (void)stopSoundNamed:(NSString *)name {
+    [[SoundManager sharedManager] stopSound:name];
 }
 
 + (void)initalizeSoundManager {

@@ -141,6 +141,11 @@
 + (void)stopAllSounds;
 
 /**
+ Used to stop a sound given a name
+ */
++ (void)stopSoundNamed:(NSString *)name;
+
+/**
  Called to setup the sound manager
  */
 + (void)initalizeSoundManager;

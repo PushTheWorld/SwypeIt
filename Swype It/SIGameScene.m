@@ -506,6 +506,17 @@ static const uint32_t SIGameSceneCategoryEdge          = 0x1 << 2; // 0000000000
     }]]]];
     
 }
+
+- (void)setPopTip:(SIPopTip *)popTip {
+    if (_popTip) {
+        [_popTip removeFromParent];
+    }
+    if (popTip) {
+        [self addChild:popTip];
+    } 
+    _popTip = popTip;
+}
+
 #pragma mark Layout
 - (void)layoutScene {
     [self layoutXYZAnimation:SISceneContentAnimationNone];

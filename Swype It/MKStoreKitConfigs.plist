@@ -8,28 +8,28 @@
 	</array>
 	<key>Consumables</key>
 	<dict>
-		<key>com.pushtheworldllc.swipeit.beta.swypeItSmallPack</key>
+		<key>com.pushtheworldllc.swipeit.swypeItSmallPack</key>
 		<dict>
 			<key>ConsumableCount</key>
 			<integer>30</integer>
 			<key>ConsumableId</key>
 			<string>ITCoins</string>
 		</dict>
-		<key>com.pushtheworldllc.swipeit.beta.swypeItMediumPack</key>
+		<key>com.pushtheworldllc.swipeit.swypeItMediumPack</key>
 		<dict>
 			<key>ConsumableCount</key>
 			<integer>200</integer>
 			<key>ConsumableId</key>
 			<string>ITCoins</string>
 		</dict>
-		<key>com.pushtheworldllc.swipeit.beta.swypeItLargePack</key>
+		<key>com.pushtheworldllc.swipeit.swypeItLargePack</key>
 		<dict>
 			<key>ConsumableCount</key>
 			<integer>500</integer>
 			<key>ConsumableId</key>
 			<string>ITCoins</string>
 		</dict>
-		<key>com.pushtheworldllc.swipeit.beta.swypeItExtraLargePack</key>
+		<key>com.pushtheworldllc.swipeit.swypeItExtraLargePack</key>
 		<dict>
 			<key>ConsumableCount</key>
 			<integer>1500</integer>

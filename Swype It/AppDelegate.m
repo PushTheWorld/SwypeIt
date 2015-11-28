@@ -107,6 +107,9 @@ static BOOL isRunningTests(void) __attribute__((const));
         [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithInt:0] forKey:kSINSUserDefaultNumberConsecutiveAppLaunches];
         [[NSUserDefaults standardUserDefaults] setObject:[NSDate date]              forKey:kSINSUserDefaultLastLaunchDate];
         [[NSUserDefaults standardUserDefaults] setObject:[NSDate date]              forKey:kSINSUserDefaultLastPrizeAwardedDate];
+        [[NSUserDefaults standardUserDefaults] setBool:NO                           forKey:kSINSUserDefaultUserTipShownPowerUpFallingMonkey];
+        [[NSUserDefaults standardUserDefaults] setBool:NO                           forKey:kSINSUserDefaultUserTipShownPowerUpRapidFire];
+        [[NSUserDefaults standardUserDefaults] setBool:NO                           forKey:kSINSUserDefaultUserTipShownPowerUpTimeFreeze];
         [[NSUserDefaults standardUserDefaults] synchronize];
     }
 }

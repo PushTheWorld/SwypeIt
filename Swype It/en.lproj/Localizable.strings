@@ -9,71 +9,79 @@
 /**
  Game Scenes
  */
-"Swype It"                  = "Swype It";
-"Tap It"                    = "Tap It";
-"Pinch It"                  = "Pinch It";
-"Shake It"                  = "Shake It";
-"High Score!"               = "High Score!";
+"Swype It"                          = "Swype It";
+"Tap It"                            = "Tap It";
+"Pinch It"                          = "Pinch It";
+"Shake It"                          = "Shake It";
+"High Score!"                       = "High Score!";
 
 /**
  Game Modes
  */
-"One Hand"                  = "One Hand";
-"Two Hand"                  = "Two Hand";
+"One Hand"                          = "One Hand";
+"Two Hand"                          = "Two Hand";
 
 /**
  BOOLS
  */
-"Off"                       = "Off";
-"OFF"                       = "OFF";
-"On"                        = "On";
-"ON"                        = "ON";
+"Off"                               = "Off";
+"OFF"                               = "OFF";
+"On"                                = "On";
+"ON"                                = "ON";
 
 /**
  Menus
  */
-"Sale!"                     = "Sale!";
-"helpText"                  = "Tap the start screen to start a game. A gesture command will appear. Perform the gesture to progress through the game. The faster you enter the next gesture, the more points you score! Points are awesome! Use power ups to get an even higher score! Power ups are purchased with IT Coins. BUY IT Coins in the Store, earn a coin every 500 points and each day you launch the app get free! Opening Swype It every day earns you more and more free coins!!! SWYPE ON!";
-"Help"                      = "Help";
-"Report Bug"                = "Report Bug";
-"Reset High Score"          = "Reset High Score";
-"Restore Purchases"         = "Restore Purchases";
-"Settings"                  = "Settings";
-"Turn Music Off"            = "Turn Music Off";
-"Turn Sound FX Off"         = "Turn Sound FX Off";
-"Turn Music On"             = "Turn Music On";
-"Turn Sound FX On"          = "Turn Sound FX On";
-"Tap To Play!"              = "tap to play";
-"Tap To Start!"             = "Tap To Start!";
-"Store"                     = "Shop";
-"One Hand Mode"             = "One Hand Mode";
-"startMenuTitle"            = "SWYPE IT";
+"Sale!"                             = "Sale!";
+"helpText"                          = "Tap the start screen to start a game. A gesture command will appear. Perform the gesture to progress through the game. The faster you enter the next gesture, the more points you score! Points are awesome! Use power ups to get an even higher score! Power ups are purchased with IT Coins. BUY IT Coins in the Store, earn a coin every 500 points and each day you launch the app get free! Opening Swype It every day earns you more and more free coins!!! SWYPE ON!";
+"Help"                              = "Help";
+"Report Bug"                        = "Report Bug";
+"Reset High Score"                  = "Reset High Score";
+"Restore Purchases"                 = "Restore Purchases";
+"Settings"                          = "Settings";
+"Turn Music Off"                    = "Turn Music Off";
+"Turn Sound FX Off"                 = "Turn Sound FX Off";
+"Turn Music On"                     = "Turn Music On";
+"Turn Sound FX On"                  = "Turn Sound FX On";
+"Tap To Play!"                      = "tap to play";
+"Tap To Start!"                     = "Tap To Start!";
+"Store"                             = "Shop";
+"One Hand Mode"                     = "One Hand Mode";
+"startMenuTitle"                    = "SWYPE IT";
 
 /**
  Menu End Content
  */
-"Free Coins Earned"         = "Free Coins Earned";
-"High Score"                = "High Score";
-"New High Score!"           = "New High Score!";
-"Score"                     = "Total Score";
-"Share"                     = "Share";
+"Free Coins Earned"                 = "Free Coins Earned";
+"High Score"                        = "High Score";
+"New High Score!"                   = "New High Score!";
+"Score"                             = "Total Score";
+"Share"                             = "Share";
 //HANDELD ABOVE
-//"Store"                     = "Store";
+//"Store"                             = "Store";
 
 
 /**
  Pop Ups
 */
-"buyCoins"                  = "Quick, Buy Coins!";
-"continueTitle"             = "Keep Going!";
-"End Game"                  = "End Game";
-"Use %d Coins!"             = "Use %d Coins!";
-"Watch %d Ad!"              = "Watch %d Ad!";
-"Watch %d Ads!"             = "Watch %d Ads!";
-"Claim"                     = "Claim";
-"Daily"                     = "Daily";
-"freeLabel"                 = "Free!";
-"Prize"                     = "Prize";
-"Game Over"                 = "Game Over";
-"Main Menu"                 = "Main Menu";
-"Play Again!"               = "New Game";
+"buyCoins"                          = "Quick, Buy Coins!";
+"continueTitle"                     = "Keep Going!";
+"End Game"                          = "End Game";
+"Use %d Coins!"                     = "Use %d Coins!";
+"Watch %d Ad!"                      = "Watch %d Ad!";
+"Watch %d Ads!"                     = "Watch %d Ads!";
+"Claim"                             = "Claim";
+"Daily"                             = "Daily";
+"freeLabel"                         = "Free!";
+"Prize"                             = "Prize";
+"Game Over"                         = "Game Over";
+"Main Menu"                         = "Main Menu";
+"Play Again!"                       = "New Game";
+
+/**
+ User Tips
+ */
+"userTipPowerUpFallingMonkey"       = "Now use Falling Monkey power up!!";
+"userTipPowerUpTimeFreeze"          = "For starters, hit the time freeze power up!";
+"userTipPowerUpRapidFire"           = "Get ready! Use RAPID FIRE!";
+

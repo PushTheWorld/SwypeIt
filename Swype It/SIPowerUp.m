@@ -52,32 +52,36 @@
     
     if ([SIPowerUp isPowerUpArrayEmpty:powerUpArray]) {
         return YES;
+    } else {
+        return NO;
     }
-    switch (powerUp) {
-        case SIPowerUpTypeFallingMonkeys:
-            for (SIPowerUp *powerUpClass in powerUpArray) {
-                if (powerUpClass.type == SIPowerUpTypeRapidFire || powerUpClass.type == SIPowerUpTypeFallingMonkeys) {
-                    return NO;
-                }
-            }
-            return YES;
-        case SIPowerUpTypeRapidFire:
-            for (SIPowerUp *powerUpClass in powerUpArray) {
-                if (powerUpClass.type == SIPowerUpTypeFallingMonkeys || powerUpClass.type == SIPowerUpTypeRapidFire) {
-                    return NO;
-                }
-            }
-            return YES;
-        case SIPowerUpTypeTimeFreeze:
-            for (SIPowerUp *powerUpClass in powerUpArray) {
-                if (powerUpClass.type == SIPowerUpTypeTimeFreeze) {
-                    return NO;
-                }
-            }
-            return YES;
-        default:
-            return NO;
-    }
+    
+    //Will work on multiple power ups later
+//    switch (powerUp) {
+//        case SIPowerUpTypeFallingMonkeys:
+//            for (SIPowerUp *powerUpClass in powerUpArray) {
+//                if (powerUpClass.type == SIPowerUpTypeRapidFire || powerUpClass.type == SIPowerUpTypeFallingMonkeys) {
+//                    return NO;
+//                }
+//            }
+//            return YES;
+//        case SIPowerUpTypeRapidFire:
+//            for (SIPowerUp *powerUpClass in powerUpArray) {
+//                if (powerUpClass.type == SIPowerUpTypeFallingMonkeys || powerUpClass.type == SIPowerUpTypeRapidFire) {
+//                    return NO;
+//                }
+//            }
+//            return YES;
+//        case SIPowerUpTypeTimeFreeze:
+//            for (SIPowerUp *powerUpClass in powerUpArray) {
+//                if (powerUpClass.type == SIPowerUpTypeTimeFreeze) {
+//                    return NO;
+//                }
+//            }
+//            return YES;
+//        default:
+//            return NO;
+//    }
 }
 /*AUTO TESTED*/
 + (BOOL)isPowerUpActive:(SIPowerUpType)powerUp powerUpArray:(NSArray *)powerUpArray {
