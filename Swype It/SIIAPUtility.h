@@ -57,6 +57,12 @@
 + (int)getDailyFreePrizeAmount;
 
 /**
+ Uses NSUserDefaults to get the number of coins to give but adds a day to tell the user how much their prize
+    will be tomorrow if they come back
+ */
++ (int)getTomorrowsDailyFreePrizeAmount;
+
+/**
  Return the number of coins for a given power up
  */
 + (int)numberOfCoinsForSIIAPPack:(SIIAPPack)siiapPack;

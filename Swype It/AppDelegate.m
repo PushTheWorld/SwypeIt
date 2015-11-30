@@ -38,6 +38,7 @@ static BOOL isRunningTests(void) __attribute__((const));
     
     /*Start Instabug*/
     [Instabug startWithToken:@"dd30ee11bb2fde9bf61f850ba2d73b30" captureSource:IBGCaptureSourceUIKit invocationEvent:IBGInvocationEventTwoFingersSwipeLeft];
+    [Instabug setWillShowStartAlert: NO];
     
     /*FXReachability*/
     [FXReachability sharedInstance].host = @"google.com";
@@ -94,6 +95,7 @@ static BOOL isRunningTests(void) __attribute__((const));
         //set to no
         [[NSUserDefaults standardUserDefaults] setBool:NO                           forKey:kSINSUserDefaultOneHandMode];
         [[NSUserDefaults standardUserDefaults] setBool:NO                           forKey:kSINSUserDefaultPremiumUser];
+        [[NSUserDefaults standardUserDefaults] setBool:NO                           forKey:kSINSUserDefaultFreePrizeGiven];
         [[NSUserDefaults standardUserDefaults] setBool:YES                          forKey:kSINSUserDefaultFirstLaunch];
         [[NSUserDefaults standardUserDefaults] setBool:YES                          forKey:kSINSUserDefaultSoundIsAllowedBackground];
         [[NSUserDefaults standardUserDefaults] setBool:YES                          forKey:kSINSUserDefaultSoundIsAllowedFX];
@@ -110,12 +112,13 @@ static BOOL isRunningTests(void) __attribute__((const));
         [[NSUserDefaults standardUserDefaults] setBool:NO                           forKey:kSINSUserDefaultUserTipShownPowerUpFallingMonkey];
         [[NSUserDefaults standardUserDefaults] setBool:NO                           forKey:kSINSUserDefaultUserTipShownPowerUpRapidFire];
         [[NSUserDefaults standardUserDefaults] setBool:NO                           forKey:kSINSUserDefaultUserTipShownPowerUpTimeFreeze];
+        [[NSUserDefaults standardUserDefaults] setBool:NO                           forKey:kSINSUserDefaultInstabugDemoShown];
         [[NSUserDefaults standardUserDefaults] synchronize];
     }
 }
 - (void)configureMKStoreKit {
     [[MKStoreKit sharedKit] startProductRequest];
-    [[MKStoreKit sharedKit] setDefaultCredits:[NSNumber numberWithInt:1000] forConsumableIdentifier:kSIIAPConsumableIDCoins];
+    [[MKStoreKit sharedKit] setDefaultCredits:[NSNumber numberWithInt:0] forConsumableIdentifier:kSIIAPConsumableIDCoins];
     [[NSNotificationCenter defaultCenter] addObserverForName:kMKStoreKitProductsAvailableNotification
                                                       object:nil
                                                        queue:[[NSOperationQueue alloc] init]

@@ -142,6 +142,16 @@
     [self layoutZ];
 }
 
+- (void)setPopTip:(SIPopTip *)popTip {
+    if (_popTip) {
+        [_popTip removeFromParent];
+    }
+    if (popTip) {
+        [self addChild:popTip];
+    }
+    _popTip = popTip;
+}
+
 #pragma mark -
 #pragma mark - Layout Functions
 /**Called when ever you may need to layout the end scene*/
@@ -235,7 +245,11 @@
 
         
     } else {
-        menuNode.position = CGPointMake(_sceneSize.width / 2.0f, _sceneSize.height / 2.0f); //CGPointZero;
+        if (_adContentNode) {
+            menuNode.position = CGPointMake(_sceneSize.width / 2.0f, _sceneSize.height / 2.0f + ([SIGameController SIAdBannerViewHeight] / 2.0f));
+        } else {
+            menuNode.position = CGPointMake(_sceneSize.width / 2.0f, _sceneSize.height / 2.0f);
+        }
         //if the menuNode is not the currentM
         if (_currentMenuNode != menuNode) {
             [_currentMenuNode removeFromParent];

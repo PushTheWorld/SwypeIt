@@ -60,6 +60,11 @@
 @property (nonatomic, strong) SIPopupNode *popupNode;
 
 /**
+ The pop tip node
+ */
+@property (nonatomic, strong) SIPopTip *popTip;
+
+/**
  Show a menu node and animate it
  */
 - (void)showMenuNode:(SIMenuNode *)menuNode menuNodeAnimation:(SIMenuNodeAnimation)menuNodeAnimation;

@@ -115,12 +115,14 @@ NSString *const kSIGameModeOneHand                                              
 #pragma mark - NSUserDefaults
 NSString *const kSINSUserDefaultNumberConsecutiveAppLaunches                    = @"numberConsecutiveAppLaunches";
 NSString *const kSINSUserDefaultFirstLaunch                                     = @"firstLaunch";
+NSString *const kSINSUserDefaultFreePrizeGiven                                  = @"freePrizeGiven";
+NSString *const kSINSUserDefaultGameMode                                        = @"gameMode";
+NSString *const kSINSUserDefaultInstabugDemoShown                               = @"instaBugDemoShown";
 NSString *const kSINSUserDefaultLastLaunchDate                                  = @"lastLaunchDate";
 NSString *const kSINSUserDefaultLastPrizeAwardedDate                            = @"lastPrizeAwardedDate";
 NSString *const kSINSUserDefaultLifetimeHighScore                               = @"lifetimeHighScore";
 NSString *const kSINSUserDefaultLifetimeGamesPlayed                             = @"lifetimeGamesPlayed";
 NSString *const kSINSUserDefaultLifetimePointsEarned                            = @"lifetimePointsEarned";
-NSString *const kSINSUserDefaultGameMode                                        = @"gameMode";
 NSString *const kSINSUserDefaultOneHandMode                                     = @"oneHandMode";
 NSString *const kSINSUserDefaultPremiumUser                                     = @"proUser";
 NSString *const kSINSUserDefaultPointsTowardsFreeCoin                           = @"pointsTowardsFreeCoin";
@@ -393,6 +395,7 @@ NSString *const kSINodePopupRowFreeCoins                                        
 #pragma mark Falling Monkey
 NSString *const kSIAssestFallingMonkeyHead                                      = @"monkeyHead";
 NSString *const kSIAssestFallingMonkeyHeadLarge                                 = @"monkeyHeadLarge";
+NSString *const kSIAssestFallingMonkeySand                                      = @"sand";
 NSString *const kSIAssestFallingMonkeyTarget                                    = @"redTarget";
 
 #pragma mark Menu
@@ -488,11 +491,13 @@ NSString *const kSITextPopupContinueUseCoins                                    
 NSString *const kSITextPopupContinueWatchAdPlural                               = @"Watch %d Ads!";
 NSString *const kSITextPopupContinueWatchAdSingular                             = @"Watch %d Ad!";
 NSString *const kSITextPopupFreePrizeClaim                                      = @"Claim";
+NSString *const kSITextPopupFreePrizeComeBack                                   = @"plsComeBack";
 NSString *const kSITextPopupFreePrizeDaily                                      = @"Daily";
 NSString *const kSITextPopupFreePrizeFree                                       = @"Free";
 NSString *const kSITextPopupFreePrizePrize                                      = @"Prize";
 
 #pragma mark User Tips
+NSString *const kSITextUserTipFirstFreePrize                                    = @"userTipFristFreePrize";
 NSString *const kSITextUserTipPowerUpFallingMonkey                              = @"userTipPowerUpFallingMonkey";
 NSString *const kSITextUserTipPowerUpTimeFreeze                                 = @"userTipPowerUpTimeFreeze";
 NSString *const kSITextUserTipPowerUpRapidFire                                  = @"userTipPowerUpRapidFire";

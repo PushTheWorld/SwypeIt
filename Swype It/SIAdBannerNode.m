@@ -64,9 +64,9 @@ enum {
     _backgroundNode.zPosition           = (CGFloat)SIAdBannerNodeZPositionLayerBackground / SIAdBannerNodeZPositionLayerCount;
 
     _graphicNode.anchorPoint            = CGPointMake(0.5f, 0.5f);
-    _graphicNode.zPosition              = (CGFloat)SIAdBannerNodeZPositionLayerGraphic / SIAdBannerNodeZPositionLayerCount;
+    _graphicNode.zPosition              = ((CGFloat)SIAdBannerNodeZPositionLayerGraphic / SIAdBannerNodeZPositionLayerCount) * 0.01;
     
-    _callToActionLabelNode.zPosition    = (CGFloat)SIAdBannerNodeZPositionLayerText / SIAdBannerNodeZPositionLayerCount;
+    _callToActionLabelNode.zPosition    = ((CGFloat)SIAdBannerNodeZPositionLayerText / SIAdBannerNodeZPositionLayerCount) * 0.01;
     _callToActionLabelNode.fontColor    = [SKColor whiteColor];
     _callToActionLabelNode.fontSize     = _graphicNodeSize.height - VERTICAL_SPACING_8;
     _callToActionLabelNode.text         = @"DOWNLOAD SIMPLST";

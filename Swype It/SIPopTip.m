@@ -129,7 +129,7 @@
         [_pointerNodeNormal removeFromParent];
     }
     if (_pointerNodeReverse.parent) {
-        [_pointerNodeNormal removeFromParent];
+        [_pointerNodeReverse removeFromParent];
     }
     
     if (_pointerNode) {
@@ -141,12 +141,14 @@
     
     switch (_popTipPositionVertical) {
         case SIPopTipPositionVerticalTop:
-            popTipPosition.y                    = (_backgroundNode.size.height);
+            popTipPosition.y                    = (_backgroundNode.size.height) - [SIPopTip popTipPointerOffset];
+            [_backgroundNode addChild:_pointerNodeNormal];
             _pointerNode                        = _pointerNodeNormal;
             break;
         case SIPopTipPositionVerticalBottom:
         default:
-            popTipPosition.y                    = -1.0f * (_backgroundNode.size.height) + 12;
+            popTipPosition.y                    = -1.0f * (_backgroundNode.size.height) + [SIPopTip popTipPointerOffset];
+            [_backgroundNode addChild:_pointerNodeReverse];
             _pointerNode                        = _pointerNodeReverse;
             break;
     }
@@ -166,8 +168,7 @@
     }
     
     _pointerNode.position                       = popTipPosition;
-
-
+    
     switch (_popTipEffect) {
         case SIPopTipEffectBounce:
             [_backgroundNode runAction:[SKAction repeatActionForever:_bounceEffect]];
@@ -224,29 +225,27 @@
 
 #pragma mark -
 #pragma mark - Class Functions
-+ (SKShapeNode *)makeTriangleInRect:(CGRect)rect withBackgroundColor:(UIColor *)backgroundColor {
-
-    SKShapeNode *shape                          = [SKShapeNode shapeNodeWithCircleOfRadius:rect.size.width];//[SKShapeNode shapeNodeWithPath:[SIPopTip triangleInRect:rect] centered:YES];
-    shape.fillColor                             = backgroundColor;
-    
-    return shape;
-}
-
-+ (CGPathRef) triangleInRect:(CGRect)rect {
-    CGFloat offsetX                             = CGRectGetMidX(rect);
-    CGFloat offsetY                             = CGRectGetMidY(rect);
-    UIBezierPath* bezierPath                    = [UIBezierPath bezierPath];
-    
-    [bezierPath moveToPoint: CGPointMake(offsetX, 0)];
-    [bezierPath addLineToPoint: CGPointMake(-offsetX, offsetY)];
-    [bezierPath addLineToPoint: CGPointMake(-offsetX, -offsetY)];
-    
-    [bezierPath closePath];
-    return bezierPath.CGPath;
-}
-
 + (float)floatZPositionPopTipForContent:(SIZPositionPopTip)layer {
     return (float)layer / (float)SIZPositionPopTipCount;
+}
+
++ (float)popTipPointerOffset {
+    if (IS_IPHONE_4) {
+        return 12.0f;
+        
+    } else if (IS_IPHONE_5) {
+        return 12.0f;
+        
+    } else if (IS_IPHONE_6) {
+        return 16.0f;
+        
+    } else if (IS_IPHONE_6_PLUS) {
+        return 19.0f;
+        
+    } else {
+        return 19.0f;
+        
+    }
 }
 
 @end

@@ -107,6 +107,8 @@
 
 #define INITIAL_LEVEL_SPEED                 8.0
 
+#define INITIAL_FREE_PRIZE_AMOUNT           30
+
 /**
  Creates a monkey face to be reused all over the app
  */
@@ -495,12 +497,14 @@ extern NSString *const kSIGameModeOneHand;
 #pragma mark - NSUserDefaults
 extern NSString *const kSINSUserDefaultNumberConsecutiveAppLaunches;
 extern NSString *const kSINSUserDefaultFirstLaunch;
+extern NSString *const kSINSUserDefaultFreePrizeGiven;
+extern NSString *const kSINSUserDefaultGameMode;
+extern NSString *const kSINSUserDefaultInstabugDemoShown;
 extern NSString *const kSINSUserDefaultLastLaunchDate;
 extern NSString *const kSINSUserDefaultLastPrizeAwardedDate;
 extern NSString *const kSINSUserDefaultLifetimeHighScore;
 extern NSString *const kSINSUserDefaultLifetimeGamesPlayed;
 extern NSString *const kSINSUserDefaultLifetimePointsEarned;
-extern NSString *const kSINSUserDefaultGameMode;
 extern NSString *const kSINSUserDefaultOneHandMode;
 extern NSString *const kSINSUserDefaultPremiumUser;
 extern NSString *const kSINSUserDefaultPointsTowardsFreeCoin;
@@ -838,11 +842,13 @@ extern NSString *const kSITextPopupContinueUseCoins;
 extern NSString *const kSITextPopupContinueWatchAdPlural;
 extern NSString *const kSITextPopupContinueWatchAdSingular;
 extern NSString *const kSITextPopupFreePrizeClaim;
+extern NSString *const kSITextPopupFreePrizeComeBack;
 extern NSString *const kSITextPopupFreePrizeDaily;
 extern NSString *const kSITextPopupFreePrizeFree;
 extern NSString *const kSITextPopupFreePrizePrize;
 
 #pragma mark User Tips
+extern NSString *const kSITextUserTipFirstFreePrize;
 extern NSString *const kSITextUserTipPowerUpFallingMonkey;
 extern NSString *const kSITextUserTipPowerUpTimeFreeze;
 extern NSString *const kSITextUserTipPowerUpRapidFire;
@@ -855,6 +861,7 @@ extern NSString *const kSITextUserTipPowerUpRapidFire;
 #pragma mark Falling Monkey
 extern NSString *const kSIAssestFallingMonkeyHead;
 extern NSString *const kSIAssestFallingMonkeyHeadLarge;
+extern NSString *const kSIAssestFallingMonkeySand;
 extern NSString *const kSIAssestFallingMonkeyTarget;
 
 #pragma mark Menu

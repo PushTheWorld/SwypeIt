@@ -109,11 +109,28 @@
     return [numberOfConsecutiveDaysLaunched intValue] * FREE_COINS_PER_DAY;
 }
 
++ (int)getTomorrowsDailyFreePrizeAmount {
+    NSNumber *numberOfConsecutiveDaysLaunched = [[NSUserDefaults standardUserDefaults] objectForKey:kSINSUserDefaultNumberConsecutiveAppLaunches];
+    if (!numberOfConsecutiveDaysLaunched) {
+        [[NSUserDefaults standardUserDefaults] setInteger:1 forKey:kSINSUserDefaultNumberConsecutiveAppLaunches];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+        return 1;
+    }
+    
+    if ([numberOfConsecutiveDaysLaunched intValue] > 30) {
+        return 30 * FREE_COINS_PER_DAY;
+    }
+    
+    return ([numberOfConsecutiveDaysLaunched intValue] + 1) * FREE_COINS_PER_DAY;
+}
+
 + (void)increaseConsecutiveDaysLaunched {
     NSNumber *numberOfConsecutiveDaysLaunched = [[NSUserDefaults standardUserDefaults] objectForKey:kSINSUserDefaultNumberConsecutiveAppLaunches];
     [[NSUserDefaults standardUserDefaults] setInteger:[numberOfConsecutiveDaysLaunched integerValue] + 1 forKey:kSINSUserDefaultNumberConsecutiveAppLaunches];
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
+
+
 
 + (SKSpriteNode *)createTitleNode:(CGSize)size {
     SKSpriteNode *backgroundNode = [SKSpriteNode spriteNodeWithColor:[SKColor clearColor] size:size];

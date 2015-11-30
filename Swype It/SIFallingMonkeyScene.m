@@ -50,6 +50,7 @@ static const uint32_t SIFallingMonkeySceneCategoryEdgeSide      = 0x1 << 5; // 0
     SKNode                              *_edgeRight;
     
     SKSpriteNode                        *_backgroundNode;
+    SKSpriteNode                        *_sandNode;
 
 }
 
@@ -135,6 +136,9 @@ static const uint32_t SIFallingMonkeySceneCategoryEdgeSide      = 0x1 << 5; // 0
     
     // the toal score label
     _scoreLabelNode                                 = [SIGameController SILabelHeader_x3:@"0.00"];
+    
+    // Make Sand node
+    _sandNode                                       = [SKSpriteNode spriteNodeWithImageNamed:kSIAssestFallingMonkeySand];
         
 }
 
@@ -155,12 +159,18 @@ static const uint32_t SIFallingMonkeySceneCategoryEdgeSide      = 0x1 << 5; // 0
     _scoreLabelNode.verticalAlignmentMode           = SKLabelVerticalAlignmentModeTop;
     _scoreLabelNode.physicsBody.categoryBitMask     = SIFallingMonkeySceneCategoryUIControl;
     
+    _sandNode.anchorPoint                           = CGPointZero;
+    _sandNode.position                              = CGPointZero;
+    
+    
 }
 
 - (void)layoutControlsWithSize:(CGSize)size {
     /**Layout those controls*/
     _backgroundNode.position                        = CGPointMake(0.0f, 0.0f);
     [self addChild:_backgroundNode];
+    
+    [_backgroundNode addChild:_sandNode];
     
     [_backgroundNode addChild:_edgeBottom];
     

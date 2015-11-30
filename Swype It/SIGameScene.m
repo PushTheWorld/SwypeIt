@@ -553,7 +553,7 @@ static const uint32_t SIGameSceneCategoryEdge          = 0x1 << 2; // 0000000000
     }
     
     if (_progressBarPowerUp) {
-        positionHidden      = CGPointMake(sceneMidX,sceneMidY + (-1.0f * ((_progressBarPowerUp.size.height / 2.0f) + (_moveCommandLabelSize.height) + VERTICAL_SPACING_8)));
+        positionHidden      = CGPointMake(sceneMidX,sceneMidY - (sceneMidY / 2.0f)); //(-1.0f * ((_progressBarPowerUp.size.height / 2.0f) + (_moveCommandLabelSize.height) + VERTICAL_SPACING_8)));
         positionVisible     = positionHidden;
         [SIGameController SIControllerNode:_progressBarPowerUp
                                  animation:animation
@@ -633,7 +633,7 @@ static const uint32_t SIGameSceneCategoryEdge          = 0x1 << 2; // 0000000000
     }
     
     if (_highScoreLabelNode) {
-        positionVisible     = CGPointMake(_sceneSize.width / 2.0f, _sceneSize.height - _scoreTotalLabelTopPadding - _moveCommandLabel.frame.size.height);
+        positionVisible     = CGPointMake(_sceneSize.width / 2.0f, _pauseButtonNode.frame.origin.y);//_sceneSize.height - _scoreTotalLabelTopPadding - _moveCommandLabel.frame.size.height);
         positionHidden      = CGPointMake(positionVisible.x, _sceneSize.height + _moveCommandLabel.frame.size.height);
         [SIGameController SIControllerNode:_highScoreLabelNode
                                  animation:animation
@@ -928,27 +928,27 @@ static const uint32_t SIGameSceneCategoryEdge          = 0x1 << 2; // 0000000000
     if (!_backgroundNode) {
         return;
     }
-    if (gestureRecognizer.state == UIGestureRecognizerStateEnded) {
-        [self makeAndSendMove:SIMoveCommandSwype moveCommandAction:SIMoveCommandActionSwypeUp gestureRecognizer:gestureRecognizer];
-    }
+    [self makeAndSendMove:SIMoveCommandSwype moveCommandAction:SIMoveCommandActionSwypeUp gestureRecognizer:gestureRecognizer];
+//    if (gestureRecognizer.state == UIGestureRecognizerStateEnded) {
+//    }
 }
 
 - (void)handleGameSwypeDown:(UISwipeGestureRecognizer *)gestureRecognizer {
     if (!_backgroundNode) {
         return;
     }
-    if (gestureRecognizer.state == UIGestureRecognizerStateEnded) {
-        [self makeAndSendMove:SIMoveCommandSwype moveCommandAction:SIMoveCommandActionSwypeDown gestureRecognizer:gestureRecognizer];
-    }
+    [self makeAndSendMove:SIMoveCommandSwype moveCommandAction:SIMoveCommandActionSwypeDown gestureRecognizer:gestureRecognizer];
+//    if (gestureRecognizer.state == UIGestureRecognizerStateEnded) {
+//    }
 }
 
 - (void)handleGameSwypeLeft:(UISwipeGestureRecognizer *)gestureRecognizer {
     if (!_backgroundNode) {
         return;
     }
-    if (gestureRecognizer.state == UIGestureRecognizerStateEnded) {
-        [self makeAndSendMove:SIMoveCommandSwype moveCommandAction:SIMoveCommandActionSwypeLeft gestureRecognizer:gestureRecognizer];
-    }
+    [self makeAndSendMove:SIMoveCommandSwype moveCommandAction:SIMoveCommandActionSwypeLeft gestureRecognizer:gestureRecognizer];
+//    if (gestureRecognizer.state == UIGestureRecognizerStateEnded) {
+//    }
 }
 
 - (void)handleGameSwypeRight:(UISwipeGestureRecognizer *)gestureRecognizer {
@@ -1053,6 +1053,7 @@ static const uint32_t SIGameSceneCategoryEdge          = 0x1 << 2; // 0000000000
         }
     } else if ([gestureRecognizer isKindOfClass:[UIPinchGestureRecognizer class]]) {
         [gestureRecognizer removeTarget:nil action:NULL];
+        
         [gestureRecognizer addTarget:self action:@selector(handleGamePinch:)];
         return YES;
     } else if ([gestureRecognizer isKindOfClass:[UISwipeGestureRecognizer class]]) {

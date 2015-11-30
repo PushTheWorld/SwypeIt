@@ -77,11 +77,13 @@
 "Game Over"                         = "Game Over";
 "Main Menu"                         = "Main Menu";
 "Play Again!"                       = "New Game";
+"plsComeBack"                       = "Tomorrows Prize: %d coins!";
 
 /**
  User Tips
  */
-"userTipPowerUpFallingMonkey"       = "Now use Falling Monkey power up!!";
-"userTipPowerUpTimeFreeze"          = "For starters, hit the time freeze power up!";
-"userTipPowerUpRapidFire"           = "Get ready! Use RAPID FIRE!";
+"userTipFristFreePrize"             = "Welcome! Enjoy 30 free coins!";
+"userTipPowerUpFallingMonkey"       = "Now! Tap Falling Monkey power up!!";
+"userTipPowerUpTimeFreeze"          = "For starters, tap the time freeze power up!";
+"userTipPowerUpRapidFire"           = "Quick! tap RAPID FIRE power up!";
 
