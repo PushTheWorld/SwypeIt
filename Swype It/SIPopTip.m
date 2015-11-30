@@ -63,14 +63,14 @@
     
     _backgroundColor                            = [UIColor simplstMainColor];
     
-    _popTipPositionVertical                     = SIPopTipPositionVerticalBottom;
-    _popTipPositionHorizontal                   = SIPopTipPositionHorizontalCenter;
+    _positionVertical                           = SIPopTipPositionVerticalBottom;
+    _positionHorizontal                         = SIPopTipPositionHorizontalCenter;
     
-    _popTipEffect                               = SIPopTipEffectNone;
+    _effect                                     = SIPopTipEffectNone;
     
-    SKAction *moveY                             = [SKAction moveByX:0.0f y:10.0f duration:1.0f];
-    SKAction *oppositeY                         = [moveY reversedAction];
-    _bounceEffect                               = [SKAction sequence:@[moveY, oppositeY]];
+    _effectDeltaY                               = 10.0f;
+    
+    _bounceEffect                               = [SIPopTip createBounceEffectActionWithDeltaY:_effectDeltaY];
 
     
 }
@@ -139,7 +139,7 @@
     /*Set the tip vertical position*/
     CGPoint popTipPosition = CGPointZero;
     
-    switch (_popTipPositionVertical) {
+    switch (_positionVertical) {
         case SIPopTipPositionVerticalTop:
             popTipPosition.y                    = (_backgroundNode.size.height) - [SIPopTip popTipPointerOffset];
             [_backgroundNode addChild:_pointerNodeNormal];
@@ -154,7 +154,7 @@
     }
     
     /*Set the tip horizontal position*/
-    switch (_popTipPositionHorizontal) {
+    switch (_positionHorizontal) {
         case SIPopTipPositionHorizontalLeft:
             popTipPosition.x                    = -1.0 * (_size.width * 0.25);
             break;
@@ -169,7 +169,7 @@
     
     _pointerNode.position                       = popTipPosition;
     
-    switch (_popTipEffect) {
+    switch (_effect) {
         case SIPopTipEffectBounce:
             [_backgroundNode runAction:[SKAction repeatActionForever:_bounceEffect]];
             break;
@@ -202,23 +202,29 @@
 
 #pragma mark -
 #pragma mark - Public Accessors
-- (void)setPopTipPositionHorizontal:(SIPopTipPositionHorizontal)popTipPositionHorizontal {
-    _popTipPositionHorizontal                   = popTipPositionHorizontal;
+- (void)setPositionHorizontal:(SIPopTipPositionHorizontal)positionHorizontal {
+    _positionHorizontal = positionHorizontal;
     [self layoutXY];
 }
 
-- (void)setPopTipPositionVertical:(SIPopTipPositionVertical)popTipPositionVertical {
-    _popTipPositionVertical                     = popTipPositionVertical;
+- (void)setPositionVertical:(SIPopTipPositionVertical)positionVertical {
+    _positionVertical                           = positionVertical;
     [self layoutXY];
 }
 
 - (void)setMessage:(NSString *)message {
-    _message = message;
-    _multiLineNode.text = message;
+    _message                                    = message;
+    _multiLineNode.text                         = message;
 }
 
-- (void)setPopTipEffect:(SIPopTipEffect)popTipEffect {
-    _popTipEffect = popTipEffect;
+- (void)setEffect:(SIPopTipEffect)effect {
+    _effect                                     = effect;
+    [self layoutXY];
+}
+
+- (void)setEffectDeltaY:(float)effectDeltaY {
+    _effectDeltaY                               = effectDeltaY;
+    _bounceEffect                               = [SIPopTip createBounceEffectActionWithDeltaY:_effectDeltaY];
     [self layoutXY];
 }
 
@@ -246,6 +252,13 @@
         return 19.0f;
         
     }
+}
+
++ (SKAction *)createBounceEffectActionWithDeltaY:(float)deltaY {
+    SKAction *moveY                             = [SKAction moveByX:0.0f y:deltaY duration:1.0f];
+    SKAction *oppositeY                         = [moveY reversedAction];
+    return [SKAction sequence:@[moveY, oppositeY]];
+
 }
 
 @end

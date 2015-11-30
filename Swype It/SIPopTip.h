@@ -68,12 +68,12 @@ typedef NS_ENUM(NSInteger, SIPopTipEffect) {
 /**
  SIPopTipPositionVertical
  */
-@property (assign, nonatomic) SIPopTipPositionVertical popTipPositionVertical;
+@property (assign, nonatomic) SIPopTipPositionVertical positionVertical;
 
 /**
  SIPopTipPositionHorizontal
  */
-@property (assign, nonatomic) SIPopTipPositionHorizontal popTipPositionHorizontal;
+@property (assign, nonatomic) SIPopTipPositionHorizontal positionHorizontal;
 
 /**
  Sets the message for the pop tip
@@ -83,6 +83,12 @@ typedef NS_ENUM(NSInteger, SIPopTipEffect) {
 /**
  Set for effects
  */
-@property (assign, nonatomic) SIPopTipEffect popTipEffect;
+@property (assign, nonatomic) SIPopTipEffect effect;
+
+/**
+ The amount the pop tip bounces
+ Default is `10.0`
+ */
+@property (assign, nonatomic) float effectDeltaY;
 
 @end

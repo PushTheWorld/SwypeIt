@@ -1603,11 +1603,11 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 9DDA8D676AA522487B9497FC /* Pods-Swype It.debug.xcconfig */;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon.dev;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				BUNDLE_ID_SUFFIX = .dev;
 				CODE_SIGN_IDENTITY = "iPhone Developer: Andrew Keller (4QBKTXP3K7)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Andrew Keller (4QBKTXP3K7)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Andrew Keller (G2YUCSS226)";
 				DEFINES_MODULE = YES;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1631,11 +1631,11 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 9DA67FDDF2048F2EE110C92B /* Pods-Swype It.release.xcconfig */;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon.dev;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				BUNDLE_ID_SUFFIX = "";
 				CODE_SIGN_IDENTITY = "iPhone Developer: Andrew Keller (4QBKTXP3K7)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Andrew Keller (4QBKTXP3K7)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Andrew Keller (G2YUCSS226)";
 				DEFINES_MODULE = YES;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1773,11 +1773,11 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 30ED76FB39BF998E0E317052 /* Pods-Swype It.beta.xcconfig */;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon.dev;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				BUNDLE_ID_SUFFIX = .beta;
 				CODE_SIGN_IDENTITY = "iPhone Developer: Andrew Keller (4QBKTXP3K7)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Andrew Keller (4QBKTXP3K7)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Andrew Keller (G2YUCSS226)";
 				DEFINES_MODULE = YES;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (

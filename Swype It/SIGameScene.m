@@ -806,8 +806,21 @@ static const uint32_t SIGameSceneCategoryEdge          = 0x1 << 2; // 0000000000
  Called when the scene shall notify the user they got a free coin
  */
 - (void)sceneGameShowFreeCoinEarned {
-    SKSpriteNode *coinCpoy = [_coinNode copy];
-    coinCpoy.zPosition = [SIGameController floatZPositionGameForContent:SIZPositionGameContentMoveScore];
+    SKSpriteNode *coin = [_coinNode copy];
+    
+    [self addChild:coin];
+    coin.zPosition = [SIGameController floatZPositionGameForContent:SIZPositionGameContentMoveScore];
+    coin.position   = CGPointMake(CGRectGetMaxX(_swypeItCoinsBackgroundNode.frame), CGRectGetMaxY(_swypeItCoinsBackgroundNode.frame));
+    
+    coin.physicsBody = [SKPhysicsBody bodyWithCircleOfRadius:coin.size.width / 2.0f];
+    
+    float xImpulse = (10.0f + (float)arc4random_uniform(10)) / 10.0f;
+    
+    //add impluse to coin
+    CGVector coinVector                           = CGVectorMake(-xImpulse, -0.5);
+    [coin.physicsBody applyImpulse:coinVector];
+
+    
 //    SKAction *enlargeSize = [SKAction ]
 }
 

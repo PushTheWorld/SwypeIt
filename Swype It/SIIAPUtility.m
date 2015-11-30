@@ -288,7 +288,7 @@
     }
 }
 #pragma mark Daily Prize Methods
-+ (NSDate *)getDateFromInternet {
++ (void)getDateFromInternetWithCallback:(void (^)(NSDate *))callback {
     NSDate *currentDate = nil;
     
     if ([FXReachability isReachable]) {
@@ -302,7 +302,9 @@
             NSDate *currentDate = [df dateFromString:tempString];
             //            NSDate * currDate = [NSDate dateWithTimeIntervalSince1970: [tempString doubleValue]];
             //            NSLog (@ "String returned from the site is:%@ and date is:%@", tempString, [currDate description]);
-            return currentDate;
+            if (callback) {
+                callback(currentDate);
+            }
         } else {
             NSLog(@"Could not resolve webpage....");
         }
@@ -310,7 +312,9 @@
         NSLog(@"Not connected to internet");
     }
     
-    return currentDate;
+    if (callback) {
+        callback(currentDate);
+    }
 }
 
 #pragma mark IAP convience methods

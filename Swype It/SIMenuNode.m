@@ -166,14 +166,13 @@
     
 
     if (_topNode) {
-        positionHidden                              = CGPointMake(0.0f, sceneMidY + _topNode.frame.size.height);
-        positionVisible                             = CGPointMake(0.0f, sceneMidY - _titleContentNode.frame.size.height - (_topNode.frame.size.height / 2.0f));
-        [SIMenuNode animateMenuContentNode:_titleContentNode
+        positionVisible                             = CGPointMake(0.0f, (_backgroundNode.size.height / 4.0f));
+        positionHidden                              = positionVisible;
+        [SIMenuNode animateMenuContentNode:_topNode
                                  animation:animation
                          animationDuration:_animationDuration
                            positionVisible:positionVisible
                             positionHidden:positionHidden];
-        _topNode.position    = CGPointMake(0.0f, (_backgroundNode.size.height / 4.0f));
     }
     if (_centerNode) {
         positionVisible                             = CGPointZero;

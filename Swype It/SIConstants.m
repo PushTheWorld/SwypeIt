@@ -553,6 +553,7 @@ NSString *const kEDKeyAchievementDetailsPostfixString                           
 NSString *const kEDKeyAchievementDetailsType                                    = @"type";
 
 #pragma mark - State Machine
+NSString *const kSITKStateMachineStateGameDefault                               = @"default";
 NSString *const kSITKStateMachineStateGameEnd                                   = @"end";
 NSString *const kSITKStateMachineStateGameFallingMonkey                         = @"fallingMonkey";
 NSString *const kSITKStateMachineStateGameIdle                                  = @"idle";
@@ -568,7 +569,7 @@ NSString *const kSITKStateMachineStateTimerStopped                              
 
 #pragma mark - State Machine Events
 NSString *const kSITKStateMachineEventGameFallingMonkeyStart                    = @"fallingMonkeyStart";
-//NSString *const kSITKStateMachineEventGameLoad                                  = @"load";
+NSString *const kSITKStateMachineEventGameLoad                                  = @"load";
 NSString *const kSITKStateMachineEventGameMenuEnd                               = @"menuEnd";
 NSString *const kSITKStateMachineEventGameMenuStart                             = @"menuStart";
 NSString *const kSITKStateMachineEventGameMoveEntered                           = @"moveEntered";

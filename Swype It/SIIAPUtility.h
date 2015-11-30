@@ -50,7 +50,8 @@
 /**
  Get the date from the internet
  */
-+ (NSDate *)getDateFromInternet;
++ (void)getDateFromInternetWithCallback:(void (^)(NSDate *))callback;
+
 /**
  Uses NSUserDefaults to get the number of coins to give for free daily prize
  */

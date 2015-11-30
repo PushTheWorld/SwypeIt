@@ -139,6 +139,7 @@ static const uint32_t SIFallingMonkeySceneCategoryEdgeSide      = 0x1 << 5; // 0
     
     // Make Sand node
     _sandNode                                       = [SKSpriteNode spriteNodeWithImageNamed:kSIAssestFallingMonkeySand];
+    [_sandNode runAction:[SKAction scaleXTo:_sceneSize.width duration:0.0f]];
         
 }
 

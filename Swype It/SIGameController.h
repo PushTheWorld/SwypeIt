@@ -89,7 +89,7 @@
 + (SIPopupNode *)SIPopupNodeTitle:(NSString *)title SceneSize:(CGSize)sceneSize;
 + (SIPopupGameOverOverDetailsRowNode *)SIPopupGameOverDetailsRowNodeWithSize:(CGSize)size;
 + (SKTexture *)SITextureMonkeyFace;
-
++ (SKTexture *)SITextureMonkeyFaceLarge;
 + (SKLabelNode *)SILabelText:(NSString *)text;
 + (SKLabelNode *)SILabelHeader:(NSString *)text;
 + (SKLabelNode *)SILabelHeader_x2:(NSString *)text;

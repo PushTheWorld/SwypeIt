@@ -938,6 +938,7 @@ extern NSString *const kEDKeyAchievementDetailsPostfixString;
 extern NSString *const kEDKeyAchievementDetailsType;
 
 #pragma mark - State Machine States
+extern NSString *const kSITKStateMachineStateGameDefault;
 extern NSString *const kSITKStateMachineStateGameEnd;
 extern NSString *const kSITKStateMachineStateGameFallingMonkey;
 extern NSString *const kSITKStateMachineStateGameIdle;
@@ -953,6 +954,7 @@ extern NSString *const kSITKStateMachineStateTimerStopped;
 
 #pragma mark - State Machine Events
 extern NSString *const kSITKStateMachineEventGameFallingMonkeyStart;
+extern NSString *const kSITKStateMachineEventGameLoad;
 extern NSString *const kSITKStateMachineEventGameMenuEnd;
 extern NSString *const kSITKStateMachineEventGameMenuStart;
 extern NSString *const kSITKStateMachineEventGameMoveEntered;

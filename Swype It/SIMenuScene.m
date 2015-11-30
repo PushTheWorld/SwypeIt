@@ -262,7 +262,9 @@
     }
 
     _currentMenuNode.delegate                       = self;
-    [menuNode.backButtonNode setTouchUpInsideTarget:self selector:@selector(menuScenePopMenuNode)];
+    if (menuNode.type != SISceneMenuTypeStart) {
+        [menuNode.backButtonNode setTouchUpInsideTarget:self selector:@selector(menuScenePopMenuNode)];
+    }
     
     if (menuNode.centerNode) {
         if ([menuNode.centerNode isKindOfClass:[HLMenuNode class]]) {
