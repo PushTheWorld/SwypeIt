@@ -413,6 +413,9 @@ NSString *const kSIAssestPopupButtonUseCoins                                    
 NSString *const kSIAssestPopupButtonWatchAd                                     = @"watchAdButton";
 NSString *const kSIAssestPopupFreeStar                                          = @"freeStar";
 
+#pragma mark Pop Tips
+NSString *const kSIAssestPopTipPointer                                          = @"popTipImage";
+NSString *const kSIAssestPopTipPointerReverse                                   = @"popTipImageReverse";
 
 #pragma mark -
 #pragma mark - Fonts

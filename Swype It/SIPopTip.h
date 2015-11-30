@@ -31,6 +31,11 @@ typedef NS_ENUM(NSInteger, SIZPositionPopTip) {
     SIZPositionPopTipCount
 };
 
+typedef NS_ENUM(NSInteger, SIPopTipEffect) {
+    SIPopTipEffectBounce = 0,
+    SIPopTipEffectNone
+};
+
 
 @class SIPopTip;
 @protocol SIPopTipDelegate <NSObject>
@@ -74,5 +79,10 @@ typedef NS_ENUM(NSInteger, SIZPositionPopTip) {
  Sets the message for the pop tip
  */
 @property (strong, nonatomic) NSString *message;
+
+/**
+ Set for effects
+ */
+@property (assign, nonatomic) SIPopTipEffect popTipEffect;
 
 @end

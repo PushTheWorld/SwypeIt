@@ -378,7 +378,6 @@
         // GAME
         case SIGameControllerSceneGame:
             _sceneGame.adBannerNode = [SIGameController premiumUser] ? nil : _adBannerNode;
-            [self checkUserTipPowerUps];
             switch (_currentSceneType) {
                 case SIGameControllerSceneFallingMonkey:
                     _currentScene = [SIGameController viewController:[self fastSKView] transisitionToSKScene:_sceneGame duration:SCENE_TRANSISTION_DURATION_NOW];
@@ -1316,8 +1315,6 @@
     });
 }
 
-
-
 #pragma mark _ SIPowerUp Shitttt
 - (void)powerUpActivatePowerUp:(SIPowerUp *)powerUp {
     [_gameModel.powerUpArray addObject:powerUp];
@@ -1328,12 +1325,14 @@
             _timeFreezeMultiplier = 0.1f;
             _sceneGame.progressBarPowerUp.hidden = NO;
             [self powerUpAddSnowEmitter];
+            [[NSUserDefaults standardUserDefaults] setBool:YES forKey:kSINSUserDefaultUserTipShownPowerUpTimeFreeze];
             break;
         case SIPowerUpTypeRapidFire:
             [self gameForceCorrectMove];
             [self powerUpAddFireEmitter];
             _sceneGame.progressBarPowerUp.hidden = NO;
             [SIGame playSound:kSISoundFXFireBurning];
+            [[NSUserDefaults standardUserDefaults] setBool:YES forKey:kSINSUserDefaultUserTipShownPowerUpRapidFire];
             break;
         case SIPowerUpTypeFallingMonkeys:
             /*Do Falling Monkeys in Setup*/
@@ -1341,11 +1340,13 @@
             if (!success) {
                 [self gameFireEvent:kSITKStateMachineEventGameMenuEnd userInfo:nil];
             }
+            [[NSUserDefaults standardUserDefaults] setBool:YES forKey:kSINSUserDefaultUserTipShownPowerUpFallingMonkey];
             break;
         default:
             break;
     }
 }
+
 - (void)powerUpDectivatePowerUp:(SIPowerUp *)powerUpClass {
     switch (powerUpClass.type) {
         case SIPowerUpTypeTimeFreeze:
@@ -1661,161 +1662,28 @@
 #pragma mark User Tips
 - (void)checkUserTipPowerUps {
     //Check to see if the Time Freeze user tip has been shown before
-    if ([SIGameController SIBoolFromNSUserDefaults:[NSUserDefaults standardUserDefaults] forKey:kSINSUserDefaultUserTipShownPowerUpTimeFreeze]) {
-        _popTipNode.message  = NSLocalizedString(kSITextUserTipPowerUpTimeFreeze, nil);
-        _sceneGame.popTip = _popTipNode;
+    if (![SIGameController SIBoolFromNSUserDefaults:[NSUserDefaults standardUserDefaults] forKey:kSINSUserDefaultUserTipShownPowerUpTimeFreeze]) {
+        _popTipNode.message                     = NSLocalizedString(kSITextUserTipPowerUpTimeFreeze, nil);
+        _popTipNode.position                    = CGPointMake((_sceneSize.width / 2.0f) - 22, _sceneGameToolbarPowerUp.size.height + ([_popTipNode calculateAccumulatedFrame].size.height / 2.0) + 20.0f);
+        _popTipNode.popTipPositionHorizontal    = SIPopTipPositionHorizontalLeft;
+        _popTipNode.popTipEffect                = SIPopTipEffectBounce;
+        _sceneGame.popTip                       = _popTipNode;
+    } else if (![SIGameController SIBoolFromNSUserDefaults:[NSUserDefaults standardUserDefaults] forKey:kSINSUserDefaultUserTipShownPowerUpRapidFire]) {
+        _popTipNode.message                     = NSLocalizedString(kSITextUserTipPowerUpRapidFire, nil);
+        _popTipNode.position                    = CGPointMake((_sceneSize.width / 2.0f), _sceneGameToolbarPowerUp.size.height + ([_popTipNode calculateAccumulatedFrame].size.height / 2.0) + 20.0f);
+        _popTipNode.popTipPositionHorizontal    = SIPopTipPositionHorizontalCenter;
+        _sceneGame.popTip                       = _popTipNode;
+    } else if (![SIGameController SIBoolFromNSUserDefaults:[NSUserDefaults standardUserDefaults] forKey:kSINSUserDefaultUserTipShownPowerUpFallingMonkey]) {
+        _popTipNode.message                     = NSLocalizedString(kSITextUserTipPowerUpFallingMonkey, nil);
+        _popTipNode.position                    = CGPointMake((_sceneSize.width / 2.0f) + 22, _sceneGameToolbarPowerUp.size.height + ([_popTipNode calculateAccumulatedFrame].size.height / 2.0) + 20.0f);
+        _popTipNode.popTipPositionHorizontal    = SIPopTipPositionHorizontalRight;
+        _sceneGame.popTip                       = _popTipNode;
     }
 }
-
-
-
-- (BOOL)userTipShownPowerUpRapidFire {
-    NSNumber *userTipShown = [[NSUserDefaults standardUserDefaults] objectForKey:kSINSUserDefaultUserTipShownPowerUpRapidFire];
-    
-    if (userTipShown == nil) { //never ben set
-        userTipShown = [NSNumber numberWithBool:NO];
-        [[NSUserDefaults standardUserDefaults] setObject:userTipShown forKey:kSINSUserDefaultUserTipShownPowerUpRapidFire];
-        [[NSUserDefaults standardUserDefaults] synchronize];
-    }
-    return [userTipShown boolValue];
-}
-
-- (BOOL)userTipShownPowerUpFallingMonkey {
-    NSNumber *userTipShown = [[NSUserDefaults standardUserDefaults] objectForKey:kSINSUserDefaultUserTipShownPowerUpFallingMonkey];
-    
-    if (userTipShown == nil) { //never ben set
-        userTipShown = [NSNumber numberWithBool:NO];
-        [[NSUserDefaults standardUserDefaults] setObject:userTipShown forKey:kSINSUserDefaultUserTipShownPowerUpFallingMonkey];
-        [[NSUserDefaults standardUserDefaults] synchronize];
-    }
-    return [userTipShown boolValue];
-}
-
 
 
 #pragma mark -
 #pragma mark - Delegate Handlers
-#pragma mark SISingletonGameDelegate
-
-/**
- Called when the model is ready for a new move to be
- loaded by the controller to the view
- */
-//- (void)controllerSingletonGameLoadNewMove {
-//    
-//    if ([SISingletonGame singleton].currentGame.moveScore > EPSILON_NUMBER) {
-//        SKLabelNode *moveLabel = [SIGameController moveScoreLabel:[SISingletonGame singleton].currentGame.moveScore];
-//        moveLabel.position = [SISingletonGame singleton].currentGame.currentMove.touchPoint;
-//
-//        [_sceneGame sceneGameWillShowMoveScore:moveLabel];
-//        
-//        SIMove *moveForBackground = [SISingletonGame singleton].currentGame.currentMove;
-//        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-//            [[SISingletonAchievement singleton] singletonAchievementWillProcessMove:moveForBackground];
-//        });
-//        
-//        [_sceneGame sceneGameLaunchMoveCommandLabelWithCommandAction:moveForBackground.moveCommandAction];
-//
-//    }
-//    
-//    
-//    
-//    
-//    if ([SISingletonGame singleton].currentGame.isHighScore) {
-//        _sceneGame.highScore = YES;
-//    }
-//    
-//    _sceneGame.backgroundColor              = [SISingletonGame singleton].currentGame.currentBackgroundColor;
-//    _sceneGame.progressBarMove.fillColor    = [SISingletonGame singleton].currentGame.currentBackgroundColor;
-//    _sceneGame.progressBarPowerUp.fillColor = [SISingletonGame singleton].currentGame.currentBackgroundColor;
-//    _sceneGame.scoreTotalLabel.text         = [NSString stringWithFormat:@"%0.2f",[SISingletonGame singleton].currentGame.totalScore];
-//    _sceneGame.progressBarFreeCoin.progress = [SISingletonGame singleton].currentGame.freeCoinPercentRemaining;
-//    SKLabelNode *label                      = [SKLabelNode labelNodeWithFontNamed:kSISFFontDisplayHeavy];
-//    label.fontSize                          = [SIGameController SIFontSizeMoveCommand];
-//    label.text                              = [SIGame stringForMove:[SISingletonGame singleton].currentGame.currentMove.moveCommand];
-//    label.userInteractionEnabled            = YES;
-//    _sceneGame.moveCommandLabel             = label;
-//
-//}
-
-/**
- Called when the user should be prompted to continue
- the game
- */
-//- (void)controllerSingletonGameShowContinue {
-//
-//}
-//
-///**
-// Called when a free coin is earned
-// Handle the sound for this in the controller?
-// */
-//- (void)controllerSingletonGameShowFreeCoinEarned {
-//    [_sceneGame sceneGameShowFreeCoinEarned];
-//}
-//
-///**
-// Called by model to alert controller when sound is ready to be played...
-// */
-//- (void)controllerSingletonGamePlayFXSoundNamed:(NSString *)soundName {
-//    if ([SIConstants isFXAllowed]) {
-//        [[SoundManager sharedManager] playSound:soundName];
-//    }
-//}
-
-/**
- Called when the model is ready for the powerup to start
- */
-//- (void)controllerSingletonGameActivatePowerUp:(SIPowerUpType)powerUp {
-//    switch (powerUp) {
-//        case SIPowerUpTypeFallingMonkeys:
-//            /*pause the singleton*/
-//            [[SISingletonGame singleton] singletonGameWillPause];
-//            /*launch the other scene with no delay*/
-//            [self presentScene:SIGameControllerSceneFallingMonkey];
-//            break;
-//        case SIPowerUpTypeRapidFire:
-//            /*Bring out progress bar*/
-//            
-//            /*Activate Fire Emmiters*/
-//            break;
-//        case SIPowerUpTypeTimeFreeze:
-//            /*Bring out progress bar*/
-//            
-//            /*Avtivate snow*/
-//            break;
-//        default: //SIPowerUpTypeNone
-//            NSLog(@"Error");
-//            break;
-//    }
-//}
-//
-///**
-// Called when the powerup is deactived
-// */
-//- (void)controllerSingletonGameDeactivatePowerUp:(SIPowerUpType)powerUp {
-//    switch (powerUp) {
-//        case SIPowerUpTypeFallingMonkeys:
-//            /*pause the singleton*/
-//            [self presentScene:SIGameControllerSceneGame];
-//            /*launch the other scene with no delay*/
-//            
-//            break;
-//        case SIPowerUpTypeRapidFire:
-//            /*Hide Progress Barr*/
-//            
-//            /*Remove Fire Emmiter*/
-//            break;
-//        case SIPowerUpTypeTimeFreeze:
-//            /*Hide Progress Barr*/
-//            
-//            /*Deactivate Snow Emitter*/
-//            break;
-//        default: //SIPowerUpTypeNone
-//            NSLog(@"Error");
-//            break;
-//    }
-//}
 
 #pragma mark SISingletonAchievement
 /**
@@ -2415,6 +2283,9 @@
     
     _sceneGame.scoreTotalLabel.text                     = [NSString stringWithFormat:@"%0.2f",_gameModel.game.totalScore];
     _sceneGame.progressBarFreeCoin.progress             = _gameModel.game.freeCoinPercentRemaining;
+    
+    [self checkUserTipPowerUps];
+
     
 }
 

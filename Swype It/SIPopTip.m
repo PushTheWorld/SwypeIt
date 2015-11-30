@@ -9,6 +9,7 @@
 //  Purpose: This is the implementation file for a pop tip
 //
 // Local Controller Import
+#import "SIGameController.h"
 #import "SIPopTip.h"
 // Framework Import
 // Drop-In Class Imports (CocoaPods/GitHub/Guru)
@@ -24,11 +25,15 @@
     
     DSMultilineLabelNode                        *_multiLineNode;
     
+    SKAction                                    *_bounceEffect;
+    
     SKColor                                     *_backgroundColor;
     
-    SKShapeNode                                 *_pointerNode;
-    
     SKSpriteNode                                *_backgroundNode;
+    SKSpriteNode                                *_pointerNode;
+    SKSpriteNode                                *_pointerNodeNormal;
+    SKSpriteNode                                *_pointerNodeReverse;
+    
     
 }
 
@@ -37,8 +42,9 @@
 - (instancetype)initWithSize:(CGSize)size withMessage:(NSString *)message {
     self = [super init];
     if (self) {
-        [self initSetup:size];
         _message                                = message;
+        _size                                   = size;
+        [self initSetup:size];
     }
     return self;
     
@@ -55,10 +61,17 @@
  */
 - (void)createConstantsWithSize:(CGSize)size {
     
-    _backgroundColor                            = [UIColor SIColorSecondary];
+    _backgroundColor                            = [UIColor simplstMainColor];
     
     _popTipPositionVertical                     = SIPopTipPositionVerticalBottom;
     _popTipPositionHorizontal                   = SIPopTipPositionHorizontalCenter;
+    
+    _popTipEffect                               = SIPopTipEffectNone;
+    
+    SKAction *moveY                             = [SKAction moveByX:0.0f y:10.0f duration:1.0f];
+    SKAction *oppositeY                         = [moveY reversedAction];
+    _bounceEffect                               = [SKAction sequence:@[moveY, oppositeY]];
+
     
 }
 
@@ -69,7 +82,8 @@
     
     _backgroundNode                             = [SKSpriteNode spriteNodeWithTexture:[SIGame textureBackgroundColor:_backgroundColor size:_size cornerRadius:4.0f borderWidth:0.0f borderColor:[UIColor clearColor]]];
     
-    _pointerNode                                = [SIPopTip makeTriangleInRect:CGRectMake(0.0f, 0.0f, _size.width / 3.0f, _size.height / 3.0f) withBackgroundColor:_backgroundColor];
+    _pointerNodeNormal                          = [SKSpriteNode spriteNodeWithImageNamed:kSIAssestPopTipPointer];
+    _pointerNodeReverse                         = [SKSpriteNode spriteNodeWithImageNamed:kSIAssestPopTipPointerReverse];
 
     _multiLineNode                              = [[DSMultilineLabelNode alloc] initWithFontNamed:kSISFFontTextMedium];
     
@@ -79,17 +93,19 @@
  Configrue the labels, nodes and what ever else you can
  */
 - (void)setupControlsWithSize:(CGSize)size {
+    _backgroundNode.anchorPoint                 = CGPointMake(0.5f, 0.5f);
     [self addChild:_backgroundNode];
 
     /*Set the paragraph width to spacing times two minus 4*/
     _multiLineNode.paragraphWidth               = _size.width - (VERTICAL_SPACING_4 * 2);
     _multiLineNode.fontColor                    = [SKColor whiteColor];
+    _multiLineNode.fontSize                     = [SIGameController SIFontSizeText_x2];
     _multiLineNode.text                         = _message;
     _multiLineNode.verticalAlignmentMode        = SKLabelVerticalAlignmentModeCenter;
     _multiLineNode.horizontalAlignmentMode      = SKLabelHorizontalAlignmentModeCenter;
     [_backgroundNode addChild:_multiLineNode];
     
-    [_backgroundNode addChild:_pointerNode];
+    [_backgroundNode addChild:_pointerNodeReverse];
     
     /*Call a layout*/
     [self layoutXYZ];
@@ -109,16 +125,29 @@
  */
 - (void)layoutXY {
     
+    if (_pointerNodeNormal.parent) {
+        [_pointerNodeNormal removeFromParent];
+    }
+    if (_pointerNodeReverse.parent) {
+        [_pointerNodeNormal removeFromParent];
+    }
+    
+    if (_pointerNode) {
+        _pointerNode                            = nil;
+    }
+    
     /*Set the tip vertical position*/
     CGPoint popTipPosition = CGPointZero;
     
     switch (_popTipPositionVertical) {
         case SIPopTipPositionVerticalTop:
-            popTipPosition.y                    = (_backgroundNode.size.height / 2.0f);
+            popTipPosition.y                    = (_backgroundNode.size.height);
+            _pointerNode                        = _pointerNodeNormal;
             break;
         case SIPopTipPositionVerticalBottom:
         default:
-            popTipPosition.y                    = -1.0f * (_backgroundNode.size.height / 2.0f);
+            popTipPosition.y                    = -1.0f * (_backgroundNode.size.height) + 12;
+            _pointerNode                        = _pointerNodeReverse;
             break;
     }
     
@@ -137,6 +166,16 @@
     }
     
     _pointerNode.position                       = popTipPosition;
+
+
+    switch (_popTipEffect) {
+        case SIPopTipEffectBounce:
+            [_backgroundNode runAction:[SKAction repeatActionForever:_bounceEffect]];
+            break;
+        default:
+            break;
+    }
+    
     
 }
 
@@ -172,12 +211,22 @@
     [self layoutXY];
 }
 
+- (void)setMessage:(NSString *)message {
+    _message = message;
+    _multiLineNode.text = message;
+}
+
+- (void)setPopTipEffect:(SIPopTipEffect)popTipEffect {
+    _popTipEffect = popTipEffect;
+    [self layoutXY];
+}
+
 
 #pragma mark -
 #pragma mark - Class Functions
 + (SKShapeNode *)makeTriangleInRect:(CGRect)rect withBackgroundColor:(UIColor *)backgroundColor {
-    SKShapeNode *shape                          = [SKShapeNode node];
-    shape.path                                  = [SIPopTip triangleInRect:rect];
+
+    SKShapeNode *shape                          = [SKShapeNode shapeNodeWithCircleOfRadius:rect.size.width];//[SKShapeNode shapeNodeWithPath:[SIPopTip triangleInRect:rect] centered:YES];
     shape.fillColor                             = backgroundColor;
     
     return shape;

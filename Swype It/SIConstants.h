@@ -875,6 +875,10 @@ extern NSString *const kSIAssestPopupButtonUseCoins;
 extern NSString *const kSIAssestPopupButtonWatchAd;
 extern NSString *const kSIAssestPopupFreeStar;
 
+#pragma mark Pop Tips
+extern NSString *const kSIAssestPopTipPointer;
+extern NSString *const kSIAssestPopTipPointerReverse;
+
 
 #pragma mark - Emails
 extern NSString *const kSIEmailBugReportReciever;
