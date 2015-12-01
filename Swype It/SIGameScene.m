@@ -50,6 +50,8 @@ static const uint32_t SIGameSceneCategoryEdge          = 0x1 << 2; // 0000000000
     
     SKAction                                            *_actionOldMoveScore;
     SKAction                                            *_actionNewMoveScore;
+    SKAction                                            *_fadeActionSequenceForNewLabel;
+    SKAction                                            *_moveNodeRemovalAction;
     
     SKLabelNode                                         *_highScoreLabelNode;
     SKLabelNode                                         *_swypeItCoinsLabelNode;
@@ -147,7 +149,13 @@ static const uint32_t SIGameSceneCategoryEdge          = 0x1 << 2; // 0000000000
     SKAction *instaShrink                                   = [SKAction scaleTo:0.0f duration:0.0f];
     SKAction *growIn                                        = [SKAction scaleTo:1.0f duration:_moveScoreDuration / 4.0f];
     _actionNewMoveScore                                     = [SKAction sequence:@[instaShrink, growIn]];
-        
+    
+    _fadeActionSequenceForNewLabel                          = [SKAction sequence:@[[SKAction fadeOutWithDuration:0.0f],
+                                                                                   [SKAction fadeInWithDuration:MOVE_COMMAND_LAUNCH_DURATION]]];
+    
+    _moveNodeRemovalAction                                  = [SKAction sequence:@[[SKAction waitForDuration:MOVE_COMMAND_LAUNCH_DURATION],[SKAction removeFromParent]]];
+
+    
 }
 - (void)createControlsWithSize:(CGSize)size {
     /**Preform all your alloc/init's here*/
@@ -162,7 +170,7 @@ static const uint32_t SIGameSceneCategoryEdge          = 0x1 << 2; // 0000000000
     _swypeItCoinsLabelNode.text                             = @"-1";//[NSString stringWithFormat:@"%d",[SIIAPUtility numberOfCoinsForUser]];
     
     _coinSize                                               = CGSizeMake(_swypeItCoinsLabelNode.frame.size.height * 0.75f, _swypeItCoinsLabelNode.frame.size.height * 0.75f);
-    _coinNode                                               = [SKSpriteNode spriteNodeWithTexture:[[SIConstants imagesAtlas] textureNamed:kSIImageCoinSmallFront] size:_coinSize];
+    _coinNode                                               = [SKSpriteNode spriteNodeWithImageNamed:kSIAssestIAPCoinFrontSmall]; //[SKSpriteNode spriteNodeWithTexture:[[SIConstants imagesAtlas] textureNamed:kSIImageCoinSmallFront] size:_coinSize];
     
     _swypeItCoinsBackgroundNodeSize                         = CGSizeMake(_swypeItCoinsLabelNode.frame.size.width + _coinSize.width + VERTICAL_SPACING_8, _swypeItCoinsLabelNode.frame.size.height + VERTICAL_SPACING_8);
     _swypeItCoinsBackgroundNode                             = [SKSpriteNode spriteNodeWithTexture:[SIGame textureBackgroundColor:[SKColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:0.1]
@@ -171,7 +179,7 @@ static const uint32_t SIGameSceneCategoryEdge          = 0x1 << 2; // 0000000000
                                                                                                                      borderWidth:2.0f
                                                                                                                      borderColor:[SKColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:0.5]]];
 
-    _pauseButtonNode                                        = [[HLLabelButtonNode alloc] initWithTexture:[[SIConstants buttonAtlas] textureNamed:kSIImageButtonPause]];
+    _pauseButtonNode                                        = [[HLLabelButtonNode alloc] initWithTexture:[SKTexture textureWithImageNamed:kSIAssestGamePause]];
     
     _highScoreLabelNode                                     = [SIGameController SILabelParagraph_x2:@"HIGH SCORE!"];
     
@@ -297,31 +305,45 @@ static const uint32_t SIGameSceneCategoryEdge          = 0x1 << 2; // 0000000000
  This will intercept the and override the command going to self
  and will allow us to actually change the color of the background node
  */
-- (void)setMoveCommandLabel:(SKLabelNode *)moveCommandLabel {
-    /*
-     If _moveCommandLabel not nil then set pointer to it so it can be removed
-        at a later time in this setter
-     */
-    SKLabelNode *tempLabelNode = _moveCommandLabel;
+- (void)setMoveCommandNode:(SKSpriteNode *)moveCommandNode {
     
-    if (moveCommandLabel) {
-        SKAction *fadeActionSequenceForNewLabel         = [SKAction sequence:@[[SKAction fadeOutWithDuration:0.0f],
-                                                                               [SKAction fadeInWithDuration:MOVE_COMMAND_LAUNCH_DURATION]]];
-        _moveCommandLabel                               = moveCommandLabel;
-        [_moveCommandLabel runAction:fadeActionSequenceForNewLabel];
-        _moveCommandLabel.horizontalAlignmentMode       = SKLabelHorizontalAlignmentModeCenter;
-        _moveCommandLabel.verticalAlignmentMode         = SKLabelVerticalAlignmentModeCenter;
-        _moveCommandLabel.userInteractionEnabled        = YES;
-        [self addChild:_moveCommandLabel];
-        _moveCommandLabelSize                           = _moveCommandLabel.frame.size;
-        if (tempLabelNode) { /*Remove node after MOVE_COMMAND_LAUNCH_DURATION*/
-            [tempLabelNode runAction:[SKAction sequence:@[[SKAction waitForDuration:MOVE_COMMAND_LAUNCH_DURATION],[SKAction removeFromParent]]]];
+    SKSpriteNode *temporyPointer = _moveCommandNode;
+    if (moveCommandNode) {
+        _moveCommandNode                                = moveCommandNode;
+        [_moveCommandNode runAction:_fadeActionSequenceForNewLabel];
+        [self addChild:_moveCommandNode];
+        _moveCommandLabelSize                           = moveCommandNode.size;
+        if (temporyPointer) {
+            [temporyPointer runAction:_moveNodeRemovalAction];
         }
     } else {
-        [_moveCommandLabel removeFromParent];
+        [_moveCommandNode removeFromParent];
     }
     [self layoutXYZAnimation:SISceneContentAnimationNone];
 }
+//- (void)setMoveCommandLabel:(SKLabelNode *)moveCommandLabel {
+//    /*
+//     If _moveCommandLabel not nil then set pointer to it so it can be removed
+//        at a later time in this setter
+//     */
+//    SKLabelNode *tempLabelNode = _moveCommandLabel;
+//    
+//    if (moveCommandLabel) {
+//        _moveCommandLabel                               = moveCommandLabel;
+//        [_moveCommandLabel runAction:fadeActionSequenceForNewLabel];
+//        _moveCommandLabel.horizontalAlignmentMode       = SKLabelHorizontalAlignmentModeCenter;
+//        _moveCommandLabel.verticalAlignmentMode         = SKLabelVerticalAlignmentModeCenter;
+//        _moveCommandLabel.userInteractionEnabled        = YES;
+//        [self addChild:_moveCommandLabel];
+//        _moveCommandLabelSize                           = _moveCommandLabel.frame.size;
+//        if (tempLabelNode) { /*Remove node after MOVE_COMMAND_LAUNCH_DURATION*/
+//            [tempLabelNode runAction:[SKAction sequence:@[[SKAction waitForDuration:MOVE_COMMAND_LAUNCH_DURATION],[SKAction removeFromParent]]]];
+//        }
+//    } else {
+//        [_moveCommandLabel removeFromParent];
+//    }
+//    [self layoutXYZAnimation:SISceneContentAnimationNone];
+//}
 
 - (SIPopupNode *)popupNode {
     if (_centerNode) {
@@ -563,10 +585,10 @@ static const uint32_t SIGameSceneCategoryEdge          = 0x1 << 2; // 0000000000
                             positionHidden:positionHidden];
     }
     
-    if (_moveCommandLabel) {
+    if (_moveCommandNode) {
         positionHidden      = CGPointMake(sceneMidX, sceneMidY);
         positionVisible     = CGPointMake(sceneMidX,sceneMidY);
-        [SIGameController SIControllerNode:_moveCommandLabel
+        [SIGameController SIControllerNode:_moveCommandNode
                                  animation:animation
                             animationStyle:SISceneContentAnimationStyleGrow
                          animationDuration:_animationDuration
@@ -634,7 +656,7 @@ static const uint32_t SIGameSceneCategoryEdge          = 0x1 << 2; // 0000000000
     
     if (_highScoreLabelNode) {
         positionVisible     = CGPointMake(_sceneSize.width / 2.0f, _pauseButtonNode.frame.origin.y);//_sceneSize.height - _scoreTotalLabelTopPadding - _moveCommandLabel.frame.size.height);
-        positionHidden      = CGPointMake(positionVisible.x, _sceneSize.height + _moveCommandLabel.frame.size.height);
+        positionHidden      = CGPointMake(positionVisible.x, _sceneSize.height + _moveCommandNode.frame.size.height);
         [SIGameController SIControllerNode:_highScoreLabelNode
                                  animation:animation
                             animationStyle:SISceneContentAnimationStyleGrow
@@ -786,8 +808,8 @@ static const uint32_t SIGameSceneCategoryEdge          = 0x1 << 2; // 0000000000
  Use this to launch the move score label
  */
 - (void)sceneGameLaunchMoveCommandLabelWithCommandAction:(SIMoveCommandAction)commandAction {
-    _moveCommandLabel.physicsBody.categoryBitMask = SIGameSceneCategoryUIControl;
-    [_moveCommandLabel runAction:[SIGame actionForSIMoveCommandAction:commandAction]];
+    _moveCommandNode.physicsBody.categoryBitMask = SIGameSceneCategoryUIControl;
+    [_moveCommandNode runAction:[SIGame actionForSIMoveCommandAction:commandAction]];
 }
 
 /**

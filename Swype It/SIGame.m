@@ -560,9 +560,9 @@
         case SIPowerUpTypeFallingMonkeys:
             return [SKTexture textureWithImageNamed:kSIAssestFallingMonkeyHead];
         case SIPowerUpTypeRapidFire:
-            return [[SIConstants imagesAtlas] textureNamed:kSIImageButtonRapidFire];
+            return [SKTexture textureWithImageNamed:kSIAssestGameRapidFire];
         case SIPowerUpTypeTimeFreeze:
-            return [[SIConstants imagesAtlas] textureNamed:kSIImageButtonTimeFreeze];
+            return [SKTexture textureWithImageNamed:kSIAssestGameTimeFreeze];
         default:
             return nil;
     }

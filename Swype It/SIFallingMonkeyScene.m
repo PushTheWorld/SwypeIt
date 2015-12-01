@@ -343,7 +343,7 @@ static const uint32_t SIFallingMonkeySceneCategoryEdgeSide      = 0x1 << 5; // 0
     CGPoint touchLocation                                       = [touch locationInNode:self];
 
     // 2 - Set up node to fire
-    SKSpriteNode *bananaBunch                                   = [[SIGameController SISpriteNodeBananaBunch] copy];
+    SKSpriteNode *bananaBunch                                   = [[SIGameController SISpriteNodeBanana] copy];
     [bananaBunch runAction:[SKAction scaleTo:0.5f duration:0.0f]];
     bananaBunch.position                                        = CGPointMake(_sceneSize.width /2.0f, 0.0f);
     bananaBunch.physicsBody                                     = [SKPhysicsBody bodyWithCircleOfRadius:bananaBunch.size.width / 2.0f];

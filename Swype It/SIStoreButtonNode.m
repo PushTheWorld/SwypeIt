@@ -102,7 +102,7 @@ enum {
     /**Preform all your alloc/init's here*/
     _backgroundNode                         = [SKSpriteNode spriteNodeWithColor:[UIColor SIColorShopButton] size:size];
     
-    _imageNode                              = [SKSpriteNode spriteNodeWithTexture:[[SIConstants imagesAtlas] textureNamed:[SIIAPUtility imageNameForSIIAPPack:_pack]] size:_imageSize];
+    _imageNode                              = [SKSpriteNode spriteNodeWithImageNamed:[SIIAPUtility imageNameForSIIAPPack:_pack]]; //[SKSpriteNode spriteNodeWithTexture:[[SIConstants imagesAtlas] textureNamed:[SIIAPUtility imageNameForSIIAPPack:_pack]] size:_imageSize];
     
     _valueLabelNode                         = [SKLabelNode labelNodeWithFontNamed:kSISFFontDisplayRegular];
     

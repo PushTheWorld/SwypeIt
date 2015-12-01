@@ -74,13 +74,13 @@
 + (NSString *)imageNameForSIIAPPack:(SIIAPPack)siiapPack {
     switch (siiapPack) {
         case SIIAPPackSmall:
-            return kSIImageIAPSmall;
+            return kSIAssestIAPPile;
         case SIIAPPackMedium:
-            return kSIImageIAPMedium;
+            return kSIAssestIAPBucket;
         case SIIAPPackLarge:
-            return kSIImageIAPLarge;
+            return kSIAssestIAPBag;
         case SIIAPPackExtraLarge:
-            return kSIImageIAPExtraLarge;
+            return kSIAssestIAPChest;
         default:
             return nil;
     }

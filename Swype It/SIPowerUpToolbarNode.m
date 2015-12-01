@@ -81,7 +81,7 @@ enum {
 }
 - (void)createControlsWithSize:(CGSize)size {
     /**Preform all your alloc/init's here*/
-    _coinNode                       = [SKSpriteNode spriteNodeWithTexture:[[SIConstants imagesAtlas] textureNamed:kSIImageCoinSmallBack] size:_coinNodeSize];
+    _coinNode                       = [SKSpriteNode spriteNodeWithImageNamed:kSIAssestIAPCoinBackSmall];
 
     
     _iconNode                       = [SKSpriteNode spriteNodeWithTexture:[SIGame textureForSIPowerUp:_siPowerUp] size:_iconNodeSize];

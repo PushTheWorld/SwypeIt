@@ -133,7 +133,7 @@
 /**
  The label of the move command
  */
-@property (nonatomic, strong) SKLabelNode *moveCommandLabel;
+@property (nonatomic, strong) SKSpriteNode *moveCommandNode;
 
 /**
  Move Command Label Position Random

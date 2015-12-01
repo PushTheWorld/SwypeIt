@@ -37,21 +37,26 @@ HLRingNode *sceneGamePauseRingNode() {
     
     /*First Button - Play*/
     HLItemNode *playButtonNode                                                  = [[HLItemNode alloc] init];
-    [playButtonNode setContent:[SKSpriteNode spriteNodeWithTexture:[[SIConstants buttonAtlas] textureNamed:kSIImageButtonPlay] size:[SIConstants powerUpToolbarButtonSize]]];
+    [playButtonNode setContent:[SKSpriteNode spriteNodeWithImageNamed:kSIAssestRingNodePlayButton]];
+//    [playButtonNode setContent:[SKSpriteNode spriteNodeWithTexture:[[SIConstants buttonAtlas] textureNamed:kSIImageButtonPlay] size:[SIConstants powerUpToolbarButtonSize]]];
     
     /*Second Button - SoundFX*/
-    HLItemContentFrontHighlightNode *soundFXNode                                = [[HLItemContentFrontHighlightNode alloc] initWithContentNode:[SKSpriteNode spriteNodeWithTexture:[[SIConstants buttonAtlas] textureNamed:kSIImageButtonSoundOnFX] size:[SIConstants powerUpToolbarButtonSize]]
-                                                                                                    frontHighlightNode:[SKSpriteNode spriteNodeWithTexture:[[SIConstants buttonAtlas] textureNamed:kSIImageButtonCross] size:[SIConstants powerUpToolbarButtonSize]]];
+//    HLItemContentFrontHighlightNode *soundFXNode_v                                = [[HLItemContentFrontHighlightNode alloc] initWithContentNode:[SKSpriteNode spriteNodeWithTexture:[[SIConstants buttonAtlas] textureNamed:kSIImageButtonSoundOnFX] size:[SIConstants powerUpToolbarButtonSize]]
+//                                                                                                    frontHighlightNode:[SKSpriteNode spriteNodeWithTexture:[[SIConstants buttonAtlas] textureNamed:kSIImageButtonCross] size:[SIConstants powerUpToolbarButtonSize]]];
+    
+    SKSpriteNode *cross                                                         = [SKSpriteNode spriteNodeWithImageNamed:kSIAssestRingNodeCross];
+    
+    HLItemContentFrontHighlightNode *soundFXNode                                = [[HLItemContentFrontHighlightNode alloc] initWithContentNode:[SKSpriteNode spriteNodeWithImageNamed:kSIAssestRingNodeSoundFX]
+                                                                                                                            frontHighlightNode:cross];
     
     /*Third Button - Sound Background*/
-    HLItemContentFrontHighlightNode *soundBkgrndNode                            = [[HLItemContentFrontHighlightNode alloc] initWithContentNode:[SKSpriteNode spriteNodeWithTexture:[[SIConstants buttonAtlas] textureNamed:kSIImageButtonSoundOnBackground] size:[SIConstants powerUpToolbarButtonSize]]
-                                                                                                    frontHighlightNode:[SKSpriteNode spriteNodeWithTexture:[[SIConstants buttonAtlas] textureNamed:kSIImageButtonCross] size:[SIConstants powerUpToolbarButtonSize]]];
-    
+    HLItemContentFrontHighlightNode *soundBkgrndNode                            = [[HLItemContentFrontHighlightNode alloc] initWithContentNode:[SKSpriteNode spriteNodeWithImageNamed:kSIAssestRingNodeSoundMusic]
+                                                                                                                            frontHighlightNode:cross];
+
     /*First Button - Play*/
     HLItemNode *endGameButton                                                   = [[HLItemNode alloc] init];
-    [endGameButton setContent:[SKSpriteNode spriteNodeWithTexture:[[SIConstants imagesAtlas] textureNamed:kSIImageButtonEndGame] size:[SIConstants powerUpToolbarButtonSize]]];
+    [endGameButton setContent:[SKSpriteNode spriteNodeWithImageNamed:kSIAssestRingNodeEndGame]];
     
-
     NSArray *arrayOfRingItems                                                   = @[playButtonNode, soundFXNode, soundBkgrndNode,endGameButton];
     ringNode                                                                    = [[HLRingNode alloc] initWithItemCount:(int)[arrayOfRingItems count]];
     [ringNode setContent:arrayOfRingItems];
@@ -66,7 +71,7 @@ SKSpriteNode *coinNodeLargeFront() {
     
     CGSize coinSize                         = CGSizeMake(SCREEN_WIDTH / 8.0f, SCREEN_WIDTH / 8.0f);
     
-    coinNode                                = [SKSpriteNode spriteNodeWithTexture:[[SIConstants imagesAtlas] textureNamed:kSIImageCoinLargeFront] size:coinSize];
+    coinNode                                = [SKSpriteNode spriteNodeWithImageNamed:kSIAssestIAPCoinFrontLarge];
     coinNode.anchorPoint                    = CGPointMake(0.5f, 0.5f);
     coinNode.physicsBody                    = [SKPhysicsBody bodyWithCircleOfRadius:coinSize.height/2.0f];
     coinNode.physicsBody.collisionBitMask   = 0;
@@ -341,7 +346,7 @@ NSString *const kSINodeButtonDone                                               
 NSString *const kSINodeButtonEndGame                                            = @"endGameButton";
 NSString *const kSINodeButtonFallingMonkey                                      = @"fallingMonkeyButton";
 NSString *const kSINodeButtonInstructions                                       = @"instructionsButton";
-NSString *const kSINodeButtonLeaderBoard                                        = @"leaderBoardButton";
+NSString *const kSINodeButtonLeaderboard                                        = @"leaderBoardButton";
 NSString *const kSINodeButtonMenu                                               = @"menuButton";
 NSString *const kSINodeButtonNoAd                                               = @"noAdButton";
 NSString *const kSINodeButtonOneHand                                            = @"oneHand";
@@ -393,10 +398,31 @@ NSString *const kSINodePopupRowFreeCoins                                        
 #pragma mark -
 
 #pragma mark Falling Monkey
+NSString *const kSIAssestFallingMonkeyBanana                                    = @"banana";
+NSString *const kSIAssestFallingMonkeyBananas                                   = @"bananas";
 NSString *const kSIAssestFallingMonkeyHead                                      = @"monkeyHead";
 NSString *const kSIAssestFallingMonkeyHeadLarge                                 = @"monkeyHeadLarge";
 NSString *const kSIAssestFallingMonkeySand                                      = @"sand";
 NSString *const kSIAssestFallingMonkeyTarget                                    = @"redTarget";
+
+#pragma mark Game
+NSString *const kSIAssestGamePause                                              = @"pause";
+NSString *const kSIAssestGamePinchIt                                            = @"pinchIt";
+NSString *const kSIAssestGameRapidFire                                          = @"rapidFire";
+NSString *const kSIAssestGameShakeIt                                            = @"shakeIt";
+NSString *const kSIAssestGameSwypeIt                                            = @"swypeIt";
+NSString *const kSIAssestGameTapIt                                              = @"tapIt";
+NSString *const kSIAssestGameTimeFreeze                                         = @"timeFreeze";
+
+#pragma mark IAP
+NSString *const kSIAssestIAPBag                                                 = @"bag";
+NSString *const kSIAssestIAPBucket                                              = @"bucket";
+NSString *const kSIAssestIAPChest                                               = @"chest";
+NSString *const kSIAssestIAPCoinBackLarge                                       = @"coinBackLarge";
+NSString *const kSIAssestIAPCoinBackSmall                                       = @"coinBackSmall";
+NSString *const kSIAssestIAPCoinFrontLarge                                      = @"coinFrontLarge";
+NSString *const kSIAssestIAPCoinFrontSmall                                      = @"coinFrontSmall";
+NSString *const kSIAssestIAPPile                                                = @"pile";
 
 #pragma mark Menu
 NSString *const kSIAssestMenuButtonBack                                         = @"menuBackButton";
@@ -405,6 +431,11 @@ NSString *const kSIAssestMenuButtonOneHandModeOn                                
 NSString *const kSIAssestMenuButtonShareFacebook                                = @"shareFacebook";
 NSString *const kSIAssestMenuButtonShareTwitter                                 = @"shareTwitter";
 NSString *const kSIAssestMenuButtonShop                                         = @"shopButton";
+NSString *const kSIAssestMenuToolbarAchievements                                = @"achievements";
+NSString *const kSIAssestMenuToolbarAdFree                                      = @"adFree";
+NSString *const kSIAssestMenuToolbarHelp                                        = @"help";
+NSString *const kSIAssestMenuToolbarLeaderboard                                 = @"leaderboard";
+NSString *const kSIAssestMenuToolbarSettings                                    = @"settings";
 
 #pragma mark Popups
 NSString *const kSIAssestPopupButtonClaim                                       = @"claimButton";
@@ -414,11 +445,20 @@ NSString *const kSIAssestPopupButtonShare                                       
 NSString *const kSIAssestPopupButtonShop                                        = @"shopButtonForGameOverPopup";
 NSString *const kSIAssestPopupButtonUseCoins                                    = @"useCoinsButton";
 NSString *const kSIAssestPopupButtonWatchAd                                     = @"watchAdButton";
+NSString *const kSIAssestPopupFreeDailyPrize                                    = @"freeDailyPrizeLabel";
 NSString *const kSIAssestPopupFreeStar                                          = @"freeStar";
 
 #pragma mark Pop Tips
 NSString *const kSIAssestPopTipPointer                                          = @"popTipImage";
 NSString *const kSIAssestPopTipPointerReverse                                   = @"popTipImageReverse";
+
+#pragma mark Ring Node
+NSString *const kSIAssestRingNodeCross                                          = @"cross";
+NSString *const kSIAssestRingNodeEndGame                                        = @"endGame";
+NSString *const kSIAssestRingNodePlayButton                                     = @"playButton";
+NSString *const kSIAssestRingNodeSoundFX                                        = @"soundFX";
+NSString *const kSIAssestRingNodeSoundMusic                                     = @"soundMusic";
+
 
 #pragma mark -
 #pragma mark - Fonts
@@ -636,48 +676,7 @@ NSString *const kSITKStateMachineEventTimerStopCriticalFailure                  
 + (NSString *)pathForTouchExplosionEmitter {
     return [[NSBundle mainBundle] pathForResource:kSIEmitterExplosionTouch ofType:kSIEmitterFileTypeSKS];
 }
-+ (SKTextureAtlas *)atlasSceneFallingMonkey {
-    static SKTextureAtlas *atlas = nil;
-    if (!atlas) {
-        atlas = [SKTextureAtlas atlasNamed:kSIAtlasSceneFallingMonkey];
-    }
-    return atlas;
-}
-+ (SKTextureAtlas *)atlasSceneMenu {
-    static SKTextureAtlas *atlas = nil;
-    if (!atlas) {
-        atlas = [SKTextureAtlas atlasNamed:kSIAtlasSceneMenu];
-    }
-    return atlas;
-}
-+ (SKTextureAtlas *)backgroundAtlas {
-    static SKTextureAtlas *atlas = nil;
-    if (!atlas) {
-        atlas = [SKTextureAtlas atlasNamed:kSIAtlasBackground];
-    }
-    return atlas;
-}
-+ (SKTextureAtlas *)buttonAtlas {
-    static SKTextureAtlas *atlas = nil;
-    if (!atlas) {
-        atlas = [SKTextureAtlas atlasNamed:kSIAtlasButtons];
-    }
-    return atlas;
-}
-+ (SKTextureAtlas *)imagesAtlas {
-    static SKTextureAtlas *atlas = nil;
-    if (!atlas) {
-        atlas = [SKTextureAtlas atlasNamed:kSIAtlasImages];
-    }
-    return atlas;
-}
-+ (SKTextureAtlas *)shapesAtlas {
-    static SKTextureAtlas *atlas = nil;
-    if (!atlas) {
-        atlas = [SKTextureAtlas atlasNamed:kSIAtlasShapes];
-    }
-    return atlas;
-}
+
 + (BOOL)isFXAllowed {
     return [[NSUserDefaults standardUserDefaults] boolForKey:kSINSUserDefaultSoundIsAllowedFX];
 }

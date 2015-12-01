@@ -725,7 +725,7 @@ extern NSString *const kSINodeButtonDone;
 extern NSString *const kSINodeButtonEndGame;
 extern NSString *const kSINodeButtonFallingMonkey;
 extern NSString *const kSINodeButtonInstructions;
-extern NSString *const kSINodeButtonLeaderBoard;
+extern NSString *const kSINodeButtonLeaderboard;
 extern NSString *const kSINodeButtonMenu;
 extern NSString *const kSINodeButtonNoAd;
 extern NSString *const kSINodeButtonOneHand;
@@ -859,10 +859,31 @@ extern NSString *const kSITextUserTipPowerUpRapidFire;
 #pragma mark -
 
 #pragma mark Falling Monkey
+extern NSString *const kSIAssestFallingMonkeyBanana;
+extern NSString *const kSIAssestFallingMonkeyBananas;
 extern NSString *const kSIAssestFallingMonkeyHead;
 extern NSString *const kSIAssestFallingMonkeyHeadLarge;
 extern NSString *const kSIAssestFallingMonkeySand;
 extern NSString *const kSIAssestFallingMonkeyTarget;
+
+#pragma mark Game
+extern NSString *const kSIAssestGamePause;
+extern NSString *const kSIAssestGamePinchIt;
+extern NSString *const kSIAssestGameRapidFire;
+extern NSString *const kSIAssestGameShakeIt;
+extern NSString *const kSIAssestGameSwypeIt;
+extern NSString *const kSIAssestGameTapIt;
+extern NSString *const kSIAssestGameTimeFreeze;
+
+#pragma mark IAP
+extern NSString *const kSIAssestIAPBag;
+extern NSString *const kSIAssestIAPBucket;
+extern NSString *const kSIAssestIAPChest;
+extern NSString *const kSIAssestIAPCoinBackLarge;
+extern NSString *const kSIAssestIAPCoinBackSmall;
+extern NSString *const kSIAssestIAPCoinFrontLarge;
+extern NSString *const kSIAssestIAPCoinFrontSmall;
+extern NSString *const kSIAssestIAPPile;
 
 #pragma mark Menu
 extern NSString *const kSIAssestMenuButtonBack;
@@ -871,6 +892,11 @@ extern NSString *const kSIAssestMenuButtonOneHandModeOn;
 extern NSString *const kSIAssestMenuButtonShareFacebook;
 extern NSString *const kSIAssestMenuButtonShareTwitter;
 extern NSString *const kSIAssestMenuButtonShop;
+extern NSString *const kSIAssestMenuToolbarAchievements;
+extern NSString *const kSIAssestMenuToolbarAdFree;
+extern NSString *const kSIAssestMenuToolbarHelp;
+extern NSString *const kSIAssestMenuToolbarLeaderboard;
+extern NSString *const kSIAssestMenuToolbarSettings;
 
 #pragma mark Popups
 extern NSString *const kSIAssestPopupButtonClaim;
@@ -880,12 +906,19 @@ extern NSString *const kSIAssestPopupButtonShare;
 extern NSString *const kSIAssestPopupButtonShop;
 extern NSString *const kSIAssestPopupButtonUseCoins;
 extern NSString *const kSIAssestPopupButtonWatchAd;
+extern NSString *const kSIAssestPopupFreeDailyPrize;
 extern NSString *const kSIAssestPopupFreeStar;
 
 #pragma mark Pop Tips
 extern NSString *const kSIAssestPopTipPointer;
 extern NSString *const kSIAssestPopTipPointerReverse;
 
+#pragma mark Ring Node
+extern NSString *const kSIAssestRingNodeCross;
+extern NSString *const kSIAssestRingNodeEndGame;
+extern NSString *const kSIAssestRingNodePlayButton;
+extern NSString *const kSIAssestRingNodeSoundFX;
+extern NSString *const kSIAssestRingNodeSoundMusic;
 
 #pragma mark - Emails
 extern NSString *const kSIEmailBugReportReciever;
@@ -983,12 +1016,6 @@ extern NSString *const kSITKStateMachineEventTimerStopCriticalFailure;
 + (NSArray *)userMessageHighScoreBad;
 + (NSString *)pathForSparkEmitter;
 + (NSString *)pathForTouchExplosionEmitter;
-+ (SKTextureAtlas *)atlasSceneFallingMonkey;
-+ (SKTextureAtlas *)atlasSceneMenu;
-+ (SKTextureAtlas *)backgroundAtlas;
-+ (SKTextureAtlas *)buttonAtlas;
-+ (SKTextureAtlas *)imagesAtlas;
-+ (SKTextureAtlas *)shapesAtlas;
 @end
 
 

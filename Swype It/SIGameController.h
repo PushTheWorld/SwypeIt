@@ -112,8 +112,14 @@
 + (SKSpriteNode *)SISpriteNodePopupContinueCenterNode;
 
 + (SKSpriteNode *)SISpriteNodeBanana;
-+ (SKSpriteNode *)SISpriteNodeBananaBunch;
++ (SKSpriteNode *)SISpriteNodeBananas;
 + (SKSpriteNode *)SISpriteNodePopupGameOverEndNode;
+
++ (SKSpriteNode *)SISpriteNodeGameMoveSwype;
++ (SKSpriteNode *)SISpriteNodeGameMoveShake;
++ (SKSpriteNode *)SISpriteNodeGameMovePinch;
++ (SKSpriteNode *)SISpriteNodeGameMoveTap;
++ (SKSpriteNode *)SISpriteForMove:(SIMoveCommand)move;
 
 #pragma mark UIGestureRecognizers
 + (UIPinchGestureRecognizer *)SIGesturePinch;

@@ -291,7 +291,7 @@
 //        [self dismissModalNodeAnimation:HLScenePresentationAnimationFade];
 //        return;
 //    }
-//    if ([toolTag isEqualToString:kSINodeButtonLeaderBoard]) {
+//    if ([toolTag isEqualToString:kSINodeButtonLeaderboard]) {
 //        NSLog(@"Leaderboard Toolbar Button Tapped");
 //        NSNotification *notification    = [[NSNotification alloc] initWithName:kSINotificationShowLeaderBoard object:nil userInfo:nil];
 //        [[NSNotificationCenter defaultCenter] postNotification:notification];
@@ -348,7 +348,7 @@
 //    [toolTags   addObject:kSINodeButtonInstructions];
 //
 //    [toolNodes  addObject:[SKSpriteNode spriteNodeWithTexture:[[SIConstants buttonAtlas] textureNamed:kSIImageButtonLeaderboard]]];
-//    [toolTags   addObject:kSINodeButtonLeaderBoard];
+//    [toolTags   addObject:kSINodeButtonLeaderboard];
 //    
 //    [toolbarNode setTools:toolNodes tags:toolTags animation:HLToolbarNodeAnimationNone];
 //    
