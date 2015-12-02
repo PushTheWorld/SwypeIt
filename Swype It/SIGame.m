@@ -569,50 +569,121 @@
 }
 + (SKAction *)actionForSIMoveCommandAction:(SIMoveCommandAction)siMoveCommandAction {
     
-    SKAction *fadeOut               = [SKAction fadeOutWithDuration:MOVE_COMMAND_LAUNCH_DURATION];
-    
-    SKAction *leftShakeComponent    = [SKAction moveByX:50.0f y:0.0f duration:MOVE_COMMAND_LAUNCH_DURATION / 4.0f];
-    SKAction *rightShakeComponent   = [SKAction moveByX:-100.0f y:0.0f duration:MOVE_COMMAND_LAUNCH_DURATION / 4.0f];
-    SKAction *shakeRepeat           = [SKAction repeatAction:[SKAction sequence:@[leftShakeComponent, rightShakeComponent]] count:2];
-    
-    SKAction *tapIn1                = [SKAction scaleTo:0.9f duration:MOVE_COMMAND_LAUNCH_DURATION / 4.0f];
-    SKAction *tapOut1               = [SKAction scaleTo:1.1f duration:MOVE_COMMAND_LAUNCH_DURATION / 4.0f];
-    SKAction *tapIn2                = [SKAction scaleTo:0.7f duration:MOVE_COMMAND_LAUNCH_DURATION / 4.0f];
-    SKAction *tapOut2               = [SKAction scaleTo:1.3f duration:MOVE_COMMAND_LAUNCH_DURATION / 4.0f];
-    SKAction *tapAction             = [SKAction sequence:@[tapIn1,tapOut1,tapIn2,tapOut2]];
-    
-    SKAction *swypeUp               = [SKAction moveToY:SCREEN_HEIGHT + 100.0f duration:MOVE_COMMAND_LAUNCH_DURATION];
-    SKAction *swypeDown             = [SKAction moveToY:-100.0f duration:MOVE_COMMAND_LAUNCH_DURATION];
-    SKAction *swypeLeft             = [SKAction moveToX:-100.0f duration:MOVE_COMMAND_LAUNCH_DURATION];
-    SKAction *swypeRight            = [SKAction moveToX:SCREEN_WIDTH + 100.0f duration:MOVE_COMMAND_LAUNCH_DURATION];
-    
-    SKAction *pinchShrink           = [SKAction scaleTo:0.0f duration:MOVE_COMMAND_LAUNCH_DURATION];
-    SKAction *pinchRotateCW         = [SKAction rotateByAngle:M_PI duration:MOVE_COMMAND_LAUNCH_DURATION];
-    SKAction *pinchRotateCCW        = [SKAction rotateByAngle:-M_PI duration:MOVE_COMMAND_LAUNCH_DURATION];
-    
-    SKAction *remove                = [SKAction removeFromParent];
-    
     switch (siMoveCommandAction) {
         case SIMoveCommandActionPinchNegative:
-            return [SKAction sequence:@[[SKAction group:@[pinchShrink,fadeOut,pinchRotateCCW]],remove]];
+            return [SKAction sequence:@[[SKAction group:@[[SIGame moveActionPinchShrink],[SIGame moveActionFadeOut],[SIGame moveActionPinchCCW]]],[SIGame moveActionRemove]]];
         case SIMoveCommandActionPinchPositive:
-            return [SKAction sequence:@[[SKAction group:@[pinchShrink,fadeOut,pinchRotateCW]],remove]];
+            return [SKAction sequence:@[[SKAction group:@[[SIGame moveActionPinchShrink],[SIGame moveActionFadeOut],[SIGame moveActionPinchCW]]],[SIGame moveActionRemove]]];
         case SIMoveCommandActionShake:
-            return [SKAction sequence:@[[SKAction group:@[shakeRepeat,fadeOut]],remove]];
+            return [SKAction sequence:@[[SKAction group:@[[SIGame moveActionShake],[SIGame moveActionFadeOut]]],[SIGame moveActionRemove]]];
         case SIMoveCommandActionSwypeUp:
-            return [SKAction sequence:@[[SKAction group:@[swypeUp,fadeOut]],remove]];
+            return [SKAction sequence:@[[SKAction group:@[[SIGame moveActionSwypeUp],[SIGame moveActionFadeOut]]],[SIGame moveActionRemove]]];
         case SIMoveCommandActionSwypeDown:
-            return [SKAction sequence:@[[SKAction group:@[swypeDown,fadeOut]],remove]];
+            return [SKAction sequence:@[[SKAction group:@[[SIGame moveActionSwypeDown],[SIGame moveActionFadeOut]]],[SIGame moveActionRemove]]];
         case SIMoveCommandActionSwypeLeft:
-            return [SKAction sequence:@[[SKAction group:@[swypeLeft,fadeOut]],remove]];
+            return [SKAction sequence:@[[SKAction group:@[[SIGame moveActionSwypeLeft],[SIGame moveActionFadeOut]]],[SIGame moveActionRemove]]];
         case SIMoveCommandActionSwypeRight:
-            return [SKAction sequence:@[[SKAction group:@[swypeRight,fadeOut]],remove]];
+            return [SKAction sequence:@[[SKAction group:@[[SIGame moveActionSwypeRight],[SIGame moveActionFadeOut]]],[SIGame moveActionRemove]]];
         case SIMoveCommandActionTap:
         default:
-            return [SKAction sequence:@[[SKAction group:@[tapAction,fadeOut]],remove]];
+            return [SKAction sequence:@[[SKAction group:@[[SIGame moveActionTap],[SIGame moveActionFadeOut]]],[SIGame moveActionRemove]]];
     }
 }
 
++ (SKAction *)moveActionTap {
+    static SKAction *tapAction  = nil;
+    if (!tapAction) {
+        SKAction *tapIn1        = [SKAction scaleTo:0.9f duration:MOVE_COMMAND_LAUNCH_DURATION / 4.0f];
+        SKAction *tapOut1       = [SKAction scaleTo:1.1f duration:MOVE_COMMAND_LAUNCH_DURATION / 4.0f];
+        SKAction *tapIn2        = [SKAction scaleTo:0.7f duration:MOVE_COMMAND_LAUNCH_DURATION / 4.0f];
+        SKAction *tapOut2       = [SKAction scaleTo:1.3f duration:MOVE_COMMAND_LAUNCH_DURATION / 4.0f];
+        tapAction               = [SKAction sequence:@[tapIn1,tapOut1,tapIn2,tapOut2]];
+    }
+    return tapAction;
+}
+
++ (SKAction *)moveActionSwypeDown {
+    static SKAction *action     = nil;
+    if (!action) {
+        action                  = [SKAction moveToY:-100.0f duration:MOVE_COMMAND_LAUNCH_DURATION];
+    }
+    return action;
+}
+
++ (SKAction *)moveActionSwypeLeft {
+    static SKAction *action     = nil;
+    if (!action) {
+        action                  = [SKAction moveToX:-100.0f duration:MOVE_COMMAND_LAUNCH_DURATION];
+    }
+    return action;
+}
+
++ (SKAction *)moveActionSwypeRight {
+    static SKAction *action     = nil;
+    if (!action) {
+        action                  = [SKAction moveToX:SCREEN_WIDTH + 100.0f duration:MOVE_COMMAND_LAUNCH_DURATION];
+    }
+    return action;
+}
+
++ (SKAction *)moveActionSwypeUp {
+    static SKAction *action     = nil;
+    if (!action) {
+        action                  = [SKAction moveToY:SCREEN_HEIGHT + 100.0f duration:MOVE_COMMAND_LAUNCH_DURATION];
+    }
+    return action;
+}
++ (SKAction *)moveActionShake {
+    static SKAction *action             = nil;
+    if (!action) {
+        SKAction *leftShakeComponent    = [SKAction moveByX:50.0f y:0.0f duration:MOVE_COMMAND_LAUNCH_DURATION / 4.0f];
+        SKAction *rightShakeComponent   = [SKAction moveByX:-100.0f y:0.0f duration:MOVE_COMMAND_LAUNCH_DURATION / 4.0f];
+        action                          = [SKAction repeatAction:[SKAction sequence:@[leftShakeComponent, rightShakeComponent]] count:2];
+
+    }
+    return action;
+}
+
++ (SKAction *)moveActionPinchCW {
+    static SKAction *action = nil;
+    if (!action) {
+        action              = [SKAction rotateByAngle:M_PI duration:MOVE_COMMAND_LAUNCH_DURATION];
+        
+    }
+    return action;
+}
++ (SKAction *)moveActionPinchCCW {
+    static SKAction *action = nil;
+    if (!action) {
+        action              = [SKAction rotateByAngle:-M_PI duration:MOVE_COMMAND_LAUNCH_DURATION];
+        
+    }
+    return action;
+}
++ (SKAction *)moveActionPinchShrink {
+    static SKAction *action = nil;
+    if (!action) {
+        action              = [SKAction scaleTo:0.0f duration:MOVE_COMMAND_LAUNCH_DURATION];
+        
+    }
+    return action;
+}
++ (SKAction *)moveActionFadeOut {
+    static SKAction *action = nil;
+    if (!action) {
+        action              = [SKAction fadeOutWithDuration:MOVE_COMMAND_LAUNCH_DURATION];
+        
+    }
+    return action;
+}
++ (SKAction *)moveActionRemove {
+    static SKAction *action = nil;
+    if (!action) {
+        action              = [SKAction removeFromParent];
+        
+    }
+    return action;
+}
 + (SIBackgroundSound)checkBackgroundSound:(SIBackgroundSound)currentBackgroundSound forTotalScore:(float)totalScore withCallback:(void (^)(BOOL updatedBackgroundSound, SIBackgroundSound backgroundSound))callback {
     SIBackgroundSound newBackgroundSound = [SIGame backgroundSoundForScore:totalScore];
     if (newBackgroundSound != currentBackgroundSound) {

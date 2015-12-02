@@ -78,9 +78,11 @@
 #define IAP_PACK_PRICE_LARGE                09.99
 #define IAP_PACK_PRICE_EXTRA_LARGE          24.99
 
-#define SCENE_TRANSISTION_DURATION_NOW      0.00
-#define SCENE_TRANSISTION_DURATION_FAST     0.25
-#define SCENE_TRANSISTION_DURATION_NORMAL   1.00
+#define SCENE_TRANSITION_DURATION_NOW       0.00
+#define SCENE_TRANSITION_DURATION_FAST      0.25
+#define SCENE_TRANSITION_DURATION_NORMAL    1.00
+
+#define POPUP_TRANSITION                    0.25
 
 #define MOVE_COMMAND_LAUNCH_DURATION        0.25
 
@@ -311,11 +313,6 @@ typedef NS_ENUM(NSInteger, SIPowerUpType) {
     SIPowerUpTypeFallingMonkeys,
     SIPowerUpTypeTimeFreeze,
     SIPowerUpTypeRapidFire
-};
-
-typedef NS_ENUM(NSInteger, SIProgressBar) {
-    SIProgressBarMove,
-    SIProgressBarPowerUp
 };
 
 typedef NS_ENUM(NSInteger, SIMenuNodeContentPosition) {
@@ -807,6 +804,10 @@ extern NSString *const kSITextBoolOff;
 extern NSString *const kSITextBoolOFF;
 extern NSString *const kSITextBoolOn;
 extern NSString *const kSITextBoolON;
+
+#pragma mark IAP
+extern NSString *const kSITextIAPBestDeal;
+extern NSString *const kSITextIAPMostPopular;
 
 #pragma mark Menu Buttons
 extern NSString *const kSITextMenuEndGameFreeCoinsEarned;

@@ -124,6 +124,7 @@
 		099A62311B5C8750009BF339 /* EndGameScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 099A62301B5C8750009BF339 /* EndGameScene.m */; };
 		099A62331B5C8B12009BF339 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 099A62321B5C8B12009BF339 /* Main.storyboard */; };
 		099A62361B5C917A009BF339 /* CustomProgressBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 099A62351B5C917A009BF339 /* CustomProgressBar.m */; };
+		099B89DD1C0F25BE0017E9B9 /* AGSpriteButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 099B89DC1C0F25BE0017E9B9 /* AGSpriteButton.m */; };
 		09A4889B1B99D92B0075F41C /* SIPowerUp.m in Sources */ = {isa = PBXBuildFile; fileRef = 09A4889A1B99D92B0075F41C /* SIPowerUp.m */; };
 		09A4889E1B9A43490075F41C /* DSMultilineLabelNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 09A4889D1B9A43490075F41C /* DSMultilineLabelNode.m */; };
 		09A488A21B9A77FE0075F41C /* SILoadingScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 09A488A11B9A77FE0075F41C /* SILoadingScene.m */; };
@@ -147,6 +148,7 @@
 		09BF0B731C0D1525005131AD /* Game.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 09BF0B721C0D1525005131AD /* Game.xcassets */; };
 		09BF0B761C0D2437005131AD /* RingNode.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 09BF0B751C0D2437005131AD /* RingNode.xcassets */; };
 		09C0A0061C03EBA3003E6ED9 /* fireBurning.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 09C0A0051C03EBA3003E6ED9 /* fireBurning.mp3 */; };
+		09C7521E1C0E14BF00BDA678 /* SIProgressBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 09C7521D1C0E14BF00BDA678 /* SIProgressBar.m */; };
 		09CAF9A91B646BE100466606 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 09CAF9A81B646BE100466606 /* MBProgressHUD.m */; };
 		09CB158E1B7E85DC00F9A956 /* SIPopupTestScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 09CB158D1B7E85DC00F9A956 /* SIPopupTestScene.m */; };
 		09D256EC1B9D978900F6BD14 /* SIAchievement.m in Sources */ = {isa = PBXBuildFile; fileRef = 09D256EB1B9D978900F6BD14 /* SIAchievement.m */; };
@@ -379,6 +381,8 @@
 		099A62321B5C8B12009BF339 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		099A62341B5C917A009BF339 /* CustomProgressBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomProgressBar.h; sourceTree = "<group>"; };
 		099A62351B5C917A009BF339 /* CustomProgressBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomProgressBar.m; sourceTree = "<group>"; };
+		099B89DB1C0F25BE0017E9B9 /* AGSpriteButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AGSpriteButton.h; sourceTree = "<group>"; };
+		099B89DC1C0F25BE0017E9B9 /* AGSpriteButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AGSpriteButton.m; sourceTree = "<group>"; };
 		09A488991B99D92B0075F41C /* SIPowerUp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SIPowerUp.h; sourceTree = "<group>"; };
 		09A4889A1B99D92B0075F41C /* SIPowerUp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SIPowerUp.m; sourceTree = "<group>"; };
 		09A4889C1B9A43490075F41C /* DSMultilineLabelNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DSMultilineLabelNode.h; sourceTree = "<group>"; };
@@ -409,6 +413,8 @@
 		09BF0B721C0D1525005131AD /* Game.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Game.xcassets; sourceTree = "<group>"; };
 		09BF0B751C0D2437005131AD /* RingNode.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = RingNode.xcassets; sourceTree = "<group>"; };
 		09C0A0051C03EBA3003E6ED9 /* fireBurning.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = fireBurning.mp3; sourceTree = "<group>"; };
+		09C7521C1C0E14BF00BDA678 /* SIProgressBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SIProgressBar.h; sourceTree = "<group>"; };
+		09C7521D1C0E14BF00BDA678 /* SIProgressBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SIProgressBar.m; sourceTree = "<group>"; };
 		09CAF9A71B646BE100466606 /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = "<group>"; };
 		09CAF9A81B646BE100466606 /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
 		09CB158C1B7E85DC00F9A956 /* SIPopupTestScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SIPopupTestScene.h; sourceTree = "<group>"; };
@@ -739,6 +745,8 @@
 				09B83CBC1BBC33C500F86563 /* SIPopupGameOverOverDetailsRowNode.m */,
 				09866F291C09012C00B4BA96 /* SIPopTip.h */,
 				09866F2A1C09012C00B4BA96 /* SIPopTip.m */,
+				09C7521C1C0E14BF00BDA678 /* SIProgressBar.h */,
+				09C7521D1C0E14BF00BDA678 /* SIProgressBar.m */,
 			);
 			name = CustomUIClasses;
 			sourceTree = "<group>";
@@ -906,6 +914,7 @@
 		098B3B4B1B378EC8000D4702 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				099B89DE1C0F25C60017E9B9 /* AGSpriteButton */,
 				09866F281C073D3800B4BA96 /* CMPopupTip */,
 				09568C211BB5611800156DDF /* CCTestingUserDefaults */,
 				092E9CD51BAA05470022E644 /* BlurredFrame */,
@@ -954,6 +963,15 @@
 				092720DE1B5EF1C30005A6B6 /* StoreScene.m */,
 			);
 			name = Scenes;
+			sourceTree = "<group>";
+		};
+		099B89DE1C0F25C60017E9B9 /* AGSpriteButton */ = {
+			isa = PBXGroup;
+			children = (
+				099B89DB1C0F25BE0017E9B9 /* AGSpriteButton.h */,
+				099B89DC1C0F25BE0017E9B9 /* AGSpriteButton.m */,
+			);
+			name = AGSpriteButton;
 			sourceTree = "<group>";
 		};
 		09A4889F1B9A434F0075F41C /* DSMultilineLabelNode */ = {
@@ -1411,6 +1429,7 @@
 				0917D4FE1B6DD8240046B5FF /* SKSpriteNode+HLSpriteNodeAdditions.m in Sources */,
 				09DB638E1B564DCA00387C13 /* IAPTableViewCell.m in Sources */,
 				09A488B61B9C78FA0075F41C /* SIMenuScene.m in Sources */,
+				099B89DD1C0F25BE0017E9B9 /* AGSpriteButton.m in Sources */,
 				0917D4FC1B6DD8240046B5FF /* SKNode+HLGestureTarget.m in Sources */,
 				0917D4ED1B6DD8240046B5FF /* HLLabelButtonNode.m in Sources */,
 				091FED4C1B37283E0071F8DC /* AppDelegate.m in Sources */,
@@ -1442,6 +1461,7 @@
 				097FF7131BB754F4009DF538 /* SIPopupGameOverDetailsNode.m in Sources */,
 				094CECCF1BAD1C7300BD3AD6 /* SIGameModel.m in Sources */,
 				0917D4F61B6DD8240046B5FF /* HLScrollNode.m in Sources */,
+				09C7521E1C0E14BF00BDA678 /* SIProgressBar.m in Sources */,
 				0917D4EF1B6DD8240046B5FF /* HLMath.m in Sources */,
 				0917D4F01B6DD8240046B5FF /* HLMenuNode.m in Sources */,
 				0917D4E81B6DD8240046B5FF /* HLGestureTarget.m in Sources */,
@@ -1591,7 +1611,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 9DDA8D676AA522487B9497FC /* Pods-Swype It.debug.xcconfig */;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon.dev;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				BUNDLE_ID_SUFFIX = .dev;
 				CODE_SIGN_IDENTITY = "iPhone Developer: Andrew Keller (4QBKTXP3K7)";
@@ -1619,7 +1639,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 9DA67FDDF2048F2EE110C92B /* Pods-Swype It.release.xcconfig */;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon.dev;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				BUNDLE_ID_SUFFIX = "";
 				CODE_SIGN_IDENTITY = "iPhone Developer: Andrew Keller (4QBKTXP3K7)";
@@ -1761,7 +1781,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 30ED76FB39BF998E0E317052 /* Pods-Swype It.beta.xcconfig */;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon.dev;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				BUNDLE_ID_SUFFIX = .beta;
 				CODE_SIGN_IDENTITY = "iPhone Developer: Andrew Keller (4QBKTXP3K7)";

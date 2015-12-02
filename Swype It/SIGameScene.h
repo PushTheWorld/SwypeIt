@@ -88,7 +88,12 @@
 /**
  Used to launch a move command
  */
-- (void)sceneGameLaunchMoveCommandLabelWithCommandAction:(SIMoveCommandAction)commandAction;
+- (void)sceneGameLaunchMoveCommand:(SKSpriteNode *)moveCommandNode WithCommandAction:(SIMoveCommandAction)commandAction;
+
+/**
+ Used to launch a move score
+ */
+- (void)sceneGameLaunchMoveScore:(SKLabelNode *)moveScoreLabel;
 
 /**
  Called when the scene shall notify the user they got a free coin
@@ -104,6 +109,11 @@
  Layout the Scene
  */
 - (void)layoutScene;
+
+/**
+ Show an Emitter Node
+ */
+//- (void)sceneGameShowSnowEmitterNode:(SKEmitterNode *)emitterNode;
 
 /**
  The ad content

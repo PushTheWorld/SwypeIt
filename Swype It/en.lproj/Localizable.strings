@@ -87,3 +87,9 @@
 "userTipPowerUpTimeFreeze"          = "For starters, tap the time freeze power up!";
 "userTipPowerUpRapidFire"           = "Quick! tap RAPID FIRE power up!";
 
+/**
+ IAP
+ */
+"bestDeal"                          = "Best Deal!";
+"mostPopular"                       = "Most Popular!";
+

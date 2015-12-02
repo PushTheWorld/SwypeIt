@@ -99,6 +99,11 @@
 @property (nonatomic, strong) SKSpriteNode *backgroundNode;
 
 /**
+ The over lay node background node
+ */
+@property (nonatomic, strong) SKSpriteNode *overlayNode;
+
+/**
  The corner radius of the button.
  
  Default value is `0.0`.
@@ -250,7 +255,7 @@
 /**
  A node that when set to enable runs around the outside of the node
  */
-@property (nonatomic, strong) SKLightNode *lightNodeEdge;
+//@property (nonatomic, strong) SKLightNode *lightNodeEdge;
 
 /**
  The start time for using a count down timer and such
@@ -271,5 +276,7 @@
 - (void)launchNode:(SKSpriteNode *)node;
 
 - (void)layoutXYZ;
+
+- (void)updateTopNode:(SKNode *)topNode centerNode:(SKNode *)centerNode centerNodePosition:(CGPoint)centerNodePosition bottomNode:(SKNode *)bottomNode bottomNodeBottomSpacing:(CGFloat)bottomNodeBottomSpacing dismissButtonVisible:(BOOL)dismissButtonVisible updateBackgroundSize:(BOOL)updateBackgroundSize backgroundSize:(CGSize)backgroundSize;
 
 @end

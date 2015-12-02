@@ -202,13 +202,13 @@
 ////            [AppSingleton singleton].willResume                                 = YES;
 ////            [AppSingleton singleton].currentGame.currentContinueLifeCost  = SIGame lifeCostForCurrentContinueLevel:[AppSingleton singleton].currentGame.currentContinueLifeCost];
 ////            GameScene *gameScene                                                = [SIGameScene alloc] initWithSize:self.size gameMode:[AppSingleton singleton].currentGame.gameMode];
-////            SIGame transisitionToSKScene:gameScene toSKView:self.view DoorsOpen:NO pausesIncomingScene:YES pausesOutgoingScene:NO duration:SCENE_TRANSISTION_DURATION];
+////            SIGame transisitionToSKScene:gameScene toSKView:self.view DoorsOpen:NO pausesIncomingScene:YES pausesOutgoingScene:NO duration:SCENE_TRANSITION_DURATION];
 ////        } else { /*User cannot afford the to contiue*/
 ////            NSNotification *notification = [[NSNotification alloc] initWithName:kSINotificationInterstitialAdShallLaunch object:nil userInfo:nil];
 ////            [[NSNotificationCenter defaultCenter] postNotification:notification];
 ////
 //////            StoreScene *storeScene                                              = [StoreScene sceneWithSize:self.size];
-//////            SIGame transisitionToSKScene:storeScene toSKView:self.view DoorsOpen:YES pausesIncomingScene:NO pausesOutgoingScene:NO duration:SCENE_TRANSISTION_DURATION];
+//////            SIGame transisitionToSKScene:storeScene toSKView:self.view DoorsOpen:YES pausesIncomingScene:NO pausesOutgoingScene:NO duration:SCENE_TRANSITION_DURATION];
 ////        }
 //
 //    } else if ([menuItem.text isEqualToString:kSITextMenuEndGameReplay]) {
@@ -216,19 +216,19 @@
 //        [[AppSingleton singleton] endGame];
 //        SIGame incrementGamesPlayed];
 //        GameScene *firstScene               = [SIGameScene alloc] initWithSize:self.size gameMode:[AppSingleton singleton].currentGame.gameMode];
-//        SIGame transisitionToSKScene:firstScene toSKView:self.view DoorsOpen:NO pausesIncomingScene:YES pausesOutgoingScene:NO duration:SCENE_TRANSISTION_DURATION];
+//        SIGame transisitionToSKScene:firstScene toSKView:self.view DoorsOpen:NO pausesIncomingScene:YES pausesOutgoingScene:NO duration:SCENE_TRANSITION_DURATION];
 //
 //    } else if ([menuItem.text isEqualToString:kSITextMenuEndGameStore]) {
 //        /*Store Button*/
 //        StoreScene *storeScene              = [StoreScene sceneWithSize:self.size];
-//        SIGame transisitionToSKScene:storeScene toSKView:self.view DoorsOpen:YES pausesIncomingScene:YES pausesOutgoingScene:YES duration:SCENE_TRANSISTION_DURATION];
+//        SIGame transisitionToSKScene:storeScene toSKView:self.view DoorsOpen:YES pausesIncomingScene:YES pausesOutgoingScene:YES duration:SCENE_TRANSITION_DURATION];
 //        
 //    } else if ([menuItem.text isEqualToString:kSITextMenuEndGameMainMenu]) {
 //        /*Main Menu Button*/
 //        [[AppSingleton singleton] endGame];
 //        [SIGame incrementGamesPlayed];
 //        StartScreenScene *startScene        = [StartScreenScene sceneWithSize:self.size];
-//        SIGame transisitionToSKScene:startScene toSKView:self.view DoorsOpen:NO pausesIncomingScene:YES pausesOutgoingScene:YES duration:SCENE_TRANSISTION_DURATION];
+//        SIGame transisitionToSKScene:startScene toSKView:self.view DoorsOpen:NO pausesIncomingScene:YES pausesOutgoingScene:YES duration:SCENE_TRANSITION_DURATION];
 //
 //    }
 //}
@@ -248,19 +248,19 @@
 //    [AppSingleton singleton].willResume                                 = YES;
 //    [AppSingleton singleton].currentGame.currentContinueLifeCost  = SIGame lifeCostForCurrentContinueLevel:[AppSingleton singleton].currentGame.currentContinueLifeCost];
 //    GameScene *gameScene                                                = [SIGameScene alloc] initWithSize:self.size gameMode:[AppSingleton singleton].currentGame.gameMode];
-//    SIGame transisitionToSKScene:gameScene toSKView:self.view DoorsOpen:NO pausesIncomingScene:YES pausesOutgoingScene:NO duration:SCENE_TRANSISTION_DURATION];
+//    SIGame transisitionToSKScene:gameScene toSKView:self.view DoorsOpen:NO pausesIncomingScene:YES pausesOutgoingScene:NO duration:SCENE_TRANSITION_DURATION];
 //}
 //
 //- (void)continueLaunchStore {
 //    StoreScene *storeScene              = [StoreScene sceneWithSize:self.size];
-//    SIGame transisitionToSKScene:storeScene toSKView:self.view DoorsOpen:YES pausesIncomingScene:YES pausesOutgoingScene:YES duration:SCENE_TRANSISTION_DURATION];
+//    SIGame transisitionToSKScene:storeScene toSKView:self.view DoorsOpen:YES pausesIncomingScene:YES pausesOutgoingScene:YES duration:SCENE_TRANSITION_DURATION];
 //}
 //
 //- (void)adDidFinish {
 //    [AppSingleton singleton].willResume                                 = YES;
 //    [AppSingleton singleton].currentGame.currentContinueLifeCost  = SIGame lifeCostForCurrentContinueLevel:[AppSingleton singleton].currentGame.currentContinueLifeCost];
 //    GameScene *gameScene                                                = [SIGameScene alloc] initWithSize:self.size gameMode:[AppSingleton singleton].currentGame.gameMode];
-//    SIGame transisitionToSKScene:gameScene toSKView:self.view DoorsOpen:NO pausesIncomingScene:YES pausesOutgoingScene:NO duration:SCENE_TRANSISTION_DURATION];
+//    SIGame transisitionToSKScene:gameScene toSKView:self.view DoorsOpen:NO pausesIncomingScene:YES pausesOutgoingScene:NO duration:SCENE_TRANSITION_DURATION];
 //}
 //- (void)continueCancel {
 //    _shouldRespondToTap =   YES;

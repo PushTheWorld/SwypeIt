@@ -284,11 +284,11 @@
 //    _shouldRespondToTap = NO;
 //    if (self.wasLaunchedFromMainMenu) {
 //        StartScreenScene *startScene = [StartScreenScene sceneWithSize:self.size];
-//        SIGame transisitionToSKScene:startScene toSKView:self.view DoorsOpen:NO pausesIncomingScene:YES pausesOutgoingScene:YES duration:SCENE_TRANSISTION_DURATION];
+//        SIGame transisitionToSKScene:startScene toSKView:self.view DoorsOpen:NO pausesIncomingScene:YES pausesOutgoingScene:YES duration:SCENE_TRANSITION_DURATION];
 //        
 //    } else {
 //        EndGameScene *endScene = [EndGameScene sceneWithSize:self.size];
-//        SIGame transisitionToSKScene:endScene toSKView:self.view DoorsOpen:NO pausesIncomingScene:YES pausesOutgoingScene:YES duration:SCENE_TRANSISTION_DURATION];
+//        SIGame transisitionToSKScene:endScene toSKView:self.view DoorsOpen:NO pausesIncomingScene:YES pausesOutgoingScene:YES duration:SCENE_TRANSITION_DURATION];
 //    }
 //}
 //- (void)requestPurchaseForPack:(SIIAPPack)siiapPack {

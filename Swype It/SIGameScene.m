@@ -27,6 +27,7 @@ static const uint32_t SIGameSceneCategoryEdge          = 0x1 << 2; // 0000000000
 
 
 @implementation SIGameScene {
+    CGFloat                                              _swypeItCoinsBackgroundNodeWidthMinimum;
     CGFloat                                              _moveScoreDuration;
 
     CGSize                                               _backgroundSize;
@@ -167,10 +168,10 @@ static const uint32_t SIGameSceneCategoryEdge          = 0x1 << 2; // 0000000000
     
     _swypeItCoinsLabelNode                                  = [SKLabelNode labelNodeWithFontNamed:kSISFFontDisplayHeavy];
     _swypeItCoinsLabelNode.fontSize                         = [SIGameController SIFontSizeParagraph];
-    _swypeItCoinsLabelNode.text                             = @"-1";//[NSString stringWithFormat:@"%d",[SIIAPUtility numberOfCoinsForUser]];
+    _swypeItCoinsLabelNode.text                             = @"000";//[NSString stringWithFormat:@"%d",[SIIAPUtility numberOfCoinsForUser]];
     
-    _coinSize                                               = CGSizeMake(_swypeItCoinsLabelNode.frame.size.height * 0.75f, _swypeItCoinsLabelNode.frame.size.height * 0.75f);
     _coinNode                                               = [SKSpriteNode spriteNodeWithImageNamed:kSIAssestIAPCoinFrontSmall]; //[SKSpriteNode spriteNodeWithTexture:[[SIConstants imagesAtlas] textureNamed:kSIImageCoinSmallFront] size:_coinSize];
+    _coinSize                                               = _coinNode.size;
     
     _swypeItCoinsBackgroundNodeSize                         = CGSizeMake(_swypeItCoinsLabelNode.frame.size.width + _coinSize.width + VERTICAL_SPACING_8, _swypeItCoinsLabelNode.frame.size.height + VERTICAL_SPACING_8);
     _swypeItCoinsBackgroundNode                             = [SKSpriteNode spriteNodeWithTexture:[SIGame textureBackgroundColor:[SKColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:0.1]
@@ -179,13 +180,15 @@ static const uint32_t SIGameSceneCategoryEdge          = 0x1 << 2; // 0000000000
                                                                                                                      borderWidth:2.0f
                                                                                                                      borderColor:[SKColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:0.5]]];
 
+    _swypeItCoinsBackgroundNodeWidthMinimum                 = _swypeItCoinsBackgroundNodeSize.width;
+    
     _pauseButtonNode                                        = [[HLLabelButtonNode alloc] initWithTexture:[SKTexture textureWithImageNamed:kSIAssestGamePause]];
     
     _highScoreLabelNode                                     = [SIGameController SILabelParagraph_x2:@"HIGH SCORE!"];
     
     _scoreTotalLabel                                        = [SIGameController SILabelHeader_x3:@"0.00"];
     
-    _scoreMoveLabel                                         = [SIGameController SILabelSceneGameMoveScoreLabel];
+//    _scoreMoveLabel                                         = [SIGameController SILabelSceneGameMoveScoreLabel];
 }
 
 - (void)setupControlsWithSize:(CGSize)size {
@@ -228,11 +231,11 @@ static const uint32_t SIGameSceneCategoryEdge          = 0x1 << 2; // 0000000000
     
     _scoreTotalLabelTopPadding                              = (_swypeItCoinsBackgroundNodeSize.height ) + VERTICAL_SPACING_8;
     
-    _scoreMoveLabel.zPosition                               = [SIGameController floatZPositionGameForContent:SIZPositionGameContent];
-    _scoreMoveLabel.physicsBody.categoryBitMask             = SIGameSceneCategoryUIControl;
-    _scoreMoveLabel.horizontalAlignmentMode                 = SKLabelHorizontalAlignmentModeCenter;
-    _scoreMoveLabel.verticalAlignmentMode                   = SKLabelVerticalAlignmentModeCenter;
-    _scoreMoveLabel.text                                    = [NSString stringWithFormat:@"%0.2f",MAX_MOVE_SCORE];
+//    _scoreMoveLabel.zPosition                               = [SIGameController floatZPositionGameForContent:SIZPositionGameContent];
+//    _scoreMoveLabel.physicsBody.categoryBitMask             = SIGameSceneCategoryUIControl;
+//    _scoreMoveLabel.horizontalAlignmentMode                 = SKLabelHorizontalAlignmentModeCenter;
+//    _scoreMoveLabel.verticalAlignmentMode                   = SKLabelVerticalAlignmentModeCenter;
+//    _scoreMoveLabel.text                                    = [NSString stringWithFormat:@"%0.2f",MAX_MOVE_SCORE];
     
 }
 
@@ -249,7 +252,7 @@ static const uint32_t SIGameSceneCategoryEdge          = 0x1 << 2; // 0000000000
     
     [self addChild:_scoreTotalLabel];
     
-    [self addChild:_scoreMoveLabel];
+//    [self addChild:_scoreMoveLabel];
 
     [self addChild:_swypeItCoinsBackgroundNode];
     
@@ -306,44 +309,34 @@ static const uint32_t SIGameSceneCategoryEdge          = 0x1 << 2; // 0000000000
  and will allow us to actually change the color of the background node
  */
 - (void)setMoveCommandNode:(SKSpriteNode *)moveCommandNode {
-    
-    SKSpriteNode *temporyPointer = _moveCommandNode;
-    if (moveCommandNode) {
-        _moveCommandNode                                = moveCommandNode;
-        [_moveCommandNode runAction:_fadeActionSequenceForNewLabel];
-        [self addChild:_moveCommandNode];
-        _moveCommandLabelSize                           = moveCommandNode.size;
-        if (temporyPointer) {
-            [temporyPointer runAction:_moveNodeRemovalAction];
-        }
-    } else {
+    if (_moveCommandNode.parent) {
         [_moveCommandNode removeFromParent];
     }
-    [self layoutXYZAnimation:SISceneContentAnimationNone];
-}
-//- (void)setMoveCommandLabel:(SKLabelNode *)moveCommandLabel {
-//    /*
-//     If _moveCommandLabel not nil then set pointer to it so it can be removed
-//        at a later time in this setter
-//     */
-//    SKLabelNode *tempLabelNode = _moveCommandLabel;
-//    
-//    if (moveCommandLabel) {
-//        _moveCommandLabel                               = moveCommandLabel;
-//        [_moveCommandLabel runAction:fadeActionSequenceForNewLabel];
-//        _moveCommandLabel.horizontalAlignmentMode       = SKLabelHorizontalAlignmentModeCenter;
-//        _moveCommandLabel.verticalAlignmentMode         = SKLabelVerticalAlignmentModeCenter;
-//        _moveCommandLabel.userInteractionEnabled        = YES;
-//        [self addChild:_moveCommandLabel];
-//        _moveCommandLabelSize                           = _moveCommandLabel.frame.size;
-//        if (tempLabelNode) { /*Remove node after MOVE_COMMAND_LAUNCH_DURATION*/
-//            [tempLabelNode runAction:[SKAction sequence:@[[SKAction waitForDuration:MOVE_COMMAND_LAUNCH_DURATION],[SKAction removeFromParent]]]];
+    _moveCommandNode            = moveCommandNode;
+
+    if (moveCommandNode) {
+        _moveCommandNode.position   = CGPointMake(_sceneSize.width / 2.0f, _sceneSize.height / 2.0f);
+        _moveCommandLabelSize       = moveCommandNode.size;
+        [_moveCommandNode runAction:_fadeActionSequenceForNewLabel];
+        [self addChild:_moveCommandNode];
+    }
+    
+//    SKSpriteNode *temporyPointer = _moveCommandNode;
+//    if (moveCommandNode) {
+//        _moveCommandNode                                = moveCommandNode;
+//        [_moveCommandNode runAction:_fadeActionSequenceForNewLabel];
+//        [self addChild:_moveCommandNode];
+//        _moveCommandLabelSize                           = moveCommandNode.size;
+//        if (temporyPointer) {
+//            [temporyPointer runAction:_moveNodeRemovalAction];
 //        }
-//    } else {
-//        [_moveCommandLabel removeFromParent];
 //    }
+////    else {
+////        [_moveCommandNode removeFromParent];
+////    }
 //    [self layoutXYZAnimation:SISceneContentAnimationNone];
-//}
+}
+
 
 - (SIPopupNode *)popupNode {
     if (_centerNode) {
@@ -482,51 +475,16 @@ static const uint32_t SIGameSceneCategoryEdge          = 0x1 << 2; // 0000000000
     _backgroundNode.color   = backgroundColor;
 }
 - (void)setScoreMoveLabel:(SKLabelNode *)scoreMoveLabel {
-    SKLabelNode *labelHolder = _scoreMoveLabel;
-    _scoreMoveLabel                                     = scoreMoveLabel;
-    _scoreMoveLabel.zPosition                           = [SIGameController floatZPositionGameForContent:SIZPositionGameContent];
-    _scoreMoveLabel.position                            = labelHolder.position;
-    [self addChild:_scoreMoveLabel];
-    [_scoreMoveLabel runAction:_actionNewMoveScore];
-    
-    CGMutablePathRef cgpath                             = CGPathCreateMutable();
-    
-    CGPoint startingPoint                               = labelHolder.position;
-    
-    CGPoint endingPoint                                 = CGPointMake(_scoreTotalLabel.position.x + (_scoreTotalLabel.frame.size.width / 2.0f), _scoreTotalLabel.position.y); //_scoreTotalLabel.position;
-    
-    CGFloat randomDx                                    = arc4random_uniform(_sceneSize.width / 4.0f);
-    
-    int randomDirection                                 = arc4random_uniform(2);
-    if (randomDirection == 1) { /*Negative Direction*/
-        randomDx                                        = -1.0f * randomDx;
+    if (_scoreMoveLabel.parent) {
+        [_scoreMoveLabel removeFromParent];
     }
-    CGFloat totalDistance                               = (endingPoint.y - startingPoint.y) / 3.0f;
-    CGPoint controlPoint1                               = CGPointMake((_sceneSize.width / 2.0f) + randomDx, startingPoint.y + totalDistance);
-    CGPoint controlPoint2                               = CGPointMake((_sceneSize.width / 2.0f) + (randomDx / 2), startingPoint.y + (totalDistance * 2.0f));
-    
-    CGPathMoveToPoint(cgpath, NULL, startingPoint.x, startingPoint.y);
-    CGPathAddCurveToPoint(cgpath, NULL, controlPoint1.x, controlPoint1.y,
-                          controlPoint2.x, controlPoint2.y,
-                          endingPoint.x, endingPoint.y);
-    
-    SKAction *scoreCurve                                = [SKAction followPath:cgpath asOffset:NO orientToPath:NO duration:_moveScoreDuration];
-    
-    SKAction *groupAction                               = [SKAction group:@[scoreCurve, [SKAction scaleTo:0.0f duration:_moveScoreDuration]]];
-    
-    labelHolder.zPosition                               = [SIGameController floatZPositionGameForContent:SIZPositionGameContentMoveScore];
-    [labelHolder runAction:[SKAction sequence:@[groupAction,[SKAction removeFromParent],[SKAction runBlock:^{
-        HLEmitterStore *emitterStore                    = [HLEmitterStore sharedStore];
-        SKEmitterNode *sparkEmitter                     = [emitterStore emitterCopyForKey:kSIEmitterSpark];
-        
-//        NSLog(@"Height of total score label: %0.2f",_scoreTotalLabel.frame.size.height);
-        
-        sparkEmitter.position                           = CGPointMake((_scoreTotalLabel.frame.size.width / 2.0f), -1.0f * (_scoreTotalLabel.frame.size.height / 2.0f));
-        sparkEmitter.zPosition                          = [SIGameController floatZPositionGameForContent:SIZPositionGameContentMoveScoreEmitter];
-        [_scoreTotalLabel addChild:sparkEmitter];
-                
-    }]]]];
-    
+    _scoreMoveLabel                                     = scoreMoveLabel;
+    if (scoreMoveLabel) {
+        _scoreMoveLabel.zPosition                           = [SIGameController floatZPositionGameForContent:SIZPositionGameContent];
+        _scoreMoveLabel.position                            = CGPointMake(_sceneSize.width / 2.0f, (_sceneSize.height / 2.0f) + _moveCommandLabelSize.height + VERTICAL_SPACING_8);
+        [self addChild:_scoreMoveLabel];
+        [_scoreMoveLabel runAction:_actionNewMoveScore];
+    }
 }
 
 - (void)setPopTip:(SIPopTip *)popTip {
@@ -669,6 +627,9 @@ static const uint32_t SIGameSceneCategoryEdge          = 0x1 << 2; // 0000000000
         if ([[NSString stringWithFormat:@"%d",[SIIAPUtility numberOfCoinsForUser]] isEqualToString:_swypeItCoinsLabelNode.text] == NO) {
             _swypeItCoinsLabelNode.text                 = [NSString stringWithFormat:@"%d",[SIIAPUtility numberOfCoinsForUser]];
             _swypeItCoinsBackgroundNodeSize             = CGSizeMake(VERTICAL_SPACING_4 + _swypeItCoinsLabelNode.frame.size.width + VERTICAL_SPACING_4 + _coinSize.width + VERTICAL_SPACING_4, VERTICAL_SPACING_4 + _swypeItCoinsLabelNode.frame.size.height + VERTICAL_SPACING_4 + _swypeItCoinsLabelNode.fontSize + VERTICAL_SPACING_4);
+            if (_swypeItCoinsBackgroundNodeSize.width < _swypeItCoinsBackgroundNodeWidthMinimum) {
+                _swypeItCoinsBackgroundNodeSize.width   = _swypeItCoinsBackgroundNodeWidthMinimum;
+            }
             _swypeItCoinsBackgroundNode.size            = _swypeItCoinsBackgroundNodeSize;
             _swypeItCoinsLabelNode.position             = CGPointMake(VERTICAL_SPACING_8, -VERTICAL_SPACING_4);
             _coinNode.position                          = CGPointMake(VERTICAL_SPACING_4 + _swypeItCoinsLabelNode.frame.size.width + VERTICAL_SPACING_4, -1.0f * (_swypeItCoinsLabelNode.fontSize / 2.0f));
@@ -807,10 +768,53 @@ static const uint32_t SIGameSceneCategoryEdge          = 0x1 << 2; // 0000000000
 /**
  Use this to launch the move score label
  */
-- (void)sceneGameLaunchMoveCommandLabelWithCommandAction:(SIMoveCommandAction)commandAction {
-    _moveCommandNode.physicsBody.categoryBitMask = SIGameSceneCategoryUIControl;
-    [_moveCommandNode runAction:[SIGame actionForSIMoveCommandAction:commandAction]];
+- (void)sceneGameLaunchMoveCommand:(SKSpriteNode *)moveCommandNode WithCommandAction:(SIMoveCommandAction)commandAction {
+    moveCommandNode.physicsBody.categoryBitMask = SIGameSceneCategoryUIControl;
+    [moveCommandNode runAction:[SIGame actionForSIMoveCommandAction:commandAction]];
 }
+
+- (void)sceneGameLaunchMoveScore:(SKLabelNode *)moveScoreLabel {
+    CGMutablePathRef cgpath                             = CGPathCreateMutable();
+    
+    CGPoint startingPoint                               = moveScoreLabel.position;
+    
+    CGPoint endingPoint                                 = CGPointMake(_scoreTotalLabel.position.x + (_scoreTotalLabel.frame.size.width / 2.0f), _scoreTotalLabel.position.y); //_scoreTotalLabel.position;
+    
+    CGFloat randomDx                                    = arc4random_uniform(_sceneSize.width / 4.0f);
+    
+    int randomDirection                                 = arc4random_uniform(2);
+    if (randomDirection == 1) { /*Negative Direction*/
+        randomDx                                        = -1.0f * randomDx;
+    }
+    CGFloat totalDistance                               = (endingPoint.y - startingPoint.y) / 3.0f;
+    CGPoint controlPoint1                               = CGPointMake((_sceneSize.width / 2.0f) + randomDx, startingPoint.y + totalDistance);
+    CGPoint controlPoint2                               = CGPointMake((_sceneSize.width / 2.0f) + (randomDx / 2), startingPoint.y + (totalDistance * 2.0f));
+    
+    CGPathMoveToPoint(cgpath, NULL, startingPoint.x, startingPoint.y);
+    CGPathAddCurveToPoint(cgpath, NULL, controlPoint1.x, controlPoint1.y,
+                          controlPoint2.x, controlPoint2.y,
+                          endingPoint.x, endingPoint.y);
+    
+    SKAction *scoreCurve                                = [SKAction followPath:cgpath asOffset:NO orientToPath:NO duration:_moveScoreDuration];
+    
+    SKAction *groupAction                               = [SKAction group:@[scoreCurve, [SKAction scaleTo:0.0f duration:_moveScoreDuration]]];
+    
+    moveScoreLabel.zPosition                               = [SIGameController floatZPositionGameForContent:SIZPositionGameContentMoveScore];
+    [moveScoreLabel runAction:[SKAction sequence:@[groupAction,[SKAction removeFromParent],[SKAction runBlock:^{
+        HLEmitterStore *emitterStore                    = [HLEmitterStore sharedStore];
+        SKEmitterNode *sparkEmitter                     = [emitterStore emitterCopyForKey:kSIEmitterSpark];
+        
+        //        NSLog(@"Height of total score label: %0.2f",_scoreTotalLabel.frame.size.height);
+        
+        sparkEmitter.position                           = CGPointMake((_scoreTotalLabel.frame.size.width / 2.0f), -1.0f * (_scoreTotalLabel.frame.size.height / 2.0f));
+        sparkEmitter.zPosition                          = [SIGameController floatZPositionGameForContent:SIZPositionGameContentMoveScoreEmitter];
+        [_scoreTotalLabel addChild:sparkEmitter];
+        
+    }]]]];
+
+    
+}
+
 
 /**
  Called when the scene shall show a new high score

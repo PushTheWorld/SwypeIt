@@ -11,7 +11,6 @@
 #import "SIMenuNode.h"
 // Framework Import
 // Drop-In Class Imports (CocoaPods/GitHub/Guru)
-#import "BMGlyphLabel.h"
 // Category Import
 #import "UIColor+Additions.h"
 // Support/Data Class Imports
@@ -41,7 +40,7 @@
         _size = size;
         _topTitleYPadding                           = VERTICAL_SPACING_8;
         _bottomToolbarYPadding                      = VERTICAL_SPACING_8;
-        _animationDuration                          = SCENE_TRANSISTION_DURATION_FAST;
+        _animationDuration                          = SCENE_TRANSITION_DURATION_FAST;
         _bottomCenterNodeYPadding                   = 0.0f;
     }
     return self;
@@ -147,6 +146,7 @@
     [self layoutXYZAnimation:SIMenuNodeAnimationStaticVisible];
 }
 
+
 #pragma mark - 
 #pragma mark - Scene Layout
 - (void)layoutXYZAnimation:(SIMenuNodeAnimation)animation {
@@ -230,7 +230,7 @@
                             positionHidden:positionHidden];
     }
     
-    _backButtonNode.anchorPoint                     = CGPointMake(0.0f,1.0f);
+//    _backButtonNode.anchorPoint                     = CGPointMake(0.0f,1.0f);
     positionHidden                                  = CGPointMake((-1.0f * sceneMidX) - _backButtonNode.size.width, sceneMidY - (_backButtonNode.size.height / 2.0f) - VERTICAL_SPACING_8);
     positionVisible                                 = CGPointMake((-1.0f * sceneMidX) + (_backButtonNode.size.width / 2.0f) + VERTICAL_SPACING_8, sceneMidY - (_backButtonNode.size.height / 2.0f) - VERTICAL_SPACING_8);
     [SIMenuNode animateMenuContentNode:_backButtonNode

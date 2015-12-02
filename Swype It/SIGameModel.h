@@ -140,5 +140,9 @@
  */
 @property (nonatomic, strong) NSMutableArray *powerUpArray;
 
+/**
+ Powerup Percent
+ */
+
 
 @end

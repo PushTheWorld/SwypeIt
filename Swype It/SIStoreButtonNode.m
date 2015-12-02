@@ -8,9 +8,11 @@
 //  Purpose: This is the subclass for store buttons
 //
 // Local Controller Import
+#import "SIGameController.h"
 #import "SIStoreButtonNode.h"
 // Framework Import
 // Drop-In Class Imports (CocoaPods/GitHub/Guru)
+#import "DSMultilineLabelNode.h"
 // Category Import
 #import "UIColor+Additions.h"
 // Support/Data Class Imports
@@ -25,14 +27,16 @@ enum {
 @implementation SIStoreButtonNode {
     CGSize               _imageSize;
     
-    NSNumberFormatter   *_priceFormatter;
+    NSNumberFormatter                   *_priceFormatter;
     
-    SKLabelNode         *_priceLabelNode;
-    SKLabelNode         *_titleLabelNode;
-    SKLabelNode         *_valueLabelNode;
+    DSMultilineLabelNode                *_eyeCatchLabelNode;
+    SKLabelNode                         *_priceLabelNode;
+    SKLabelNode                         *_titleLabelNode;
+    SKLabelNode                         *_valueLabelNode;
     
-    SKSpriteNode        *_backgroundNode;
-    SKSpriteNode        *_imageNode;
+    SKSpriteNode                        *_backgroundNode;
+    SKSpriteNode                        *_eyeCatchNode;
+    SKSpriteNode                        *_imageNode;
 }
 + (CGFloat)cornerRadius {
     if (IS_IPHONE_4) {
@@ -90,82 +94,131 @@ enum {
 #pragma mark - Node Setup
 - (void)createConstantsWithSize:(CGSize)size {
     /**Configure any constants*/
-    _imageSize                              = CGSizeMake(size.height - VERTICAL_SPACING_16, size.height - VERTICAL_SPACING_16);
+    _imageSize                                      = CGSizeMake(size.height - VERTICAL_SPACING_16, size.height - VERTICAL_SPACING_16);
     
     /*Configure the price formatter*/
-    _priceFormatter                         = [[NSNumberFormatter alloc] init];
+    _priceFormatter                                 = [[NSNumberFormatter alloc] init];
     [_priceFormatter setNumberStyle:NSNumberFormatterCurrencyStyle];
     [_priceFormatter setLocale:[NSLocale currentLocale]];
 
 }
 - (void)createControlsWithSize:(CGSize)size {
     /**Preform all your alloc/init's here*/
-    _backgroundNode                         = [SKSpriteNode spriteNodeWithColor:[UIColor SIColorShopButton] size:size];
+    _backgroundNode                                 = [SKSpriteNode spriteNodeWithColor:[UIColor SIColorShopButton] size:size];
     
-    _imageNode                              = [SKSpriteNode spriteNodeWithImageNamed:[SIIAPUtility imageNameForSIIAPPack:_pack]]; //[SKSpriteNode spriteNodeWithTexture:[[SIConstants imagesAtlas] textureNamed:[SIIAPUtility imageNameForSIIAPPack:_pack]] size:_imageSize];
+    _imageNode                                      = [SKSpriteNode spriteNodeWithImageNamed:[SIIAPUtility imageNameForSIIAPPack:_pack]]; //[SKSpriteNode spriteNodeWithTexture:[[SIConstants imagesAtlas] textureNamed:[SIIAPUtility imageNameForSIIAPPack:_pack]] size:_imageSize];
     
-    _valueLabelNode                         = [SKLabelNode labelNodeWithFontNamed:kSISFFontDisplayRegular];
+    _eyeCatchNode                                   = [SKSpriteNode spriteNodeWithColor:[UIColor redColor] size:CGSizeMake(_imageNode.size.width, _imageNode.size.width * 0.5f)];
     
-    _titleLabelNode                         = [SKLabelNode labelNodeWithFontNamed:kSISFFontDisplayRegular];
+    _eyeCatchLabelNode                              = [DSMultilineLabelNode labelNodeWithFontNamed:kSISFFontTextSemibold];
     
-    _priceLabelNode                         = [SKLabelNode labelNodeWithFontNamed:kSISFFontDisplayRegular];
+    _valueLabelNode                                 = [SKLabelNode labelNodeWithFontNamed:kSISFFontTextRegular];
+    
+    _titleLabelNode                                 = [SKLabelNode labelNodeWithFontNamed:kSISFFontTextRegular];
+    
+    _priceLabelNode                                 = [SKLabelNode labelNodeWithFontNamed:kSISFFontTextRegular];
 }
 - (void)setupControlsWithSize:(CGSize)size {
     /**Configrue the labels, nodes and what ever else you can*/
     //mmmmmm custom textures
-    _backgroundNode.texture                 = [SIGame textureBackgroundColor:[UIColor SIColorShopButton]
+    _backgroundNode.texture                         = [SIGame textureBackgroundColor:[UIColor SIColorShopButton]
                                                                       size:size
                                                               cornerRadius:[SIStoreButtonNode cornerRadius]
                                                                borderWidth:4.0
                                                                borderColor:[UIColor blackColor]];
-    _backgroundNode.zPosition               = (float)SIStoreButtonNodeZPositionLayerBackground / (float)SIStoreButtonNodeZPositionLayerBackground;
-    _backgroundNode.anchorPoint             = CGPointMake(1, 0.5);
+    _backgroundNode.zPosition                       = (float)SIStoreButtonNodeZPositionLayerBackground / (float)SIStoreButtonNodeZPositionLayerBackground;
+    _backgroundNode.anchorPoint                     = CGPointMake(1, 0.5);
     
-    _imageNode.zPosition                    = (float)SIStoreButtonNodeZPositionLayerLabel / (float)SIStoreButtonNodeZPositionLayerBackground;
-    _imageNode.anchorPoint                  = CGPointMake(0.5, 0.5);
+    _imageNode.zPosition                            = (float)SIStoreButtonNodeZPositionLayerLabel / (float)SIStoreButtonNodeZPositionLayerBackground;
+    _imageNode.anchorPoint                          = CGPointMake(0.5, 0.5);
     
-    _valueLabelNode.text                    = [NSString stringWithFormat:@"%d IT Coins",[SIIAPUtility numberOfCoinsForSIIAPPack:_pack]];
-    _valueLabelNode.fontSize                = [SIStoreButtonNode fontSizeSmall];
-    _valueLabelNode.fontColor               = [SKColor goldColor];
-    _valueLabelNode.verticalAlignmentMode   = SKLabelVerticalAlignmentModeCenter;
-    _valueLabelNode.horizontalAlignmentMode = SKLabelHorizontalAlignmentModeCenter;
-    _valueLabelNode.zPosition               = (float)SIStoreButtonNodeZPositionLayerLabel / (float)SIStoreButtonNodeZPositionLayerBackground;
+    _valueLabelNode.text                            = [NSString stringWithFormat:@"%d IT Coins",[SIIAPUtility numberOfCoinsForSIIAPPack:_pack]];
+    _valueLabelNode.fontSize                        = [SIStoreButtonNode fontSizeSmall];
+    _valueLabelNode.fontColor                       = [SKColor goldColor];
+    _valueLabelNode.verticalAlignmentMode           = SKLabelVerticalAlignmentModeCenter;
+    _valueLabelNode.horizontalAlignmentMode         = SKLabelHorizontalAlignmentModeCenter;
+    _valueLabelNode.zPosition                       = (float)SIStoreButtonNodeZPositionLayerLabel / (float)SIStoreButtonNodeZPositionLayerBackground;
     
-    _titleLabelNode.text                    = [SIIAPUtility buttonTextForSIIAPPack:_pack];
-    _titleLabelNode.fontSize                = [SIStoreButtonNode fontSizeLarge];
-    _titleLabelNode.fontColor               = [SKColor whiteColor];
-    _titleLabelNode.verticalAlignmentMode   = SKLabelVerticalAlignmentModeCenter;
-    _titleLabelNode.horizontalAlignmentMode = SKLabelHorizontalAlignmentModeCenter;
-    _titleLabelNode.zPosition               = (float)SIStoreButtonNodeZPositionLayerLabel / (float)SIStoreButtonNodeZPositionLayerBackground;
+    _titleLabelNode.text                            = [SIIAPUtility buttonTextForSIIAPPack:_pack];
+    _titleLabelNode.fontSize                        = [SIStoreButtonNode fontSizeLarge];
+    _titleLabelNode.fontColor                       = [SKColor whiteColor];
+    _titleLabelNode.verticalAlignmentMode           = SKLabelVerticalAlignmentModeCenter;
+    _titleLabelNode.horizontalAlignmentMode         = SKLabelHorizontalAlignmentModeCenter;
+    _titleLabelNode.zPosition                       = (float)SIStoreButtonNodeZPositionLayerLabel / (float)SIStoreButtonNodeZPositionLayerBackground;
 
-    _priceLabelNode.text                    = [_priceFormatter stringFromNumber:[SIIAPUtility productPriceForSIIAPPack:_pack]];
-    _priceLabelNode.fontSize                = [SIStoreButtonNode fontSizeSmall];
-    _priceLabelNode.fontColor               = [SKColor goldColor];
-    _priceLabelNode.verticalAlignmentMode   = SKLabelVerticalAlignmentModeCenter;
-    _priceLabelNode.horizontalAlignmentMode = SKLabelHorizontalAlignmentModeCenter;
-    _priceLabelNode.zPosition               = (float)SIStoreButtonNodeZPositionLayerLabel / (float)SIStoreButtonNodeZPositionLayerBackground;
+    _priceLabelNode.text                            = [_priceFormatter stringFromNumber:[SIIAPUtility productPriceForSIIAPPack:_pack]];
+    _priceLabelNode.fontSize                        = [SIStoreButtonNode fontSizeSmall];
+    _priceLabelNode.fontColor                       = [SKColor goldColor];
+    _priceLabelNode.verticalAlignmentMode           = SKLabelVerticalAlignmentModeCenter;
+    _priceLabelNode.horizontalAlignmentMode         = SKLabelHorizontalAlignmentModeCenter;
+    _priceLabelNode.zPosition                       = (float)SIStoreButtonNodeZPositionLayerLabel / (float)SIStoreButtonNodeZPositionLayerBackground;
+    
+    switch (_pack) {
+        case SIIAPPackMedium:
+            _eyeCatchLabelNode.text                 = NSLocalizedString(kSITextIAPMostPopular, nil);
+            break;
+        case SIIAPPackExtraLarge:
+            _eyeCatchLabelNode.text                 = NSLocalizedString(kSITextIAPBestDeal, nil);
+            break;
+        case SIIAPPackLarge:
+        case SIIAPPackSmall:
+        default:
+            _eyeCatchLabelNode.hidden               = YES;
+            _eyeCatchNode.hidden                    = YES;
+            break;
+    }
+    _eyeCatchLabelNode.paragraphWidth               = _imageNode.size.width - VERTICAL_SPACING_8;
+    _eyeCatchLabelNode.fontColor                    = [SKColor whiteColor];
+    _eyeCatchLabelNode.fontSize                     = [SIGameController SIFontSizeText];
+    _eyeCatchLabelNode.verticalAlignmentMode        = SKLabelVerticalAlignmentModeCenter;
+    _eyeCatchLabelNode.horizontalAlignmentMode      = SKLabelHorizontalAlignmentModeCenter;
+    
+    _eyeCatchNode.texture                           = [SIGame textureBackgroundColor:[UIColor redColor]
+                                                                        size:CGSizeMake(_imageNode.size.width,_eyeCatchLabelNode.size.height + VERTICAL_SPACING_8)
+                                                                cornerRadius:4.0f
+                                                                 borderWidth:0.0f
+                                                                 borderColor:[SKColor clearColor]];
+    _eyeCatchNode.zPosition                         = (float)SIStoreButtonNodeZPositionLayerLabel / (float)SIStoreButtonNodeZPositionLayerBackground;
+
 
 }
 - (void)layoutControlsWithSize:(CGSize)size {
     /**Layout those controls*/
-    CGFloat xImage                          = -3.3f * (_backgroundNode.frame.size.width / 4.0f);
-    CGFloat xLabels                         = -1.1f * (_backgroundNode.frame.size.width / 3.0f);
-    _backgroundNode.position                = CGPointMake(size.width / 2.0f, size.height / 2.0f);
+    CGFloat xImage                                  = (-1.0f * _backgroundNode.size.width) + (_imageNode.size.width / 2.0f) + VERTICAL_SPACING_16; //-3.3f * (_backgroundNode.frame.size.width / 4.0f);
+    CGFloat xLabels                                 = -1.1f * (_backgroundNode.frame.size.width / 3.0f);
+    _backgroundNode.position                        = CGPointMake(size.width / 2.0f, size.height / 2.0f);
     [self addChild:_backgroundNode];
     
     [_backgroundNode addChild:_imageNode];
+    [_backgroundNode addChild:_eyeCatchNode];
+    [_eyeCatchNode addChild:_eyeCatchLabelNode];
     [_backgroundNode addChild:_valueLabelNode];
     [_backgroundNode addChild:_titleLabelNode];
     [_backgroundNode addChild:_priceLabelNode];
 
     
-    _imageNode.position                     = CGPointMake(xImage, 0.0f);
+    _imageNode.position                             = CGPointMake(xImage, 0.0f);
+    
+    _valueLabelNode.position                        = CGPointMake(xLabels, 0.0f);
 
-    _valueLabelNode.position                = CGPointMake(xLabels, 0.0f);
+    _titleLabelNode.position                        = CGPointMake(xLabels, _valueLabelNode.frame.size.height + VERTICAL_SPACING_8);
 
-    _titleLabelNode.position                = CGPointMake(xLabels, _valueLabelNode.frame.size.height + VERTICAL_SPACING_4);
+    _priceLabelNode.position                        = CGPointMake(xLabels, -1.0f * (_valueLabelNode.frame.size.height + VERTICAL_SPACING_8));
+    
+    switch (_pack) {
+        case SIIAPPackMedium:
+            [_eyeCatchNode runAction:[SKAction rotateByAngle:-M_PI_4/2 duration:0.0f]];
+            _eyeCatchNode.position                  = CGPointMake(-1.0f * (_eyeCatchNode.size.width / 2.0f - VERTICAL_SPACING_16), (_eyeCatchNode.size.width / 2.0f));
 
-    _priceLabelNode.position                = CGPointMake(xLabels, -1.0f * (_valueLabelNode.frame.size.height + VERTICAL_SPACING_4));
+            break;
+        case SIIAPPackExtraLarge:
+            [_eyeCatchNode runAction:[SKAction rotateByAngle:M_PI_4/2 duration:0.0f]];
+            _eyeCatchNode.position                  = CGPointMake(-1.0f * (_backgroundNode.size.width - VERTICAL_SPACING_16 - VERTICAL_SPACING_4), (_eyeCatchNode.size.width / 2.0f));
+            break;
+        default:
+            break;
+    }
+    
 }
 
 - (CGSize)size {

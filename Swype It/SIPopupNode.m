@@ -21,11 +21,10 @@
 enum {
     SIPopupNodeZPositionLayerBackground = 0,
     SIPopupNodeZPositionLayerContent,
-    SIPopupNodeZPositionLayerLightNode,
+    SIPopupNodeZPositionLayerOverlay,
     SIPopupNodeZPositionLayerCount
 };
 
-static const uint32_t SIPopupNodeCategoryLight          = 0x1 << 1; // 00000000000000000000000000000010
 
 @implementation SIPopupNode {
     
@@ -158,6 +157,12 @@ static const uint32_t SIPopupNodeCategoryLight          = 0x1 << 1; // 000000000
     _backgroundNode.zPosition       = SIPopupNodeZPositionLayerBackground * self.zPositionScale / SIPopupNodeZPositionLayerCount;
     [self addChild:_backgroundNode];
     
+    _overlayNode                    = [SKSpriteNode spriteNodeWithColor:[SKColor whiteColor] size:CGSizeMake(size.width - VERTICAL_SPACING_16, size.height - VERTICAL_SPACING_16)];
+    _overlayNode.anchorPoint        = CGPointMake(0.5f, 0.5f);
+    _overlayNode.alpha              = 0.0f;
+    _overlayNode.zPosition          = SIPopupNodeZPositionLayerOverlay * self.zPositionScale / SIPopupNodeZPositionLayerCount;
+    [self addChild:_overlayNode];
+    
     _titleLabelNode                 = [SKLabelNode labelNodeWithFontNamed:kSISFFontDisplayHeavy];
     _titleLabelNode.zPosition       = SIPopupNodeZPositionLayerContent * self.zPositionScale / SIPopupNodeZPositionLayerCount;
     [_backgroundNode addChild:_titleLabelNode];
@@ -167,28 +172,28 @@ static const uint32_t SIPopupNodeCategoryLight          = 0x1 << 1; // 000000000
     [_dismissButton setTouchUpInsideTarget:self selector:@selector(dismissButtonTapped:)];
     [_backgroundNode addChild:_dismissButton];
     
-    _lightNodeEdge                  = [[SKLightNode alloc] init];
-    _lightNodeEdge.categoryBitMask  = SIPopupNodeCategoryLight;
-    _lightNodeEdge.zPosition        = 100;
-    _lightNodeEdge.lightColor       = [SKColor blackColor];
-    _lightNodeEdge.enabled          = YES;
-    [_backgroundNode addChild:_lightNodeEdge];
+//    _lightNodeEdge                  = [[SKLightNode alloc] init];
+//    _lightNodeEdge.categoryBitMask  = SIPopupNodeCategoryLight;
+//    _lightNodeEdge.zPosition        = 100;
+//    _lightNodeEdge.lightColor       = [SKColor blackColor];
+//    _lightNodeEdge.enabled          = YES;
+//    [_backgroundNode addChild:_lightNodeEdge];
     
     [self layoutXY];
 }
 
-- (void)makeLightNodeFollowTheBackgroundOfThePopup {
-    UIBezierPath *path = [UIBezierPath bezierPathWithRoundedRect:CGRectMake(0, 0, _backgroundNode.frame.size.width - VERTICAL_SPACING_8, _backgroundNode.frame.size.height - VERTICAL_SPACING_8) cornerRadius:_cornerRadius];
-    SKAction *followBackground = [SKAction followPath:path.CGPath asOffset:NO orientToPath:NO duration:3.0f];
-    
-    for (SKNode *node in _backgroundNode.children) {
-        if ([node.name isEqualToString:@"Temp"]) {
-            [node removeFromParent];
-        }
-    }
-    
-    [_lightNodeEdge runAction:[SKAction repeatActionForever:followBackground]];
-}
+//- (void)makeLightNodeFollowTheBackgroundOfThePopup {
+//    UIBezierPath *path = [UIBezierPath bezierPathWithRoundedRect:CGRectMake(0, 0, _backgroundNode.frame.size.width - VERTICAL_SPACING_8, _backgroundNode.frame.size.height - VERTICAL_SPACING_8) cornerRadius:_cornerRadius];
+//    SKAction *followBackground = [SKAction followPath:path.CGPath asOffset:NO orientToPath:NO duration:3.0f];
+//    
+//    for (SKNode *node in _backgroundNode.children) {
+//        if ([node.name isEqualToString:@"Temp"]) {
+//            [node removeFromParent];
+//        }
+//    }
+//    
+//    [_lightNodeEdge runAction:[SKAction repeatActionForever:followBackground]];
+//}
 
 - (CGSize)backgroundSize {
     return _backgroundNode.size;
@@ -389,6 +394,58 @@ static const uint32_t SIPopupNodeCategoryLight          = 0x1 << 1; // 000000000
     [self layoutXYZ];
 }
 
+- (void)updateTopNode:(SKNode *)topNode
+           centerNode:(SKNode *)centerNode
+   centerNodePosition:(CGPoint)centerNodePosition
+           bottomNode:(SKNode *)bottomNode
+ bottomNodeBottomSpacing:(CGFloat)bottomNodeBottomSpacing
+ dismissButtonVisible:(BOOL)dismissButtonVisible
+ updateBackgroundSize:(BOOL)updateBackgroundSize
+       backgroundSize:(CGSize)backgroundSize {
+
+    //Background Size updates
+    if (updateBackgroundSize) {
+        _xPadding               = _sceneSize.width - backgroundSize.width;
+        _yPadding               = _sceneSize.height - backgroundSize.height;
+    }
+    
+    _dismissButtonVisible       = dismissButtonVisible;
+    _dismissButton.hidden       = !dismissButtonVisible;
+    
+    // Top Node
+    if (_topNode) {
+        [_topNode removeFromParent];
+    }
+    if (topNode) {
+        _topNode                = topNode;
+        [_backgroundNode addChild:_topNode];
+    }
+    
+    _centerNodePosition = centerNodePosition;
+    
+    if (_centerNode) {
+        [_centerNode removeFromParent];
+    }
+    if (centerNode) {
+        _centerNode             = centerNode;
+        _centerNode.name        = kSINodePopupContent;
+        [_backgroundNode addChild:_centerNode];
+    }
+    
+    if (_bottomContentNode) {
+        [_bottomContentNode removeFromParent];
+    }
+    if (bottomNode) {
+        _bottomContentNode      = bottomNode;
+        [_backgroundNode addChild:bottomNode];
+    }
+    
+    _bottomNodeBottomSpacing = bottomNodeBottomSpacing;
+    
+    [self layoutXYZ];
+
+}
+
 - (void)layoutXYZ {
     [self layoutXY];
     [self layoutZ];
@@ -399,6 +456,7 @@ static const uint32_t SIPopupNodeCategoryLight          = 0x1 << 1; // 000000000
         return;
     }
     _backgroundNode.size                = CGSizeMake(_sceneSize.width - _xPadding, _sceneSize.height - _yPadding);
+    _overlayNode.size                   = CGSizeMake(_sceneSize.width - _xPadding, _sceneSize.height - _yPadding);
 
     if (_titleContentNode) {
         /*If someone supplied their own node*/
@@ -415,7 +473,7 @@ static const uint32_t SIPopupNodeCategoryLight          = 0x1 << 1; // 000000000
     }
 
 
-    if (_dismissButton) {
+    if (_dismissButton && _dismissButtonVisible) {
         CGPoint dismissButtonPosition   = CGPointMake((_backgroundNode.size.width / 2.0f), (_backgroundNode.size.height / 2.0f));
         
         // note: We must bring in the dismiss button if it is layed out over the screen, this will allow us to use a popup that has a small padding
@@ -440,13 +498,14 @@ static const uint32_t SIPopupNodeCategoryLight          = 0x1 << 1; // 000000000
     
     _backgroundNode.texture                 = [SIGame textureBackgroundColor:_backgroundNode.color size:_backgroundNode.size cornerRadius:_cornerRadius borderWidth:_borderWidth borderColor:_borderColor];
 
-    [self makeLightNodeFollowTheBackgroundOfThePopup];
+//    [self makeLightNodeFollowTheBackgroundOfThePopup];
 }
 
 - (void)layoutZ {
     CGFloat zPositionLayerIncrement     = self.zPositionScale / (float)SIPopupNodeZPositionLayerCount;
     
     _backgroundNode.zPosition               = SIPopupNodeZPositionLayerBackground * zPositionLayerIncrement;
+    _overlayNode.zPosition                  = SIPopupNodeZPositionLayerOverlay * zPositionLayerIncrement;
     
     if (_centerNode) {
         _centerNode.zPosition               = SIZPositionPopupContentTop * zPositionLayerIncrement;

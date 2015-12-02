@@ -182,7 +182,7 @@
 //- (void)goBack {
 //    _shouldRespondToTap = NO;
 //    StartScreenScene *startScene = [StartScreenScene sceneWithSize:self.frame.size];
-//    SIGame transisitionToSKScene:startScene toSKView:self.view DoorsOpen:NO pausesIncomingScene:YES pausesOutgoingScene:YES duration:SCENE_TRANSISTION_DURATION];
+//    SIGame transisitionToSKScene:startScene toSKView:self.view DoorsOpen:NO pausesIncomingScene:YES pausesOutgoingScene:YES duration:SCENE_TRANSITION_DURATION];
 //}
 //- (void)resetHighScore {
 //    NSDictionary *userInfo          = @{kSINSDictionaryKeyHudWillAnimate            : @YES,

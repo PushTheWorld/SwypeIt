@@ -31,7 +31,9 @@ static const uint32_t SIFallingMonkeySceneCategoryEdgeSide      = 0x1 << 5; // 0
 
 @implementation SIFallingMonkeyScene  {
     
+    float                                _bananaVelocity;
     float                                _monkeySpeed;
+    float                                _monkeySpeedIncrease;
     
     int                                  _numberOfMonkeysLaunched;
     
@@ -113,13 +115,37 @@ static const uint32_t SIFallingMonkeySceneCategoryEdgeSide      = 0x1 << 5; // 0
     /**Configure any constants*/
     _numberOfMonkeysLaunched                        = 0;
     _fallingMonkeyZPosition                         = [SIGameController floatZPositionFallingMonkeyForContent:SIZPositionFallingMonkeyFallingMonkey];
-    _monkeySpeed                                    = MONKEY_SPEED_INITIAL;
+    
+    
+
     
     
     SKAction *grow                                  = [SKAction scaleTo:1.3 duration:FALLING_MONKEY_END_DELAY/4.0f];
     SKAction *shrink                                = [SKAction scaleTo:0.9 duration:FALLING_MONKEY_END_DELAY/4.0f];
     
     _pulseSequence                                  = [SKAction sequence:@[grow,shrink,grow,shrink]];
+    
+    if (IS_IPHONE_4) {
+        _bananaVelocity = 420.0/1.2;
+        _monkeySpeed    = MONKEY_SPEED_INITIAL;
+        
+    } else if (IS_IPHONE_5) {
+        _bananaVelocity = 420.0/1.2;
+        _monkeySpeed    = MONKEY_SPEED_INITIAL;
+        
+    } else if (IS_IPHONE_6) {
+        _bananaVelocity = 420.0/1.1;
+        _monkeySpeed    = MONKEY_SPEED_INITIAL;
+
+    } else if (IS_IPHONE_6_PLUS) {
+        _bananaVelocity = 420.0/1.0;
+        _monkeySpeed    = MONKEY_SPEED_INITIAL * 1.25;
+        
+    } else {
+        _bananaVelocity = 420.0/0.5;
+        _monkeySpeed    = MONKEY_SPEED_INITIAL * 1.5;
+       
+    }
     
 }
 
@@ -315,6 +341,8 @@ static const uint32_t SIFallingMonkeySceneCategoryEdgeSide      = 0x1 << 5; // 0
     
     CGFloat randomDelay                             = (100 - (float)arc4random_uniform(75)) / (_monkeySpeed / 2.0f);
     
+    
+    
     _monkeySpeed                                    = _monkeySpeed + MONKEY_SPEED_INCREASE;
     
     [self performSelector:@selector(launchMonkey) withObject:nil afterDelay:randomDelay];
@@ -374,8 +402,8 @@ static const uint32_t SIFallingMonkeySceneCategoryEdgeSide      = 0x1 << 5; // 0
     CGPoint realDest = vectorAddition(shootAmount, bananaBunch.position);
     
     // 9 - Create the actions
-    float velocity = 420.0/1.2;
-    float realMoveDuration = self.size.width / velocity;
+
+    float realMoveDuration = self.size.width / _bananaVelocity;
     SKAction * actionMove = [SKAction moveTo:realDest duration:realMoveDuration];
     SKAction * actionMoveDone = [SKAction removeFromParent];
     [bananaBunch runAction:[SKAction sequence:@[actionMove, actionMoveDone]]];

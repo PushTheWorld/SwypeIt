@@ -251,8 +251,8 @@
 //    [_storeButtonNode hlSetGestureTarget:[HLTapGestureTarget tapGestureTargetWithHandleGestureBlock:^(UIGestureRecognizer *gestureRecognizer) {
 //        StoreScene *storeScene = [[StoreScene alloc] initWithSize:self.size willAwardPrize:_willAwardPrize];//[StoreScene sceneWithSize:self.size];
 //        storeScene.wasLaunchedFromMainMenu = YES;
-//        SIGame transisitionToSKScene:storeScene toSKView:self.view duration:SCENE_TRANSISTION_DURATION];
-////        SIGame transisitionToSKScene:storeScene toSKView:self.view DoorsOpen:YES pausesIncomingScene:YES pausesOutgoingScene:YES duration:SCENE_TRANSISTION_DURATION];
+//        SIGame transisitionToSKScene:storeScene toSKView:self.view duration:SCENE_TRANSITION_DURATION];
+////        SIGame transisitionToSKScene:storeScene toSKView:self.view DoorsOpen:YES pausesIncomingScene:YES pausesOutgoingScene:YES duration:SCENE_TRANSITION_DURATION];
 //        
 //    }]];
 //    [self registerDescendant:_storeButtonNode withOptions:[NSSet setWithObject:HLSceneChildGestureTarget]];
@@ -302,7 +302,7 @@
 //        
 //    } else if ([toolTag isEqualToString:kSINodeButtonSettings]) {
 //        SettingsScene *settingsScene    = [SettingsScene sceneWithSize:self.size];
-//        SIGame transisitionToSKScene:settingsScene toSKView:self.view DoorsOpen:YES pausesIncomingScene:YES pausesOutgoingScene:YES duration:SCENE_TRANSISTION_DURATION];
+//        SIGame transisitionToSKScene:settingsScene toSKView:self.view DoorsOpen:YES pausesIncomingScene:YES pausesOutgoingScene:YES duration:SCENE_TRANSITION_DURATION];
 //        
 //    } else if ([toolTag isEqualToString:kSINodeButtonInstructions]) {
 //        NSLog(@"Instructions Toolbar Button Tapped");
@@ -483,7 +483,7 @@
 //    }
 //    [[AppSingleton singleton] initAppSingletonWithGameMode:gameMode];
 //    GameScene *firstScene = [SIGameScene alloc] initWithSize:self.size gameMode:gameMode];
-//    SIGame transisitionToSKScene:firstScene toSKView:self.view DoorsOpen:YES pausesIncomingScene:NO pausesOutgoingScene:NO duration:SCENE_TRANSISTION_DURATION];
+//    SIGame transisitionToSKScene:firstScene toSKView:self.view DoorsOpen:YES pausesIncomingScene:NO pausesOutgoingScene:NO duration:SCENE_TRANSITION_DURATION];
 //}
 //
 //- (void)startGame {

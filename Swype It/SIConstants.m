@@ -37,7 +37,8 @@ HLRingNode *sceneGamePauseRingNode() {
     
     /*First Button - Play*/
     HLItemNode *playButtonNode                                                  = [[HLItemNode alloc] init];
-    [playButtonNode setContent:[SKSpriteNode spriteNodeWithImageNamed:kSIAssestRingNodePlayButton]];
+    SKSpriteNode *playButtonSpriteNode = [SKSpriteNode spriteNodeWithImageNamed:kSIAssestRingNodePlayButton];
+    [playButtonNode setContent:playButtonSpriteNode];
 //    [playButtonNode setContent:[SKSpriteNode spriteNodeWithTexture:[[SIConstants buttonAtlas] textureNamed:kSIImageButtonPlay] size:[SIConstants powerUpToolbarButtonSize]]];
     
     /*Second Button - SoundFX*/
@@ -51,7 +52,7 @@ HLRingNode *sceneGamePauseRingNode() {
     
     /*Third Button - Sound Background*/
     HLItemContentFrontHighlightNode *soundBkgrndNode                            = [[HLItemContentFrontHighlightNode alloc] initWithContentNode:[SKSpriteNode spriteNodeWithImageNamed:kSIAssestRingNodeSoundMusic]
-                                                                                                                            frontHighlightNode:cross];
+                                                                                                                            frontHighlightNode:[cross copy]];
 
     /*First Button - Play*/
     HLItemNode *endGameButton                                                   = [[HLItemNode alloc] init];
@@ -60,7 +61,7 @@ HLRingNode *sceneGamePauseRingNode() {
     NSArray *arrayOfRingItems                                                   = @[playButtonNode, soundFXNode, soundBkgrndNode,endGameButton];
     ringNode                                                                    = [[HLRingNode alloc] initWithItemCount:(int)[arrayOfRingItems count]];
     [ringNode setContent:arrayOfRingItems];
-    [ringNode setLayoutWithRadius:[SIConstants powerUpToolbarButtonSize].width initialTheta:M_PI];
+    [ringNode setLayoutWithRadius:playButtonSpriteNode.size.width initialTheta:M_PI];
 
     
     return ringNode;
@@ -453,7 +454,7 @@ NSString *const kSIAssestPopTipPointer                                          
 NSString *const kSIAssestPopTipPointerReverse                                   = @"popTipImageReverse";
 
 #pragma mark Ring Node
-NSString *const kSIAssestRingNodeCross                                          = @"cross";
+NSString *const kSIAssestRingNodeCross                                          = @"soundCross";
 NSString *const kSIAssestRingNodeEndGame                                        = @"endGame";
 NSString *const kSIAssestRingNodePlayButton                                     = @"playButton";
 NSString *const kSIAssestRingNodeSoundFX                                        = @"soundFX";
@@ -494,6 +495,10 @@ NSString *const kSITextBoolOff                                                  
 NSString *const kSITextBoolOFF                                                  = @"OFF";
 NSString *const kSITextBoolOn                                                   = @"On";
 NSString *const kSITextBoolON                                                   = @"ON";
+
+#pragma mark IAP
+NSString *const kSITextIAPBestDeal                                              = @"bestDeal";
+NSString *const kSITextIAPMostPopular                                           = @"mostPopular";
 
 #pragma mark Menu Button
 NSString *const kSITextMenuEndGameFreeCoinsEarned                               = @"Free Coins Earned";
@@ -541,6 +546,8 @@ NSString *const kSITextUserTipFirstFreePrize                                    
 NSString *const kSITextUserTipPowerUpFallingMonkey                              = @"userTipPowerUpFallingMonkey";
 NSString *const kSITextUserTipPowerUpTimeFreeze                                 = @"userTipPowerUpTimeFreeze";
 NSString *const kSITextUserTipPowerUpRapidFire                                  = @"userTipPowerUpRapidFire";
+
+
 
 #pragma mark - Emails
 NSString *const kSIEmailBugReportReciever                                       = @"buggy.bug@pushtheworld.us";

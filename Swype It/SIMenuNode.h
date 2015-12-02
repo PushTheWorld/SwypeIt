@@ -15,6 +15,7 @@
 // Other Imports
 #import "HLSpriteKit.h"
 #import "INSpriteKit.h"
+#import "AGSpriteButton.h"
 
 @class SIMenuNode;
 @protocol SIMenuNodeDelegate <NSObject>

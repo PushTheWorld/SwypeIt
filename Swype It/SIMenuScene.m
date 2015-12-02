@@ -37,7 +37,7 @@
 - (nonnull instancetype)init {
     self = [super init];
     if (self) {
-        _animationDuration                          = SCENE_TRANSISTION_DURATION_NORMAL;
+        _animationDuration                          = SCENE_TRANSITION_DURATION_NORMAL;
     }
     return self;
 }
