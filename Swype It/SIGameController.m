@@ -336,7 +336,8 @@
 
 - (void)setupControls {
 
-    [self authenticateLocalPlayer];
+    // TODO: REMOVE THIS COMMENT BLOCK FOR GAME CENTER
+//    [self authenticateLocalPlayer];
     
     _currentMove                                        = [[SIMove alloc] init];
 
@@ -1717,7 +1718,9 @@
     
     
     /*Fade the popup out, run block then fade back in...*/
-    
+    if (_overlayNode.parent) {
+        [_overlayNode removeFromParent];
+    }
     [_sceneGame addChild:_overlayNode];
     [_overlayNode runAction:[SKAction sequence:@[[SKAction group:@[_fadeAlphaIn,[SKAction runBlock:^{
         /*Fade out what you know you don't need*/
@@ -1756,8 +1759,11 @@
     /*I think the timer should be stoped before the fade*/
     _popupTimePauseOffset                                           = 0.0f;
     _popupTimePauseStart                                            = [NSDate timeIntervalSinceReferenceDate];
-    _sceneGamePopupContinue.countDownTimerState                             = SIPopupCountDownTimerPaused;
-
+    _sceneGamePopupContinue.countDownTimerState                     = SIPopupCountDownTimerPaused;
+    
+    if (_overlayNode.parent) {
+        [_overlayNode removeFromParent];
+    }
     [_sceneGame addChild:_overlayNode];
     [_overlayNode runAction:[SKAction sequence:@[[SKAction group:@[_fadeAlphaIn,[SKAction runBlock:^{
         /*Fade out what you know you don't need*/
@@ -1784,7 +1790,8 @@
                                 backgroundSize:CGSizeMake(_sceneSize.width - [SIGameController xPaddingPopupContinue], _sceneSize.height - [SIGameController yPaddingPopupContinue])];
         
         
-        
+        _sceneGamePopupContinue.position                                        = [SIGameController SIPopupSceneGamePositionPoint];
+
     }],[SKAction group:@[_fadeAlphaOut,[SKAction runBlock:^{
         [_sceneGamePopupContinue.titleContentNode runAction:_fadeIn];
         [_sceneGamePopupContinue.centerNode runAction:_fadeIn];
@@ -1809,7 +1816,9 @@
     _sceneGamePopupContinueUserMessage                      = [SIGame userMessageForScore:_gameModel.game.totalScore isHighScore:_gameModel.game.isHighScore highScore:[SIGame devieHighScoreNSUserDefaults:[NSUserDefaults standardUserDefaults]]];
     _sceneGamePopupGameOverUserMessageLabelNode.text        = _sceneGamePopupContinueUserMessage;
 
-    
+    if (_overlayNode.parent) {
+        [_overlayNode removeFromParent];
+    }
     [_sceneGame addChild:_overlayNode];
     [_overlayNode runAction:[SKAction sequence:@[[SKAction group:@[_fadeAlphaIn,[SKAction runBlock:^{
         /*Fade out what you know you don't need*/
@@ -1845,6 +1854,7 @@
         ((SKLabelNode *)_sceneGamePopupGameOver.titleContentNode).text          = NSLocalizedString(kSITextPopupContinueGameOver, nil);
         _sceneGamePopupGameOver.topNode.position                                = CGPointMake(0.0f, ((SKLabelNode *)_sceneGamePopupGameOver.titleContentNode).frame.size.height + (_sceneGamePopupGameOverEndNode.size.height / 2.0f) + VERTICAL_SPACING_16);
         
+        _sceneGamePopupGameOver.position                                        = [SIGameController SIPopupSceneGamePositionPoint];
     }],[SKAction group:@[_fadeAlphaOut,[SKAction runBlock:^{
         [_sceneGamePopupGameOver.titleContentNode runAction:_fadeIn];
         [_sceneGamePopupGameOverEndNode runAction:_fadeIn];
@@ -1858,7 +1868,9 @@
 }
 
 - (void)sceneGamePopupContinue {
-    
+    if (_overlayNode.parent) {
+        [_overlayNode removeFromParent];
+    }
     [_sceneGame addChild:_overlayNode];
     [_overlayNode runAction:[SKAction sequence:@[[SKAction group:@[_fadeAlphaIn,[SKAction runBlock:^{
         /*Fade out what you know you don't need*/
@@ -3123,9 +3135,9 @@
     if (IS_IPHONE_4) {
         return 60.0f;
     } else if (IS_IPHONE_5) {
-        return 60.0f;
+        return [SIGameController premiumUser] ? 60.0f : 80.0f;
     } else if (IS_IPHONE_6) {
-        return 80.0f;
+        return [SIGameController premiumUser] ? 80.0f : 90.0f;
     } else if (IS_IPHONE_6_PLUS) {
         return 100.0f;
     } else {
@@ -3171,40 +3183,79 @@
     }
 }
 + (float)SIMenuNodeStoreBottomSpacingWithSize:(CGSize)size {
-    if (IS_IPHONE_4) {
-        return [SIGameController SIButtonStoreSize:size].height * 2.0 + VERTICAL_SPACING_16;
-        
-    } else if (IS_IPHONE_5) {
-        return [SIGameController SIButtonStoreSize:size].height * 1.9 + VERTICAL_SPACING_16;
-        
-    } else if (IS_IPHONE_6) {
-        return [SIGameController SIButtonStoreSize:size].height * 2.0 + VERTICAL_SPACING_16;
-        
-    } else if (IS_IPHONE_6_PLUS) {
-        return [SIGameController SIButtonStoreSize:size].height * 1.9 + VERTICAL_SPACING_16;
-        
+    if ([SIGameController premiumUser]) {
+        if (IS_IPHONE_4) {
+            return [SIGameController SIButtonStoreSize:size].height * 2.0 + VERTICAL_SPACING_16;
+            
+        } else if (IS_IPHONE_5) {
+            return [SIGameController SIButtonStoreSize:size].height * 1.9 + VERTICAL_SPACING_16;
+            
+        } else if (IS_IPHONE_6) {
+            return [SIGameController SIButtonStoreSize:size].height * 2.0 + VERTICAL_SPACING_16;
+            
+        } else if (IS_IPHONE_6_PLUS) {
+            return [SIGameController SIButtonStoreSize:size].height * 1.9 + VERTICAL_SPACING_16;
+            
+        } else {
+            return [SIGameController SIButtonStoreSize:size].height * 1.9 + VERTICAL_SPACING_16;
+            
+        }
     } else {
-        return [SIGameController SIButtonStoreSize:size].height * 1.9 + VERTICAL_SPACING_16;
-        
+        if (IS_IPHONE_4) {
+            return [SIGameController SIButtonStoreSize:size].height * 2.4 - [SIGameController SIAdBannerViewHeight];
+            
+        } else if (IS_IPHONE_5) {
+            return [SIGameController SIButtonStoreSize:size].height * 2.3 - [SIGameController SIAdBannerViewHeight];
+            
+        } else if (IS_IPHONE_6) {
+            return [SIGameController SIButtonStoreSize:size].height * 2.3 - [SIGameController SIAdBannerViewHeight];
+            
+        } else if (IS_IPHONE_6_PLUS) {
+            return [SIGameController SIButtonStoreSize:size].height * 2.2 - [SIGameController SIAdBannerViewHeight];
+            
+        } else {
+            return [SIGameController SIButtonStoreSize:size].height * 2.2 - [SIGameController SIAdBannerViewHeight];
+            
+        }
+
     }
 }
 
 + (float)SIMenuNodeStorePopupBottomSpacingWithSize:(CGSize)size {
-    if (IS_IPHONE_4) {
-        return [SIGameController SIButtonStoreSize:size].height * 1.2 + VERTICAL_SPACING_16;
-        
-    } else if (IS_IPHONE_5) {
-        return [SIGameController SIButtonStoreSize:size].height * 1.35 + VERTICAL_SPACING_16;
-        
-    } else if (IS_IPHONE_6) {
-        return [SIGameController SIButtonStoreSize:size].height * 1.35 + VERTICAL_SPACING_16;
-        
-    } else if (IS_IPHONE_6_PLUS) {
-        return [SIGameController SIButtonStoreSize:size].height * 1.3 + VERTICAL_SPACING_16;
-        
+    if ([SIGameController premiumUser]) {
+        if (IS_IPHONE_4) {
+            return [SIGameController SIButtonStoreSize:size].height * 1.2 + VERTICAL_SPACING_16;
+            
+        } else if (IS_IPHONE_5) {
+            return [SIGameController SIButtonStoreSize:size].height * 1.35 + VERTICAL_SPACING_16;
+            
+        } else if (IS_IPHONE_6) {
+            return [SIGameController SIButtonStoreSize:size].height * 1.35 + VERTICAL_SPACING_16;
+            
+        } else if (IS_IPHONE_6_PLUS) {
+            return [SIGameController SIButtonStoreSize:size].height * 1.3 + VERTICAL_SPACING_16;
+            
+        } else {
+            return [SIGameController SIButtonStoreSize:size].height * 1.3 + VERTICAL_SPACING_16;
+            
+        }
     } else {
-        return [SIGameController SIButtonStoreSize:size].height * 1.3 + VERTICAL_SPACING_16;
-        
+        if (IS_IPHONE_4) {
+            return [SIGameController SIButtonStoreSize:size].height * 2.3 - [SIGameController SIAdBannerViewHeight];
+            
+        } else if (IS_IPHONE_5) {
+            return [SIGameController SIButtonStoreSize:size].height * 1.8 - [SIGameController SIAdBannerViewHeight];
+            
+        } else if (IS_IPHONE_6) {
+            return [SIGameController SIButtonStoreSize:size].height * 1.85 - [SIGameController SIAdBannerViewHeight];
+            
+        } else if (IS_IPHONE_6_PLUS) {
+            return [SIGameController SIButtonStoreSize:size].height * 1.85 - [SIGameController SIAdBannerViewHeight];
+            
+        } else {
+            return [SIGameController SIButtonStoreSize:size].height * 1.85 - [SIGameController SIAdBannerViewHeight];
+            
+        }
     }
 }
 
@@ -3221,6 +3272,28 @@
         
     } else if (IS_IPHONE_6_PLUS) {
         return CGPointZero;
+        
+    } else {
+        return CGPointZero;
+        
+    }
+}
+
++ (CGPoint)SIPopupSceneGamePositionPoint {
+    if ([SIGameController premiumUser]) {
+        return CGPointZero;
+    }
+    if (IS_IPHONE_4) {
+        return CGPointMake(0.0f, VERTICAL_SPACING_16);
+        
+    } else if (IS_IPHONE_5) {
+        return CGPointMake(0.0f, VERTICAL_SPACING_16);
+        
+    } else if (IS_IPHONE_6) {
+        return CGPointMake(0.0f, VERTICAL_SPACING_8 + VERTICAL_SPACING_4);
+        
+    } else if (IS_IPHONE_6_PLUS) {
+        return CGPointMake(0.0f, VERTICAL_SPACING_8);
         
     } else {
         return CGPointZero;
@@ -3416,9 +3489,9 @@
         [[NSUserDefaults standardUserDefaults] synchronize];
     }
     
-//    return [premiumUserNumber boolValue];
+    return [premiumUserNumber boolValue];
     // TODO: REMOVE THIS LINE HOLY SHIT REMOVE THIS LINE
-    return true;
+//    return true;
 }
 
 #pragma mark SKLabelNodes
@@ -4087,6 +4160,7 @@
     popupNode.cornerRadius                  = 8.0f;
     popupNode.userInteractionEnabled        = YES;
     popupNode.dismissButtonVisible          = NO;
+    popupNode.position                      = [SIGameController SIPopupSceneGamePositionPoint];
     
     
     return popupNode;
