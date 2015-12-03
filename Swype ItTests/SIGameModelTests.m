@@ -31,9 +31,10 @@
 }
 
 - (void)testDoesStartInCorrectState {
-    BOOL success = [_gameModel.stateMachine fireEvent:kSITKStateMachineEventGameMenuStart userInfo:nil error:nil];
+//    XCTAssert([_gameModel.stateMachine isInState:kSITKStateMachineStateGameDefault]);
+    BOOL success = [_gameModel.stateMachine fireEvent:kSITKStateMachineEventGameLoad userInfo:nil error:nil];
     XCTAssert(success);
-    XCTAssert([_gameModel.stateMachine isInState:kSITKStateMachineStateGameStart]);
+    XCTAssert([_gameModel.stateMachine isInState:kSITKStateMachineStateGameLoading]);
     
 }
 

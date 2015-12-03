@@ -108,7 +108,18 @@ enum {
     
     _imageNode                                      = [SKSpriteNode spriteNodeWithImageNamed:[SIIAPUtility imageNameForSIIAPPack:_pack]]; //[SKSpriteNode spriteNodeWithTexture:[[SIConstants imagesAtlas] textureNamed:[SIIAPUtility imageNameForSIIAPPack:_pack]] size:_imageSize];
     
-    _eyeCatchNode                                   = [SKSpriteNode spriteNodeWithColor:[UIColor redColor] size:CGSizeMake(_imageNode.size.width, _imageNode.size.width * 0.5f)];
+    if (IS_IPHONE_4) {
+        [_imageNode runAction:[SKAction scaleTo:0.7f duration:0.0f]];
+    } else if (IS_IPHONE_5) {
+        [_imageNode runAction:[SKAction scaleTo:0.9f duration:0.0f]];
+    }
+    
+    if (IS_IPHONE_4) {
+        _eyeCatchNode                               = [SKSpriteNode spriteNodeWithColor:[UIColor redColor] size:CGSizeMake(_imageNode.size.width, _imageNode.size.width * 0.4f)];
+
+    } else {
+        _eyeCatchNode                               = [SKSpriteNode spriteNodeWithColor:[UIColor redColor] size:CGSizeMake(_imageNode.size.width, _imageNode.size.width * 0.5f)];
+    }
     
     _eyeCatchLabelNode                              = [DSMultilineLabelNode labelNodeWithFontNamed:kSISFFontTextSemibold];
     
@@ -213,7 +224,11 @@ enum {
             break;
         case SIIAPPackExtraLarge:
             [_eyeCatchNode runAction:[SKAction rotateByAngle:M_PI_4/2 duration:0.0f]];
-            _eyeCatchNode.position                  = CGPointMake(-1.0f * (_backgroundNode.size.width - VERTICAL_SPACING_16 - VERTICAL_SPACING_4), (_eyeCatchNode.size.width / 2.0f));
+            if (IS_IPHONE_4) {
+                _eyeCatchNode.position              = CGPointMake(-1.0f * (_backgroundNode.size.width - (VERTICAL_SPACING_16 * 2)), (_eyeCatchNode.size.width / 2.0f) - VERTICAL_SPACING_16);
+            } else {
+                _eyeCatchNode.position              = CGPointMake(-1.0f * (_backgroundNode.size.width - VERTICAL_SPACING_16 - VERTICAL_SPACING_4), (_eyeCatchNode.size.width / 2.0f));
+            }
             break;
         default:
             break;

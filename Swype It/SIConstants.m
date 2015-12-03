@@ -138,6 +138,7 @@ NSString *const kSINSUserDefaultPowerUpReadyTimeFreeze                          
 NSString *const kSINSUserDefaultNumberOfMonkeys                                 = @"numberOfMonkeys";
 NSString *const kSINSUserDefaultSoundIsAllowedBackground                        = @"backgroundSoundIsAllowed";
 NSString *const kSINSUserDefaultSoundIsAllowedFX                                = @"fXSoundIsAllowed";
+NSString *const kSINSUserDefaultUserTipShownPopupContinue                       = @"userTipShownPopupContinue";
 NSString *const kSINSUserDefaultUserTipShownPowerUpFallingMonkey                = @"userTipShownPowerUpFallingMonkey";
 NSString *const kSINSUserDefaultUserTipShownPowerUpRapidFire                    = @"userTipShownPowerUpRapidFire";
 NSString *const kSINSUserDefaultUserTipShownPowerUpTimeFreeze                   = @"userTipShownPowerUpTimeFreeze";
@@ -407,22 +408,22 @@ NSString *const kSIAssestFallingMonkeySand                                      
 NSString *const kSIAssestFallingMonkeyTarget                                    = @"redTarget";
 
 #pragma mark Game
-NSString *const kSIAssestGamePause                                              = @"pause";
-NSString *const kSIAssestGamePinchIt                                            = @"pinchIt";
-NSString *const kSIAssestGameRapidFire                                          = @"rapidFire";
-NSString *const kSIAssestGameShakeIt                                            = @"shakeIt";
-NSString *const kSIAssestGameSwypeIt                                            = @"swypeIt";
-NSString *const kSIAssestGameTapIt                                              = @"tapIt";
-NSString *const kSIAssestGameTimeFreeze                                         = @"timeFreeze";
+NSString *const kSIAssestGamePause                                              = @"pause.png";
+NSString *const kSIAssestGamePinchIt                                            = @"pinchIt.png";
+NSString *const kSIAssestGameRapidFire                                          = @"rapidFire.png";
+NSString *const kSIAssestGameShakeIt                                            = @"shakeIt.png";
+NSString *const kSIAssestGameSwypeIt                                            = @"swypeIt.png";
+NSString *const kSIAssestGameTapIt                                              = @"tapIt.png";
+NSString *const kSIAssestGameTimeFreeze                                         = @"timeFreeze.png";
 
 #pragma mark IAP
 NSString *const kSIAssestIAPBag                                                 = @"bag";
 NSString *const kSIAssestIAPBucket                                              = @"bucket";
 NSString *const kSIAssestIAPChest                                               = @"chest";
-NSString *const kSIAssestIAPCoinBackLarge                                       = @"coinBackLarge";
-NSString *const kSIAssestIAPCoinBackSmall                                       = @"coinBackSmall";
-NSString *const kSIAssestIAPCoinFrontLarge                                      = @"coinFrontLarge";
-NSString *const kSIAssestIAPCoinFrontSmall                                      = @"coinFrontSmall";
+NSString *const kSIAssestIAPCoinBackLarge                                       = @"coinBackLarge.png";
+NSString *const kSIAssestIAPCoinBackSmall                                       = @"coinBackSmall.png";
+NSString *const kSIAssestIAPCoinFrontLarge                                      = @"coinFrontLarge.png";
+NSString *const kSIAssestIAPCoinFrontSmall                                      = @"coinFrontSmall.png";
 NSString *const kSIAssestIAPPile                                                = @"pile";
 
 #pragma mark Menu
@@ -543,6 +544,8 @@ NSString *const kSITextPopupFreePrizePrize                                      
 
 #pragma mark User Tips
 NSString *const kSITextUserTipFirstFreePrize                                    = @"userTipFristFreePrize";
+NSString *const kSITextUserTipPopupContinueUseCoins                             = @"userTipPopupContinueUseCoins";
+NSString *const kSITextUserTipPopupContinueWatchAd                              = @"userTipPopupContinueWatchAd";
 NSString *const kSITextUserTipPowerUpFallingMonkey                              = @"userTipPowerUpFallingMonkey";
 NSString *const kSITextUserTipPowerUpTimeFreeze                                 = @"userTipPowerUpTimeFreeze";
 NSString *const kSITextUserTipPowerUpRapidFire                                  = @"userTipPowerUpRapidFire";

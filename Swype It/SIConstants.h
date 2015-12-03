@@ -94,7 +94,7 @@
 #define VALUE_OF_MONKEY                     10
 #define LAUNCH_DX_VECTOR_MAX                25
 #define LAUNCH_DX_VECTOR_MIX                10
-#define LAUNCH_DY_MULTIPLIER                20
+#define LAUNCH_DY_MULTIPLIER                100
 #define MONKEY_SPEED_INCREASE               10.0
 #define MONKEY_SPEED_INITIAL                250.0
 #define FALLING_MONKEY_END_DELAY            1.0
@@ -511,6 +511,7 @@ extern NSString *const kSINSUserDefaultPowerUpReadyTimeFreeze;
 extern NSString *const kSINSUserDefaultNumberOfMonkeys;
 extern NSString *const kSINSUserDefaultSoundIsAllowedBackground;
 extern NSString *const kSINSUserDefaultSoundIsAllowedFX;
+extern NSString *const kSINSUserDefaultUserTipShownPopupContinue;
 extern NSString *const kSINSUserDefaultUserTipShownPowerUpFallingMonkey;
 extern NSString *const kSINSUserDefaultUserTipShownPowerUpRapidFire;
 extern NSString *const kSINSUserDefaultUserTipShownPowerUpTimeFreeze;
@@ -815,6 +816,7 @@ extern NSString *const kSITextMenuEndGameHighScore;
 extern NSString *const kSITextMenuEndGameHighScoreNew;
 extern NSString *const kSITextMenuEndGameScore;
 extern NSString *const kSITextMenuEndGameStore;
+extern NSString *const kSITextMenuHelpText;
 extern NSString *const kSITextMenuSettingsBugReport;
 extern NSString *const kSITextMenuSettingsResetHighScore;
 extern NSString *const kSITextMenuSettingsRestorePurchases;
@@ -850,10 +852,11 @@ extern NSString *const kSITextPopupFreePrizePrize;
 
 #pragma mark User Tips
 extern NSString *const kSITextUserTipFirstFreePrize;
+extern NSString *const kSITextUserTipPopupContinueUseCoins;
+extern NSString *const kSITextUserTipPopupContinueWatchAd;
 extern NSString *const kSITextUserTipPowerUpFallingMonkey;
 extern NSString *const kSITextUserTipPowerUpTimeFreeze;
 extern NSString *const kSITextUserTipPowerUpRapidFire;
-
 
 #pragma mark -
 #pragma mark - Image Assests

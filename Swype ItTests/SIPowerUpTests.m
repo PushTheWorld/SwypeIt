@@ -138,7 +138,7 @@
     /*Test array with slow motion*/
     SIPowerUp *powerUpSlowMotion    = [[SIPowerUp alloc] initWithPowerUp:SIPowerUpTypeTimeFreeze startTime:0];
     powerUpArray                    = [NSArray arrayWithObject:powerUpSlowMotion];
-    XCTAssertEqual([SIPowerUp canStartPowerUp:SIPowerUpTypeFallingMonkeys powerUpArray:powerUpArray], YES);
+    XCTAssertEqual([SIPowerUp canStartPowerUp:SIPowerUpTypeFallingMonkeys powerUpArray:powerUpArray], NO);
     
     /*Test array with falling monkey it... does it prevent?*/
     SIPowerUp *powerUpFalingMonkey  = [[SIPowerUp alloc] initWithPowerUp:SIPowerUpTypeFallingMonkeys startTime:0];
@@ -158,7 +158,7 @@
     /*Test array with slow motion*/
     SIPowerUp *powerUpSlowMotion    = [[SIPowerUp alloc] initWithPowerUp:SIPowerUpTypeTimeFreeze startTime:0];
     powerUpArray                    = [NSArray arrayWithObject:powerUpSlowMotion];
-    XCTAssertEqual([SIPowerUp canStartPowerUp:SIPowerUpTypeRapidFire powerUpArray:powerUpArray], YES);
+    XCTAssertEqual([SIPowerUp canStartPowerUp:SIPowerUpTypeRapidFire powerUpArray:powerUpArray], NO);
     
     /*Test array with falling monkey it... does it prevent?*/
     SIPowerUp *powerUpFalingMonkey  = [[SIPowerUp alloc] initWithPowerUp:SIPowerUpTypeFallingMonkeys startTime:0];
@@ -188,16 +188,16 @@
     /*Test array with falling monkey it... does it prevent?*/
     SIPowerUp *powerUpFalingMonkey  = [[SIPowerUp alloc] initWithPowerUp:SIPowerUpTypeFallingMonkeys startTime:0];
     powerUpArray                    = [NSArray arrayWithObject:powerUpFalingMonkey];
-    XCTAssertEqual([SIPowerUp canStartPowerUp:SIPowerUpTypeTimeFreeze powerUpArray:powerUpArray], YES);
+    XCTAssertEqual([SIPowerUp canStartPowerUp:SIPowerUpTypeTimeFreeze powerUpArray:powerUpArray], NO);
     
     /*Test array with rapid fire*/
     SIPowerUp *powerUpRapidFire     = [[SIPowerUp alloc] initWithPowerUp:SIPowerUpTypeRapidFire startTime:0];
     powerUpArray                    = [NSArray arrayWithObject:powerUpRapidFire];
-    XCTAssertEqual([SIPowerUp canStartPowerUp:SIPowerUpTypeTimeFreeze powerUpArray:powerUpArray], YES);
+    XCTAssertEqual([SIPowerUp canStartPowerUp:SIPowerUpTypeTimeFreeze powerUpArray:powerUpArray], NO);
     
     /*Test array with both time freeze and rapid fire*/
     powerUpArray                    = [NSArray arrayWithObjects:powerUpRapidFire,powerUpFalingMonkey, nil];
-    XCTAssertEqual([SIPowerUp canStartPowerUp:SIPowerUpTypeTimeFreeze powerUpArray:powerUpArray], YES);
+    XCTAssertEqual([SIPowerUp canStartPowerUp:SIPowerUpTypeTimeFreeze powerUpArray:powerUpArray], NO);
 }
 
 - (void)testCanStartPowerUpNoMoney {

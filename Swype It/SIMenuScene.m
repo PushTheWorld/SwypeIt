@@ -29,6 +29,8 @@
     SIMenuNode                                      *_currentMenuNode;
     SIMenuNode                                      *_rootSceneMenuNode;
     
+    
+    
 //    SIPopupNode                                     *_centerNode;
     
 //    SKSpriteNode                                    *_backgroundNode;

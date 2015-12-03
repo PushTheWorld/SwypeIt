@@ -13,6 +13,7 @@
 #import "SIGameController.h"
 // Framework Import
 // Drop-In Class Imports (CocoaPods/GitHub/Guru)
+#import "INSpriteKit.h"
 // Category Import
 #import "UIColor+Additions.h"
 // Support/Data Class Imports
@@ -33,13 +34,13 @@ static const uint32_t SIGameSceneCategoryEdge          = 0x1 << 2; // 0000000000
     CGSize                                               _backgroundSize;
     CGSize                                               _coinSize;
     CGSize                                               _swypeItCoinsBackgroundNodeSize;
-    CGSize                                               _pauseButtonSize;
+//    CGSize                                               _pauseButtonSize;
     CGSize                                               _sceneSize;
     CGSize                                               _moveCommandLabelSize;
     
     
     
-    HLLabelButtonNode                                   *_pauseButtonNode;
+    INSKButtonNode                                      *_pauseButtonNode;
     
     HLRingNode                                          *_ringContentNode;
     
@@ -140,7 +141,7 @@ static const uint32_t SIGameSceneCategoryEdge          = 0x1 << 2; // 0000000000
     /**Configure any constants*/
     _sceneSize                                              = size;
     _backgroundSize                                         = size;
-    _pauseButtonSize                                        = CGSizeMake(size.width / 8.0f, size.width / 8.0f);
+//    _pauseButtonSize                                        = CGSizeMake(size.width / 8.0f, size.width / 8.0f);
     
     _moveScoreDuration                                      = 1.0f;
 //    SKAction *grow                                          = [SKAction scaleTo:2.0f duration:_moveScoreDuration / 2.0f];
@@ -166,11 +167,16 @@ static const uint32_t SIGameSceneCategoryEdge          = 0x1 << 2; // 0000000000
 
     _edge                                                   = [SKNode node];
     
-    _swypeItCoinsLabelNode                                  = [SKLabelNode labelNodeWithFontNamed:kSISFFontDisplayHeavy];
-    _swypeItCoinsLabelNode.fontSize                         = [SIGameController SIFontSizeParagraph];
+    _swypeItCoinsLabelNode                                  = [SKLabelNode labelNodeWithFontNamed:kSISFFontTextSemibold];
+    _swypeItCoinsLabelNode.fontSize                         = [SIGameController SIFontSizeText_x2];
     _swypeItCoinsLabelNode.text                             = @"000";//[NSString stringWithFormat:@"%d",[SIIAPUtility numberOfCoinsForUser]];
     
     _coinNode                                               = [SKSpriteNode spriteNodeWithImageNamed:kSIAssestIAPCoinFrontSmall]; //[SKSpriteNode spriteNodeWithTexture:[[SIConstants imagesAtlas] textureNamed:kSIImageCoinSmallFront] size:_coinSize];
+    
+//    if (IS_IPHONE_5) {
+//        [_coinNode runAction:[SKAction scaleTo:0.8 duration:0.0f]];
+//    }
+    
     _coinSize                                               = _coinNode.size;
     
     _swypeItCoinsBackgroundNodeSize                         = CGSizeMake(_swypeItCoinsLabelNode.frame.size.width + _coinSize.width + VERTICAL_SPACING_8, _swypeItCoinsLabelNode.frame.size.height + VERTICAL_SPACING_8);
@@ -182,11 +188,11 @@ static const uint32_t SIGameSceneCategoryEdge          = 0x1 << 2; // 0000000000
 
     _swypeItCoinsBackgroundNodeWidthMinimum                 = _swypeItCoinsBackgroundNodeSize.width;
     
-    _pauseButtonNode                                        = [[HLLabelButtonNode alloc] initWithTexture:[SKTexture textureWithImageNamed:kSIAssestGamePause]];
+    _pauseButtonNode                                        = [SIGameController SIINButtonNamed:kSIAssestGamePause];
     
     _highScoreLabelNode                                     = [SIGameController SILabelParagraph_x2:@"HIGH SCORE!"];
     
-    _scoreTotalLabel                                        = [SIGameController SILabelHeader_x3:@"0.00"];
+    _scoreTotalLabel                                        = [SIGameController SILabelHeader_x2:@"0.00"];
     
 //    _scoreMoveLabel                                         = [SIGameController SILabelSceneGameMoveScoreLabel];
 }
@@ -201,22 +207,23 @@ static const uint32_t SIGameSceneCategoryEdge          = 0x1 << 2; // 0000000000
     _edge.physicsBody.categoryBitMask                       = SIGameSceneCategoryEdge;
     _edge.physicsBody.collisionBitMask                      = SIGameSceneCategoryZero;
     
-    _coinNode.anchorPoint                                   = CGPointMake(0.0f, 0.5);
+    _coinNode.anchorPoint                                   = CGPointMake(1.0f, 1.0);
     _coinNode.physicsBody.categoryBitMask                   = SIGameSceneCategoryUIControl;
     
     _swypeItCoinsBackgroundNode.anchorPoint                 = CGPointMake(0.0f, 1.0f);
     _swypeItCoinsBackgroundNode.physicsBody.categoryBitMask = SIGameSceneCategoryUIControl;
     
     _pauseButtonNode.name                                   = kSINodeButtonPause;
-    _pauseButtonNode.size                                   = _pauseButtonSize;
+//    _pauseButtonNode.size                                   = _pauseButtonSize;
     _pauseButtonNode.physicsBody.categoryBitMask            = SIGameSceneCategoryUIControl;
-    _pauseButtonNode.userInteractionEnabled                 = YES;
+//    _pauseButtonNode.userInteractionEnabled                 = YES;
     _pauseButtonNode.zPosition                              = [SIGameController floatZPositionGameForContent:SIZPositionGameContent];
+    [_pauseButtonNode setTouchUpInsideTarget:self selector:@selector(handlePauseButtonTap)];
     
     _swypeItCoinsLabelNode.zPosition                        = [SIGameController floatZPositionGameForContent:SIZPositionGameContent];
     _swypeItCoinsLabelNode.physicsBody.categoryBitMask      = SIGameSceneCategoryUIControl;
     _swypeItCoinsLabelNode.horizontalAlignmentMode          = SKLabelHorizontalAlignmentModeLeft;
-    _swypeItCoinsLabelNode.verticalAlignmentMode            = SKLabelVerticalAlignmentModeTop;
+    _swypeItCoinsLabelNode.verticalAlignmentMode            = SKLabelVerticalAlignmentModeCenter;
     
     _highScoreLabelNode.zPosition                           = [SIGameController floatZPositionGameForContent:SIZPositionGameContent];
     _highScoreLabelNode.physicsBody.categoryBitMask         = SIGameSceneCategoryUIControl;
@@ -226,7 +233,7 @@ static const uint32_t SIGameSceneCategoryEdge          = 0x1 << 2; // 0000000000
     
     _scoreTotalLabel.zPosition                              = [SIGameController floatZPositionGameForContent:SIZPositionGameContent];
     _scoreTotalLabel.physicsBody.categoryBitMask            = SIGameSceneCategoryUIControl;
-    _scoreTotalLabel.horizontalAlignmentMode                = SKLabelHorizontalAlignmentModeLeft;
+    _scoreTotalLabel.horizontalAlignmentMode                = SKLabelHorizontalAlignmentModeCenter;
     _scoreTotalLabel.verticalAlignmentMode                  = SKLabelVerticalAlignmentModeTop;
     
     _scoreTotalLabelTopPadding                              = (_swypeItCoinsBackgroundNodeSize.height ) + VERTICAL_SPACING_8;
@@ -389,6 +396,8 @@ static const uint32_t SIGameSceneCategoryEdge          = 0x1 << 2; // 0000000000
     }
     if (progressBarFreeCoin) {
         _progressBarFreeCoin = progressBarFreeCoin;
+        [_swypeItCoinsBackgroundNode addChild:_progressBarFreeCoin];
+
 //        _progressBarFreeCoin.position   = CGPointZero;
 //        [self addChild:_progressBarFreeCoin];
     }
@@ -523,7 +532,7 @@ static const uint32_t SIGameSceneCategoryEdge          = 0x1 << 2; // 0000000000
     
     if (_scoreTotalLabel) {
         positionHidden      = CGPointMake(sceneMidX, _sceneSize.height + _scoreTotalLabel.frame.size.height + VERTICAL_SPACING_8);
-        positionVisible     = CGPointMake(VERTICAL_SPACING_8, _sceneSize.height - VERTICAL_SPACING_8); //CGPointMake(sceneMidX - (sceneMidX / 3.0f), _sceneSize.height - _scoreTotalLabelTopPadding);
+        positionVisible     = CGPointMake(sceneMidX, _sceneSize.height - VERTICAL_SPACING_8); //CGPointMake(sceneMidX - (sceneMidX / 3.0f), _sceneSize.height - _scoreTotalLabelTopPadding);
         [SIGameController SIControllerNode:_scoreTotalLabel
                                  animation:animation
                             animationStyle:SISceneContentAnimationStyleSlide
@@ -579,16 +588,19 @@ static const uint32_t SIGameSceneCategoryEdge          = 0x1 << 2; // 0000000000
     }
     
     if (_pauseButtonNode) {
-        [_pauseButtonNode removeFromParent];
-        [self addChild:_pauseButtonNode];
-        [_pauseButtonNode hlSetGestureTarget:[HLTapGestureTarget tapGestureTargetWithHandleGestureBlock:^(UIGestureRecognizer *gr) {
-            if ([_sceneDelegate respondsToSelector:@selector(controllerSceneGamePauseButtonTapped)]) {
-                [_sceneDelegate controllerSceneGamePauseButtonTapped];
-            }
-        }]];
-        [self registerDescendant:_pauseButtonNode withOptions:[NSSet setWithObject:HLSceneChildGestureTarget]];
+        
+        
+//        [_pauseButtonNode removeFromParent];
+//        [self addChild:_pauseButtonNode];
+//        
+//        [_pauseButtonNode hlSetGestureTarget:[HLTapGestureTarget tapGestureTargetWithHandleGestureBlock:^(UIGestureRecognizer *gr) {
+//            if ([_sceneDelegate respondsToSelector:@selector(controllerSceneGamePauseButtonTapped)]) {
+//                [_sceneDelegate controllerSceneGamePauseButtonTapped];
+//            }
+//        }]];
+//        [self registerDescendant:_pauseButtonNode withOptions:[NSSet setWithObject:HLSceneChildGestureTarget]];
 
-        positionVisible = CGPointMake(_sceneSize.width - VERTICAL_SPACING_16 - 2.0f - (_pauseButtonSize.width / 2.0f), _sceneSize.height - VERTICAL_SPACING_16 - (_pauseButtonSize.width / 2.0f) - _swypeItCoinsBackgroundNodeSize.height);
+        positionVisible = CGPointMake((_pauseButtonNode.size.width / 2.0f) + VERTICAL_SPACING_8, _sceneSize.height - ((_pauseButtonNode.size.height / 2.0f) + VERTICAL_SPACING_8)); //_sceneSize.height - VERTICAL_SPACING_16 - (_pauseButtonSize.width / 2.0f) - _swypeItCoinsBackgroundNodeSize.height);
         positionHidden = CGPointMake(_sceneSize.width + positionVisible.x, positionVisible.y);
         [SIGameController SIControllerNode:_pauseButtonNode
                                  animation:animation
@@ -599,9 +611,9 @@ static const uint32_t SIGameSceneCategoryEdge          = 0x1 << 2; // 0000000000
     }
     
     if (_swypeItCoinsBackgroundNode) {
-        [_swypeItCoinsBackgroundNode removeFromParent];
-        [self addChild:_swypeItCoinsBackgroundNode];
-        positionVisible = CGPointMake(_sceneSize.width - VERTICAL_SPACING_8 - (_swypeItCoinsBackgroundNodeSize.width),_sceneSize.height - VERTICAL_SPACING_8);
+//        [_swypeItCoinsBackgroundNode removeFromParent];
+//        [self addChild:_swypeItCoinsBackgroundNode];
+        positionVisible = CGPointMake(_sceneSize.width - VERTICAL_SPACING_4 - (_swypeItCoinsBackgroundNodeSize.width),_sceneSize.height - VERTICAL_SPACING_4);
         positionHidden = CGPointMake(-1.0f * _swypeItCoinsLabelNode.frame.size.width, positionVisible.y);
         [SIGameController SIControllerNode:_swypeItCoinsBackgroundNode
                                  animation:animation
@@ -613,7 +625,7 @@ static const uint32_t SIGameSceneCategoryEdge          = 0x1 << 2; // 0000000000
     }
     
     if (_highScoreLabelNode) {
-        positionVisible     = CGPointMake(_sceneSize.width / 2.0f, _pauseButtonNode.frame.origin.y);//_sceneSize.height - _scoreTotalLabelTopPadding - _moveCommandLabel.frame.size.height);
+        positionVisible     = CGPointMake(_sceneSize.width / 2.0f, _sceneSize.height - _scoreTotalLabelTopPadding - [_scoreTotalLabel calculateAccumulatedFrame].size.height);
         positionHidden      = CGPointMake(positionVisible.x, _sceneSize.height + _moveCommandNode.frame.size.height);
         [SIGameController SIControllerNode:_highScoreLabelNode
                                  animation:animation
@@ -623,23 +635,33 @@ static const uint32_t SIGameSceneCategoryEdge          = 0x1 << 2; // 0000000000
                             positionHidden:positionHidden];
     }
     
-    if (_swypeItCoinsLabelNode) {
+    
+    if (_progressBarFreeCoin) {
         if ([[NSString stringWithFormat:@"%d",[SIIAPUtility numberOfCoinsForUser]] isEqualToString:_swypeItCoinsLabelNode.text] == NO) {
             _swypeItCoinsLabelNode.text                 = [NSString stringWithFormat:@"%d",[SIIAPUtility numberOfCoinsForUser]];
-            _swypeItCoinsBackgroundNodeSize             = CGSizeMake(VERTICAL_SPACING_4 + _swypeItCoinsLabelNode.frame.size.width + VERTICAL_SPACING_4 + _coinSize.width + VERTICAL_SPACING_4, VERTICAL_SPACING_4 + _swypeItCoinsLabelNode.frame.size.height + VERTICAL_SPACING_4 + _swypeItCoinsLabelNode.fontSize + VERTICAL_SPACING_4);
+            CGSize swypeItCoinsLabelSize                = [_swypeItCoinsLabelNode calculateAccumulatedFrame].size;
+            _swypeItCoinsBackgroundNodeSize             = CGSizeMake(VERTICAL_SPACING_4 + swypeItCoinsLabelSize.width + VERTICAL_SPACING_4 + _coinSize.width + VERTICAL_SPACING_4, VERTICAL_SPACING_4 + MAX(swypeItCoinsLabelSize.height, _coinSize.height) + VERTICAL_SPACING_4 + MAX(swypeItCoinsLabelSize.height, _coinSize.height) + VERTICAL_SPACING_4);
             if (_swypeItCoinsBackgroundNodeSize.width < _swypeItCoinsBackgroundNodeWidthMinimum) {
                 _swypeItCoinsBackgroundNodeSize.width   = _swypeItCoinsBackgroundNodeWidthMinimum;
             }
             _swypeItCoinsBackgroundNode.size            = _swypeItCoinsBackgroundNodeSize;
-            _swypeItCoinsLabelNode.position             = CGPointMake(VERTICAL_SPACING_8, -VERTICAL_SPACING_4);
-            _coinNode.position                          = CGPointMake(VERTICAL_SPACING_4 + _swypeItCoinsLabelNode.frame.size.width + VERTICAL_SPACING_4, -1.0f * (_swypeItCoinsLabelNode.fontSize / 2.0f));
-            CGFloat multiplier                          = (_swypeItCoinsBackgroundNodeSize.height + VERTICAL_SPACING_8) / _pauseButtonSize.height;
-            [_pauseButtonNode runAction:[SKAction scaleTo:multiplier duration:0.0f]];
+            _swypeItCoinsBackgroundNode.texture         = [SIGame textureBackgroundColor:[SKColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:0.1]
+                                                                                    size:_swypeItCoinsBackgroundNodeSize
+                                                                            cornerRadius:4.0f
+                                                                             borderWidth:2.0f
+                                                                             borderColor:[SKColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:0.5]];
+            _coinNode.position                          = CGPointMake(_swypeItCoinsBackgroundNodeSize.width - VERTICAL_SPACING_4, -VERTICAL_SPACING_4);
+            _swypeItCoinsLabelNode.position             = CGPointMake(VERTICAL_SPACING_4, _coinNode.position.y + (-1.0f * _coinNode.size.height / 2.0f));
+            [_progressBarFreeCoin removeFromParent];
+            CGSize freeCoinProgressBarSize              = CGSizeMake(_swypeItCoinsBackgroundNodeSize.width - VERTICAL_SPACING_8,(_swypeItCoinsBackgroundNodeSize.height / 2.0f) - VERTICAL_SPACING_8);
+            _progressBarFreeCoin                        = [[TCProgressBarNode alloc] initWithSize:freeCoinProgressBarSize
+                                                                                  backgroundColor:[SKColor grayColor]
+                                                                                        fillColor:[SKColor goldColor]
+                                                                                      borderColor:[SKColor blackColor]
+                                                                                      borderWidth:2.0f cornerRadius:4.0f];
+            [_swypeItCoinsBackgroundNode addChild:_progressBarFreeCoin];
+            _progressBarFreeCoin.position               = CGPointMake((_swypeItCoinsBackgroundNodeSize.width / 2.0f), -1.0f * (VERTICAL_SPACING_4 + MAX(swypeItCoinsLabelSize.height, _coinSize.height) + (freeCoinProgressBarSize.height / 2.0f) + VERTICAL_SPACING_4));
         }
-        [_progressBarFreeCoin removeFromParent];
-        _progressBarFreeCoin                            = [[TCProgressBarNode alloc] initWithSize:CGSizeMake(_swypeItCoinsBackgroundNodeSize.width - VERTICAL_SPACING_16,_swypeItCoinsLabelNode.fontSize - VERTICAL_SPACING_8) backgroundColor:[SKColor lightGrayColor] fillColor:[SKColor goldColor] borderColor:[UIColor clearColor] borderWidth:0.0f cornerRadius:8.0f];
-        _progressBarFreeCoin.position                   = CGPointMake((_swypeItCoinsBackgroundNodeSize.width / 2.0f), -1.0f * (_swypeItCoinsBackgroundNodeSize.height / 2.0f) - (_swypeItCoinsLabelNode.fontSize / 2.0f) + VERTICAL_SPACING_4);
-        [_swypeItCoinsBackgroundNode addChild:_progressBarFreeCoin];
     }
 
     _backgroundNode.size                                = CGSizeMake(_sceneSize.width, _sceneSize.height - _adContentNode.size.height);
@@ -842,6 +864,8 @@ static const uint32_t SIGameSceneCategoryEdge          = 0x1 << 2; // 0000000000
     
     float xImpulse = (10.0f + (float)arc4random_uniform(10)) / 10.0f;
     
+    xImpulse = xImpulse * 2.0f;
+    
     //add impluse to coin
     CGVector coinVector                           = CGVectorMake(-xImpulse, -0.5);
     [coin.physicsBody applyImpulse:coinVector];
@@ -1037,7 +1061,13 @@ static const uint32_t SIGameSceneCategoryEdge          = 0x1 << 2; // 0000000000
 
 }
 
-- (void)handlePauseButtonTap:(UITapGestureRecognizer *)gestureRecognizer {
+//- (void)handlePauseButtonTap:(UITapGestureRecognizer *)gestureRecognizer {
+//    NSLog(@"Pause Button Tapped");
+//    if ([_sceneDelegate respondsToSelector:@selector(controllerSceneGamePauseButtonTapped)]) {
+//        [_sceneDelegate controllerSceneGamePauseButtonTapped];
+//    }
+//}
+- (void)handlePauseButtonTap {
     NSLog(@"Pause Button Tapped");
     if ([_sceneDelegate respondsToSelector:@selector(controllerSceneGamePauseButtonTapped)]) {
         [_sceneDelegate controllerSceneGamePauseButtonTapped];
@@ -1076,9 +1106,9 @@ static const uint32_t SIGameSceneCategoryEdge          = 0x1 << 2; // 0000000000
     // Pause Button
     if (_pauseButtonNode && _pauseButtonNode.parent && [_pauseButtonNode containsPoint:sceneLocation]) {
         if ([gestureRecognizer isKindOfClass:[UITapGestureRecognizer class]]) {
-            [gestureRecognizer removeTarget:nil action:NULL];
-            [gestureRecognizer addTarget:self action:@selector(handlePauseButtonTap:)];
-            return YES;
+//            [gestureRecognizer removeTarget:nil action:NULL];
+//            [gestureRecognizer addTarget:self action:@selector(handlePauseButtonTap:)];
+            return NO;
         }
     }
     

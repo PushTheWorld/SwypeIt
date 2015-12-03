@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "0700"
+   LastUpgradeVersion = "0710"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -68,6 +68,9 @@
             </BuildableReference>
             <SkippedTests>
                <Test
+                  Identifier = "SISingletonAchievementTests">
+               </Test>
+               <Test
                   Identifier = "Swype_ItTests">
                </Test>
             </SkippedTests>
@@ -129,7 +132,7 @@
       buildConfiguration = "Debug">
    </AnalyzeAction>
    <ArchiveAction
-      buildConfiguration = "Beta"
+      buildConfiguration = "Release"
       revealArchiveInOrganizer = "YES">
    </ArchiveAction>
 </Scheme>

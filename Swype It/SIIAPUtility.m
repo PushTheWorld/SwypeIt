@@ -106,6 +106,10 @@
         return 30 * FREE_COINS_PER_DAY;
     }
     
+    if ([numberOfConsecutiveDaysLaunched intValue] == 0) {
+        [NSException exceptionWithName:@"Free Prize Exception!" reason:@"Number of days cannot be 0!" userInfo:nil];
+    }
+    
     return [numberOfConsecutiveDaysLaunched intValue] * FREE_COINS_PER_DAY;
 }
 

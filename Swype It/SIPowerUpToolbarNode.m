@@ -83,6 +83,11 @@ enum {
     /**Preform all your alloc/init's here*/
     _coinNode                       = [SKSpriteNode spriteNodeWithImageNamed:kSIAssestIAPCoinBackSmall];
 
+//    if (IS_IPHONE_5) {
+//        [_coinNode runAction:[SKAction scaleTo:0.5 duration:0.0f]];
+//    } else if (IS_IPHONE_6) {
+//        [_coinNode runAction:[SKAction scaleTo:0.5 duration:0.0f]];
+//    }
     
     _iconNode                       = [SKSpriteNode spriteNodeWithTexture:[SIGame textureForSIPowerUp:_siPowerUp] size:_iconNodeSize];
     

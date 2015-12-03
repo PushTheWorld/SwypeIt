@@ -113,6 +113,7 @@ static BOOL isRunningTests(void) __attribute__((const));
         [[NSUserDefaults standardUserDefaults] setBool:NO                           forKey:kSINSUserDefaultUserTipShownPowerUpRapidFire];
         [[NSUserDefaults standardUserDefaults] setBool:NO                           forKey:kSINSUserDefaultUserTipShownPowerUpTimeFreeze];
         [[NSUserDefaults standardUserDefaults] setBool:NO                           forKey:kSINSUserDefaultInstabugDemoShown];
+        [[NSUserDefaults standardUserDefaults] setBool:NO                           forKey:kSINSUserDefaultUserTipShownPopupContinue];
         [[NSUserDefaults standardUserDefaults] synchronize];
     }
 }
