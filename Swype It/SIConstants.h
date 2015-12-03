@@ -608,7 +608,7 @@ extern NSString *const kSIImageButtonSoundOffBackground;
 extern NSString *const kSIImageButtonSoundOffFX;
 extern NSString *const kSIImageButtonSoundOnBackground;
 extern NSString *const kSIImageButtonSoundOnFX;
-extern NSString *const kSIImageButtonStore;
+//extern NSString *const kSIImageButtonStore;
 extern NSString *const kSIImageButtonTimeFreeze;
 extern NSString *const kSIImageCoinLargeBack;
 extern NSString *const kSIImageCoinLargeFront;

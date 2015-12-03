@@ -238,7 +238,7 @@ NSString *const kSIImageButtonSoundOffBackground                                
 NSString *const kSIImageButtonSoundOffFX                                        = @"soundFXOff";
 NSString *const kSIImageButtonSoundOnBackground                                 = @"soundBackgroundOn";
 NSString *const kSIImageButtonSoundOnFX                                         = @"soundFXOn";
-NSString *const kSIImageButtonStore                                             = @"storeButton";
+//NSString *const kSIImageButtonStore                                             = @"storeButton";
 NSString *const kSIImageButtonTimeFreeze                                        = @"clock";
 NSString *const kSIImageCoinLargeBack                                           = @"coinLargeBack";
 NSString *const kSIImageCoinLargeFront                                          = @"coinLargeFront";
@@ -403,7 +403,7 @@ NSString *const kSINodePopupRowFreeCoins                                        
 NSString *const kSIAssestFallingMonkeyBanana                                    = @"banana";
 NSString *const kSIAssestFallingMonkeyBananas                                   = @"bananas";
 NSString *const kSIAssestFallingMonkeyHead                                      = @"monkeyHead";
-NSString *const kSIAssestFallingMonkeyHeadLarge                                 = @"monkeyHeadLarge";
+NSString *const kSIAssestFallingMonkeyHeadLarge                                 = @"monkeyHeadLarge.png";
 NSString *const kSIAssestFallingMonkeySand                                      = @"sand";
 NSString *const kSIAssestFallingMonkeyTarget                                    = @"redTarget";
 
@@ -417,22 +417,22 @@ NSString *const kSIAssestGameTapIt                                              
 NSString *const kSIAssestGameTimeFreeze                                         = @"timeFreeze.png";
 
 #pragma mark IAP
-NSString *const kSIAssestIAPBag                                                 = @"bag";
-NSString *const kSIAssestIAPBucket                                              = @"bucket";
-NSString *const kSIAssestIAPChest                                               = @"chest";
+NSString *const kSIAssestIAPBag                                                 = @"bag.png";
+NSString *const kSIAssestIAPBucket                                              = @"bucket.png";
+NSString *const kSIAssestIAPChest                                               = @"chest.png";
 NSString *const kSIAssestIAPCoinBackLarge                                       = @"coinBackLarge.png";
 NSString *const kSIAssestIAPCoinBackSmall                                       = @"coinBackSmall.png";
 NSString *const kSIAssestIAPCoinFrontLarge                                      = @"coinFrontLarge.png";
 NSString *const kSIAssestIAPCoinFrontSmall                                      = @"coinFrontSmall.png";
-NSString *const kSIAssestIAPPile                                                = @"pile";
+NSString *const kSIAssestIAPPile                                                = @"pile.png";
 
 #pragma mark Menu
 NSString *const kSIAssestMenuButtonBack                                         = @"menuBackButton";
-NSString *const kSIAssestMenuButtonOneHandModeOff                               = @"oneHandModeOff";
-NSString *const kSIAssestMenuButtonOneHandModeOn                                = @"oneHandModeOn";
+NSString *const kSIAssestMenuButtonOneHandModeOff                               = @"oneHandModeOff.png";
+NSString *const kSIAssestMenuButtonOneHandModeOn                                = @"oneHandModeOn.png";
 NSString *const kSIAssestMenuButtonShareFacebook                                = @"shareFacebook";
 NSString *const kSIAssestMenuButtonShareTwitter                                 = @"shareTwitter";
-NSString *const kSIAssestMenuButtonShop                                         = @"shopButton";
+NSString *const kSIAssestMenuButtonShop                                         = @"storeButton.png";
 NSString *const kSIAssestMenuToolbarAchievements                                = @"achievements";
 NSString *const kSIAssestMenuToolbarAdFree                                      = @"adFree";
 NSString *const kSIAssestMenuToolbarHelp                                        = @"help";
@@ -440,10 +440,10 @@ NSString *const kSIAssestMenuToolbarLeaderboard                                 
 NSString *const kSIAssestMenuToolbarSettings                                    = @"settings";
 
 #pragma mark Popups
-NSString *const kSIAssestPopupButtonClaim                                       = @"claimButton";
+NSString *const kSIAssestPopupButtonClaim                                       = @"claimButton.png";
 NSString *const kSIAssestPopupButtonDismissNormal                               = @"dismissButtonNormal";
 NSString *const kSIAssestPopupButtonEndGame                                     = @"popupEndGameButton";
-NSString *const kSIAssestPopupButtonShare                                       = @"shareButton";
+NSString *const kSIAssestPopupButtonShare                                       = @"shareButton.png";
 NSString *const kSIAssestPopupButtonShop                                        = @"shopButtonForGameOverPopup";
 NSString *const kSIAssestPopupButtonUseCoins                                    = @"useCoinsButton";
 NSString *const kSIAssestPopupButtonWatchAd                                     = @"watchAdButton";

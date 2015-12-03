@@ -99,7 +99,7 @@
     if (!numberOfConsecutiveDaysLaunched) {
         [[NSUserDefaults standardUserDefaults] setInteger:1 forKey:kSINSUserDefaultNumberConsecutiveAppLaunches];
         [[NSUserDefaults standardUserDefaults] synchronize];
-        return 1;
+        return 1 * FREE_COINS_PER_DAY;
     }
     
     if ([numberOfConsecutiveDaysLaunched intValue] > 30) {
@@ -107,7 +107,9 @@
     }
     
     if ([numberOfConsecutiveDaysLaunched intValue] == 0) {
-        [NSException exceptionWithName:@"Free Prize Exception!" reason:@"Number of days cannot be 0!" userInfo:nil];
+        [[NSUserDefaults standardUserDefaults] setInteger:1 forKey:kSINSUserDefaultNumberConsecutiveAppLaunches];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+        return 1 * FREE_COINS_PER_DAY;
     }
     
     return [numberOfConsecutiveDaysLaunched intValue] * FREE_COINS_PER_DAY;

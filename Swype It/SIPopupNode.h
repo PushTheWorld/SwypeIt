@@ -101,7 +101,7 @@
 /**
  The over lay node background node
  */
-@property (nonatomic, strong) SKSpriteNode *overlayNode;
+//@property (nonatomic, strong) SKSpriteNode *overlayNode;
 
 /**
  The corner radius of the button.

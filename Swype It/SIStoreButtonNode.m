@@ -114,12 +114,12 @@ enum {
         [_imageNode runAction:[SKAction scaleTo:0.9f duration:0.0f]];
     }
     
-    if (IS_IPHONE_4) {
-        _eyeCatchNode                               = [SKSpriteNode spriteNodeWithColor:[UIColor redColor] size:CGSizeMake(_imageNode.size.width, _imageNode.size.width * 0.4f)];
-
-    } else {
-        _eyeCatchNode                               = [SKSpriteNode spriteNodeWithColor:[UIColor redColor] size:CGSizeMake(_imageNode.size.width, _imageNode.size.width * 0.5f)];
-    }
+//    if (IS_IPHONE_4) {
+//        _eyeCatchNode                               = [SKSpriteNode spriteNodeWithColor:[UIColor redColor] size:CGSizeMake(_imageNode.size.width, _imageNode.size.width * 0.4f)];
+//
+//    } else {
+//        _eyeCatchNode                               = [SKSpriteNode spriteNodeWithColor:[UIColor redColor] size:CGSizeMake(_imageNode.size.width, _imageNode.size.width * 0.5f)];
+//    }
     
     _eyeCatchLabelNode                              = [DSMultilineLabelNode labelNodeWithFontNamed:kSISFFontTextSemibold];
     
@@ -164,6 +164,13 @@ enum {
     _priceLabelNode.horizontalAlignmentMode         = SKLabelHorizontalAlignmentModeCenter;
     _priceLabelNode.zPosition                       = (float)SIStoreButtonNodeZPositionLayerLabel / (float)SIStoreButtonNodeZPositionLayerBackground;
     
+
+    _eyeCatchLabelNode.paragraphWidth               = _imageNode.size.width - VERTICAL_SPACING_8;
+    _eyeCatchLabelNode.fontColor                    = [SKColor whiteColor];
+    _eyeCatchLabelNode.fontSize                     = [SIGameController SIFontSizeText];
+    _eyeCatchLabelNode.verticalAlignmentMode        = SKLabelVerticalAlignmentModeCenter;
+    _eyeCatchLabelNode.horizontalAlignmentMode      = SKLabelHorizontalAlignmentModeCenter;
+    
     switch (_pack) {
         case SIIAPPackMedium:
             _eyeCatchLabelNode.text                 = NSLocalizedString(kSITextIAPMostPopular, nil);
@@ -174,21 +181,20 @@ enum {
         case SIIAPPackLarge:
         case SIIAPPackSmall:
         default:
-            _eyeCatchLabelNode.hidden               = YES;
-            _eyeCatchNode.hidden                    = YES;
+            _eyeCatchLabelNode.text                 = @"";
             break;
     }
-    _eyeCatchLabelNode.paragraphWidth               = _imageNode.size.width - VERTICAL_SPACING_8;
-    _eyeCatchLabelNode.fontColor                    = [SKColor whiteColor];
-    _eyeCatchLabelNode.fontSize                     = [SIGameController SIFontSizeText];
-    _eyeCatchLabelNode.verticalAlignmentMode        = SKLabelVerticalAlignmentModeCenter;
-    _eyeCatchLabelNode.horizontalAlignmentMode      = SKLabelHorizontalAlignmentModeCenter;
+
+    if (_pack == SIIAPPackMedium || _pack == SIIAPPackExtraLarge) {
+        _eyeCatchNode = [SKSpriteNode spriteNodeWithTexture:[SIGame textureBackgroundColor:[UIColor redColor]
+                                                                                      size:CGSizeMake(_imageNode.size.width,_eyeCatchLabelNode.size.height + VERTICAL_SPACING_8)
+                                                                              cornerRadius:4.0f
+                                                                               borderWidth:0.0f
+                                                                               borderColor:[SKColor clearColor]]];
+        [_backgroundNode addChild:_eyeCatchNode];
+        [_eyeCatchNode addChild:_eyeCatchLabelNode];
+    }
     
-    _eyeCatchNode.texture                           = [SIGame textureBackgroundColor:[UIColor redColor]
-                                                                        size:CGSizeMake(_imageNode.size.width,_eyeCatchLabelNode.size.height + VERTICAL_SPACING_8)
-                                                                cornerRadius:4.0f
-                                                                 borderWidth:0.0f
-                                                                 borderColor:[SKColor clearColor]];
     _eyeCatchNode.zPosition                         = (float)SIStoreButtonNodeZPositionLayerLabel / (float)SIStoreButtonNodeZPositionLayerBackground;
 
 
@@ -199,10 +205,8 @@ enum {
     CGFloat xLabels                                 = -1.1f * (_backgroundNode.frame.size.width / 3.0f);
     _backgroundNode.position                        = CGPointMake(size.width / 2.0f, size.height / 2.0f);
     [self addChild:_backgroundNode];
-    
+
     [_backgroundNode addChild:_imageNode];
-    [_backgroundNode addChild:_eyeCatchNode];
-    [_eyeCatchNode addChild:_eyeCatchLabelNode];
     [_backgroundNode addChild:_valueLabelNode];
     [_backgroundNode addChild:_titleLabelNode];
     [_backgroundNode addChild:_priceLabelNode];
@@ -231,8 +235,11 @@ enum {
             }
             break;
         default:
+//            _eyeCatchLabelNode.hidden               = YES;
+//            _eyeCatchNode.hidden                    = YES;
             break;
     }
+    
     
 }
 

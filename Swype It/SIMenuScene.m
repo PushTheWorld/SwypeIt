@@ -50,7 +50,7 @@
         /**Do any setup before self.view is loaded*/
         [self initSetup:size];
         _sceneSize                                  = size;
-        self.gestureTargetHitTestMode = HLSceneGestureTargetHitTestModeDeepestThenParent;
+        self.gestureTargetHitTestMode = HLSceneGestureTargetHitTestModeZPositionThenParent;
 //        self.backgroundColor = [SKColor colorWithRed:0.22f green:0.22f blue:0.22f alpha:0.5f];
         
 

@@ -157,11 +157,14 @@ enum {
     _backgroundNode.zPosition       = SIPopupNodeZPositionLayerBackground * self.zPositionScale / SIPopupNodeZPositionLayerCount;
     [self addChild:_backgroundNode];
     
-    _overlayNode                    = [SKSpriteNode spriteNodeWithColor:[SKColor whiteColor] size:CGSizeMake(size.width - VERTICAL_SPACING_16, size.height - VERTICAL_SPACING_16)];
-    _overlayNode.anchorPoint        = CGPointMake(0.5f, 0.5f);
-    _overlayNode.alpha              = 0.0f;
-    _overlayNode.zPosition          = SIPopupNodeZPositionLayerOverlay * self.zPositionScale / SIPopupNodeZPositionLayerCount;
-    [self addChild:_overlayNode];
+//    _overlayNode                    = [SKSpriteNode spriteNodeWithColor:[SKColor grayColor] size:CGSizeMake(size.width - VERTICAL_SPACING_16, size.height - VERTICAL_SPACING_16)];
+//    _overlayNode.anchorPoint        = CGPointMake(0.5f, 0.5f);
+//    _overlayNode.alpha              = 0.0f;
+//    _overlayNode.zPosition          = SIPopupNodeZPositionLayerOverlay * self.zPositionScale / SIPopupNodeZPositionLayerCount;
+//    [_overlayNode runAction:[SKAction fadeOutWithDuration:0.0f]];
+//    _overlayNode.userInteractionEnabled = YES;
+//    _overlayNode.hidden = YES;
+//    [self addChild:_overlayNode];
     
     _titleLabelNode                 = [SKLabelNode labelNodeWithFontNamed:kSISFFontDisplayHeavy];
     _titleLabelNode.zPosition       = SIPopupNodeZPositionLayerContent * self.zPositionScale / SIPopupNodeZPositionLayerCount;
@@ -456,7 +459,7 @@ enum {
         return;
     }
     _backgroundNode.size                = CGSizeMake(_sceneSize.width - _xPadding, _sceneSize.height - _yPadding);
-    _overlayNode.size                   = CGSizeMake(_sceneSize.width - _xPadding, _sceneSize.height - _yPadding);
+//    _overlayNode.size                   = CGSizeMake(_sceneSize.width - _xPadding, _sceneSize.height - _yPadding);
 
     if (_titleContentNode) {
         /*If someone supplied their own node*/
@@ -505,7 +508,7 @@ enum {
     CGFloat zPositionLayerIncrement     = self.zPositionScale / (float)SIPopupNodeZPositionLayerCount;
     
     _backgroundNode.zPosition               = SIPopupNodeZPositionLayerBackground * zPositionLayerIncrement;
-    _overlayNode.zPosition                  = SIPopupNodeZPositionLayerOverlay * zPositionLayerIncrement;
+//    _overlayNode.zPosition                  = SIPopupNodeZPositionLayerOverlay * zPositionLayerIncrement;
     
     if (_centerNode) {
         _centerNode.zPosition               = SIZPositionPopupContentTop * zPositionLayerIncrement;
@@ -572,6 +575,10 @@ enum {
     [node.physicsBody applyImpulse:moveScoreVector];
     
 
+}
+
+- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
+    NSLog(@"HEY");
 }
 
 @end
