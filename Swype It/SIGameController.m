@@ -1067,7 +1067,7 @@
     
     
     _sceneMenuPopupFreePrizeCountLabel.text     = [NSString stringWithFormat:@"%d",INITIAL_FREE_PRIZE_AMOUNT];
-    _sceneMenuPopupFreePrize.dismissButtonVisible   = YES;
+//    _sceneMenuPopupFreePrize.dismissButtonVisible   = YES;
     
 
     
@@ -1143,7 +1143,7 @@
     
     popupNode.delegate = self;
     
-    popupNode.dismissButtonVisible = YES;
+//    popupNode.dismissButtonVisible = YES;
     
 //    popupNode.lightNodeEdge.enabled = YES;
     
@@ -2674,6 +2674,8 @@
         _sceneGame = [self loadGameScene];
     }
     
+    _sceneGame.blurScreen = NO;
+    
     if (_currentScene != _sceneGame) {
         [self presentScene:SIGameControllerSceneGame];
     }
@@ -2741,6 +2743,8 @@
     } else {
         //else notCorrectMove
 //        _sceneGame.moveCommandNode = nil;
+        
+        _sceneGame.blurScreen = YES;
         
         [SIGame playSound:kSISoundFXGameOver];
         /*Vibrate the phone*/
@@ -2838,6 +2842,7 @@
     BOOL success = YES;
     switch (paymentMethod) {
         case SISceneGamePopupContinueMenuItemAd:
+            _sceneGame.blurScreen                       = NO;
             _interstitialAdPresentationIsLive           = YES;
             _numberOfAdsToWatch = [SIGame adCountForNumberOfTimesContinued:_gameModel.game.currentNumberOfTimesContinued];
             [self interstitialAdPresent];
@@ -3489,9 +3494,9 @@
         [[NSUserDefaults standardUserDefaults] synchronize];
     }
     
-    return [premiumUserNumber boolValue];
+//    return [premiumUserNumber boolValue];
     // TODO: REMOVE THIS LINE HOLY SHIT REMOVE THIS LINE
-//    return true;
+    return true;
 }
 
 #pragma mark SKLabelNodes
