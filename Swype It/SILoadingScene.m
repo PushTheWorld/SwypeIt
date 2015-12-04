@@ -29,6 +29,9 @@
 #pragma mark - Scene Life Cycle
 - (void)didMoveToView:(SKView *)view {
     NSLog(@"Loading Scene Moved To View!");
+    if ([_sceneDelegate respondsToSelector:@selector(loadingSceneDidLoad)]) {
+        [_sceneDelegate loadingSceneDidLoad];
+    }
 }
 - (instancetype)initWithSize:(CGSize)size {
     if (self = [super initWithSize:size]) {
@@ -79,6 +82,7 @@
     [self addChild:_progressBarLoading];
     
 }
+
 - (void)sceneLoadingSetProgressPercent:(float)percent {
     if (percent > 1.0) {
         _progressBarLoading.progress = 1.0f;

@@ -52,6 +52,8 @@ static const uint32_t SIGameSceneCategoryEdge          = 0x1 << 2; // 0000000000
     
     SKAction                                            *_actionOldMoveScore;
     SKAction                                            *_actionNewMoveScore;
+    SKAction                                            *_blurScreenFadeIn;
+    SKAction                                            *_blurScreenFadeOut;
     SKAction                                            *_fadeActionSequenceForNewLabel;
     SKAction                                            *_moveNodeRemovalAction;
     
@@ -65,6 +67,7 @@ static const uint32_t SIGameSceneCategoryEdge          = 0x1 << 2; // 0000000000
     SKSpriteNode                                        *_swypeItCoinsBackgroundNode;
     SKSpriteNode                                        *_horizontalDividerPowerUpToolbarBottom;
     SKSpriteNode                                        *_horizontalDividerPowerUpToolbarTop;
+    SKSpriteNode                                        *_blurScreenOverlayNode;
     
 }
 
@@ -118,6 +121,10 @@ static const uint32_t SIGameSceneCategoryEdge          = 0x1 << 2; // 0000000000
                                          [SIGameController SIGestureSwypeLeft],
                                          [SIGameController SIGestureSwypeRight],
                                          [SIGameController SIGestureSwypeUp]]];
+    
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+        _blurScreenOverlayNode = [SKSpriteNode spriteNodeWithTexture:[SKTexture textureWithImage:[SIGame getBluredScreenshot:self.view]]];
+    });
 }
 - (void)willMoveFromView:(nonnull SKView *)view {
     /**Do any breakdown prior to the view being unloaded*/
@@ -134,7 +141,7 @@ static const uint32_t SIGameSceneCategoryEdge          = 0x1 << 2; // 0000000000
 }
 - (void)viewSetup:(SKView *)view {
     /**Preform setup post-view load*/
-    [self layoutScene];
+//    [self layoutScene];
 }
 
 
@@ -159,6 +166,10 @@ static const uint32_t SIGameSceneCategoryEdge          = 0x1 << 2; // 0000000000
     
     _moveNodeRemovalAction                                  = [SKAction sequence:@[[SKAction waitForDuration:MOVE_COMMAND_LAUNCH_DURATION],[SKAction removeFromParent]]];
 
+    
+    _blurScreenFadeIn                                       = [SKAction fadeAlphaTo:1.0f duration:SCENE_TRANSITION_DURATION_FAST];
+    
+    _blurScreenFadeOut                                      = [SKAction sequence:@[[SKAction fadeAlphaTo:0.0f duration:SCENE_TRANSITION_DURATION_FAST],[SKAction removeFromParent]]];
     
 }
 - (void)createControlsWithSize:(CGSize)size {
@@ -253,6 +264,10 @@ static const uint32_t SIGameSceneCategoryEdge          = 0x1 << 2; // 0000000000
     
     _scoreTotalLabelTopPadding                              = (_swypeItCoinsBackgroundNodeSize.height ) + VERTICAL_SPACING_8;
     
+    _blurScreenOverlayNode.alpha                            = 0.0f;
+    _blurScreenOverlayNode.zPosition                        = [SIGameController floatZPositionGameForContent:SIZPositionGameOverlayMin];
+    _blurScreenOverlayNode.position                         = CGPointMake(_sceneSize.width / 2.0f, _sceneSize.height / 2.0f);
+    
 }
 
 - (void)layoutControlsWithSize:(CGSize)size {
@@ -307,15 +322,36 @@ static const uint32_t SIGameSceneCategoryEdge          = 0x1 << 2; // 0000000000
  When blur screen is set true at run time it updates and adds it
  */
 - (void)setBlurScreen:(BOOL)blurScreen {
-    if (_overlayContentNode) {
-        [_overlayContentNode removeFromParent];
-    }
+    
     if (blurScreen) {
-        _overlayContentNode                                 = [SKSpriteNode spriteNodeWithTexture:[SKTexture textureWithImage:[SIGame getBluredScreenshot:self.view]]];
-        _overlayContentNode.alpha                           = 0.0f;
-        [self addChild:_overlayContentNode];
+        if (_blurScreenOverlayNode.parent) { //already have a blur screen up
+            //do nothing
+        } else {
+            _blurScreenOverlayNode.position     = CGPointMake(_sceneSize.width / 2.0f, _sceneSize.height / 2.0f);
+            if (_blurScreenOverlayNode) {
+                [self addChild:_blurScreenOverlayNode];
+                [_blurScreenOverlayNode runAction:_blurScreenFadeIn];
+            }
+        }
+    } else {
+        //do we need to get rid of a blur screen?
+        if (_blurScreenOverlayNode.parent) {
+            [_blurScreenOverlayNode runAction:_blurScreenFadeOut];
+            
+        } else {
+            //do nothing
+        }
     }
-    [self layoutXYZAnimation:SISceneContentAnimationNone];
+//    
+//    if (_overlayContentNode.parent) {
+//        [_overlayContentNode removeFromParent];
+//    }
+//    if (blurScreen) {
+//        _overlayContentNode                                 = _blurScreenOverlayNode;
+//        _overlayContentNode.alpha                           = 0.0f;
+//        [self addChild:_overlayContentNode];
+//    }
+//    [self layoutXYZAnimation:SISceneContentAnimationNone];
 }
 
 /**
@@ -537,10 +573,6 @@ static const uint32_t SIGameSceneCategoryEdge          = 0x1 << 2; // 0000000000
     CGPoint positionHidden = CGPointZero;
     CGPoint positionVisible = CGPointZero;
     
-    if (_overlayContentNode) {
-        _overlayContentNode.position                = sceneMidPoint;
-        [_overlayContentNode runAction:[SKAction fadeAlphaTo:1 duration:_blurScreenDuration]];
-    }
     
     if (_scoreTotalLabel) {
         positionHidden      = CGPointMake(sceneMidX, _sceneSize.height + _scoreTotalLabel.frame.size.height + VERTICAL_SPACING_8);
@@ -725,10 +757,11 @@ static const uint32_t SIGameSceneCategoryEdge          = 0x1 << 2; // 0000000000
                   zPositionMin:[SIGameController floatZPositionGameForContent:SIZPositionGameModalMin]
                   zPositionMax:[SIGameController floatZPositionGameForContent:SIZPositionGameModalMax]];
     }
-    
-    if (_overlayContentNode) {
-        _overlayContentNode.zPosition                       = [SIGameController floatZPositionGameForContent:SIZPositionGameOverlayMin];
-    }
+//    
+//    if (_overlayContentNode) {
+//        [_overlayContentNode runAction:[SKAction fadeAlphaTo:1 duration:_blurScreenDuration]];
+//        _overlayContentNode.zPosition                       = [SIGameController floatZPositionGameForContent:SIZPositionGameOverlayMin];
+//    }
     
     if (_scoreTotalLabel) {
         _scoreTotalLabel.zPosition                          = [SIGameController floatZPositionGameForContent:SIZPositionGameContent];
@@ -915,11 +948,10 @@ static const uint32_t SIGameSceneCategoryEdge          = 0x1 << 2; // 0000000000
     xImpulse = xImpulse * 2.0f;
     
     //add impluse to coin
-    CGVector coinVector                           = CGVectorMake(-xImpulse, -0.5);
+    CGVector coinVector                           = CGVectorMake(-xImpulse, 20);
     [coin.physicsBody applyImpulse:coinVector];
 
     
-//    SKAction *enlargeSize = [SKAction ]
 }
 
 /**

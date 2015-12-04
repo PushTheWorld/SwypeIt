@@ -103,3 +103,10 @@
 "gamePowerUpRapidFire"              = "TAP-TAP-TAP-TAP";
 "gamePowerUpTimeFreeze"             = "GO!!!";
 
+
+/**
+ Huds
+ */
+"hudSorry"                          = "Sorry!";
+"hudMustHaveInternet"               = "You need internet!";
+

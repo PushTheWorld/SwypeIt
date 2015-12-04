@@ -1,19 +1,28 @@
 {
   "images" : [
     {
-      "idiom" : "universal",
-      "filename" : "freePrize.png",
+      "idiom" : "iphone",
       "scale" : "1x"
     },
     {
-      "idiom" : "universal",
+      "idiom" : "iphone",
       "filename" : "freePrize@2X.png",
       "scale" : "2x"
     },
     {
-      "idiom" : "universal",
+      "idiom" : "iphone",
       "filename" : "freePrize@3X.png",
       "scale" : "3x"
+    },
+    {
+      "idiom" : "ipad",
+      "filename" : "freePrize@2X-1.png",
+      "scale" : "1x"
+    },
+    {
+      "idiom" : "ipad",
+      "filename" : "freePrize@3X-1.png",
+      "scale" : "2x"
     }
   ],
   "info" : {

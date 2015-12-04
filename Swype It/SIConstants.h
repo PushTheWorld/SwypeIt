@@ -812,6 +812,10 @@ extern NSString *const kSITextGamePowerUpFallingMonkey;
 extern NSString *const kSITextGamePowerUpRapidFire;
 extern NSString *const kSITextGamePowerUpTimeFreeze;
 
+#pragma mark Hud
+extern NSString *const kSITextHudSorry;
+extern NSString *const kSITextHudInternetMustHave;
+
 #pragma mark IAP
 extern NSString *const kSITextIAPBestDeal;
 extern NSString *const kSITextIAPMostPopular;

@@ -48,7 +48,7 @@
 #import "SIIAPUtility.h"
 // Other Imports
 
-@interface SIGameController () <ADBannerViewDelegate, ADInterstitialAdDelegate, GKGameCenterControllerDelegate, SIGameSceneDelegate, SISingletonAchievementDelegate, SIMenuSceneDelegate, SIFallingMonkeySceneDelegate, HLMenuNodeDelegate, HLGridNodeDelegate, HLRingNodeDelegate, HLToolbarNodeDelegate, SIPopupNodeDelegate, SIAdBannerNodeDelegate, SIGameModelDelegate, SIMenuNodeDelegate, INSKButtonNodeDelegate, SIPopTipDelegate>
+@interface SIGameController () <ADBannerViewDelegate, ADInterstitialAdDelegate, GKGameCenterControllerDelegate, SIGameSceneDelegate, SISingletonAchievementDelegate, SIMenuSceneDelegate, SIFallingMonkeySceneDelegate, HLMenuNodeDelegate, HLGridNodeDelegate, HLRingNodeDelegate, HLToolbarNodeDelegate, SIPopupNodeDelegate, SIAdBannerNodeDelegate, SIGameModelDelegate, SIMenuNodeDelegate, INSKButtonNodeDelegate, SIPopTipDelegate, SILoadingSceneDelegate>
 
 @property (strong, nonatomic) UIButton          *closeButton;
 @end
@@ -190,6 +190,7 @@
     SKSpriteNode                            *_sceneGamePopupGameOverEndNode;
     SKSpriteNode                            *_sceneGamePopupGameOverBottomNode;
     
+    SKTransition                            *_transitionDefault;
     
     TKStateMachine                          *_timerStateMachine;
     
@@ -247,6 +248,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    /*This is mission critical*/
+    _sceneSize = self.view.frame.size;
     /*
      LOAD REAL GAME!
      */
@@ -308,7 +311,6 @@
 - (void)setupUserInterface {
     [self createConstants];
     [self setupControls];
-    [self gameFireEvent:kSITKStateMachineEventGameLoad userInfo:nil];
 
 //    [self mainSceneInitializationMethod];
 }
@@ -316,7 +318,6 @@
     _isPurchaseInProgress               = NO;
     _highScoreShowing                   = NO;
     _loadComplete                       = NO;
-    _sceneSize                          = self.view.frame.size;
     _interstitialAdPresentationIsLive   = NO;
     _loadingPointsCurrent               = 0;
     _verbose                            = YES;
@@ -329,9 +330,7 @@
     _sceneGameToolbarNodeSize           = CGSizeMake(toolBarNodeWidth, toolBarNodeWidth);
     _sceneGameToolbarSize               = CGSizeMake(_sceneSize.width, _sceneGameToolbarNodeSize.height + VERTICAL_SPACING_8);
 
-    _overlayNode                        = [SKSpriteNode spriteNodeWithColor:[SKColor whiteColor] size:CGSizeMake(_sceneSize.width, _sceneSize.height)];
-    _overlayNode.zPosition              = [SIGameController floatZPositionGameForContent:SIZPositionGameOverlayMax] + 1;
-    _overlayNode.position               = CGPointMake(_sceneSize.width / 2.0f, _sceneSize.height / 2.0f);
+
 }
 
 - (void)setupControls {
@@ -345,10 +344,13 @@
     _gameModel                                          = [[SIGameModel alloc] init];
     _gameModel.delegate                                 = self;
     
+    
+    [self gameFireEvent:kSITKStateMachineEventGameLoad userInfo:nil];
+
     _timerStateMachine                                  = [self createTimeStateMachine];
     
     /*Start your singletons*/
-    [SISingletonAchievement singleton].delegate         = self;;
+//    [SISingletonAchievement singleton].delegate         = self;;
     
     /*Start Sounds*/
     [SIGame initalizeSoundManager];
@@ -362,6 +364,12 @@
         _adBannerNode.delegate                              = self;
     }
     
+    _overlayNode                        = [SKSpriteNode spriteNodeWithColor:[SKColor whiteColor] size:CGSizeMake(_sceneSize.width, _sceneSize.height)];
+    _overlayNode.zPosition              = [SIGameController floatZPositionGameForContent:SIZPositionGameOverlayMax] + 1;
+    _overlayNode.position               = CGPointMake(_sceneSize.width / 2.0f, _sceneSize.height / 2.0f);
+    
+    _transitionDefault                  = [SKTransition revealWithDirection:SKTransitionDirectionLeft duration:1.0f];
+    
 }
 
 #pragma mark -
@@ -374,7 +382,7 @@
     switch (sceneType) {
         // LOADING
         case SIGameControllerSceneLoading:
-            _currentScene = [SIGameController viewController:[self fastSKView] transisitionToSKScene:_sceneLoading duration:SCENE_TRANSITION_DURATION_FAST];
+            _currentScene = [SIGameController viewController:[self fastSKView] transisitionToSKScene:_sceneLoading duration:SCENE_TRANSITION_DURATION_FAST withColor:[SKColor SIColorPrimary]];
             break;
             
         // FALLING MONKEY
@@ -398,7 +406,7 @@
                     _currentScene = [SIGameController viewController:[self fastSKView] transisitionToSKScene:_sceneGame duration:SCENE_TRANSITION_DURATION_NOW];
                     break;
                 default:
-                    _currentScene = [SIGameController viewController:[self fastSKView] transisitionToSKScene:_sceneGame duration:SCENE_TRANSITION_DURATION_NOW];
+                    _currentScene = [SIGameController viewController:[self fastSKView] transisitionToSKScene:_sceneGame withTransition:_transitionDefault]; //[SIGameController viewController:[self fastSKView] transisitionToSKScene:_sceneGame duration:SCENE_TRANSITION_DURATION_FAST];
                     break;
             }
             break;
@@ -579,6 +587,8 @@
     
     _motionManager                                          = [[CMMotionManager alloc] init];
     
+    [sceneGame layoutScene];
+    
     return sceneGame;
 }
 
@@ -586,23 +596,24 @@
     NSDate *startDate                                       = [NSDate date];
     
     SIMenuScene *menuScene                                  = [[SIMenuScene alloc] initWithSize:_sceneSize];
-    
+
     menuScene.scaleMode                                     = SKSceneScaleModeAspectFill;
     menuScene.sceneDelegate                                 = self;
+
 
     _sceneMenuPopupFreePrize                                = [self initalizePopupFreePrize];
 
     
-    menuScene.adBannerNode                                  = _adBannerNode;
+//    menuScene.adBannerNode                                  = _adBannerNode;
 
     CGSize menuNodeSize                                     = CGSizeMake(_sceneSize.width, _sceneSize.height - _adBannerNode.size.height);
     
     _menuNodeStart                                          = [self SIMenuNodeStartSize:menuNodeSize];
 
     _menuNodeStore                                          = [self SIMenuNodeStoreSize:menuNodeSize];
-    
+
     _menuNodeSettings                                       = [self SIMenuNodeSettingsSize:menuNodeSize];
-    
+
     _menuNodeHelp                                           = [self SIMenuNodeHelpSceneSize:menuNodeSize];
     
     if (_verbose) {
@@ -865,10 +876,19 @@
 }
 - (void)hudWillShowWithTitle:(NSString *)title info:(NSString *)info dimBackground:(BOOL)dimBackground animate:(BOOL)animate {
     MBProgressHUD *hud                          = [MBProgressHUD showHUDAddedTo:self.view animated:animate];
-    hud.detailsLabelText                        = title;
+    hud.detailsLabelText                        = info;
     hud.dimBackground                           = dimBackground;
-    hud.labelText                               = info;
+    hud.labelText                               = title;
     hud.mode                                    = MBProgressHUDModeIndeterminate;
+    _hud                                        = hud;
+}
+
+- (void)hudTextWillShowWithTitle:(NSString *)title info:(NSString *)info dimBackground:(BOOL)dimBackground animate:(BOOL)animate {
+    MBProgressHUD *hud                          = [MBProgressHUD showHUDAddedTo:self.view animated:animate];
+    hud.detailsLabelText                        = info;
+    hud.dimBackground                           = dimBackground;
+    hud.labelText                               = title;
+    hud.mode                                    = MBProgressHUDModeText;
     _hud                                        = hud;
 }
 - (void)hudWillHide:(NSNotification *)notification {
@@ -925,6 +945,13 @@
 
 - (void)hudFlashDuration:(float)duration title:(NSString *)title info:(NSString *)info {
     [self hudWillShowWithTitle:title info:info dimBackground:YES animate:YES];
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(duration * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [_hud hide:YES];
+    });
+}
+
+- (void)hudTextFlashDuration:(float)duration title:(NSString *)title info:(NSString *)info {
+    [self hudTextWillShowWithTitle:title info:info dimBackground:YES animate:YES];
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(duration * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         [_hud hide:YES];
     });
@@ -1715,9 +1742,6 @@
 }
 
 - (void)sceneGamePopupGameOverShopButton {
-    
-    
-    /*Fade the popup out, run block then fade back in...*/
     if (_overlayNode.parent) {
         [_overlayNode removeFromParent];
     }
@@ -1728,12 +1752,12 @@
         [_sceneGamePopupGameOver.topNode runAction:_fadeOut];
         [_sceneGamePopupGameOver.centerNode runAction:_fadeOut];
         [_sceneGamePopupGameOver.bottomNode runAction:_fadeOut];
-
+        
     }]]], [SKAction runBlock:^{
         _sceneGamePopupSIMenuNodeStore.delegate                         = self;
         
         [_sceneGamePopupSIMenuNodeStore.backButtonNode setTouchUpInsideTarget:self selector:@selector(sceneGamePopupGameOverBackButton)];
-
+        
         [_sceneGamePopupGameOver updateTopNode:nil
                                     centerNode:_sceneGamePopupSIMenuNodeStore
                             centerNodePosition:[SIGameController SIMenuNodeStorePopupCenterNodePoint]
@@ -1743,15 +1767,14 @@
                           updateBackgroundSize:NO
                                 backgroundSize:CGSizeZero];
         
-
-
+        
+        
     }],[SKAction group:@[_fadeAlphaOut,[SKAction runBlock:^{
         [_sceneGamePopupGameOver.titleContentNode runAction:_fadeIn];
         [_sceneGamePopupGameOver.centerNode runAction:_fadeIn];
-
+        
     }]]],[SKAction removeFromParent]]]];
 
-    
 }
 
 - (void)sceneGamePopupContinueShopButton {
@@ -1936,11 +1959,12 @@
         
         [_sceneGamePopupGameOverEndGameButton setTouchUpInsideTarget:self selector:@selector(sceneGamePopupContinueButtonEndGame)];
         
+        CGSize endGameButtonSize = [_sceneGamePopupGameOverEndGameButton calculateAccumulatedFrame].size;
         [_sceneGamePopupContinue updateTopNode:_sceneGamePopupContinueButtonsNode
                                     centerNode:_sceneGamePopupContinueCountdownLabel
                             centerNodePosition:CGPointMake(0.0f, (-1.0f * (_sceneGamePopupContinue.backgroundSize.height / 2.0f)) + VERTICAL_SPACING_4 + _sceneGamePopupGameOverEndGameButton.size.height + (VERTICAL_SPACING_4 / 2.0f) + ([SIGameController SISpriteNodePopupContinueCenterNode].size.height / 2.0f))
                                     bottomNode:_sceneGamePopupGameOverEndGameButton
-                       bottomNodeBottomSpacing:(((INSKButtonNode *)_sceneGamePopupContinue.bottomNode).size.height / 2.0f) + VERTICAL_SPACING_4
+                       bottomNodeBottomSpacing:(endGameButtonSize.height / 2.0f) + VERTICAL_SPACING_8
                           dismissButtonVisible:NO
                           updateBackgroundSize:YES
                                 backgroundSize:CGSizeMake(_sceneSize.width - [SIGameController xPaddingPopupContinue], _sceneSize.width - [SIGameController xPaddingPopupContinue])];
@@ -1989,11 +2013,16 @@
             [((INSKButtonNode *)node) setTouchUpInsideTarget:self selector:@selector(sceneGamePopupContinueButtonUseCoins)];
             
         } else if ([node.name isEqualToString:kSINodeButtonWatchAds]) {
-            _sceneGamePopupMenuItemTextContinueWithAd           = [NSString stringWithFormat:@"Watch %d Ads!",(int)[SIGame adCountForNumberOfTimesContinued:_gameModel.game.currentNumberOfTimesContinued]];
-            ((SKLabelNode *)[((INSKButtonNode *)node).nodeHighlighted childNodeWithName:kSINodeButtonText]).text    = _sceneGamePopupMenuItemTextContinueWithAd;
-            ((SKLabelNode *)[((INSKButtonNode *)node).nodeNormal childNodeWithName:kSINodeButtonText]).text         = _sceneGamePopupMenuItemTextContinueWithAd;
-            ((INSKButtonNode *)node).inskButtonNodeDelegate                                                         = self;
-            [((INSKButtonNode *)node) setTouchUpInsideTarget:self selector:@selector(sceneGamePopupContinueButtonWatchAds)];
+            if ([FXReachability isReachable]) {
+                node.hidden = NO;
+                _sceneGamePopupMenuItemTextContinueWithAd           = [NSString stringWithFormat:@"Watch %d Ads!",(int)[SIGame adCountForNumberOfTimesContinued:_gameModel.game.currentNumberOfTimesContinued]];
+                ((SKLabelNode *)[((INSKButtonNode *)node).nodeHighlighted childNodeWithName:kSINodeButtonText]).text    = _sceneGamePopupMenuItemTextContinueWithAd;
+                ((SKLabelNode *)[((INSKButtonNode *)node).nodeNormal childNodeWithName:kSINodeButtonText]).text         = _sceneGamePopupMenuItemTextContinueWithAd;
+                ((INSKButtonNode *)node).inskButtonNodeDelegate                                                         = self;
+                [((INSKButtonNode *)node) setTouchUpInsideTarget:self selector:@selector(sceneGamePopupContinueButtonWatchAds)];
+            } else {
+                node.hidden = YES;
+            }
             
         }
     }
@@ -2496,7 +2525,11 @@
 
         }
     } else if ([menuNode.name isEqualToString:_sceneMenuStoreMenuNode.name] || menuNode == (HLMenuNode*)_sceneGamePopupSIMenuNodeStore.centerNode) {
-        [self requestPurchaseForPack:[SIIAPUtility siiapPackForNameNodeNode:menuItem.text]];
+        if ([FXReachability isReachable]) {
+            [self requestPurchaseForPack:[SIIAPUtility siiapPackForNameNodeNode:menuItem.text]];
+        } else {
+            [self hudTextFlashDuration:3.0f title:NSLocalizedString(kSITextHudSorry, nil) info:NSLocalizedString(kSITextHudInternetMustHave, nil)];
+        }
     }
 }
 - (void)menuNode:(HLMenuNode *)menuNode willDisplayButton:(SKNode *)buttonNode forMenuItem:(HLMenuItem *)menuItem itemIndex:(NSUInteger)itemIndex {
@@ -2608,6 +2641,15 @@
 - (void)adBannerWasTapped {
     NSLog(@"Ad banner was tapped");
 }
+
+#pragma mark SILoadingSceneDelegate
+- (void)loadingSceneDidLoad {
+    _loadTimer                                              = [NSTimer scheduledTimerWithTimeInterval:TIMER_INTERVAL target:self selector:@selector(loadSmoothSynch) userInfo:nil repeats:YES];
+    _loadTimeStart                                          = [NSDate timeIntervalSinceReferenceDate];
+    [self loadAllScenes];
+}
+
+
 ////////////////////////////////////////////////////////////////////////////////////
 //\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 //START/////////////////////////////////////////////////////////////////////////////
@@ -2634,13 +2676,12 @@
  Called when the game wants to load
  */
 - (void)gameModelStateLoadingEntered {
-    _sceneLoading = [SIGameController SILoaderSceneLoadingSize:_sceneSize];
+    _sceneLoading                                           = [SIGameController SILoaderSceneLoadingSize:_sceneSize];
+    _sceneLoading.sceneDelegate                             = self;
     [self loadingIncrementWillOverrideAndKill:NO];
-    _loadTimer                                              = [NSTimer scheduledTimerWithTimeInterval:TIMER_INTERVAL target:self selector:@selector(loadSmoothSynch) userInfo:nil repeats:YES];
-    _loadTimeStart                                          = [NSDate timeIntervalSinceReferenceDate];
     [self presentScene:SIGameControllerSceneLoading];
     /*Load the scenes*/
-    [self loadAllScenes];
+//    [self loadAllScenes];
 }
 
 /**
@@ -3436,11 +3477,28 @@
 }
 #pragma mark Scene Transistions
 
+
 + (SKScene *)viewController:(SKView *)view transisitionToSKScene:(SKScene *)scene duration:(CGFloat)duration {
     SKTransition *transistion;
     
     transistion = [SKTransition fadeWithColor:[SKColor blackColor] duration:duration];
 
+    [view presentScene:scene transition:transistion];
+    
+    return scene;
+}
+
++ (SKScene *)viewController:(SKView *)view transisitionToSKScene:(SKScene *)scene withTransition:(SKTransition *)transition {
+    [view presentScene:scene transition:transition];
+    
+    return scene;
+}
+
++ (SKScene *)viewController:(SKView *)view transisitionToSKScene:(SKScene *)scene duration:(CGFloat)duration withColor:(UIColor *)fadeColor {
+    SKTransition *transistion;
+    
+    transistion = [SKTransition fadeWithColor:fadeColor duration:duration];
+    
     [view presentScene:scene transition:transistion];
     
     return scene;

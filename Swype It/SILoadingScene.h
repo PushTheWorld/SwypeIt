@@ -7,7 +7,26 @@
 #import <SpriteKit/SpriteKit.h>
 #import "TCProgressBarNode.h"
 
+@protocol SILoadingSceneDelegate <NSObject>
+
+/**
+ Called right after the view loads
+ */
+- (void)loadingSceneDidLoad;
+
+/**
+ Called after 3 seconds
+ */
+//- (void)loadingSceneDidFinishWaitTime;
+
+
+@end
 @interface SILoadingScene : SKScene
+
+/**
+ The delegate for the scene
+ */
+@property (weak, nonatomic) id <SILoadingSceneDelegate> sceneDelegate;
 
 /**
  Sets the progress of the loading bar.. 0.0f - 1.0f
