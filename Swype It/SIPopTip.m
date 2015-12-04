@@ -61,7 +61,7 @@
  */
 - (void)createConstantsWithSize:(CGSize)size {
     
-    _backgroundColor                            = [UIColor simplstMainColor];
+    _backgroundColor                            = [UIColor redColor];
     
     _positionVertical                           = SIPopTipPositionVerticalBottom;
     _positionHorizontal                         = SIPopTipPositionHorizontalCenter;

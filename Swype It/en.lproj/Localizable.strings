@@ -95,3 +95,11 @@
 "bestDeal"                          = "Best Deal!";
 "mostPopular"                       = "Most Popular!";
 
+/**
+ Game User Messages
+ */
+"gameUserMessagePowerUp"            = "Power Up Toolbar";
+"gamePowerUpFallingMonkey"          = "SHOOT THE MONKEYS!";
+"gamePowerUpRapidFire"              = "TAP-TAP-TAP-TAP";
+"gamePowerUpTimeFreeze"             = "GO!!!";
+

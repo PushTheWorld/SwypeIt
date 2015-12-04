@@ -50,6 +50,7 @@
 + (CGFloat)             SIFontSizeText_x3;
 + (CGFloat)             SIFontSizeText_x4;
 + (CGFloat)xPaddingPopupContinue;
++ (CGFloat)SIGameSceneHorizontalDividerHeight;
 
 + (CGSize)              SIButtonSize:(CGSize)size;
 + (CGSize)              SIFallingMonkeySize;

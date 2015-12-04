@@ -497,6 +497,12 @@ NSString *const kSITextBoolOFF                                                  
 NSString *const kSITextBoolOn                                                   = @"On";
 NSString *const kSITextBoolON                                                   = @"ON";
 
+#pragma mark Game Messages
+NSString *const kSITextGameUserMessagePowerUp                                   = @"gameUserMessagePowerUp";
+NSString *const kSITextGamePowerUpFallingMonkey                                 = @"gamePowerUpFallingMonkey";
+NSString *const kSITextGamePowerUpRapidFire                                     = @"gamePowerUpRapidFire";
+NSString *const kSITextGamePowerUpTimeFreeze                                    = @"gamePowerUpTimeFreeze";
+
 #pragma mark IAP
 NSString *const kSITextIAPBestDeal                                              = @"bestDeal";
 NSString *const kSITextIAPMostPopular                                           = @"mostPopular";

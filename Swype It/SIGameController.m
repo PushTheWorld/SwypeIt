@@ -2117,28 +2117,30 @@
     //Check to see if the Time Freeze user tip has been shown before
     BOOL willShowPopTip = NO;
     float xOffset = 22.0f;
-    float yOffset = 20.0f;
+//    float yOffset = 20.0f;
     if (IDIOM == IPAD) {
         xOffset = 100.0f;
     }
     
-    if (![SIGameController premiumUser]) {
-        yOffset = yOffset + [SIGameController SIAdBannerViewHeight];
-    }
+//    if (![SIGameController premiumUser]) {
+//        yOffset = yOffset + [SIGameController SIAdBannerViewHeight];
+//    }
+    
+    float yPosition = _sceneSize.height - _sceneGameToolbarPowerUp.size.height - ([_popTipNode calculateAccumulatedFrame].size.height / 2.0) - 20.0f;
     
     if (![SIGameController SIBoolFromNSUserDefaults:[NSUserDefaults standardUserDefaults] forKey:kSINSUserDefaultUserTipShownPowerUpTimeFreeze]) {
         _popTipNode.message                     = NSLocalizedString(kSITextUserTipPowerUpTimeFreeze, nil);
-        _popTipNode.position                    = CGPointMake((_sceneSize.width / 2.0f) - xOffset, _sceneGameToolbarPowerUp.size.height + ([_popTipNode calculateAccumulatedFrame].size.height / 2.0) + yOffset);
+        _popTipNode.position                    = CGPointMake((_sceneSize.width / 2.0f) - xOffset, yPosition);
         _popTipNode.positionHorizontal          = SIPopTipPositionHorizontalLeft;
         willShowPopTip                          = YES;
     } else if (![SIGameController SIBoolFromNSUserDefaults:[NSUserDefaults standardUserDefaults] forKey:kSINSUserDefaultUserTipShownPowerUpRapidFire]) {
         _popTipNode.message                     = NSLocalizedString(kSITextUserTipPowerUpRapidFire, nil);
-        _popTipNode.position                    = CGPointMake((_sceneSize.width / 2.0f), _sceneGameToolbarPowerUp.size.height + ([_popTipNode calculateAccumulatedFrame].size.height / 2.0) + yOffset);
+        _popTipNode.position                    = CGPointMake((_sceneSize.width / 2.0f), yPosition);
         _popTipNode.positionHorizontal          = SIPopTipPositionHorizontalCenter;
         willShowPopTip                          = YES;
     } else if (![SIGameController SIBoolFromNSUserDefaults:[NSUserDefaults standardUserDefaults] forKey:kSINSUserDefaultUserTipShownPowerUpFallingMonkey]) {
         _popTipNode.message                     = NSLocalizedString(kSITextUserTipPowerUpFallingMonkey, nil);
-        _popTipNode.position                    = CGPointMake((_sceneSize.width / 2.0f) + xOffset, _sceneGameToolbarPowerUp.size.height + ([_popTipNode calculateAccumulatedFrame].size.height / 2.0) + yOffset);
+        _popTipNode.position                    = CGPointMake((_sceneSize.width / 2.0f) + xOffset, yPosition);
         _popTipNode.positionHorizontal          = SIPopTipPositionHorizontalRight;
         willShowPopTip                          = YES;
     }
@@ -2147,7 +2149,7 @@
         if (_popTipNode.parent) {
             [_popTipNode removeFromParent];
         }
-        _popTipNode.positionVertical            = SIPopTipPositionVerticalBottom;
+        _popTipNode.positionVertical            = SIPopTipPositionVerticalTop;
         _popTipNode.effect                      = SIPopTipEffectBounce;
         _popTipNode.effectDeltaY                = 5.0;
         _sceneGame.popTip                       = _popTipNode;
@@ -3261,6 +3263,25 @@
             return [SIGameController SIButtonStoreSize:size].height * 1.85 - [SIGameController SIAdBannerViewHeight];
             
         }
+    }
+}
+
++ (CGFloat)SIGameSceneHorizontalDividerHeight {
+    if (IS_IPHONE_4) {
+        return 2.0f;
+
+    } else if (IS_IPHONE_5) {
+        return 2.0f;
+        
+    } else if (IS_IPHONE_6) {
+        return 2.0f;
+        
+    } else if (IS_IPHONE_6_PLUS) {
+        return 2.0f;
+        
+    } else {
+        return 4.0f;
+        
     }
 }
 

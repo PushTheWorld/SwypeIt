@@ -35,7 +35,6 @@
 @property (strong, nonatomic) NSMutableArray    *powerUpArray;
 @property (strong, nonatomic) NSString          *currentLevel;
 @property (strong, nonatomic) UIColor           *currentBackgroundColor;
-
 #pragma mark - Public Class Methods
 + (BOOL)                isDevieHighScore:(float)totalScore withNSUserDefaults:(NSUserDefaults *)defaults;
 + (float)devieHighScoreNSUserDefaults:(NSUserDefaults *)defaults;

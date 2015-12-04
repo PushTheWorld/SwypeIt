@@ -806,6 +806,12 @@ extern NSString *const kSITextBoolOFF;
 extern NSString *const kSITextBoolOn;
 extern NSString *const kSITextBoolON;
 
+#pragma mark Game Messages
+extern NSString *const kSITextGameUserMessagePowerUp;
+extern NSString *const kSITextGamePowerUpFallingMonkey;
+extern NSString *const kSITextGamePowerUpRapidFire;
+extern NSString *const kSITextGamePowerUpTimeFreeze;
+
 #pragma mark IAP
 extern NSString *const kSITextIAPBestDeal;
 extern NSString *const kSITextIAPMostPopular;

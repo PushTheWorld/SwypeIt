@@ -217,5 +217,21 @@
  */
 @property (nonatomic, strong) SIPopTip *popTip;
 
+/**
+ This is the label right above the toolbar
+ */
+@property (strong, nonatomic) SKLabelNode       *powerUpToolbarUserLabel;
+
+/**
+ This is the user label for a power up
+ */
+@property (strong, nonatomic) SKLabelNode       *powerUpMessage;
+
+/**
+ This is the horizontal divider right below the powerup toolbar
+ */
+
+
+
 
 @end
