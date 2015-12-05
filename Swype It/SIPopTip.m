@@ -61,7 +61,7 @@
  */
 - (void)createConstantsWithSize:(CGSize)size {
     
-    _backgroundColor                            = [UIColor redColor];
+    _backgroundColor                            = [UIColor simplstMainColor];
     
     _positionVertical                           = SIPopTipPositionVerticalBottom;
     _positionHorizontal                         = SIPopTipPositionHorizontalCenter;
@@ -184,11 +184,11 @@
  Layout the Z
  */
 - (void)layoutZ {
-    _backgroundNode.zPosition                   = [SIPopTip floatZPositionPopTipForContent:SIZPositionPopTipBackground];
+    _backgroundNode.zPosition                   = [SIGameController floatZPositionGameForContent:SIZPositionGameContentBottom];
     
-    _pointerNode.zPosition                      = [SIPopTip floatZPositionPopTipForContent:SIZPositionPopTipBackground];
+    _pointerNode.zPosition                      = [SIGameController floatZPositionGameForContent:SIZPositionGameContentBottom];
     
-    _multiLineNode.zPosition                    = [SIPopTip floatZPositionPopTipForContent:SIZPositionPopTipText];
+    _multiLineNode.zPosition                    = [SIGameController floatZPositionGameForContent:SIZPositionGameContentMiddle];
 }
 
 #pragma mark -

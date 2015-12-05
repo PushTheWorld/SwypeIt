@@ -190,7 +190,8 @@
     SKSpriteNode                            *_sceneGamePopupGameOverEndNode;
     SKSpriteNode                            *_sceneGamePopupGameOverBottomNode;
     
-    SKTransition                            *_transitionDefault;
+    SKTransition                            *_transitionDefaultLeft;
+    SKTransition                            *_transitionDefaultRight;
     
     TKStateMachine                          *_timerStateMachine;
     
@@ -364,11 +365,13 @@
         _adBannerNode.delegate                              = self;
     }
     
-    _overlayNode                        = [SKSpriteNode spriteNodeWithColor:[SKColor whiteColor] size:CGSizeMake(_sceneSize.width, _sceneSize.height)];
-    _overlayNode.zPosition              = [SIGameController floatZPositionGameForContent:SIZPositionGameOverlayMax] + 1;
-    _overlayNode.position               = CGPointMake(_sceneSize.width / 2.0f, _sceneSize.height / 2.0f);
+    _overlayNode                                            = [SKSpriteNode spriteNodeWithColor:[SKColor whiteColor] size:CGSizeMake(_sceneSize.width, _sceneSize.height)];
+    _overlayNode.zPosition                                  = [SIGameController floatZPositionGameForContent:SIZPositionGameOverlayMax] + 1;
+    _overlayNode.position                                   = CGPointMake(_sceneSize.width / 2.0f, _sceneSize.height / 2.0f);
     
-    _transitionDefault                  = [SKTransition revealWithDirection:SKTransitionDirectionLeft duration:1.0f];
+    _transitionDefaultLeft                                  = [SKTransition revealWithDirection:SKTransitionDirectionLeft duration:1.0f];
+    _transitionDefaultRight                                 = [SKTransition revealWithDirection:SKTransitionDirectionRight duration:1.0f];
+    _transitionDefaultRight.pausesIncomingScene             = NO;
     
 }
 
@@ -406,7 +409,7 @@
                     _currentScene = [SIGameController viewController:[self fastSKView] transisitionToSKScene:_sceneGame duration:SCENE_TRANSITION_DURATION_NOW];
                     break;
                 default:
-                    _currentScene = [SIGameController viewController:[self fastSKView] transisitionToSKScene:_sceneGame withTransition:_transitionDefault]; //[SIGameController viewController:[self fastSKView] transisitionToSKScene:_sceneGame duration:SCENE_TRANSITION_DURATION_FAST];
+                    _currentScene = [SIGameController viewController:[self fastSKView] transisitionToSKScene:_sceneGame withTransition:_transitionDefaultLeft]; //[SIGameController viewController:[self fastSKView] transisitionToSKScene:_sceneGame duration:SCENE_TRANSITION_DURATION_FAST];
                     break;
             }
             break;
@@ -424,7 +427,7 @@
             [SIGame playMusic:[SIGame soundNameForSIBackgroundSound:SIBackgroundSoundMenu] looping:YES fadeIn:YES];
             switch (_currentSceneType) {
                 case SIGameControllerSceneGame:
-                    _currentScene = [SIGameController viewController:[self fastSKView] transisitionToSKScene:_sceneMenu duration:SCENE_TRANSITION_DURATION_FAST];
+                    _currentScene = [SIGameController viewController:[self fastSKView] transisitionToSKScene:_sceneMenu withTransition:_transitionDefaultRight]; //[SIGameController viewController:[self fastSKView] transisitionToSKScene:_sceneMenu duration:SCENE_TRANSITION_DURATION_FAST];
                     [self controllerSceneMenuShowMenu:_menuNodeStart menuNodeAnimiation:SIMenuNodeAnimationStaticVisible delay:SCENE_TRANSITION_DURATION_NORMAL];
                     break;
                 case SIGameControllerSceneLoading:
@@ -1569,7 +1572,10 @@
     }
     [[NSUserDefaults standardUserDefaults] synchronize];
     if (_sceneGame.popTip) {
-        _sceneGame.popTip = nil;
+        _sceneGame.blurScreen                           = NO;
+        _sceneGame.powerUpToolbarUserLabel.zPosition    = [SIGameController floatZPositionGameForContent:SIZPositionGameContentBottom];
+        _sceneGameToolbarPowerUp.zPosition              = [SIGameController floatZPositionGameForContent:SIZPositionGameContentBottom];
+        _sceneGame.popTip                               = nil;
     }
 }
 
@@ -2154,34 +2160,40 @@
 //    if (![SIGameController premiumUser]) {
 //        yOffset = yOffset + [SIGameController SIAdBannerViewHeight];
 //    }
-    
-    float yPosition = _sceneSize.height - _sceneGameToolbarPowerUp.size.height - ([_popTipNode calculateAccumulatedFrame].size.height / 2.0) - 20.0f;
+    float xPosition = _sceneSize.width / 2.0f;
     
     if (![SIGameController SIBoolFromNSUserDefaults:[NSUserDefaults standardUserDefaults] forKey:kSINSUserDefaultUserTipShownPowerUpTimeFreeze]) {
-        _popTipNode.message                     = NSLocalizedString(kSITextUserTipPowerUpTimeFreeze, nil);
-        _popTipNode.position                    = CGPointMake((_sceneSize.width / 2.0f) - xOffset, yPosition);
-        _popTipNode.positionHorizontal          = SIPopTipPositionHorizontalLeft;
-        willShowPopTip                          = YES;
+        _popTipNode.message                                 = NSLocalizedString(kSITextUserTipPowerUpTimeFreeze, nil);
+        xPosition                                           = xPosition - xOffset;
+        _popTipNode.positionHorizontal                      = SIPopTipPositionHorizontalLeft;
+        willShowPopTip                                      = YES;
     } else if (![SIGameController SIBoolFromNSUserDefaults:[NSUserDefaults standardUserDefaults] forKey:kSINSUserDefaultUserTipShownPowerUpRapidFire]) {
-        _popTipNode.message                     = NSLocalizedString(kSITextUserTipPowerUpRapidFire, nil);
-        _popTipNode.position                    = CGPointMake((_sceneSize.width / 2.0f), yPosition);
-        _popTipNode.positionHorizontal          = SIPopTipPositionHorizontalCenter;
-        willShowPopTip                          = YES;
+        _popTipNode.message                                 = NSLocalizedString(kSITextUserTipPowerUpRapidFire, nil);
+        _popTipNode.positionHorizontal                      = SIPopTipPositionHorizontalCenter;
+        willShowPopTip                                      = YES;
     } else if (![SIGameController SIBoolFromNSUserDefaults:[NSUserDefaults standardUserDefaults] forKey:kSINSUserDefaultUserTipShownPowerUpFallingMonkey]) {
-        _popTipNode.message                     = NSLocalizedString(kSITextUserTipPowerUpFallingMonkey, nil);
-        _popTipNode.position                    = CGPointMake((_sceneSize.width / 2.0f) + xOffset, yPosition);
-        _popTipNode.positionHorizontal          = SIPopTipPositionHorizontalRight;
-        willShowPopTip                          = YES;
+        _popTipNode.message                                 = NSLocalizedString(kSITextUserTipPowerUpFallingMonkey, nil);
+        xPosition                                           = xPosition + xOffset;
+        _popTipNode.positionHorizontal                      = SIPopTipPositionHorizontalRight;
+        willShowPopTip                                      = YES;
     }
     
     if (willShowPopTip) {
         if (_popTipNode.parent) {
             [_popTipNode removeFromParent];
         }
-        _popTipNode.positionVertical            = SIPopTipPositionVerticalTop;
-        _popTipNode.effect                      = SIPopTipEffectBounce;
-        _popTipNode.effectDeltaY                = 5.0;
-        _sceneGame.popTip                       = _popTipNode;
+        float yPosition = _sceneSize.height - _sceneGameToolbarPowerUp.size.height - ([_popTipNode calculateAccumulatedFrame].size.height / 2.0) - [_sceneGame.powerUpToolbarUserLabel calculateAccumulatedFrame].size.height - ([SIGameController SIGameSceneHorizontalDividerHeight] * 2.0f) - 20.0f;
+        _popTipNode.position                                = CGPointMake(xPosition, yPosition);
+        _sceneGame.powerUpToolbarUserLabel.zPosition        = [SIGameController floatZPositionGameForContent:SIZPositionGameTutorial];
+        _sceneGameToolbarPowerUp.zPosition                  = [SIGameController floatZPositionGameForContent:SIZPositionGameTutorial];
+        _popTipNode.zPosition                               = [SIGameController floatZPositionGameForContent:SIZPositionGameTutorial];
+        _popTipNode.positionVertical                        = SIPopTipPositionVerticalTop;
+        _popTipNode.effect                                  = SIPopTipEffectBounce;
+        _popTipNode.effectDeltaY                            = 5.0;
+        dispatch_async(dispatch_get_main_queue(), ^{
+            _sceneGame.blurScreen                           = YES;
+            _sceneGame.popTip                               = _popTipNode;
+        });
 
     }
 }
@@ -2717,7 +2729,9 @@
         _sceneGame = [self loadGameScene];
     }
     
-    _sceneGame.blurScreen = NO;
+    if (_sceneGame.popTip == nil) {
+        _sceneGame.blurScreen = NO;
+    }
     
     if (_currentScene != _sceneGame) {
         [self presentScene:SIGameControllerSceneGame];
@@ -2818,9 +2832,11 @@
 //    _sceneGame.scoreTotalLabel.text                     = @"99999.99";//[NSString stringWithFormat:@"%0.2f",_gameModel.game.totalScore];
     _sceneGame.progressBarFreeCoin.progress             = _gameModel.game.freeCoinPercentRemaining;
 
-    if (_sceneGame.popTip == nil && [SIPowerUp isPowerUpArrayEmpty:_gameModel.powerUpArray]) {
-        [self checkUserTipPowerUps];
-    }
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+        if (_sceneGame.popTip == nil && [SIPowerUp isPowerUpArrayEmpty:_gameModel.powerUpArray]) {
+            [self checkUserTipPowerUps];
+        }
+    });
 }
 
 /**
@@ -4234,7 +4250,7 @@
 
 + (SIPopupNode *)SIPopupSceneGameGameOverSize:(CGSize)size {
     SKLabelNode *titleLabel                 = [SIGameController SILabelSceneGamePopupTitle];
-    titleLabel.text                         = NSLocalizedString(kSITextPopupContinueContinue, nil);
+    titleLabel.text                         = NSLocalizedString(kSITextPopupContinueGameOver, nil);
     
     SIPopupNode *popupNode                  = [[SIPopupNode alloc] initWithSceneSize:size];
     
@@ -4415,6 +4431,8 @@
             break;
     }
 }
+
+
 
 /**
  Called when you need a new move score label and such

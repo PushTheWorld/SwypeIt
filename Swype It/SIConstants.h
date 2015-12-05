@@ -386,15 +386,17 @@ typedef NS_ENUM(NSInteger, SIZPositionMenu) {
 };
 
 typedef NS_ENUM(NSInteger, SIZPositionGame) {
-    SIZPositionGameBackground       = 0,
+    SIZPositionGameHidden = 0,
+    SIZPositionGameBackground,
     SIZPositionGameContent,
-    SIZPositionGameContentProgressBarContent,
-    SIZPositionGameContentMoveScoreEmitter,
-    SIZPositionGameContentMoveScore,
+    SIZPositionGameContentBottom,
+    SIZPositionGameContentMiddle,
+    SIZPositionGameContentTop,
     SIZPositionGameOverlayMin,
     SIZPositionGameOverlayMax,
     SIZPositionGameModalMin,
     SIZPositionGameModalMax,
+    SIZPositionGameTutorial,
     SIZPositionGameCount
 };
 
