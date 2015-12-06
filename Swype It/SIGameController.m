@@ -2192,6 +2192,7 @@
             _popTipNode.positionHorizontal                      = SIPopTipPositionHorizontalLeft;
             willShowPopTip                                      = YES;
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                _sceneGame.userMessage.hidden                   = NO;
                 _sceneGame.userMessage.text                     = NSLocalizedString(kSITextUserTipPowerUpExplainTimeFreeze, nil);
             });
         } else if (![SIGameController SIBoolFromNSUserDefaults:[NSUserDefaults standardUserDefaults] forKey:kSINSUserDefaultUserTipShownPowerUpRapidFire]) {
@@ -2199,6 +2200,7 @@
             _popTipNode.positionHorizontal                      = SIPopTipPositionHorizontalCenter;
             willShowPopTip                                      = YES;
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                _sceneGame.userMessage.hidden                   = NO;
                 _sceneGame.userMessage.text                     = NSLocalizedString(kSITextUserTipPowerUpExplainRapidFire, nil);
             });
         } else if (![SIGameController SIBoolFromNSUserDefaults:[NSUserDefaults standardUserDefaults] forKey:kSINSUserDefaultUserTipShownPowerUpFallingMonkey]) {
@@ -2220,6 +2222,8 @@
         float yPosition = _sceneSize.height - _sceneGameToolbarPowerUp.size.height - ([_popTipNode calculateAccumulatedFrame].size.height / 2.0) - [_sceneGame.powerUpToolbarUserLabel calculateAccumulatedFrame].size.height - ([SIGameController SIGameSceneHorizontalDividerHeight] * 2.0f) - 20.0f;
         _popTipNode.position                                = CGPointMake(xPosition, yPosition);
         _sceneGame.powerUpToolbarUserLabel.zPosition        = [SIGameController floatZPositionGameForContent:SIZPositionGameTutorial];
+//        SKNode *tempNode                                    = [_sceneGameToolbarPowerUp squareNodeForTool:kSIPowerUpTypeTimeFreeze];
+//        tempNode.zPosition                                  = [SIGameController floatZPositionGameForContent:SIZPositionGameTutorial];
         _sceneGameToolbarPowerUp.zPosition                  = [SIGameController floatZPositionGameForContent:SIZPositionGameTutorial];
         _popTipNode.zPosition                               = [SIGameController floatZPositionGameForContent:SIZPositionGameTutorial];
         _popTipNode.positionVertical                        = SIPopTipPositionVerticalTop;
@@ -2897,6 +2901,10 @@
     [self timerFireEvent:kSITKStateMachineEventTimerPause userInfo:nil];
     
     [self sceneGamePopupContinueInital];
+    
+    if (_sceneGame.popTip) {
+        _sceneGame.popTip = nil;
+    }
     /*This is all you need to set to make the game scene display a popup because it will relayout the z*/
     _sceneGamePopupContinue.startTime                           = [NSDate timeIntervalSinceReferenceDate];
     _sceneGamePopupContinue.countDownTimerState                 = SIPopupCountDownTimerRunning;
