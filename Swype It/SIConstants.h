@@ -111,6 +111,8 @@
 
 #define INITIAL_FREE_PRIZE_AMOUNT           30
 
+#define COUNTDOWN_TIME                      5
+
 /**
  Creates a monkey face to be reused all over the app
  */
@@ -495,6 +497,7 @@ extern NSString *const kSIGameModeOneHand;
 
 #pragma mark - NSUserDefaults
 extern NSString *const kSINSUserDefaultNumberConsecutiveAppLaunches;
+extern NSString *const kSINSUserDefaultFirstGame;
 extern NSString *const kSINSUserDefaultFirstLaunch;
 extern NSString *const kSINSUserDefaultFreePrizeGiven;
 extern NSString *const kSINSUserDefaultGameMode;
@@ -837,7 +840,10 @@ extern NSString *const kSITextMenuSettingsToggleSoundOffBackground;
 extern NSString *const kSITextMenuSettingsToggleSoundOffFX;
 extern NSString *const kSITextMenuSettingsToggleSoundOnBackground;
 extern NSString *const kSITextMenuSettingsToggleSoundOnFX;
-extern NSString *const kSITextMenuStartScreenOneHandMode;
+extern NSString *const kSITextMenuStartScreenGameMode;
+extern NSString *const kSITextMenuStartScreenGameModeConst;
+extern NSString *const kSITextMenuStartScreenGameModePinch;
+extern NSString *const kSITextMenuStartScreenGameModeShake;
 extern NSString *const kSITextMenuStartScreenStore;
 extern NSString *const kSITextMenuStartScreenTapToPlay;
 extern NSString *const kSITextMenuStartScreenTapToStart;
@@ -864,8 +870,12 @@ extern NSString *const kSITextPopupFreePrizePrize;
 
 #pragma mark User Tips
 extern NSString *const kSITextUserTipFirstFreePrize;
+extern NSString *const kSITextUserTipFirstGame;
 extern NSString *const kSITextUserTipPopupContinueUseCoins;
 extern NSString *const kSITextUserTipPopupContinueWatchAd;
+extern NSString *const kSITextUserTipPowerUpExplainFallingMonkey;
+extern NSString *const kSITextUserTipPowerUpExplainTimeFreeze;
+extern NSString *const kSITextUserTipPowerUpExplainRapidFire;
 extern NSString *const kSITextUserTipPowerUpFallingMonkey;
 extern NSString *const kSITextUserTipPowerUpTimeFreeze;
 extern NSString *const kSITextUserTipPowerUpRapidFire;

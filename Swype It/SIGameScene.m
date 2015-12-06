@@ -209,6 +209,8 @@ static const uint32_t SIGameSceneCategoryEdge          = 0x1 << 2; // 0000000000
 
     _powerUpToolbarUserLabel                                = [SIGameController SILabelParagraph_x2:NSLocalizedString(kSITextGameUserMessagePowerUp, nil)];
     
+    _userMessage                                            = [DSMultilineLabelNode labelNodeWithFontNamed:kSISFFontTextMedium];
+    
     _horizontalDividerPowerUpToolbarBottom                  = [SKSpriteNode spriteNodeWithColor:[SKColor blackColor] size:CGSizeMake(_sceneSize.width, [SIGameController SIGameSceneHorizontalDividerHeight])];
     _horizontalDividerPowerUpToolbarTop                     = [SKSpriteNode spriteNodeWithColor:[SKColor blackColor] size:CGSizeMake(_sceneSize.width, [SIGameController SIGameSceneHorizontalDividerHeight])];
 
@@ -258,6 +260,15 @@ static const uint32_t SIGameSceneCategoryEdge          = 0x1 << 2; // 0000000000
     _powerUpToolbarUserLabel.physicsBody.categoryBitMask    = SIGameSceneCategoryUIControl;
     _powerUpToolbarUserLabel.horizontalAlignmentMode        = SKLabelHorizontalAlignmentModeCenter;
     _powerUpToolbarUserLabel.verticalAlignmentMode          = SKLabelVerticalAlignmentModeTop;
+    
+    _userMessage.zPosition                                  = [SIGameController floatZPositionGameForContent:SIZPositionGameContent];
+    _userMessage.physicsBody.categoryBitMask                = SIGameSceneCategoryUIControl;
+    _userMessage.horizontalAlignmentMode                    = SKLabelHorizontalAlignmentModeCenter;
+    _userMessage.verticalAlignmentMode                      = SKLabelVerticalAlignmentModeCenter;
+    _userMessage.hidden                                     = YES;
+    _userMessage.paragraphWidth                             = _sceneSize.width - VERTICAL_SPACING_16;
+    _userMessage.position                                   = CGPointMake(_sceneSize.width / 2.0f, _sceneSize.height * 0.25);
+    _userMessage.fontSize                                   = [SIGameController SIFontSizeParagraph];
 
     _horizontalDividerPowerUpToolbarBottom.alpha            = 0.2;
     _horizontalDividerPowerUpToolbarTop.alpha               = 0.2;
@@ -286,6 +297,8 @@ static const uint32_t SIGameSceneCategoryEdge          = 0x1 << 2; // 0000000000
     [self addChild:_swypeItCoinsBackgroundNode];
     
     [self addChild:_powerUpToolbarUserLabel];
+    
+    [self addChild:_userMessage];
     
     [_swypeItCoinsBackgroundNode addChild:_swypeItCoinsLabelNode];
 
@@ -956,7 +969,7 @@ static const uint32_t SIGameSceneCategoryEdge          = 0x1 << 2; // 0000000000
     
     xImpulse                = xImpulse * 2.0f;
     
-    float yImpulse          = 5.0f;
+    float yImpulse          = 3.0f;
     if (IDIOM == IPAD) {
         yImpulse            = 20.0f;
     }

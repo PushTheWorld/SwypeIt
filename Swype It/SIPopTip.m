@@ -36,6 +36,8 @@
     
     
 }
+static NSString * const bouceActionKey =  @"bounceEffectKey";
+
 
 #pragma mark -
 #pragma mark - Node Life Cycle
@@ -169,9 +171,10 @@
     
     _pointerNode.position                       = popTipPosition;
     
+    [_backgroundNode removeActionForKey:bouceActionKey];
     switch (_effect) {
         case SIPopTipEffectBounce:
-            [_backgroundNode runAction:[SKAction repeatActionForever:_bounceEffect]];
+            [_backgroundNode runAction:[SKAction repeatActionForever:_bounceEffect] withKey:bouceActionKey];
             break;
         default:
             break;
@@ -257,7 +260,8 @@
 + (SKAction *)createBounceEffectActionWithDeltaY:(float)deltaY {
     SKAction *moveY                             = [SKAction moveByX:0.0f y:deltaY duration:1.0f];
     SKAction *oppositeY                         = [moveY reversedAction];
-    return [SKAction sequence:@[moveY, oppositeY]];
+    SKAction *seq                               = [SKAction sequence:@[moveY, oppositeY]];
+    return seq;
 
 }
 

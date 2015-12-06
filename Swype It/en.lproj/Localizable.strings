@@ -33,7 +33,7 @@
  Menus
  */
 "Sale!"                             = "Sale!";
-"helpText"                          = "Tap the start screen to start a game. A gesture command will appear. Perform the gesture to progress through the game. The faster you enter each gesture, the more points you score! Points are awesome! Use POWER UPS to boost you to an even higher score! Power ups are purchased with IT Coins. BUY IT Coins in the Store, earn a FREE coin every 300 points! LAUNCHING Swype It daily earns bigger and bigger FREE PRIZES!! (Yay! OMG! Coins!!!!) \nSWYPE ON!";
+"helpText"                          = "Tap the main menu to start a game. A gesture command will appear. Perform the gesture to progress through the game. The faster you enter each gesture, the more points you score! Points are awesome! Use POWER UPS to boost you to an even higher score! Power ups are purchased with IT Coins. BUY IT Coins in the Store, earn a FREE coin every 300 points! LAUNCHING Swype It daily earns bigger and bigger FREE PRIZES!! (Yay! OMG! Coins!!!!) \nSWYPE ON!";
 "Help"                              = "Help";
 "Report Bug"                        = "Report Bug";
 "Reset High Score"                  = "Reset High Score";
@@ -48,6 +48,10 @@
 "Store"                             = "Shop";
 "One Hand Mode"                     = "One Hand Mode";
 "startMenuTitle"                    = "SWYPE IT";
+"gameMode"                          = "Tap below to change game mode:";
+"gameModeConst"                     = "Swype, Tap & ";
+"gameModePinch"                     = "Pinch";
+"gameModeShake"                     = "Shake";
 
 /**
  Menu End Content
@@ -82,12 +86,16 @@
 /**
  User Tips
  */
-"userTipFristFreePrize"             = "Welcome! Enjoy 30 free coins!";
-"userTipPopupContinueUseCoins"      = "Quick! You can use IT Coins to CONTINUE YOUR LIFE!!!";
-"userTipPopupContinueWatchAd"       = "You can also watch ads for FREE!!!";
-"userTipPowerUpFallingMonkey"       = "Now! Tap Falling Monkey power up!!";
-"userTipPowerUpTimeFreeze"          = "For starters, tap the time freeze power up!";
-"userTipPowerUpRapidFire"           = "Quick! tap RAPID FIRE power up!";
+"userTipFristFreePrize"                 = "Welcome! Enjoy 30 free coins!";
+"userTipFristGame"                      = "Do a couple moves!";
+"userTipPopupContinueUseCoins"          = "Quick! You can use IT Coins to CONTINUE YOUR LIFE!!!";
+"userTipPopupContinueWatchAd"           = "You can also watch ads for FREE!!!";
+"userTipPowerUpExplainFallingMonkey"    = "Tap the monkeys to shoot them! Don't let the monkey's hit the bottom!";
+"userTipPowerUpExplainTimeFreeze"       = "Time moves SUPER slow!";
+"userTipPowerUpExplainRapidFire"        = "Only TAPs for this powerup! Tap as fast as you can!!";
+"userTipPowerUpFallingMonkey"           = "Now! Tap Falling Monkey power up!!";
+"userTipPowerUpTimeFreeze"              = "Good job! Now tap the time freeze power up!";
+"userTipPowerUpRapidFire"               = "Quick! tap RAPID FIRE power up!";
 
 /**
  IAP

@@ -120,6 +120,7 @@ NSString *const kSIGameModeOneHand                                              
 
 #pragma mark - NSUserDefaults
 NSString *const kSINSUserDefaultNumberConsecutiveAppLaunches                    = @"numberConsecutiveAppLaunches";
+NSString *const kSINSUserDefaultFirstGame                                       = @"firstGame";
 NSString *const kSINSUserDefaultFirstLaunch                                     = @"firstLaunch";
 NSString *const kSINSUserDefaultFreePrizeGiven                                  = @"freePrizeGiven";
 NSString *const kSINSUserDefaultGameMode                                        = @"gameMode";
@@ -527,7 +528,10 @@ NSString *const kSITextMenuSettingsToggleSoundOffBackground                     
 NSString *const kSITextMenuSettingsToggleSoundOffFX                             = @"Turn Sound FX Off";
 NSString *const kSITextMenuSettingsToggleSoundOnBackground                      = @"Turn Music On";
 NSString *const kSITextMenuSettingsToggleSoundOnFX                              = @"Turn Sound FX On";
-NSString *const kSITextMenuStartScreenOneHandMode                               = @"One Hand Mode";
+NSString *const kSITextMenuStartScreenGameMode                                  = @"gameMode";
+NSString *const kSITextMenuStartScreenGameModeConst                             = @"gameModeConst";
+NSString *const kSITextMenuStartScreenGameModePinch                             = @"gameModePinch";
+NSString *const kSITextMenuStartScreenGameModeShake                             = @"gameModeShake";
 NSString *const kSITextMenuStartScreenStore                                     = @"Store";
 NSString *const kSITextMenuStartScreenTapToPlay                                 = @"Tap To Play!";
 NSString *const kSITextMenuStartScreenTapToStart                                = @"Tap To Start!";
@@ -554,8 +558,12 @@ NSString *const kSITextPopupFreePrizePrize                                      
 
 #pragma mark User Tips
 NSString *const kSITextUserTipFirstFreePrize                                    = @"userTipFristFreePrize";
+NSString *const kSITextUserTipFirstGame                                         = @"userTipFristGame";
 NSString *const kSITextUserTipPopupContinueUseCoins                             = @"userTipPopupContinueUseCoins";
 NSString *const kSITextUserTipPopupContinueWatchAd                              = @"userTipPopupContinueWatchAd";
+NSString *const kSITextUserTipPowerUpExplainFallingMonkey                       = @"userTipPowerUpExplainFallingMonkey";
+NSString *const kSITextUserTipPowerUpExplainTimeFreeze                          = @"userTipPowerUpExplainTimeFreeze";
+NSString *const kSITextUserTipPowerUpExplainRapidFire                           = @"userTipPowerUpExplainRapidFire";
 NSString *const kSITextUserTipPowerUpFallingMonkey                              = @"userTipPowerUpFallingMonkey";
 NSString *const kSITextUserTipPowerUpTimeFreeze                                 = @"userTipPowerUpTimeFreeze";
 NSString *const kSITextUserTipPowerUpRapidFire                                  = @"userTipPowerUpRapidFire";

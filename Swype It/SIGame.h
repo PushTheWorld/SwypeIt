@@ -20,6 +20,7 @@
 @property (assign, nonatomic) BOOL               isHighScore;
 @property (assign, nonatomic) int                freeCoinsEarned;
 @property (assign, nonatomic) int                currentNumberOfTimesContinued;
+@property (assign, nonatomic) int                numberOfMoves;
 //@property (assign, nonatomic) float              moveScore;
 @property (assign, nonatomic) float              freeCoinPercentRemaining;
 @property (assign, nonatomic) float              freeCoinInPoints;

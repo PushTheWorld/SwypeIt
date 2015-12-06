@@ -16,6 +16,7 @@
 // Drop-In Class Imports (CocoaPods/GitHub/Guru)
 #import "BMGlyphLabel.h"
 #import "TCProgressBarNode.h"
+#import "DSMultilineLabelNode.h"
 // Category Import
 // Support/Data Class Imports
 #import "SIGame.h"
@@ -223,9 +224,9 @@
 @property (strong, nonatomic) SKLabelNode       *powerUpToolbarUserLabel;
 
 /**
- This is the user label for a power up
+ This is the user label for passing messages to the user!
  */
-@property (strong, nonatomic) SKLabelNode       *powerUpMessage;
+@property (strong, nonatomic) DSMultilineLabelNode      *userMessage;
 
 /**
  This is the horizontal divider right below the powerup toolbar

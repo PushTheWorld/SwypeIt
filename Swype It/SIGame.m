@@ -796,15 +796,16 @@
  Configures game properties for new game
  */
 + (void)setStartGameProperties:(SIGame *)game {
-    game.moveScorePercentRemaining           = 1.0f;
-    game.currentBackgroundSound              = SIBackgroundSoundMenu;
-    game.currentLevel                        = [SIGame currentLevelStringForScore:0.0f];
-    game.currentNumberOfTimesContinued       = 0;
-    game.totalScore                          = 0.0f;
-    game.freeCoinsEarned                     = 0;
-    game.currentBackgroundColorNumber        = 0;
-    game.currentBackgroundColor              = [SKColor SIBackgroundColorLevel1A];
-    game.isHighScore                         = NO;
+    game.moveScorePercentRemaining          = 1.0f;
+    game.currentBackgroundSound             = SIBackgroundSoundMenu;
+    game.currentLevel                       = [SIGame currentLevelStringForScore:0.0f];
+    game.currentNumberOfTimesContinued      = 0;
+    game.totalScore                         = 0.0f;
+    game.freeCoinsEarned                    = 0;
+    game.currentBackgroundColorNumber       = 0;
+    game.numberOfMoves                      = 0;
+    game.currentBackgroundColor             = [SKColor SIBackgroundColorLevel1A];
+    game.isHighScore                        = NO;
 }
 /**
  Determine prize to give based off when the last time a prize was given... either:
@@ -981,7 +982,17 @@
     [SoundManager sharedManager].allowsBackgroundMusic  = YES;
     [SoundManager sharedManager].soundFadeDuration      = 1.0f;
     [SoundManager sharedManager].musicFadeDuration      = 2.0f;
-    [[SoundManager sharedManager] prepareToPlayWithSound:[Sound soundNamed:kSISoundFXInitalize]];
+    [[SoundManager sharedManager] prepareToPlayWithSound:kSISoundFXChaChing];
+    [[SoundManager sharedManager] prepareToPlayWithSound:kSISoundFXCoinNoise];
+    [[SoundManager sharedManager] prepareToPlayWithSound:kSISoundFXFireBurning];
+    [[SoundManager sharedManager] prepareToPlayWithSound:kSISoundFXGameOver];
+    [[SoundManager sharedManager] prepareToPlayWithSound:kSISoundFXSceneWoosh];
+    [[SoundManager sharedManager] prepareToPlayWithSound:kSISoundBackgroundMenu];
+    [[SoundManager sharedManager] prepareToPlayWithSound:kSISoundBackgroundOne];
+    [[SoundManager sharedManager] prepareToPlayWithSound:kSISoundBackgroundTwo];
+    [[SoundManager sharedManager] prepareToPlayWithSound:kSISoundBackgroundThree];
+    [[SoundManager sharedManager] prepareToPlayWithSound:kSISoundBackgroundFour];
+    [[SoundManager sharedManager] prepareToPlayWithSound:kSISoundBackgroundFive];
 }
 
 /**

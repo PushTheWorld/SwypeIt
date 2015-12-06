@@ -72,6 +72,7 @@
     BOOL                                     _mutexContinueButtonPressed;
     BOOL                                     _sceneGameShakeIsActive;
     BOOL                                     _testMode;
+    BOOL                                     _tutorialActiveNoWrongMoves;
 
     
     CGFloat                                  _sceneGameSpacingHorizontalToolbar;
@@ -96,6 +97,7 @@
     int                                      _loadingPointsTotal;
     int                                      _numberOfAdsToWatch;
     int                                      _sceneGameShakeRestCount;
+    int                                      _numberOfMoves;
     
     /**
      in mS
@@ -320,6 +322,7 @@
     _highScoreShowing                   = NO;
     _loadComplete                       = NO;
     _interstitialAdPresentationIsLive   = NO;
+    _tutorialActiveNoWrongMoves         = NO;
     _loadingPointsCurrent               = 0;
     _verbose                            = YES;
     _testMode                           = YES;
@@ -432,7 +435,7 @@
                     break;
                 case SIGameControllerSceneLoading:
                     _currentScene = [SIGameController viewController:[self fastSKView] transisitionToSKScene:_sceneMenu duration:SCENE_TRANSITION_DURATION_FAST];// [SIGameController transisitionNormalOpenToSKScene:_sceneMenu toSKView:[self fastSKView]];
-                    [self controllerSceneMenuShowMenu:_menuNodeStart menuNodeAnimiation:SIMenuNodeAnimationStaticVisible delay:0.0f];
+                    [self controllerSceneMenuShowMenu:_menuNodeStart menuNodeAnimiation:SIMenuNodeAnimationStaticVisible delay:SCENE_TRANSITION_DURATION_FAST];
                     break;
                 default:
                     _currentScene = [SIGameController viewController:[self fastSKView] transisitionToSKScene:_sceneMenu duration:SCENE_TRANSITION_DURATION_FAST];
@@ -1346,10 +1349,19 @@
     tapToPlay.fontColor                             = [SKColor whiteColor];
     tapToPlay.name                                  = @"b";
     
+    SKLabelNode *gameMode                           = [SIGameController SILabelText:NSLocalizedString(kSITextMenuStartScreenGameMode, nil)];
+    gameMode.verticalAlignmentMode                  = SKLabelVerticalAlignmentModeBottom;
+    gameMode.horizontalAlignmentMode                = SKLabelHorizontalAlignmentModeCenter;
+    gameMode.fontColor                              = [SKColor whiteColor];
+    gameMode.fontSize                               = [SIGameController SIFontSizeText];
+    gameMode.name                                   = @"b";
+    gameMode.position                               = CGPointMake(0.0f,  (_sceneMenuStartOneHandModeButton.size.height / 2.0f) + VERTICAL_SPACING_4);
+    
+    [_sceneMenuStartOneHandModeButton addChild:gameMode];
     _sceneMenuStartOneHandModeButton.position       = CGPointMake(0.0f, 0.0f);
 
     _sceneMenuStartShopButton                       = [SIGameController SIINButtonNamed:kSIAssestMenuButtonShop label:[SIGameController SILabelHeader:[NSString stringWithFormat:@"%@",NSLocalizedString(kSITextMenuStartScreenStore, nil)]]];
-    _sceneMenuStartShopButton.position              = CGPointMake(0.0f, 2.0f * (_sceneMenuStartOneHandModeButton.size.height / 2.0f) + VERTICAL_SPACING_8);
+    _sceneMenuStartShopButton.position              = CGPointMake(0.0f, _sceneMenuStartOneHandModeButton.size.height + VERTICAL_SPACING_8 + VERTICAL_SPACING_4 + [SIGameController SIFontSizeText]);
     [_sceneMenuStartShopButton setTouchUpInsideTarget:self selector:@selector(sceneMenuStartShopButtonTouchedUpInside:)];
 
     
@@ -1572,6 +1584,7 @@
     }
     [[NSUserDefaults standardUserDefaults] synchronize];
     if (_sceneGame.popTip) {
+        _tutorialActiveNoWrongMoves                     = NO;
         _sceneGame.blurScreen                           = NO;
         _sceneGame.powerUpToolbarUserLabel.zPosition    = [SIGameController floatZPositionGameForContent:SIZPositionGameContentBottom];
         _sceneGameToolbarPowerUp.zPosition              = [SIGameController floatZPositionGameForContent:SIZPositionGameContentBottom];
@@ -1593,6 +1606,9 @@
             break;
         case SIPowerUpTypeFallingMonkeys:
             /*Do Falling Monkeys Breakdown*/
+            if (_sceneFallingMonkey.userMessage.hidden == NO) {
+                _sceneFallingMonkey.userMessage.hidden = YES;
+            }
             [_gameModel.powerUpArray removeAllObjects];
             break;
         default:
@@ -2131,13 +2147,15 @@
 }
 - (void)sceneGamePopupContinueGameTimerAsyncUpdate:(NSTimer *)timer {
     if (_sceneGamePopupContinue.countDownTimerState == SIPopupCountDownTimerRunning) {
-        NSTimeInterval remainingTime = 6.0f - ([NSDate timeIntervalSinceReferenceDate] - _sceneGamePopupContinue.startTime) + _popupTimePauseOffset;
-        ((SKLabelNode *)_sceneGamePopupContinue.centerNode).text = [NSString stringWithFormat:@"%i",(int)remainingTime];
-        [_sceneGamePopupContinue.centerNode runAction:[SKAction scaleTo:remainingTime - floorf(remainingTime) duration:0.0f]];
+        NSTimeInterval remainingTime = (COUNTDOWN_TIME + 1) - ([NSDate timeIntervalSinceReferenceDate] - _sceneGamePopupContinue.startTime) + _popupTimePauseOffset;
+        _sceneGamePopupContinueCountdownLabel.text = [NSString stringWithFormat:@"%i",(int)remainingTime];
+        [_sceneGamePopupContinueCountdownLabel runAction:[SKAction scaleTo:remainingTime - floorf(remainingTime) duration:0.0f]];
         if (remainingTime < (EPSILON_NUMBER + 1.0f)) {
             //Call to go to end game
+            
             [_continueGameTimer invalidate];
             [self sceneGamePopupContinueButtonEndGame];
+            _sceneGamePopupContinueCountdownLabel.text = [NSString stringWithFormat:@"%d",COUNTDOWN_TIME];
         }
     } else if (_sceneGamePopupContinue.countDownTimerState == SIPopupCountDownTimerPaused) {
         NSTimeInterval currentTime = [NSDate timeIntervalSinceReferenceDate];
@@ -2161,27 +2179,44 @@
 //        yOffset = yOffset + [SIGameController SIAdBannerViewHeight];
 //    }
     float xPosition = _sceneSize.width / 2.0f;
+    if (_gameModel.game.numberOfMoves > 3) {
     
-    if (![SIGameController SIBoolFromNSUserDefaults:[NSUserDefaults standardUserDefaults] forKey:kSINSUserDefaultUserTipShownPowerUpTimeFreeze]) {
-        _popTipNode.message                                 = NSLocalizedString(kSITextUserTipPowerUpTimeFreeze, nil);
-        xPosition                                           = xPosition - xOffset;
-        _popTipNode.positionHorizontal                      = SIPopTipPositionHorizontalLeft;
-        willShowPopTip                                      = YES;
-    } else if (![SIGameController SIBoolFromNSUserDefaults:[NSUserDefaults standardUserDefaults] forKey:kSINSUserDefaultUserTipShownPowerUpRapidFire]) {
-        _popTipNode.message                                 = NSLocalizedString(kSITextUserTipPowerUpRapidFire, nil);
-        _popTipNode.positionHorizontal                      = SIPopTipPositionHorizontalCenter;
-        willShowPopTip                                      = YES;
-    } else if (![SIGameController SIBoolFromNSUserDefaults:[NSUserDefaults standardUserDefaults] forKey:kSINSUserDefaultUserTipShownPowerUpFallingMonkey]) {
-        _popTipNode.message                                 = NSLocalizedString(kSITextUserTipPowerUpFallingMonkey, nil);
-        xPosition                                           = xPosition + xOffset;
-        _popTipNode.positionHorizontal                      = SIPopTipPositionHorizontalRight;
-        willShowPopTip                                      = YES;
+        if (![SIGameController SIBoolFromNSUserDefaults:[NSUserDefaults standardUserDefaults] forKey:kSINSUserDefaultFirstGame]) {
+            [[NSUserDefaults standardUserDefaults] setBool:YES forKey:kSINSUserDefaultFirstGame];
+            [[NSUserDefaults standardUserDefaults] synchronize];
+        }
+            
+        if (![SIGameController SIBoolFromNSUserDefaults:[NSUserDefaults standardUserDefaults] forKey:kSINSUserDefaultUserTipShownPowerUpTimeFreeze]) {
+            _popTipNode.message                                 = NSLocalizedString(kSITextUserTipPowerUpTimeFreeze, nil);
+            xPosition                                           = xPosition - xOffset;
+            _popTipNode.positionHorizontal                      = SIPopTipPositionHorizontalLeft;
+            willShowPopTip                                      = YES;
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                _sceneGame.userMessage.text                     = NSLocalizedString(kSITextUserTipPowerUpExplainTimeFreeze, nil);
+            });
+        } else if (![SIGameController SIBoolFromNSUserDefaults:[NSUserDefaults standardUserDefaults] forKey:kSINSUserDefaultUserTipShownPowerUpRapidFire]) {
+            _popTipNode.message                                 = NSLocalizedString(kSITextUserTipPowerUpRapidFire, nil);
+            _popTipNode.positionHorizontal                      = SIPopTipPositionHorizontalCenter;
+            willShowPopTip                                      = YES;
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                _sceneGame.userMessage.text                     = NSLocalizedString(kSITextUserTipPowerUpExplainRapidFire, nil);
+            });
+        } else if (![SIGameController SIBoolFromNSUserDefaults:[NSUserDefaults standardUserDefaults] forKey:kSINSUserDefaultUserTipShownPowerUpFallingMonkey]) {
+            _popTipNode.message                                 = NSLocalizedString(kSITextUserTipPowerUpFallingMonkey, nil);
+            xPosition                                           = xPosition + xOffset;
+            _popTipNode.positionHorizontal                      = SIPopTipPositionHorizontalRight;
+            willShowPopTip                                      = YES;
+            _sceneGame.userMessage.hidden                       = YES;
+            _sceneFallingMonkey.userMessage.hidden              = NO;
+            _sceneFallingMonkey.userMessage.text                = NSLocalizedString(kSITextUserTipPowerUpExplainFallingMonkey, nil);
+        }
     }
     
     if (willShowPopTip) {
         if (_popTipNode.parent) {
             [_popTipNode removeFromParent];
         }
+        _tutorialActiveNoWrongMoves                         = YES;
         float yPosition = _sceneSize.height - _sceneGameToolbarPowerUp.size.height - ([_popTipNode calculateAccumulatedFrame].size.height / 2.0) - [_sceneGame.powerUpToolbarUserLabel calculateAccumulatedFrame].size.height - ([SIGameController SIGameSceneHorizontalDividerHeight] * 2.0f) - 20.0f;
         _popTipNode.position                                = CGPointMake(xPosition, yPosition);
         _sceneGame.powerUpToolbarUserLabel.zPosition        = [SIGameController floatZPositionGameForContent:SIZPositionGameTutorial];
@@ -2745,6 +2780,12 @@
         }
     }
     
+    if (![SIGameController SIBoolFromNSUserDefaults:[NSUserDefaults standardUserDefaults] forKey:kSINSUserDefaultFirstGame]) {
+        _sceneGame.userMessage.text                     = NSLocalizedString(kSITextUserTipFirstGame, nil);
+        _sceneGame.userMessage.hidden                   = NO;
+        _tutorialActiveNoWrongMoves                     = YES;
+    }
+    
     _gameModel.game.currentBackgroundColorNumber        = [SIGame newBackgroundColorNumberCurrentNumber:_gameModel.game.currentBackgroundColorNumber totalScore:_gameModel.game.totalScore];
     
     _gameModel.game.currentBackgroundColor              = [SIGame backgroundColorForScore:_gameModel.game.totalScore forRandomNumber:_gameModel.game.currentBackgroundColorNumber];
@@ -2767,8 +2808,9 @@
 
 - (void)gameModelStateProcessingMoveEnteredWithMove:(SIMove *)move {
     
+    
     //if correctMove
-    if (move.moveCommand == _currentMove.moveCommand) {
+    if (move.moveCommand == _currentMove.moveCommand || _tutorialActiveNoWrongMoves) {
         _currentMove.timeEnd                            = _gameTimeTotal;
         
         
@@ -2786,6 +2828,9 @@
 //        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
 //            [[SISingletonAchievement singleton] singletonAchievementWillProcessMove:moveForBackground];
 //        });
+        
+        //Add the move to the move count
+        _gameModel.game.numberOfMoves                   = _gameModel.game.numberOfMoves + 1;
         
         //  get new move data
         _currentMove                                    = [[SIMove alloc] initWithRandomMoveForGameMode:_gameModel.game.gameMode powerUpArray:[_gameModel.powerUpArray copy]];
@@ -3670,7 +3715,7 @@
     
     label.fontSize          = [SIGameController SIFontSizeHeader_x2];
     label.name              = kSINodePopupCountdown;
-    label.text              = @"10";
+    label.text              = [NSString stringWithFormat:@"%d",COUNTDOWN_TIME];
     
     return label;
 }
@@ -4565,10 +4610,10 @@
         ((SKSpriteNode *)button.nodeSelectedHighlighted).colorBlendFactor   = 0.2;
         
         
-        SKLabelNode *oneHandModeOn1                                         = [SIGameController SILabelButtonWithText:[NSString stringWithFormat:@"%@: %@",NSLocalizedString(kSITextMenuStartScreenOneHandMode, nil), NSLocalizedString(kSITextBoolON, nil)]];
-        SKLabelNode *oneHandModeOn2                                         = [SIGameController SILabelButtonWithText:[NSString stringWithFormat:@"%@: %@",NSLocalizedString(kSITextMenuStartScreenOneHandMode, nil), NSLocalizedString(kSITextBoolON, nil)]];
-        SKLabelNode *oneHandModeOff1                                        = [SIGameController SILabelButtonWithText:[NSString stringWithFormat:@"%@: %@",NSLocalizedString(kSITextMenuStartScreenOneHandMode, nil), NSLocalizedString(kSITextBoolOFF, nil)]];
-        SKLabelNode *oneHandModeOff2                                        = [SIGameController SILabelButtonWithText:[NSString stringWithFormat:@"%@: %@",NSLocalizedString(kSITextMenuStartScreenOneHandMode, nil), NSLocalizedString(kSITextBoolOFF, nil)]];
+        SKLabelNode *oneHandModeOn1                                         = [SIGameController SILabelButtonWithText:[NSString stringWithFormat:@"%@%@",NSLocalizedString(kSITextMenuStartScreenGameModeConst, nil), NSLocalizedString(kSITextMenuStartScreenGameModeShake, nil)]];
+        SKLabelNode *oneHandModeOn2                                         = [SIGameController SILabelButtonWithText:[NSString stringWithFormat:@"%@%@",NSLocalizedString(kSITextMenuStartScreenGameModeConst, nil), NSLocalizedString(kSITextMenuStartScreenGameModeShake, nil)]];
+        SKLabelNode *oneHandModeOff1                                        = [SIGameController SILabelButtonWithText:[NSString stringWithFormat:@"%@%@",NSLocalizedString(kSITextMenuStartScreenGameModeConst, nil), NSLocalizedString(kSITextMenuStartScreenGameModePinch, nil)]];
+        SKLabelNode *oneHandModeOff2                                        = [SIGameController SILabelButtonWithText:[NSString stringWithFormat:@"%@%@",NSLocalizedString(kSITextMenuStartScreenGameModeConst, nil), NSLocalizedString(kSITextMenuStartScreenGameModePinch, nil)]];
 
         oneHandModeOn1.fontSize                                             = [SIGameController SIFontSizeText_x4];
         oneHandModeOn2.fontSize                                             = [SIGameController SIFontSizeText_x4];

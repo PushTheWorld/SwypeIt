@@ -126,24 +126,29 @@ static const uint32_t SIFallingMonkeySceneCategoryEdgeSide      = 0x1 << 5; // 0
     _pulseSequence                                  = [SKAction sequence:@[grow,shrink,grow,shrink]];
     
     if (IS_IPHONE_4) {
-        _bananaVelocity = 420.0/1.2;
-        _monkeySpeed    = MONKEY_SPEED_INITIAL;
+        _bananaVelocity                             = 420.0/1.2;
+        _monkeySpeed                                = MONKEY_SPEED_INITIAL * 0.25f;
+        _monkeySpeedIncrease                        = MONKEY_SPEED_INCREASE * 0.5f;
         
     } else if (IS_IPHONE_5) {
-        _bananaVelocity = 420.0/1.2;
-        _monkeySpeed    = MONKEY_SPEED_INITIAL;
+        _bananaVelocity                             = 420.0/1.2;
+        _monkeySpeed                                = MONKEY_SPEED_INITIAL * 0.5f;
+        _monkeySpeedIncrease                        = MONKEY_SPEED_INCREASE * 0.75;
         
     } else if (IS_IPHONE_6) {
-        _bananaVelocity = 420.0/1.1;
-        _monkeySpeed    = MONKEY_SPEED_INITIAL;
+        _bananaVelocity                             = 420.0/1.1;
+        _monkeySpeed                                = MONKEY_SPEED_INITIAL;
+        _monkeySpeedIncrease                        = MONKEY_SPEED_INCREASE;
 
     } else if (IS_IPHONE_6_PLUS) {
-        _bananaVelocity = 420.0/1.0;
-        _monkeySpeed    = MONKEY_SPEED_INITIAL * 1.25;
+        _bananaVelocity                             = 420.0/1.0;
+        _monkeySpeed                                = MONKEY_SPEED_INITIAL * 1.25;
+        _monkeySpeedIncrease                        = MONKEY_SPEED_INCREASE;
         
     } else {
-        _bananaVelocity = 420.0/0.5;
-        _monkeySpeed    = MONKEY_SPEED_INITIAL * 1.5;
+        _bananaVelocity                             = 420.0/0.5;
+        _monkeySpeed                                = MONKEY_SPEED_INITIAL * 1.5;
+        _monkeySpeedIncrease                        = MONKEY_SPEED_INCREASE;
        
     }
     
@@ -162,6 +167,8 @@ static const uint32_t SIFallingMonkeySceneCategoryEdgeSide      = 0x1 << 5; // 0
     
     // the toal score label
     _scoreLabelNode                                 = [SIGameController SILabelHeader_x3:@"0.00"];
+    
+    _userMessage                                    = [DSMultilineLabelNode labelNodeWithFontNamed:kSISFFontTextMedium];
     
     // Make Sand node
     _sandNode                                       = [SKSpriteNode spriteNodeWithImageNamed:kSIAssestFallingMonkeySand];
@@ -189,6 +196,17 @@ static const uint32_t SIFallingMonkeySceneCategoryEdgeSide      = 0x1 << 5; // 0
     _sandNode.anchorPoint                           = CGPointZero;
     _sandNode.position                              = CGPointZero;
     
+    _userMessage.zPosition                          = [SIGameController floatZPositionFallingMonkeyForContent:SIZPositionFallingMonkeyUIContent];
+    _userMessage.physicsBody.categoryBitMask        = SIFallingMonkeySceneCategoryUIControl;
+    _userMessage.horizontalAlignmentMode            = SKLabelHorizontalAlignmentModeCenter;
+    _userMessage.verticalAlignmentMode              = SKLabelVerticalAlignmentModeCenter;
+    _userMessage.hidden                             = YES;
+    _userMessage.paragraphWidth                     = _sceneSize.width - VERTICAL_SPACING_16;
+    _userMessage.position                           = CGPointMake(_sceneSize.width / 2.0f, _sceneSize.height * 0.25);
+    _userMessage.fontSize                           = [SIGameController SIFontSizeParagraph];
+
+
+    
     
 }
 
@@ -206,6 +224,8 @@ static const uint32_t SIFallingMonkeySceneCategoryEdgeSide      = 0x1 << 5; // 0
     [_backgroundNode addChild:_edgeRight];
     
     [_backgroundNode addChild:_scoreLabelNode];
+    
+    [_backgroundNode addChild:_userMessage];
 
 }
 /**
@@ -343,7 +363,7 @@ static const uint32_t SIFallingMonkeySceneCategoryEdgeSide      = 0x1 << 5; // 0
     
     
     
-    _monkeySpeed                                    = _monkeySpeed + MONKEY_SPEED_INCREASE;
+    _monkeySpeed                                    = _monkeySpeed + _monkeySpeedIncrease;
     
     [self performSelector:@selector(launchMonkey) withObject:nil afterDelay:randomDelay];
     

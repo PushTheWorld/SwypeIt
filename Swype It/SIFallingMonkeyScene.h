@@ -58,5 +58,10 @@
  */
 @property (nonatomic, strong) SIAdBannerNode *adBannerNode;
 
+/**
+ This is the user label for a power up
+ */
+@property (strong, nonatomic) DSMultilineLabelNode      *userMessage;
+
 
 @end
