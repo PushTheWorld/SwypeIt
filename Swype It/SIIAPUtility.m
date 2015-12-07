@@ -12,6 +12,7 @@
 // Drop-In Class Imports (CocoaPods/GitHub/Guru)
 #import "FXReachability.h"
 #import "MKStoreKit.h"
+#import "NHNetworkTime.h"
 // Category Import
 // Support/Data Class Imports
 
@@ -297,30 +298,36 @@
 + (void)getDateFromInternetWithCallback:(void (^)(NSDate *))callback {
     NSDate *currentDate = nil;
     
-    if ([FXReachability isReachable]) {
-        NSURL * scriptUrl = [NSURL URLWithString: @"http://s132342840.onlinehome.us/swypeIt/date.php"];
-        NSData * data = [NSData dataWithContentsOfURL: scriptUrl];
-        
-        if (data) {
-            NSString * tempString = [NSString stringWithUTF8String: [data bytes]];
-            NSDateFormatter *df = [[NSDateFormatter alloc] init];
-            [df setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
-            NSDate *currentDate = [df dateFromString:tempString];
-            //            NSDate * currDate = [NSDate dateWithTimeIntervalSince1970: [tempString doubleValue]];
-            //            NSLog (@ "String returned from the site is:%@ and date is:%@", tempString, [currDate description]);
-            if (callback) {
-                callback(currentDate);
-            }
-        } else {
-            NSLog(@"Could not resolve webpage....");
-        }
-    } else {
-        NSLog(@"Not connected to internet");
-    }
+    currentDate = [NSDate networkDate];
     
     if (callback) {
         callback(currentDate);
     }
+    
+//    if ([FXReachability isReachable]) {
+//        NSURL * scriptUrl = [NSURL URLWithString: @"http://s132342840.onlinehome.us/swypeIt/date.php"];
+//        NSData * data = [NSData dataWithContentsOfURL: scriptUrl];
+//        
+//        if (data) {
+//            NSString * tempString = [NSString stringWithUTF8String: [data bytes]];
+//            NSDateFormatter *df = [[NSDateFormatter alloc] init];
+//            [df setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+//            NSDate *currentDate = [df dateFromString:tempString];
+//            //            NSDate * currDate = [NSDate dateWithTimeIntervalSince1970: [tempString doubleValue]];
+//            //            NSLog (@ "String returned from the site is:%@ and date is:%@", tempString, [currDate description]);
+//            if (callback) {
+//                callback(currentDate);
+//            }
+//        } else {
+//            NSLog(@"Could not resolve webpage....");
+//        }
+//    } else {
+//        NSLog(@"Not connected to internet");
+//    }
+//    
+//    if (callback) {
+//        callback(currentDate);
+//    }
 }
 
 #pragma mark IAP convience methods

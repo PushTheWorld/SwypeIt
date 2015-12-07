@@ -15,6 +15,7 @@
 // Drop-In Class Imports (CocoaPods/GitHub/Guru)
 #import "FXReachability.h"
 #import "MKStoreKit.h"
+#import "NHNetworkTime.h"
 // Category Import
 #import "UIColor+Additions.h"
 // Support/Data Class Imports
@@ -44,17 +45,6 @@ static BOOL isRunningTests(void) __attribute__((const));
     [FXReachability sharedInstance].host = @"google.com";
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateStatus) name:FXReachabilityStatusDidChangeNotification object:nil];
     
-
-    /*Init window*/
-//    self.window                             = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
-//    
-//    
-//    SIGameController       *vc1    = [[SIGameController alloc] init];
-////    BaseNavigationViewController    *nav    = [[BaseNavigationViewController alloc] initWithRootViewController:vc1];
-//    
-//    self.window.rootViewController          = vc1;
-//    [self.window makeKeyAndVisible];
-    
     /*Check the NSUserDefaults*/
     [self setNSUserDefaults];
     
@@ -62,6 +52,9 @@ static BOOL isRunningTests(void) __attribute__((const));
     [self configureMKStoreKit];
     
     /*Setup Sound Manager*/
+    
+    /*Start the shared network clock*/
+    [[NHNetworkClock sharedNetworkClock] syncWithComplete:nil];
     
     
     return YES;

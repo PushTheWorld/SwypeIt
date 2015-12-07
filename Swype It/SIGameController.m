@@ -38,6 +38,7 @@
 #import "MBProgressHud.h"
 #import "MKStoreKit.h"
 #import "MSSAlertViewController.h"
+#import "NHNetworkTime.h"
 //#import "SoundManager.h"
 #import "TransitionKit.h"
 // Category Import
@@ -966,19 +967,19 @@
 #pragma mark Daily Free Prize
 - (void)tryForDailyPrize {
     if (![SIGameController SIBoolFromNSUserDefaults:[NSUserDefaults standardUserDefaults] forKey:kSINSUserDefaultFreePrizeGiven]) {
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            [self giveFirstPrize];
-        });
+        [self giveFirstPrize];
     } else {
         if ([FXReachability isReachable]) {
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
                 [self checkForDailyPrizeCallback:^(SIFreePrizeType prizeType) {
                     switch (prizeType) {
                         case SIFreePrizeTypeNone:
                             break;
                         default:
-                            _sceneMenuPopupFreePrizeCountLabel.text = [NSString stringWithFormat:@"%d",[SIIAPUtility getDailyFreePrizeAmount]];
-                            _sceneMenu.popupNode = _sceneMenuPopupFreePrize;
+                            dispatch_async(dispatch_get_main_queue(), ^{
+                                _sceneMenuPopupFreePrizeCountLabel.text = [NSString stringWithFormat:@"%d",[SIIAPUtility getDailyFreePrizeAmount]];
+                                _sceneMenu.popupNode = _sceneMenuPopupFreePrize;
+                            });
                             break;
                     }
                 }];
@@ -986,6 +987,7 @@
         }
     }
 }
+
 /**
  Compares a time from the internet to determine if should give a daily prize
  */
@@ -1001,6 +1003,7 @@
         NSDate *lastPrizeGivenDate = [[NSUserDefaults standardUserDefaults] objectForKey:kSINSUserDefaultLastPrizeAwardedDate];
         //First time ever giving a prize
         if (!lastPrizeGivenDate) {
+            [[NSUserDefaults standardUserDefaults] setInteger:1 forKey:kSINSUserDefaultNumberConsecutiveAppLaunches];
             [[NSUserDefaults standardUserDefaults] setObject:currentDate forKey:kSINSUserDefaultLastPrizeAwardedDate];
             [[NSUserDefaults standardUserDefaults] synchronize];
             if (callback) {

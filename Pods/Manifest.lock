@@ -1,4 +1,5 @@
 PODS:
+  - CocoaAsyncSocket (7.4.2)
   - Crashlytics (3.3.4)
   - Fabric (1.5.1):
     - Fabric/Base (= 1.5.1)
@@ -9,6 +10,8 @@ PODS:
   - iRate (1.11.4)
   - iVersion (1.11.4)
   - JCNotificationBannerPresenter (1.1.2)
+  - NHNetworkTime (1.1):
+    - CocoaAsyncSocket (~> 7.4.1)
   - SoundManager (1.4.2)
   - TransitionKit (2.2.1)
 
@@ -21,10 +24,12 @@ DEPENDENCIES:
   - iRate
   - iVersion
   - JCNotificationBannerPresenter
+  - NHNetworkTime
   - SoundManager
   - TransitionKit
 
 SPEC CHECKSUMS:
+  CocoaAsyncSocket: f5783bdedd232d91b89769bc4b5a1580aed518ad
   Crashlytics: 41c082440d2e14da444186fff65e79c0b4b35d4c
   Fabric: 03c3b3fe77e11a2bc31421b989a9c7adaa4779a5
   FXBlurView: db786c2561cb49a09ae98407f52460096ab8a44f
@@ -33,6 +38,7 @@ SPEC CHECKSUMS:
   iRate: 599ed07c854e0695f3c605d1b2a64c67d912acb7
   iVersion: 2b6ffe708672cb494ba3cab150a94800c2892e81
   JCNotificationBannerPresenter: f40150961943048ed3b1d2628d29dbf66a959e21
+  NHNetworkTime: 53ae7921c5cffa9daa2dbe15722b3221f1904eb0
   SoundManager: 99ae328a3ec9b259db774c9851a65feeceba8183
   TransitionKit: 9ceccda4cd0cdc0a05ef85eb235e5a3292c3c250
 

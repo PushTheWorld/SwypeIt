@@ -11,6 +11,7 @@ target 'Swype It' do
     pod 'JCNotificationBannerPresenter'
     pod 'INSpriteKit'
     pod 'TransitionKit'
+    pod 'NHNetworkTime'
 end
 
 target 'Swype ItTests', :exclusive => true do

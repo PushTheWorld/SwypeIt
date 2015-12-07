@@ -1611,10 +1611,10 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 9DDA8D676AA522487B9497FC /* Pods-Swype It.debug.xcconfig */;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon.dev;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				BUNDLE_ID_SUFFIX = .dev;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Andrew Keller (4QBKTXP3K7)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Andrew Keller (G2YUCSS226)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Andrew Keller (G2YUCSS226)";
 				DEFINES_MODULE = YES;
 				ENABLE_BITCODE = NO;
@@ -1629,9 +1629,9 @@
 					"$(inherited)",
 					"-ObjC",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.pushtheworldllc.swipeit.dev;
+				PRODUCT_BUNDLE_IDENTIFIER = com.pushtheworldllc.swipeit;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "194b6b8c-e956-4f0e-b9fe-a80abbcf8d31";
+				PROVISIONING_PROFILE = "f22ceb0c-fc72-466d-a399-9455aa9a6f3e";
 			};
 			name = Debug;
 		};
@@ -1639,10 +1639,10 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 9DA67FDDF2048F2EE110C92B /* Pods-Swype It.release.xcconfig */;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon.dev;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				BUNDLE_ID_SUFFIX = "";
-				CODE_SIGN_IDENTITY = "iPhone Developer: Andrew Keller (4QBKTXP3K7)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Andrew Keller (G2YUCSS226)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Andrew Keller (G2YUCSS226)";
 				DEFINES_MODULE = YES;
 				ENABLE_BITCODE = NO;
@@ -1657,9 +1657,9 @@
 					"$(inherited)",
 					"-ObjC",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.pushtheworldllc.swipeit.dev;
+				PRODUCT_BUNDLE_IDENTIFIER = com.pushtheworldllc.swipeit;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "194b6b8c-e956-4f0e-b9fe-a80abbcf8d31";
+				PROVISIONING_PROFILE = "f22ceb0c-fc72-466d-a399-9455aa9a6f3e";
 			};
 			name = Release;
 		};
@@ -1781,10 +1781,10 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 30ED76FB39BF998E0E317052 /* Pods-Swype It.beta.xcconfig */;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon.dev;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				BUNDLE_ID_SUFFIX = .beta;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Andrew Keller (4QBKTXP3K7)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Andrew Keller (G2YUCSS226)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Andrew Keller (G2YUCSS226)";
 				DEFINES_MODULE = YES;
 				ENABLE_BITCODE = NO;
@@ -1799,9 +1799,9 @@
 					"$(inherited)",
 					"-ObjC",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.pushtheworldllc.swipeit.dev;
+				PRODUCT_BUNDLE_IDENTIFIER = com.pushtheworldllc.swipeit;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "194b6b8c-e956-4f0e-b9fe-a80abbcf8d31";
+				PROVISIONING_PROFILE = "f22ceb0c-fc72-466d-a399-9455aa9a6f3e";
 			};
 			name = Beta;
 		};
