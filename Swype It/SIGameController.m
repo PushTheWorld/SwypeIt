@@ -110,6 +110,7 @@
      */
     float                                    _percentLoaded;
     float                                    _timeFreezeMultiplier;
+    float                                    _powerUpPercent;
 
     
     HLGridNode                              *_sceneMenuEndGridNode;
@@ -1526,6 +1527,19 @@
     NSTimeInterval currentTime                              = [NSDate timeIntervalSinceReferenceDate];
     
     _gameTimeTotal                                          = currentTime - _gameTimeStart;
+    
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+        [self powerUpCheck];
+    });
+
+}
+
+- (void)powerUpCheck {
+    _powerUpPercent                                         = [SIPowerUp powerUpPercentRemaining:_gameModel.powerUpArray gameTimeTotal:_gameTimeTotal timeFreezeMultiplier:_timeFreezeMultiplier withCallback:^(SIPowerUp *powerUpToDeactivate) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self powerUpDectivatePowerUp:powerUpToDeactivate];
+        });
+    }];
 }
 
 - (float)gameTimerTotalInMS {
@@ -1898,7 +1912,7 @@
                             centerNodePosition:CGPointMake(0.0f, userMessageOffset)
                                     bottomNode:_sceneGamePopupGameOverBottomNode
                        bottomNodeBottomSpacing:IDIOM == IPAD ? 100 : VERTICAL_SPACING_8
-                          dismissButtonVisible:YES
+                          dismissButtonVisible:NO
                           updateBackgroundSize:YES
                                 backgroundSize:CGSizeMake(_sceneSize.width - [SIGameController xPaddingPopupContinue], _sceneSize.height - [SIGameController yPaddingPopupContinue])];
         _sceneGamePopupGameOver.delegate    = self;
@@ -2381,10 +2395,12 @@
     
     progressBarUpdate.percentFreeCoin               = _gameModel.game.freeCoinPercentRemaining;
     
-    progressBarUpdate.percentPowerUp = [SIPowerUp powerUpPercentRemaining:_gameModel.powerUpArray gameTimeTotal:_gameTimeTotal timeFreezeMultiplier:_timeFreezeMultiplier withCallback:^(SIPowerUp *powerUpToDeactivate) {
-        [self powerUpDectivatePowerUp:powerUpToDeactivate];
-    }];
-        
+    progressBarUpdate.percentPowerUp                = _powerUpPercent;
+    
+//    progressBarUpdate.percentPowerUp = [SIPowerUp powerUpPercentRemaining:_gameModel.powerUpArray gameTimeTotal:_gameTimeTotal timeFreezeMultiplier:_timeFreezeMultiplier withCallback:^(SIPowerUp *powerUpToDeactivate) {
+//        [self powerUpDectivatePowerUp:powerUpToDeactivate];
+//    }];
+    
     progressBarUpdate.pointsMove                    = _gameModel.game.currentPointsRemainingThisRound;
     progressBarUpdate.hasStarted                    = [_gameModel.stateMachine isInState:kSITKStateMachineStateGameIdle] || [_gameModel.stateMachine isInState:kSITKStateMachineStateGameProcessingMove];
     return progressBarUpdate;
