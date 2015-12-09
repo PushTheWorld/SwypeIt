@@ -341,8 +341,7 @@
 
 - (void)setupControls {
 
-    // TODO: REMOVE THIS COMMENT BLOCK FOR GAME CENTER
-//    [self authenticateLocalPlayer];
+    [self authenticateLocalPlayer];
     
     _currentMove                                        = [[SIMove alloc] init];
 
@@ -1832,11 +1831,11 @@
 //            [self sceneGamePopupGameOverBackButton];
 //        } onEvent:AGButtonControlEventTouchUpInside];
 
-        [_sceneGamePopupSIMenuNodeStore.backButtonNode setTouchUpInsideTarget:self selector:@selector(sceneGamePopupGameOverBackButton)];
+        [_sceneGamePopupSIMenuNodeStore.backButtonNode setTouchUpInsideTarget:self selector:@selector(sceneGamePopupContinue)];
         
         [_sceneGamePopupContinue updateTopNode:nil
                                     centerNode:_sceneGamePopupSIMenuNodeStore
-                            centerNodePosition:CGPointZero
+                            centerNodePosition:[SIGameController SIMenuNodeStorePopupCenterNodePoint]
                                     bottomNode:nil
                        bottomNodeBottomSpacing:VERTICAL_SPACING_8
                           dismissButtonVisible:NO
@@ -1922,6 +1921,7 @@
 }
 
 - (void)sceneGamePopupContinue {
+    _sceneGamePopupContinue.countDownTimerState = SIPopupCountDownTimerRunning;
     if (_overlayNode.parent) {
         [_overlayNode removeFromParent];
     }
@@ -1947,7 +1947,7 @@
 
         [_sceneGamePopupContinue updateTopNode:_sceneGamePopupContinueButtonsNode
                                     centerNode:_sceneGamePopupContinueCountdownLabel
-                            centerNodePosition:CGPointZero
+                            centerNodePosition:CGPointMake(0.0f, (-1.0f * ((_sceneSize.width - [SIGameController xPaddingPopupContinue]) / 2.0f)) + VERTICAL_SPACING_4 + _sceneGamePopupGameOverEndGameButton.size.height + (VERTICAL_SPACING_4 / 2.0f) + ([SIGameController SISpriteNodePopupContinueCenterNode].size.height / 2.0f))
                                     bottomNode:_sceneGamePopupGameOverEndGameButton
                        bottomNodeBottomSpacing:(((INSKButtonNode *)_sceneGamePopupContinue.bottomNode).size.height / 2.0f) + VERTICAL_SPACING_4
                           dismissButtonVisible:NO
@@ -1956,6 +1956,7 @@
         
         ((SKLabelNode *)_sceneGamePopupContinue.titleContentNode).text          = NSLocalizedString(kSITextPopupContinueContinue, nil);
         _sceneGamePopupContinue.topNode.position                                = CGPointMake(0.0f, CGRectGetMinY(_sceneGamePopupContinue.titleContentNode.frame) - ((CGRectGetMinY(_sceneGamePopupContinue.titleContentNode.frame) - CGRectGetMaxY(_sceneGamePopupContinue.centerNode.frame))/2.0f));
+        
 
     }],[SKAction group:@[_fadeAlphaOut,[SKAction runBlock:^{
         [_sceneGamePopupContinue.titleContentNode runAction:_fadeIn];
@@ -2060,7 +2061,7 @@
 }
 - (void)sceneGamePopupContinueButtonUseCoins {
     _sceneGamePopupContinue.countDownTimerState = SIPopupCountDownTimerFinished;
-    if ([_sceneGamePopupMenuItemTextContinueWithCoin isEqualToString:kSITextPopupContinueBuyCoins]) {
+    if ([_sceneGamePopupMenuItemTextContinueWithCoin isEqualToString:NSLocalizedString(kSITextPopupContinueBuyCoins, nil)]) {
         [self sceneGamePopupContinueShopButton];
     } else {
         _sceneGame.popupNode = nil;
@@ -3701,9 +3702,9 @@
         [[NSUserDefaults standardUserDefaults] synchronize];
     }
     
-    return [premiumUserNumber boolValue];
+//    return [premiumUserNumber boolValue];
     // TODO: REMOVE THIS LINE HOLY SHIT REMOVE THIS LINE
-//    return true;
+    return true;
 }
 
 #pragma mark SKLabelNodes

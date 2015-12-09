@@ -481,7 +481,7 @@ static const uint32_t SIFallingMonkeySceneCategoryEdgeSide      = 0x1 << 5; // 0
         
         /*Add a red circle to the bottom of the screen*/
         SKSpriteNode *redCircle = [SIGameController SISpriteNodeTarget];
-        redCircle.position      = CGPointMake(firstBody.node.position.x, (redCircle.size.height / 2.0f));
+        redCircle.position      = CGPointMake(firstBody.node.position.x, (redCircle.size.height / 2.0f) + [SIGameController SIAdBannerViewHeight]);
         redCircle.name          = kSINodeFallingMonkeyTarget;
         [self addChild:redCircle];
         
