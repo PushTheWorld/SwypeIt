@@ -45,6 +45,7 @@
 #import "UIColor+Additions.h"
 // Support/Data Class Imports
 #import "SIGame.h"
+#import "SIMove.h"
 #import "SIPowerUp.h"
 #import "SIIAPUtility.h"
 // Other Imports
@@ -309,7 +310,7 @@
 }
 
 - (BOOL)shouldAutorotate {
-    return YES;
+    return NO;
 }
 
 - (void)setupUserInterface {
@@ -349,6 +350,11 @@
     _gameModel                                          = [[SIGameModel alloc] init];
     _gameModel.delegate                                 = self;
     
+    if (![SIGameController premiumUser]) {
+        _adBannerNode                                       = [[SIAdBannerNode alloc] initWithSize:CGSizeMake(_sceneSize.width, [SIGameController SIAdBannerViewHeight])];
+        _adBannerNode.position                              = CGPointMake(0.0f, 0.0f);
+        _adBannerNode.delegate                              = self;
+    }
     
     [self gameFireEvent:kSITKStateMachineEventGameLoad userInfo:nil];
 
@@ -362,12 +368,7 @@
     
     /*Give those interstitial ads a cycle to get em going*/
     [self interstitialAdCycle];
-    
-    if (![SIGameController premiumUser]) {
-        _adBannerNode                                       = [[SIAdBannerNode alloc] initWithSize:CGSizeMake(_sceneSize.width, [SIGameController SIAdBannerViewHeight])];
-        _adBannerNode.position                              = CGPointMake(0.0f, 0.0f);
-        _adBannerNode.delegate                              = self;
-    }
+
     
     _overlayNode                                            = [SKSpriteNode spriteNodeWithColor:[SKColor whiteColor] size:CGSizeMake(_sceneSize.width, _sceneSize.height)];
     _overlayNode.zPosition                                  = [SIGameController floatZPositionGameForContent:SIZPositionGameOverlayMax] + 1;
@@ -1105,7 +1106,9 @@
     _sceneMenuPopupFreePrizeCountLabel.text     = [NSString stringWithFormat:@"%d",INITIAL_FREE_PRIZE_AMOUNT];
 //    _sceneMenuPopupFreePrize.dismissButtonVisible   = YES;
     
-
+    if (_popTipNode.parent) {
+        [_popTipNode removeFromParent];
+    }
     
     _sceneMenu.popupNode                        = _sceneMenuPopupFreePrize;
     
@@ -1178,6 +1181,8 @@
     popupNode.bottomNodeBottomSpacing                       = (_sceneMenuPopupFreePrizeButton.size.height / 2.0f) + VERTICAL_SPACING_8;
     
     popupNode.delegate = self;
+    
+    popupNode.dismissButtonVisible                          = NO;
     
 //    popupNode.dismissButtonVisible = YES;
     
@@ -1722,6 +1727,7 @@
                 [SIGame playSound:kSISoundFXChaChing];
             });
             [[MKStoreKit sharedKit] addFreeCredits:[NSNumber numberWithInt:1] identifiedByConsumableIdentifier:kSIIAPConsumableIDCoins];
+            _sceneGame.swypeItCoins         = [[[MKStoreKit sharedKit] availableCreditsForConsumable:kSIIAPConsumableIDCoins] intValue];
         }
     }];
     _gameModel.game.freeCoinPercentRemaining    = _gameModel.game.freeCoinInPoints / POINTS_NEEDED_FOR_FREE_COIN;
@@ -2214,6 +2220,9 @@
             _sceneGame.userMessage.hidden                       = YES;
             _sceneFallingMonkey.userMessage.hidden              = NO;
             _sceneFallingMonkey.userMessage.text                = NSLocalizedString(kSITextUserTipPowerUpExplainFallingMonkey, nil);
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(5.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                _sceneFallingMonkey.userMessage.hidden          = YES;
+            });
         }
     }
     
@@ -2237,6 +2246,8 @@
             _sceneGame.popTip                               = _popTipNode;
         });
 
+    } else {
+        
     }
 }
 
@@ -2324,7 +2335,33 @@
             [self powerUpActivatePowerUp:newPowerUp];
         }
     }
+}
 
+/**
+ Check to see if the power ups are still available
+ */
+- (void)checkIfCanStartAPowerUp {
+    NSNumber *numberOfCoins = [[MKStoreKit sharedKit] availableCreditsForConsumable:kSIIAPConsumableIDCoins];
+    
+    if ([numberOfCoins intValue] < SIPowerUpCostTimeFreeze) { //This is the cheapest
+        [_sceneGameToolbarPowerUp setEnabled:NO forTool:kSIPowerUpTypeTimeFreeze];
+        [_sceneGameToolbarPowerUp setEnabled:NO forTool:kSIPowerUpTypeRapidFire];
+        [_sceneGameToolbarPowerUp setEnabled:NO forTool:kSIPowerUpTypeFallingMonkeys];
+    } else if ([numberOfCoins intValue] < SIPowerUpCostRapidFire) {
+        [_sceneGameToolbarPowerUp setEnabled:YES forTool:kSIPowerUpTypeTimeFreeze];
+        [_sceneGameToolbarPowerUp setEnabled:NO forTool:kSIPowerUpTypeRapidFire];
+        [_sceneGameToolbarPowerUp setEnabled:NO forTool:kSIPowerUpTypeFallingMonkeys];
+    } else if ([numberOfCoins intValue] < SIPowerUpCostFallingMonkeys) {
+        [_sceneGameToolbarPowerUp setEnabled:YES forTool:kSIPowerUpTypeTimeFreeze];
+        [_sceneGameToolbarPowerUp setEnabled:YES forTool:kSIPowerUpTypeRapidFire];
+        [_sceneGameToolbarPowerUp setEnabled:NO forTool:kSIPowerUpTypeFallingMonkeys];
+    } else {
+        [_sceneGameToolbarPowerUp setEnabled:YES forTool:kSIPowerUpTypeTimeFreeze];
+        [_sceneGameToolbarPowerUp setEnabled:YES forTool:kSIPowerUpTypeRapidFire];
+        [_sceneGameToolbarPowerUp setEnabled:YES forTool:kSIPowerUpTypeFallingMonkeys];
+
+    }
+    
 }
 
 /**
@@ -2518,6 +2555,7 @@
 /**Called to launch an actual game*/
 - (void)launchSceneGameWithGameMode:(SIGameMode)gameMode {
     _gameModel.game.gameMode = gameMode;
+    _currentMove.moveCommand = SIMoveCommandSwype;
     if (gameMode == SIGameModeOneHand) {
         [self startAccelerometerForShake];
     } else {
@@ -2693,7 +2731,12 @@
 
 #pragma mark AdBannerDelegate
 - (void)adBannerWasTapped {
-    NSLog(@"Ad banner was tapped");
+//    NSLog(@"Ad banner was tapped");
+    if (_currentScene == _sceneMenu) {
+        if (_sceneMenu.currentMenuNode == _menuNodeStart) { //show the menu node
+            [self controllerSceneMenuShowMenu:_menuNodeStore menuNodeAnimiation:SIMenuNodeAnimationPush delay:SCENE_TRANSITION_DURATION_NOW];
+        }
+    } 
 }
 
 #pragma mark SILoadingSceneDelegate
@@ -2811,6 +2854,10 @@
     
     [self updateBackgroundSound];
     
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+        [self checkIfCanStartAPowerUp];
+    });
+    
 }
 
 - (void)gameModelStateProcessingMoveEnteredWithMove:(SIMove *)move {
@@ -2852,20 +2899,29 @@
     } else {
         //else notCorrectMove
 //        _sceneGame.moveCommandNode = nil;
-        
-        _sceneGame.blurScreen = YES;
-        
-        [SIGame playSound:kSISoundFXGameOver];
-        /*Vibrate the phone*/
-        AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
-        
-        [self gameFireEvent:kSITKStateMachineEventGameWrongMoveEntered userInfo:nil];
-        //  load start/end scene
-        if (_sceneMenu == nil) {
-            [NSException raise:NSInvalidArgumentException format:@"Menu Scene Cannot be nil here"];
-            _sceneMenu                                  = [self loadMenuScene];
-        }
+        [self sceneGameEndGameProtocal];
     }
+}
+
+- (void)sceneGameEndGameProtocal {
+    _sceneGame.blurScreen = YES;
+    
+    [SIGame playSound:kSISoundFXGameOver];
+    /*Vibrate the phone*/
+    AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
+    
+    _timeFreezeMultiplier                           = 1.0f;
+    
+    _sceneGame.userMessage.hidden                   = YES;
+    _sceneFallingMonkey.userMessage.hidden          = YES;
+    
+    [self gameFireEvent:kSITKStateMachineEventGameWrongMoveEntered userInfo:nil];
+    //  load start/end scene
+    if (_sceneMenu == nil) {
+        [NSException raise:NSInvalidArgumentException format:@"Menu Scene Cannot be nil here"];
+        _sceneMenu                                  = [self loadMenuScene];
+    }
+
 }
 
 /**
@@ -3645,9 +3701,9 @@
         [[NSUserDefaults standardUserDefaults] synchronize];
     }
     
-//    return [premiumUserNumber boolValue];
+    return [premiumUserNumber boolValue];
     // TODO: REMOVE THIS LINE HOLY SHIT REMOVE THIS LINE
-    return true;
+//    return true;
 }
 
 #pragma mark SKLabelNodes
@@ -4749,5 +4805,6 @@
         move    = nil;
     }
     move        = [[SIMove alloc] init];
+    move.moveCommand = SIMoveCommandSwype;
 }
 @end

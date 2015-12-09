@@ -43,6 +43,11 @@
 @property (weak, nonatomic) id <SIMenuSceneDelegate> sceneDelegate;
 
 /**
+ The menu scene being displayed
+ */
+@property (strong, nonatomic) SIMenuNode *currentMenuNode;
+
+/**
  The ad content
  Default is nil...
  */

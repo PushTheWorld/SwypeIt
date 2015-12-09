@@ -55,7 +55,7 @@
 #define MILI_SECS_IN_SEC                    1000
 
 #pragma mark - Game Constants
-#define POINTS_NEEDED_FOR_FREE_COIN         500
+#define POINTS_NEEDED_FOR_FREE_COIN         300
 #define mSlope                              -7/240
 #define SCORE_EXP_POWER_WEIGHT              -0.001205
 #define MAX_MOVE_SCORE                      10.78457
@@ -804,6 +804,11 @@ extern NSString *const kSISFFontTextHeavy;
 #pragma mark -
 #pragma mark - Texts
 #pragma mark -
+
+#pragma mark Ad Banner
+extern NSString *const kSITextAdBanner1;
+extern NSString *const kSITextAdBanner2;
+extern NSString *const kSITextAdBanner3;
 
 #pragma mark Bools
 extern NSString *const kSITextBoolOff;

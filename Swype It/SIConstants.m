@@ -492,6 +492,11 @@ NSString *const kSISFFontTextHeavy                                              
 #pragma mark -
 #pragma mark - Texts
 #pragma mark -
+#pragma mark Ad Banner
+NSString *const kSITextAdBanner1                                                = @"adBanner1";
+NSString *const kSITextAdBanner2                                                = @"adBanner2";
+NSString *const kSITextAdBanner3                                                = @"adBanner3";
+
 #pragma mark Bools
 NSString *const kSITextBoolOff                                                  = @"Off";
 NSString *const kSITextBoolOFF                                                  = @"OFF";

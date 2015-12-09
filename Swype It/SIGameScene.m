@@ -569,6 +569,11 @@ static const uint32_t SIGameSceneCategoryEdge          = 0x1 << 2; // 0000000000
     _popTip = popTip;
 }
 
+- (void)setSwypeItCoins:(int)swypeItCoins {
+    _swypeItCoins               = swypeItCoins;
+    _swypeItCoinsLabelNode.text = [NSString stringWithFormat:@"%d",swypeItCoins];
+}
+
 #pragma mark Layout
 - (void)layoutScene {
     [self layoutXYZAnimation:SISceneContentAnimationNone];
@@ -588,10 +593,13 @@ static const uint32_t SIGameSceneCategoryEdge          = 0x1 << 2; // 0000000000
     CGPoint positionHidden = CGPointZero;
     CGPoint positionVisible = CGPointZero;
     
+    CGFloat adBannerHeight = [SIGameController SIAdBannerViewHeight];
+
+    
     
     if (_scoreTotalLabel) {
         positionHidden      = CGPointMake(sceneMidX, _sceneSize.height + _scoreTotalLabel.frame.size.height + VERTICAL_SPACING_8);
-        positionVisible     = CGPointMake(sceneMidX, VERTICAL_SPACING_8);
+        positionVisible     = CGPointMake(sceneMidX, VERTICAL_SPACING_8 + adBannerHeight);
         [SIGameController SIControllerNode:_scoreTotalLabel
                                  animation:animation
                             animationStyle:SISceneContentAnimationStyleSlide
@@ -681,7 +689,7 @@ static const uint32_t SIGameSceneCategoryEdge          = 0x1 << 2; // 0000000000
 //        }]];
 //        [self registerDescendant:_pauseButtonNode withOptions:[NSSet setWithObject:HLSceneChildGestureTarget]];
 
-        positionVisible = CGPointMake((_pauseButtonNode.size.width / 2.0f) + VERTICAL_SPACING_8,((_pauseButtonNode.size.height / 2.0f) + VERTICAL_SPACING_8)); //_sceneSize.height - VERTICAL_SPACING_16 - (_pauseButtonSize.width / 2.0f) - _swypeItCoinsBackgroundNodeSize.height);
+        positionVisible = CGPointMake((_pauseButtonNode.size.width / 2.0f) + VERTICAL_SPACING_8,((_pauseButtonNode.size.height / 2.0f) + VERTICAL_SPACING_8 + adBannerHeight)); //_sceneSize.height - VERTICAL_SPACING_16 - (_pauseButtonSize.width / 2.0f) - _swypeItCoinsBackgroundNodeSize.height);
         positionHidden = CGPointMake(_sceneSize.width + positionVisible.x, positionVisible.y);
         [SIGameController SIControllerNode:_pauseButtonNode
                                  animation:animation
@@ -692,7 +700,7 @@ static const uint32_t SIGameSceneCategoryEdge          = 0x1 << 2; // 0000000000
     }
     
     if (_highScoreLabelNode) {
-        positionVisible     = CGPointMake(_sceneSize.width / 2.0f, _scoreTotalLabelTopPadding + [_scoreTotalLabel calculateAccumulatedFrame].size.height);
+        positionVisible     = CGPointMake(_sceneSize.width / 2.0f, _scoreTotalLabelTopPadding + [_scoreTotalLabel calculateAccumulatedFrame].size.height + adBannerHeight);
         positionHidden      = CGPointMake(positionVisible.x, _sceneSize.height + _moveCommandNode.frame.size.height);
         [SIGameController SIControllerNode:_highScoreLabelNode
                                  animation:animation
@@ -734,7 +742,7 @@ static const uint32_t SIGameSceneCategoryEdge          = 0x1 << 2; // 0000000000
     if (_swypeItCoinsBackgroundNode) {
         //        [_swypeItCoinsBackgroundNode removeFromParent];
         //        [self addChild:_swypeItCoinsBackgroundNode];
-        positionVisible = CGPointMake(_sceneSize.width - VERTICAL_SPACING_4 - (_swypeItCoinsBackgroundNodeSize.width),_swypeItCoinsBackgroundNodeSize.height + VERTICAL_SPACING_4);
+        positionVisible = CGPointMake(_sceneSize.width - VERTICAL_SPACING_4 - (_swypeItCoinsBackgroundNodeSize.width),_swypeItCoinsBackgroundNodeSize.height + VERTICAL_SPACING_4 + adBannerHeight);
         positionHidden = CGPointMake(-1.0f * _swypeItCoinsLabelNode.frame.size.width, positionVisible.y);
         [SIGameController SIControllerNode:_swypeItCoinsBackgroundNode
                                  animation:animation

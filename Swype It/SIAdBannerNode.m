@@ -69,7 +69,7 @@ enum {
     _callToActionLabelNode.zPosition    = ((CGFloat)SIAdBannerNodeZPositionLayerText / SIAdBannerNodeZPositionLayerCount) * 0.01;
     _callToActionLabelNode.fontColor    = [SKColor whiteColor];
     _callToActionLabelNode.fontSize     = _graphicNodeSize.height - VERTICAL_SPACING_8;
-    _callToActionLabelNode.text         = @"DOWNLOAD SIMPLST";
+    _callToActionLabelNode.text         = NSLocalizedString(kSITextAdBanner1, nil);
     [_callToActionLabelNode setVerticalAlignmentMode:SKLabelVerticalAlignmentModeCenter];
     [_callToActionLabelNode setHorizontalAlignmentMode:SKLabelHorizontalAlignmentModeCenter];
 }

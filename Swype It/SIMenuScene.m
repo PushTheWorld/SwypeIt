@@ -26,7 +26,6 @@
     
     SIAdBannerNode                                  *_adContentNode;
     
-    SIMenuNode                                      *_currentMenuNode;
     SIMenuNode                                      *_rootSceneMenuNode;
     
     

@@ -118,3 +118,10 @@
 "hudSorry"                          = "Sorry!";
 "hudMustHaveInternet"               = "You need internet!";
 
+/**
+ Ad banners
+ */
+"adBanner1"                         = "Visit the Shop!";
+"adBanner2"                         = "Buy Coins!";
+"adBanner3"                         = "❤️ COINS ❤️";
+
