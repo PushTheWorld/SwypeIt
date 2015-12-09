@@ -26,6 +26,7 @@
 // Framework Import
 #import <AudioToolbox/AudioToolbox.h>
 #import <CoreMotion/CoreMotion.h>
+#import <Crashlytics/Crashlytics.h>
 #import <GameKit/GameKit.h>
 #import <iAd/iAd.h>
 #import <Instabug/Instabug.h>
@@ -1085,7 +1086,13 @@
     
     [SIIAPUtility getDateFromInternetWithCallback:^(NSDate *currentDate) {
         if (currentDate) {
-            [[MKStoreKit sharedKit] addFreeCredits:[NSNumber numberWithInt:[SIIAPUtility getDailyFreePrizeAmount]] identifiedByConsumableIdentifier:kSIIAPConsumableIDCoins];
+            
+            NSNumber *freeCoins = [NSNumber numberWithInt:[SIIAPUtility getDailyFreePrizeAmount]];
+            
+            [Answers logCustomEventWithName:kSICrashlyticsDailyFreePrizeGiven
+                           customAttributes:@{kSICrashlyticsAttrCoinAmount : freeCoins}];
+
+            [[MKStoreKit sharedKit] addFreeCredits:freeCoins identifiedByConsumableIdentifier:kSIIAPConsumableIDCoins];
             
             [[NSUserDefaults standardUserDefaults] setObject:currentDate forKey:kSINSUserDefaultLastPrizeAwardedDate];
             [[NSUserDefaults standardUserDefaults] synchronize];
@@ -1584,6 +1591,8 @@
             _sceneGame.progressBarPowerUp.hidden = NO;
             [self powerUpAddSnowEmitter];
             [[NSUserDefaults standardUserDefaults] setBool:YES forKey:kSINSUserDefaultUserTipShownPowerUpTimeFreeze];
+            [Answers logCustomEventWithName:kSICrashlyticsPowerUpTimeFreeze
+                           customAttributes:@{kSICrashlyticsAttrCoinAmount : [[MKStoreKit sharedKit] availableCreditsForConsumable:kSIIAPConsumableIDCoins]}];
             break;
         case SIPowerUpTypeRapidFire:
             [self gameForceCorrectMove];
@@ -1591,6 +1600,8 @@
             _sceneGame.progressBarPowerUp.hidden = NO;
             [SIGame playSound:kSISoundFXFireBurning];
             [[NSUserDefaults standardUserDefaults] setBool:YES forKey:kSINSUserDefaultUserTipShownPowerUpRapidFire];
+            [Answers logCustomEventWithName:kSICrashlyticsPowerUpRapidFire
+                           customAttributes:@{kSICrashlyticsAttrCoinAmount : [[MKStoreKit sharedKit] availableCreditsForConsumable:kSIIAPConsumableIDCoins]}];
             break;
         case SIPowerUpTypeFallingMonkeys:
             /*Do Falling Monkeys in Setup*/
@@ -1598,6 +1609,8 @@
             if (!success) {
                 [self gameFireEvent:kSITKStateMachineEventGameMenuEnd userInfo:nil];
             }
+            [Answers logCustomEventWithName:kSICrashlyticsPowerUpFallingMonkey
+                           customAttributes:@{kSICrashlyticsAttrCoinAmount : [[MKStoreKit sharedKit] availableCreditsForConsumable:kSIIAPConsumableIDCoins]}];
             [[NSUserDefaults standardUserDefaults] setBool:YES forKey:kSINSUserDefaultUserTipShownPowerUpFallingMonkey];
             break;
         default:
@@ -2931,6 +2944,10 @@
     
     _sceneGame.userMessage.hidden                   = YES;
     _sceneFallingMonkey.userMessage.hidden          = YES;
+    
+    [Answers logCustomEventWithName:kSICrashlyticsGamePlayed
+                   customAttributes:@{kSICrashlyticsAttrGameMode : _gameModel.game.gameMode == SIGameModeOneHand ? kSICrashlyticsAttrGameModeOneHand : kSICrashlyticsAttrGameModeTwoHand}];
+
     
     [self gameFireEvent:kSITKStateMachineEventGameWrongMoveEntered userInfo:nil];
     //  load start/end scene

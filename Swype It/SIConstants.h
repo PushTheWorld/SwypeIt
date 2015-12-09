@@ -1032,6 +1032,23 @@ extern NSString *const kSITKStateMachineEventTimerStart;
 extern NSString *const kSITKStateMachineEventTimerStop;
 extern NSString *const kSITKStateMachineEventTimerStopCriticalFailure;
 
+#pragma mark -
+#pragma mark - Crashlytics
+#pragma mark -
+#pragma mark Actions
+extern NSString *const kSICrashlyticsDailyFreePrizeGiven;
+extern NSString *const kSICrashlyticsGamePlayed;
+extern NSString *const kSICrashlyticsPowerUpFallingMonkey;
+extern NSString *const kSICrashlyticsPowerUpRapidFire;
+extern NSString *const kSICrashlyticsPowerUpTimeFreeze;
+#pragma mark Attributes
+extern NSString *const kSICrashlyticsAttrConsecutiveDaysLaunched;
+extern NSString *const kSICrashlyticsAttrCoinGivenForPrize;
+extern NSString *const kSICrashlyticsAttrCoinAmount;
+extern NSString *const kSICrashlyticsAttrGameMode;
+extern NSString *const kSICrashlyticsAttrGameModeOneHand;
+extern NSString *const kSICrashlyticsAttrGameModeTwoHand;
+
 
 #pragma mark - Useful things
 @interface SIConstants : NSObject

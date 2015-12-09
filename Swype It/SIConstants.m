@@ -656,6 +656,27 @@ NSString *const kSITKStateMachineEventTimerStart                                
 NSString *const kSITKStateMachineEventTimerStop                                 = @"timerStop";
 NSString *const kSITKStateMachineEventTimerStopCriticalFailure                  = @"timerStopCriticalFailure";
 
+#pragma mark -
+#pragma mark - Crashlytics
+#pragma mark -
+#pragma mark Actions
+NSString *const kSICrashlyticsDailyFreePrizeGiven                               = @"Daily Free Prize Given";
+NSString *const kSICrashlyticsGamePlayed                                        = @"Game Played";
+NSString *const kSICrashlyticsPowerUpFallingMonkey                              = @"Falling Monkey Power Up";
+NSString *const kSICrashlyticsPowerUpRapidFire                                  = @"Rapid Fire Power Up";
+NSString *const kSICrashlyticsPowerUpTimeFreeze                                 = @"Time Freeze Power Up";
+
+#pragma mark Attributes
+NSString *const kSICrashlyticsAttrConsecutiveDaysLaunched                       = @"Consecutive Days Launched";
+NSString *const kSICrashlyticsAttrCoinGivenForPrize                             = @"Amount Of Coins Given";
+NSString *const kSICrashlyticsAttrCoinAmountInBank                              = @"Amount of coins in bank";
+NSString *const kSICrashlyticsAttrGameMode                                      = @"Game Mode";
+NSString *const kSICrashlyticsAttrGameModeOneHand                               = @"One Hand Game";
+NSString *const kSICrashlyticsAttrGameModeTwoHand                               = @"Two Hand Game";
+
+
+
+
 #pragma mark - Useful things
 @implementation SIConstants
 + (CGSize)powerUpToolbarButtonSize {
