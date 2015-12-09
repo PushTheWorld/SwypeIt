@@ -91,4 +91,9 @@
  Uses MKStoreKit to get the total number of coins available
  */
 + (int)numberOfCoinsForUser;
+
+/**
+ Returns the number of days the app has been launched consecutivly
+ */
++ (NSNumber *)numberOfConsecutiveDaysLaunched;
 @end

@@ -1087,19 +1087,21 @@
     [SIIAPUtility getDateFromInternetWithCallback:^(NSDate *currentDate) {
         if (currentDate) {
             
-            NSNumber *freeCoins = [NSNumber numberWithInt:[SIIAPUtility getDailyFreePrizeAmount]];
+            NSNumber *numberFreeCoinsToGive = [NSNumber numberWithInt:[SIIAPUtility getDailyFreePrizeAmount]];
             
             [Answers logCustomEventWithName:kSICrashlyticsDailyFreePrizeGiven
-                           customAttributes:@{kSICrashlyticsAttrCoinAmount : freeCoins}];
+                           customAttributes:@{kSICrashlyticsAttrCoinsGivenForFreePrize  : numberFreeCoinsToGive,
+                                              kSICrashlyticsAttrConsecutiveDaysLaunched : [SIIAPUtility numberOfConsecutiveDaysLaunched]}];
+            
+            [SIIAPUtility increaseConsecutiveDaysLaunched];
 
-            [[MKStoreKit sharedKit] addFreeCredits:freeCoins identifiedByConsumableIdentifier:kSIIAPConsumableIDCoins];
+            [[MKStoreKit sharedKit] addFreeCredits:numberFreeCoinsToGive identifiedByConsumableIdentifier:kSIIAPConsumableIDCoins];
             
             [[NSUserDefaults standardUserDefaults] setObject:currentDate forKey:kSINSUserDefaultLastPrizeAwardedDate];
             [[NSUserDefaults standardUserDefaults] synchronize];
             
         }
-        [SIIAPUtility increaseConsecutiveDaysLaunched];
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.75 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             _sceneMenu.popupNode = nil;
         });
 
@@ -1155,6 +1157,9 @@
         });
 
     });
+    
+    [Answers logCustomEventWithName:kSICrashlyticsFirstFreePrizeGiven
+                   customAttributes:@{}];
     
     [[MKStoreKit sharedKit] addFreeCredits:[NSNumber numberWithInt:INITIAL_FREE_PRIZE_AMOUNT] identifiedByConsumableIdentifier:kSIIAPConsumableIDCoins];
     
@@ -1592,7 +1597,7 @@
             [self powerUpAddSnowEmitter];
             [[NSUserDefaults standardUserDefaults] setBool:YES forKey:kSINSUserDefaultUserTipShownPowerUpTimeFreeze];
             [Answers logCustomEventWithName:kSICrashlyticsPowerUpTimeFreeze
-                           customAttributes:@{kSICrashlyticsAttrCoinAmount : [[MKStoreKit sharedKit] availableCreditsForConsumable:kSIIAPConsumableIDCoins]}];
+                           customAttributes:@{kSICrashlyticsAttrNumberOfCoinsUserHasLeft : [[MKStoreKit sharedKit] availableCreditsForConsumable:kSIIAPConsumableIDCoins]}];
             break;
         case SIPowerUpTypeRapidFire:
             [self gameForceCorrectMove];
@@ -1601,7 +1606,7 @@
             [SIGame playSound:kSISoundFXFireBurning];
             [[NSUserDefaults standardUserDefaults] setBool:YES forKey:kSINSUserDefaultUserTipShownPowerUpRapidFire];
             [Answers logCustomEventWithName:kSICrashlyticsPowerUpRapidFire
-                           customAttributes:@{kSICrashlyticsAttrCoinAmount : [[MKStoreKit sharedKit] availableCreditsForConsumable:kSIIAPConsumableIDCoins]}];
+                           customAttributes:@{kSICrashlyticsAttrNumberOfCoinsUserHasLeft : [[MKStoreKit sharedKit] availableCreditsForConsumable:kSIIAPConsumableIDCoins]}];
             break;
         case SIPowerUpTypeFallingMonkeys:
             /*Do Falling Monkeys in Setup*/
@@ -1610,7 +1615,7 @@
                 [self gameFireEvent:kSITKStateMachineEventGameMenuEnd userInfo:nil];
             }
             [Answers logCustomEventWithName:kSICrashlyticsPowerUpFallingMonkey
-                           customAttributes:@{kSICrashlyticsAttrCoinAmount : [[MKStoreKit sharedKit] availableCreditsForConsumable:kSIIAPConsumableIDCoins]}];
+                           customAttributes:@{kSICrashlyticsAttrNumberOfCoinsUserHasLeft : [[MKStoreKit sharedKit] availableCreditsForConsumable:kSIIAPConsumableIDCoins]}];
             [[NSUserDefaults standardUserDefaults] setBool:YES forKey:kSINSUserDefaultUserTipShownPowerUpFallingMonkey];
             break;
         default:

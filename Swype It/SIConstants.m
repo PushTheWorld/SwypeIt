@@ -661,6 +661,7 @@ NSString *const kSITKStateMachineEventTimerStopCriticalFailure                  
 #pragma mark -
 #pragma mark Actions
 NSString *const kSICrashlyticsDailyFreePrizeGiven                               = @"Daily Free Prize Given";
+NSString *const kSICrashlyticsFirstFreePrizeGiven                               = @"First Free Prize Given";
 NSString *const kSICrashlyticsGamePlayed                                        = @"Game Played";
 NSString *const kSICrashlyticsPowerUpFallingMonkey                              = @"Falling Monkey Power Up";
 NSString *const kSICrashlyticsPowerUpRapidFire                                  = @"Rapid Fire Power Up";
@@ -668,11 +669,11 @@ NSString *const kSICrashlyticsPowerUpTimeFreeze                                 
 
 #pragma mark Attributes
 NSString *const kSICrashlyticsAttrConsecutiveDaysLaunched                       = @"Consecutive Days Launched";
-NSString *const kSICrashlyticsAttrCoinGivenForPrize                             = @"Amount Of Coins Given";
-NSString *const kSICrashlyticsAttrCoinAmountInBank                              = @"Amount of coins in bank";
+NSString *const kSICrashlyticsAttrCoinsGivenForFreePrize                        = @"Coins Given For Free Prize";
 NSString *const kSICrashlyticsAttrGameMode                                      = @"Game Mode";
 NSString *const kSICrashlyticsAttrGameModeOneHand                               = @"One Hand Game";
 NSString *const kSICrashlyticsAttrGameModeTwoHand                               = @"Two Hand Game";
+NSString *const kSICrashlyticsAttrNumberOfCoinsUserHasLeft                      = @"Number of coins user has left";
 
 
 

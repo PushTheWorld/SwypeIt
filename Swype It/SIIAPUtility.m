@@ -137,6 +137,9 @@
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
++ (NSNumber *)numberOfConsecutiveDaysLaunched {
+    return [[NSUserDefaults standardUserDefaults] objectForKey:kSINSUserDefaultNumberConsecutiveAppLaunches];
+}
 
 
 + (SKSpriteNode *)createTitleNode:(CGSize)size {
