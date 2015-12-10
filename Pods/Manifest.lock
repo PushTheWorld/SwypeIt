@@ -10,6 +10,7 @@ PODS:
   - iRate (1.11.4)
   - iVersion (1.11.4)
   - JCNotificationBannerPresenter (1.1.2)
+  - libmuse (1.2.1)
   - NHNetworkTime (1.1):
     - CocoaAsyncSocket (~> 7.4.1)
   - SoundManager (1.4.2)
@@ -24,9 +25,19 @@ DEPENDENCIES:
   - iRate
   - iVersion
   - JCNotificationBannerPresenter
+  - libmuse (from `https://github.com/monchote/libmuse.git`)
   - NHNetworkTime
   - SoundManager
   - TransitionKit
+
+EXTERNAL SOURCES:
+  libmuse:
+    :git: https://github.com/monchote/libmuse.git
+
+CHECKOUT OPTIONS:
+  libmuse:
+    :commit: 3a052e63bf796719ee0f0c1d3a73abac42ff328c
+    :git: https://github.com/monchote/libmuse.git
 
 SPEC CHECKSUMS:
   CocoaAsyncSocket: f5783bdedd232d91b89769bc4b5a1580aed518ad
@@ -38,6 +49,7 @@ SPEC CHECKSUMS:
   iRate: 599ed07c854e0695f3c605d1b2a64c67d912acb7
   iVersion: 2b6ffe708672cb494ba3cab150a94800c2892e81
   JCNotificationBannerPresenter: f40150961943048ed3b1d2628d29dbf66a959e21
+  libmuse: b62d3de615e9abc76ddafe56ce534aa1fbe86bb1
   NHNetworkTime: 53ae7921c5cffa9daa2dbe15722b3221f1904eb0
   SoundManager: 99ae328a3ec9b259db774c9851a65feeceba8183
   TransitionKit: 9ceccda4cd0cdc0a05ef85eb235e5a3292c3c250

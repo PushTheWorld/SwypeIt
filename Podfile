@@ -12,6 +12,7 @@ target 'Swype It' do
     pod 'INSpriteKit'
     pod 'TransitionKit'
     pod 'NHNetworkTime'
+    pod 'libmuse', :git => 'https://github.com/monchote/libmuse.git'
 end
 
 target 'Swype ItTests', :exclusive => true do

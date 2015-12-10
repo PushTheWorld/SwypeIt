@@ -50,7 +50,7 @@
 		091FED7D1B374C470071F8DC /* BaseNavigationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 091FED7C1B374C470071F8DC /* BaseNavigationViewController.m */; };
 		092113B01B6B787B005F7D8B /* swypeItFXChaChing.caf in Resources */ = {isa = PBXBuildFile; fileRef = 092113AE1B6B787B005F7D8B /* swypeItFXChaChing.caf */; };
 		092113B11B6B787B005F7D8B /* swypeItFXInitalize.caf in Resources */ = {isa = PBXBuildFile; fileRef = 092113AF1B6B787B005F7D8B /* swypeItFXInitalize.caf */; };
-		092340AF1C1908C6002C1F29 /* libMuse.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 092340AE1C1908C6002C1F29 /* libMuse.a */; };
+		092340B21C190D40002C1F29 /* LoggingListener.m in Sources */ = {isa = PBXBuildFile; fileRef = 092340B11C190D40002C1F29 /* LoggingListener.m */; };
 		092720DF1B5EF1C30005A6B6 /* StoreScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 092720DE1B5EF1C30005A6B6 /* StoreScene.m */; };
 		092720E51B60D3CB0005A6B6 /* SIIAPUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = 092720E41B60D3CB0005A6B6 /* SIIAPUtility.m */; };
 		092720E71B60F2790005A6B6 /* SIIAPUtilityTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 092720E61B60F2790005A6B6 /* SIIAPUtilityTests.m */; };
@@ -281,8 +281,8 @@
 		092113AE1B6B787B005F7D8B /* swypeItFXChaChing.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = swypeItFXChaChing.caf; sourceTree = "<group>"; };
 		092113AF1B6B787B005F7D8B /* swypeItFXInitalize.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = swypeItFXInitalize.caf; sourceTree = "<group>"; };
 		092340A71C18FE72002C1F29 /* libMuse.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libMuse.a; path = ../../../Applications/libmuse/libmuse_ios_1.2.1/libMuse.a; sourceTree = "<group>"; };
-		092340AD1C190291002C1F29 /* Muse.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Muse.h; path = Muse/Muse.h; sourceTree = "<group>"; };
-		092340AE1C1908C6002C1F29 /* libMuse.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libMuse.a; sourceTree = "<group>"; };
+		092340B01C190D40002C1F29 /* LoggingListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoggingListener.h; sourceTree = "<group>"; };
+		092340B11C190D40002C1F29 /* LoggingListener.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoggingListener.m; sourceTree = "<group>"; };
 		092720DD1B5EF1C30005A6B6 /* StoreScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StoreScene.h; sourceTree = "<group>"; };
 		092720DE1B5EF1C30005A6B6 /* StoreScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StoreScene.m; sourceTree = "<group>"; };
 		092720E31B60D3CB0005A6B6 /* SIIAPUtility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SIIAPUtility.h; sourceTree = "<group>"; };
@@ -480,7 +480,6 @@
 				096ABDD11B6AF864005B2F12 /* UIKit.framework in Frameworks */,
 				096ABDCF1B6AF856005B2F12 /* SystemConfiguration.framework in Frameworks */,
 				096ABDCD1B6AF84C005B2F12 /* QuartzCore.framework in Frameworks */,
-				092340AF1C1908C6002C1F29 /* libMuse.a in Frameworks */,
 				096ABDCC1B6AF843005B2F12 /* OpenGLES.framework in Frameworks */,
 				096ABDCA1B6AF83A005B2F12 /* MessageUI.framework in Frameworks */,
 				091470FD1B6AF7E8006B0CC1 /* GLKit.framework in Frameworks */,
@@ -576,8 +575,6 @@
 		091FED3A1B37283E0071F8DC = {
 			isa = PBXGroup;
 			children = (
-				092340AD1C190291002C1F29 /* Muse.h */,
-				092340AE1C1908C6002C1F29 /* libMuse.a */,
 				091FED451B37283E0071F8DC /* Swype It */,
 				098B3B4B1B378EC8000D4702 /* Classes */,
 				0F880A65ACF3CFF0D72120E8 /* Frameworks */,
@@ -758,6 +755,15 @@
 			name = CustomUIClasses;
 			sourceTree = "<group>";
 		};
+		092340B31C190D49002C1F29 /* LoggingListener */ = {
+			isa = PBXGroup;
+			children = (
+				092340B01C190D40002C1F29 /* LoggingListener.h */,
+				092340B11C190D40002C1F29 /* LoggingListener.m */,
+			);
+			name = LoggingListener;
+			sourceTree = "<group>";
+		};
 		092720F01B63A6350005A6B6 /* TCProgressBarNode */ = {
 			isa = PBXGroup;
 			children = (
@@ -921,6 +927,7 @@
 		098B3B4B1B378EC8000D4702 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				092340B31C190D49002C1F29 /* LoggingListener */,
 				099B89DE1C0F25C60017E9B9 /* AGSpriteButton */,
 				09866F281C073D3800B4BA96 /* CMPopupTip */,
 				09568C211BB5611800156DDF /* CCTestingUserDefaults */,
@@ -1398,6 +1405,7 @@
 				092720E51B60D3CB0005A6B6 /* SIIAPUtility.m in Sources */,
 				094F22A51B95916E00968FB5 /* BMGlyphFont.m in Sources */,
 				0917D4F41B6DD8240046B5FF /* HLRingNode.m in Sources */,
+				092340B21C190D40002C1F29 /* LoggingListener.m in Sources */,
 				099A622E1B5C6C2A009BF339 /* SIGameScene_vak.m in Sources */,
 				0917D4EB1B6DD8240046B5FF /* HLItemNode.m in Sources */,
 				09549B221B9F08BA0058D2E9 /* SIAchievementDetail.m in Sources */,
