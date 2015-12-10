@@ -50,6 +50,7 @@
 		091FED7D1B374C470071F8DC /* BaseNavigationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 091FED7C1B374C470071F8DC /* BaseNavigationViewController.m */; };
 		092113B01B6B787B005F7D8B /* swypeItFXChaChing.caf in Resources */ = {isa = PBXBuildFile; fileRef = 092113AE1B6B787B005F7D8B /* swypeItFXChaChing.caf */; };
 		092113B11B6B787B005F7D8B /* swypeItFXInitalize.caf in Resources */ = {isa = PBXBuildFile; fileRef = 092113AF1B6B787B005F7D8B /* swypeItFXInitalize.caf */; };
+		092340AF1C1908C6002C1F29 /* libMuse.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 092340AE1C1908C6002C1F29 /* libMuse.a */; };
 		092720DF1B5EF1C30005A6B6 /* StoreScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 092720DE1B5EF1C30005A6B6 /* StoreScene.m */; };
 		092720E51B60D3CB0005A6B6 /* SIIAPUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = 092720E41B60D3CB0005A6B6 /* SIIAPUtility.m */; };
 		092720E71B60F2790005A6B6 /* SIIAPUtilityTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 092720E61B60F2790005A6B6 /* SIIAPUtilityTests.m */; };
@@ -279,6 +280,9 @@
 		091FED7C1B374C470071F8DC /* BaseNavigationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseNavigationViewController.m; sourceTree = "<group>"; };
 		092113AE1B6B787B005F7D8B /* swypeItFXChaChing.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = swypeItFXChaChing.caf; sourceTree = "<group>"; };
 		092113AF1B6B787B005F7D8B /* swypeItFXInitalize.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = swypeItFXInitalize.caf; sourceTree = "<group>"; };
+		092340A71C18FE72002C1F29 /* libMuse.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libMuse.a; path = ../../../Applications/libmuse/libmuse_ios_1.2.1/libMuse.a; sourceTree = "<group>"; };
+		092340AD1C190291002C1F29 /* Muse.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Muse.h; path = Muse/Muse.h; sourceTree = "<group>"; };
+		092340AE1C1908C6002C1F29 /* libMuse.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libMuse.a; sourceTree = "<group>"; };
 		092720DD1B5EF1C30005A6B6 /* StoreScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StoreScene.h; sourceTree = "<group>"; };
 		092720DE1B5EF1C30005A6B6 /* StoreScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StoreScene.m; sourceTree = "<group>"; };
 		092720E31B60D3CB0005A6B6 /* SIIAPUtility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SIIAPUtility.h; sourceTree = "<group>"; };
@@ -476,6 +480,7 @@
 				096ABDD11B6AF864005B2F12 /* UIKit.framework in Frameworks */,
 				096ABDCF1B6AF856005B2F12 /* SystemConfiguration.framework in Frameworks */,
 				096ABDCD1B6AF84C005B2F12 /* QuartzCore.framework in Frameworks */,
+				092340AF1C1908C6002C1F29 /* libMuse.a in Frameworks */,
 				096ABDCC1B6AF843005B2F12 /* OpenGLES.framework in Frameworks */,
 				096ABDCA1B6AF83A005B2F12 /* MessageUI.framework in Frameworks */,
 				091470FD1B6AF7E8006B0CC1 /* GLKit.framework in Frameworks */,
@@ -571,6 +576,8 @@
 		091FED3A1B37283E0071F8DC = {
 			isa = PBXGroup;
 			children = (
+				092340AD1C190291002C1F29 /* Muse.h */,
+				092340AE1C1908C6002C1F29 /* libMuse.a */,
 				091FED451B37283E0071F8DC /* Swype It */,
 				098B3B4B1B378EC8000D4702 /* Classes */,
 				0F880A65ACF3CFF0D72120E8 /* Frameworks */,
@@ -1078,6 +1085,7 @@
 		0F880A65ACF3CFF0D72120E8 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				092340A71C18FE72002C1F29 /* libMuse.a */,
 				0938FD501B92124E00ACD99C /* libSSBitmapFont.a */,
 				096ABDD21B6AF879005B2F12 /* libc++.tbd */,
 				096ABDD01B6AF864005B2F12 /* UIKit.framework */,
@@ -1622,9 +1630,29 @@
 					"$(PROJECT_DIR)",
 					"$(inherited)",
 				);
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"${PODS_ROOT}/Headers/Public\"",
+					"\"${PODS_ROOT}/Headers/Public/CocoaAsyncSocket\"",
+					"\"${PODS_ROOT}/Headers/Public/Crashlytics\"",
+					"\"${PODS_ROOT}/Headers/Public/FXBlurView\"",
+					"\"${PODS_ROOT}/Headers/Public/Fabric\"",
+					"\"${PODS_ROOT}/Headers/Public/INSpriteKit\"",
+					"\"${PODS_ROOT}/Headers/Public/Instabug\"",
+					"\"${PODS_ROOT}/Headers/Public/JCNotificationBannerPresenter\"",
+					"\"${PODS_ROOT}/Headers/Public/NHNetworkTime\"",
+					"\"${PODS_ROOT}/Headers/Public/SoundManager\"",
+					"\"${PODS_ROOT}/Headers/Public/TransitionKit\"",
+					"\"${PODS_ROOT}/Headers/Public/iRate\"",
+					"\"${PODS_ROOT}/Headers/Public/iVersion\"",
+				);
 				INFOPLIST_FILE = "Swype It/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -1650,9 +1678,29 @@
 					"$(PROJECT_DIR)",
 					"$(inherited)",
 				);
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"${PODS_ROOT}/Headers/Public\"",
+					"\"${PODS_ROOT}/Headers/Public/CocoaAsyncSocket\"",
+					"\"${PODS_ROOT}/Headers/Public/Crashlytics\"",
+					"\"${PODS_ROOT}/Headers/Public/FXBlurView\"",
+					"\"${PODS_ROOT}/Headers/Public/Fabric\"",
+					"\"${PODS_ROOT}/Headers/Public/INSpriteKit\"",
+					"\"${PODS_ROOT}/Headers/Public/Instabug\"",
+					"\"${PODS_ROOT}/Headers/Public/JCNotificationBannerPresenter\"",
+					"\"${PODS_ROOT}/Headers/Public/NHNetworkTime\"",
+					"\"${PODS_ROOT}/Headers/Public/SoundManager\"",
+					"\"${PODS_ROOT}/Headers/Public/TransitionKit\"",
+					"\"${PODS_ROOT}/Headers/Public/iRate\"",
+					"\"${PODS_ROOT}/Headers/Public/iVersion\"",
+				);
 				INFOPLIST_FILE = "Swype It/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -1792,9 +1840,29 @@
 					"$(PROJECT_DIR)",
 					"$(inherited)",
 				);
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"${PODS_ROOT}/Headers/Public\"",
+					"\"${PODS_ROOT}/Headers/Public/CocoaAsyncSocket\"",
+					"\"${PODS_ROOT}/Headers/Public/Crashlytics\"",
+					"\"${PODS_ROOT}/Headers/Public/FXBlurView\"",
+					"\"${PODS_ROOT}/Headers/Public/Fabric\"",
+					"\"${PODS_ROOT}/Headers/Public/INSpriteKit\"",
+					"\"${PODS_ROOT}/Headers/Public/Instabug\"",
+					"\"${PODS_ROOT}/Headers/Public/JCNotificationBannerPresenter\"",
+					"\"${PODS_ROOT}/Headers/Public/NHNetworkTime\"",
+					"\"${PODS_ROOT}/Headers/Public/SoundManager\"",
+					"\"${PODS_ROOT}/Headers/Public/TransitionKit\"",
+					"\"${PODS_ROOT}/Headers/Public/iRate\"",
+					"\"${PODS_ROOT}/Headers/Public/iVersion\"",
+				);
 				INFOPLIST_FILE = "Swype It/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",

@@ -31,6 +31,7 @@
 #import <iAd/iAd.h>
 #import <Instabug/Instabug.h>
 #import <MessageUI/MessageUI.h>
+#import "Muse.h"
 // Drop-In Class Imports (CocoaPods/GitHub/Guru)
 #import "SIPopTip.h"
 #import "DSMultilineLabelNode.h"
