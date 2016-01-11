@@ -112,18 +112,20 @@
 -(void) retexture
 {
     DSMultiLineLabelImage *newTextImage = [self imageFromText:self.text];
-    SKTexture *newTexture =[SKTexture textureWithImage:newTextImage];
-    
+    SKTexture *newTexture = nil;
+    if (newTextImage) {
+        newTexture =[SKTexture textureWithImage:newTextImage];
+    }
     SKSpriteNode *selfNode = (SKSpriteNode*) self;
     selfNode.texture = newTexture;
-    
-    //Resetting the texture also reset the anchorPoint.  Let's recenter it.
-    selfNode.anchorPoint = CGPointMake(0.5, 0.5);
-
 }
 
 -(DSMultiLineLabelImage *)imageFromText:(NSString *)text
 {
+    if (!text || [text length] == 0) {
+        return nil;
+    }
+  
     //First we define a paragrahp style, which has the support for doing the line breaks and text alignment that we require
     NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
     paragraphStyle.lineBreakMode = NSLineBreakByWordWrapping; //To get multi-line
@@ -153,24 +155,35 @@
     [textAttributes setObject:self.fontColor forKey:NSForegroundColorAttributeName];
     
     
-    //Calculate the size that the text will take up, given our options.  We use the full screen size for the bounds
-	if (_paragraphWidth == 0) {
-		_paragraphWidth = self.scene.size.width;
-	}
+    //Calculate the size that the text will take up, given our options.
 #if TARGET_OS_IPHONE
-    CGRect textRect = [text boundingRectWithSize:CGSizeMake(_paragraphWidth, self.scene.size.height)
+    if (_paragraphWidth < 0.00001f) {
+        if (self.scene) {
+            _paragraphWidth = self.scene.size.width;
+        } else {
+            _paragraphWidth = [UIScreen mainScreen].bounds.size.width;
+        }
+    }
+    CGRect textRect = [text boundingRectWithSize:CGSizeMake(_paragraphWidth, MAXFLOAT)
                                          options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingTruncatesLastVisibleLine
                                       attributes:textAttributes
                                          context:nil];
 				
 #else
-	CGRect textRect = [text boundingRectWithSize:CGSizeMake(_paragraphWidth, self.scene.size.height)
+    if (_paragraphWidth < 0.00001f) {
+        if (self.scene) {
+            _paragraphWidth = self.scene.size.width;
+        } else {
+            _paragraphWidth = [NSScreen mainScreen].frame.size.width;
+        }
+    }
+  	CGRect textRect = [text boundingRectWithSize:CGSizeMake(_paragraphWidth, MAXFLOAT)
                                          options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingTruncatesLastVisibleLine
                                       attributes:textAttributes];
 #endif
     //iOS7 uses fractional size values.  So we needed to ceil it to make sure we have enough room for display.
-    textRect.size.height = ceil(textRect.size.height);
-    textRect.size.width = ceil(textRect.size.width);
+    textRect.size.height = (CGFloat)ceil(textRect.size.height);
+    textRect.size.width = (CGFloat)ceil(textRect.size.width);
 	
 	//Mac build crashes when the size is nothing - this also skips out on unecessary cycles below when the size is nothing
 	if (textRect.size.width == 0 || textRect.size.height == 0) {

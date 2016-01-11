@@ -61,7 +61,10 @@
     
     ADBannerView                             *_adBannerView;
     
-    ADInterstitialAd                         *_interstitialAd;
+    ADInterstitialAd                         *_interstitialAd_a;
+    ADInterstitialAd                         *_interstitialAd_b;
+    ADInterstitialAd                         *_interstitialAd_current;
+    
     
     BOOL                                     _loadComplete;
     BOOL                                     _interstitialAdPresentationIsLive;
@@ -356,7 +359,7 @@
         _adBannerNode.position                              = CGPointMake(0.0f, 0.0f);
         _adBannerNode.delegate                              = self;
     }
-    
+
     [self gameFireEvent:kSITKStateMachineEventGameLoad userInfo:nil];
 
     _timerStateMachine                                  = [self createTimeStateMachine];
@@ -368,7 +371,8 @@
     [SIGame initalizeSoundManager];
     
     /*Give those interstitial ads a cycle to get em going*/
-    [self interstitialAdCycle];
+    [self interstitialAdCycleA];
+    [self interstitialAdCycleB];
 
     
     _overlayNode                                            = [SKSpriteNode spriteNodeWithColor:[SKColor whiteColor] size:CGSizeMake(_sceneSize.width, _sceneSize.height)];
@@ -803,17 +807,24 @@
 }
 
 #pragma mark Interstitial Ads
-- (void)interstitialAdCycle {
-    _interstitialAd                     = [[ADInterstitialAd alloc] init];
-    _interstitialAd.delegate            = self;
+- (void)interstitialAdCycleA {
+    _interstitialAd_a                     = [[ADInterstitialAd alloc] init];
+    _interstitialAd_a.delegate            = self;
+}
+- (void)interstitialAdCycleB {
+    _interstitialAd_b                     = [[ADInterstitialAd alloc] init];
+    _interstitialAd_b.delegate            = self;
 }
 - (void)interstitialAdClose {
     
     [_placeHolderView removeFromSuperview];
     [_closeButton removeFromSuperview];
     
-    _interstitialAd = nil;
-    [self interstitialAdCycle];
+    if (_interstitialAd_a == _interstitialAd_current) {
+        [self interstitialAdCycleA];
+    } else if (_interstitialAd_b == _interstitialAd_current) {
+        [self interstitialAdCycleB];
+    }
     
     _numberOfAdsToWatch =   _numberOfAdsToWatch - 1;
     
@@ -828,27 +839,53 @@
         } else {
             [self interstitialAdPresent];
         }
-        
     }
 }
 /**
  Called to present a full screen .. full screen ads!
  */
 - (void)interstitialAdPresent {
-    if (_interstitialAd.loaded) {
-        _placeHolderView    = [[UIView alloc] initWithFrame:self.view.frame];
-        [self.view addSubview:_placeHolderView];
-        
+    if (_closeButton == nil) {
         _closeButton        = [[UIButton alloc] initWithFrame:CGRectMake(25, 25, self.view.frame.size.width / 6.0f, self.view.frame.size.width / 6.0f)];
         [_closeButton setBackgroundImage:[UIImage imageNamed:kSIImageButtonCross] forState:UIControlStateNormal];
         [_closeButton addTarget:self action:@selector(interstitialAdClose) forControlEvents:UIControlEventTouchUpInside];
-        [self.view addSubview:_closeButton];
+    }
+    
+    // Try for a
+    if (_interstitialAd_a.loaded) {
+        NSLog(@"Showing Interstitial Ad A");
+        _interstitialAd_current = _interstitialAd_a;
+    } else if(_interstitialAd_b.loaded) {
+        NSLog(@"Showing Interstitial Ad B");
+        _interstitialAd_current = _interstitialAd_b;
+    }
+    
+    if (_interstitialAd_current) { // an interstitialAd was loaded
+        _placeHolderView    = [[UIView alloc] initWithFrame:self.view.frame];
+        [self.view addSubview:_placeHolderView];
         
-        [_interstitialAd presentInView:_placeHolderView];
-    } else {
-        if (_placeHolderView) {
-            [self interstitialAdClose];
+        if (_closeButton.superview) {
+            [_closeButton removeFromSuperview];
         }
+        
+        [self.view addSubview:_closeButton];
+        [_interstitialAd_current presentInView:_placeHolderView];
+    } else {
+        // Bad error... go back to playing to give free ad show...
+        BOOL success = [self gameFireEvent:kSITKStateMachineEventGameWaitForMove userInfo:nil];
+        NSLog(@"When back to idle from ad watching state: %@",success ? @"YES" : @"NO");
+        if (!success) {
+            [self gameFireEvent:kSITKStateMachineEventGameMenuEnd userInfo:nil];
+        }
+//        if (_placeHolderView) {
+//            [self interstitialAdClose];
+//        } else {
+//            BOOL success = [self gameFireEvent:kSITKStateMachineEventGameWaitForMove userInfo:nil];
+//            NSLog(@"When back to idle from ad watching state: %@",success ? @"YES" : @"NO");
+//            if (!success) {
+//                [self gameFireEvent:kSITKStateMachineEventGameMenuEnd userInfo:nil];
+//            }
+//        }
     }
 }
 
@@ -1923,13 +1960,15 @@
         
         if (IS_IPHONE_4) {
             userMessageOffset = VERTICAL_SPACING_16 + (_sceneGamePopupGameOverUserMessageLabelNode.size.height / 2.0f);
+        } else if (IDIOM == IPAD) {
+            userMessageOffset = VERTICAL_SPACING_16;
         }
 
         [_sceneGamePopupGameOver updateTopNode:_sceneGamePopupGameOverEndNode
                                     centerNode:_sceneGamePopupGameOverUserMessageLabelNode
                             centerNodePosition:CGPointMake(0.0f, userMessageOffset)
                                     bottomNode:_sceneGamePopupGameOverBottomNode
-                       bottomNodeBottomSpacing:IDIOM == IPAD ? 100 : VERTICAL_SPACING_8
+                       bottomNodeBottomSpacing:IDIOM == IPAD ? 20 : VERTICAL_SPACING_8
                           dismissButtonVisible:NO
                           updateBackgroundSize:YES
                                 backgroundSize:CGSizeMake(_sceneSize.width - [SIGameController xPaddingPopupContinue], _sceneSize.height - [SIGameController yPaddingPopupContinue])];
@@ -2241,7 +2280,7 @@
             _popTipNode.message                                 = NSLocalizedString(kSITextUserTipPowerUpRapidFire, nil);
             _popTipNode.positionHorizontal                      = SIPopTipPositionHorizontalCenter;
             willShowPopTip                                      = YES;
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.25 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                 _sceneGame.userMessage.hidden                   = NO;
                 _sceneGame.userMessage.text                     = NSLocalizedString(kSITextUserTipPowerUpExplainRapidFire, nil);
             });
@@ -3740,9 +3779,9 @@
         [[NSUserDefaults standardUserDefaults] synchronize];
     }
     
-//    return [premiumUserNumber boolValue];
+    return [premiumUserNumber boolValue];
     // TODO: REMOVE THIS LINE HOLY SHIT REMOVE THIS LINE
-    return true;
+//    return true;
 }
 
 #pragma mark SKLabelNodes
@@ -4785,7 +4824,7 @@
                                                       object:nil
                                                        queue:[[NSOperationQueue alloc] init]
                                                   usingBlock:^(NSNotification *note) {
-
+                                                      _isPurchaseInProgress                   = NO;
                                                       if (_verbose) {
                                                           NSLog(@"Purchased/Subscribed to product with id: %@", [note object]);
                                                       }
@@ -4795,7 +4834,7 @@
                                                       object:nil
                                                        queue:[[NSOperationQueue alloc] init]
                                                   usingBlock:^(NSNotification *note) {
-
+                                                      _isPurchaseInProgress                   = NO;
                                                       if (_verbose) {
                                                           NSLog(@"Failed [kMKStoreKitProductPurchaseFailedNotification] with error: %@", [note object]);
                                                       }
@@ -4806,6 +4845,7 @@
                                                       object:nil
                                                        queue:[[NSOperationQueue alloc] init]
                                                   usingBlock:^(NSNotification *note) {
+                                                      _isPurchaseInProgress                   = NO;
                                                       if (_verbose) {
                                                           NSLog(@"Failed [kMKStoreKitProductPurchaseDeferredNotification] with error: %@", [note object]);
                                                       }
@@ -4816,7 +4856,7 @@
                                                       object:nil
                                                        queue:[[NSOperationQueue alloc] init]
                                                   usingBlock:^(NSNotification *note) {
-
+                                                      _isPurchaseInProgress                   = NO;
                                                       NSLog(@"Restored Purchases");
                                                       [self removeBannerAds];
                                                       [self hudWillHideWithTitle:@"Restored!" info:@"" willShowCheckMark:YES holdDuration:1.0f animate:YES];
@@ -4827,7 +4867,7 @@
                                                       object:nil
                                                        queue:[[NSOperationQueue alloc] init]
                                                   usingBlock:^(NSNotification *note) {
-
+                                                      _isPurchaseInProgress                   = NO;
                                                       if (_verbose) {
                                                           NSLog(@"Failed restoring purchases with error: %@", [note object]);
                                                       }

@@ -181,7 +181,7 @@ static const uint32_t SIGameSceneCategoryEdge          = 0x1 << 2; // 0000000000
     _edge                                                   = [SKNode node];
     
     _swypeItCoinsLabelNode                                  = [SKLabelNode labelNodeWithFontNamed:kSISFFontTextSemibold];
-    _swypeItCoinsLabelNode.fontSize                         = [SIGameController SIFontSizeText_x2];
+    _swypeItCoinsLabelNode.fontSize                         = [SIGameController SIFontSizeText_x3];
     _swypeItCoinsLabelNode.text                             = @"000";//[NSString stringWithFormat:@"%d",[SIIAPUtility numberOfCoinsForUser]];
     
     _coinNode                                               = [SKSpriteNode spriteNodeWithImageNamed:kSIAssestIAPCoinFrontSmall]; //[SKSpriteNode spriteNodeWithTexture:[[SIConstants imagesAtlas] textureNamed:kSIImageCoinSmallFront] size:_coinSize];
@@ -209,7 +209,7 @@ static const uint32_t SIGameSceneCategoryEdge          = 0x1 << 2; // 0000000000
 
     _powerUpToolbarUserLabel                                = [SIGameController SILabelParagraph_x2:NSLocalizedString(kSITextGameUserMessagePowerUp, nil)];
     
-    _userMessage                                            = [DSMultilineLabelNode labelNodeWithFontNamed:kSISFFontTextMedium];
+    _userMessage                                            = [DSMultilineLabelNode labelNodeWithFontNamed:kSISFFontTextRegular];
     
     _horizontalDividerPowerUpToolbarBottom                  = [SKSpriteNode spriteNodeWithColor:[SKColor blackColor] size:CGSizeMake(_sceneSize.width, [SIGameController SIGameSceneHorizontalDividerHeight])];
     _horizontalDividerPowerUpToolbarTop                     = [SKSpriteNode spriteNodeWithColor:[SKColor blackColor] size:CGSizeMake(_sceneSize.width, [SIGameController SIGameSceneHorizontalDividerHeight])];
@@ -284,25 +284,48 @@ static const uint32_t SIGameSceneCategoryEdge          = 0x1 << 2; // 0000000000
 - (void)layoutControlsWithSize:(CGSize)size {
     /**Layout those controls*/
     _backgroundNode.position                                = CGPointMake(0.0f, 0.0f);
-    [self addChild:_backgroundNode];
+    if (_backgroundNode) {
+        [self addChild:_backgroundNode];
+    }
     
-    [self addChild:_edge];
+    if (_edge) {
+        [self addChild:_edge];
+    }
     
-    [self addChild:_pauseButtonNode];
+    if (_pauseButtonNode) {
+        [self addChild:_pauseButtonNode];
+    }
     
-    [self addChild:_highScoreLabelNode];
+    if (_highScoreLabelNode) {
+        [self addChild:_highScoreLabelNode];
+    }
     
-    [self addChild:_scoreTotalLabel];
+    if (_scoreTotalLabel) {
+        [self addChild:_scoreTotalLabel];
+    }
     
-    [self addChild:_swypeItCoinsBackgroundNode];
+    if (_swypeItCoinsBackgroundNode) {
+        [self addChild:_swypeItCoinsBackgroundNode];
+        
+        if (_swypeItCoinsLabelNode) {
+            [_swypeItCoinsBackgroundNode addChild:_swypeItCoinsLabelNode];
+        }
+        
+        if (_coinNode) {
+            [_swypeItCoinsBackgroundNode addChild:_coinNode];
+        }
+        
+    }
     
-    [self addChild:_powerUpToolbarUserLabel];
+    if (_powerUpToolbarUserLabel) {
+        [self addChild:_powerUpToolbarUserLabel];
+    }
     
-    [self addChild:_userMessage];
+    if (_userMessage) {
+        [self addChild:_userMessage];
+    }
     
-    [_swypeItCoinsBackgroundNode addChild:_swypeItCoinsLabelNode];
-
-    [_swypeItCoinsBackgroundNode addChild:_coinNode];
+    
 }
 
 #pragma mark -
@@ -669,7 +692,7 @@ static const uint32_t SIGameSceneCategoryEdge          = 0x1 << 2; // 0000000000
                            positionVisible:positionVisible
                             positionHidden:positionHidden];
         
-        if (_horizontalDividerPowerUpToolbarBottom.parent == nil) {
+        if (_horizontalDividerPowerUpToolbarBottom.parent == nil && _horizontalDividerPowerUpToolbarBottom) {
             [_powerUpToolbarContentNode addChild:_horizontalDividerPowerUpToolbarBottom];
             _horizontalDividerPowerUpToolbarBottom.position = CGPointMake(_sceneSize.width / 2.0f, 0.0f);
         }

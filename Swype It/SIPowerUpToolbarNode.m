@@ -120,14 +120,20 @@ enum {
     [_backgroundNode addChild:_coinNode];
     
     /*Add shadow node*/
-    SKNode *shadow                  = [_iconNode shadowWithColor:[SKColor blackColor] blur:0.4f];
-    shadow.position                 = CGPointMake(0.0f, VERTICAL_SPACING_4);// CGPointMake(_iconNodeSize.width * 0.05f, _iconNodeSize.height * -0.05f);
-    shadow.zPosition                = (CGFloat)SINodeZPositionLayerIconShadow / (CGFloat)SINodeZPositionLayerCount;
-    [_backgroundNode addChild:shadow];
+//    SKNode *shadow                  = [_iconNode shadowWithColor:[SKColor blackColor] blur:0.4f];
+//    shadow.position                 = CGPointMake(0.0f, VERTICAL_SPACING_4);// CGPointMake(_iconNodeSize.width * 0.05f, _iconNodeSize.height * -0.05f);
+//    shadow.zPosition                = (CGFloat)SINodeZPositionLayerIconShadow / (CGFloat)SINodeZPositionLayerCount;
+//    [_backgroundNode addChild:shadow];
     
-    _iconNode.position              = CGPointMake(-1.0f, 1.0f);
+    CGFloat vertSpacing = VERTICAL_SPACING_8;
+    if (IS_IPHONE_4) {
+        [_iconNode runAction:[SKAction scaleTo:0.8 duration:0.0]];
+        vertSpacing = VERTICAL_SPACING_4;
+    }
+    
+    _iconNode.position              = CGPointMake(0.0f, vertSpacing);
     _iconNode.zPosition             = (CGFloat)SINodeZPositionLayerIcon / (CGFloat)SINodeZPositionLayerCount;
-    [shadow addChild:_iconNode];
+    [_backgroundNode addChild:_iconNode];
 }
 
 @end

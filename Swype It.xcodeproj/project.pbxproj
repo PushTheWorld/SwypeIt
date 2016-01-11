@@ -126,7 +126,6 @@
 		099A62361B5C917A009BF339 /* CustomProgressBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 099A62351B5C917A009BF339 /* CustomProgressBar.m */; };
 		099B89DD1C0F25BE0017E9B9 /* AGSpriteButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 099B89DC1C0F25BE0017E9B9 /* AGSpriteButton.m */; };
 		09A4889B1B99D92B0075F41C /* SIPowerUp.m in Sources */ = {isa = PBXBuildFile; fileRef = 09A4889A1B99D92B0075F41C /* SIPowerUp.m */; };
-		09A4889E1B9A43490075F41C /* DSMultilineLabelNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 09A4889D1B9A43490075F41C /* DSMultilineLabelNode.m */; };
 		09A488A21B9A77FE0075F41C /* SILoadingScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 09A488A11B9A77FE0075F41C /* SILoadingScene.m */; };
 		09A488A51B9A7F490075F41C /* SIFallingMonkeyScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 09A488A41B9A7F490075F41C /* SIFallingMonkeyScene.m */; };
 		09A488A71B9B49950075F41C /* SIAdBannerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 09A488A61B9B49950075F41C /* SIAdBannerTests.m */; };
@@ -183,6 +182,7 @@
 		09E4D80E1BAB584C00994E8E /* SF-UI-Text-Semibold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 09E4D7F91BAB584C00994E8E /* SF-UI-Text-Semibold.otf */; };
 		09E4D80F1BAB584C00994E8E /* SF-UI-Text-SemiboldItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 09E4D7FA1BAB584C00994E8E /* SF-UI-Text-SemiboldItalic.otf */; };
 		09E611BD1BBACB3C00A3DE19 /* Popup.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 09E611BC1BBACB3C00A3DE19 /* Popup.xcassets */; };
+		09FE0A541C42FA03009AC2B4 /* DSMultilineLabelNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 09FE0A531C42FA03009AC2B4 /* DSMultilineLabelNode.m */; };
 		0B86920528B4DE06FEB543D7 /* libPods-Swype It.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 56AEAA31FA19BFA93E5C5A6E /* libPods-Swype It.a */; };
 		F3621592DB76B0996F2AAC26 /* libPods-Swype ItTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3530280704151866977B6067 /* libPods-Swype ItTests.a */; };
 /* End PBXBuildFile section */
@@ -385,8 +385,6 @@
 		099B89DC1C0F25BE0017E9B9 /* AGSpriteButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AGSpriteButton.m; sourceTree = "<group>"; };
 		09A488991B99D92B0075F41C /* SIPowerUp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SIPowerUp.h; sourceTree = "<group>"; };
 		09A4889A1B99D92B0075F41C /* SIPowerUp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SIPowerUp.m; sourceTree = "<group>"; };
-		09A4889C1B9A43490075F41C /* DSMultilineLabelNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DSMultilineLabelNode.h; sourceTree = "<group>"; };
-		09A4889D1B9A43490075F41C /* DSMultilineLabelNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DSMultilineLabelNode.m; sourceTree = "<group>"; };
 		09A488A01B9A77FE0075F41C /* SILoadingScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SILoadingScene.h; sourceTree = "<group>"; };
 		09A488A11B9A77FE0075F41C /* SILoadingScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SILoadingScene.m; sourceTree = "<group>"; };
 		09A488A31B9A7F490075F41C /* SIFallingMonkeyScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SIFallingMonkeyScene.h; sourceTree = "<group>"; };
@@ -457,6 +455,8 @@
 		09E4D7F91BAB584C00994E8E /* SF-UI-Text-Semibold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-UI-Text-Semibold.otf"; sourceTree = "<group>"; };
 		09E4D7FA1BAB584C00994E8E /* SF-UI-Text-SemiboldItalic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-UI-Text-SemiboldItalic.otf"; sourceTree = "<group>"; };
 		09E611BC1BBACB3C00A3DE19 /* Popup.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Popup.xcassets; sourceTree = "<group>"; };
+		09FE0A521C42FA03009AC2B4 /* DSMultilineLabelNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DSMultilineLabelNode.h; sourceTree = "<group>"; };
+		09FE0A531C42FA03009AC2B4 /* DSMultilineLabelNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DSMultilineLabelNode.m; sourceTree = "<group>"; };
 		245AA1DB08104D3BE9C797BC /* Pods-Swype ItTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Swype ItTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Swype ItTests/Pods-Swype ItTests.debug.xcconfig"; sourceTree = "<group>"; };
 		30ED76FB39BF998E0E317052 /* Pods-Swype It.beta.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Swype It.beta.xcconfig"; path = "Pods/Target Support Files/Pods-Swype It/Pods-Swype It.beta.xcconfig"; sourceTree = "<group>"; };
 		3530280704151866977B6067 /* libPods-Swype ItTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Swype ItTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -977,8 +977,8 @@
 		09A4889F1B9A434F0075F41C /* DSMultilineLabelNode */ = {
 			isa = PBXGroup;
 			children = (
-				09A4889C1B9A43490075F41C /* DSMultilineLabelNode.h */,
-				09A4889D1B9A43490075F41C /* DSMultilineLabelNode.m */,
+				09FE0A521C42FA03009AC2B4 /* DSMultilineLabelNode.h */,
+				09FE0A531C42FA03009AC2B4 /* DSMultilineLabelNode.m */,
 			);
 			name = DSMultilineLabelNode;
 			sourceTree = "<group>";
@@ -1442,7 +1442,6 @@
 				0917D4FA1B6DD8240046B5FF /* HLToolbarNode.m in Sources */,
 				09A488C01B9D8D770075F41C /* SISingletonAchievement.m in Sources */,
 				0957AB7A1BA7626600D3FDF5 /* SIMenuNode.m in Sources */,
-				09A4889E1B9A43490075F41C /* DSMultilineLabelNode.m in Sources */,
 				09CAF9A91B646BE100466606 /* MBProgressHUD.m in Sources */,
 				09D5ED4F1B8B205B00E84179 /* SISegmentControl.m in Sources */,
 				091FED761B3733AF0071F8DC /* SIConstants.m in Sources */,
@@ -1461,6 +1460,7 @@
 				097FF7131BB754F4009DF538 /* SIPopupGameOverDetailsNode.m in Sources */,
 				094CECCF1BAD1C7300BD3AD6 /* SIGameModel.m in Sources */,
 				0917D4F61B6DD8240046B5FF /* HLScrollNode.m in Sources */,
+				09FE0A541C42FA03009AC2B4 /* DSMultilineLabelNode.m in Sources */,
 				09C7521E1C0E14BF00BDA678 /* SIProgressBar.m in Sources */,
 				0917D4EF1B6DD8240046B5FF /* HLMath.m in Sources */,
 				0917D4F01B6DD8240046B5FF /* HLMenuNode.m in Sources */,
@@ -1631,7 +1631,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.pushtheworldllc.swipeit;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "f22ceb0c-fc72-466d-a399-9455aa9a6f3e";
+				PROVISIONING_PROFILE = "ad8d4446-0b26-46ce-85fa-b530f8d0d8f6";
 			};
 			name = Debug;
 		};
@@ -1659,7 +1659,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.pushtheworldllc.swipeit;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "f22ceb0c-fc72-466d-a399-9455aa9a6f3e";
+				PROVISIONING_PROFILE = "ad8d4446-0b26-46ce-85fa-b530f8d0d8f6";
 			};
 			name = Release;
 		};
@@ -1696,7 +1696,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.pushtheworldllc.swipeit.dev;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "194b6b8c-e956-4f0e-b9fe-a80abbcf8d31";
+				PROVISIONING_PROFILE = "b6f27469-7e86-4cd7-b47d-62ef70bd1a02";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Swype It.app/Swype It";
 			};
 			name = Debug;
@@ -1730,7 +1730,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.pushtheworldllc.swipeit;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "194b6b8c-e956-4f0e-b9fe-a80abbcf8d31";
+				PROVISIONING_PROFILE = "b6f27469-7e86-4cd7-b47d-62ef70bd1a02";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Swype It.app/Swype It";
 			};
 			name = Release;
@@ -1801,7 +1801,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.pushtheworldllc.swipeit;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "f22ceb0c-fc72-466d-a399-9455aa9a6f3e";
+				PROVISIONING_PROFILE = "ad8d4446-0b26-46ce-85fa-b530f8d0d8f6";
 			};
 			name = Beta;
 		};
@@ -1834,7 +1834,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.pushtheworldllc.swipeit.beta;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "194b6b8c-e956-4f0e-b9fe-a80abbcf8d31";
+				PROVISIONING_PROFILE = "b6f27469-7e86-4cd7-b47d-62ef70bd1a02";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Swype It.app/Swype It";
 			};
 			name = Beta;

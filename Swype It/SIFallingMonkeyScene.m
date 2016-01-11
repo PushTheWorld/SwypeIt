@@ -74,6 +74,7 @@ static const uint32_t SIFallingMonkeySceneCategoryEdgeSide      = 0x1 << 5; // 0
     [super didMoveToView:view];
     /**Do any setup post self.view creation*/
     [self viewSetup:view];
+    [self resetSpeeds];
 
 }
 
@@ -111,20 +112,7 @@ static const uint32_t SIFallingMonkeySceneCategoryEdgeSide      = 0x1 << 5; // 0
     
 }
 #pragma mark Scene Setup
-- (void)createConstantsWithSize:(CGSize)size {
-    /**Configure any constants*/
-    _numberOfMonkeysLaunched                        = 0;
-    _fallingMonkeyZPosition                         = [SIGameController floatZPositionFallingMonkeyForContent:SIZPositionFallingMonkeyFallingMonkey];
-    
-    
-
-    
-    
-    SKAction *grow                                  = [SKAction scaleTo:1.3 duration:FALLING_MONKEY_END_DELAY/4.0f];
-    SKAction *shrink                                = [SKAction scaleTo:0.9 duration:FALLING_MONKEY_END_DELAY/4.0f];
-    
-    _pulseSequence                                  = [SKAction sequence:@[grow,shrink,grow,shrink]];
-    
+- (void)resetSpeeds {
     if (IS_IPHONE_4) {
         _bananaVelocity                             = 420.0/1.2;
         _monkeySpeed                                = MONKEY_SPEED_INITIAL * 0.25f;
@@ -139,7 +127,7 @@ static const uint32_t SIFallingMonkeySceneCategoryEdgeSide      = 0x1 << 5; // 0
         _bananaVelocity                             = 420.0/1.1;
         _monkeySpeed                                = MONKEY_SPEED_INITIAL;
         _monkeySpeedIncrease                        = MONKEY_SPEED_INCREASE;
-
+        
     } else if (IS_IPHONE_6_PLUS) {
         _bananaVelocity                             = 420.0/1.0;
         _monkeySpeed                                = MONKEY_SPEED_INITIAL * 1.25;
@@ -149,8 +137,25 @@ static const uint32_t SIFallingMonkeySceneCategoryEdgeSide      = 0x1 << 5; // 0
         _bananaVelocity                             = 420.0/0.5;
         _monkeySpeed                                = MONKEY_SPEED_INITIAL * 1.5;
         _monkeySpeedIncrease                        = MONKEY_SPEED_INCREASE;
-       
+        
     }
+}
+
+- (void)createConstantsWithSize:(CGSize)size {
+    /**Configure any constants*/
+    _numberOfMonkeysLaunched                        = 0;
+    _fallingMonkeyZPosition                         = [SIGameController floatZPositionFallingMonkeyForContent:SIZPositionFallingMonkeyFallingMonkey];
+    
+    
+
+    
+    
+    SKAction *grow                                  = [SKAction scaleTo:1.3 duration:FALLING_MONKEY_END_DELAY/4.0f];
+    SKAction *shrink                                = [SKAction scaleTo:0.9 duration:FALLING_MONKEY_END_DELAY/4.0f];
+    
+    _pulseSequence                                  = [SKAction sequence:@[grow,shrink,grow,shrink]];
+    
+    [self resetSpeeds];
     
 }
 
