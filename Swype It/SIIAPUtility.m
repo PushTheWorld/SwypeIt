@@ -45,6 +45,7 @@
     BOOL productNotFound    = YES;
     for (SKProduct *product in productArray) {
         NSString *productID = product.productIdentifier;
+        NSLog(@"Product ID: %@ == Trying ID: %@",productID, [SIIAPUtility productIDForSIIAPPack:siiapPack]);
         if ([productID isEqualToString:[SIIAPUtility productIDForSIIAPPack:siiapPack]]) {
             productNotFound = NO;
             if (completionBlock) {

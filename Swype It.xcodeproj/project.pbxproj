@@ -1176,6 +1176,7 @@
 					};
 					091FED5B1B37283E0071F8DC = {
 						CreatedOnToolsVersion = 6.3.2;
+						DevelopmentTeam = G2YUCSS226;
 						TestTargetID = 091FED421B37283E0071F8DC;
 					};
 				};
@@ -1559,7 +1560,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.pushtheworldllc.swipeit.dev;
 				PRODUCT_NAME = "Swype It";
-				PROVISIONING_PROFILE = "194b6b8c-e956-4f0e-b9fe-a80abbcf8d31";
+				PROVISIONING_PROFILE = "65005469-fee6-4d10-9927-dc61448254b6";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -1600,7 +1601,7 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.pushtheworldllc.swipeit${BUNDLE_ID_SUFFIX}";
 				PRODUCT_NAME = "Swype It";
-				PROVISIONING_PROFILE = "194b6b8c-e956-4f0e-b9fe-a80abbcf8d31";
+				PROVISIONING_PROFILE = "65005469-fee6-4d10-9927-dc61448254b6";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
@@ -1614,8 +1615,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				BUNDLE_ID_SUFFIX = .dev;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Andrew Keller (G2YUCSS226)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Andrew Keller (G2YUCSS226)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				DEFINES_MODULE = YES;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1631,7 +1632,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.pushtheworldllc.swipeit;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "ad8d4446-0b26-46ce-85fa-b530f8d0d8f6";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Debug;
 		};
@@ -1642,8 +1643,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				BUNDLE_ID_SUFFIX = "";
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Andrew Keller (G2YUCSS226)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Andrew Keller (G2YUCSS226)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				DEFINES_MODULE = YES;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1659,7 +1660,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.pushtheworldllc.swipeit;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "ad8d4446-0b26-46ce-85fa-b530f8d0d8f6";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Release;
 		};
@@ -1668,7 +1669,8 @@
 			baseConfigurationReference = 245AA1DB08104D3BE9C797BC /* Pods-Swype ItTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_IDENTITY = "iPhone Developer: Andrew Keller (4QBKTXP3K7)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -1696,7 +1698,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.pushtheworldllc.swipeit.dev;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "b6f27469-7e86-4cd7-b47d-62ef70bd1a02";
+				PROVISIONING_PROFILE = "65005469-fee6-4d10-9927-dc61448254b6";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Swype It.app/Swype It";
 			};
 			name = Debug;
@@ -1706,7 +1708,8 @@
 			baseConfigurationReference = C0948092AFD0C89E3AD4155F /* Pods-Swype ItTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_IDENTITY = "iPhone Developer: Andrew Keller (4QBKTXP3K7)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -1730,7 +1733,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.pushtheworldllc.swipeit;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "b6f27469-7e86-4cd7-b47d-62ef70bd1a02";
+				PROVISIONING_PROFILE = "65005469-fee6-4d10-9927-dc61448254b6";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Swype It.app/Swype It";
 			};
 			name = Release;
@@ -1770,7 +1773,7 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = com.pushtheworldllc.swipeit.beta;
 				PRODUCT_NAME = "Swype It Beta";
-				PROVISIONING_PROFILE = "194b6b8c-e956-4f0e-b9fe-a80abbcf8d31";
+				PROVISIONING_PROFILE = "65005469-fee6-4d10-9927-dc61448254b6";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
@@ -1784,8 +1787,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				BUNDLE_ID_SUFFIX = .beta;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Andrew Keller (G2YUCSS226)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Andrew Keller (G2YUCSS226)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				DEFINES_MODULE = YES;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1801,7 +1804,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.pushtheworldllc.swipeit;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "ad8d4446-0b26-46ce-85fa-b530f8d0d8f6";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Beta;
 		};
@@ -1810,7 +1813,8 @@
 			baseConfigurationReference = E7FF19E4A2D77272F87B8802 /* Pods-Swype ItTests.beta.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_IDENTITY = "iPhone Developer: Andrew Keller (4QBKTXP3K7)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -1834,7 +1838,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.pushtheworldllc.swipeit.beta;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "b6f27469-7e86-4cd7-b47d-62ef70bd1a02";
+				PROVISIONING_PROFILE = "65005469-fee6-4d10-9927-dc61448254b6";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Swype It.app/Swype It";
 			};
 			name = Beta;

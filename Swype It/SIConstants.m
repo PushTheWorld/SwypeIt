@@ -326,10 +326,10 @@ NSString *const kSIPlistTypeScore                                               
 
 #pragma mark - In App Purchase Product ID
 NSString *const kSIIAPProductIDAdFree                                           = @"swypeItInAppPurchases";
-NSString *const kSIIAPProductIDCoinPackSmall                                    = @"com.pushtheworldllc.swipeit.dev.swypeItSmallPack";
-NSString *const kSIIAPProductIDCoinPackMedium                                   = @"com.pushtheworldllc.swipeit.dev.swypeItMediumPack";
-NSString *const kSIIAPProductIDCoinPackLarge                                    = @"com.pushtheworldllc.swipeit.dev.swypeItLargePack";
-NSString *const kSIIAPProductIDCoinPackExtraLarge                               = @"com.pushtheworldllc.swipeit.dev.swypeItExtraLargePack";
+NSString *const kSIIAPProductIDCoinPackSmall                                    = @"com.pushtheworldllc.swipeit.swypeItSmallPack";
+NSString *const kSIIAPProductIDCoinPackMedium                                   = @"com.pushtheworldllc.swipeit.swypeItMediumPack";
+NSString *const kSIIAPProductIDCoinPackLarge                                    = @"com.pushtheworldllc.swipeit.swypeItLargePack";
+NSString *const kSIIAPProductIDCoinPackExtraLarge                               = @"com.pushtheworldllc.swipeit.swypeItExtraLargePack";
 
 #pragma mark - In App Purchase Consumable ID
 NSString *const kSIIAPConsumableIDCoins                                         = @"ITCoins";

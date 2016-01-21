@@ -793,13 +793,11 @@
     }
 }
 - (void)removeBannerAds {
-    if ([SIGameController premiumUser]) {
-        self.canDisplayBannerAds = NO;
-        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:kSINSUserDefaultPremiumUser];
-        [[NSUserDefaults standardUserDefaults] synchronize];
-        if (_verbose) {
-            NSLog(@"Banner Ads Hidden.");
-        }
+    self.canDisplayBannerAds = NO;
+    [[NSUserDefaults standardUserDefaults] setBool:YES forKey:kSINSUserDefaultPremiumUser];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+    if (_verbose) {
+        NSLog(@"Banner Ads Hidden.");
     }
     _sceneMenuStartToolbarNode          = [SIGameController SIHLToolbarMenuStartScene:[SIGameController SIToolbarSceneMenuSize:_sceneSize] isPremiumUser:[SIGameController premiumUser]];
     _sceneMenuStartToolbarNode.delegate = self;
@@ -4828,6 +4826,9 @@
                                                       if (_verbose) {
                                                           NSLog(@"Purchased/Subscribed to product with id: %@", [note object]);
                                                       }
+                                                      if ([kSIIAPProductIDAdFree isEqualToString:[note object]]) {
+                                                          [self removeBannerAds];
+                                                      }
                                                       [self hudWillHideWithTitle:@"Success!" info:@"" willShowCheckMark:YES holdDuration:1.0f animate:YES];
                                                   }];
     [[NSNotificationCenter defaultCenter] addObserverForName:kMKStoreKitProductPurchaseFailedNotification
@@ -4858,7 +4859,9 @@
                                                   usingBlock:^(NSNotification *note) {
                                                       _isPurchaseInProgress                   = NO;
                                                       NSLog(@"Restored Purchases");
-                                                      [self removeBannerAds];
+                                                      if ([kSIIAPProductIDAdFree isEqualToString:[note object]]) {
+                                                          [self removeBannerAds];
+                                                      }
                                                       [self hudWillHideWithTitle:@"Restored!" info:@"" willShowCheckMark:YES holdDuration:1.0f animate:YES];
 
                                                   }];

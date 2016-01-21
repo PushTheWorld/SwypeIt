@@ -267,7 +267,7 @@ static const uint32_t SIGameSceneCategoryEdge          = 0x1 << 2; // 0000000000
     _userMessage.verticalAlignmentMode                      = SKLabelVerticalAlignmentModeCenter;
     _userMessage.hidden                                     = YES;
     _userMessage.paragraphWidth                             = _sceneSize.width - VERTICAL_SPACING_16;
-    _userMessage.position                                   = CGPointMake(_sceneSize.width / 2.0f, _sceneSize.height * 0.25);
+    _userMessage.position                                   =  CGPointMake(_sceneSize.width / 2.0f, _sceneSize.height * 0.25 + [SIGameController SIAdBannerViewHeight]);
     _userMessage.fontSize                                   = [SIGameController SIFontSizeParagraph];
 
     _horizontalDividerPowerUpToolbarBottom.alpha            = 0.2;
